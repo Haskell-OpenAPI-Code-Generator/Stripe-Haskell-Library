@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,9 +37,8 @@ import qualified Prelude as GHC.Maybe
 data LineItemsDiscountAmount = LineItemsDiscountAmount
   { -- | amount: The amount discounted.
     lineItemsDiscountAmountAmount :: GHC.Types.Int,
-    -- | discount: A discount represents the actual application of a coupon to a particular
-    -- customer. It contains information about when the discount began and when it
-    -- will end.
+    -- | discount: A discount represents the actual application of a [coupon](https:\/\/stripe.com\/docs\/api\#coupons) or [promotion code](https:\/\/stripe.com\/docs\/api\#promotion_codes).
+    -- It contains information about when the discount began, when it will end, and what it is applied to.
     --
     -- Related guide: [Applying Discounts to Subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/discounts).
     lineItemsDiscountAmountDiscount :: Discount
@@ -48,8 +49,8 @@ data LineItemsDiscountAmount = LineItemsDiscountAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemsDiscountAmount where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountAmount obj : "discount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountDiscount obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountAmount obj) GHC.Base.<> ("discount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountDiscount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountAmount obj] : ["discount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountDiscount obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountAmount obj] : ["discount" Data.Aeson.Types.ToJSON..= lineItemsDiscountAmountDiscount obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemsDiscountAmount where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LineItemsDiscountAmount" (\obj -> (GHC.Base.pure LineItemsDiscountAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount"))

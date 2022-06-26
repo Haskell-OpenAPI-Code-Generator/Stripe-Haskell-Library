@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -65,11 +67,11 @@ data Balance = Balance
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Balance where
-  toJSON obj = Data.Aeson.Types.Internal.object ("available" Data.Aeson.Types.ToJSON..= balanceAvailable obj : "connect_reserved" Data.Aeson.Types.ToJSON..= balanceConnectReserved obj : "instant_available" Data.Aeson.Types.ToJSON..= balanceInstantAvailable obj : "issuing" Data.Aeson.Types.ToJSON..= balanceIssuing obj : "livemode" Data.Aeson.Types.ToJSON..= balanceLivemode obj : "pending" Data.Aeson.Types.ToJSON..= balancePending obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("available" Data.Aeson.Types.ToJSON..= balanceAvailable obj) GHC.Base.<> (("connect_reserved" Data.Aeson.Types.ToJSON..= balanceConnectReserved obj) GHC.Base.<> (("instant_available" Data.Aeson.Types.ToJSON..= balanceInstantAvailable obj) GHC.Base.<> (("issuing" Data.Aeson.Types.ToJSON..= balanceIssuing obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= balanceLivemode obj) GHC.Base.<> (("pending" Data.Aeson.Types.ToJSON..= balancePending obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance")))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["available" Data.Aeson.Types.ToJSON..= balanceAvailable obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("connect_reserved" Data.Aeson.Types.ToJSON..=)) (balanceConnectReserved obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instant_available" Data.Aeson.Types.ToJSON..=)) (balanceInstantAvailable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issuing" Data.Aeson.Types.ToJSON..=)) (balanceIssuing obj) : ["livemode" Data.Aeson.Types.ToJSON..= balanceLivemode obj] : ["pending" Data.Aeson.Types.ToJSON..= balancePending obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["available" Data.Aeson.Types.ToJSON..= balanceAvailable obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("connect_reserved" Data.Aeson.Types.ToJSON..=)) (balanceConnectReserved obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instant_available" Data.Aeson.Types.ToJSON..=)) (balanceInstantAvailable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issuing" Data.Aeson.Types.ToJSON..=)) (balanceIssuing obj) : ["livemode" Data.Aeson.Types.ToJSON..= balanceLivemode obj] : ["pending" Data.Aeson.Types.ToJSON..= balancePending obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "balance"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Balance where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Balance" (\obj -> (((((GHC.Base.pure Balance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connect_reserved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "instant_available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Balance" (\obj -> (((((GHC.Base.pure Balance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "connect_reserved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "instant_available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending"))
 
 -- | Create a new 'Balance' with all required fields.
 mkBalance ::

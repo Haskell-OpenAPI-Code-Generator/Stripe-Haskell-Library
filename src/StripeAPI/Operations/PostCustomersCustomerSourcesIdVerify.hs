@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,8 +107,8 @@ data PostCustomersCustomerSourcesIdVerifyParameters = PostCustomersCustomerSourc
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSourcesIdVerifyParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathCustomer obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyParametersPathId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSourcesIdVerifyParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSourcesIdVerifyParameters" (\obj -> (GHC.Base.pure PostCustomersCustomerSourcesIdVerifyParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
@@ -137,11 +139,11 @@ data PostCustomersCustomerSourcesIdVerifyRequestBody = PostCustomersCustomerSour
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSourcesIdVerifyRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amounts" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyRequestBodyAmounts obj : "expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyRequestBodyExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amounts" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyRequestBodyAmounts obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerSourcesIdVerifyRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amounts" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSourcesIdVerifyRequestBodyAmounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSourcesIdVerifyRequestBodyExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amounts" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSourcesIdVerifyRequestBodyAmounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSourcesIdVerifyRequestBodyExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSourcesIdVerifyRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSourcesIdVerifyRequestBody" (\obj -> (GHC.Base.pure PostCustomersCustomerSourcesIdVerifyRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSourcesIdVerifyRequestBody" (\obj -> (GHC.Base.pure PostCustomersCustomerSourcesIdVerifyRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand"))
 
 -- | Create a new 'PostCustomersCustomerSourcesIdVerifyRequestBody' with all required fields.
 mkPostCustomersCustomerSourcesIdVerifyRequestBody :: PostCustomersCustomerSourcesIdVerifyRequestBody

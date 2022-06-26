@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -44,13 +46,13 @@ data File = File
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     fileCreated :: GHC.Types.Int,
     -- | expires_at: The time at which the file expires and is no longer available in epoch seconds.
-    fileExpiresAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    fileExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | filename: A filename for the file, suitable for saving to a filesystem.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    fileFilename :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    fileFilename :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -58,7 +60,7 @@ data File = File
     -- * Maximum length of 5000
     fileId :: Data.Text.Internal.Text,
     -- | links: A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
-    fileLinks :: (GHC.Maybe.Maybe FileLinks'),
+    fileLinks :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable FileLinks'NonNullable)),
     -- | purpose: The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
     filePurpose :: FilePurpose',
     -- | size: The size in bytes of the file object.
@@ -68,19 +70,19 @@ data File = File
     -- Constraints:
     --
     -- * Maximum length of 5000
-    fileTitle :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    fileTitle :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | type: The type of the file returned (e.g., \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    fileType :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    fileType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | url: The URL from which the file can be downloaded using your live secret API key.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    fileUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    fileUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -88,11 +90,11 @@ data File = File
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON File where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= fileCreated obj : "expires_at" Data.Aeson.Types.ToJSON..= fileExpiresAt obj : "filename" Data.Aeson.Types.ToJSON..= fileFilename obj : "id" Data.Aeson.Types.ToJSON..= fileId obj : "links" Data.Aeson.Types.ToJSON..= fileLinks obj : "purpose" Data.Aeson.Types.ToJSON..= filePurpose obj : "size" Data.Aeson.Types.ToJSON..= fileSize obj : "title" Data.Aeson.Types.ToJSON..= fileTitle obj : "type" Data.Aeson.Types.ToJSON..= fileType obj : "url" Data.Aeson.Types.ToJSON..= fileUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= fileCreated obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= fileExpiresAt obj) GHC.Base.<> (("filename" Data.Aeson.Types.ToJSON..= fileFilename obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= fileId obj) GHC.Base.<> (("links" Data.Aeson.Types.ToJSON..= fileLinks obj) GHC.Base.<> (("purpose" Data.Aeson.Types.ToJSON..= filePurpose obj) GHC.Base.<> (("size" Data.Aeson.Types.ToJSON..= fileSize obj) GHC.Base.<> (("title" Data.Aeson.Types.ToJSON..= fileTitle obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= fileType obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= fileUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file")))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= fileCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (fileExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filename" Data.Aeson.Types.ToJSON..=)) (fileFilename obj) : ["id" Data.Aeson.Types.ToJSON..= fileId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("links" Data.Aeson.Types.ToJSON..=)) (fileLinks obj) : ["purpose" Data.Aeson.Types.ToJSON..= filePurpose obj] : ["size" Data.Aeson.Types.ToJSON..= fileSize obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (fileTitle obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (fileType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (fileUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= fileCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (fileExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filename" Data.Aeson.Types.ToJSON..=)) (fileFilename obj) : ["id" Data.Aeson.Types.ToJSON..= fileId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("links" Data.Aeson.Types.ToJSON..=)) (fileLinks obj) : ["purpose" Data.Aeson.Types.ToJSON..= filePurpose obj] : ["size" Data.Aeson.Types.ToJSON..= fileSize obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (fileTitle obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (fileType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (fileUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON File where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "File" (\obj -> (((((((((GHC.Base.pure File GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "File" (\obj -> (((((((((GHC.Base.pure File GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))
 
 -- | Create a new 'File' with all required fields.
 mkFile ::
@@ -122,44 +124,45 @@ mkFile fileCreated fileId filePurpose fileSize =
 -- | Defines the object schema located at @components.schemas.file.properties.links@ in the specification.
 --
 -- A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
-data FileLinks' = FileLinks'
+data FileLinks'NonNullable = FileLinks'NonNullable
   { -- | data: Details about each object.
-    fileLinks'Data :: ([FileLink]),
+    fileLinks'NonNullableData :: ([FileLink]),
     -- | has_more: True if this list has another page of items after this one that can be fetched.
-    fileLinks'HasMore :: GHC.Types.Bool,
+    fileLinks'NonNullableHasMore :: GHC.Types.Bool,
     -- | url: The URL where this list can be accessed.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    fileLinks'Url :: Data.Text.Internal.Text
+    -- * Must match pattern \'^\/v1\/file_links\'
+    fileLinks'NonNullableUrl :: Data.Text.Internal.Text
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON FileLinks' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= fileLinks'Data obj : "has_more" Data.Aeson.Types.ToJSON..= fileLinks'HasMore obj : "url" Data.Aeson.Types.ToJSON..= fileLinks'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= fileLinks'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= fileLinks'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= fileLinks'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+instance Data.Aeson.Types.ToJSON.ToJSON FileLinks'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= fileLinks'NonNullableData obj] : ["has_more" Data.Aeson.Types.ToJSON..= fileLinks'NonNullableHasMore obj] : ["url" Data.Aeson.Types.ToJSON..= fileLinks'NonNullableUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= fileLinks'NonNullableData obj] : ["has_more" Data.Aeson.Types.ToJSON..= fileLinks'NonNullableHasMore obj] : ["url" Data.Aeson.Types.ToJSON..= fileLinks'NonNullableUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON FileLinks' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLinks'" (\obj -> ((GHC.Base.pure FileLinks' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+instance Data.Aeson.Types.FromJSON.FromJSON FileLinks'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLinks'NonNullable" (\obj -> ((GHC.Base.pure FileLinks'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Create a new 'FileLinks'' with all required fields.
-mkFileLinks' ::
-  -- | 'fileLinks'Data'
+-- | Create a new 'FileLinks'NonNullable' with all required fields.
+mkFileLinks'NonNullable ::
+  -- | 'fileLinks'NonNullableData'
   [FileLink] ->
-  -- | 'fileLinks'HasMore'
+  -- | 'fileLinks'NonNullableHasMore'
   GHC.Types.Bool ->
-  -- | 'fileLinks'Url'
+  -- | 'fileLinks'NonNullableUrl'
   Data.Text.Internal.Text ->
-  FileLinks'
-mkFileLinks' fileLinks'Data fileLinks'HasMore fileLinks'Url =
-  FileLinks'
-    { fileLinks'Data = fileLinks'Data,
-      fileLinks'HasMore = fileLinks'HasMore,
-      fileLinks'Url = fileLinks'Url
+  FileLinks'NonNullable
+mkFileLinks'NonNullable fileLinks'NonNullableData fileLinks'NonNullableHasMore fileLinks'NonNullableUrl =
+  FileLinks'NonNullable
+    { fileLinks'NonNullableData = fileLinks'NonNullableData,
+      fileLinks'NonNullableHasMore = fileLinks'NonNullableHasMore,
+      fileLinks'NonNullableUrl = fileLinks'NonNullableUrl
     }
 
 -- | Defines the enum schema located at @components.schemas.file.properties.purpose@ in the specification.

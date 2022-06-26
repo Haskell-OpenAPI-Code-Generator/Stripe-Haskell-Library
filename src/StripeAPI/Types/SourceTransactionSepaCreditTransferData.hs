@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -57,11 +59,11 @@ data SourceTransactionSepaCreditTransferData = SourceTransactionSepaCreditTransf
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionSepaCreditTransferData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataReference obj : "sender_iban" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderIban obj : "sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderName obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataReference obj) GHC.Base.<> (("sender_iban" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderIban obj) GHC.Base.<> ("sender_name" Data.Aeson.Types.ToJSON..= sourceTransactionSepaCreditTransferDataSenderName obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (sourceTransactionSepaCreditTransferDataReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sender_iban" Data.Aeson.Types.ToJSON..=)) (sourceTransactionSepaCreditTransferDataSenderIban obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sender_name" Data.Aeson.Types.ToJSON..=)) (sourceTransactionSepaCreditTransferDataSenderName obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (sourceTransactionSepaCreditTransferDataReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sender_iban" Data.Aeson.Types.ToJSON..=)) (sourceTransactionSepaCreditTransferDataSenderIban obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sender_name" Data.Aeson.Types.ToJSON..=)) (sourceTransactionSepaCreditTransferDataSenderName obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionSepaCreditTransferData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionSepaCreditTransferData" (\obj -> ((GHC.Base.pure SourceTransactionSepaCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_iban")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sender_name"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionSepaCreditTransferData" (\obj -> ((GHC.Base.pure SourceTransactionSepaCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sender_iban")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sender_name"))
 
 -- | Create a new 'SourceTransactionSepaCreditTransferData' with all required fields.
 mkSourceTransactionSepaCreditTransferData :: SourceTransactionSepaCreditTransferData

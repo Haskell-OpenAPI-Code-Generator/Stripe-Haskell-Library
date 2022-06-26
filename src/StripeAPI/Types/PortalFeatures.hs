@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -57,8 +59,8 @@ data PortalFeatures = PortalFeatures
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PortalFeatures where
-  toJSON obj = Data.Aeson.Types.Internal.object ("customer_update" Data.Aeson.Types.ToJSON..= portalFeaturesCustomerUpdate obj : "invoice_history" Data.Aeson.Types.ToJSON..= portalFeaturesInvoiceHistory obj : "payment_method_update" Data.Aeson.Types.ToJSON..= portalFeaturesPaymentMethodUpdate obj : "subscription_cancel" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionCancel obj : "subscription_pause" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionPause obj : "subscription_update" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionUpdate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer_update" Data.Aeson.Types.ToJSON..= portalFeaturesCustomerUpdate obj) GHC.Base.<> (("invoice_history" Data.Aeson.Types.ToJSON..= portalFeaturesInvoiceHistory obj) GHC.Base.<> (("payment_method_update" Data.Aeson.Types.ToJSON..= portalFeaturesPaymentMethodUpdate obj) GHC.Base.<> (("subscription_cancel" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionCancel obj) GHC.Base.<> (("subscription_pause" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionPause obj) GHC.Base.<> ("subscription_update" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionUpdate obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["customer_update" Data.Aeson.Types.ToJSON..= portalFeaturesCustomerUpdate obj] : ["invoice_history" Data.Aeson.Types.ToJSON..= portalFeaturesInvoiceHistory obj] : ["payment_method_update" Data.Aeson.Types.ToJSON..= portalFeaturesPaymentMethodUpdate obj] : ["subscription_cancel" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionCancel obj] : ["subscription_pause" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionPause obj] : ["subscription_update" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionUpdate obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["customer_update" Data.Aeson.Types.ToJSON..= portalFeaturesCustomerUpdate obj] : ["invoice_history" Data.Aeson.Types.ToJSON..= portalFeaturesInvoiceHistory obj] : ["payment_method_update" Data.Aeson.Types.ToJSON..= portalFeaturesPaymentMethodUpdate obj] : ["subscription_cancel" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionCancel obj] : ["subscription_pause" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionPause obj] : ["subscription_update" Data.Aeson.Types.ToJSON..= portalFeaturesSubscriptionUpdate obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PortalFeatures where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalFeatures" (\obj -> (((((GHC.Base.pure PortalFeatures GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "invoice_history")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_cancel")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_pause")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_update"))

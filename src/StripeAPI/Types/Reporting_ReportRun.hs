@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -52,7 +54,7 @@ data Reporting'reportRun = Reporting'reportRun
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reporting'reportRunError :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    reporting'reportRunError :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -71,7 +73,7 @@ data Reporting'reportRun = Reporting'reportRun
     reporting'reportRunReportType :: Data.Text.Internal.Text,
     -- | result: The file object representing the result of the report run (populated when
     --  \`status=succeeded\`).
-    reporting'reportRunResult :: (GHC.Maybe.Maybe Reporting'reportRunResult'),
+    reporting'reportRunResult :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Reporting'reportRunResult'NonNullable)),
     -- | status: Status of this report run. This will be \`pending\` when the run is initially created.
     --  When the run finishes, this will be set to \`succeeded\` and the \`result\` field will be populated.
     --  Rarely, we may encounter an error, at which point this will be set to \`failed\` and the \`error\` field will be populated.
@@ -82,7 +84,7 @@ data Reporting'reportRun = Reporting'reportRun
     reporting'reportRunStatus :: Data.Text.Internal.Text,
     -- | succeeded_at: Timestamp at which this run successfully finished (populated when
     --  \`status=succeeded\`). Measured in seconds since the Unix epoch.
-    reporting'reportRunSucceededAt :: (GHC.Maybe.Maybe GHC.Types.Int)
+    reporting'reportRunSucceededAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -90,11 +92,11 @@ data Reporting'reportRun = Reporting'reportRun
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRun where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= reporting'reportRunCreated obj : "error" Data.Aeson.Types.ToJSON..= reporting'reportRunError obj : "id" Data.Aeson.Types.ToJSON..= reporting'reportRunId obj : "livemode" Data.Aeson.Types.ToJSON..= reporting'reportRunLivemode obj : "parameters" Data.Aeson.Types.ToJSON..= reporting'reportRunParameters obj : "report_type" Data.Aeson.Types.ToJSON..= reporting'reportRunReportType obj : "result" Data.Aeson.Types.ToJSON..= reporting'reportRunResult obj : "status" Data.Aeson.Types.ToJSON..= reporting'reportRunStatus obj : "succeeded_at" Data.Aeson.Types.ToJSON..= reporting'reportRunSucceededAt obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_run" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= reporting'reportRunCreated obj) GHC.Base.<> (("error" Data.Aeson.Types.ToJSON..= reporting'reportRunError obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reporting'reportRunId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= reporting'reportRunLivemode obj) GHC.Base.<> (("parameters" Data.Aeson.Types.ToJSON..= reporting'reportRunParameters obj) GHC.Base.<> (("report_type" Data.Aeson.Types.ToJSON..= reporting'reportRunReportType obj) GHC.Base.<> (("result" Data.Aeson.Types.ToJSON..= reporting'reportRunResult obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= reporting'reportRunStatus obj) GHC.Base.<> (("succeeded_at" Data.Aeson.Types.ToJSON..= reporting'reportRunSucceededAt obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_run"))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= reporting'reportRunCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("error" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunError obj) : ["id" Data.Aeson.Types.ToJSON..= reporting'reportRunId obj] : ["livemode" Data.Aeson.Types.ToJSON..= reporting'reportRunLivemode obj] : ["parameters" Data.Aeson.Types.ToJSON..= reporting'reportRunParameters obj] : ["report_type" Data.Aeson.Types.ToJSON..= reporting'reportRunReportType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult obj) : ["status" Data.Aeson.Types.ToJSON..= reporting'reportRunStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("succeeded_at" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunSucceededAt obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_run"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= reporting'reportRunCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("error" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunError obj) : ["id" Data.Aeson.Types.ToJSON..= reporting'reportRunId obj] : ["livemode" Data.Aeson.Types.ToJSON..= reporting'reportRunLivemode obj] : ["parameters" Data.Aeson.Types.ToJSON..= reporting'reportRunParameters obj] : ["report_type" Data.Aeson.Types.ToJSON..= reporting'reportRunReportType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult obj) : ["status" Data.Aeson.Types.ToJSON..= reporting'reportRunStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("succeeded_at" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunSucceededAt obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_run"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRun where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRun" (\obj -> ((((((((GHC.Base.pure Reporting'reportRun GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "parameters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "report_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "result")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "succeeded_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRun" (\obj -> ((((((((GHC.Base.pure Reporting'reportRun GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "parameters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "report_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "succeeded_at"))
 
 -- | Create a new 'Reporting'reportRun' with all required fields.
 mkReporting'reportRun ::
@@ -128,220 +130,221 @@ mkReporting'reportRun reporting'reportRunCreated reporting'reportRunId reporting
 --
 -- The file object representing the result of the report run (populated when
 --  \\\`status=succeeded\\\`).
-data Reporting'reportRunResult' = Reporting'reportRunResult'
+data Reporting'reportRunResult'NonNullable = Reporting'reportRunResult'NonNullable
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-    reporting'reportRunResult'Created :: (GHC.Maybe.Maybe GHC.Types.Int),
+    reporting'reportRunResult'NonNullableCreated :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | expires_at: The time at which the file expires and is no longer available in epoch seconds.
-    reporting'reportRunResult'ExpiresAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    reporting'reportRunResult'NonNullableExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | filename: A filename for the file, suitable for saving to a filesystem.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reporting'reportRunResult'Filename :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    reporting'reportRunResult'NonNullableFilename :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reporting'reportRunResult'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    reporting'reportRunResult'NonNullableId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | links: A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
-    reporting'reportRunResult'Links :: (GHC.Maybe.Maybe Reporting'reportRunResult'Links'),
+    reporting'reportRunResult'NonNullableLinks :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Reporting'reportRunResult'NonNullableLinks'NonNullable)),
     -- | object: String representing the object\'s type. Objects of the same type share the same value.
-    reporting'reportRunResult'Object :: (GHC.Maybe.Maybe Reporting'reportRunResult'Object'),
+    reporting'reportRunResult'NonNullableObject :: (GHC.Maybe.Maybe Reporting'reportRunResult'NonNullableObject'),
     -- | purpose: The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
-    reporting'reportRunResult'Purpose :: (GHC.Maybe.Maybe Reporting'reportRunResult'Purpose'),
+    reporting'reportRunResult'NonNullablePurpose :: (GHC.Maybe.Maybe Reporting'reportRunResult'NonNullablePurpose'),
     -- | size: The size in bytes of the file object.
-    reporting'reportRunResult'Size :: (GHC.Maybe.Maybe GHC.Types.Int),
+    reporting'reportRunResult'NonNullableSize :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | title: A user friendly title for the document.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reporting'reportRunResult'Title :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    reporting'reportRunResult'NonNullableTitle :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | type: The type of the file returned (e.g., \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reporting'reportRunResult'Type :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    reporting'reportRunResult'NonNullableType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | url: The URL from which the file can be downloaded using your live secret API key.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reporting'reportRunResult'Url :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    reporting'reportRunResult'NonNullableUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Created obj : "expires_at" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'ExpiresAt obj : "filename" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Filename obj : "id" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Id obj : "links" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links obj : "object" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Object obj : "purpose" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Purpose obj : "size" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Size obj : "title" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Title obj : "type" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Type obj : "url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Url obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Created obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'ExpiresAt obj) GHC.Base.<> (("filename" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Filename obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Id obj) GHC.Base.<> (("links" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Object obj) GHC.Base.<> (("purpose" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Purpose obj) GHC.Base.<> (("size" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Size obj) GHC.Base.<> (("title" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Title obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Type obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Url obj)))))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filename" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableFilename obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("links" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableLinks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("purpose" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullablePurpose obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("size" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableSize obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableTitle obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filename" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableFilename obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("links" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableLinks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("purpose" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullablePurpose obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("size" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableSize obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableTitle obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (reporting'reportRunResult'NonNullableUrl obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRunResult'" (\obj -> ((((((((((GHC.Base.pure Reporting'reportRunResult' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRunResult'NonNullable" (\obj -> ((((((((((GHC.Base.pure Reporting'reportRunResult'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filename")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "links")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "purpose")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "size")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "title")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))
 
--- | Create a new 'Reporting'reportRunResult'' with all required fields.
-mkReporting'reportRunResult' :: Reporting'reportRunResult'
-mkReporting'reportRunResult' =
-  Reporting'reportRunResult'
-    { reporting'reportRunResult'Created = GHC.Maybe.Nothing,
-      reporting'reportRunResult'ExpiresAt = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Filename = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Id = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Links = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Object = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Purpose = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Size = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Title = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Type = GHC.Maybe.Nothing,
-      reporting'reportRunResult'Url = GHC.Maybe.Nothing
+-- | Create a new 'Reporting'reportRunResult'NonNullable' with all required fields.
+mkReporting'reportRunResult'NonNullable :: Reporting'reportRunResult'NonNullable
+mkReporting'reportRunResult'NonNullable =
+  Reporting'reportRunResult'NonNullable
+    { reporting'reportRunResult'NonNullableCreated = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableExpiresAt = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableFilename = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableId = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableLinks = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableObject = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullablePurpose = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableSize = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableTitle = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableType = GHC.Maybe.Nothing,
+      reporting'reportRunResult'NonNullableUrl = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.reporting.report_run.properties.result.anyOf.properties.links@ in the specification.
 --
 -- A list of [file links](https:\/\/stripe.com\/docs\/api\#file_links) that point at this file.
-data Reporting'reportRunResult'Links' = Reporting'reportRunResult'Links'
+data Reporting'reportRunResult'NonNullableLinks'NonNullable = Reporting'reportRunResult'NonNullableLinks'NonNullable
   { -- | data: Details about each object.
-    reporting'reportRunResult'Links'Data :: ([FileLink]),
+    reporting'reportRunResult'NonNullableLinks'NonNullableData :: ([FileLink]),
     -- | has_more: True if this list has another page of items after this one that can be fetched.
-    reporting'reportRunResult'Links'HasMore :: GHC.Types.Bool,
+    reporting'reportRunResult'NonNullableLinks'NonNullableHasMore :: GHC.Types.Bool,
     -- | url: The URL where this list can be accessed.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reporting'reportRunResult'Links'Url :: Data.Text.Internal.Text
+    -- * Must match pattern \'^\/v1\/file_links\'
+    reporting'reportRunResult'NonNullableLinks'NonNullableUrl :: Data.Text.Internal.Text
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'Links' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links'Data obj : "has_more" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links'HasMore obj : "url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'Links'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'NonNullableLinks'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'NonNullableLinks'NonNullableData obj] : ["has_more" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'NonNullableLinks'NonNullableHasMore obj] : ["url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'NonNullableLinks'NonNullableUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'NonNullableLinks'NonNullableData obj] : ["has_more" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'NonNullableLinks'NonNullableHasMore obj] : ["url" Data.Aeson.Types.ToJSON..= reporting'reportRunResult'NonNullableLinks'NonNullableUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'Links' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRunResult'Links'" (\obj -> ((GHC.Base.pure Reporting'reportRunResult'Links' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'NonNullableLinks'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportRunResult'NonNullableLinks'NonNullable" (\obj -> ((GHC.Base.pure Reporting'reportRunResult'NonNullableLinks'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Create a new 'Reporting'reportRunResult'Links'' with all required fields.
-mkReporting'reportRunResult'Links' ::
-  -- | 'reporting'reportRunResult'Links'Data'
+-- | Create a new 'Reporting'reportRunResult'NonNullableLinks'NonNullable' with all required fields.
+mkReporting'reportRunResult'NonNullableLinks'NonNullable ::
+  -- | 'reporting'reportRunResult'NonNullableLinks'NonNullableData'
   [FileLink] ->
-  -- | 'reporting'reportRunResult'Links'HasMore'
+  -- | 'reporting'reportRunResult'NonNullableLinks'NonNullableHasMore'
   GHC.Types.Bool ->
-  -- | 'reporting'reportRunResult'Links'Url'
+  -- | 'reporting'reportRunResult'NonNullableLinks'NonNullableUrl'
   Data.Text.Internal.Text ->
-  Reporting'reportRunResult'Links'
-mkReporting'reportRunResult'Links' reporting'reportRunResult'Links'Data reporting'reportRunResult'Links'HasMore reporting'reportRunResult'Links'Url =
-  Reporting'reportRunResult'Links'
-    { reporting'reportRunResult'Links'Data = reporting'reportRunResult'Links'Data,
-      reporting'reportRunResult'Links'HasMore = reporting'reportRunResult'Links'HasMore,
-      reporting'reportRunResult'Links'Url = reporting'reportRunResult'Links'Url
+  Reporting'reportRunResult'NonNullableLinks'NonNullable
+mkReporting'reportRunResult'NonNullableLinks'NonNullable reporting'reportRunResult'NonNullableLinks'NonNullableData reporting'reportRunResult'NonNullableLinks'NonNullableHasMore reporting'reportRunResult'NonNullableLinks'NonNullableUrl =
+  Reporting'reportRunResult'NonNullableLinks'NonNullable
+    { reporting'reportRunResult'NonNullableLinks'NonNullableData = reporting'reportRunResult'NonNullableLinks'NonNullableData,
+      reporting'reportRunResult'NonNullableLinks'NonNullableHasMore = reporting'reportRunResult'NonNullableLinks'NonNullableHasMore,
+      reporting'reportRunResult'NonNullableLinks'NonNullableUrl = reporting'reportRunResult'NonNullableLinks'NonNullableUrl
     }
 
 -- | Defines the enum schema located at @components.schemas.reporting.report_run.properties.result.anyOf.properties.object@ in the specification.
 --
 -- String representing the object\'s type. Objects of the same type share the same value.
-data Reporting'reportRunResult'Object'
+data Reporting'reportRunResult'NonNullableObject'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    Reporting'reportRunResult'Object'Other Data.Aeson.Types.Internal.Value
+    Reporting'reportRunResult'NonNullableObject'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    Reporting'reportRunResult'Object'Typed Data.Text.Internal.Text
+    Reporting'reportRunResult'NonNullableObject'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"file"@
-    Reporting'reportRunResult'Object'EnumFile
+    Reporting'reportRunResult'NonNullableObject'EnumFile
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'Object' where
-  toJSON (Reporting'reportRunResult'Object'Other val) = val
-  toJSON (Reporting'reportRunResult'Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (Reporting'reportRunResult'Object'EnumFile) = "file"
+instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'NonNullableObject' where
+  toJSON (Reporting'reportRunResult'NonNullableObject'Other val) = val
+  toJSON (Reporting'reportRunResult'NonNullableObject'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Reporting'reportRunResult'NonNullableObject'EnumFile) = "file"
 
-instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'NonNullableObject' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "file" -> Reporting'reportRunResult'Object'EnumFile
-            | GHC.Base.otherwise -> Reporting'reportRunResult'Object'Other val
+            | val GHC.Classes.== "file" -> Reporting'reportRunResult'NonNullableObject'EnumFile
+            | GHC.Base.otherwise -> Reporting'reportRunResult'NonNullableObject'Other val
       )
 
 -- | Defines the enum schema located at @components.schemas.reporting.report_run.properties.result.anyOf.properties.purpose@ in the specification.
 --
 -- The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
-data Reporting'reportRunResult'Purpose'
+data Reporting'reportRunResult'NonNullablePurpose'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    Reporting'reportRunResult'Purpose'Other Data.Aeson.Types.Internal.Value
+    Reporting'reportRunResult'NonNullablePurpose'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    Reporting'reportRunResult'Purpose'Typed Data.Text.Internal.Text
+    Reporting'reportRunResult'NonNullablePurpose'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"account_requirement"@
-    Reporting'reportRunResult'Purpose'EnumAccountRequirement
+    Reporting'reportRunResult'NonNullablePurpose'EnumAccountRequirement
   | -- | Represents the JSON value @"additional_verification"@
-    Reporting'reportRunResult'Purpose'EnumAdditionalVerification
+    Reporting'reportRunResult'NonNullablePurpose'EnumAdditionalVerification
   | -- | Represents the JSON value @"business_icon"@
-    Reporting'reportRunResult'Purpose'EnumBusinessIcon
+    Reporting'reportRunResult'NonNullablePurpose'EnumBusinessIcon
   | -- | Represents the JSON value @"business_logo"@
-    Reporting'reportRunResult'Purpose'EnumBusinessLogo
+    Reporting'reportRunResult'NonNullablePurpose'EnumBusinessLogo
   | -- | Represents the JSON value @"customer_signature"@
-    Reporting'reportRunResult'Purpose'EnumCustomerSignature
+    Reporting'reportRunResult'NonNullablePurpose'EnumCustomerSignature
   | -- | Represents the JSON value @"dispute_evidence"@
-    Reporting'reportRunResult'Purpose'EnumDisputeEvidence
+    Reporting'reportRunResult'NonNullablePurpose'EnumDisputeEvidence
   | -- | Represents the JSON value @"document_provider_identity_document"@
-    Reporting'reportRunResult'Purpose'EnumDocumentProviderIdentityDocument
+    Reporting'reportRunResult'NonNullablePurpose'EnumDocumentProviderIdentityDocument
   | -- | Represents the JSON value @"finance_report_run"@
-    Reporting'reportRunResult'Purpose'EnumFinanceReportRun
+    Reporting'reportRunResult'NonNullablePurpose'EnumFinanceReportRun
   | -- | Represents the JSON value @"identity_document"@
-    Reporting'reportRunResult'Purpose'EnumIdentityDocument
+    Reporting'reportRunResult'NonNullablePurpose'EnumIdentityDocument
   | -- | Represents the JSON value @"identity_document_downloadable"@
-    Reporting'reportRunResult'Purpose'EnumIdentityDocumentDownloadable
+    Reporting'reportRunResult'NonNullablePurpose'EnumIdentityDocumentDownloadable
   | -- | Represents the JSON value @"pci_document"@
-    Reporting'reportRunResult'Purpose'EnumPciDocument
+    Reporting'reportRunResult'NonNullablePurpose'EnumPciDocument
   | -- | Represents the JSON value @"selfie"@
-    Reporting'reportRunResult'Purpose'EnumSelfie
+    Reporting'reportRunResult'NonNullablePurpose'EnumSelfie
   | -- | Represents the JSON value @"sigma_scheduled_query"@
-    Reporting'reportRunResult'Purpose'EnumSigmaScheduledQuery
+    Reporting'reportRunResult'NonNullablePurpose'EnumSigmaScheduledQuery
   | -- | Represents the JSON value @"tax_document_user_upload"@
-    Reporting'reportRunResult'Purpose'EnumTaxDocumentUserUpload
+    Reporting'reportRunResult'NonNullablePurpose'EnumTaxDocumentUserUpload
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'Purpose' where
-  toJSON (Reporting'reportRunResult'Purpose'Other val) = val
-  toJSON (Reporting'reportRunResult'Purpose'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (Reporting'reportRunResult'Purpose'EnumAccountRequirement) = "account_requirement"
-  toJSON (Reporting'reportRunResult'Purpose'EnumAdditionalVerification) = "additional_verification"
-  toJSON (Reporting'reportRunResult'Purpose'EnumBusinessIcon) = "business_icon"
-  toJSON (Reporting'reportRunResult'Purpose'EnumBusinessLogo) = "business_logo"
-  toJSON (Reporting'reportRunResult'Purpose'EnumCustomerSignature) = "customer_signature"
-  toJSON (Reporting'reportRunResult'Purpose'EnumDisputeEvidence) = "dispute_evidence"
-  toJSON (Reporting'reportRunResult'Purpose'EnumDocumentProviderIdentityDocument) = "document_provider_identity_document"
-  toJSON (Reporting'reportRunResult'Purpose'EnumFinanceReportRun) = "finance_report_run"
-  toJSON (Reporting'reportRunResult'Purpose'EnumIdentityDocument) = "identity_document"
-  toJSON (Reporting'reportRunResult'Purpose'EnumIdentityDocumentDownloadable) = "identity_document_downloadable"
-  toJSON (Reporting'reportRunResult'Purpose'EnumPciDocument) = "pci_document"
-  toJSON (Reporting'reportRunResult'Purpose'EnumSelfie) = "selfie"
-  toJSON (Reporting'reportRunResult'Purpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
-  toJSON (Reporting'reportRunResult'Purpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
+instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'NonNullablePurpose' where
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'Other val) = val
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumAccountRequirement) = "account_requirement"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumAdditionalVerification) = "additional_verification"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumBusinessIcon) = "business_icon"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumBusinessLogo) = "business_logo"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumCustomerSignature) = "customer_signature"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumDisputeEvidence) = "dispute_evidence"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumDocumentProviderIdentityDocument) = "document_provider_identity_document"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumFinanceReportRun) = "finance_report_run"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumIdentityDocument) = "identity_document"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumIdentityDocumentDownloadable) = "identity_document_downloadable"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumPciDocument) = "pci_document"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumSelfie) = "selfie"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
 
-instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'Purpose' where
+instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'NonNullablePurpose' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "account_requirement" -> Reporting'reportRunResult'Purpose'EnumAccountRequirement
-            | val GHC.Classes.== "additional_verification" -> Reporting'reportRunResult'Purpose'EnumAdditionalVerification
-            | val GHC.Classes.== "business_icon" -> Reporting'reportRunResult'Purpose'EnumBusinessIcon
-            | val GHC.Classes.== "business_logo" -> Reporting'reportRunResult'Purpose'EnumBusinessLogo
-            | val GHC.Classes.== "customer_signature" -> Reporting'reportRunResult'Purpose'EnumCustomerSignature
-            | val GHC.Classes.== "dispute_evidence" -> Reporting'reportRunResult'Purpose'EnumDisputeEvidence
-            | val GHC.Classes.== "document_provider_identity_document" -> Reporting'reportRunResult'Purpose'EnumDocumentProviderIdentityDocument
-            | val GHC.Classes.== "finance_report_run" -> Reporting'reportRunResult'Purpose'EnumFinanceReportRun
-            | val GHC.Classes.== "identity_document" -> Reporting'reportRunResult'Purpose'EnumIdentityDocument
-            | val GHC.Classes.== "identity_document_downloadable" -> Reporting'reportRunResult'Purpose'EnumIdentityDocumentDownloadable
-            | val GHC.Classes.== "pci_document" -> Reporting'reportRunResult'Purpose'EnumPciDocument
-            | val GHC.Classes.== "selfie" -> Reporting'reportRunResult'Purpose'EnumSelfie
-            | val GHC.Classes.== "sigma_scheduled_query" -> Reporting'reportRunResult'Purpose'EnumSigmaScheduledQuery
-            | val GHC.Classes.== "tax_document_user_upload" -> Reporting'reportRunResult'Purpose'EnumTaxDocumentUserUpload
-            | GHC.Base.otherwise -> Reporting'reportRunResult'Purpose'Other val
+            | val GHC.Classes.== "account_requirement" -> Reporting'reportRunResult'NonNullablePurpose'EnumAccountRequirement
+            | val GHC.Classes.== "additional_verification" -> Reporting'reportRunResult'NonNullablePurpose'EnumAdditionalVerification
+            | val GHC.Classes.== "business_icon" -> Reporting'reportRunResult'NonNullablePurpose'EnumBusinessIcon
+            | val GHC.Classes.== "business_logo" -> Reporting'reportRunResult'NonNullablePurpose'EnumBusinessLogo
+            | val GHC.Classes.== "customer_signature" -> Reporting'reportRunResult'NonNullablePurpose'EnumCustomerSignature
+            | val GHC.Classes.== "dispute_evidence" -> Reporting'reportRunResult'NonNullablePurpose'EnumDisputeEvidence
+            | val GHC.Classes.== "document_provider_identity_document" -> Reporting'reportRunResult'NonNullablePurpose'EnumDocumentProviderIdentityDocument
+            | val GHC.Classes.== "finance_report_run" -> Reporting'reportRunResult'NonNullablePurpose'EnumFinanceReportRun
+            | val GHC.Classes.== "identity_document" -> Reporting'reportRunResult'NonNullablePurpose'EnumIdentityDocument
+            | val GHC.Classes.== "identity_document_downloadable" -> Reporting'reportRunResult'NonNullablePurpose'EnumIdentityDocumentDownloadable
+            | val GHC.Classes.== "pci_document" -> Reporting'reportRunResult'NonNullablePurpose'EnumPciDocument
+            | val GHC.Classes.== "selfie" -> Reporting'reportRunResult'NonNullablePurpose'EnumSelfie
+            | val GHC.Classes.== "sigma_scheduled_query" -> Reporting'reportRunResult'NonNullablePurpose'EnumSigmaScheduledQuery
+            | val GHC.Classes.== "tax_document_user_upload" -> Reporting'reportRunResult'NonNullablePurpose'EnumTaxDocumentUserUpload
+            | GHC.Base.otherwise -> Reporting'reportRunResult'NonNullablePurpose'Other val
       )

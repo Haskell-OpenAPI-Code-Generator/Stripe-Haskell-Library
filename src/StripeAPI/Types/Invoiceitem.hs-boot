@@ -1,6 +1,7 @@
 module StripeAPI.Types.Invoiceitem where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Invoiceitem
 instance Show Invoiceitem
 instance Eq Invoiceitem
@@ -11,83 +12,93 @@ instance Show InvoiceitemCustomer'Variants
 instance Eq InvoiceitemCustomer'Variants
 instance FromJSON InvoiceitemCustomer'Variants
 instance ToJSON InvoiceitemCustomer'Variants
-data InvoiceitemDiscounts'Variants
-instance Show InvoiceitemDiscounts'Variants
-instance Eq InvoiceitemDiscounts'Variants
-instance FromJSON InvoiceitemDiscounts'Variants
-instance ToJSON InvoiceitemDiscounts'Variants
-data InvoiceitemInvoice'Variants
-instance Show InvoiceitemInvoice'Variants
-instance Eq InvoiceitemInvoice'Variants
-instance FromJSON InvoiceitemInvoice'Variants
-instance ToJSON InvoiceitemInvoice'Variants
-data InvoiceitemPrice'
-instance Show InvoiceitemPrice'
-instance Eq InvoiceitemPrice'
-instance FromJSON InvoiceitemPrice'
-instance ToJSON InvoiceitemPrice'
-data InvoiceitemPrice'BillingScheme'
-instance Show InvoiceitemPrice'BillingScheme'
-instance Eq InvoiceitemPrice'BillingScheme'
-instance FromJSON InvoiceitemPrice'BillingScheme'
-instance ToJSON InvoiceitemPrice'BillingScheme'
-data InvoiceitemPrice'Object'
-instance Show InvoiceitemPrice'Object'
-instance Eq InvoiceitemPrice'Object'
-instance FromJSON InvoiceitemPrice'Object'
-instance ToJSON InvoiceitemPrice'Object'
-data InvoiceitemPrice'Product'Variants
-instance Show InvoiceitemPrice'Product'Variants
-instance Eq InvoiceitemPrice'Product'Variants
-instance FromJSON InvoiceitemPrice'Product'Variants
-instance ToJSON InvoiceitemPrice'Product'Variants
-data InvoiceitemPrice'Recurring'
-instance Show InvoiceitemPrice'Recurring'
-instance Eq InvoiceitemPrice'Recurring'
-instance FromJSON InvoiceitemPrice'Recurring'
-instance ToJSON InvoiceitemPrice'Recurring'
-data InvoiceitemPrice'Recurring'AggregateUsage'
-instance Show InvoiceitemPrice'Recurring'AggregateUsage'
-instance Eq InvoiceitemPrice'Recurring'AggregateUsage'
-instance FromJSON InvoiceitemPrice'Recurring'AggregateUsage'
-instance ToJSON InvoiceitemPrice'Recurring'AggregateUsage'
-data InvoiceitemPrice'Recurring'Interval'
-instance Show InvoiceitemPrice'Recurring'Interval'
-instance Eq InvoiceitemPrice'Recurring'Interval'
-instance FromJSON InvoiceitemPrice'Recurring'Interval'
-instance ToJSON InvoiceitemPrice'Recurring'Interval'
-data InvoiceitemPrice'Recurring'UsageType'
-instance Show InvoiceitemPrice'Recurring'UsageType'
-instance Eq InvoiceitemPrice'Recurring'UsageType'
-instance FromJSON InvoiceitemPrice'Recurring'UsageType'
-instance ToJSON InvoiceitemPrice'Recurring'UsageType'
-data InvoiceitemPrice'TaxBehavior'
-instance Show InvoiceitemPrice'TaxBehavior'
-instance Eq InvoiceitemPrice'TaxBehavior'
-instance FromJSON InvoiceitemPrice'TaxBehavior'
-instance ToJSON InvoiceitemPrice'TaxBehavior'
-data InvoiceitemPrice'TiersMode'
-instance Show InvoiceitemPrice'TiersMode'
-instance Eq InvoiceitemPrice'TiersMode'
-instance FromJSON InvoiceitemPrice'TiersMode'
-instance ToJSON InvoiceitemPrice'TiersMode'
-data InvoiceitemPrice'TransformQuantity'
-instance Show InvoiceitemPrice'TransformQuantity'
-instance Eq InvoiceitemPrice'TransformQuantity'
-instance FromJSON InvoiceitemPrice'TransformQuantity'
-instance ToJSON InvoiceitemPrice'TransformQuantity'
-data InvoiceitemPrice'TransformQuantity'Round'
-instance Show InvoiceitemPrice'TransformQuantity'Round'
-instance Eq InvoiceitemPrice'TransformQuantity'Round'
-instance FromJSON InvoiceitemPrice'TransformQuantity'Round'
-instance ToJSON InvoiceitemPrice'TransformQuantity'Round'
-data InvoiceitemPrice'Type'
-instance Show InvoiceitemPrice'Type'
-instance Eq InvoiceitemPrice'Type'
-instance FromJSON InvoiceitemPrice'Type'
-instance ToJSON InvoiceitemPrice'Type'
-data InvoiceitemSubscription'Variants
-instance Show InvoiceitemSubscription'Variants
-instance Eq InvoiceitemSubscription'Variants
-instance FromJSON InvoiceitemSubscription'Variants
-instance ToJSON InvoiceitemSubscription'Variants
+data InvoiceitemDiscounts'NonNullableVariants
+instance Show InvoiceitemDiscounts'NonNullableVariants
+instance Eq InvoiceitemDiscounts'NonNullableVariants
+instance FromJSON InvoiceitemDiscounts'NonNullableVariants
+instance ToJSON InvoiceitemDiscounts'NonNullableVariants
+data InvoiceitemInvoice'NonNullableVariants
+instance Show InvoiceitemInvoice'NonNullableVariants
+instance Eq InvoiceitemInvoice'NonNullableVariants
+instance FromJSON InvoiceitemInvoice'NonNullableVariants
+instance ToJSON InvoiceitemInvoice'NonNullableVariants
+data InvoiceitemPrice'NonNullable
+instance Show InvoiceitemPrice'NonNullable
+instance Eq InvoiceitemPrice'NonNullable
+instance FromJSON InvoiceitemPrice'NonNullable
+instance ToJSON InvoiceitemPrice'NonNullable
+data InvoiceitemPrice'NonNullableBillingScheme'
+instance Show InvoiceitemPrice'NonNullableBillingScheme'
+instance Eq InvoiceitemPrice'NonNullableBillingScheme'
+instance FromJSON InvoiceitemPrice'NonNullableBillingScheme'
+instance ToJSON InvoiceitemPrice'NonNullableBillingScheme'
+data InvoiceitemPrice'NonNullableCustomUnitAmount'NonNullable
+instance Show InvoiceitemPrice'NonNullableCustomUnitAmount'NonNullable
+instance Eq InvoiceitemPrice'NonNullableCustomUnitAmount'NonNullable
+instance FromJSON InvoiceitemPrice'NonNullableCustomUnitAmount'NonNullable
+instance ToJSON InvoiceitemPrice'NonNullableCustomUnitAmount'NonNullable
+data InvoiceitemPrice'NonNullableObject'
+instance Show InvoiceitemPrice'NonNullableObject'
+instance Eq InvoiceitemPrice'NonNullableObject'
+instance FromJSON InvoiceitemPrice'NonNullableObject'
+instance ToJSON InvoiceitemPrice'NonNullableObject'
+data InvoiceitemPrice'NonNullableProduct'Variants
+instance Show InvoiceitemPrice'NonNullableProduct'Variants
+instance Eq InvoiceitemPrice'NonNullableProduct'Variants
+instance FromJSON InvoiceitemPrice'NonNullableProduct'Variants
+instance ToJSON InvoiceitemPrice'NonNullableProduct'Variants
+data InvoiceitemPrice'NonNullableRecurring'NonNullable
+instance Show InvoiceitemPrice'NonNullableRecurring'NonNullable
+instance Eq InvoiceitemPrice'NonNullableRecurring'NonNullable
+instance FromJSON InvoiceitemPrice'NonNullableRecurring'NonNullable
+instance ToJSON InvoiceitemPrice'NonNullableRecurring'NonNullable
+data InvoiceitemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance Show InvoiceitemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance Eq InvoiceitemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance FromJSON InvoiceitemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance ToJSON InvoiceitemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+data InvoiceitemPrice'NonNullableRecurring'NonNullableInterval'
+instance Show InvoiceitemPrice'NonNullableRecurring'NonNullableInterval'
+instance Eq InvoiceitemPrice'NonNullableRecurring'NonNullableInterval'
+instance FromJSON InvoiceitemPrice'NonNullableRecurring'NonNullableInterval'
+instance ToJSON InvoiceitemPrice'NonNullableRecurring'NonNullableInterval'
+data InvoiceitemPrice'NonNullableRecurring'NonNullableUsageType'
+instance Show InvoiceitemPrice'NonNullableRecurring'NonNullableUsageType'
+instance Eq InvoiceitemPrice'NonNullableRecurring'NonNullableUsageType'
+instance FromJSON InvoiceitemPrice'NonNullableRecurring'NonNullableUsageType'
+instance ToJSON InvoiceitemPrice'NonNullableRecurring'NonNullableUsageType'
+data InvoiceitemPrice'NonNullableTaxBehavior'NonNullable
+instance Show InvoiceitemPrice'NonNullableTaxBehavior'NonNullable
+instance Eq InvoiceitemPrice'NonNullableTaxBehavior'NonNullable
+instance FromJSON InvoiceitemPrice'NonNullableTaxBehavior'NonNullable
+instance ToJSON InvoiceitemPrice'NonNullableTaxBehavior'NonNullable
+data InvoiceitemPrice'NonNullableTiersMode'NonNullable
+instance Show InvoiceitemPrice'NonNullableTiersMode'NonNullable
+instance Eq InvoiceitemPrice'NonNullableTiersMode'NonNullable
+instance FromJSON InvoiceitemPrice'NonNullableTiersMode'NonNullable
+instance ToJSON InvoiceitemPrice'NonNullableTiersMode'NonNullable
+data InvoiceitemPrice'NonNullableTransformQuantity'NonNullable
+instance Show InvoiceitemPrice'NonNullableTransformQuantity'NonNullable
+instance Eq InvoiceitemPrice'NonNullableTransformQuantity'NonNullable
+instance FromJSON InvoiceitemPrice'NonNullableTransformQuantity'NonNullable
+instance ToJSON InvoiceitemPrice'NonNullableTransformQuantity'NonNullable
+data InvoiceitemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance Show InvoiceitemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance Eq InvoiceitemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance FromJSON InvoiceitemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance ToJSON InvoiceitemPrice'NonNullableTransformQuantity'NonNullableRound'
+data InvoiceitemPrice'NonNullableType'
+instance Show InvoiceitemPrice'NonNullableType'
+instance Eq InvoiceitemPrice'NonNullableType'
+instance FromJSON InvoiceitemPrice'NonNullableType'
+instance ToJSON InvoiceitemPrice'NonNullableType'
+data InvoiceitemSubscription'NonNullableVariants
+instance Show InvoiceitemSubscription'NonNullableVariants
+instance Eq InvoiceitemSubscription'NonNullableVariants
+instance FromJSON InvoiceitemSubscription'NonNullableVariants
+instance ToJSON InvoiceitemSubscription'NonNullableVariants
+data InvoiceitemTestClock'NonNullableVariants
+instance Show InvoiceitemTestClock'NonNullableVariants
+instance Eq InvoiceitemTestClock'NonNullableVariants
+instance FromJSON InvoiceitemTestClock'NonNullableVariants
+instance ToJSON InvoiceitemTestClock'NonNullableVariants

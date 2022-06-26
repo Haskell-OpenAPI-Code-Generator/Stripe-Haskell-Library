@@ -1,0 +1,14 @@
+module StripeAPI.Types.BankConnectionsResourceBalanceRefresh where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data BankConnectionsResourceBalanceRefresh
+instance Show BankConnectionsResourceBalanceRefresh
+instance Eq BankConnectionsResourceBalanceRefresh
+instance FromJSON BankConnectionsResourceBalanceRefresh
+instance ToJSON BankConnectionsResourceBalanceRefresh
+data BankConnectionsResourceBalanceRefreshStatus'
+instance Show BankConnectionsResourceBalanceRefreshStatus'
+instance Eq BankConnectionsResourceBalanceRefreshStatus'
+instance FromJSON BankConnectionsResourceBalanceRefreshStatus'
+instance ToJSON BankConnectionsResourceBalanceRefreshStatus'

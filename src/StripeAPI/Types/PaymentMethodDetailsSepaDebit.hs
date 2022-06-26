@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,37 +39,37 @@ data PaymentMethodDetailsSepaDebit = PaymentMethodDetailsSepaDebit
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsSepaDebitBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsSepaDebitBankCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | branch_code: Branch code of bank associated with the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsSepaDebitBranchCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsSepaDebitBranchCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter ISO code representing the country the bank account is located in.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsSepaDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsSepaDebitCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsSepaDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsSepaDebitFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last4: Last four characters of the IBAN.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsSepaDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsSepaDebitLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | mandate: ID of the mandate used to make this payment.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsSepaDebitMandate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsSepaDebitMandate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -75,11 +77,11 @@ data PaymentMethodDetailsSepaDebit = PaymentMethodDetailsSepaDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsSepaDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitBankCode obj : "branch_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitBranchCode obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitCountry obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitLast4 obj : "mandate" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitMandate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitBankCode obj) GHC.Base.<> (("branch_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitBranchCode obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitCountry obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitLast4 obj) GHC.Base.<> ("mandate" Data.Aeson.Types.ToJSON..= paymentMethodDetailsSepaDebitMandate obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("branch_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitBranchCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitMandate obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("branch_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitBranchCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsSepaDebitMandate obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsSepaDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsSepaDebit" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsSepaDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "branch_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsSepaDebit" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsSepaDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "branch_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate"))
 
 -- | Create a new 'PaymentMethodDetailsSepaDebit' with all required fields.
 mkPaymentMethodDetailsSepaDebit :: PaymentMethodDetailsSepaDebit

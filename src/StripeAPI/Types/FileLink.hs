@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -42,7 +44,7 @@ data FileLink = FileLink
     -- | expired: Whether this link is already expired.
     fileLinkExpired :: GHC.Types.Bool,
     -- | expires_at: Time at which the link expires.
-    fileLinkExpiresAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    fileLinkExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | file: The file object this link points to.
     fileLinkFile :: FileLinkFile'Variants,
     -- | id: Unique identifier for the object.
@@ -60,7 +62,7 @@ data FileLink = FileLink
     -- Constraints:
     --
     -- * Maximum length of 5000
-    fileLinkUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    fileLinkUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -68,11 +70,11 @@ data FileLink = FileLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FileLink where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= fileLinkCreated obj : "expired" Data.Aeson.Types.ToJSON..= fileLinkExpired obj : "expires_at" Data.Aeson.Types.ToJSON..= fileLinkExpiresAt obj : "file" Data.Aeson.Types.ToJSON..= fileLinkFile obj : "id" Data.Aeson.Types.ToJSON..= fileLinkId obj : "livemode" Data.Aeson.Types.ToJSON..= fileLinkLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= fileLinkMetadata obj : "url" Data.Aeson.Types.ToJSON..= fileLinkUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file_link" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= fileLinkCreated obj) GHC.Base.<> (("expired" Data.Aeson.Types.ToJSON..= fileLinkExpired obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= fileLinkExpiresAt obj) GHC.Base.<> (("file" Data.Aeson.Types.ToJSON..= fileLinkFile obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= fileLinkId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= fileLinkLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= fileLinkMetadata obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= fileLinkUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file_link")))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= fileLinkCreated obj] : ["expired" Data.Aeson.Types.ToJSON..= fileLinkExpired obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (fileLinkExpiresAt obj) : ["file" Data.Aeson.Types.ToJSON..= fileLinkFile obj] : ["id" Data.Aeson.Types.ToJSON..= fileLinkId obj] : ["livemode" Data.Aeson.Types.ToJSON..= fileLinkLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= fileLinkMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (fileLinkUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file_link"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= fileLinkCreated obj] : ["expired" Data.Aeson.Types.ToJSON..= fileLinkExpired obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (fileLinkExpiresAt obj) : ["file" Data.Aeson.Types.ToJSON..= fileLinkFile obj] : ["id" Data.Aeson.Types.ToJSON..= fileLinkId obj] : ["livemode" Data.Aeson.Types.ToJSON..= fileLinkLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= fileLinkMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (fileLinkUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "file_link"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FileLink where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLink" (\obj -> (((((((GHC.Base.pure FileLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expired")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FileLink" (\obj -> (((((((GHC.Base.pure FileLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expired")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))
 
 -- | Create a new 'FileLink' with all required fields.
 mkFileLink ::

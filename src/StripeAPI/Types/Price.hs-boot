@@ -1,6 +1,7 @@
 module StripeAPI.Types.Price where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Price
 instance Show Price
 instance Eq Price
@@ -11,51 +12,56 @@ instance Show PriceBillingScheme'
 instance Eq PriceBillingScheme'
 instance FromJSON PriceBillingScheme'
 instance ToJSON PriceBillingScheme'
+data PriceCustomUnitAmount'NonNullable
+instance Show PriceCustomUnitAmount'NonNullable
+instance Eq PriceCustomUnitAmount'NonNullable
+instance FromJSON PriceCustomUnitAmount'NonNullable
+instance ToJSON PriceCustomUnitAmount'NonNullable
 data PriceProduct'Variants
 instance Show PriceProduct'Variants
 instance Eq PriceProduct'Variants
 instance FromJSON PriceProduct'Variants
 instance ToJSON PriceProduct'Variants
-data PriceRecurring'
-instance Show PriceRecurring'
-instance Eq PriceRecurring'
-instance FromJSON PriceRecurring'
-instance ToJSON PriceRecurring'
-data PriceRecurring'AggregateUsage'
-instance Show PriceRecurring'AggregateUsage'
-instance Eq PriceRecurring'AggregateUsage'
-instance FromJSON PriceRecurring'AggregateUsage'
-instance ToJSON PriceRecurring'AggregateUsage'
-data PriceRecurring'Interval'
-instance Show PriceRecurring'Interval'
-instance Eq PriceRecurring'Interval'
-instance FromJSON PriceRecurring'Interval'
-instance ToJSON PriceRecurring'Interval'
-data PriceRecurring'UsageType'
-instance Show PriceRecurring'UsageType'
-instance Eq PriceRecurring'UsageType'
-instance FromJSON PriceRecurring'UsageType'
-instance ToJSON PriceRecurring'UsageType'
-data PriceTaxBehavior'
-instance Show PriceTaxBehavior'
-instance Eq PriceTaxBehavior'
-instance FromJSON PriceTaxBehavior'
-instance ToJSON PriceTaxBehavior'
-data PriceTiersMode'
-instance Show PriceTiersMode'
-instance Eq PriceTiersMode'
-instance FromJSON PriceTiersMode'
-instance ToJSON PriceTiersMode'
-data PriceTransformQuantity'
-instance Show PriceTransformQuantity'
-instance Eq PriceTransformQuantity'
-instance FromJSON PriceTransformQuantity'
-instance ToJSON PriceTransformQuantity'
-data PriceTransformQuantity'Round'
-instance Show PriceTransformQuantity'Round'
-instance Eq PriceTransformQuantity'Round'
-instance FromJSON PriceTransformQuantity'Round'
-instance ToJSON PriceTransformQuantity'Round'
+data PriceRecurring'NonNullable
+instance Show PriceRecurring'NonNullable
+instance Eq PriceRecurring'NonNullable
+instance FromJSON PriceRecurring'NonNullable
+instance ToJSON PriceRecurring'NonNullable
+data PriceRecurring'NonNullableAggregateUsage'NonNullable
+instance Show PriceRecurring'NonNullableAggregateUsage'NonNullable
+instance Eq PriceRecurring'NonNullableAggregateUsage'NonNullable
+instance FromJSON PriceRecurring'NonNullableAggregateUsage'NonNullable
+instance ToJSON PriceRecurring'NonNullableAggregateUsage'NonNullable
+data PriceRecurring'NonNullableInterval'
+instance Show PriceRecurring'NonNullableInterval'
+instance Eq PriceRecurring'NonNullableInterval'
+instance FromJSON PriceRecurring'NonNullableInterval'
+instance ToJSON PriceRecurring'NonNullableInterval'
+data PriceRecurring'NonNullableUsageType'
+instance Show PriceRecurring'NonNullableUsageType'
+instance Eq PriceRecurring'NonNullableUsageType'
+instance FromJSON PriceRecurring'NonNullableUsageType'
+instance ToJSON PriceRecurring'NonNullableUsageType'
+data PriceTaxBehavior'NonNullable
+instance Show PriceTaxBehavior'NonNullable
+instance Eq PriceTaxBehavior'NonNullable
+instance FromJSON PriceTaxBehavior'NonNullable
+instance ToJSON PriceTaxBehavior'NonNullable
+data PriceTiersMode'NonNullable
+instance Show PriceTiersMode'NonNullable
+instance Eq PriceTiersMode'NonNullable
+instance FromJSON PriceTiersMode'NonNullable
+instance ToJSON PriceTiersMode'NonNullable
+data PriceTransformQuantity'NonNullable
+instance Show PriceTransformQuantity'NonNullable
+instance Eq PriceTransformQuantity'NonNullable
+instance FromJSON PriceTransformQuantity'NonNullable
+instance ToJSON PriceTransformQuantity'NonNullable
+data PriceTransformQuantity'NonNullableRound'
+instance Show PriceTransformQuantity'NonNullableRound'
+instance Eq PriceTransformQuantity'NonNullableRound'
+instance FromJSON PriceTransformQuantity'NonNullableRound'
+instance ToJSON PriceTransformQuantity'NonNullableRound'
 data PriceType'
 instance Show PriceType'
 instance Eq PriceType'

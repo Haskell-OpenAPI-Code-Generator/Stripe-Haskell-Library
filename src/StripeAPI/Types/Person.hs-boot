@@ -1,28 +1,34 @@
 module StripeAPI.Types.Person where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Person
 instance Show Person
 instance Eq Person
 instance FromJSON Person
 instance ToJSON Person
-data PersonAddressKana'
-instance Show PersonAddressKana'
-instance Eq PersonAddressKana'
-instance FromJSON PersonAddressKana'
-instance ToJSON PersonAddressKana'
-data PersonAddressKanji'
-instance Show PersonAddressKanji'
-instance Eq PersonAddressKanji'
-instance FromJSON PersonAddressKanji'
-instance ToJSON PersonAddressKanji'
+data PersonAddressKana'NonNullable
+instance Show PersonAddressKana'NonNullable
+instance Eq PersonAddressKana'NonNullable
+instance FromJSON PersonAddressKana'NonNullable
+instance ToJSON PersonAddressKana'NonNullable
+data PersonAddressKanji'NonNullable
+instance Show PersonAddressKanji'NonNullable
+instance Eq PersonAddressKanji'NonNullable
+instance FromJSON PersonAddressKanji'NonNullable
+instance ToJSON PersonAddressKanji'NonNullable
+data PersonFutureRequirements'NonNullable
+instance Show PersonFutureRequirements'NonNullable
+instance Eq PersonFutureRequirements'NonNullable
+instance FromJSON PersonFutureRequirements'NonNullable
+instance ToJSON PersonFutureRequirements'NonNullable
 data PersonPoliticalExposure'
 instance Show PersonPoliticalExposure'
 instance Eq PersonPoliticalExposure'
 instance FromJSON PersonPoliticalExposure'
 instance ToJSON PersonPoliticalExposure'
-data PersonRequirements'
-instance Show PersonRequirements'
-instance Eq PersonRequirements'
-instance FromJSON PersonRequirements'
-instance ToJSON PersonRequirements'
+data PersonRequirements'NonNullable
+instance Show PersonRequirements'NonNullable
+instance Eq PersonRequirements'NonNullable
+instance FromJSON PersonRequirements'NonNullable
+instance ToJSON PersonRequirements'NonNullable

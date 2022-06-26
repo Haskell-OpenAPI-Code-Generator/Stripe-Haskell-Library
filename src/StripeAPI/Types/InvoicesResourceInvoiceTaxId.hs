@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -32,14 +34,14 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.invoices_resource_invoice_tax_id@ in the specification.
 data InvoicesResourceInvoiceTaxId = InvoicesResourceInvoiceTaxId
-  { -- | type: The type of the tax ID, one of \`eu_vat\`, \`br_cnpj\`, \`br_cpf\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, or \`unknown\`
+  { -- | type: The type of the tax ID, one of \`eu_vat\`, \`br_cnpj\`, \`br_cpf\`, \`eu_oss_vat\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`au_arn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, \`ge_vat\`, \`ua_vat\`, \`is_vat\`, \`bg_uic\`, \`hu_tin\`, \`si_tin\`, or \`unknown\`
     invoicesResourceInvoiceTaxIdType :: InvoicesResourceInvoiceTaxIdType',
     -- | value: The value of the tax ID.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    invoicesResourceInvoiceTaxIdValue :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    invoicesResourceInvoiceTaxIdValue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data InvoicesResourceInvoiceTaxId = InvoicesResourceInvoiceTaxId
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoicesResourceInvoiceTaxId where
-  toJSON obj = Data.Aeson.Types.Internal.object ("type" Data.Aeson.Types.ToJSON..= invoicesResourceInvoiceTaxIdType obj : "value" Data.Aeson.Types.ToJSON..= invoicesResourceInvoiceTaxIdValue obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("type" Data.Aeson.Types.ToJSON..= invoicesResourceInvoiceTaxIdType obj) GHC.Base.<> ("value" Data.Aeson.Types.ToJSON..= invoicesResourceInvoiceTaxIdValue obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["type" Data.Aeson.Types.ToJSON..= invoicesResourceInvoiceTaxIdType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("value" Data.Aeson.Types.ToJSON..=)) (invoicesResourceInvoiceTaxIdValue obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["type" Data.Aeson.Types.ToJSON..= invoicesResourceInvoiceTaxIdType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("value" Data.Aeson.Types.ToJSON..=)) (invoicesResourceInvoiceTaxIdValue obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoicesResourceInvoiceTaxId where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesResourceInvoiceTaxId" (\obj -> (GHC.Base.pure InvoicesResourceInvoiceTaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "value"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesResourceInvoiceTaxId" (\obj -> (GHC.Base.pure InvoicesResourceInvoiceTaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "value"))
 
 -- | Create a new 'InvoicesResourceInvoiceTaxId' with all required fields.
 mkInvoicesResourceInvoiceTaxId ::
@@ -66,7 +68,7 @@ mkInvoicesResourceInvoiceTaxId invoicesResourceInvoiceTaxIdType =
 
 -- | Defines the enum schema located at @components.schemas.invoices_resource_invoice_tax_id.properties.type@ in the specification.
 --
--- The type of the tax ID, one of \`eu_vat\`, \`br_cnpj\`, \`br_cpf\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, or \`unknown\`
+-- The type of the tax ID, one of \`eu_vat\`, \`br_cnpj\`, \`br_cpf\`, \`eu_oss_vat\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`au_arn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, \`ge_vat\`, \`ua_vat\`, \`is_vat\`, \`bg_uic\`, \`hu_tin\`, \`si_tin\`, or \`unknown\`
 data InvoicesResourceInvoiceTaxIdType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     InvoicesResourceInvoiceTaxIdType'Other Data.Aeson.Types.Internal.Value
@@ -76,6 +78,10 @@ data InvoicesResourceInvoiceTaxIdType'
     InvoicesResourceInvoiceTaxIdType'EnumAeTrn
   | -- | Represents the JSON value @"au_abn"@
     InvoicesResourceInvoiceTaxIdType'EnumAuAbn
+  | -- | Represents the JSON value @"au_arn"@
+    InvoicesResourceInvoiceTaxIdType'EnumAuArn
+  | -- | Represents the JSON value @"bg_uic"@
+    InvoicesResourceInvoiceTaxIdType'EnumBgUic
   | -- | Represents the JSON value @"br_cnpj"@
     InvoicesResourceInvoiceTaxIdType'EnumBrCnpj
   | -- | Represents the JSON value @"br_cpf"@
@@ -98,18 +104,26 @@ data InvoicesResourceInvoiceTaxIdType'
     InvoicesResourceInvoiceTaxIdType'EnumClTin
   | -- | Represents the JSON value @"es_cif"@
     InvoicesResourceInvoiceTaxIdType'EnumEsCif
+  | -- | Represents the JSON value @"eu_oss_vat"@
+    InvoicesResourceInvoiceTaxIdType'EnumEuOssVat
   | -- | Represents the JSON value @"eu_vat"@
     InvoicesResourceInvoiceTaxIdType'EnumEuVat
   | -- | Represents the JSON value @"gb_vat"@
     InvoicesResourceInvoiceTaxIdType'EnumGbVat
+  | -- | Represents the JSON value @"ge_vat"@
+    InvoicesResourceInvoiceTaxIdType'EnumGeVat
   | -- | Represents the JSON value @"hk_br"@
     InvoicesResourceInvoiceTaxIdType'EnumHkBr
+  | -- | Represents the JSON value @"hu_tin"@
+    InvoicesResourceInvoiceTaxIdType'EnumHuTin
   | -- | Represents the JSON value @"id_npwp"@
     InvoicesResourceInvoiceTaxIdType'EnumIdNpwp
   | -- | Represents the JSON value @"il_vat"@
     InvoicesResourceInvoiceTaxIdType'EnumIlVat
   | -- | Represents the JSON value @"in_gst"@
     InvoicesResourceInvoiceTaxIdType'EnumInGst
+  | -- | Represents the JSON value @"is_vat"@
+    InvoicesResourceInvoiceTaxIdType'EnumIsVat
   | -- | Represents the JSON value @"jp_cn"@
     InvoicesResourceInvoiceTaxIdType'EnumJpCn
   | -- | Represents the JSON value @"jp_rn"@
@@ -140,10 +154,14 @@ data InvoicesResourceInvoiceTaxIdType'
     InvoicesResourceInvoiceTaxIdType'EnumSgGst
   | -- | Represents the JSON value @"sg_uen"@
     InvoicesResourceInvoiceTaxIdType'EnumSgUen
+  | -- | Represents the JSON value @"si_tin"@
+    InvoicesResourceInvoiceTaxIdType'EnumSiTin
   | -- | Represents the JSON value @"th_vat"@
     InvoicesResourceInvoiceTaxIdType'EnumThVat
   | -- | Represents the JSON value @"tw_vat"@
     InvoicesResourceInvoiceTaxIdType'EnumTwVat
+  | -- | Represents the JSON value @"ua_vat"@
+    InvoicesResourceInvoiceTaxIdType'EnumUaVat
   | -- | Represents the JSON value @"unknown"@
     InvoicesResourceInvoiceTaxIdType'EnumUnknown
   | -- | Represents the JSON value @"us_ein"@
@@ -157,6 +175,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoicesResourceInvoiceTaxIdType' where
   toJSON (InvoicesResourceInvoiceTaxIdType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumAeTrn) = "ae_trn"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumAuAbn) = "au_abn"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumAuArn) = "au_arn"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumBgUic) = "bg_uic"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumBrCnpj) = "br_cnpj"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumBrCpf) = "br_cpf"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumCaBn) = "ca_bn"
@@ -168,12 +188,16 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoicesResourceInvoiceTaxIdType' where
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumChVat) = "ch_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumClTin) = "cl_tin"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumEsCif) = "es_cif"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumEuOssVat) = "eu_oss_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumEuVat) = "eu_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumGbVat) = "gb_vat"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumGeVat) = "ge_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumHkBr) = "hk_br"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumHuTin) = "hu_tin"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumIdNpwp) = "id_npwp"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumIlVat) = "il_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumInGst) = "in_gst"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumIsVat) = "is_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumJpCn) = "jp_cn"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumJpRn) = "jp_rn"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumKrBrn) = "kr_brn"
@@ -189,8 +213,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON InvoicesResourceInvoiceTaxIdType' where
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumSaVat) = "sa_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumSgGst) = "sg_gst"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumSgUen) = "sg_uen"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumSiTin) = "si_tin"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumThVat) = "th_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumTwVat) = "tw_vat"
+  toJSON (InvoicesResourceInvoiceTaxIdType'EnumUaVat) = "ua_vat"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumUnknown) = "unknown"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumUsEin) = "us_ein"
   toJSON (InvoicesResourceInvoiceTaxIdType'EnumZaVat) = "za_vat"
@@ -201,6 +227,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoicesResourceInvoiceTaxIdType' wh
       ( if
             | val GHC.Classes.== "ae_trn" -> InvoicesResourceInvoiceTaxIdType'EnumAeTrn
             | val GHC.Classes.== "au_abn" -> InvoicesResourceInvoiceTaxIdType'EnumAuAbn
+            | val GHC.Classes.== "au_arn" -> InvoicesResourceInvoiceTaxIdType'EnumAuArn
+            | val GHC.Classes.== "bg_uic" -> InvoicesResourceInvoiceTaxIdType'EnumBgUic
             | val GHC.Classes.== "br_cnpj" -> InvoicesResourceInvoiceTaxIdType'EnumBrCnpj
             | val GHC.Classes.== "br_cpf" -> InvoicesResourceInvoiceTaxIdType'EnumBrCpf
             | val GHC.Classes.== "ca_bn" -> InvoicesResourceInvoiceTaxIdType'EnumCaBn
@@ -212,12 +240,16 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoicesResourceInvoiceTaxIdType' wh
             | val GHC.Classes.== "ch_vat" -> InvoicesResourceInvoiceTaxIdType'EnumChVat
             | val GHC.Classes.== "cl_tin" -> InvoicesResourceInvoiceTaxIdType'EnumClTin
             | val GHC.Classes.== "es_cif" -> InvoicesResourceInvoiceTaxIdType'EnumEsCif
+            | val GHC.Classes.== "eu_oss_vat" -> InvoicesResourceInvoiceTaxIdType'EnumEuOssVat
             | val GHC.Classes.== "eu_vat" -> InvoicesResourceInvoiceTaxIdType'EnumEuVat
             | val GHC.Classes.== "gb_vat" -> InvoicesResourceInvoiceTaxIdType'EnumGbVat
+            | val GHC.Classes.== "ge_vat" -> InvoicesResourceInvoiceTaxIdType'EnumGeVat
             | val GHC.Classes.== "hk_br" -> InvoicesResourceInvoiceTaxIdType'EnumHkBr
+            | val GHC.Classes.== "hu_tin" -> InvoicesResourceInvoiceTaxIdType'EnumHuTin
             | val GHC.Classes.== "id_npwp" -> InvoicesResourceInvoiceTaxIdType'EnumIdNpwp
             | val GHC.Classes.== "il_vat" -> InvoicesResourceInvoiceTaxIdType'EnumIlVat
             | val GHC.Classes.== "in_gst" -> InvoicesResourceInvoiceTaxIdType'EnumInGst
+            | val GHC.Classes.== "is_vat" -> InvoicesResourceInvoiceTaxIdType'EnumIsVat
             | val GHC.Classes.== "jp_cn" -> InvoicesResourceInvoiceTaxIdType'EnumJpCn
             | val GHC.Classes.== "jp_rn" -> InvoicesResourceInvoiceTaxIdType'EnumJpRn
             | val GHC.Classes.== "kr_brn" -> InvoicesResourceInvoiceTaxIdType'EnumKrBrn
@@ -233,8 +265,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoicesResourceInvoiceTaxIdType' wh
             | val GHC.Classes.== "sa_vat" -> InvoicesResourceInvoiceTaxIdType'EnumSaVat
             | val GHC.Classes.== "sg_gst" -> InvoicesResourceInvoiceTaxIdType'EnumSgGst
             | val GHC.Classes.== "sg_uen" -> InvoicesResourceInvoiceTaxIdType'EnumSgUen
+            | val GHC.Classes.== "si_tin" -> InvoicesResourceInvoiceTaxIdType'EnumSiTin
             | val GHC.Classes.== "th_vat" -> InvoicesResourceInvoiceTaxIdType'EnumThVat
             | val GHC.Classes.== "tw_vat" -> InvoicesResourceInvoiceTaxIdType'EnumTwVat
+            | val GHC.Classes.== "ua_vat" -> InvoicesResourceInvoiceTaxIdType'EnumUaVat
             | val GHC.Classes.== "unknown" -> InvoicesResourceInvoiceTaxIdType'EnumUnknown
             | val GHC.Classes.== "us_ein" -> InvoicesResourceInvoiceTaxIdType'EnumUsEin
             | val GHC.Classes.== "za_vat" -> InvoicesResourceInvoiceTaxIdType'EnumZaVat

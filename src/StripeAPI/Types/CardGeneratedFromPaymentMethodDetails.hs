@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -48,11 +50,11 @@ data CardGeneratedFromPaymentMethodDetails = CardGeneratedFromPaymentMethodDetai
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CardGeneratedFromPaymentMethodDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("card_present" Data.Aeson.Types.ToJSON..= cardGeneratedFromPaymentMethodDetailsCardPresent obj : "type" Data.Aeson.Types.ToJSON..= cardGeneratedFromPaymentMethodDetailsType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("card_present" Data.Aeson.Types.ToJSON..= cardGeneratedFromPaymentMethodDetailsCardPresent obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= cardGeneratedFromPaymentMethodDetailsType obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (cardGeneratedFromPaymentMethodDetailsCardPresent obj) : ["type" Data.Aeson.Types.ToJSON..= cardGeneratedFromPaymentMethodDetailsType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (cardGeneratedFromPaymentMethodDetailsCardPresent obj) : ["type" Data.Aeson.Types.ToJSON..= cardGeneratedFromPaymentMethodDetailsType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CardGeneratedFromPaymentMethodDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CardGeneratedFromPaymentMethodDetails" (\obj -> (GHC.Base.pure CardGeneratedFromPaymentMethodDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CardGeneratedFromPaymentMethodDetails" (\obj -> (GHC.Base.pure CardGeneratedFromPaymentMethodDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'CardGeneratedFromPaymentMethodDetails' with all required fields.
 mkCardGeneratedFromPaymentMethodDetails ::

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -32,9 +34,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.invoice_line_item_period@ in the specification.
 data InvoiceLineItemPeriod = InvoiceLineItemPeriod
-  { -- | end: End of the line item\'s billing period
+  { -- | end: The end of the period, which must be greater than or equal to the start.
     invoiceLineItemPeriodEnd :: GHC.Types.Int,
-    -- | start: Start of the line item\'s billing period
+    -- | start: The start of the period.
     invoiceLineItemPeriodStart :: GHC.Types.Int
   }
   deriving
@@ -43,8 +45,8 @@ data InvoiceLineItemPeriod = InvoiceLineItemPeriod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceLineItemPeriod where
-  toJSON obj = Data.Aeson.Types.Internal.object ("end" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodEnd obj : "start" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodStart obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("end" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodEnd obj) GHC.Base.<> ("start" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodStart obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["end" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodEnd obj] : ["start" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodStart obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["end" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodEnd obj] : ["start" Data.Aeson.Types.ToJSON..= invoiceLineItemPeriodStart obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceLineItemPeriod where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceLineItemPeriod" (\obj -> (GHC.Base.pure InvoiceLineItemPeriod GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start"))

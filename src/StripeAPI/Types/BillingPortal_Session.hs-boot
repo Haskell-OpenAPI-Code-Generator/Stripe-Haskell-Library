@@ -1,6 +1,7 @@
 module StripeAPI.Types.BillingPortal_Session where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data BillingPortal'session
 instance Show BillingPortal'session
 instance Eq BillingPortal'session
@@ -11,3 +12,8 @@ instance Show BillingPortal'sessionConfiguration'Variants
 instance Eq BillingPortal'sessionConfiguration'Variants
 instance FromJSON BillingPortal'sessionConfiguration'Variants
 instance ToJSON BillingPortal'sessionConfiguration'Variants
+data BillingPortal'sessionLocale'NonNullable
+instance Show BillingPortal'sessionLocale'NonNullable
+instance Eq BillingPortal'sessionLocale'NonNullable
+instance FromJSON BillingPortal'sessionLocale'NonNullable
+instance ToJSON BillingPortal'sessionLocale'NonNullable

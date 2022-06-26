@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetIssuingTransactionsTransactionParameters = GetIssuingTransactionsTransac
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsTransactionParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathTransaction" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersPathTransaction obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathTransaction" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersPathTransaction obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathTransaction" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersPathTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingTransactionsTransactionParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathTransaction" Data.Aeson.Types.ToJSON..= getIssuingTransactionsTransactionParametersPathTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingTransactionsTransactionParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsTransactionParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsTransactionParameters" (\obj -> (GHC.Base.pure GetIssuingTransactionsTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsTransactionParameters" (\obj -> (GHC.Base.pure GetIssuingTransactionsTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetIssuingTransactionsTransactionParameters' with all required fields.
 mkGetIssuingTransactionsTransactionParameters ::

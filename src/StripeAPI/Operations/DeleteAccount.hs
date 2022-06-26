@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,7 +47,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>With \<a href=\"\/docs\/connect\">Connect\<\/a>, you can delete accounts you manage.\<\/p>
 --
--- \<p>Accounts created using test-mode keys can be deleted at any time. Custom or Express accounts created using live-mode keys can only be deleted once all balances are zero.\<\/p>
+-- \<p>Accounts created using test-mode keys can be deleted at any time. Standard accounts created using live-mode keys cannot be deleted. Custom or Express accounts created using live-mode keys can only be deleted once all balances are zero.\<\/p>
 --
 -- \<p>If you want to delete your own account, use the \<a href=\"https:\/\/dashboard.stripe.com\/account\">account information tab in your account settings\<\/a> instead.\<\/p>
 deleteAccount ::
@@ -99,11 +101,11 @@ data DeleteAccountRequestBody = DeleteAccountRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteAccountRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= deleteAccountRequestBodyAccount obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("account" Data.Aeson.Types.ToJSON..= deleteAccountRequestBodyAccount obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (deleteAccountRequestBodyAccount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (deleteAccountRequestBodyAccount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteAccountRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountRequestBody" (\obj -> GHC.Base.pure DeleteAccountRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountRequestBody" (\obj -> GHC.Base.pure DeleteAccountRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account"))
 
 -- | Create a new 'DeleteAccountRequestBody' with all required fields.
 mkDeleteAccountRequestBody :: DeleteAccountRequestBody

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -32,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_method_details_boleto@ in the specification.
 data PaymentMethodDetailsBoleto = PaymentMethodDetailsBoleto
-  { -- | tax_id: Uniquely identifies this customer tax_id (CNPJ or CPF)
+  { -- | tax_id: The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers)
     --
     -- Constraints:
     --
@@ -45,8 +47,8 @@ data PaymentMethodDetailsBoleto = PaymentMethodDetailsBoleto
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsBoleto where
-  toJSON obj = Data.Aeson.Types.Internal.object ("tax_id" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBoletoTaxId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("tax_id" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBoletoTaxId obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["tax_id" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBoletoTaxId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["tax_id" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBoletoTaxId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsBoleto where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsBoleto" (\obj -> GHC.Base.pure PaymentMethodDetailsBoleto GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_id"))

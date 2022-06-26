@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetEventsIdParameters = GetEventsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetEventsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getEventsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getEventsIdParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getEventsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getEventsIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= getEventsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getEventsIdParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= getEventsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getEventsIdParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetEventsIdParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetEventsIdParameters" (\obj -> (GHC.Base.pure GetEventsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetEventsIdParameters" (\obj -> (GHC.Base.pure GetEventsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetEventsIdParameters' with all required fields.
 mkGetEventsIdParameters ::

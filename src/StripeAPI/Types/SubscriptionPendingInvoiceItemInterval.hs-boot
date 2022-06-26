@@ -1,6 +1,7 @@
 module StripeAPI.Types.SubscriptionPendingInvoiceItemInterval where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data SubscriptionPendingInvoiceItemInterval
 instance Show SubscriptionPendingInvoiceItemInterval
 instance Eq SubscriptionPendingInvoiceItemInterval

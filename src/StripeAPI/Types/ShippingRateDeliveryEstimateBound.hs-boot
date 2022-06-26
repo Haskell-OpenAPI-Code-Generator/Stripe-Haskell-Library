@@ -1,0 +1,14 @@
+module StripeAPI.Types.ShippingRateDeliveryEstimateBound where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data ShippingRateDeliveryEstimateBound
+instance Show ShippingRateDeliveryEstimateBound
+instance Eq ShippingRateDeliveryEstimateBound
+instance FromJSON ShippingRateDeliveryEstimateBound
+instance ToJSON ShippingRateDeliveryEstimateBound
+data ShippingRateDeliveryEstimateBoundUnit'
+instance Show ShippingRateDeliveryEstimateBoundUnit'
+instance Eq ShippingRateDeliveryEstimateBoundUnit'
+instance FromJSON ShippingRateDeliveryEstimateBoundUnit'
+instance ToJSON ShippingRateDeliveryEstimateBoundUnit'

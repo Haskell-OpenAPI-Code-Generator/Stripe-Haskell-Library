@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,12 +39,14 @@ import qualified Prelude as GHC.Maybe
 data CreditNoteLineItem = CreditNoteLineItem
   { -- | amount: The integer amount in %s representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
     creditNoteLineItemAmount :: GHC.Types.Int,
+    -- | amount_excluding_tax: The integer amount in %s representing the amount being credited for this line item, excluding all tax and discounts.
+    creditNoteLineItemAmountExcludingTax :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | description: Description of the item being credited.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    creditNoteLineItemDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    creditNoteLineItemDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | discount_amount: The integer amount in %s representing the discount being credited for this line item.
     creditNoteLineItemDiscountAmount :: GHC.Types.Int,
     -- | discount_amounts: The amount of discount calculated per discount for this line item
@@ -62,7 +66,7 @@ data CreditNoteLineItem = CreditNoteLineItem
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     creditNoteLineItemLivemode :: GHC.Types.Bool,
     -- | quantity: The number of units of product being credited.
-    creditNoteLineItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+    creditNoteLineItemQuantity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | tax_amounts: The amount of tax calculated per tax rate for this line item
     creditNoteLineItemTaxAmounts :: ([CreditNoteTaxAmount]),
     -- | tax_rates: The tax rates which apply to the line item.
@@ -70,9 +74,11 @@ data CreditNoteLineItem = CreditNoteLineItem
     -- | type: The type of the credit note line item, one of \`invoice_line_item\` or \`custom_line_item\`. When the type is \`invoice_line_item\` there is an additional \`invoice_line_item\` property on the resource the value of which is the id of the credited line item on the invoice.
     creditNoteLineItemType :: CreditNoteLineItemType',
     -- | unit_amount: The cost of each unit of product being credited.
-    creditNoteLineItemUnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    creditNoteLineItemUnitAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | unit_amount_decimal: Same as \`unit_amount\`, but contains a decimal value with at most 12 decimal places.
-    creditNoteLineItemUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    creditNoteLineItemUnitAmountDecimal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | unit_amount_excluding_tax: The amount in %s representing the unit amount being credited for this line item, excluding all tax and discounts.
+    creditNoteLineItemUnitAmountExcludingTax :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -80,11 +86,11 @@ data CreditNoteLineItem = CreditNoteLineItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CreditNoteLineItem where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemAmount obj : "description" Data.Aeson.Types.ToJSON..= creditNoteLineItemDescription obj : "discount_amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmount obj : "discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmounts obj : "id" Data.Aeson.Types.ToJSON..= creditNoteLineItemId obj : "invoice_line_item" Data.Aeson.Types.ToJSON..= creditNoteLineItemInvoiceLineItem obj : "livemode" Data.Aeson.Types.ToJSON..= creditNoteLineItemLivemode obj : "quantity" Data.Aeson.Types.ToJSON..= creditNoteLineItemQuantity obj : "tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxAmounts obj : "tax_rates" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxRates obj : "type" Data.Aeson.Types.ToJSON..= creditNoteLineItemType obj : "unit_amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemUnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= creditNoteLineItemUnitAmountDecimal obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note_line_item" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemAmount obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= creditNoteLineItemDescription obj) GHC.Base.<> (("discount_amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmount obj) GHC.Base.<> (("discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmounts obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= creditNoteLineItemId obj) GHC.Base.<> (("invoice_line_item" Data.Aeson.Types.ToJSON..= creditNoteLineItemInvoiceLineItem obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= creditNoteLineItemLivemode obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= creditNoteLineItemQuantity obj) GHC.Base.<> (("tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxAmounts obj) GHC.Base.<> (("tax_rates" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxRates obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= creditNoteLineItemType obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemUnitAmount obj) GHC.Base.<> (("unit_amount_decimal" Data.Aeson.Types.ToJSON..= creditNoteLineItemUnitAmountDecimal obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note_line_item"))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemAmountExcludingTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemDescription obj) : ["discount_amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmount obj] : ["discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmounts obj] : ["id" Data.Aeson.Types.ToJSON..= creditNoteLineItemId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_line_item" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemInvoiceLineItem obj) : ["livemode" Data.Aeson.Types.ToJSON..= creditNoteLineItemLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemQuantity obj) : ["tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxAmounts obj] : ["tax_rates" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxRates obj] : ["type" Data.Aeson.Types.ToJSON..= creditNoteLineItemType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemUnitAmountDecimal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemUnitAmountExcludingTax obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note_line_item"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemAmountExcludingTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemDescription obj) : ["discount_amount" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmount obj] : ["discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemDiscountAmounts obj] : ["id" Data.Aeson.Types.ToJSON..= creditNoteLineItemId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_line_item" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemInvoiceLineItem obj) : ["livemode" Data.Aeson.Types.ToJSON..= creditNoteLineItemLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemQuantity obj) : ["tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxAmounts obj] : ["tax_rates" Data.Aeson.Types.ToJSON..= creditNoteLineItemTaxRates obj] : ["type" Data.Aeson.Types.ToJSON..= creditNoteLineItemType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemUnitAmountDecimal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteLineItemUnitAmountExcludingTax obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note_line_item"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteLineItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CreditNoteLineItem" (\obj -> ((((((((((((GHC.Base.pure CreditNoteLineItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_line_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CreditNoteLineItem" (\obj -> ((((((((((((((GHC.Base.pure CreditNoteLineItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_excluding_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_line_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_excluding_tax"))
 
 -- | Create a new 'CreditNoteLineItem' with all required fields.
 mkCreditNoteLineItem ::
@@ -108,6 +114,7 @@ mkCreditNoteLineItem ::
 mkCreditNoteLineItem creditNoteLineItemAmount creditNoteLineItemDiscountAmount creditNoteLineItemDiscountAmounts creditNoteLineItemId creditNoteLineItemLivemode creditNoteLineItemTaxAmounts creditNoteLineItemTaxRates creditNoteLineItemType =
   CreditNoteLineItem
     { creditNoteLineItemAmount = creditNoteLineItemAmount,
+      creditNoteLineItemAmountExcludingTax = GHC.Maybe.Nothing,
       creditNoteLineItemDescription = GHC.Maybe.Nothing,
       creditNoteLineItemDiscountAmount = creditNoteLineItemDiscountAmount,
       creditNoteLineItemDiscountAmounts = creditNoteLineItemDiscountAmounts,
@@ -119,7 +126,8 @@ mkCreditNoteLineItem creditNoteLineItemAmount creditNoteLineItemDiscountAmount c
       creditNoteLineItemTaxRates = creditNoteLineItemTaxRates,
       creditNoteLineItemType = creditNoteLineItemType,
       creditNoteLineItemUnitAmount = GHC.Maybe.Nothing,
-      creditNoteLineItemUnitAmountDecimal = GHC.Maybe.Nothing
+      creditNoteLineItemUnitAmountDecimal = GHC.Maybe.Nothing,
+      creditNoteLineItemUnitAmountExcludingTax = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.credit_note_line_item.properties.type@ in the specification.

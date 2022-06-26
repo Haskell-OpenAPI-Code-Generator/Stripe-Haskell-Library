@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -101,11 +103,11 @@ data GetIssuerFraudRecordsIssuerFraudRecordParameters = GetIssuerFraudRecordsIss
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsIssuerFraudRecordParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathIssuer_fraud_record" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathIssuer_fraud_record" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathIssuer_fraud_record" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathIssuer_fraud_record" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsIssuerFraudRecordParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsIssuerFraudRecordParameters" (\obj -> (GHC.Base.pure GetIssuerFraudRecordsIssuerFraudRecordParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathIssuer_fraud_record")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsIssuerFraudRecordParameters" (\obj -> (GHC.Base.pure GetIssuerFraudRecordsIssuerFraudRecordParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathIssuer_fraud_record")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetIssuerFraudRecordsIssuerFraudRecordParameters' with all required fields.
 mkGetIssuerFraudRecordsIssuerFraudRecordParameters ::

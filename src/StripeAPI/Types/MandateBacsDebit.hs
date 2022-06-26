@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -53,8 +55,8 @@ data MandateBacsDebit = MandateBacsDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON MandateBacsDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("network_status" Data.Aeson.Types.ToJSON..= mandateBacsDebitNetworkStatus obj : "reference" Data.Aeson.Types.ToJSON..= mandateBacsDebitReference obj : "url" Data.Aeson.Types.ToJSON..= mandateBacsDebitUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("network_status" Data.Aeson.Types.ToJSON..= mandateBacsDebitNetworkStatus obj) GHC.Base.<> (("reference" Data.Aeson.Types.ToJSON..= mandateBacsDebitReference obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= mandateBacsDebitUrl obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["network_status" Data.Aeson.Types.ToJSON..= mandateBacsDebitNetworkStatus obj] : ["reference" Data.Aeson.Types.ToJSON..= mandateBacsDebitReference obj] : ["url" Data.Aeson.Types.ToJSON..= mandateBacsDebitUrl obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["network_status" Data.Aeson.Types.ToJSON..= mandateBacsDebitNetworkStatus obj] : ["reference" Data.Aeson.Types.ToJSON..= mandateBacsDebitReference obj] : ["url" Data.Aeson.Types.ToJSON..= mandateBacsDebitUrl obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON MandateBacsDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "MandateBacsDebit" (\obj -> ((GHC.Base.pure MandateBacsDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

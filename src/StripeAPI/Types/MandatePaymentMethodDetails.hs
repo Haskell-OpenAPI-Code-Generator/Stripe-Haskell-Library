@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -44,6 +46,8 @@ data MandatePaymentMethodDetails = MandatePaymentMethodDetails
     mandatePaymentMethodDetailsBacsDebit :: (GHC.Maybe.Maybe MandateBacsDebit),
     -- | card:
     mandatePaymentMethodDetailsCard :: (GHC.Maybe.Maybe CardMandatePaymentMethodDetails),
+    -- | link:
+    mandatePaymentMethodDetailsLink :: (GHC.Maybe.Maybe MandateLink),
     -- | sepa_debit:
     mandatePaymentMethodDetailsSepaDebit :: (GHC.Maybe.Maybe MandateSepaDebit),
     -- | type: The type of the payment method associated with this mandate. An additional hash is included on \`payment_method_details\` with a name matching this value. It contains mandate information specific to the payment method.
@@ -51,7 +55,9 @@ data MandatePaymentMethodDetails = MandatePaymentMethodDetails
     -- Constraints:
     --
     -- * Maximum length of 5000
-    mandatePaymentMethodDetailsType :: Data.Text.Internal.Text
+    mandatePaymentMethodDetailsType :: Data.Text.Internal.Text,
+    -- | us_bank_account:
+    mandatePaymentMethodDetailsUsBankAccount :: (GHC.Maybe.Maybe MandateUsBankAccount)
   }
   deriving
     ( GHC.Show.Show,
@@ -59,11 +65,11 @@ data MandatePaymentMethodDetails = MandatePaymentMethodDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON MandatePaymentMethodDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("acss_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsAcssDebit obj : "au_becs_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsAuBecsDebit obj : "bacs_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsBacsDebit obj : "card" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsCard obj : "sepa_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsSepaDebit obj : "type" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("acss_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsAcssDebit obj) GHC.Base.<> (("au_becs_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsAuBecsDebit obj) GHC.Base.<> (("bacs_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsBacsDebit obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsCard obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsSepaDebit obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsType obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsBacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsSepaDebit obj) : ["type" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsUsBankAccount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsBacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsSepaDebit obj) : ["type" Data.Aeson.Types.ToJSON..= mandatePaymentMethodDetailsType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (mandatePaymentMethodDetailsUsBankAccount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON MandatePaymentMethodDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "MandatePaymentMethodDetails" (\obj -> (((((GHC.Base.pure MandatePaymentMethodDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "MandatePaymentMethodDetails" (\obj -> (((((((GHC.Base.pure MandatePaymentMethodDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account"))
 
 -- | Create a new 'MandatePaymentMethodDetails' with all required fields.
 mkMandatePaymentMethodDetails ::
@@ -76,6 +82,8 @@ mkMandatePaymentMethodDetails mandatePaymentMethodDetailsType =
       mandatePaymentMethodDetailsAuBecsDebit = GHC.Maybe.Nothing,
       mandatePaymentMethodDetailsBacsDebit = GHC.Maybe.Nothing,
       mandatePaymentMethodDetailsCard = GHC.Maybe.Nothing,
+      mandatePaymentMethodDetailsLink = GHC.Maybe.Nothing,
       mandatePaymentMethodDetailsSepaDebit = GHC.Maybe.Nothing,
-      mandatePaymentMethodDetailsType = mandatePaymentMethodDetailsType
+      mandatePaymentMethodDetailsType = mandatePaymentMethodDetailsType,
+      mandatePaymentMethodDetailsUsBankAccount = GHC.Maybe.Nothing
     }

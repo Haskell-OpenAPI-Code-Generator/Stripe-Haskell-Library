@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,8 +47,8 @@ data DiscountsResourceDiscountAmount = DiscountsResourceDiscountAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DiscountsResourceDiscountAmount where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountAmount obj : "discount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountDiscount obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountAmount obj) GHC.Base.<> ("discount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountDiscount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountAmount obj] : ["discount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountDiscount obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountAmount obj] : ["discount" Data.Aeson.Types.ToJSON..= discountsResourceDiscountAmountDiscount obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DiscountsResourceDiscountAmount where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DiscountsResourceDiscountAmount" (\obj -> (GHC.Base.pure DiscountsResourceDiscountAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount"))

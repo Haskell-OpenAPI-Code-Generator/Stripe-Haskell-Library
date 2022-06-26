@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,13 +37,13 @@ data PromotionCodesResourceRestrictions = PromotionCodesResourceRestrictions
   { -- | first_time_transaction: A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
     promotionCodesResourceRestrictionsFirstTimeTransaction :: GHC.Types.Bool,
     -- | minimum_amount: Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be \$100 or more to work).
-    promotionCodesResourceRestrictionsMinimumAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    promotionCodesResourceRestrictionsMinimumAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | minimum_amount_currency: Three-letter [ISO code](https:\/\/stripe.com\/docs\/currencies) for minimum_amount
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    promotionCodesResourceRestrictionsMinimumAmountCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    promotionCodesResourceRestrictionsMinimumAmountCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -49,11 +51,11 @@ data PromotionCodesResourceRestrictions = PromotionCodesResourceRestrictions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PromotionCodesResourceRestrictions where
-  toJSON obj = Data.Aeson.Types.Internal.object ("first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj : "minimum_amount" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsMinimumAmount obj : "minimum_amount_currency" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsMinimumAmountCurrency obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj) GHC.Base.<> (("minimum_amount" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsMinimumAmount obj) GHC.Base.<> ("minimum_amount_currency" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsMinimumAmountCurrency obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmountCurrency obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmountCurrency obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PromotionCodesResourceRestrictions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PromotionCodesResourceRestrictions" (\obj -> ((GHC.Base.pure PromotionCodesResourceRestrictions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "first_time_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "minimum_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "minimum_amount_currency"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PromotionCodesResourceRestrictions" (\obj -> ((GHC.Base.pure PromotionCodesResourceRestrictions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "first_time_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount_currency"))
 
 -- | Create a new 'PromotionCodesResourceRestrictions' with all required fields.
 mkPromotionCodesResourceRestrictions ::

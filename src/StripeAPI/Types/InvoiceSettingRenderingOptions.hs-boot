@@ -1,0 +1,9 @@
+module StripeAPI.Types.InvoiceSettingRenderingOptions where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data InvoiceSettingRenderingOptions
+instance Show InvoiceSettingRenderingOptions
+instance Eq InvoiceSettingRenderingOptions
+instance FromJSON InvoiceSettingRenderingOptions
+instance ToJSON InvoiceSettingRenderingOptions

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -113,11 +115,11 @@ data PostIdentityVerificationSessionsSessionRedactRequestBody = PostIdentityVeri
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIdentityVerificationSessionsSessionRedactRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postIdentityVerificationSessionsSessionRedactRequestBodyExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postIdentityVerificationSessionsSessionRedactRequestBodyExpand obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIdentityVerificationSessionsSessionRedactRequestBodyExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIdentityVerificationSessionsSessionRedactRequestBodyExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIdentityVerificationSessionsSessionRedactRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIdentityVerificationSessionsSessionRedactRequestBody" (\obj -> GHC.Base.pure PostIdentityVerificationSessionsSessionRedactRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIdentityVerificationSessionsSessionRedactRequestBody" (\obj -> GHC.Base.pure PostIdentityVerificationSessionsSessionRedactRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand"))
 
 -- | Create a new 'PostIdentityVerificationSessionsSessionRedactRequestBody' with all required fields.
 mkPostIdentityVerificationSessionsSessionRedactRequestBody :: PostIdentityVerificationSessionsSessionRedactRequestBody

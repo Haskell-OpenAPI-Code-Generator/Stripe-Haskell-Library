@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,7 +39,7 @@ data DeletedBankAccount = DeletedBankAccount
     -- Constraints:
     --
     -- * Maximum length of 5000
-    deletedBankAccountCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    deletedBankAccountCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -51,11 +53,11 @@ data DeletedBankAccount = DeletedBankAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedBankAccount where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedBankAccountCurrency obj : "id" Data.Aeson.Types.ToJSON..= deletedBankAccountId obj : "deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedBankAccountCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedBankAccountId obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (deletedBankAccountCurrency obj) : ["id" Data.Aeson.Types.ToJSON..= deletedBankAccountId obj] : ["deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (deletedBankAccountCurrency obj) : ["id" Data.Aeson.Types.ToJSON..= deletedBankAccountId obj] : ["deleted" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.Bool GHC.Types.True] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedBankAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedBankAccount" (\obj -> (GHC.Base.pure DeletedBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedBankAccount" (\obj -> (GHC.Base.pure DeletedBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
 -- | Create a new 'DeletedBankAccount' with all required fields.
 mkDeletedBankAccount ::

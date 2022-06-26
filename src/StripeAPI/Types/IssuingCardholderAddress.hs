@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -42,8 +44,8 @@ data IssuingCardholderAddress = IssuingCardholderAddress
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAddress where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= issuingCardholderAddressAddress obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("address" Data.Aeson.Types.ToJSON..= issuingCardholderAddressAddress obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= issuingCardholderAddressAddress obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= issuingCardholderAddressAddress obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAddress where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderAddress" (\obj -> GHC.Base.pure IssuingCardholderAddress GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address"))

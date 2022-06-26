@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -40,7 +42,7 @@ data Shipping = Shipping
     -- Constraints:
     --
     -- * Maximum length of 5000
-    shippingCarrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    shippingCarrier :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name: Recipient name.
     --
     -- Constraints:
@@ -52,13 +54,13 @@ data Shipping = Shipping
     -- Constraints:
     --
     -- * Maximum length of 5000
-    shippingPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    shippingPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | tracking_number: The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    shippingTrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    shippingTrackingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -66,11 +68,11 @@ data Shipping = Shipping
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Shipping where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= shippingAddress obj : "carrier" Data.Aeson.Types.ToJSON..= shippingCarrier obj : "name" Data.Aeson.Types.ToJSON..= shippingName obj : "phone" Data.Aeson.Types.ToJSON..= shippingPhone obj : "tracking_number" Data.Aeson.Types.ToJSON..= shippingTrackingNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= shippingAddress obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= shippingCarrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= shippingName obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= shippingPhone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= shippingTrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (shippingAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (shippingCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (shippingName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (shippingPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (shippingTrackingNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (shippingAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (shippingCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (shippingName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (shippingPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (shippingTrackingNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Shipping where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Shipping" (\obj -> ((((GHC.Base.pure Shipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Shipping" (\obj -> ((((GHC.Base.pure Shipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracking_number"))
 
 -- | Create a new 'Shipping' with all required fields.
 mkShipping :: Shipping

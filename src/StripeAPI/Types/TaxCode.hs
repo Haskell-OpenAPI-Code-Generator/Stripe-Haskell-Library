@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -32,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.tax_code@ in the specification.
 --
--- [Tax codes](https:\/\/stripe.com\/docs\/tax\/tax-codes) classify goods and services for tax purposes.
+-- [Tax codes](https:\/\/stripe.com\/docs\/tax\/tax-categories) classify goods and services for tax purposes.
 data TaxCode = TaxCode
   { -- | description: A detailed description of which types of products the tax code represents.
     --
@@ -59,8 +61,8 @@ data TaxCode = TaxCode
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxCode where
-  toJSON obj = Data.Aeson.Types.Internal.object ("description" Data.Aeson.Types.ToJSON..= taxCodeDescription obj : "id" Data.Aeson.Types.ToJSON..= taxCodeId obj : "name" Data.Aeson.Types.ToJSON..= taxCodeName obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_code" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("description" Data.Aeson.Types.ToJSON..= taxCodeDescription obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= taxCodeId obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= taxCodeName obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_code"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["description" Data.Aeson.Types.ToJSON..= taxCodeDescription obj] : ["id" Data.Aeson.Types.ToJSON..= taxCodeId obj] : ["name" Data.Aeson.Types.ToJSON..= taxCodeName obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_code"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["description" Data.Aeson.Types.ToJSON..= taxCodeDescription obj] : ["id" Data.Aeson.Types.ToJSON..= taxCodeId obj] : ["name" Data.Aeson.Types.ToJSON..= taxCodeName obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_code"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxCode where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxCode" (\obj -> ((GHC.Base.pure TaxCode GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name"))

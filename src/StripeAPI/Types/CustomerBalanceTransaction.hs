@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,7 +49,7 @@ data CustomerBalanceTransaction = CustomerBalanceTransaction
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     customerBalanceTransactionCreated :: GHC.Types.Int,
     -- | credit_note: The ID of the credit note (if any) related to the transaction.
-    customerBalanceTransactionCreditNote :: (GHC.Maybe.Maybe CustomerBalanceTransactionCreditNote'Variants),
+    customerBalanceTransactionCreditNote :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CustomerBalanceTransactionCreditNote'NonNullableVariants)),
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     customerBalanceTransactionCurrency :: Data.Text.Internal.Text,
     -- | customer: The ID of the customer the transaction belongs to.
@@ -57,7 +59,7 @@ data CustomerBalanceTransaction = CustomerBalanceTransaction
     -- Constraints:
     --
     -- * Maximum length of 5000
-    customerBalanceTransactionDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    customerBalanceTransactionDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | ending_balance: The customer\'s \`balance\` after the transaction was applied. A negative value decreases the amount due on the customer\'s next invoice. A positive value increases the amount due on the customer\'s next invoice.
     customerBalanceTransactionEndingBalance :: GHC.Types.Int,
     -- | id: Unique identifier for the object.
@@ -67,11 +69,11 @@ data CustomerBalanceTransaction = CustomerBalanceTransaction
     -- * Maximum length of 5000
     customerBalanceTransactionId :: Data.Text.Internal.Text,
     -- | invoice: The ID of the invoice (if any) related to the transaction.
-    customerBalanceTransactionInvoice :: (GHC.Maybe.Maybe CustomerBalanceTransactionInvoice'Variants),
+    customerBalanceTransactionInvoice :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CustomerBalanceTransactionInvoice'NonNullableVariants)),
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     customerBalanceTransactionLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    customerBalanceTransactionMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    customerBalanceTransactionMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | type: Transaction type: \`adjustment\`, \`applied_to_invoice\`, \`credit_note\`, \`initial\`, \`invoice_too_large\`, \`invoice_too_small\`, \`unspent_receiver_credit\`, or \`unapplied_from_invoice\`. See the [Customer Balance page](https:\/\/stripe.com\/docs\/billing\/customer\/balance\#types) to learn more about transaction types.
     customerBalanceTransactionType :: CustomerBalanceTransactionType'
   }
@@ -81,11 +83,11 @@ data CustomerBalanceTransaction = CustomerBalanceTransaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CustomerBalanceTransaction where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= customerBalanceTransactionAmount obj : "created" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCreated obj : "credit_note" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCreditNote obj : "currency" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCurrency obj : "customer" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCustomer obj : "description" Data.Aeson.Types.ToJSON..= customerBalanceTransactionDescription obj : "ending_balance" Data.Aeson.Types.ToJSON..= customerBalanceTransactionEndingBalance obj : "id" Data.Aeson.Types.ToJSON..= customerBalanceTransactionId obj : "invoice" Data.Aeson.Types.ToJSON..= customerBalanceTransactionInvoice obj : "livemode" Data.Aeson.Types.ToJSON..= customerBalanceTransactionLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= customerBalanceTransactionMetadata obj : "type" Data.Aeson.Types.ToJSON..= customerBalanceTransactionType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "customer_balance_transaction" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= customerBalanceTransactionAmount obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCreated obj) GHC.Base.<> (("credit_note" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCreditNote obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= customerBalanceTransactionDescription obj) GHC.Base.<> (("ending_balance" Data.Aeson.Types.ToJSON..= customerBalanceTransactionEndingBalance obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= customerBalanceTransactionId obj) GHC.Base.<> (("invoice" Data.Aeson.Types.ToJSON..= customerBalanceTransactionInvoice obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= customerBalanceTransactionLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= customerBalanceTransactionMetadata obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= customerBalanceTransactionType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "customer_balance_transaction")))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= customerBalanceTransactionAmount obj] : ["created" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("credit_note" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionCreditNote obj) : ["currency" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCurrency obj] : ["customer" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionDescription obj) : ["ending_balance" Data.Aeson.Types.ToJSON..= customerBalanceTransactionEndingBalance obj] : ["id" Data.Aeson.Types.ToJSON..= customerBalanceTransactionId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionInvoice obj) : ["livemode" Data.Aeson.Types.ToJSON..= customerBalanceTransactionLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionMetadata obj) : ["type" Data.Aeson.Types.ToJSON..= customerBalanceTransactionType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "customer_balance_transaction"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= customerBalanceTransactionAmount obj] : ["created" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("credit_note" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionCreditNote obj) : ["currency" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCurrency obj] : ["customer" Data.Aeson.Types.ToJSON..= customerBalanceTransactionCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionDescription obj) : ["ending_balance" Data.Aeson.Types.ToJSON..= customerBalanceTransactionEndingBalance obj] : ["id" Data.Aeson.Types.ToJSON..= customerBalanceTransactionId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionInvoice obj) : ["livemode" Data.Aeson.Types.ToJSON..= customerBalanceTransactionLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (customerBalanceTransactionMetadata obj) : ["type" Data.Aeson.Types.ToJSON..= customerBalanceTransactionType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "customer_balance_transaction"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerBalanceTransaction" (\obj -> (((((((((((GHC.Base.pure CustomerBalanceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "credit_note")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "ending_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerBalanceTransaction" (\obj -> (((((((((((GHC.Base.pure CustomerBalanceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "credit_note")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "ending_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'CustomerBalanceTransaction' with all required fields.
 mkCustomerBalanceTransaction ::
@@ -125,17 +127,17 @@ mkCustomerBalanceTransaction customerBalanceTransactionAmount customerBalanceTra
 -- | Defines the oneOf schema located at @components.schemas.customer_balance_transaction.properties.credit_note.anyOf@ in the specification.
 --
 -- The ID of the credit note (if any) related to the transaction.
-data CustomerBalanceTransactionCreditNote'Variants
-  = CustomerBalanceTransactionCreditNote'Text Data.Text.Internal.Text
-  | CustomerBalanceTransactionCreditNote'CreditNote CreditNote
+data CustomerBalanceTransactionCreditNote'NonNullableVariants
+  = CustomerBalanceTransactionCreditNote'NonNullableText Data.Text.Internal.Text
+  | CustomerBalanceTransactionCreditNote'NonNullableCreditNote CreditNote
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON CustomerBalanceTransactionCreditNote'Variants where
-  toJSON (CustomerBalanceTransactionCreditNote'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (CustomerBalanceTransactionCreditNote'CreditNote a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON CustomerBalanceTransactionCreditNote'NonNullableVariants where
+  toJSON (CustomerBalanceTransactionCreditNote'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (CustomerBalanceTransactionCreditNote'NonNullableCreditNote a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransactionCreditNote'Variants where
-  parseJSON val = case (CustomerBalanceTransactionCreditNote'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CustomerBalanceTransactionCreditNote'CreditNote Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransactionCreditNote'NonNullableVariants where
+  parseJSON val = case (CustomerBalanceTransactionCreditNote'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CustomerBalanceTransactionCreditNote'NonNullableCreditNote Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
@@ -159,17 +161,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransactionCustomer'V
 -- | Defines the oneOf schema located at @components.schemas.customer_balance_transaction.properties.invoice.anyOf@ in the specification.
 --
 -- The ID of the invoice (if any) related to the transaction.
-data CustomerBalanceTransactionInvoice'Variants
-  = CustomerBalanceTransactionInvoice'Text Data.Text.Internal.Text
-  | CustomerBalanceTransactionInvoice'Invoice Invoice
+data CustomerBalanceTransactionInvoice'NonNullableVariants
+  = CustomerBalanceTransactionInvoice'NonNullableText Data.Text.Internal.Text
+  | CustomerBalanceTransactionInvoice'NonNullableInvoice Invoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON CustomerBalanceTransactionInvoice'Variants where
-  toJSON (CustomerBalanceTransactionInvoice'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (CustomerBalanceTransactionInvoice'Invoice a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON CustomerBalanceTransactionInvoice'NonNullableVariants where
+  toJSON (CustomerBalanceTransactionInvoice'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (CustomerBalanceTransactionInvoice'NonNullableInvoice a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransactionInvoice'Variants where
-  parseJSON val = case (CustomerBalanceTransactionInvoice'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CustomerBalanceTransactionInvoice'Invoice Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransactionInvoice'NonNullableVariants where
+  parseJSON val = case (CustomerBalanceTransactionInvoice'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CustomerBalanceTransactionInvoice'NonNullableInvoice Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

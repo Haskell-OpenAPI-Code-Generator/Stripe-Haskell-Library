@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -54,8 +56,8 @@ data ConnectCollectionTransfer = ConnectCollectionTransfer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ConnectCollectionTransfer where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= connectCollectionTransferAmount obj : "currency" Data.Aeson.Types.ToJSON..= connectCollectionTransferCurrency obj : "destination" Data.Aeson.Types.ToJSON..= connectCollectionTransferDestination obj : "id" Data.Aeson.Types.ToJSON..= connectCollectionTransferId obj : "livemode" Data.Aeson.Types.ToJSON..= connectCollectionTransferLivemode obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "connect_collection_transfer" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= connectCollectionTransferAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= connectCollectionTransferCurrency obj) GHC.Base.<> (("destination" Data.Aeson.Types.ToJSON..= connectCollectionTransferDestination obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= connectCollectionTransferId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= connectCollectionTransferLivemode obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "connect_collection_transfer"))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= connectCollectionTransferAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= connectCollectionTransferCurrency obj] : ["destination" Data.Aeson.Types.ToJSON..= connectCollectionTransferDestination obj] : ["id" Data.Aeson.Types.ToJSON..= connectCollectionTransferId obj] : ["livemode" Data.Aeson.Types.ToJSON..= connectCollectionTransferLivemode obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "connect_collection_transfer"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= connectCollectionTransferAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= connectCollectionTransferCurrency obj] : ["destination" Data.Aeson.Types.ToJSON..= connectCollectionTransferDestination obj] : ["id" Data.Aeson.Types.ToJSON..= connectCollectionTransferId obj] : ["livemode" Data.Aeson.Types.ToJSON..= connectCollectionTransferLivemode obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "connect_collection_transfer"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ConnectCollectionTransfer where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ConnectCollectionTransfer" (\obj -> ((((GHC.Base.pure ConnectCollectionTransfer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode"))

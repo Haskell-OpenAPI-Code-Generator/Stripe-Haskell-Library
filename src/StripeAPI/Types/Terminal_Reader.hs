@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -27,6 +29,10 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceProcessPaymentIntentAction
+import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceProcessSetupIntentAction
+import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceReaderAction
+import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceSetReaderDisplayAction
 import {-# SOURCE #-} StripeAPI.Types.Terminal_Location
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -35,15 +41,17 @@ import qualified Prelude as GHC.Maybe
 --
 -- A Reader represents a physical device for accepting payment details.
 --
--- Related guide: [Connecting to a Reader](https:\/\/stripe.com\/docs\/terminal\/readers\/connecting).
+-- Related guide: [Connecting to a Reader](https:\/\/stripe.com\/docs\/terminal\/payments\/connect-reader).
 data Terminal'reader = Terminal'reader
-  { -- | device_sw_version: The current software version of the reader.
+  { -- | action: The most recent action performed by the reader.
+    terminal'readerAction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Terminal'readerAction'NonNullable)),
+    -- | device_sw_version: The current software version of the reader.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    terminal'readerDeviceSwVersion :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | device_type: Type of reader, one of \`bbpos_chipper2x\` or \`verifone_P400\`.
+    terminal'readerDeviceSwVersion :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | device_type: Type of reader, one of \`bbpos_wisepad3\`, \`stripe_m2\`, \`bbpos_chipper2x\`, \`bbpos_wisepos_e\`, \`verifone_P400\`, or \`simulated_wisepos_e\`.
     terminal'readerDeviceType :: Terminal'readerDeviceType',
     -- | id: Unique identifier for the object.
     --
@@ -56,7 +64,7 @@ data Terminal'reader = Terminal'reader
     -- Constraints:
     --
     -- * Maximum length of 5000
-    terminal'readerIpAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    terminal'readerIpAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | label: Custom label given to the reader for easier identification.
     --
     -- Constraints:
@@ -66,7 +74,7 @@ data Terminal'reader = Terminal'reader
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     terminal'readerLivemode :: GHC.Types.Bool,
     -- | location: The location identifier of the reader.
-    terminal'readerLocation :: (GHC.Maybe.Maybe Terminal'readerLocation'Variants),
+    terminal'readerLocation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Terminal'readerLocation'NonNullableVariants)),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     terminal'readerMetadata :: Data.Aeson.Types.Internal.Object,
     -- | serial_number: Serial number of the reader.
@@ -80,7 +88,7 @@ data Terminal'reader = Terminal'reader
     -- Constraints:
     --
     -- * Maximum length of 5000
-    terminal'readerStatus :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    terminal'readerStatus :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -88,11 +96,11 @@ data Terminal'reader = Terminal'reader
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Terminal'reader where
-  toJSON obj = Data.Aeson.Types.Internal.object ("device_sw_version" Data.Aeson.Types.ToJSON..= terminal'readerDeviceSwVersion obj : "device_type" Data.Aeson.Types.ToJSON..= terminal'readerDeviceType obj : "id" Data.Aeson.Types.ToJSON..= terminal'readerId obj : "ip_address" Data.Aeson.Types.ToJSON..= terminal'readerIpAddress obj : "label" Data.Aeson.Types.ToJSON..= terminal'readerLabel obj : "livemode" Data.Aeson.Types.ToJSON..= terminal'readerLivemode obj : "location" Data.Aeson.Types.ToJSON..= terminal'readerLocation obj : "metadata" Data.Aeson.Types.ToJSON..= terminal'readerMetadata obj : "serial_number" Data.Aeson.Types.ToJSON..= terminal'readerSerialNumber obj : "status" Data.Aeson.Types.ToJSON..= terminal'readerStatus obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.reader" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("device_sw_version" Data.Aeson.Types.ToJSON..= terminal'readerDeviceSwVersion obj) GHC.Base.<> (("device_type" Data.Aeson.Types.ToJSON..= terminal'readerDeviceType obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= terminal'readerId obj) GHC.Base.<> (("ip_address" Data.Aeson.Types.ToJSON..= terminal'readerIpAddress obj) GHC.Base.<> (("label" Data.Aeson.Types.ToJSON..= terminal'readerLabel obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= terminal'readerLivemode obj) GHC.Base.<> (("location" Data.Aeson.Types.ToJSON..= terminal'readerLocation obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= terminal'readerMetadata obj) GHC.Base.<> (("serial_number" Data.Aeson.Types.ToJSON..= terminal'readerSerialNumber obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= terminal'readerStatus obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.reader")))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("action" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device_sw_version" Data.Aeson.Types.ToJSON..=)) (terminal'readerDeviceSwVersion obj) : ["device_type" Data.Aeson.Types.ToJSON..= terminal'readerDeviceType obj] : ["id" Data.Aeson.Types.ToJSON..= terminal'readerId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (terminal'readerIpAddress obj) : ["label" Data.Aeson.Types.ToJSON..= terminal'readerLabel obj] : ["livemode" Data.Aeson.Types.ToJSON..= terminal'readerLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (terminal'readerLocation obj) : ["metadata" Data.Aeson.Types.ToJSON..= terminal'readerMetadata obj] : ["serial_number" Data.Aeson.Types.ToJSON..= terminal'readerSerialNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerStatus obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.reader"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("action" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device_sw_version" Data.Aeson.Types.ToJSON..=)) (terminal'readerDeviceSwVersion obj) : ["device_type" Data.Aeson.Types.ToJSON..= terminal'readerDeviceType obj] : ["id" Data.Aeson.Types.ToJSON..= terminal'readerId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (terminal'readerIpAddress obj) : ["label" Data.Aeson.Types.ToJSON..= terminal'readerLabel obj] : ["livemode" Data.Aeson.Types.ToJSON..= terminal'readerLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (terminal'readerLocation obj) : ["metadata" Data.Aeson.Types.ToJSON..= terminal'readerMetadata obj] : ["serial_number" Data.Aeson.Types.ToJSON..= terminal'readerSerialNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerStatus obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.reader"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'reader where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'reader" (\obj -> (((((((((GHC.Base.pure Terminal'reader GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "device_sw_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "device_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "serial_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'reader" (\obj -> ((((((((((GHC.Base.pure Terminal'reader GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "device_sw_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "device_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "serial_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
 
 -- | Create a new 'Terminal'reader' with all required fields.
 mkTerminal'reader ::
@@ -111,7 +119,8 @@ mkTerminal'reader ::
   Terminal'reader
 mkTerminal'reader terminal'readerDeviceType terminal'readerId terminal'readerLabel terminal'readerLivemode terminal'readerMetadata terminal'readerSerialNumber =
   Terminal'reader
-    { terminal'readerDeviceSwVersion = GHC.Maybe.Nothing,
+    { terminal'readerAction = GHC.Maybe.Nothing,
+      terminal'readerDeviceSwVersion = GHC.Maybe.Nothing,
       terminal'readerDeviceType = terminal'readerDeviceType,
       terminal'readerId = terminal'readerId,
       terminal'readerIpAddress = GHC.Maybe.Nothing,
@@ -123,9 +132,127 @@ mkTerminal'reader terminal'readerDeviceType terminal'readerId terminal'readerLab
       terminal'readerStatus = GHC.Maybe.Nothing
     }
 
+-- | Defines the object schema located at @components.schemas.terminal.reader.properties.action.anyOf@ in the specification.
+--
+-- The most recent action performed by the reader.
+data Terminal'readerAction'NonNullable = Terminal'readerAction'NonNullable
+  { -- | failure_code: Failure code, only set if status is \`failed\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    terminal'readerAction'NonNullableFailureCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | failure_message: Detailed failure message, only set if status is \`failed\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    terminal'readerAction'NonNullableFailureMessage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | process_payment_intent: Represents a reader action to process a payment intent
+    terminal'readerAction'NonNullableProcessPaymentIntent :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessPaymentIntentAction),
+    -- | process_setup_intent: Represents a reader action to process a setup intent
+    terminal'readerAction'NonNullableProcessSetupIntent :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessSetupIntentAction),
+    -- | set_reader_display: Represents a reader action to set the reader display
+    terminal'readerAction'NonNullableSetReaderDisplay :: (GHC.Maybe.Maybe TerminalReaderReaderResourceSetReaderDisplayAction),
+    -- | status: Status of the action performed by the reader.
+    terminal'readerAction'NonNullableStatus :: (GHC.Maybe.Maybe Terminal'readerAction'NonNullableStatus'),
+    -- | type: Type of action performed by the reader.
+    terminal'readerAction'NonNullableType :: (GHC.Maybe.Maybe Terminal'readerAction'NonNullableType')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerAction'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerAction'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'readerAction'NonNullable" (\obj -> ((((((GHC.Base.pure Terminal'readerAction'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "set_reader_display")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+
+-- | Create a new 'Terminal'readerAction'NonNullable' with all required fields.
+mkTerminal'readerAction'NonNullable :: Terminal'readerAction'NonNullable
+mkTerminal'readerAction'NonNullable =
+  Terminal'readerAction'NonNullable
+    { terminal'readerAction'NonNullableFailureCode = GHC.Maybe.Nothing,
+      terminal'readerAction'NonNullableFailureMessage = GHC.Maybe.Nothing,
+      terminal'readerAction'NonNullableProcessPaymentIntent = GHC.Maybe.Nothing,
+      terminal'readerAction'NonNullableProcessSetupIntent = GHC.Maybe.Nothing,
+      terminal'readerAction'NonNullableSetReaderDisplay = GHC.Maybe.Nothing,
+      terminal'readerAction'NonNullableStatus = GHC.Maybe.Nothing,
+      terminal'readerAction'NonNullableType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.terminal.reader.properties.action.anyOf.properties.status@ in the specification.
+--
+-- Status of the action performed by the reader.
+data Terminal'readerAction'NonNullableStatus'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Terminal'readerAction'NonNullableStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Terminal'readerAction'NonNullableStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"failed"@
+    Terminal'readerAction'NonNullableStatus'EnumFailed
+  | -- | Represents the JSON value @"in_progress"@
+    Terminal'readerAction'NonNullableStatus'EnumInProgress
+  | -- | Represents the JSON value @"succeeded"@
+    Terminal'readerAction'NonNullableStatus'EnumSucceeded
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerAction'NonNullableStatus' where
+  toJSON (Terminal'readerAction'NonNullableStatus'Other val) = val
+  toJSON (Terminal'readerAction'NonNullableStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Terminal'readerAction'NonNullableStatus'EnumFailed) = "failed"
+  toJSON (Terminal'readerAction'NonNullableStatus'EnumInProgress) = "in_progress"
+  toJSON (Terminal'readerAction'NonNullableStatus'EnumSucceeded) = "succeeded"
+
+instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerAction'NonNullableStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "failed" -> Terminal'readerAction'NonNullableStatus'EnumFailed
+            | val GHC.Classes.== "in_progress" -> Terminal'readerAction'NonNullableStatus'EnumInProgress
+            | val GHC.Classes.== "succeeded" -> Terminal'readerAction'NonNullableStatus'EnumSucceeded
+            | GHC.Base.otherwise -> Terminal'readerAction'NonNullableStatus'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.terminal.reader.properties.action.anyOf.properties.type@ in the specification.
+--
+-- Type of action performed by the reader.
+data Terminal'readerAction'NonNullableType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    Terminal'readerAction'NonNullableType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    Terminal'readerAction'NonNullableType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"process_payment_intent"@
+    Terminal'readerAction'NonNullableType'EnumProcessPaymentIntent
+  | -- | Represents the JSON value @"process_setup_intent"@
+    Terminal'readerAction'NonNullableType'EnumProcessSetupIntent
+  | -- | Represents the JSON value @"set_reader_display"@
+    Terminal'readerAction'NonNullableType'EnumSetReaderDisplay
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerAction'NonNullableType' where
+  toJSON (Terminal'readerAction'NonNullableType'Other val) = val
+  toJSON (Terminal'readerAction'NonNullableType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Terminal'readerAction'NonNullableType'EnumProcessPaymentIntent) = "process_payment_intent"
+  toJSON (Terminal'readerAction'NonNullableType'EnumProcessSetupIntent) = "process_setup_intent"
+  toJSON (Terminal'readerAction'NonNullableType'EnumSetReaderDisplay) = "set_reader_display"
+
+instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerAction'NonNullableType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "process_payment_intent" -> Terminal'readerAction'NonNullableType'EnumProcessPaymentIntent
+            | val GHC.Classes.== "process_setup_intent" -> Terminal'readerAction'NonNullableType'EnumProcessSetupIntent
+            | val GHC.Classes.== "set_reader_display" -> Terminal'readerAction'NonNullableType'EnumSetReaderDisplay
+            | GHC.Base.otherwise -> Terminal'readerAction'NonNullableType'Other val
+      )
+
 -- | Defines the enum schema located at @components.schemas.terminal.reader.properties.device_type@ in the specification.
 --
--- Type of reader, one of \`bbpos_chipper2x\` or \`verifone_P400\`.
+-- Type of reader, one of \`bbpos_wisepad3\`, \`stripe_m2\`, \`bbpos_chipper2x\`, \`bbpos_wisepos_e\`, \`verifone_P400\`, or \`simulated_wisepos_e\`.
 data Terminal'readerDeviceType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     Terminal'readerDeviceType'Other Data.Aeson.Types.Internal.Value
@@ -133,6 +260,14 @@ data Terminal'readerDeviceType'
     Terminal'readerDeviceType'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"bbpos_chipper2x"@
     Terminal'readerDeviceType'EnumBbposChipper2x
+  | -- | Represents the JSON value @"bbpos_wisepad3"@
+    Terminal'readerDeviceType'EnumBbposWisepad3
+  | -- | Represents the JSON value @"bbpos_wisepos_e"@
+    Terminal'readerDeviceType'EnumBbposWiseposE
+  | -- | Represents the JSON value @"simulated_wisepos_e"@
+    Terminal'readerDeviceType'EnumSimulatedWiseposE
+  | -- | Represents the JSON value @"stripe_m2"@
+    Terminal'readerDeviceType'EnumStripeM2
   | -- | Represents the JSON value @"verifone_P400"@
     Terminal'readerDeviceType'EnumVerifoneP400
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -141,6 +276,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerDeviceType' where
   toJSON (Terminal'readerDeviceType'Other val) = val
   toJSON (Terminal'readerDeviceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (Terminal'readerDeviceType'EnumBbposChipper2x) = "bbpos_chipper2x"
+  toJSON (Terminal'readerDeviceType'EnumBbposWisepad3) = "bbpos_wisepad3"
+  toJSON (Terminal'readerDeviceType'EnumBbposWiseposE) = "bbpos_wisepos_e"
+  toJSON (Terminal'readerDeviceType'EnumSimulatedWiseposE) = "simulated_wisepos_e"
+  toJSON (Terminal'readerDeviceType'EnumStripeM2) = "stripe_m2"
   toJSON (Terminal'readerDeviceType'EnumVerifoneP400) = "verifone_P400"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerDeviceType' where
@@ -148,6 +287,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerDeviceType' where
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "bbpos_chipper2x" -> Terminal'readerDeviceType'EnumBbposChipper2x
+            | val GHC.Classes.== "bbpos_wisepad3" -> Terminal'readerDeviceType'EnumBbposWisepad3
+            | val GHC.Classes.== "bbpos_wisepos_e" -> Terminal'readerDeviceType'EnumBbposWiseposE
+            | val GHC.Classes.== "simulated_wisepos_e" -> Terminal'readerDeviceType'EnumSimulatedWiseposE
+            | val GHC.Classes.== "stripe_m2" -> Terminal'readerDeviceType'EnumStripeM2
             | val GHC.Classes.== "verifone_P400" -> Terminal'readerDeviceType'EnumVerifoneP400
             | GHC.Base.otherwise -> Terminal'readerDeviceType'Other val
       )
@@ -155,16 +298,16 @@ instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerDeviceType' where
 -- | Defines the oneOf schema located at @components.schemas.terminal.reader.properties.location.anyOf@ in the specification.
 --
 -- The location identifier of the reader.
-data Terminal'readerLocation'Variants
-  = Terminal'readerLocation'Text Data.Text.Internal.Text
-  | Terminal'readerLocation'Terminal'location Terminal'location
+data Terminal'readerLocation'NonNullableVariants
+  = Terminal'readerLocation'NonNullableText Data.Text.Internal.Text
+  | Terminal'readerLocation'NonNullableTerminal'location Terminal'location
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerLocation'Variants where
-  toJSON (Terminal'readerLocation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (Terminal'readerLocation'Terminal'location a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerLocation'NonNullableVariants where
+  toJSON (Terminal'readerLocation'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (Terminal'readerLocation'NonNullableTerminal'location a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerLocation'Variants where
-  parseJSON val = case (Terminal'readerLocation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Terminal'readerLocation'Terminal'location Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerLocation'NonNullableVariants where
+  parseJSON val = case (Terminal'readerLocation'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Terminal'readerLocation'NonNullableTerminal'location Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

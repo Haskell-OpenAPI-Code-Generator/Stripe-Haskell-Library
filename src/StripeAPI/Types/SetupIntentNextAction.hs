@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -36,7 +38,7 @@ import qualified Prelude as GHC.Maybe
 data SetupIntentNextAction = SetupIntentNextAction
   { -- | redirect_to_url:
     setupIntentNextActionRedirectToUrl :: (GHC.Maybe.Maybe SetupIntentNextActionRedirectToUrl),
-    -- | type: Type of the next action to perform, one of \`redirect_to_url\`, \`use_stripe_sdk\`, \`alipay_handle_redirect\`, or \`oxxo_display_details\`.
+    -- | type: Type of the next action to perform, one of \`redirect_to_url\`, \`use_stripe_sdk\`, \`alipay_handle_redirect\`, \`oxxo_display_details\`, or \`verify_with_microdeposits\`.
     --
     -- Constraints:
     --
@@ -53,11 +55,11 @@ data SetupIntentNextAction = SetupIntentNextAction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentNextAction where
-  toJSON obj = Data.Aeson.Types.Internal.object ("redirect_to_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrl obj : "type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj : "use_stripe_sdk" Data.Aeson.Types.ToJSON..= setupIntentNextActionUseStripeSdk obj : "verify_with_microdeposits" Data.Aeson.Types.ToJSON..= setupIntentNextActionVerifyWithMicrodeposits obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("redirect_to_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrl obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj) GHC.Base.<> (("use_stripe_sdk" Data.Aeson.Types.ToJSON..= setupIntentNextActionUseStripeSdk obj) GHC.Base.<> ("verify_with_microdeposits" Data.Aeson.Types.ToJSON..= setupIntentNextActionVerifyWithMicrodeposits obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_to_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrl obj) : ["type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionUseStripeSdk obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verify_with_microdeposits" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionVerifyWithMicrodeposits obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_to_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrl obj) : ["type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionUseStripeSdk obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verify_with_microdeposits" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionVerifyWithMicrodeposits obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentNextAction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextAction" (\obj -> (((GHC.Base.pure SetupIntentNextAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "use_stripe_sdk")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verify_with_microdeposits"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextAction" (\obj -> (((GHC.Base.pure SetupIntentNextAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "use_stripe_sdk")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verify_with_microdeposits"))
 
 -- | Create a new 'SetupIntentNextAction' with all required fields.
 mkSetupIntentNextAction ::

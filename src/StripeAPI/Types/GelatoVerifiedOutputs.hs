@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,29 +37,29 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.gelato_verified_outputs@ in the specification.
 data GelatoVerifiedOutputs = GelatoVerifiedOutputs
   { -- | address: The user\'s verified address.
-    gelatoVerifiedOutputsAddress :: (GHC.Maybe.Maybe GelatoVerifiedOutputsAddress'),
+    gelatoVerifiedOutputsAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoVerifiedOutputsAddress'NonNullable)),
     -- | dob: The user’s verified date of birth.
-    gelatoVerifiedOutputsDob :: (GHC.Maybe.Maybe GelatoVerifiedOutputsDob'),
+    gelatoVerifiedOutputsDob :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoVerifiedOutputsDob'NonNullable)),
     -- | first_name: The user\'s verified first name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsFirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoVerifiedOutputsFirstName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id_number: The user\'s verified id number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsIdNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoVerifiedOutputsIdNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id_number_type: The user\'s verified id number type.
-    gelatoVerifiedOutputsIdNumberType :: (GHC.Maybe.Maybe GelatoVerifiedOutputsIdNumberType'),
+    gelatoVerifiedOutputsIdNumberType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoVerifiedOutputsIdNumberType'NonNullable)),
     -- | last_name: The user\'s verified last name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsLastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoVerifiedOutputsLastName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -65,11 +67,11 @@ data GelatoVerifiedOutputs = GelatoVerifiedOutputs
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerifiedOutputs where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress obj : "dob" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob obj : "first_name" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsFirstName obj : "id_number" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsIdNumber obj : "id_number_type" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsIdNumberType obj : "last_name" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsLastName obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress obj) GHC.Base.<> (("dob" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsFirstName obj) GHC.Base.<> (("id_number" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsIdNumber obj) GHC.Base.<> (("id_number_type" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsIdNumberType obj) GHC.Base.<> ("last_name" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsLastName obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_type" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsIdNumberType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsLastName obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_type" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsIdNumberType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsLastName obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerifiedOutputs where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerifiedOutputs" (\obj -> (((((GHC.Base.pure GelatoVerifiedOutputs GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerifiedOutputs" (\obj -> (((((GHC.Base.pure GelatoVerifiedOutputs GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name"))
 
 -- | Create a new 'GelatoVerifiedOutputs' with all required fields.
 mkGelatoVerifiedOutputs :: GelatoVerifiedOutputs
@@ -86,129 +88,129 @@ mkGelatoVerifiedOutputs =
 -- | Defines the object schema located at @components.schemas.gelato_verified_outputs.properties.address.anyOf@ in the specification.
 --
 -- The user\\\'s verified address.
-data GelatoVerifiedOutputsAddress' = GelatoVerifiedOutputsAddress'
+data GelatoVerifiedOutputsAddress'NonNullable = GelatoVerifiedOutputsAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoVerifiedOutputsAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsAddress'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoVerifiedOutputsAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoVerifiedOutputsAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoVerifiedOutputsAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoVerifiedOutputsAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoVerifiedOutputsAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoVerifiedOutputsAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerifiedOutputsAddress' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'City obj : "country" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsAddress'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerifiedOutputsAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerifiedOutputsAddress' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerifiedOutputsAddress'" (\obj -> (((((GHC.Base.pure GelatoVerifiedOutputsAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerifiedOutputsAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerifiedOutputsAddress'NonNullable" (\obj -> (((((GHC.Base.pure GelatoVerifiedOutputsAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'GelatoVerifiedOutputsAddress'' with all required fields.
-mkGelatoVerifiedOutputsAddress' :: GelatoVerifiedOutputsAddress'
-mkGelatoVerifiedOutputsAddress' =
-  GelatoVerifiedOutputsAddress'
-    { gelatoVerifiedOutputsAddress'City = GHC.Maybe.Nothing,
-      gelatoVerifiedOutputsAddress'Country = GHC.Maybe.Nothing,
-      gelatoVerifiedOutputsAddress'Line1 = GHC.Maybe.Nothing,
-      gelatoVerifiedOutputsAddress'Line2 = GHC.Maybe.Nothing,
-      gelatoVerifiedOutputsAddress'PostalCode = GHC.Maybe.Nothing,
-      gelatoVerifiedOutputsAddress'State = GHC.Maybe.Nothing
+-- | Create a new 'GelatoVerifiedOutputsAddress'NonNullable' with all required fields.
+mkGelatoVerifiedOutputsAddress'NonNullable :: GelatoVerifiedOutputsAddress'NonNullable
+mkGelatoVerifiedOutputsAddress'NonNullable =
+  GelatoVerifiedOutputsAddress'NonNullable
+    { gelatoVerifiedOutputsAddress'NonNullableCity = GHC.Maybe.Nothing,
+      gelatoVerifiedOutputsAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      gelatoVerifiedOutputsAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      gelatoVerifiedOutputsAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      gelatoVerifiedOutputsAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      gelatoVerifiedOutputsAddress'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.gelato_verified_outputs.properties.dob.anyOf@ in the specification.
 --
 -- The user’s verified date of birth.
-data GelatoVerifiedOutputsDob' = GelatoVerifiedOutputsDob'
+data GelatoVerifiedOutputsDob'NonNullable = GelatoVerifiedOutputsDob'NonNullable
   { -- | day: Numerical day between 1 and 31.
-    gelatoVerifiedOutputsDob'Day :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoVerifiedOutputsDob'NonNullableDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoVerifiedOutputsDob'Month :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoVerifiedOutputsDob'NonNullableMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoVerifiedOutputsDob'Year :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoVerifiedOutputsDob'NonNullableYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerifiedOutputsDob' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob'Day obj : "month" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob'Month obj : "year" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob'Year obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob'Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob'Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoVerifiedOutputsDob'Year obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerifiedOutputsDob'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob'NonNullableYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoVerifiedOutputsDob'NonNullableYear obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerifiedOutputsDob' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerifiedOutputsDob'" (\obj -> ((GHC.Base.pure GelatoVerifiedOutputsDob' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerifiedOutputsDob'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerifiedOutputsDob'NonNullable" (\obj -> ((GHC.Base.pure GelatoVerifiedOutputsDob'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
--- | Create a new 'GelatoVerifiedOutputsDob'' with all required fields.
-mkGelatoVerifiedOutputsDob' :: GelatoVerifiedOutputsDob'
-mkGelatoVerifiedOutputsDob' =
-  GelatoVerifiedOutputsDob'
-    { gelatoVerifiedOutputsDob'Day = GHC.Maybe.Nothing,
-      gelatoVerifiedOutputsDob'Month = GHC.Maybe.Nothing,
-      gelatoVerifiedOutputsDob'Year = GHC.Maybe.Nothing
+-- | Create a new 'GelatoVerifiedOutputsDob'NonNullable' with all required fields.
+mkGelatoVerifiedOutputsDob'NonNullable :: GelatoVerifiedOutputsDob'NonNullable
+mkGelatoVerifiedOutputsDob'NonNullable =
+  GelatoVerifiedOutputsDob'NonNullable
+    { gelatoVerifiedOutputsDob'NonNullableDay = GHC.Maybe.Nothing,
+      gelatoVerifiedOutputsDob'NonNullableMonth = GHC.Maybe.Nothing,
+      gelatoVerifiedOutputsDob'NonNullableYear = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.gelato_verified_outputs.properties.id_number_type@ in the specification.
 --
 -- The user\'s verified id number type.
-data GelatoVerifiedOutputsIdNumberType'
+data GelatoVerifiedOutputsIdNumberType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoVerifiedOutputsIdNumberType'Other Data.Aeson.Types.Internal.Value
+    GelatoVerifiedOutputsIdNumberType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoVerifiedOutputsIdNumberType'Typed Data.Text.Internal.Text
+    GelatoVerifiedOutputsIdNumberType'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"br_cpf"@
-    GelatoVerifiedOutputsIdNumberType'EnumBrCpf
+    GelatoVerifiedOutputsIdNumberType'NonNullableEnumBrCpf
   | -- | Represents the JSON value @"sg_nric"@
-    GelatoVerifiedOutputsIdNumberType'EnumSgNric
+    GelatoVerifiedOutputsIdNumberType'NonNullableEnumSgNric
   | -- | Represents the JSON value @"us_ssn"@
-    GelatoVerifiedOutputsIdNumberType'EnumUsSsn
+    GelatoVerifiedOutputsIdNumberType'NonNullableEnumUsSsn
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerifiedOutputsIdNumberType' where
-  toJSON (GelatoVerifiedOutputsIdNumberType'Other val) = val
-  toJSON (GelatoVerifiedOutputsIdNumberType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoVerifiedOutputsIdNumberType'EnumBrCpf) = "br_cpf"
-  toJSON (GelatoVerifiedOutputsIdNumberType'EnumSgNric) = "sg_nric"
-  toJSON (GelatoVerifiedOutputsIdNumberType'EnumUsSsn) = "us_ssn"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerifiedOutputsIdNumberType'NonNullable where
+  toJSON (GelatoVerifiedOutputsIdNumberType'NonNullableOther val) = val
+  toJSON (GelatoVerifiedOutputsIdNumberType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoVerifiedOutputsIdNumberType'NonNullableEnumBrCpf) = "br_cpf"
+  toJSON (GelatoVerifiedOutputsIdNumberType'NonNullableEnumSgNric) = "sg_nric"
+  toJSON (GelatoVerifiedOutputsIdNumberType'NonNullableEnumUsSsn) = "us_ssn"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerifiedOutputsIdNumberType' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerifiedOutputsIdNumberType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "br_cpf" -> GelatoVerifiedOutputsIdNumberType'EnumBrCpf
-            | val GHC.Classes.== "sg_nric" -> GelatoVerifiedOutputsIdNumberType'EnumSgNric
-            | val GHC.Classes.== "us_ssn" -> GelatoVerifiedOutputsIdNumberType'EnumUsSsn
-            | GHC.Base.otherwise -> GelatoVerifiedOutputsIdNumberType'Other val
+            | val GHC.Classes.== "br_cpf" -> GelatoVerifiedOutputsIdNumberType'NonNullableEnumBrCpf
+            | val GHC.Classes.== "sg_nric" -> GelatoVerifiedOutputsIdNumberType'NonNullableEnumSgNric
+            | val GHC.Classes.== "us_ssn" -> GelatoVerifiedOutputsIdNumberType'NonNullableEnumUsSsn
+            | GHC.Base.otherwise -> GelatoVerifiedOutputsIdNumberType'NonNullableOther val
       )

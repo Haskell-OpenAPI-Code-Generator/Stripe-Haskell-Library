@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -126,11 +128,11 @@ data GetCouponsParameters = GetCouponsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsParameters" (\obj -> ((((GHC.Base.pure GetCouponsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsParameters" (\obj -> ((((GHC.Base.pure GetCouponsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetCouponsParameters' with all required fields.
 mkGetCouponsParameters :: GetCouponsParameters
@@ -160,11 +162,11 @@ data GetCouponsParametersQueryCreated'OneOf1 = GetCouponsParametersQueryCreated'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsParametersQueryCreated'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Gt obj : "gte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Gte obj : "lt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Lt obj : "lte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Lte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getCouponsParametersQueryCreated'OneOf1Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getCouponsParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsParametersQueryCreated'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsParametersQueryCreated'OneOf1" (\obj -> (((GHC.Base.pure GetCouponsParametersQueryCreated'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsParametersQueryCreated'OneOf1" (\obj -> (((GHC.Base.pure GetCouponsParametersQueryCreated'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lte"))
 
 -- | Create a new 'GetCouponsParametersQueryCreated'OneOf1' with all required fields.
 mkGetCouponsParametersQueryCreated'OneOf1 :: GetCouponsParametersQueryCreated'OneOf1
@@ -227,8 +229,8 @@ data GetCouponsResponseBody200 = GetCouponsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getCouponsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsResponseBody200" (\obj -> ((GHC.Base.pure GetCouponsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

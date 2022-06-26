@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -52,13 +54,13 @@ data TransferReversal = TransferReversal
   { -- | amount: Amount, in %s.
     transferReversalAmount :: GHC.Types.Int,
     -- | balance_transaction: Balance transaction that describes the impact on your account balance.
-    transferReversalBalanceTransaction :: (GHC.Maybe.Maybe TransferReversalBalanceTransaction'Variants),
+    transferReversalBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TransferReversalBalanceTransaction'NonNullableVariants)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     transferReversalCreated :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     transferReversalCurrency :: Data.Text.Internal.Text,
     -- | destination_payment_refund: Linked payment refund for the transfer reversal.
-    transferReversalDestinationPaymentRefund :: (GHC.Maybe.Maybe TransferReversalDestinationPaymentRefund'Variants),
+    transferReversalDestinationPaymentRefund :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TransferReversalDestinationPaymentRefund'NonNullableVariants)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -66,9 +68,9 @@ data TransferReversal = TransferReversal
     -- * Maximum length of 5000
     transferReversalId :: Data.Text.Internal.Text,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    transferReversalMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    transferReversalMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | source_refund: ID of the refund responsible for the transfer reversal.
-    transferReversalSourceRefund :: (GHC.Maybe.Maybe TransferReversalSourceRefund'Variants),
+    transferReversalSourceRefund :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TransferReversalSourceRefund'NonNullableVariants)),
     -- | transfer: ID of the transfer that was reversed.
     transferReversalTransfer :: TransferReversalTransfer'Variants
   }
@@ -78,11 +80,11 @@ data TransferReversal = TransferReversal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TransferReversal where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= transferReversalAmount obj : "balance_transaction" Data.Aeson.Types.ToJSON..= transferReversalBalanceTransaction obj : "created" Data.Aeson.Types.ToJSON..= transferReversalCreated obj : "currency" Data.Aeson.Types.ToJSON..= transferReversalCurrency obj : "destination_payment_refund" Data.Aeson.Types.ToJSON..= transferReversalDestinationPaymentRefund obj : "id" Data.Aeson.Types.ToJSON..= transferReversalId obj : "metadata" Data.Aeson.Types.ToJSON..= transferReversalMetadata obj : "source_refund" Data.Aeson.Types.ToJSON..= transferReversalSourceRefund obj : "transfer" Data.Aeson.Types.ToJSON..= transferReversalTransfer obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "transfer_reversal" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= transferReversalAmount obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= transferReversalBalanceTransaction obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= transferReversalCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= transferReversalCurrency obj) GHC.Base.<> (("destination_payment_refund" Data.Aeson.Types.ToJSON..= transferReversalDestinationPaymentRefund obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= transferReversalId obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= transferReversalMetadata obj) GHC.Base.<> (("source_refund" Data.Aeson.Types.ToJSON..= transferReversalSourceRefund obj) GHC.Base.<> (("transfer" Data.Aeson.Types.ToJSON..= transferReversalTransfer obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "transfer_reversal"))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= transferReversalAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (transferReversalBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= transferReversalCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= transferReversalCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_refund" Data.Aeson.Types.ToJSON..=)) (transferReversalDestinationPaymentRefund obj) : ["id" Data.Aeson.Types.ToJSON..= transferReversalId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (transferReversalMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_refund" Data.Aeson.Types.ToJSON..=)) (transferReversalSourceRefund obj) : ["transfer" Data.Aeson.Types.ToJSON..= transferReversalTransfer obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "transfer_reversal"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= transferReversalAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (transferReversalBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= transferReversalCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= transferReversalCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_refund" Data.Aeson.Types.ToJSON..=)) (transferReversalDestinationPaymentRefund obj) : ["id" Data.Aeson.Types.ToJSON..= transferReversalId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (transferReversalMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_refund" Data.Aeson.Types.ToJSON..=)) (transferReversalSourceRefund obj) : ["transfer" Data.Aeson.Types.ToJSON..= transferReversalTransfer obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "transfer_reversal"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransferReversal where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TransferReversal" (\obj -> ((((((((GHC.Base.pure TransferReversal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "destination_payment_refund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_refund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transfer"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TransferReversal" (\obj -> ((((((((GHC.Base.pure TransferReversal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "destination_payment_refund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source_refund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transfer"))
 
 -- | Create a new 'TransferReversal' with all required fields.
 mkTransferReversal ::
@@ -113,51 +115,51 @@ mkTransferReversal transferReversalAmount transferReversalCreated transferRevers
 -- | Defines the oneOf schema located at @components.schemas.transfer_reversal.properties.balance_transaction.anyOf@ in the specification.
 --
 -- Balance transaction that describes the impact on your account balance.
-data TransferReversalBalanceTransaction'Variants
-  = TransferReversalBalanceTransaction'Text Data.Text.Internal.Text
-  | TransferReversalBalanceTransaction'BalanceTransaction BalanceTransaction
+data TransferReversalBalanceTransaction'NonNullableVariants
+  = TransferReversalBalanceTransaction'NonNullableText Data.Text.Internal.Text
+  | TransferReversalBalanceTransaction'NonNullableBalanceTransaction BalanceTransaction
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON TransferReversalBalanceTransaction'Variants where
-  toJSON (TransferReversalBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (TransferReversalBalanceTransaction'BalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON TransferReversalBalanceTransaction'NonNullableVariants where
+  toJSON (TransferReversalBalanceTransaction'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (TransferReversalBalanceTransaction'NonNullableBalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON TransferReversalBalanceTransaction'Variants where
-  parseJSON val = case (TransferReversalBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TransferReversalBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON TransferReversalBalanceTransaction'NonNullableVariants where
+  parseJSON val = case (TransferReversalBalanceTransaction'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TransferReversalBalanceTransaction'NonNullableBalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @components.schemas.transfer_reversal.properties.destination_payment_refund.anyOf@ in the specification.
 --
 -- Linked payment refund for the transfer reversal.
-data TransferReversalDestinationPaymentRefund'Variants
-  = TransferReversalDestinationPaymentRefund'Text Data.Text.Internal.Text
-  | TransferReversalDestinationPaymentRefund'Refund Refund
+data TransferReversalDestinationPaymentRefund'NonNullableVariants
+  = TransferReversalDestinationPaymentRefund'NonNullableText Data.Text.Internal.Text
+  | TransferReversalDestinationPaymentRefund'NonNullableRefund Refund
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON TransferReversalDestinationPaymentRefund'Variants where
-  toJSON (TransferReversalDestinationPaymentRefund'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (TransferReversalDestinationPaymentRefund'Refund a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON TransferReversalDestinationPaymentRefund'NonNullableVariants where
+  toJSON (TransferReversalDestinationPaymentRefund'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (TransferReversalDestinationPaymentRefund'NonNullableRefund a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON TransferReversalDestinationPaymentRefund'Variants where
-  parseJSON val = case (TransferReversalDestinationPaymentRefund'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TransferReversalDestinationPaymentRefund'Refund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON TransferReversalDestinationPaymentRefund'NonNullableVariants where
+  parseJSON val = case (TransferReversalDestinationPaymentRefund'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TransferReversalDestinationPaymentRefund'NonNullableRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @components.schemas.transfer_reversal.properties.source_refund.anyOf@ in the specification.
 --
 -- ID of the refund responsible for the transfer reversal.
-data TransferReversalSourceRefund'Variants
-  = TransferReversalSourceRefund'Text Data.Text.Internal.Text
-  | TransferReversalSourceRefund'Refund Refund
+data TransferReversalSourceRefund'NonNullableVariants
+  = TransferReversalSourceRefund'NonNullableText Data.Text.Internal.Text
+  | TransferReversalSourceRefund'NonNullableRefund Refund
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON TransferReversalSourceRefund'Variants where
-  toJSON (TransferReversalSourceRefund'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (TransferReversalSourceRefund'Refund a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON TransferReversalSourceRefund'NonNullableVariants where
+  toJSON (TransferReversalSourceRefund'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (TransferReversalSourceRefund'NonNullableRefund a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON TransferReversalSourceRefund'Variants where
-  parseJSON val = case (TransferReversalSourceRefund'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TransferReversalSourceRefund'Refund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON TransferReversalSourceRefund'NonNullableVariants where
+  parseJSON val = case (TransferReversalSourceRefund'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TransferReversalSourceRefund'NonNullableRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

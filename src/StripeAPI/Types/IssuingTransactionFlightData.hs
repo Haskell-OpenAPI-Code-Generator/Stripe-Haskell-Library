@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,23 +36,23 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing_transaction_flight_data@ in the specification.
 data IssuingTransactionFlightData = IssuingTransactionFlightData
   { -- | departure_at: The time that the flight departed.
-    issuingTransactionFlightDataDepartureAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    issuingTransactionFlightDataDepartureAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | passenger_name: The name of the passenger.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionFlightDataPassengerName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingTransactionFlightDataPassengerName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | refundable: Whether the ticket is refundable.
-    issuingTransactionFlightDataRefundable :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    issuingTransactionFlightDataRefundable :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
     -- | segments: The legs of the trip.
-    issuingTransactionFlightDataSegments :: (GHC.Maybe.Maybe ([IssuingTransactionFlightDataLeg])),
+    issuingTransactionFlightDataSegments :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([IssuingTransactionFlightDataLeg]))),
     -- | travel_agency: The travel agency that issued the ticket.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionFlightDataTravelAgency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    issuingTransactionFlightDataTravelAgency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -58,11 +60,11 @@ data IssuingTransactionFlightData = IssuingTransactionFlightData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingTransactionFlightData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("departure_at" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataDepartureAt obj : "passenger_name" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataPassengerName obj : "refundable" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataRefundable obj : "segments" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataSegments obj : "travel_agency" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataTravelAgency obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("departure_at" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataDepartureAt obj) GHC.Base.<> (("passenger_name" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataPassengerName obj) GHC.Base.<> (("refundable" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataRefundable obj) GHC.Base.<> (("segments" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataSegments obj) GHC.Base.<> ("travel_agency" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataTravelAgency obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("departure_at" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataDepartureAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("passenger_name" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataPassengerName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refundable" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataRefundable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("segments" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataSegments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("travel_agency" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataTravelAgency obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("departure_at" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataDepartureAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("passenger_name" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataPassengerName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refundable" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataRefundable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("segments" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataSegments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("travel_agency" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataTravelAgency obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingTransactionFlightData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionFlightData" (\obj -> ((((GHC.Base.pure IssuingTransactionFlightData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "departure_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "passenger_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refundable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "segments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "travel_agency"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionFlightData" (\obj -> ((((GHC.Base.pure IssuingTransactionFlightData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "departure_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "passenger_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refundable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "segments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "travel_agency"))
 
 -- | Create a new 'IssuingTransactionFlightData' with all required fields.
 mkIssuingTransactionFlightData :: IssuingTransactionFlightData

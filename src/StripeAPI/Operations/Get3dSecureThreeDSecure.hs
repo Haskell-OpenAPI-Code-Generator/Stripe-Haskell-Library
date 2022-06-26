@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data Get3dSecureThreeDSecureParameters = Get3dSecureThreeDSecureParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Get3dSecureThreeDSecureParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathThree_d_secure" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersPathThreeDSecure obj : "queryExpand" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathThree_d_secure" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersPathThreeDSecure obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathThree_d_secure" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersPathThreeDSecure obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (get3dSecureThreeDSecureParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathThree_d_secure" Data.Aeson.Types.ToJSON..= get3dSecureThreeDSecureParametersPathThreeDSecure obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (get3dSecureThreeDSecureParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Get3dSecureThreeDSecureParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Get3dSecureThreeDSecureParameters" (\obj -> (GHC.Base.pure Get3dSecureThreeDSecureParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathThree_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Get3dSecureThreeDSecureParameters" (\obj -> (GHC.Base.pure Get3dSecureThreeDSecureParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathThree_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'Get3dSecureThreeDSecureParameters' with all required fields.
 mkGet3dSecureThreeDSecureParameters ::

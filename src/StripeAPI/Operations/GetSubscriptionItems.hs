@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -122,11 +124,11 @@ data GetSubscriptionItemsParameters = GetSubscriptionItemsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryStartingAfter obj : "querySubscription" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQuerySubscription obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryLimit obj) GHC.Base.<> (("queryStarting_after" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQueryStartingAfter obj) GHC.Base.<> ("querySubscription" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQuerySubscription obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryStartingAfter obj) : ["querySubscription" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQuerySubscription obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsParametersQueryStartingAfter obj) : ["querySubscription" Data.Aeson.Types.ToJSON..= getSubscriptionItemsParametersQuerySubscription obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsParameters" (\obj -> ((((GHC.Base.pure GetSubscriptionItemsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "querySubscription"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsParameters" (\obj -> ((((GHC.Base.pure GetSubscriptionItemsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "querySubscription"))
 
 -- | Create a new 'GetSubscriptionItemsParameters' with all required fields.
 mkGetSubscriptionItemsParameters ::
@@ -174,8 +176,8 @@ data GetSubscriptionItemsResponseBody200 = GetSubscriptionItemsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getSubscriptionItemsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsResponseBody200" (\obj -> ((GHC.Base.pure GetSubscriptionItemsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

@@ -1,0 +1,9 @@
+module StripeAPI.Types.QuotesResourceStatusTransitions where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data QuotesResourceStatusTransitions
+instance Show QuotesResourceStatusTransitions
+instance Eq QuotesResourceStatusTransitions
+instance FromJSON QuotesResourceStatusTransitions
+instance ToJSON QuotesResourceStatusTransitions

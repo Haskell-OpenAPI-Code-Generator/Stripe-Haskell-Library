@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -32,18 +34,24 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_flows_private_payment_methods_alipay_details@ in the specification.
 data PaymentFlowsPrivatePaymentMethodsAlipayDetails = PaymentFlowsPrivatePaymentMethodsAlipayDetails
-  { -- | fingerprint: Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
+  { -- | buyer_id: Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentFlowsPrivatePaymentMethodsAlipayDetailsBuyerId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | fingerprint: Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | transaction_id: Transaction ID of this particular Alipay transaction.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentFlowsPrivatePaymentMethodsAlipayDetailsTransactionId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentFlowsPrivatePaymentMethodsAlipayDetailsTransactionId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,16 +59,17 @@ data PaymentFlowsPrivatePaymentMethodsAlipayDetails = PaymentFlowsPrivatePayment
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentFlowsPrivatePaymentMethodsAlipayDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("fingerprint" Data.Aeson.Types.ToJSON..= paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint obj : "transaction_id" Data.Aeson.Types.ToJSON..= paymentFlowsPrivatePaymentMethodsAlipayDetailsTransactionId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("fingerprint" Data.Aeson.Types.ToJSON..= paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint obj) GHC.Base.<> ("transaction_id" Data.Aeson.Types.ToJSON..= paymentFlowsPrivatePaymentMethodsAlipayDetailsTransactionId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("buyer_id" Data.Aeson.Types.ToJSON..=)) (paymentFlowsPrivatePaymentMethodsAlipayDetailsBuyerId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (paymentFlowsPrivatePaymentMethodsAlipayDetailsTransactionId obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("buyer_id" Data.Aeson.Types.ToJSON..=)) (paymentFlowsPrivatePaymentMethodsAlipayDetailsBuyerId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (paymentFlowsPrivatePaymentMethodsAlipayDetailsTransactionId obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentFlowsPrivatePaymentMethodsAlipayDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentFlowsPrivatePaymentMethodsAlipayDetails" (\obj -> (GHC.Base.pure PaymentFlowsPrivatePaymentMethodsAlipayDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transaction_id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentFlowsPrivatePaymentMethodsAlipayDetails" (\obj -> ((GHC.Base.pure PaymentFlowsPrivatePaymentMethodsAlipayDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "buyer_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id"))
 
 -- | Create a new 'PaymentFlowsPrivatePaymentMethodsAlipayDetails' with all required fields.
 mkPaymentFlowsPrivatePaymentMethodsAlipayDetails :: PaymentFlowsPrivatePaymentMethodsAlipayDetails
 mkPaymentFlowsPrivatePaymentMethodsAlipayDetails =
   PaymentFlowsPrivatePaymentMethodsAlipayDetails
-    { paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint = GHC.Maybe.Nothing,
+    { paymentFlowsPrivatePaymentMethodsAlipayDetailsBuyerId = GHC.Maybe.Nothing,
+      paymentFlowsPrivatePaymentMethodsAlipayDetailsFingerprint = GHC.Maybe.Nothing,
       paymentFlowsPrivatePaymentMethodsAlipayDetailsTransactionId = GHC.Maybe.Nothing
     }

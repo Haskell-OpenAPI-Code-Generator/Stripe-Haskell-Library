@@ -1,18 +1,19 @@
 module StripeAPI.Types.DeletedDiscount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data DeletedDiscount
 instance Show DeletedDiscount
 instance Eq DeletedDiscount
 instance FromJSON DeletedDiscount
 instance ToJSON DeletedDiscount
-data DeletedDiscountCustomer'Variants
-instance Show DeletedDiscountCustomer'Variants
-instance Eq DeletedDiscountCustomer'Variants
-instance FromJSON DeletedDiscountCustomer'Variants
-instance ToJSON DeletedDiscountCustomer'Variants
-data DeletedDiscountPromotionCode'Variants
-instance Show DeletedDiscountPromotionCode'Variants
-instance Eq DeletedDiscountPromotionCode'Variants
-instance FromJSON DeletedDiscountPromotionCode'Variants
-instance ToJSON DeletedDiscountPromotionCode'Variants
+data DeletedDiscountCustomer'NonNullableVariants
+instance Show DeletedDiscountCustomer'NonNullableVariants
+instance Eq DeletedDiscountCustomer'NonNullableVariants
+instance FromJSON DeletedDiscountCustomer'NonNullableVariants
+instance ToJSON DeletedDiscountCustomer'NonNullableVariants
+data DeletedDiscountPromotionCode'NonNullableVariants
+instance Show DeletedDiscountPromotionCode'NonNullableVariants
+instance Eq DeletedDiscountPromotionCode'NonNullableVariants
+instance FromJSON DeletedDiscountPromotionCode'NonNullableVariants
+instance ToJSON DeletedDiscountPromotionCode'NonNullableVariants

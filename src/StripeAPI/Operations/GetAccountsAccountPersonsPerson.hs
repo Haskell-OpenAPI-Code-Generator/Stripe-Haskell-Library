@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,11 +107,11 @@ data GetAccountsAccountPersonsPersonParameters = GetAccountsAccountPersonsPerson
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountPersonsPersonParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathAccount obj : "pathPerson" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathPerson obj : "queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathAccount obj) GHC.Base.<> (("pathPerson" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathPerson obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathAccount obj] : ["pathPerson" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathPerson obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getAccountsAccountPersonsPersonParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathAccount" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathAccount obj] : ["pathPerson" Data.Aeson.Types.ToJSON..= getAccountsAccountPersonsPersonParametersPathPerson obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getAccountsAccountPersonsPersonParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountPersonsPersonParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountPersonsPersonParameters" (\obj -> ((GHC.Base.pure GetAccountsAccountPersonsPersonParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPerson")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountsAccountPersonsPersonParameters" (\obj -> ((GHC.Base.pure GetAccountsAccountPersonsPersonParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPerson")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetAccountsAccountPersonsPersonParameters' with all required fields.
 mkGetAccountsAccountPersonsPersonParameters ::

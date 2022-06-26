@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,13 +37,13 @@ import qualified Prelude as GHC.Maybe
 -- Shows last VerificationSession error
 data GelatoSessionLastError = GelatoSessionLastError
   { -- | code: A short machine-readable string giving the reason for the verification or user-session failure.
-    gelatoSessionLastErrorCode :: (GHC.Maybe.Maybe GelatoSessionLastErrorCode'),
+    gelatoSessionLastErrorCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoSessionLastErrorCode'NonNullable)),
     -- | reason: A message that explains the reason for verification or user-session failure.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoSessionLastErrorReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoSessionLastErrorReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -49,11 +51,11 @@ data GelatoSessionLastError = GelatoSessionLastError
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoSessionLastError where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= gelatoSessionLastErrorCode obj : "reason" Data.Aeson.Types.ToJSON..= gelatoSessionLastErrorReason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= gelatoSessionLastErrorCode obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= gelatoSessionLastErrorReason obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoSessionLastErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoSessionLastErrorReason obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoSessionLastErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoSessionLastErrorReason obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoSessionLastError where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoSessionLastError" (\obj -> (GHC.Base.pure GelatoSessionLastError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoSessionLastError" (\obj -> (GHC.Base.pure GelatoSessionLastError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason"))
 
 -- | Create a new 'GelatoSessionLastError' with all required fields.
 mkGelatoSessionLastError :: GelatoSessionLastError
@@ -66,80 +68,80 @@ mkGelatoSessionLastError =
 -- | Defines the enum schema located at @components.schemas.gelato_session_last_error.properties.code@ in the specification.
 --
 -- A short machine-readable string giving the reason for the verification or user-session failure.
-data GelatoSessionLastErrorCode'
+data GelatoSessionLastErrorCode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoSessionLastErrorCode'Other Data.Aeson.Types.Internal.Value
+    GelatoSessionLastErrorCode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoSessionLastErrorCode'Typed Data.Text.Internal.Text
+    GelatoSessionLastErrorCode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"abandoned"@
-    GelatoSessionLastErrorCode'EnumAbandoned
+    GelatoSessionLastErrorCode'NonNullableEnumAbandoned
   | -- | Represents the JSON value @"consent_declined"@
-    GelatoSessionLastErrorCode'EnumConsentDeclined
+    GelatoSessionLastErrorCode'NonNullableEnumConsentDeclined
   | -- | Represents the JSON value @"country_not_supported"@
-    GelatoSessionLastErrorCode'EnumCountryNotSupported
+    GelatoSessionLastErrorCode'NonNullableEnumCountryNotSupported
   | -- | Represents the JSON value @"device_not_supported"@
-    GelatoSessionLastErrorCode'EnumDeviceNotSupported
+    GelatoSessionLastErrorCode'NonNullableEnumDeviceNotSupported
   | -- | Represents the JSON value @"document_expired"@
-    GelatoSessionLastErrorCode'EnumDocumentExpired
+    GelatoSessionLastErrorCode'NonNullableEnumDocumentExpired
   | -- | Represents the JSON value @"document_type_not_supported"@
-    GelatoSessionLastErrorCode'EnumDocumentTypeNotSupported
+    GelatoSessionLastErrorCode'NonNullableEnumDocumentTypeNotSupported
   | -- | Represents the JSON value @"document_unverified_other"@
-    GelatoSessionLastErrorCode'EnumDocumentUnverifiedOther
+    GelatoSessionLastErrorCode'NonNullableEnumDocumentUnverifiedOther
   | -- | Represents the JSON value @"id_number_insufficient_document_data"@
-    GelatoSessionLastErrorCode'EnumIdNumberInsufficientDocumentData
+    GelatoSessionLastErrorCode'NonNullableEnumIdNumberInsufficientDocumentData
   | -- | Represents the JSON value @"id_number_mismatch"@
-    GelatoSessionLastErrorCode'EnumIdNumberMismatch
+    GelatoSessionLastErrorCode'NonNullableEnumIdNumberMismatch
   | -- | Represents the JSON value @"id_number_unverified_other"@
-    GelatoSessionLastErrorCode'EnumIdNumberUnverifiedOther
+    GelatoSessionLastErrorCode'NonNullableEnumIdNumberUnverifiedOther
   | -- | Represents the JSON value @"selfie_document_missing_photo"@
-    GelatoSessionLastErrorCode'EnumSelfieDocumentMissingPhoto
+    GelatoSessionLastErrorCode'NonNullableEnumSelfieDocumentMissingPhoto
   | -- | Represents the JSON value @"selfie_face_mismatch"@
-    GelatoSessionLastErrorCode'EnumSelfieFaceMismatch
+    GelatoSessionLastErrorCode'NonNullableEnumSelfieFaceMismatch
   | -- | Represents the JSON value @"selfie_manipulated"@
-    GelatoSessionLastErrorCode'EnumSelfieManipulated
+    GelatoSessionLastErrorCode'NonNullableEnumSelfieManipulated
   | -- | Represents the JSON value @"selfie_unverified_other"@
-    GelatoSessionLastErrorCode'EnumSelfieUnverifiedOther
+    GelatoSessionLastErrorCode'NonNullableEnumSelfieUnverifiedOther
   | -- | Represents the JSON value @"under_supported_age"@
-    GelatoSessionLastErrorCode'EnumUnderSupportedAge
+    GelatoSessionLastErrorCode'NonNullableEnumUnderSupportedAge
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoSessionLastErrorCode' where
-  toJSON (GelatoSessionLastErrorCode'Other val) = val
-  toJSON (GelatoSessionLastErrorCode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoSessionLastErrorCode'EnumAbandoned) = "abandoned"
-  toJSON (GelatoSessionLastErrorCode'EnumConsentDeclined) = "consent_declined"
-  toJSON (GelatoSessionLastErrorCode'EnumCountryNotSupported) = "country_not_supported"
-  toJSON (GelatoSessionLastErrorCode'EnumDeviceNotSupported) = "device_not_supported"
-  toJSON (GelatoSessionLastErrorCode'EnumDocumentExpired) = "document_expired"
-  toJSON (GelatoSessionLastErrorCode'EnumDocumentTypeNotSupported) = "document_type_not_supported"
-  toJSON (GelatoSessionLastErrorCode'EnumDocumentUnverifiedOther) = "document_unverified_other"
-  toJSON (GelatoSessionLastErrorCode'EnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
-  toJSON (GelatoSessionLastErrorCode'EnumIdNumberMismatch) = "id_number_mismatch"
-  toJSON (GelatoSessionLastErrorCode'EnumIdNumberUnverifiedOther) = "id_number_unverified_other"
-  toJSON (GelatoSessionLastErrorCode'EnumSelfieDocumentMissingPhoto) = "selfie_document_missing_photo"
-  toJSON (GelatoSessionLastErrorCode'EnumSelfieFaceMismatch) = "selfie_face_mismatch"
-  toJSON (GelatoSessionLastErrorCode'EnumSelfieManipulated) = "selfie_manipulated"
-  toJSON (GelatoSessionLastErrorCode'EnumSelfieUnverifiedOther) = "selfie_unverified_other"
-  toJSON (GelatoSessionLastErrorCode'EnumUnderSupportedAge) = "under_supported_age"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoSessionLastErrorCode'NonNullable where
+  toJSON (GelatoSessionLastErrorCode'NonNullableOther val) = val
+  toJSON (GelatoSessionLastErrorCode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumAbandoned) = "abandoned"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumConsentDeclined) = "consent_declined"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumCountryNotSupported) = "country_not_supported"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumDeviceNotSupported) = "device_not_supported"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumDocumentExpired) = "document_expired"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumDocumentTypeNotSupported) = "document_type_not_supported"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumDocumentUnverifiedOther) = "document_unverified_other"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumIdNumberMismatch) = "id_number_mismatch"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumIdNumberUnverifiedOther) = "id_number_unverified_other"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumSelfieDocumentMissingPhoto) = "selfie_document_missing_photo"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumSelfieFaceMismatch) = "selfie_face_mismatch"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumSelfieManipulated) = "selfie_manipulated"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumSelfieUnverifiedOther) = "selfie_unverified_other"
+  toJSON (GelatoSessionLastErrorCode'NonNullableEnumUnderSupportedAge) = "under_supported_age"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoSessionLastErrorCode' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoSessionLastErrorCode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "abandoned" -> GelatoSessionLastErrorCode'EnumAbandoned
-            | val GHC.Classes.== "consent_declined" -> GelatoSessionLastErrorCode'EnumConsentDeclined
-            | val GHC.Classes.== "country_not_supported" -> GelatoSessionLastErrorCode'EnumCountryNotSupported
-            | val GHC.Classes.== "device_not_supported" -> GelatoSessionLastErrorCode'EnumDeviceNotSupported
-            | val GHC.Classes.== "document_expired" -> GelatoSessionLastErrorCode'EnumDocumentExpired
-            | val GHC.Classes.== "document_type_not_supported" -> GelatoSessionLastErrorCode'EnumDocumentTypeNotSupported
-            | val GHC.Classes.== "document_unverified_other" -> GelatoSessionLastErrorCode'EnumDocumentUnverifiedOther
-            | val GHC.Classes.== "id_number_insufficient_document_data" -> GelatoSessionLastErrorCode'EnumIdNumberInsufficientDocumentData
-            | val GHC.Classes.== "id_number_mismatch" -> GelatoSessionLastErrorCode'EnumIdNumberMismatch
-            | val GHC.Classes.== "id_number_unverified_other" -> GelatoSessionLastErrorCode'EnumIdNumberUnverifiedOther
-            | val GHC.Classes.== "selfie_document_missing_photo" -> GelatoSessionLastErrorCode'EnumSelfieDocumentMissingPhoto
-            | val GHC.Classes.== "selfie_face_mismatch" -> GelatoSessionLastErrorCode'EnumSelfieFaceMismatch
-            | val GHC.Classes.== "selfie_manipulated" -> GelatoSessionLastErrorCode'EnumSelfieManipulated
-            | val GHC.Classes.== "selfie_unverified_other" -> GelatoSessionLastErrorCode'EnumSelfieUnverifiedOther
-            | val GHC.Classes.== "under_supported_age" -> GelatoSessionLastErrorCode'EnumUnderSupportedAge
-            | GHC.Base.otherwise -> GelatoSessionLastErrorCode'Other val
+            | val GHC.Classes.== "abandoned" -> GelatoSessionLastErrorCode'NonNullableEnumAbandoned
+            | val GHC.Classes.== "consent_declined" -> GelatoSessionLastErrorCode'NonNullableEnumConsentDeclined
+            | val GHC.Classes.== "country_not_supported" -> GelatoSessionLastErrorCode'NonNullableEnumCountryNotSupported
+            | val GHC.Classes.== "device_not_supported" -> GelatoSessionLastErrorCode'NonNullableEnumDeviceNotSupported
+            | val GHC.Classes.== "document_expired" -> GelatoSessionLastErrorCode'NonNullableEnumDocumentExpired
+            | val GHC.Classes.== "document_type_not_supported" -> GelatoSessionLastErrorCode'NonNullableEnumDocumentTypeNotSupported
+            | val GHC.Classes.== "document_unverified_other" -> GelatoSessionLastErrorCode'NonNullableEnumDocumentUnverifiedOther
+            | val GHC.Classes.== "id_number_insufficient_document_data" -> GelatoSessionLastErrorCode'NonNullableEnumIdNumberInsufficientDocumentData
+            | val GHC.Classes.== "id_number_mismatch" -> GelatoSessionLastErrorCode'NonNullableEnumIdNumberMismatch
+            | val GHC.Classes.== "id_number_unverified_other" -> GelatoSessionLastErrorCode'NonNullableEnumIdNumberUnverifiedOther
+            | val GHC.Classes.== "selfie_document_missing_photo" -> GelatoSessionLastErrorCode'NonNullableEnumSelfieDocumentMissingPhoto
+            | val GHC.Classes.== "selfie_face_mismatch" -> GelatoSessionLastErrorCode'NonNullableEnumSelfieFaceMismatch
+            | val GHC.Classes.== "selfie_manipulated" -> GelatoSessionLastErrorCode'NonNullableEnumSelfieManipulated
+            | val GHC.Classes.== "selfie_unverified_other" -> GelatoSessionLastErrorCode'NonNullableEnumSelfieUnverifiedOther
+            | val GHC.Classes.== "under_supported_age" -> GelatoSessionLastErrorCode'NonNullableEnumUnderSupportedAge
+            | GHC.Base.otherwise -> GelatoSessionLastErrorCode'NonNullableOther val
       )

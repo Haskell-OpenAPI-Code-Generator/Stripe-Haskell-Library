@@ -1,6 +1,7 @@
 module StripeAPI.Types.IssuerFraudRecord where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data IssuerFraudRecord
 instance Show IssuerFraudRecord
 instance Eq IssuerFraudRecord

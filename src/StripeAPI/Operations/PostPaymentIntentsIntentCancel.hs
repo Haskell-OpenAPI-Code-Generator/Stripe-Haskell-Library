@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,9 +45,11 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/payment_intents/{intent}/cancel
 --
--- \<p>A PaymentIntent object can be canceled when it is in one of these statuses: \<code>requires_payment_method\<\/code>, \<code>requires_capture\<\/code>, \<code>requires_confirmation\<\/code>, or \<code>requires_action\<\/code>. \<\/p>
+-- \<p>A PaymentIntent object can be canceled when it is in one of these statuses: \<code>requires_payment_method\<\/code>, \<code>requires_capture\<\/code>, \<code>requires_confirmation\<\/code>, \<code>requires_action\<\/code>, or \<code>processing\<\/code>. \<\/p>
 --
--- \<p>Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with \<code>status=’requires_capture’\<\/code>, the remaining \<code>amount_capturable\<\/code> will automatically be refunded.\<\/p>
+-- \<p>Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with \<code>status=’requires_capture’\<\/code>, the remaining \<code>amount_capturable\<\/code> will automatically be refunded. \<\/p>
+--
+-- \<p>You cannot cancel the PaymentIntent for a Checkout Session. \<a href=\"\/docs\/api\/checkout\/sessions\/expire\">Expire the Checkout Session\<\/a> instead\<\/p>
 postPaymentIntentsIntentCancel ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -103,11 +107,11 @@ data PostPaymentIntentsIntentCancelRequestBody = PostPaymentIntentsIntentCancelR
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentCancelRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("cancellation_reason" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyCancellationReason obj : "expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("cancellation_reason" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyCancellationReason obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCancelRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCancelRequestBodyCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCancelRequestBodyExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCancelRequestBodyCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCancelRequestBodyExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCancelRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCancelRequestBody" (\obj -> (GHC.Base.pure PostPaymentIntentsIntentCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCancelRequestBody" (\obj -> (GHC.Base.pure PostPaymentIntentsIntentCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand"))
 
 -- | Create a new 'PostPaymentIntentsIntentCancelRequestBody' with all required fields.
 mkPostPaymentIntentsIntentCancelRequestBody :: PostPaymentIntentsIntentCancelRequestBody

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.subscription_transfer_data@ in the specification.
 data SubscriptionTransferData = SubscriptionTransferData
   { -- | amount_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
-    subscriptionTransferDataAmountPercent :: (GHC.Maybe.Maybe GHC.Types.Double),
+    subscriptionTransferDataAmountPercent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | destination: The account where funds from the payment will be transferred to upon payment success.
     subscriptionTransferDataDestination :: SubscriptionTransferDataDestination'Variants
   }
@@ -44,11 +46,11 @@ data SubscriptionTransferData = SubscriptionTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionTransferData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount_percent" Data.Aeson.Types.ToJSON..= subscriptionTransferDataAmountPercent obj : "destination" Data.Aeson.Types.ToJSON..= subscriptionTransferDataDestination obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_percent" Data.Aeson.Types.ToJSON..= subscriptionTransferDataAmountPercent obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= subscriptionTransferDataDestination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionTransferDataAmountPercent obj) : ["destination" Data.Aeson.Types.ToJSON..= subscriptionTransferDataDestination obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionTransferDataAmountPercent obj) : ["destination" Data.Aeson.Types.ToJSON..= subscriptionTransferDataDestination obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionTransferData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionTransferData" (\obj -> (GHC.Base.pure SubscriptionTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionTransferData" (\obj -> (GHC.Base.pure SubscriptionTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
 
 -- | Create a new 'SubscriptionTransferData' with all required fields.
 mkSubscriptionTransferData ::

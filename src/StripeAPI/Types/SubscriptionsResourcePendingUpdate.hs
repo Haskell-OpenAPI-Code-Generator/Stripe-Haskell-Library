@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -36,16 +38,16 @@ import qualified Prelude as GHC.Maybe
 -- Pending Updates store the changes pending from a previous update that will be applied
 -- to the Subscription upon successful payment.
 data SubscriptionsResourcePendingUpdate = SubscriptionsResourcePendingUpdate
-  { -- | billing_cycle_anchor: If the update is applied, determines the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices.
-    subscriptionsResourcePendingUpdateBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Int),
+  { -- | billing_cycle_anchor: If the update is applied, determines the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format.
+    subscriptionsResourcePendingUpdateBillingCycleAnchor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | expires_at: The point after which the changes reflected by this update will be discarded and no longer applied.
     subscriptionsResourcePendingUpdateExpiresAt :: GHC.Types.Int,
     -- | subscription_items: List of subscription items, each with an attached plan, that will be set if the update is applied.
-    subscriptionsResourcePendingUpdateSubscriptionItems :: (GHC.Maybe.Maybe ([SubscriptionItem])),
+    subscriptionsResourcePendingUpdateSubscriptionItems :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([SubscriptionItem]))),
     -- | trial_end: Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied.
-    subscriptionsResourcePendingUpdateTrialEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | trial_from_plan: Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`trial_end\` is not allowed.
-    subscriptionsResourcePendingUpdateTrialFromPlan :: (GHC.Maybe.Maybe GHC.Types.Bool)
+    subscriptionsResourcePendingUpdateTrialEnd :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | trial_from_plan: Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`trial_end\` is not allowed. See [Using trial periods on subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/trials) to learn more.
+    subscriptionsResourcePendingUpdateTrialFromPlan :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool))
   }
   deriving
     ( GHC.Show.Show,
@@ -53,11 +55,11 @@ data SubscriptionsResourcePendingUpdate = SubscriptionsResourcePendingUpdate
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionsResourcePendingUpdate where
-  toJSON obj = Data.Aeson.Types.Internal.object ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateBillingCycleAnchor obj : "expires_at" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateExpiresAt obj : "subscription_items" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateSubscriptionItems obj : "trial_end" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateTrialEnd obj : "trial_from_plan" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateTrialFromPlan obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateBillingCycleAnchor obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateExpiresAt obj) GHC.Base.<> (("subscription_items" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateSubscriptionItems obj) GHC.Base.<> (("trial_end" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateTrialEnd obj) GHC.Base.<> ("trial_from_plan" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateTrialFromPlan obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateBillingCycleAnchor obj) : ["expires_at" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateExpiresAt obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_items" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateSubscriptionItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateTrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_from_plan" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateTrialFromPlan obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateBillingCycleAnchor obj) : ["expires_at" Data.Aeson.Types.ToJSON..= subscriptionsResourcePendingUpdateExpiresAt obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_items" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateSubscriptionItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateTrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_from_plan" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePendingUpdateTrialFromPlan obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionsResourcePendingUpdate where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionsResourcePendingUpdate" (\obj -> ((((GHC.Base.pure SubscriptionsResourcePendingUpdate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_from_plan"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionsResourcePendingUpdate" (\obj -> ((((GHC.Base.pure SubscriptionsResourcePendingUpdate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_from_plan"))
 
 -- | Create a new 'SubscriptionsResourcePendingUpdate' with all required fields.
 mkSubscriptionsResourcePendingUpdate ::

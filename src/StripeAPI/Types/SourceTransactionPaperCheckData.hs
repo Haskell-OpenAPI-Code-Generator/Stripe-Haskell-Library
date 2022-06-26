@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -51,11 +53,11 @@ data SourceTransactionPaperCheckData = SourceTransactionPaperCheckData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionPaperCheckData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("available_at" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataAvailableAt obj : "invoices" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataInvoices obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("available_at" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataAvailableAt obj) GHC.Base.<> ("invoices" Data.Aeson.Types.ToJSON..= sourceTransactionPaperCheckDataInvoices obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_at" Data.Aeson.Types.ToJSON..=)) (sourceTransactionPaperCheckDataAvailableAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoices" Data.Aeson.Types.ToJSON..=)) (sourceTransactionPaperCheckDataInvoices obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_at" Data.Aeson.Types.ToJSON..=)) (sourceTransactionPaperCheckDataAvailableAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoices" Data.Aeson.Types.ToJSON..=)) (sourceTransactionPaperCheckDataInvoices obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionPaperCheckData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionPaperCheckData" (\obj -> (GHC.Base.pure SourceTransactionPaperCheckData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoices"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionPaperCheckData" (\obj -> (GHC.Base.pure SourceTransactionPaperCheckData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "available_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoices"))
 
 -- | Create a new 'SourceTransactionPaperCheckData' with all required fields.
 mkSourceTransactionPaperCheckData :: SourceTransactionPaperCheckData

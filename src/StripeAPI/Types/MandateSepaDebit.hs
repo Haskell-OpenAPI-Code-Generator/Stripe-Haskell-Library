@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -51,8 +53,8 @@ data MandateSepaDebit = MandateSepaDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON MandateSepaDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= mandateSepaDebitReference obj : "url" Data.Aeson.Types.ToJSON..= mandateSepaDebitUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= mandateSepaDebitReference obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= mandateSepaDebitUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["reference" Data.Aeson.Types.ToJSON..= mandateSepaDebitReference obj] : ["url" Data.Aeson.Types.ToJSON..= mandateSepaDebitUrl obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["reference" Data.Aeson.Types.ToJSON..= mandateSepaDebitReference obj] : ["url" Data.Aeson.Types.ToJSON..= mandateSepaDebitUrl obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON MandateSepaDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "MandateSepaDebit" (\obj -> (GHC.Base.pure MandateSepaDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

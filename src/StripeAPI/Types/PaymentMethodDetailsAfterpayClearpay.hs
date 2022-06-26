@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,7 +39,7 @@ data PaymentMethodDetailsAfterpayClearpay = PaymentMethodDetailsAfterpayClearpay
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAfterpayClearpayReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsAfterpayClearpayReference :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data PaymentMethodDetailsAfterpayClearpay = PaymentMethodDetailsAfterpayClearpay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAfterpayClearpay where
-  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAfterpayClearpayReference obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAfterpayClearpayReference obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayReference obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayReference obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAfterpayClearpay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAfterpayClearpay" (\obj -> GHC.Base.pure PaymentMethodDetailsAfterpayClearpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAfterpayClearpay" (\obj -> GHC.Base.pure PaymentMethodDetailsAfterpayClearpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference"))
 
 -- | Create a new 'PaymentMethodDetailsAfterpayClearpay' with all required fields.
 mkPaymentMethodDetailsAfterpayClearpay :: PaymentMethodDetailsAfterpayClearpay

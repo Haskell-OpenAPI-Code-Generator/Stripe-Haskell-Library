@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -38,7 +40,7 @@ data PortalSubscriptionUpdate = PortalSubscriptionUpdate
     -- | enabled: Whether the feature is enabled.
     portalSubscriptionUpdateEnabled :: GHC.Types.Bool,
     -- | products: The list of products that support subscription updates.
-    portalSubscriptionUpdateProducts :: (GHC.Maybe.Maybe ([PortalSubscriptionUpdateProduct])),
+    portalSubscriptionUpdateProducts :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PortalSubscriptionUpdateProduct]))),
     -- | proration_behavior: Determines how to handle prorations resulting from subscription updates. Valid values are \`none\`, \`create_prorations\`, and \`always_invoice\`.
     portalSubscriptionUpdateProrationBehavior :: PortalSubscriptionUpdateProrationBehavior'
   }
@@ -48,11 +50,11 @@ data PortalSubscriptionUpdate = PortalSubscriptionUpdate
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PortalSubscriptionUpdate where
-  toJSON obj = Data.Aeson.Types.Internal.object ("default_allowed_updates" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateDefaultAllowedUpdates obj : "enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateEnabled obj : "products" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProducts obj : "proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProrationBehavior obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("default_allowed_updates" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateDefaultAllowedUpdates obj) GHC.Base.<> (("enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateEnabled obj) GHC.Base.<> (("products" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProducts obj) GHC.Base.<> ("proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProrationBehavior obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["default_allowed_updates" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateDefaultAllowedUpdates obj] : ["enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateEnabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("products" Data.Aeson.Types.ToJSON..=)) (portalSubscriptionUpdateProducts obj) : ["proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProrationBehavior obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["default_allowed_updates" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateDefaultAllowedUpdates obj] : ["enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateEnabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("products" Data.Aeson.Types.ToJSON..=)) (portalSubscriptionUpdateProducts obj) : ["proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProrationBehavior obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PortalSubscriptionUpdate where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalSubscriptionUpdate" (\obj -> (((GHC.Base.pure PortalSubscriptionUpdate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "default_allowed_updates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "products")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration_behavior"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalSubscriptionUpdate" (\obj -> (((GHC.Base.pure PortalSubscriptionUpdate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "default_allowed_updates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "products")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration_behavior"))
 
 -- | Create a new 'PortalSubscriptionUpdate' with all required fields.
 mkPortalSubscriptionUpdate ::

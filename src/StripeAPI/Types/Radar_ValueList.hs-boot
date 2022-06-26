@@ -1,6 +1,7 @@
 module StripeAPI.Types.Radar_ValueList where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Radar'valueList
 instance Show Radar'valueList
 instance Eq Radar'valueList

@@ -1,6 +1,7 @@
 module StripeAPI.Types.CreditNoteLineItem where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data CreditNoteLineItem
 instance Show CreditNoteLineItem
 instance Eq CreditNoteLineItem

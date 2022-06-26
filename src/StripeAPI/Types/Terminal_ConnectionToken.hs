@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,9 +36,9 @@ import qualified Prelude as GHC.Maybe
 --
 -- A Connection Token is used by the Stripe Terminal SDK to connect to a reader.
 --
--- Related guide: [Fleet Management](https:\/\/stripe.com\/docs\/terminal\/creating-locations).
+-- Related guide: [Fleet Management](https:\/\/stripe.com\/docs\/terminal\/fleet\/locations).
 data Terminal'connectionToken = Terminal'connectionToken
-  { -- | location: The id of the location that this connection token is scoped to. Note that location scoping only applies to internet-connected readers. For more details, see [the docs on scoping connection tokens](https:\/\/stripe.com\/docs\/terminal\/readers\/fleet-management\#connection-tokens).
+  { -- | location: The id of the location that this connection token is scoped to. Note that location scoping only applies to internet-connected readers. For more details, see [the docs on scoping connection tokens](https:\/\/stripe.com\/docs\/terminal\/fleet\/locations\#connection-tokens).
     --
     -- Constraints:
     --
@@ -55,11 +57,11 @@ data Terminal'connectionToken = Terminal'connectionToken
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Terminal'connectionToken where
-  toJSON obj = Data.Aeson.Types.Internal.object ("location" Data.Aeson.Types.ToJSON..= terminal'connectionTokenLocation obj : "secret" Data.Aeson.Types.ToJSON..= terminal'connectionTokenSecret obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.connection_token" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("location" Data.Aeson.Types.ToJSON..= terminal'connectionTokenLocation obj) GHC.Base.<> (("secret" Data.Aeson.Types.ToJSON..= terminal'connectionTokenSecret obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.connection_token")))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (terminal'connectionTokenLocation obj) : ["secret" Data.Aeson.Types.ToJSON..= terminal'connectionTokenSecret obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.connection_token"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (terminal'connectionTokenLocation obj) : ["secret" Data.Aeson.Types.ToJSON..= terminal'connectionTokenSecret obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.connection_token"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'connectionToken where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'connectionToken" (\obj -> (GHC.Base.pure Terminal'connectionToken GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "secret"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'connectionToken" (\obj -> (GHC.Base.pure Terminal'connectionToken GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "secret"))
 
 -- | Create a new 'Terminal'connectionToken' with all required fields.
 mkTerminal'connectionToken ::

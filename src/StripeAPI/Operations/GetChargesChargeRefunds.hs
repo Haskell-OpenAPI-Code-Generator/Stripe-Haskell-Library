@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -115,11 +117,11 @@ data GetChargesChargeRefundsParameters = GetChargesChargeRefundsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeRefundsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersPathCharge obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersPathCharge obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersPathCharge obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsParametersPathCharge obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getChargesChargeRefundsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeRefundsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeRefundsParameters" (\obj -> ((((GHC.Base.pure GetChargesChargeRefundsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeRefundsParameters" (\obj -> ((((GHC.Base.pure GetChargesChargeRefundsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetChargesChargeRefundsParameters' with all required fields.
 mkGetChargesChargeRefundsParameters ::
@@ -166,8 +168,8 @@ data GetChargesChargeRefundsResponseBody200 = GetChargesChargeRefundsResponseBod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeRefundsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getChargesChargeRefundsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeRefundsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeRefundsResponseBody200" (\obj -> ((GHC.Base.pure GetChargesChargeRefundsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

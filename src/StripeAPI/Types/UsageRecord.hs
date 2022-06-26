@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -62,8 +64,8 @@ data UsageRecord = UsageRecord
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON UsageRecord where
-  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= usageRecordId obj : "livemode" Data.Aeson.Types.ToJSON..= usageRecordLivemode obj : "quantity" Data.Aeson.Types.ToJSON..= usageRecordQuantity obj : "subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSubscriptionItem obj : "timestamp" Data.Aeson.Types.ToJSON..= usageRecordTimestamp obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= usageRecordId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= usageRecordLivemode obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= usageRecordQuantity obj) GHC.Base.<> (("subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSubscriptionItem obj) GHC.Base.<> (("timestamp" Data.Aeson.Types.ToJSON..= usageRecordTimestamp obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record"))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= usageRecordId obj] : ["livemode" Data.Aeson.Types.ToJSON..= usageRecordLivemode obj] : ["quantity" Data.Aeson.Types.ToJSON..= usageRecordQuantity obj] : ["subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSubscriptionItem obj] : ["timestamp" Data.Aeson.Types.ToJSON..= usageRecordTimestamp obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= usageRecordId obj] : ["livemode" Data.Aeson.Types.ToJSON..= usageRecordLivemode obj] : ["quantity" Data.Aeson.Types.ToJSON..= usageRecordQuantity obj] : ["subscription_item" Data.Aeson.Types.ToJSON..= usageRecordSubscriptionItem obj] : ["timestamp" Data.Aeson.Types.ToJSON..= usageRecordTimestamp obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "usage_record"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON UsageRecord where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "UsageRecord" (\obj -> ((((GHC.Base.pure UsageRecord GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription_item")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "timestamp"))

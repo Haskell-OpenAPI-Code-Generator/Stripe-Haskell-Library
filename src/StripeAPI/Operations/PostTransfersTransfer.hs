@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,11 +107,11 @@ data PostTransfersTransferRequestBody = PostTransfersTransferRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersTransferRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("description" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("description" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersTransferRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferRequestBody" (\obj -> ((GHC.Base.pure PostTransfersTransferRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferRequestBody" (\obj -> ((GHC.Base.pure PostTransfersTransferRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostTransfersTransferRequestBody' with all required fields.
 mkPostTransfersTransferRequestBody :: PostTransfersTransferRequestBody

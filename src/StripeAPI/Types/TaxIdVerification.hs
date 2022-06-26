@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -39,13 +41,13 @@ data TaxIdVerification = TaxIdVerification
     -- Constraints:
     --
     -- * Maximum length of 5000
-    taxIdVerificationVerifiedAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    taxIdVerificationVerifiedAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_name: Verified name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    taxIdVerificationVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    taxIdVerificationVerifiedName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -53,11 +55,11 @@ data TaxIdVerification = TaxIdVerification
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxIdVerification where
-  toJSON obj = Data.Aeson.Types.Internal.object ("status" Data.Aeson.Types.ToJSON..= taxIdVerificationStatus obj : "verified_address" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedAddress obj : "verified_name" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedName obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("status" Data.Aeson.Types.ToJSON..= taxIdVerificationStatus obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedAddress obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= taxIdVerificationVerifiedName obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["status" Data.Aeson.Types.ToJSON..= taxIdVerificationStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (taxIdVerificationVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (taxIdVerificationVerifiedName obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["status" Data.Aeson.Types.ToJSON..= taxIdVerificationStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (taxIdVerificationVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (taxIdVerificationVerifiedName obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxIdVerification" (\obj -> ((GHC.Base.pure TaxIdVerification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxIdVerification" (\obj -> ((GHC.Base.pure TaxIdVerification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_name"))
 
 -- | Create a new 'TaxIdVerification' with all required fields.
 mkTaxIdVerification ::

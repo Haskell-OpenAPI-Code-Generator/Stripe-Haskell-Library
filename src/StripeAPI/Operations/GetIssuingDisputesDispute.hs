@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetIssuingDisputesDisputeParameters = GetIssuingDisputesDisputeParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingDisputesDisputeParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathDispute" Data.Aeson.Types.ToJSON..= getIssuingDisputesDisputeParametersPathDispute obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingDisputesDisputeParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathDispute" Data.Aeson.Types.ToJSON..= getIssuingDisputesDisputeParametersPathDispute obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingDisputesDisputeParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathDispute" Data.Aeson.Types.ToJSON..= getIssuingDisputesDisputeParametersPathDispute obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingDisputesDisputeParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathDispute" Data.Aeson.Types.ToJSON..= getIssuingDisputesDisputeParametersPathDispute obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingDisputesDisputeParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingDisputesDisputeParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingDisputesDisputeParameters" (\obj -> (GHC.Base.pure GetIssuingDisputesDisputeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathDispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingDisputesDisputeParameters" (\obj -> (GHC.Base.pure GetIssuingDisputesDisputeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathDispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetIssuingDisputesDisputeParameters' with all required fields.
 mkGetIssuingDisputesDisputeParameters ::

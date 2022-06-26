@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > GET /v1/payment_methods/{payment_method}
 --
--- \<p>Retrieves a PaymentMethod object.\<\/p>
+-- \<p>Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a payment method attached to a Customer, you should use \<a href=\"\/docs\/api\/payment_methods\/customer\">Retrieve a Customer’s PaymentMethods\<\/a>\<\/p>
 getPaymentMethodsPaymentMethod ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -99,11 +101,11 @@ data GetPaymentMethodsPaymentMethodParameters = GetPaymentMethodsPaymentMethodPa
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentMethodsPaymentMethodParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathPayment_method" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPayment_method" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathPayment_method" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPaymentMethodsPaymentMethodParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathPayment_method" Data.Aeson.Types.ToJSON..= getPaymentMethodsPaymentMethodParametersPathPaymentMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPaymentMethodsPaymentMethodParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentMethodsPaymentMethodParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentMethodsPaymentMethodParameters" (\obj -> (GHC.Base.pure GetPaymentMethodsPaymentMethodParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPayment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPaymentMethodsPaymentMethodParameters" (\obj -> (GHC.Base.pure GetPaymentMethodsPaymentMethodParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPayment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetPaymentMethodsPaymentMethodParameters' with all required fields.
 mkGetPaymentMethodsPaymentMethodParameters ::

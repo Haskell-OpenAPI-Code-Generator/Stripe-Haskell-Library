@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -101,8 +103,8 @@ data DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj : "pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj) GHC.Base.<> ("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParametersPathSubscriptionExposedId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters" (\obj -> (GHC.Base.pure DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id"))

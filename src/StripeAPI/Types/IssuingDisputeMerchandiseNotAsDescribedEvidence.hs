@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,25 +36,25 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing_dispute_merchandise_not_as_described_evidence@ in the specification.
 data IssuingDisputeMerchandiseNotAsDescribedEvidence = IssuingDisputeMerchandiseNotAsDescribedEvidence
   { -- | additional_documentation: (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-    issuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'Variants),
+    issuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants)),
     -- | explanation: Explanation of why the cardholder is disputing this transaction.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeMerchandiseNotAsDescribedEvidenceExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingDisputeMerchandiseNotAsDescribedEvidenceExplanation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | received_at: Date when the product was received.
-    issuingDisputeMerchandiseNotAsDescribedEvidenceReceivedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    issuingDisputeMerchandiseNotAsDescribedEvidenceReceivedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | return_description: Description of the cardholder\'s attempt to return the product.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeMerchandiseNotAsDescribedEvidenceReturnDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingDisputeMerchandiseNotAsDescribedEvidenceReturnDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | return_status: Result of cardholder\'s attempt to return the product.
-    issuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus :: (GHC.Maybe.Maybe IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'),
+    issuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullable)),
     -- | returned_at: Date when the product was returned or attempted to be returned.
-    issuingDisputeMerchandiseNotAsDescribedEvidenceReturnedAt :: (GHC.Maybe.Maybe GHC.Types.Int)
+    issuingDisputeMerchandiseNotAsDescribedEvidenceReturnedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -60,11 +62,11 @@ data IssuingDisputeMerchandiseNotAsDescribedEvidence = IssuingDisputeMerchandise
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeMerchandiseNotAsDescribedEvidence where
-  toJSON obj = Data.Aeson.Types.Internal.object ("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation obj : "explanation" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceExplanation obj : "received_at" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReceivedAt obj : "return_description" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReturnDescription obj : "return_status" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus obj : "returned_at" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReturnedAt obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation obj) GHC.Base.<> (("explanation" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceExplanation obj) GHC.Base.<> (("received_at" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReceivedAt obj) GHC.Base.<> (("return_description" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReturnDescription obj) GHC.Base.<> (("return_status" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus obj) GHC.Base.<> ("returned_at" Data.Aeson.Types.ToJSON..= issuingDisputeMerchandiseNotAsDescribedEvidenceReturnedAt obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceExplanation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("received_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReceivedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_description" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReturnDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_status" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("returned_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReturnedAt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceExplanation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("received_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReceivedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_description" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReturnDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_status" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("returned_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeMerchandiseNotAsDescribedEvidenceReturnedAt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeMerchandiseNotAsDescribedEvidence where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeMerchandiseNotAsDescribedEvidence" (\obj -> (((((GHC.Base.pure IssuingDisputeMerchandiseNotAsDescribedEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "received_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "returned_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeMerchandiseNotAsDescribedEvidence" (\obj -> (((((GHC.Base.pure IssuingDisputeMerchandiseNotAsDescribedEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "received_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "returned_at"))
 
 -- | Create a new 'IssuingDisputeMerchandiseNotAsDescribedEvidence' with all required fields.
 mkIssuingDisputeMerchandiseNotAsDescribedEvidence :: IssuingDisputeMerchandiseNotAsDescribedEvidence
@@ -81,45 +83,45 @@ mkIssuingDisputeMerchandiseNotAsDescribedEvidence =
 -- | Defines the oneOf schema located at @components.schemas.issuing_dispute_merchandise_not_as_described_evidence.properties.additional_documentation.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-data IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'Variants
-  = IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'Text Data.Text.Internal.Text
-  | IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'File File
+data IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants
+  = IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableText Data.Text.Internal.Text
+  | IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableFile File
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'Variants where
-  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'File a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants where
+  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableFile a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'Variants where
-  parseJSON val = case (IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants where
+  parseJSON val = case (IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeMerchandiseNotAsDescribedEvidenceAdditionalDocumentation'NonNullableFile Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @components.schemas.issuing_dispute_merchandise_not_as_described_evidence.properties.return_status@ in the specification.
 --
 -- Result of cardholder\'s attempt to return the product.
-data IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'
+data IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'Other Data.Aeson.Types.Internal.Value
+    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'Typed Data.Text.Internal.Text
+    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"merchant_rejected"@
-    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'EnumMerchantRejected
+    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableEnumMerchantRejected
   | -- | Represents the JSON value @"successful"@
-    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'EnumSuccessful
+    IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableEnumSuccessful
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus' where
-  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'Other val) = val
-  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'EnumMerchantRejected) = "merchant_rejected"
-  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'EnumSuccessful) = "successful"
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullable where
+  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableOther val) = val
+  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableEnumMerchantRejected) = "merchant_rejected"
+  toJSON (IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableEnumSuccessful) = "successful"
 
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus' where
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "merchant_rejected" -> IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'EnumMerchantRejected
-            | val GHC.Classes.== "successful" -> IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'EnumSuccessful
-            | GHC.Base.otherwise -> IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'Other val
+            | val GHC.Classes.== "merchant_rejected" -> IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableEnumMerchantRejected
+            | val GHC.Classes.== "successful" -> IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableEnumSuccessful
+            | GHC.Base.otherwise -> IssuingDisputeMerchandiseNotAsDescribedEvidenceReturnStatus'NonNullableOther val
       )

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -57,11 +59,11 @@ data SourceMandateNotificationSepaDebitData = SourceMandateNotificationSepaDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceMandateNotificationSepaDebitData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("creditor_identifier" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataCreditorIdentifier obj : "last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataLast4 obj : "mandate_reference" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataMandateReference obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("creditor_identifier" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataCreditorIdentifier obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataLast4 obj) GHC.Base.<> ("mandate_reference" Data.Aeson.Types.ToJSON..= sourceMandateNotificationSepaDebitDataMandateReference obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("creditor_identifier" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationSepaDebitDataCreditorIdentifier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationSepaDebitDataLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_reference" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationSepaDebitDataMandateReference obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("creditor_identifier" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationSepaDebitDataCreditorIdentifier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationSepaDebitDataLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_reference" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationSepaDebitDataMandateReference obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceMandateNotificationSepaDebitData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotificationSepaDebitData" (\obj -> ((GHC.Base.pure SourceMandateNotificationSepaDebitData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "creditor_identifier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate_reference"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotificationSepaDebitData" (\obj -> ((GHC.Base.pure SourceMandateNotificationSepaDebitData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "creditor_identifier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_reference"))
 
 -- | Create a new 'SourceMandateNotificationSepaDebitData' with all required fields.
 mkSourceMandateNotificationSepaDebitData :: SourceMandateNotificationSepaDebitData

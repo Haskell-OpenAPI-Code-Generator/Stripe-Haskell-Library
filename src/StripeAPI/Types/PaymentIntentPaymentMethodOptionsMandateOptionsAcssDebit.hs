@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -38,16 +40,16 @@ data PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit = PaymentIntentPay
     --
     -- * Maximum length of 5000
     paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitCustomMandateUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | interval_description: Description of the interval. Only required if \'payment_schedule\' parmeter is \'interval\' or \'combined\'.
+    -- | interval_description: Description of the interval. Only required if the \'payment_schedule\' parameter is \'interval\' or \'combined\'.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitIntervalDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitIntervalDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | payment_schedule: Payment schedule for the mandate.
-    paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'),
+    paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullable)),
     -- | transaction_type: Transaction type of the mandate.
-    paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType')
+    paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -55,11 +57,11 @@ data PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit = PaymentIntentPay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("custom_mandate_url" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitCustomMandateUrl obj : "interval_description" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitIntervalDescription obj : "payment_schedule" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule obj : "transaction_type" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("custom_mandate_url" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitCustomMandateUrl obj) GHC.Base.<> (("interval_description" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitIntervalDescription obj) GHC.Base.<> (("payment_schedule" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule obj) GHC.Base.<> ("transaction_type" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_mandate_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitCustomMandateUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_description" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitIntervalDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_schedule" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_mandate_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitCustomMandateUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_description" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitIntervalDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_schedule" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit" (\obj -> (((GHC.Base.pure PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "custom_mandate_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transaction_type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit" (\obj -> (((GHC.Base.pure PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_mandate_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interval_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_type"))
 
 -- | Create a new 'PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit' with all required fields.
 mkPaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit :: PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit
@@ -74,61 +76,61 @@ mkPaymentIntentPaymentMethodOptionsMandateOptionsAcssDebit =
 -- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_mandate_options_acss_debit.properties.payment_schedule@ in the specification.
 --
 -- Payment schedule for the mandate.
-data PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'
+data PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'Other Data.Aeson.Types.Internal.Value
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'Typed Data.Text.Internal.Text
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"combined"@
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumCombined
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumCombined
   | -- | Represents the JSON value @"interval"@
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumInterval
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumInterval
   | -- | Represents the JSON value @"sporadic"@
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumSporadic
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumSporadic
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule' where
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'Other val) = val
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumCombined) = "combined"
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumInterval) = "interval"
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumSporadic) = "sporadic"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullable where
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableOther val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumCombined) = "combined"
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumInterval) = "interval"
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumSporadic) = "sporadic"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "combined" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumCombined
-            | val GHC.Classes.== "interval" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumInterval
-            | val GHC.Classes.== "sporadic" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'EnumSporadic
-            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'Other val
+            | val GHC.Classes.== "combined" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumCombined
+            | val GHC.Classes.== "interval" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumInterval
+            | val GHC.Classes.== "sporadic" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableEnumSporadic
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitPaymentSchedule'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_mandate_options_acss_debit.properties.transaction_type@ in the specification.
 --
 -- Transaction type of the mandate.
-data PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'
+data PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'Other Data.Aeson.Types.Internal.Value
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'Typed Data.Text.Internal.Text
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"business"@
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'EnumBusiness
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableEnumBusiness
   | -- | Represents the JSON value @"personal"@
-    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'EnumPersonal
+    PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableEnumPersonal
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType' where
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'Other val) = val
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'EnumBusiness) = "business"
-  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'EnumPersonal) = "personal"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullable where
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableOther val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableEnumBusiness) = "business"
+  toJSON (PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableEnumPersonal) = "personal"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "business" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'EnumBusiness
-            | val GHC.Classes.== "personal" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'EnumPersonal
-            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'Other val
+            | val GHC.Classes.== "business" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableEnumBusiness
+            | val GHC.Classes.== "personal" -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableEnumPersonal
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsMandateOptionsAcssDebitTransactionType'NonNullableOther val
       )

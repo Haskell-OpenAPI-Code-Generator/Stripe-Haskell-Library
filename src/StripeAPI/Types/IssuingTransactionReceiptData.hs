@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,13 +39,13 @@ data IssuingTransactionReceiptData = IssuingTransactionReceiptData
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionReceiptDataDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingTransactionReceiptDataDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | quantity: The quantity of the item.
-    issuingTransactionReceiptDataQuantity :: (GHC.Maybe.Maybe GHC.Types.Double),
+    issuingTransactionReceiptDataQuantity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | total: The total for this line item in cents.
-    issuingTransactionReceiptDataTotal :: (GHC.Maybe.Maybe GHC.Types.Int),
+    issuingTransactionReceiptDataTotal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | unit_cost: The unit cost of the item in cents.
-    issuingTransactionReceiptDataUnitCost :: (GHC.Maybe.Maybe GHC.Types.Int)
+    issuingTransactionReceiptDataUnitCost :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data IssuingTransactionReceiptData = IssuingTransactionReceiptData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingTransactionReceiptData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("description" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataDescription obj : "quantity" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataQuantity obj : "total" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataTotal obj : "unit_cost" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataUnitCost obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("description" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataDescription obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataQuantity obj) GHC.Base.<> (("total" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataTotal obj) GHC.Base.<> ("unit_cost" Data.Aeson.Types.ToJSON..= issuingTransactionReceiptDataUnitCost obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("total" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataTotal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_cost" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataUnitCost obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("total" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataTotal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_cost" Data.Aeson.Types.ToJSON..=)) (issuingTransactionReceiptDataUnitCost obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingTransactionReceiptData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionReceiptData" (\obj -> (((GHC.Base.pure IssuingTransactionReceiptData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_cost"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionReceiptData" (\obj -> (((GHC.Base.pure IssuingTransactionReceiptData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_cost"))
 
 -- | Create a new 'IssuingTransactionReceiptData' with all required fields.
 mkIssuingTransactionReceiptData :: IssuingTransactionReceiptData

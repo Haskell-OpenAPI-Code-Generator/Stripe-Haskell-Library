@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,8 +49,8 @@ data SourceCodeVerificationFlow = SourceCodeVerificationFlow
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceCodeVerificationFlow where
-  toJSON obj = Data.Aeson.Types.Internal.object ("attempts_remaining" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowAttemptsRemaining obj : "status" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowStatus obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("attempts_remaining" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowAttemptsRemaining obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowStatus obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["attempts_remaining" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowAttemptsRemaining obj] : ["status" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowStatus obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["attempts_remaining" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowAttemptsRemaining obj] : ["status" Data.Aeson.Types.ToJSON..= sourceCodeVerificationFlowStatus obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceCodeVerificationFlow where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceCodeVerificationFlow" (\obj -> (GHC.Base.pure SourceCodeVerificationFlow GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attempts_remaining")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))

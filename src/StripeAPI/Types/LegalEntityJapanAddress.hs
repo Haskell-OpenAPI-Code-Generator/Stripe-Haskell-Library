@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,43 +39,43 @@ data LegalEntityJapanAddress = LegalEntityJapanAddress
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityJapanAddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityJapanAddressCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityJapanAddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityJapanAddressCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Block\/Building number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityJapanAddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityJapanAddressLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Building details.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityJapanAddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityJapanAddressLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityJapanAddressPostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityJapanAddressPostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: Prefecture.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityJapanAddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityJapanAddressState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | town: Town\/cho-me.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityJapanAddressTown :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    legalEntityJapanAddressTown :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -81,11 +83,11 @@ data LegalEntityJapanAddress = LegalEntityJapanAddress
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityJapanAddress where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressCity obj : "country" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressCountry obj : "line1" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressLine1 obj : "line2" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressLine2 obj : "postal_code" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressPostalCode obj : "state" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressState obj : "town" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressTown obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressCity obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressCountry obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressLine1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressLine2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressPostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressState obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= legalEntityJapanAddressTown obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressPostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressTown obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressPostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (legalEntityJapanAddressTown obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityJapanAddress where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityJapanAddress" (\obj -> ((((((GHC.Base.pure LegalEntityJapanAddress GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityJapanAddress" (\obj -> ((((((GHC.Base.pure LegalEntityJapanAddress GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "town"))
 
 -- | Create a new 'LegalEntityJapanAddress' with all required fields.
 mkLegalEntityJapanAddress :: LegalEntityJapanAddress

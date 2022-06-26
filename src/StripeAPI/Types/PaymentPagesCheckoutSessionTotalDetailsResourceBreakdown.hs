@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,9 +36,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_pages_checkout_session_total_details_resource_breakdown@ in the specification.
 data PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown = PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown
-  { -- | discounts: The aggregated line item discounts.
+  { -- | discounts: The aggregated discounts.
     paymentPagesCheckoutSessionTotalDetailsResourceBreakdownDiscounts :: ([LineItemsDiscountAmount]),
-    -- | taxes: The aggregated line item tax amounts by rate.
+    -- | taxes: The aggregated tax amounts by rate.
     paymentPagesCheckoutSessionTotalDetailsResourceBreakdownTaxes :: ([LineItemsTaxAmount])
   }
   deriving
@@ -45,8 +47,8 @@ data PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown = PaymentPagesChec
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown where
-  toJSON obj = Data.Aeson.Types.Internal.object ("discounts" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownDiscounts obj : "taxes" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownTaxes obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("discounts" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownDiscounts obj) GHC.Base.<> ("taxes" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownTaxes obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["discounts" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownDiscounts obj] : ["taxes" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownTaxes obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["discounts" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownDiscounts obj] : ["taxes" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsResourceBreakdownTaxes obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown" (\obj -> (GHC.Base.pure PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "taxes"))

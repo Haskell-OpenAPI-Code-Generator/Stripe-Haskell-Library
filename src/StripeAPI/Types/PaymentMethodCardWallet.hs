@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ data PaymentMethodCardWallet = PaymentMethodCardWallet
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodCardWalletDynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodCardWalletDynamicLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | google_pay:
     paymentMethodCardWalletGooglePay :: (GHC.Maybe.Maybe PaymentMethodCardWalletGooglePay),
     -- | masterpass:
@@ -61,11 +63,11 @@ data PaymentMethodCardWallet = PaymentMethodCardWallet
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodCardWallet where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amex_express_checkout" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletAmexExpressCheckout obj : "apple_pay" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletApplePay obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletDynamicLast4 obj : "google_pay" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletGooglePay obj : "masterpass" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletMasterpass obj : "samsung_pay" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletSamsungPay obj : "type" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletType obj : "visa_checkout" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletVisaCheckout obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amex_express_checkout" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletAmexExpressCheckout obj) GHC.Base.<> (("apple_pay" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletApplePay obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletDynamicLast4 obj) GHC.Base.<> (("google_pay" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletGooglePay obj) GHC.Base.<> (("masterpass" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletMasterpass obj) GHC.Base.<> (("samsung_pay" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletSamsungPay obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletType obj) GHC.Base.<> ("visa_checkout" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletVisaCheckout obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amex_express_checkout" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletAmexExpressCheckout obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("apple_pay" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletApplePay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletDynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("google_pay" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletGooglePay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("masterpass" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletMasterpass obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("samsung_pay" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletSamsungPay obj) : ["type" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("visa_checkout" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletVisaCheckout obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amex_express_checkout" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletAmexExpressCheckout obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("apple_pay" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletApplePay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletDynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("google_pay" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletGooglePay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("masterpass" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletMasterpass obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("samsung_pay" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletSamsungPay obj) : ["type" Data.Aeson.Types.ToJSON..= paymentMethodCardWalletType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("visa_checkout" Data.Aeson.Types.ToJSON..=)) (paymentMethodCardWalletVisaCheckout obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodCardWallet where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodCardWallet" (\obj -> (((((((GHC.Base.pure PaymentMethodCardWallet GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amex_express_checkout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "apple_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "google_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "masterpass")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "samsung_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "visa_checkout"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodCardWallet" (\obj -> (((((((GHC.Base.pure PaymentMethodCardWallet GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amex_express_checkout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "apple_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "google_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "masterpass")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "samsung_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "visa_checkout"))
 
 -- | Create a new 'PaymentMethodCardWallet' with all required fields.
 mkPaymentMethodCardWallet ::

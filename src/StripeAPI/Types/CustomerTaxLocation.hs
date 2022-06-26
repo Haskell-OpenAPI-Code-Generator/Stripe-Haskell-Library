@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,7 +47,7 @@ data CustomerTaxLocation = CustomerTaxLocation
     -- Constraints:
     --
     -- * Maximum length of 5000
-    customerTaxLocationState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    customerTaxLocationState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -53,11 +55,11 @@ data CustomerTaxLocation = CustomerTaxLocation
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CustomerTaxLocation where
-  toJSON obj = Data.Aeson.Types.Internal.object ("country" Data.Aeson.Types.ToJSON..= customerTaxLocationCountry obj : "source" Data.Aeson.Types.ToJSON..= customerTaxLocationSource obj : "state" Data.Aeson.Types.ToJSON..= customerTaxLocationState obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("country" Data.Aeson.Types.ToJSON..= customerTaxLocationCountry obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= customerTaxLocationSource obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= customerTaxLocationState obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= customerTaxLocationCountry obj] : ["source" Data.Aeson.Types.ToJSON..= customerTaxLocationSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (customerTaxLocationState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= customerTaxLocationCountry obj] : ["source" Data.Aeson.Types.ToJSON..= customerTaxLocationSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (customerTaxLocationState obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CustomerTaxLocation where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerTaxLocation" (\obj -> ((GHC.Base.pure CustomerTaxLocation GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerTaxLocation" (\obj -> ((GHC.Base.pure CustomerTaxLocation GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
 -- | Create a new 'CustomerTaxLocation' with all required fields.
 mkCustomerTaxLocation ::

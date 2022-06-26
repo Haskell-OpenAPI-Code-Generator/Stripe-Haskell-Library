@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,13 +39,13 @@ data AccountDashboardSettings = AccountDashboardSettings
     -- Constraints:
     --
     -- * Maximum length of 5000
-    accountDashboardSettingsDisplayName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    accountDashboardSettingsDisplayName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | timezone: The timezone used in the Stripe Dashboard for this account. A list of possible time zone values is maintained at the [IANA Time Zone Database](http:\/\/www.iana.org\/time-zones).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    accountDashboardSettingsTimezone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    accountDashboardSettingsTimezone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data AccountDashboardSettings = AccountDashboardSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountDashboardSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object ("display_name" Data.Aeson.Types.ToJSON..= accountDashboardSettingsDisplayName obj : "timezone" Data.Aeson.Types.ToJSON..= accountDashboardSettingsTimezone obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("display_name" Data.Aeson.Types.ToJSON..= accountDashboardSettingsDisplayName obj) GHC.Base.<> ("timezone" Data.Aeson.Types.ToJSON..= accountDashboardSettingsTimezone obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (accountDashboardSettingsDisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("timezone" Data.Aeson.Types.ToJSON..=)) (accountDashboardSettingsTimezone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (accountDashboardSettingsDisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("timezone" Data.Aeson.Types.ToJSON..=)) (accountDashboardSettingsTimezone obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountDashboardSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountDashboardSettings" (\obj -> (GHC.Base.pure AccountDashboardSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "timezone"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountDashboardSettings" (\obj -> (GHC.Base.pure AccountDashboardSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "timezone"))
 
 -- | Create a new 'AccountDashboardSettings' with all required fields.
 mkAccountDashboardSettings :: AccountDashboardSettings

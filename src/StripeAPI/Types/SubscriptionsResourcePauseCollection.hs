@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -38,7 +40,7 @@ data SubscriptionsResourcePauseCollection = SubscriptionsResourcePauseCollection
   { -- | behavior: The payment collection behavior for this subscription while paused. One of \`keep_as_draft\`, \`mark_uncollectible\`, or \`void\`.
     subscriptionsResourcePauseCollectionBehavior :: SubscriptionsResourcePauseCollectionBehavior',
     -- | resumes_at: The time after which the subscription will resume collecting payments.
-    subscriptionsResourcePauseCollectionResumesAt :: (GHC.Maybe.Maybe GHC.Types.Int)
+    subscriptionsResourcePauseCollectionResumesAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -46,11 +48,11 @@ data SubscriptionsResourcePauseCollection = SubscriptionsResourcePauseCollection
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionsResourcePauseCollection where
-  toJSON obj = Data.Aeson.Types.Internal.object ("behavior" Data.Aeson.Types.ToJSON..= subscriptionsResourcePauseCollectionBehavior obj : "resumes_at" Data.Aeson.Types.ToJSON..= subscriptionsResourcePauseCollectionResumesAt obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("behavior" Data.Aeson.Types.ToJSON..= subscriptionsResourcePauseCollectionBehavior obj) GHC.Base.<> ("resumes_at" Data.Aeson.Types.ToJSON..= subscriptionsResourcePauseCollectionResumesAt obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["behavior" Data.Aeson.Types.ToJSON..= subscriptionsResourcePauseCollectionBehavior obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("resumes_at" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePauseCollectionResumesAt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["behavior" Data.Aeson.Types.ToJSON..= subscriptionsResourcePauseCollectionBehavior obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("resumes_at" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePauseCollectionResumesAt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionsResourcePauseCollection where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionsResourcePauseCollection" (\obj -> (GHC.Base.pure SubscriptionsResourcePauseCollection GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "resumes_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionsResourcePauseCollection" (\obj -> (GHC.Base.pure SubscriptionsResourcePauseCollection GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "resumes_at"))
 
 -- | Create a new 'SubscriptionsResourcePauseCollection' with all required fields.
 mkSubscriptionsResourcePauseCollection ::

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -59,8 +61,8 @@ data BitcoinTransaction = BitcoinTransaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BitcoinTransaction where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionAmount obj : "bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionBitcoinAmount obj : "created" Data.Aeson.Types.ToJSON..= bitcoinTransactionCreated obj : "currency" Data.Aeson.Types.ToJSON..= bitcoinTransactionCurrency obj : "id" Data.Aeson.Types.ToJSON..= bitcoinTransactionId obj : "receiver" Data.Aeson.Types.ToJSON..= bitcoinTransactionReceiver obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_transaction" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionAmount obj) GHC.Base.<> (("bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionBitcoinAmount obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= bitcoinTransactionCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= bitcoinTransactionCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= bitcoinTransactionId obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= bitcoinTransactionReceiver obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_transaction")))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionAmount obj] : ["bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionBitcoinAmount obj] : ["created" Data.Aeson.Types.ToJSON..= bitcoinTransactionCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= bitcoinTransactionCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= bitcoinTransactionId obj] : ["receiver" Data.Aeson.Types.ToJSON..= bitcoinTransactionReceiver obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_transaction"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionAmount obj] : ["bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinTransactionBitcoinAmount obj] : ["created" Data.Aeson.Types.ToJSON..= bitcoinTransactionCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= bitcoinTransactionCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= bitcoinTransactionId obj] : ["receiver" Data.Aeson.Types.ToJSON..= bitcoinTransactionReceiver obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_transaction"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BitcoinTransaction where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinTransaction" (\obj -> (((((GHC.Base.pure BitcoinTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "receiver"))

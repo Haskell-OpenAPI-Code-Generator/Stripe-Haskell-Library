@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ data Topup = Topup
   { -- | amount: Amount transferred.
     topupAmount :: GHC.Types.Int,
     -- | balance_transaction: ID of the balance transaction that describes the impact of this top-up on your account balance. May not be specified depending on status of top-up.
-    topupBalanceTransaction :: (GHC.Maybe.Maybe TopupBalanceTransaction'Variants),
+    topupBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TopupBalanceTransaction'NonNullableVariants)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     topupCreated :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
@@ -57,21 +59,21 @@ data Topup = Topup
     -- Constraints:
     --
     -- * Maximum length of 5000
-    topupDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    topupDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | expected_availability_date: Date the funds are expected to arrive in your Stripe account for payouts. This factors in delays like weekends or bank holidays. May not be specified depending on status of top-up.
-    topupExpectedAvailabilityDate :: (GHC.Maybe.Maybe GHC.Types.Int),
+    topupExpectedAvailabilityDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | failure_code: Error code explaining reason for top-up failure if available (see [the errors section](https:\/\/stripe.com\/docs\/api\#errors) for a list of codes).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    topupFailureCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    topupFailureCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | failure_message: Message to user further explaining reason for top-up failure if available.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    topupFailureMessage :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    topupFailureMessage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -94,7 +96,7 @@ data Topup = Topup
     -- Constraints:
     --
     -- * Maximum length of 5000
-    topupStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    topupStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | status: The status of the top-up is either \`canceled\`, \`failed\`, \`pending\`, \`reversed\`, or \`succeeded\`.
     topupStatus :: TopupStatus',
     -- | transfer_group: A string that identifies this top-up as part of a group.
@@ -102,7 +104,7 @@ data Topup = Topup
     -- Constraints:
     --
     -- * Maximum length of 5000
-    topupTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    topupTransferGroup :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -110,11 +112,11 @@ data Topup = Topup
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Topup where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= topupAmount obj : "balance_transaction" Data.Aeson.Types.ToJSON..= topupBalanceTransaction obj : "created" Data.Aeson.Types.ToJSON..= topupCreated obj : "currency" Data.Aeson.Types.ToJSON..= topupCurrency obj : "description" Data.Aeson.Types.ToJSON..= topupDescription obj : "expected_availability_date" Data.Aeson.Types.ToJSON..= topupExpectedAvailabilityDate obj : "failure_code" Data.Aeson.Types.ToJSON..= topupFailureCode obj : "failure_message" Data.Aeson.Types.ToJSON..= topupFailureMessage obj : "id" Data.Aeson.Types.ToJSON..= topupId obj : "livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj : "source" Data.Aeson.Types.ToJSON..= topupSource obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= topupStatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= topupStatus obj : "transfer_group" Data.Aeson.Types.ToJSON..= topupTransferGroup obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= topupAmount obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= topupBalanceTransaction obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= topupCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= topupCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= topupDescription obj) GHC.Base.<> (("expected_availability_date" Data.Aeson.Types.ToJSON..= topupExpectedAvailabilityDate obj) GHC.Base.<> (("failure_code" Data.Aeson.Types.ToJSON..= topupFailureCode obj) GHC.Base.<> (("failure_message" Data.Aeson.Types.ToJSON..= topupFailureMessage obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= topupId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= topupSource obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= topupStatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= topupStatus obj) GHC.Base.<> (("transfer_group" Data.Aeson.Types.ToJSON..= topupTransferGroup obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= topupAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (topupBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= topupCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= topupCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (topupDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_availability_date" Data.Aeson.Types.ToJSON..=)) (topupExpectedAvailabilityDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (topupFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (topupFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= topupId obj] : ["livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj] : ["source" Data.Aeson.Types.ToJSON..= topupSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= topupStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (topupTransferGroup obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= topupAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (topupBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= topupCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= topupCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (topupDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_availability_date" Data.Aeson.Types.ToJSON..=)) (topupExpectedAvailabilityDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (topupFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (topupFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= topupId obj] : ["livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj] : ["source" Data.Aeson.Types.ToJSON..= topupSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= topupStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (topupTransferGroup obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Topup where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Topup" (\obj -> ((((((((((((((GHC.Base.pure Topup GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expected_availability_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Topup" (\obj -> ((((((((((((((GHC.Base.pure Topup GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expected_availability_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_group"))
 
 -- | Create a new 'Topup' with all required fields.
 mkTopup ::
@@ -157,17 +159,17 @@ mkTopup topupAmount topupCreated topupCurrency topupId topupLivemode topupMetada
 -- | Defines the oneOf schema located at @components.schemas.topup.properties.balance_transaction.anyOf@ in the specification.
 --
 -- ID of the balance transaction that describes the impact of this top-up on your account balance. May not be specified depending on status of top-up.
-data TopupBalanceTransaction'Variants
-  = TopupBalanceTransaction'Text Data.Text.Internal.Text
-  | TopupBalanceTransaction'BalanceTransaction BalanceTransaction
+data TopupBalanceTransaction'NonNullableVariants
+  = TopupBalanceTransaction'NonNullableText Data.Text.Internal.Text
+  | TopupBalanceTransaction'NonNullableBalanceTransaction BalanceTransaction
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON TopupBalanceTransaction'Variants where
-  toJSON (TopupBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (TopupBalanceTransaction'BalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON TopupBalanceTransaction'NonNullableVariants where
+  toJSON (TopupBalanceTransaction'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (TopupBalanceTransaction'NonNullableBalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON TopupBalanceTransaction'Variants where
-  parseJSON val = case (TopupBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TopupBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON TopupBalanceTransaction'NonNullableVariants where
+  parseJSON val = case (TopupBalanceTransaction'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TopupBalanceTransaction'NonNullableBalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

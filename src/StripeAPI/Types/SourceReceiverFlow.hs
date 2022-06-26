@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,7 +39,7 @@ data SourceReceiverFlow = SourceReceiverFlow
     -- Constraints:
     --
     -- * Maximum length of 5000
-    sourceReceiverFlowAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceReceiverFlowAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | amount_charged: The total amount that was moved to your balance. This is almost always equal to the amount charged. In rare cases when customers deposit excess funds and we are unable to refund those, those funds get moved to your balance and show up in amount_charged as well. The amount charged is expressed in the source\'s currency.
     sourceReceiverFlowAmountCharged :: GHC.Types.Int,
     -- | amount_received: The total amount received by the receiver source. \`amount_received = amount_returned + amount_charged\` should be true for consumed sources unless customers deposit excess funds. The amount received is expressed in the source\'s currency.
@@ -63,11 +65,11 @@ data SourceReceiverFlow = SourceReceiverFlow
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceReceiverFlow where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAddress obj : "amount_charged" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountCharged obj : "amount_received" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReceived obj : "amount_returned" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReturned obj : "refund_attributes_method" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesMethod obj : "refund_attributes_status" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesStatus obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAddress obj) GHC.Base.<> (("amount_charged" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountCharged obj) GHC.Base.<> (("amount_received" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReceived obj) GHC.Base.<> (("amount_returned" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReturned obj) GHC.Base.<> (("refund_attributes_method" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesMethod obj) GHC.Base.<> ("refund_attributes_status" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesStatus obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (sourceReceiverFlowAddress obj) : ["amount_charged" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountCharged obj] : ["amount_received" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReceived obj] : ["amount_returned" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReturned obj] : ["refund_attributes_method" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesMethod obj] : ["refund_attributes_status" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesStatus obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (sourceReceiverFlowAddress obj) : ["amount_charged" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountCharged obj] : ["amount_received" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReceived obj] : ["amount_returned" Data.Aeson.Types.ToJSON..= sourceReceiverFlowAmountReturned obj] : ["refund_attributes_method" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesMethod obj] : ["refund_attributes_status" Data.Aeson.Types.ToJSON..= sourceReceiverFlowRefundAttributesStatus obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceReceiverFlow where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceReceiverFlow" (\obj -> (((((GHC.Base.pure SourceReceiverFlow GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_charged")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_returned")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refund_attributes_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refund_attributes_status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceReceiverFlow" (\obj -> (((((GHC.Base.pure SourceReceiverFlow GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_charged")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_returned")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refund_attributes_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refund_attributes_status"))
 
 -- | Create a new 'SourceReceiverFlow' with all required fields.
 mkSourceReceiverFlow ::

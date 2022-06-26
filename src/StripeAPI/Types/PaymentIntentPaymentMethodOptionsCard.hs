@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -29,19 +31,42 @@ import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.PaymentMethodDetailsCardInstallmentsPlan
 import {-# SOURCE #-} StripeAPI.Types.PaymentMethodOptionsCardInstallments
+import {-# SOURCE #-} StripeAPI.Types.PaymentMethodOptionsCardMandateOptions
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_intent_payment_method_options_card@ in the specification.
 data PaymentIntentPaymentMethodOptionsCard = PaymentIntentPaymentMethodOptionsCard
-  { -- | installments: Installment details for this payment (Mexico only).
+  { -- | capture_method: Controls when the funds will be captured from the customer\'s account.
+    paymentIntentPaymentMethodOptionsCardCaptureMethod :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardCaptureMethod'),
+    -- | installments: Installment details for this payment (Mexico only).
     --
     -- For more information, see the [installments integration guide](https:\/\/stripe.com\/docs\/payments\/installments).
-    paymentIntentPaymentMethodOptionsCardInstallments :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardInstallments'),
+    paymentIntentPaymentMethodOptionsCardInstallments :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable)),
+    -- | mandate_options: Configuration options for setting up an eMandate for cards issued in India.
+    paymentIntentPaymentMethodOptionsCardMandateOptions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable)),
     -- | network: Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
-    paymentIntentPaymentMethodOptionsCardNetwork :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardNetwork'),
+    paymentIntentPaymentMethodOptionsCardNetwork :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardNetwork'NonNullable)),
     -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-    paymentIntentPaymentMethodOptionsCardRequestThreeDSecure :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure')
+    paymentIntentPaymentMethodOptionsCardRequestThreeDSecure :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable)),
+    -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+    --
+    -- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+    --
+    -- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+    paymentIntentPaymentMethodOptionsCardSetupFutureUsage :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'),
+    -- | statement_descriptor_suffix_kana: Provides information about a card payment that customers see on their statements. Concatenated with the Kana prefix (shortened Kana descriptor) or Kana statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 22 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 22 characters.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | statement_descriptor_suffix_kanji: Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
   deriving
     ( GHC.Show.Show,
@@ -49,229 +74,447 @@ data PaymentIntentPaymentMethodOptionsCard = PaymentIntentPaymentMethodOptionsCa
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCard where
-  toJSON obj = Data.Aeson.Types.Internal.object ("installments" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments obj : "network" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardNetwork obj : "request_three_d_secure" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("installments" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments obj) GHC.Base.<> (("network" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardNetwork obj) GHC.Base.<> ("request_three_d_secure" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCard where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCard" (\obj -> ((GHC.Base.pure PaymentIntentPaymentMethodOptionsCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "request_three_d_secure"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCard" (\obj -> (((((((GHC.Base.pure PaymentIntentPaymentMethodOptionsCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kanji"))
 
 -- | Create a new 'PaymentIntentPaymentMethodOptionsCard' with all required fields.
 mkPaymentIntentPaymentMethodOptionsCard :: PaymentIntentPaymentMethodOptionsCard
 mkPaymentIntentPaymentMethodOptionsCard =
   PaymentIntentPaymentMethodOptionsCard
-    { paymentIntentPaymentMethodOptionsCardInstallments = GHC.Maybe.Nothing,
+    { paymentIntentPaymentMethodOptionsCardCaptureMethod = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardInstallments = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions = GHC.Maybe.Nothing,
       paymentIntentPaymentMethodOptionsCardNetwork = GHC.Maybe.Nothing,
-      paymentIntentPaymentMethodOptionsCardRequestThreeDSecure = GHC.Maybe.Nothing
+      paymentIntentPaymentMethodOptionsCardRequestThreeDSecure = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardSetupFutureUsage = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji = GHC.Maybe.Nothing
     }
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.capture_method@ in the specification.
+--
+-- Controls when the funds will be captured from the customer\'s account.
+data PaymentIntentPaymentMethodOptionsCardCaptureMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardCaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardCaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"manual"@
+    PaymentIntentPaymentMethodOptionsCardCaptureMethod'EnumManual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardCaptureMethod' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardCaptureMethod'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardCaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardCaptureMethod'EnumManual) = "manual"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardCaptureMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "manual" -> PaymentIntentPaymentMethodOptionsCardCaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardCaptureMethod'Other val
+      )
 
 -- | Defines the object schema located at @components.schemas.payment_intent_payment_method_options_card.properties.installments.anyOf@ in the specification.
 --
 -- Installment details for this payment (Mexico only).
 --
 -- For more information, see the [installments integration guide](https:\\\/\\\/stripe.com\\\/docs\\\/payments\\\/installments).
-data PaymentIntentPaymentMethodOptionsCardInstallments' = PaymentIntentPaymentMethodOptionsCardInstallments'
+data PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable = PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable
   { -- | available_plans: Installment plans that may be selected for this PaymentIntent.
-    paymentIntentPaymentMethodOptionsCardInstallments'AvailablePlans :: (GHC.Maybe.Maybe ([PaymentMethodDetailsCardInstallmentsPlan])),
+    paymentIntentPaymentMethodOptionsCardInstallments'NonNullableAvailablePlans :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PaymentMethodDetailsCardInstallmentsPlan]))),
     -- | enabled: Whether Installments are enabled for this PaymentIntent.
-    paymentIntentPaymentMethodOptionsCardInstallments'Enabled :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    paymentIntentPaymentMethodOptionsCardInstallments'NonNullableEnabled :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | plan: Installment plan selected for this PaymentIntent.
-    paymentIntentPaymentMethodOptionsCardInstallments'Plan :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardInstallments'Plan')
+    paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("available_plans" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'AvailablePlans obj : "enabled" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Enabled obj : "plan" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("available_plans" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'AvailablePlans obj) GHC.Base.<> (("enabled" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Enabled obj) GHC.Base.<> ("plan" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_plans" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullableAvailablePlans obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullableEnabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("plan" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_plans" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullableAvailablePlans obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullableEnabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("plan" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCardInstallments'" (\obj -> ((GHC.Base.pure PaymentIntentPaymentMethodOptionsCardInstallments' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_plans")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "plan"))
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable" (\obj -> ((GHC.Base.pure PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "available_plans")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "plan"))
 
--- | Create a new 'PaymentIntentPaymentMethodOptionsCardInstallments'' with all required fields.
-mkPaymentIntentPaymentMethodOptionsCardInstallments' :: PaymentIntentPaymentMethodOptionsCardInstallments'
-mkPaymentIntentPaymentMethodOptionsCardInstallments' =
-  PaymentIntentPaymentMethodOptionsCardInstallments'
-    { paymentIntentPaymentMethodOptionsCardInstallments'AvailablePlans = GHC.Maybe.Nothing,
-      paymentIntentPaymentMethodOptionsCardInstallments'Enabled = GHC.Maybe.Nothing,
-      paymentIntentPaymentMethodOptionsCardInstallments'Plan = GHC.Maybe.Nothing
+-- | Create a new 'PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable' with all required fields.
+mkPaymentIntentPaymentMethodOptionsCardInstallments'NonNullable :: PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable
+mkPaymentIntentPaymentMethodOptionsCardInstallments'NonNullable =
+  PaymentIntentPaymentMethodOptionsCardInstallments'NonNullable
+    { paymentIntentPaymentMethodOptionsCardInstallments'NonNullableAvailablePlans = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardInstallments'NonNullableEnabled = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.payment_intent_payment_method_options_card.properties.installments.anyOf.properties.plan.anyOf@ in the specification.
 --
 -- Installment plan selected for this PaymentIntent.
-data PaymentIntentPaymentMethodOptionsCardInstallments'Plan' = PaymentIntentPaymentMethodOptionsCardInstallments'Plan'
+data PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable = PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable
   { -- | count: For \`fixed_count\` installment plans, this is the number of installment payments your customer will make to their credit card.
-    paymentIntentPaymentMethodOptionsCardInstallments'Plan'Count :: (GHC.Maybe.Maybe GHC.Types.Int),
+    paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableCount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | interval: For \`fixed_count\` installment plans, this is the interval between installment payments your customer will make to their credit card.
     -- One of \`month\`.
-    paymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'),
+    paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullable)),
     -- | type: Type of installment plan, one of \`fixed_count\`.
-    paymentIntentPaymentMethodOptionsCardInstallments'Plan'Type :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type')
+    paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType')
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments'Plan' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("count" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan'Count obj : "interval" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval obj : "type" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan'Type obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("count" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan'Count obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= paymentIntentPaymentMethodOptionsCardInstallments'Plan'Type obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("count" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableCount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("count" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableCount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments'Plan' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCardInstallments'Plan'" (\obj -> ((GHC.Base.pure PaymentIntentPaymentMethodOptionsCardInstallments'Plan' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable" (\obj -> ((GHC.Base.pure PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
 
--- | Create a new 'PaymentIntentPaymentMethodOptionsCardInstallments'Plan'' with all required fields.
-mkPaymentIntentPaymentMethodOptionsCardInstallments'Plan' :: PaymentIntentPaymentMethodOptionsCardInstallments'Plan'
-mkPaymentIntentPaymentMethodOptionsCardInstallments'Plan' =
-  PaymentIntentPaymentMethodOptionsCardInstallments'Plan'
-    { paymentIntentPaymentMethodOptionsCardInstallments'Plan'Count = GHC.Maybe.Nothing,
-      paymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval = GHC.Maybe.Nothing,
-      paymentIntentPaymentMethodOptionsCardInstallments'Plan'Type = GHC.Maybe.Nothing
+-- | Create a new 'PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable' with all required fields.
+mkPaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable :: PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable
+mkPaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable =
+  PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullable
+    { paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableCount = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.installments.anyOf.properties.plan.anyOf.properties.interval@ in the specification.
 --
 -- For \`fixed_count\` installment plans, this is the interval between installment payments your customer will make to their credit card.
 -- One of \`month\`.
-data PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'
+data PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'Other Data.Aeson.Types.Internal.Value
+    PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'Typed Data.Text.Internal.Text
+    PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"month"@
-    PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'EnumMonth
+    PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableEnumMonth
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval' where
-  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'Other val) = val
-  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'EnumMonth) = "month"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullable where
+  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableOther val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableEnumMonth) = "month"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "month" -> PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'EnumMonth
-            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Interval'Other val
+            | val GHC.Classes.== "month" -> PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableEnumMonth
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableInterval'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.installments.anyOf.properties.plan.anyOf.properties.type@ in the specification.
 --
 -- Type of installment plan, one of \`fixed_count\`.
-data PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'
+data PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'Other Data.Aeson.Types.Internal.Value
+    PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'Typed Data.Text.Internal.Text
+    PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"fixed_count"@
-    PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'EnumFixedCount
+    PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'EnumFixedCount
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type' where
-  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'Other val) = val
-  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'EnumFixedCount) = "fixed_count"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'EnumFixedCount) = "fixed_count"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "fixed_count" -> PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'EnumFixedCount
-            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardInstallments'Plan'Type'Other val
+            | val GHC.Classes.== "fixed_count" -> PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'EnumFixedCount
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardInstallments'NonNullablePlan'NonNullableType'Other val
+      )
+
+-- | Defines the object schema located at @components.schemas.payment_intent_payment_method_options_card.properties.mandate_options.anyOf@ in the specification.
+--
+-- Configuration options for setting up an eMandate for cards issued in India.
+data PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable = PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable
+  { -- | amount: Amount to be charged for future payments.
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | amount_type: One of \`fixed\` or \`maximum\`. If \`fixed\`, the \`amount\` param refers to the exact amount to be charged in future payments. If \`maximum\`, the amount charged can be up to the value passed for the \`amount\` param.
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'),
+    -- | description: A description of the mandate or subscription that is meant to be displayed to the customer.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 200
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | end_date: End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableEndDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | interval: Specifies payment frequency. One of \`day\`, \`week\`, \`month\`, \`year\`, or \`sporadic\`.
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'),
+    -- | interval_count: The number of intervals between payments. For example, \`interval=month\` and \`interval_count=3\` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when \`interval=sporadic\`.
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableIntervalCount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | reference: Unique identifier for the mandate or subscription.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 80
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | start_date: Start date of the mandate or subscription. Start date should not be lesser than yesterday.
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableStartDate :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | supported_types: Specifies the type of mandates supported. Possible values are \`india\`.
+    paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullable])))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_type" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_date" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableEndDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_count" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableIntervalCount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("start_date" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableStartDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("supported_types" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_type" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_date" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableEndDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_count" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableIntervalCount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("start_date" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableStartDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("supported_types" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable" (\obj -> ((((((((GHC.Base.pure PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "end_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "start_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "supported_types"))
+
+-- | Create a new 'PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable' with all required fields.
+mkPaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable :: PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable
+mkPaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable =
+  PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable
+    { paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmount = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableDescription = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableEndDate = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableIntervalCount = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableReference = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableStartDate = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.mandate_options.anyOf.properties.amount_type@ in the specification.
+--
+-- One of \`fixed\` or \`maximum\`. If \`fixed\`, the \`amount\` param refers to the exact amount to be charged in future payments. If \`maximum\`, the amount charged can be up to the value passed for the \`amount\` param.
+data PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"fixed"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'EnumFixed
+  | -- | Represents the JSON value @"maximum"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'EnumMaximum
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'EnumFixed) = "fixed"
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'EnumMaximum) = "maximum"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "fixed" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'EnumFixed
+            | val GHC.Classes.== "maximum" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'EnumMaximum
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableAmountType'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.mandate_options.anyOf.properties.interval@ in the specification.
+--
+-- Specifies payment frequency. One of \`day\`, \`week\`, \`month\`, \`year\`, or \`sporadic\`.
+data PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"day"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumDay
+  | -- | Represents the JSON value @"month"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumMonth
+  | -- | Represents the JSON value @"sporadic"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumSporadic
+  | -- | Represents the JSON value @"week"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumWeek
+  | -- | Represents the JSON value @"year"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumYear
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumDay) = "day"
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumMonth) = "month"
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumSporadic) = "sporadic"
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumWeek) = "week"
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumYear) = "year"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "day" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumDay
+            | val GHC.Classes.== "month" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumMonth
+            | val GHC.Classes.== "sporadic" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumSporadic
+            | val GHC.Classes.== "week" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumWeek
+            | val GHC.Classes.== "year" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'EnumYear
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableInterval'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.mandate_options.anyOf.properties.supported_types.items@ in the specification.
+data PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"india"@
+    PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableEnumIndia
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullable where
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableOther val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableEnumIndia) = "india"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "india" -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableEnumIndia
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullableSupportedTypes'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.network@ in the specification.
 --
 -- Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
-data PaymentIntentPaymentMethodOptionsCardNetwork'
+data PaymentIntentPaymentMethodOptionsCardNetwork'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentIntentPaymentMethodOptionsCardNetwork'Other Data.Aeson.Types.Internal.Value
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentIntentPaymentMethodOptionsCardNetwork'Typed Data.Text.Internal.Text
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"amex"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumAmex
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumAmex
   | -- | Represents the JSON value @"cartes_bancaires"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumCartesBancaires
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumCartesBancaires
   | -- | Represents the JSON value @"diners"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumDiners
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners
   | -- | Represents the JSON value @"discover"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumDiscover
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover
   | -- | Represents the JSON value @"interac"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumInterac
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac
   | -- | Represents the JSON value @"jcb"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumJcb
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumJcb
   | -- | Represents the JSON value @"mastercard"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumMastercard
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumMastercard
   | -- | Represents the JSON value @"unionpay"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumUnionpay
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumUnionpay
   | -- | Represents the JSON value @"unknown"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumUnknown
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumUnknown
   | -- | Represents the JSON value @"visa"@
-    PaymentIntentPaymentMethodOptionsCardNetwork'EnumVisa
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumVisa
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardNetwork' where
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'Other val) = val
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumAmex) = "amex"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumCartesBancaires) = "cartes_bancaires"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumDiners) = "diners"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumDiscover) = "discover"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumInterac) = "interac"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumJcb) = "jcb"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumMastercard) = "mastercard"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumUnionpay) = "unionpay"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumUnknown) = "unknown"
-  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'EnumVisa) = "visa"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardNetwork'NonNullable where
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableOther val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumAmex) = "amex"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumCartesBancaires) = "cartes_bancaires"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners) = "diners"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover) = "discover"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac) = "interac"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumJcb) = "jcb"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumMastercard) = "mastercard"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumUnionpay) = "unionpay"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumUnknown) = "unknown"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumVisa) = "visa"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardNetwork' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardNetwork'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "amex" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumAmex
-            | val GHC.Classes.== "cartes_bancaires" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumCartesBancaires
-            | val GHC.Classes.== "diners" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumDiners
-            | val GHC.Classes.== "discover" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumDiscover
-            | val GHC.Classes.== "interac" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumInterac
-            | val GHC.Classes.== "jcb" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumJcb
-            | val GHC.Classes.== "mastercard" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumMastercard
-            | val GHC.Classes.== "unionpay" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumUnionpay
-            | val GHC.Classes.== "unknown" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumUnknown
-            | val GHC.Classes.== "visa" -> PaymentIntentPaymentMethodOptionsCardNetwork'EnumVisa
-            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardNetwork'Other val
+            | val GHC.Classes.== "amex" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumAmex
+            | val GHC.Classes.== "cartes_bancaires" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumCartesBancaires
+            | val GHC.Classes.== "diners" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners
+            | val GHC.Classes.== "discover" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover
+            | val GHC.Classes.== "interac" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac
+            | val GHC.Classes.== "jcb" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumJcb
+            | val GHC.Classes.== "mastercard" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumMastercard
+            | val GHC.Classes.== "unionpay" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumUnionpay
+            | val GHC.Classes.== "unknown" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumUnknown
+            | val GHC.Classes.== "visa" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumVisa
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.request_three_d_secure@ in the specification.
 --
 -- We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-data PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'
+data PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'Other Data.Aeson.Types.Internal.Value
+    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'Typed Data.Text.Internal.Text
+    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"any"@
-    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAny
+    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny
   | -- | Represents the JSON value @"automatic"@
-    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAutomatic
+    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic
   | -- | Represents the JSON value @"challenge_only"@
-    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumChallengeOnly
+    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure' where
-  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'Other val) = val
-  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAny) = "any"
-  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAutomatic) = "automatic"
-  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumChallengeOnly) = "challenge_only"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable where
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableOther val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny) = "any"
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic) = "automatic"
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly) = "challenge_only"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "any" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAny
-            | val GHC.Classes.== "automatic" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumAutomatic
-            | val GHC.Classes.== "challenge_only" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'EnumChallengeOnly
-            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'Other val
+            | val GHC.Classes.== "any" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny
+            | val GHC.Classes.== "automatic" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic
+            | val GHC.Classes.== "challenge_only" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableOther val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.setup_future_usage@ in the specification.
+--
+-- Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+--
+-- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+--
+-- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+data PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumOffSession
+  | -- | Represents the JSON value @"on_session"@
+    PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumOnSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardSetupFutureUsage' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumNone) = "none"
+  toJSON (PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumOffSession) = "off_session"
+  toJSON (PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumOnSession) = "on_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardSetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumOffSession
+            | val GHC.Classes.== "on_session" -> PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'EnumOnSession
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardSetupFutureUsage'Other val
       )

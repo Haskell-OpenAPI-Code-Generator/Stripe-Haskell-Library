@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,7 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.payment_method_options_oxxo@ in the specification.
 data PaymentMethodOptionsOxxo = PaymentMethodOptionsOxxo
   { -- | expires_after_days: The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America\/Mexico_City time.
-    paymentMethodOptionsOxxoExpiresAfterDays :: GHC.Types.Int
+    paymentMethodOptionsOxxoExpiresAfterDays :: GHC.Types.Int,
+    -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+    --
+    -- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+    --
+    -- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+    paymentMethodOptionsOxxoSetupFutureUsage :: (GHC.Maybe.Maybe PaymentMethodOptionsOxxoSetupFutureUsage')
   }
   deriving
     ( GHC.Show.Show,
@@ -41,15 +49,48 @@ data PaymentMethodOptionsOxxo = PaymentMethodOptionsOxxo
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsOxxo where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsOxxoExpiresAfterDays obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsOxxoExpiresAfterDays obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsOxxoExpiresAfterDays obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsOxxoSetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsOxxoExpiresAfterDays obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsOxxoSetupFutureUsage obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsOxxo where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsOxxo" (\obj -> GHC.Base.pure PaymentMethodOptionsOxxo GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_after_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsOxxo" (\obj -> (GHC.Base.pure PaymentMethodOptionsOxxo GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_after_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
 
 -- | Create a new 'PaymentMethodOptionsOxxo' with all required fields.
 mkPaymentMethodOptionsOxxo ::
   -- | 'paymentMethodOptionsOxxoExpiresAfterDays'
   GHC.Types.Int ->
   PaymentMethodOptionsOxxo
-mkPaymentMethodOptionsOxxo paymentMethodOptionsOxxoExpiresAfterDays = PaymentMethodOptionsOxxo {paymentMethodOptionsOxxoExpiresAfterDays = paymentMethodOptionsOxxoExpiresAfterDays}
+mkPaymentMethodOptionsOxxo paymentMethodOptionsOxxoExpiresAfterDays =
+  PaymentMethodOptionsOxxo
+    { paymentMethodOptionsOxxoExpiresAfterDays = paymentMethodOptionsOxxoExpiresAfterDays,
+      paymentMethodOptionsOxxoSetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_options_oxxo.properties.setup_future_usage@ in the specification.
+--
+-- Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+--
+-- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+--
+-- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+data PaymentMethodOptionsOxxoSetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodOptionsOxxoSetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodOptionsOxxoSetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentMethodOptionsOxxoSetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsOxxoSetupFutureUsage' where
+  toJSON (PaymentMethodOptionsOxxoSetupFutureUsage'Other val) = val
+  toJSON (PaymentMethodOptionsOxxoSetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsOxxoSetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsOxxoSetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentMethodOptionsOxxoSetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PaymentMethodOptionsOxxoSetupFutureUsage'Other val
+      )

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/payment_methods/{payment_method}/detach
 --
--- \<p>Detaches a PaymentMethod object from a Customer.\<\/p>
+-- \<p>Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.\<\/p>
 postPaymentMethodsPaymentMethodDetach ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -95,11 +97,11 @@ data PostPaymentMethodsPaymentMethodDetachRequestBody = PostPaymentMethodsPaymen
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsPaymentMethodDetachRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postPaymentMethodsPaymentMethodDetachRequestBodyExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postPaymentMethodsPaymentMethodDetachRequestBodyExpand obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsPaymentMethodDetachRequestBodyExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsPaymentMethodDetachRequestBodyExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsPaymentMethodDetachRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentMethodsPaymentMethodDetachRequestBody" (\obj -> GHC.Base.pure PostPaymentMethodsPaymentMethodDetachRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentMethodsPaymentMethodDetachRequestBody" (\obj -> GHC.Base.pure PostPaymentMethodsPaymentMethodDetachRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand"))
 
 -- | Create a new 'PostPaymentMethodsPaymentMethodDetachRequestBody' with all required fields.
 mkPostPaymentMethodsPaymentMethodDetachRequestBody :: PostPaymentMethodsPaymentMethodDetachRequestBody

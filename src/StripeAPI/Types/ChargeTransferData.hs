@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.charge_transfer_data@ in the specification.
 data ChargeTransferData = ChargeTransferData
   { -- | amount: The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-    chargeTransferDataAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    chargeTransferDataAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | destination: ID of an existing, connected Stripe account to transfer funds to if \`transfer_data\` was specified in the charge request.
     chargeTransferDataDestination :: ChargeTransferDataDestination'Variants
   }
@@ -44,11 +46,11 @@ data ChargeTransferData = ChargeTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeTransferData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= chargeTransferDataAmount obj : "destination" Data.Aeson.Types.ToJSON..= chargeTransferDataDestination obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= chargeTransferDataAmount obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= chargeTransferDataDestination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (chargeTransferDataAmount obj) : ["destination" Data.Aeson.Types.ToJSON..= chargeTransferDataDestination obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (chargeTransferDataAmount obj) : ["destination" Data.Aeson.Types.ToJSON..= chargeTransferDataDestination obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeTransferData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeTransferData" (\obj -> (GHC.Base.pure ChargeTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeTransferData" (\obj -> (GHC.Base.pure ChargeTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
 
 -- | Create a new 'ChargeTransferData' with all required fields.
 mkChargeTransferData ::

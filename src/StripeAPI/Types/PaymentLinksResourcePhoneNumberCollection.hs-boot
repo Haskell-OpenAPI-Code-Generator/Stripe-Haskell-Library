@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentLinksResourcePhoneNumberCollection where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentLinksResourcePhoneNumberCollection
+instance Show PaymentLinksResourcePhoneNumberCollection
+instance Eq PaymentLinksResourcePhoneNumberCollection
+instance FromJSON PaymentLinksResourcePhoneNumberCollection
+instance ToJSON PaymentLinksResourcePhoneNumberCollection

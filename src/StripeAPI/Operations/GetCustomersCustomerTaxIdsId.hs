@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -101,11 +103,11 @@ data GetCustomersCustomerTaxIdsIdParameters = GetCustomersCustomerTaxIdsIdParame
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerTaxIdsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathCustomer obj) GHC.Base.<> (("pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCustomersCustomerTaxIdsIdParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= getCustomersCustomerTaxIdsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCustomersCustomerTaxIdsIdParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerTaxIdsIdParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerTaxIdsIdParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerTaxIdsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerTaxIdsIdParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerTaxIdsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetCustomersCustomerTaxIdsIdParameters' with all required fields.
 mkGetCustomersCustomerTaxIdsIdParameters ::

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,7 +47,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Capture the funds of an existing uncaptured PaymentIntent when its status is \<code>requires_capture\<\/code>.\<\/p>
 --
--- \<p>Uncaptured PaymentIntents will be canceled exactly seven days after they are created.\<\/p>
+-- \<p>Uncaptured PaymentIntents will be canceled a set number of days after they are created (7 by default).\<\/p>
 --
 -- \<p>Learn more about \<a href=\"\/docs\/payments\/capture-later\">separate authorization and capture\<\/a>.\<\/p>
 postPaymentIntentsIntentCapture ::
@@ -118,11 +120,11 @@ data PostPaymentIntentsIntentCaptureRequestBody = PostPaymentIntentsIntentCaptur
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentCaptureRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount_to_capture" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj : "application_fee_amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj : "expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyExpand obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj : "statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj : "transfer_data" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_to_capture" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj) GHC.Base.<> (("application_fee_amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyExpand obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj) GHC.Base.<> (("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj) GHC.Base.<> ("transfer_data" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_to_capture" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyTransferData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_to_capture" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyAmountToCapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyTransferData obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCaptureRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCaptureRequestBody" (\obj -> (((((GHC.Base.pure PostPaymentIntentsIntentCaptureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_to_capture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCaptureRequestBody" (\obj -> (((((GHC.Base.pure PostPaymentIntentsIntentCaptureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_to_capture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
 
 -- | Create a new 'PostPaymentIntentsIntentCaptureRequestBody' with all required fields.
 mkPostPaymentIntentsIntentCaptureRequestBody :: PostPaymentIntentsIntentCaptureRequestBody
@@ -150,11 +152,11 @@ data PostPaymentIntentsIntentCaptureRequestBodyTransferData' = PostPaymentIntent
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentCaptureRequestBodyTransferData' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentCaptureRequestBodyTransferData'Amount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCaptureRequestBodyTransferData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCaptureRequestBodyTransferData'" (\obj -> GHC.Base.pure PostPaymentIntentsIntentCaptureRequestBodyTransferData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentCaptureRequestBodyTransferData'" (\obj -> GHC.Base.pure PostPaymentIntentsIntentCaptureRequestBodyTransferData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount"))
 
 -- | Create a new 'PostPaymentIntentsIntentCaptureRequestBodyTransferData'' with all required fields.
 mkPostPaymentIntentsIntentCaptureRequestBodyTransferData' :: PostPaymentIntentsIntentCaptureRequestBodyTransferData'

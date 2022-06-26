@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.card_issuing_account_terms_of_service@ in the specification.
 data CardIssuingAccountTermsOfService = CardIssuingAccountTermsOfService
   { -- | date: The Unix timestamp marking when the account representative accepted the service agreement.
-    cardIssuingAccountTermsOfServiceDate :: (GHC.Maybe.Maybe GHC.Types.Int),
+    cardIssuingAccountTermsOfServiceDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | ip: The IP address from which the account representative accepted the service agreement.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    cardIssuingAccountTermsOfServiceIp :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    cardIssuingAccountTermsOfServiceIp :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | user_agent: The user agent of the browser from which the account representative accepted the service agreement.
     --
     -- Constraints:
@@ -53,11 +55,11 @@ data CardIssuingAccountTermsOfService = CardIssuingAccountTermsOfService
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CardIssuingAccountTermsOfService where
-  toJSON obj = Data.Aeson.Types.Internal.object ("date" Data.Aeson.Types.ToJSON..= cardIssuingAccountTermsOfServiceDate obj : "ip" Data.Aeson.Types.ToJSON..= cardIssuingAccountTermsOfServiceIp obj : "user_agent" Data.Aeson.Types.ToJSON..= cardIssuingAccountTermsOfServiceUserAgent obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("date" Data.Aeson.Types.ToJSON..= cardIssuingAccountTermsOfServiceDate obj) GHC.Base.<> (("ip" Data.Aeson.Types.ToJSON..= cardIssuingAccountTermsOfServiceIp obj) GHC.Base.<> ("user_agent" Data.Aeson.Types.ToJSON..= cardIssuingAccountTermsOfServiceUserAgent obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (cardIssuingAccountTermsOfServiceDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (cardIssuingAccountTermsOfServiceIp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (cardIssuingAccountTermsOfServiceUserAgent obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (cardIssuingAccountTermsOfServiceDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (cardIssuingAccountTermsOfServiceIp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (cardIssuingAccountTermsOfServiceUserAgent obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CardIssuingAccountTermsOfService where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CardIssuingAccountTermsOfService" (\obj -> ((GHC.Base.pure CardIssuingAccountTermsOfService GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_agent"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CardIssuingAccountTermsOfService" (\obj -> ((GHC.Base.pure CardIssuingAccountTermsOfService GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "user_agent"))
 
 -- | Create a new 'CardIssuingAccountTermsOfService' with all required fields.
 mkCardIssuingAccountTermsOfService :: CardIssuingAccountTermsOfService

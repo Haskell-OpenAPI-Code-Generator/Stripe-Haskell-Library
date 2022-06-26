@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,8 +49,8 @@ data PortalSubscriptionUpdateProduct = PortalSubscriptionUpdateProduct
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PortalSubscriptionUpdateProduct where
-  toJSON obj = Data.Aeson.Types.Internal.object ("prices" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductPrices obj : "product" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductProduct obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("prices" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductPrices obj) GHC.Base.<> ("product" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductProduct obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["prices" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductPrices obj] : ["product" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductProduct obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["prices" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductPrices obj] : ["product" Data.Aeson.Types.ToJSON..= portalSubscriptionUpdateProductProduct obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PortalSubscriptionUpdateProduct where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalSubscriptionUpdateProduct" (\obj -> (GHC.Base.pure PortalSubscriptionUpdateProduct GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "prices")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product"))

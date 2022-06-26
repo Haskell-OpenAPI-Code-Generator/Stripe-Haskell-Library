@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,8 +107,8 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdParameters = PostCus
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj : "pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) GHC.Base.<> ("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdParameters" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id"))
@@ -130,7 +132,7 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = PostCu
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems :: (GHC.Maybe.Maybe ([PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'])),
     -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https:\/\/stripe.com\/docs\/connect\/subscriptions\#collecting-fees-on-subscriptions).
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent :: (GHC.Maybe.Maybe GHC.Types.Double),
-    -- | automatic_tax: Automatic tax settings for this subscription.
+    -- | automatic_tax: Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'),
     -- | billing_cycle_anchor: Either \`now\` or \`unchanged\`. Setting the value to \`now\` resets the subscription\'s billing cycle anchor to the current time. For more information, see the billing cycle [documentation](https:\/\/stripe.com\/docs\/billing\/subscriptions\/billing-cycle).
     --
@@ -186,6 +188,8 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = PostCu
     --
     -- Use \`error_if_incomplete\` if you want Stripe to return an HTTP 402 status code if a subscription\'s invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https:\/\/stripe.com\/docs\/upgrades\#2019-03-14) to learn more.
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'),
+    -- | payment_settings: Payment settings to pass to invoices created by the subscription.
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'),
     -- | pending_invoice_item_interval: Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https:\/\/stripe.com\/docs\/api\#create_invoice) for the given subscription at the specified interval.
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'Variants),
     -- | promotion_code: The promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription.
@@ -194,11 +198,7 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = PostCu
     --
     -- * Maximum length of 5000
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPromotionCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
-    --
-    -- Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.
-    --
-    -- Prorations can be disabled by passing \`none\`.
+    -- | proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes.
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'),
     -- | proration_date: If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https:\/\/stripe.com\/docs\/api\#retrieve_customer_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationDate :: (GHC.Maybe.Maybe GHC.Types.Int),
@@ -206,7 +206,7 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = PostCu
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'Variants),
     -- | trial_end: Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value \`now\` can be provided to end the customer\'s trial immediately. Can be at most two years from \`billing_cycle_anchor\`.
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'Variants),
-    -- | trial_from_plan: Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`trial_end\` is not allowed.
+    -- | trial_from_plan: Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`trial_end\` is not allowed. See [Using trial periods on subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/trials) to learn more.
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan :: (GHC.Maybe.Maybe GHC.Types.Bool)
   }
   deriving
@@ -215,11 +215,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = PostCu
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("add_invoice_items" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems obj : "application_fee_percent" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj : "automatic_tax" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax obj : "billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj : "billing_thresholds" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj : "cancel_at" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj : "cancel_at_period_end" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj : "collection_method" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj : "coupon" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj : "days_until_due" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj : "default_payment_method" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj : "default_source" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj : "default_tax_rates" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj : "expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj : "items" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj : "off_session" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj : "pause_collection" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection obj : "payment_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj : "pending_invoice_item_interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj : "promotion_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPromotionCode obj : "proration_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj : "proration_date" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj : "transfer_data" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData obj : "trial_end" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj : "trial_from_plan" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("add_invoice_items" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems obj) GHC.Base.<> (("application_fee_percent" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj) GHC.Base.<> (("automatic_tax" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax obj) GHC.Base.<> (("billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj) GHC.Base.<> (("billing_thresholds" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj) GHC.Base.<> (("cancel_at" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj) GHC.Base.<> (("cancel_at_period_end" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj) GHC.Base.<> (("collection_method" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj) GHC.Base.<> (("coupon" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj) GHC.Base.<> (("days_until_due" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj) GHC.Base.<> (("default_payment_method" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj) GHC.Base.<> (("default_source" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj) GHC.Base.<> (("default_tax_rates" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj) GHC.Base.<> (("off_session" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj) GHC.Base.<> (("pause_collection" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection obj) GHC.Base.<> (("payment_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj) GHC.Base.<> (("pending_invoice_item_interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj) GHC.Base.<> (("promotion_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPromotionCode obj) GHC.Base.<> (("proration_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj) GHC.Base.<> (("proration_date" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj) GHC.Base.<> (("transfer_data" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData obj) GHC.Base.<> (("trial_end" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj) GHC.Base.<> ("trial_from_plan" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("add_invoice_items" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancel_at" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancel_at_period_end" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("days_until_due" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("off_session" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pause_collection" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_settings" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_invoice_item_interval" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPromotionCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_date" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_from_plan" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("add_invoice_items" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancel_at" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancel_at_period_end" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAtPeriodEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("days_until_due" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("off_session" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyOffSession obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pause_collection" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_settings" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_invoice_item_interval" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPromotionCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_date" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_from_plan" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialFromPlan obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody" (\obj -> (((((((((((((((((((((((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "add_invoice_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancel_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancel_at_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "days_until_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "off_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pause_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_invoice_item_interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "promotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_from_plan"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody" (\obj -> ((((((((((((((((((((((((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "add_invoice_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancel_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancel_at_period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "days_until_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "off_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pause_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_invoice_item_interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_from_plan"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody
@@ -244,6 +244,7 @@ mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody =
       postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyOffSession = GHC.Maybe.Nothing,
       postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection = GHC.Maybe.Nothing,
       postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings = GHC.Maybe.Nothing,
       postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval = GHC.Maybe.Nothing,
       postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPromotionCode = GHC.Maybe.Nothing,
       postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior = GHC.Maybe.Nothing,
@@ -274,11 +275,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoic
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("price" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Price obj : "price_data" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData obj : "quantity" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Quantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'TaxRates obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("price" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Price obj) GHC.Base.<> (("price_data" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Quantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'TaxRates obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'TaxRates obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'TaxRates obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'" (\obj -> (((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'" (\obj -> (((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'
@@ -313,11 +314,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoic
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Currency obj : "product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Product obj : "tax_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'TaxBehavior obj : "unit_amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmountDecimal obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Currency obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Product obj) GHC.Base.<> (("tax_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'TaxBehavior obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmount obj) GHC.Base.<> ("unit_amount_decimal" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmountDecimal obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Currency obj] : ["product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Product obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmountDecimal obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Currency obj] : ["product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'Product obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'UnitAmountDecimal obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'" (\obj -> ((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'" (\obj -> ((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData'' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAddInvoiceItems'PriceData' ::
@@ -387,7 +388,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.automatic_tax@ in the specification.
 --
--- Automatic tax settings for this subscription.
+-- Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'
   { -- | enabled
     postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'Enabled :: GHC.Types.Bool
@@ -398,8 +399,8 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomatic
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("enabled" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'Enabled obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("enabled" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'Enabled obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'Enabled obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'Enabled obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax'" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyAutomaticTax' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled"))
@@ -453,11 +454,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingTh
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte obj : "reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte obj) GHC.Base.<> ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_gte" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_gte" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1AmountGte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reset_billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1ResetBillingCycleAnchor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reset_billing_cycle_anchor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reset_billing_cycle_anchor"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1 :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
@@ -594,11 +595,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' = 
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj : "clear_usage" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj : "deleted" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj : "id" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj : "price" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Price obj : "price_data" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData obj : "quantity" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj) GHC.Base.<> (("clear_usage" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj) GHC.Base.<> (("price" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Price obj) GHC.Base.<> (("price_data" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("clear_usage" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("clear_usage" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'ClearUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'" (\obj -> ((((((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "clear_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'" (\obj -> ((((((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "clear_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'
@@ -626,8 +627,8 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Bil
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["usage_gte" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["usage_gte" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1UsageGte obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_gte"))
@@ -702,11 +703,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Pri
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Currency obj : "product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Product obj : "recurring" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring obj : "tax_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'TaxBehavior obj : "unit_amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmountDecimal obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Currency obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Product obj) GHC.Base.<> (("recurring" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring obj) GHC.Base.<> (("tax_behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'TaxBehavior obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmount obj) GHC.Base.<> ("unit_amount_decimal" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmountDecimal obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Currency obj] : ["product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Product obj] : ["recurring" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmountDecimal obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Currency obj] : ["product" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Product obj] : ["recurring" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'UnitAmountDecimal obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'" (\obj -> (((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'" (\obj -> (((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData' ::
@@ -740,11 +741,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Pri
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'Interval obj : "interval_count" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'IntervalCount obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'Interval obj) GHC.Base.<> ("interval_count" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'IntervalCount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'Interval obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_count" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'IntervalCount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'Interval obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_count" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'IntervalCount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interval_count"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring'' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'PriceData'Recurring' ::
@@ -876,11 +877,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseColl
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1Behavior obj : "resumes_at" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1ResumesAt obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1Behavior obj) GHC.Base.<> ("resumes_at" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1ResumesAt obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1Behavior obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("resumes_at" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1ResumesAt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["behavior" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1Behavior obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("resumes_at" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1ResumesAt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "resumes_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "resumes_at"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPauseCollection'OneOf1 ::
@@ -988,6 +989,813 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
             | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'Other val
       )
 
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings@ in the specification.
+--
+-- Payment settings to pass to invoices created by the subscription.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'
+  { -- | payment_method_options
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'),
+    -- | payment_method_types
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'Variants),
+    -- | save_default_payment_method
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("save_default_payment_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("save_default_payment_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'" (\obj -> ((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "save_default_payment_method"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings' =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'
+  { -- | acss_debit
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'Variants),
+    -- | bancontact
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'Variants),
+    -- | card
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'Variants),
+    -- | customer_balance
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'Variants),
+    -- | konbini
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'Variants),
+    -- | us_bank_account
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'" (\obj -> (((((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions' =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.acss_debit.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1
+  { -- | mandate_options
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'),
+    -- | verification_method
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.acss_debit.anyOf.properties.mandate_options@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'
+  { -- | transaction_type
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_type"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions' {postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.acss_debit.anyOf.properties.mandate_options.properties.transaction_type@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"business"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'EnumBusiness
+  | -- | Represents the JSON value @"personal"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'EnumPersonal
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'EnumBusiness) = "business"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'EnumPersonal) = "personal"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "business" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'EnumBusiness
+            | val GHC.Classes.== "personal" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'EnumPersonal
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1MandateOptions'TransactionType'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.acss_debit.anyOf.properties.verification_method@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumAutomatic
+  | -- | Represents the JSON value @"instant"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumInstant
+  | -- | Represents the JSON value @"microdeposits"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumMicrodeposits
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumAutomatic) = "automatic"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumInstant) = "instant"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumMicrodeposits) = "microdeposits"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumAutomatic
+            | val GHC.Classes.== "instant" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumInstant
+            | val GHC.Classes.== "microdeposits" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'EnumMicrodeposits
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1VerificationMethod'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.acss_debit.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'Variants
+  = -- | Represents the JSON value @""@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'EmptyString
+  | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'Variants where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'EmptyString
+        | GHC.Base.otherwise -> case (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'AcssDebit'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.bancontact.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1
+  { -- | preferred_language
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_language"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 {postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.bancontact.anyOf.properties.preferred_language@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"de"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumDe
+  | -- | Represents the JSON value @"en"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumEn
+  | -- | Represents the JSON value @"fr"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumFr
+  | -- | Represents the JSON value @"nl"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumNl
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumDe) = "de"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumEn) = "en"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumFr) = "fr"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumNl) = "nl"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "de" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumDe
+            | val GHC.Classes.== "en" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumEn
+            | val GHC.Classes.== "fr" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumFr
+            | val GHC.Classes.== "nl" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'EnumNl
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1PreferredLanguage'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.bancontact.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'Variants
+  = -- | Represents the JSON value @""@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'EmptyString
+  | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'Variants where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'EmptyString
+        | GHC.Base.otherwise -> case (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Bancontact'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.card.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1
+  { -- | mandate_options
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'),
+    -- | request_three_d_secure
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.card.anyOf.properties.mandate_options@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'
+  { -- | amount
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | amount_type
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'),
+    -- | description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 200
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Amount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Description obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Amount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Description obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'" (\obj -> ((GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions' =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Amount = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'Description = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.card.anyOf.properties.mandate_options.properties.amount_type@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"fixed"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'EnumFixed
+  | -- | Represents the JSON value @"maximum"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'EnumMaximum
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'EnumFixed) = "fixed"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'EnumMaximum) = "maximum"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "fixed" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'EnumFixed
+            | val GHC.Classes.== "maximum" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'EnumMaximum
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1MandateOptions'AmountType'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.card.anyOf.properties.request_three_d_secure@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"any"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'EnumAny
+  | -- | Represents the JSON value @"automatic"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'EnumAutomatic
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'EnumAny) = "any"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'EnumAutomatic) = "automatic"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "any" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'EnumAny
+            | val GHC.Classes.== "automatic" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'EnumAutomatic
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1RequestThreeDSecure'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.card.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'Variants
+  = -- | Represents the JSON value @""@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'EmptyString
+  | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'Variants where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'EmptyString
+        | GHC.Base.otherwise -> case (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Card'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.customer_balance.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1
+  { -- | bank_transfer
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'),
+    -- | funding_type
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1FundingType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1FundingType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1FundingType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding_type"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1FundingType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.customer_balance.anyOf.properties.bank_transfer@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'
+  { -- | eu_bank_transfer
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'),
+    -- | type
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'Type :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eu_bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'Type obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eu_bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'Type obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eu_bank_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer' =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.customer_balance.anyOf.properties.bank_transfer.properties.eu_bank_transfer@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'
+  { -- | country
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'Country :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'Country obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'Country obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer' ::
+  -- | 'postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'Country'
+  Data.Text.Internal.Text ->
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer' postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'Country = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer' {postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'Country = postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1BankTransfer'EuBankTransfer'Country}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.customer_balance.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'Variants
+  = -- | Represents the JSON value @""@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'EmptyString
+  | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'Variants where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'EmptyString
+        | GHC.Base.otherwise -> case (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'CustomerBalance'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.konbini.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'Variants
+  = -- | Represents the JSON value @""@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'EmptyString
+  | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'Object Data.Aeson.Types.Internal.Object
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'Variants where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'Object a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'EmptyString
+        | GHC.Base.otherwise -> case (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'Konbini'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.us_bank_account.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1
+  { -- | financial_connections
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'),
+    -- | verification_method
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 =
+  PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1
+    { postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections = GHC.Maybe.Nothing,
+      postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.us_bank_account.anyOf.properties.financial_connections@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'
+  { -- | permissions
+    postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions :: (GHC.Maybe.Maybe ([PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions']))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions"))
+
+-- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'' with all required fields.
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections' :: PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'
+mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections' = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections' {postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.us_bank_account.anyOf.properties.financial_connections.properties.permissions.items@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"balances"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumBalances
+  | -- | Represents the JSON value @"ownership"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumOwnership
+  | -- | Represents the JSON value @"payment_method"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumPaymentMethod
+  | -- | Represents the JSON value @"transactions"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumBalances) = "balances"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumOwnership) = "ownership"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumPaymentMethod) = "payment_method"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "balances" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumBalances
+            | val GHC.Classes.== "ownership" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumOwnership
+            | val GHC.Classes.== "payment_method" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumPaymentMethod
+            | val GHC.Classes.== "transactions" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'EnumTransactions
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1FinancialConnections'Permissions'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.us_bank_account.anyOf.properties.verification_method@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumAutomatic
+  | -- | Represents the JSON value @"instant"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumInstant
+  | -- | Represents the JSON value @"microdeposits"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumMicrodeposits
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumAutomatic) = "automatic"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumInstant) = "instant"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumMicrodeposits) = "microdeposits"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumAutomatic
+            | val GHC.Classes.== "instant" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumInstant
+            | val GHC.Classes.== "microdeposits" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'EnumMicrodeposits
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1VerificationMethod'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_options.properties.us_bank_account.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'Variants
+  = -- | Represents the JSON value @""@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'EmptyString
+  | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'Variants where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'EmptyString
+        | GHC.Base.otherwise -> case (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodOptions'UsBankAccount'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_types.anyOf.items@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ach_credit_transfer"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAchCreditTransfer
+  | -- | Represents the JSON value @"ach_debit"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAchDebit
+  | -- | Represents the JSON value @"acss_debit"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAcssDebit
+  | -- | Represents the JSON value @"au_becs_debit"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAuBecsDebit
+  | -- | Represents the JSON value @"bacs_debit"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBacsDebit
+  | -- | Represents the JSON value @"bancontact"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBancontact
+  | -- | Represents the JSON value @"boleto"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBoleto
+  | -- | Represents the JSON value @"card"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumCard
+  | -- | Represents the JSON value @"customer_balance"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumCustomerBalance
+  | -- | Represents the JSON value @"fpx"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumFpx
+  | -- | Represents the JSON value @"giropay"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumGiropay
+  | -- | Represents the JSON value @"grabpay"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumGrabpay
+  | -- | Represents the JSON value @"ideal"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumIdeal
+  | -- | Represents the JSON value @"konbini"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumKonbini
+  | -- | Represents the JSON value @"link"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumLink
+  | -- | Represents the JSON value @"paynow"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumPaynow
+  | -- | Represents the JSON value @"promptpay"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumPromptpay
+  | -- | Represents the JSON value @"sepa_debit"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumSofort
+  | -- | Represents the JSON value @"us_bank_account"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumUsBankAccount
+  | -- | Represents the JSON value @"wechat_pay"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumWechatPay
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1 where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAchCreditTransfer) = "ach_credit_transfer"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAchDebit) = "ach_debit"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAcssDebit) = "acss_debit"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAuBecsDebit) = "au_becs_debit"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBacsDebit) = "bacs_debit"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBancontact) = "bancontact"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBoleto) = "boleto"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumCard) = "card"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumCustomerBalance) = "customer_balance"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumFpx) = "fpx"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumGiropay) = "giropay"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumGrabpay) = "grabpay"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumIdeal) = "ideal"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumKonbini) = "konbini"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumLink) = "link"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumPaynow) = "paynow"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumPromptpay) = "promptpay"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumSepaDebit) = "sepa_debit"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumSofort) = "sofort"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumUsBankAccount) = "us_bank_account"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumWechatPay) = "wechat_pay"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1 where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "ach_credit_transfer" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAchCreditTransfer
+            | val GHC.Classes.== "ach_debit" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAchDebit
+            | val GHC.Classes.== "acss_debit" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAcssDebit
+            | val GHC.Classes.== "au_becs_debit" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumAuBecsDebit
+            | val GHC.Classes.== "bacs_debit" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBacsDebit
+            | val GHC.Classes.== "bancontact" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBancontact
+            | val GHC.Classes.== "boleto" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumBoleto
+            | val GHC.Classes.== "card" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumCard
+            | val GHC.Classes.== "customer_balance" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumCustomerBalance
+            | val GHC.Classes.== "fpx" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumFpx
+            | val GHC.Classes.== "giropay" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumGiropay
+            | val GHC.Classes.== "grabpay" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumGrabpay
+            | val GHC.Classes.== "ideal" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumIdeal
+            | val GHC.Classes.== "konbini" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumKonbini
+            | val GHC.Classes.== "link" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumLink
+            | val GHC.Classes.== "paynow" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumPaynow
+            | val GHC.Classes.== "promptpay" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumPromptpay
+            | val GHC.Classes.== "sepa_debit" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumSepaDebit
+            | val GHC.Classes.== "sofort" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumSofort
+            | val GHC.Classes.== "us_bank_account" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumUsBankAccount
+            | val GHC.Classes.== "wechat_pay" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1EnumWechatPay
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.payment_method_types.anyOf@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'Variants
+  = -- | Represents the JSON value @""@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'EmptyString
+  | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'ListTPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1 ([PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'Variants where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'ListTPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'EmptyString
+        | GHC.Base.otherwise -> case (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'ListTPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'PaymentMethodTypes'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_settings.properties.save_default_payment_method@ in the specification.
+data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"off"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'EnumOff
+  | -- | Represents the JSON value @"on_subscription"@
+    PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'EnumOnSubscription
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod' where
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'Other val) = val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'EnumOff) = "off"
+  toJSON (PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'EnumOnSubscription) = "on_subscription"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "off" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'EnumOff
+            | val GHC.Classes.== "on_subscription" -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'EnumOnSubscription
+            | GHC.Base.otherwise -> PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentSettings'SaveDefaultPaymentMethod'Other val
+      )
+
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.pending_invoice_item_interval.anyOf@ in the specification.
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
   { -- | interval
@@ -1001,11 +1809,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingIn
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval obj : "interval_count" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval obj) GHC.Base.<> ("interval_count" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_count" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["interval" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1Interval obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_count" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1IntervalCount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_count"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interval_count"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1 ::
@@ -1076,11 +1884,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
 
 -- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/subscriptions\/{subscription_exposed_id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.proration_behavior@ in the specification.
 --
--- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
---
--- Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.
---
--- Prorations can be disabled by passing \`none\`.
+-- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes.
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'Other Data.Aeson.Types.Internal.Value
@@ -1124,11 +1928,11 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferD
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount_percent" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1AmountPercent obj : "destination" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1Destination obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_percent" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1AmountPercent obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1Destination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_percent" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1AmountPercent obj) : ["destination" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1Destination obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_percent" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1AmountPercent obj) : ["destination" Data.Aeson.Types.ToJSON..= postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1Destination obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1" (\obj -> (GHC.Base.pure PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
 
 -- | Create a new 'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1' with all required fields.
 mkPostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTransferData'OneOf1 ::

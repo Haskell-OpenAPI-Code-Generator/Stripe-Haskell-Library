@@ -1,6 +1,7 @@
 module StripeAPI.Types.ChargeOutcome where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data ChargeOutcome
 instance Show ChargeOutcome
 instance Eq ChargeOutcome

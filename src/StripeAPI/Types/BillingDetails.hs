@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,25 +36,25 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.billing_details@ in the specification.
 data BillingDetails = BillingDetails
   { -- | address: Billing address.
-    billingDetailsAddress :: (GHC.Maybe.Maybe BillingDetailsAddress'),
+    billingDetailsAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingDetailsAddress'NonNullable)),
     -- | email: Email address.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingDetailsEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name: Full name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingDetailsName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | phone: Billing phone number (including extension).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    billingDetailsPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -60,11 +62,11 @@ data BillingDetails = BillingDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BillingDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= billingDetailsAddress obj : "email" Data.Aeson.Types.ToJSON..= billingDetailsEmail obj : "name" Data.Aeson.Types.ToJSON..= billingDetailsName obj : "phone" Data.Aeson.Types.ToJSON..= billingDetailsPhone obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= billingDetailsAddress obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= billingDetailsEmail obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= billingDetailsName obj) GHC.Base.<> ("phone" Data.Aeson.Types.ToJSON..= billingDetailsPhone obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (billingDetailsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (billingDetailsName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (billingDetailsPhone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (billingDetailsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (billingDetailsName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (billingDetailsPhone obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BillingDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingDetails" (\obj -> (((GHC.Base.pure BillingDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingDetails" (\obj -> (((GHC.Base.pure BillingDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone"))
 
 -- | Create a new 'BillingDetails' with all required fields.
 mkBillingDetails :: BillingDetails
@@ -79,64 +81,64 @@ mkBillingDetails =
 -- | Defines the object schema located at @components.schemas.billing_details.properties.address.anyOf@ in the specification.
 --
 -- Billing address.
-data BillingDetailsAddress' = BillingDetailsAddress'
+data BillingDetailsAddress'NonNullable = BillingDetailsAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingDetailsAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsAddress'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingDetailsAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingDetailsAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingDetailsAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingDetailsAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingDetailsAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    billingDetailsAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON BillingDetailsAddress' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= billingDetailsAddress'City obj : "country" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= billingDetailsAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= billingDetailsAddress'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= billingDetailsAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= billingDetailsAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= billingDetailsAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= billingDetailsAddress'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON BillingDetailsAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (billingDetailsAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON BillingDetailsAddress' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingDetailsAddress'" (\obj -> (((((GHC.Base.pure BillingDetailsAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON BillingDetailsAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingDetailsAddress'NonNullable" (\obj -> (((((GHC.Base.pure BillingDetailsAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'BillingDetailsAddress'' with all required fields.
-mkBillingDetailsAddress' :: BillingDetailsAddress'
-mkBillingDetailsAddress' =
-  BillingDetailsAddress'
-    { billingDetailsAddress'City = GHC.Maybe.Nothing,
-      billingDetailsAddress'Country = GHC.Maybe.Nothing,
-      billingDetailsAddress'Line1 = GHC.Maybe.Nothing,
-      billingDetailsAddress'Line2 = GHC.Maybe.Nothing,
-      billingDetailsAddress'PostalCode = GHC.Maybe.Nothing,
-      billingDetailsAddress'State = GHC.Maybe.Nothing
+-- | Create a new 'BillingDetailsAddress'NonNullable' with all required fields.
+mkBillingDetailsAddress'NonNullable :: BillingDetailsAddress'NonNullable
+mkBillingDetailsAddress'NonNullable =
+  BillingDetailsAddress'NonNullable
+    { billingDetailsAddress'NonNullableCity = GHC.Maybe.Nothing,
+      billingDetailsAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      billingDetailsAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      billingDetailsAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      billingDetailsAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      billingDetailsAddress'NonNullableState = GHC.Maybe.Nothing
     }

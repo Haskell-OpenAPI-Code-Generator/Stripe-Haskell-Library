@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,25 +35,25 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.payment_intent_next_action_boleto@ in the specification.
 data PaymentIntentNextActionBoleto = PaymentIntentNextActionBoleto
   { -- | expires_at: The timestamp after which the boleto expires.
-    paymentIntentNextActionBoletoExpiresAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    paymentIntentNextActionBoletoExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | hosted_voucher_url: The URL to the hosted boleto voucher page, which allows customers to view the boleto voucher.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionBoletoHostedVoucherUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentIntentNextActionBoletoHostedVoucherUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | number: The boleto number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionBoletoNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentIntentNextActionBoletoNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | pdf: The URL to the downloadable boleto voucher PDF.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionBoletoPdf :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentIntentNextActionBoletoPdf :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -59,11 +61,11 @@ data PaymentIntentNextActionBoleto = PaymentIntentNextActionBoleto
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionBoleto where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expires_at" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoExpiresAt obj : "hosted_voucher_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoHostedVoucherUrl obj : "number" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoNumber obj : "pdf" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoPdf obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expires_at" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoExpiresAt obj) GHC.Base.<> (("hosted_voucher_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoHostedVoucherUrl obj) GHC.Base.<> (("number" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoNumber obj) GHC.Base.<> ("pdf" Data.Aeson.Types.ToJSON..= paymentIntentNextActionBoletoPdf obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_voucher_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoHostedVoucherUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pdf" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoPdf obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_voucher_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoHostedVoucherUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pdf" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionBoletoPdf obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionBoleto where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionBoleto" (\obj -> (((GHC.Base.pure PaymentIntentNextActionBoleto GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "hosted_voucher_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pdf"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionBoleto" (\obj -> (((GHC.Base.pure PaymentIntentNextActionBoleto GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "hosted_voucher_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pdf"))
 
 -- | Create a new 'PaymentIntentNextActionBoleto' with all required fields.
 mkPaymentIntentNextActionBoleto :: PaymentIntentNextActionBoleto

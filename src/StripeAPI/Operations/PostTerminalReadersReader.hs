@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -67,7 +69,7 @@ postTerminalReadersReader
                                        Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
                                                             Data.Either.Either
                                                               GHC.Base.String
-                                                              Terminal'reader
+                                                              PostTerminalReadersReaderResponseBody200
                                                         )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
                                      PostTerminalReadersReaderResponseDefault
@@ -103,11 +105,11 @@ data PostTerminalReadersReaderRequestBody = PostTerminalReadersReaderRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyExpand obj : "label" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyLabel obj : "metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyExpand obj) GHC.Base.<> (("label" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyLabel obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("label" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderRequestBodyLabel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("label" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderRequestBodyLabel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderRequestBody" (\obj -> ((GHC.Base.pure PostTerminalReadersReaderRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderRequestBody" (\obj -> ((GHC.Base.pure PostTerminalReadersReaderRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostTerminalReadersReaderRequestBody' with all required fields.
 mkPostTerminalReadersReaderRequestBody :: PostTerminalReadersReaderRequestBody
@@ -146,7 +148,321 @@ data PostTerminalReadersReaderResponse
   = -- | Means either no matching case available or a parse error
     PostTerminalReadersReaderResponseError GHC.Base.String
   | -- | Successful response.
-    PostTerminalReadersReaderResponse200 Terminal'reader
+    PostTerminalReadersReaderResponse200 PostTerminalReadersReaderResponseBody200
   | -- | Error response.
     PostTerminalReadersReaderResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf@ in the specification.
+data PostTerminalReadersReaderResponseBody200 = PostTerminalReadersReaderResponseBody200
+  { -- | action: The most recent action performed by the reader.
+    postTerminalReadersReaderResponseBody200Action :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostTerminalReadersReaderResponseBody200Action'NonNullable)),
+    -- | deleted: Always true for a deleted object
+    postTerminalReadersReaderResponseBody200Deleted :: (GHC.Maybe.Maybe PostTerminalReadersReaderResponseBody200Deleted'),
+    -- | device_sw_version: The current software version of the reader.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200DeviceSwVersion :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | device_type: Type of reader, one of \`bbpos_wisepad3\`, \`stripe_m2\`, \`bbpos_chipper2x\`, \`bbpos_wisepos_e\`, \`verifone_P400\`, or \`simulated_wisepos_e\`.
+    postTerminalReadersReaderResponseBody200DeviceType :: (GHC.Maybe.Maybe PostTerminalReadersReaderResponseBody200DeviceType'),
+    -- | id: Unique identifier for the object.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | ip_address: The local IP address of the reader.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200IpAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | label: Custom label given to the reader for easier identification.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200Label :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
+    postTerminalReadersReaderResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | location: The location identifier of the reader.
+    postTerminalReadersReaderResponseBody200Location :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostTerminalReadersReaderResponseBody200Location'NonNullableVariants)),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+    postTerminalReadersReaderResponseBody200Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    postTerminalReadersReaderResponseBody200Object :: (GHC.Maybe.Maybe PostTerminalReadersReaderResponseBody200Object'),
+    -- | serial_number: Serial number of the reader.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200SerialNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | status: The networking status of the reader.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200Status :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("action" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device_sw_version" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200DeviceSwVersion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device_type" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200DeviceType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200IpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("label" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Label obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Location obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("serial_number" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200SerialNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Status obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("action" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device_sw_version" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200DeviceSwVersion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device_type" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200DeviceType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200IpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("label" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Label obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Location obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("serial_number" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200SerialNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Status obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderResponseBody200" (\obj -> ((((((((((((GHC.Base.pure PostTerminalReadersReaderResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "device_sw_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "device_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "serial_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
+
+-- | Create a new 'PostTerminalReadersReaderResponseBody200' with all required fields.
+mkPostTerminalReadersReaderResponseBody200 :: PostTerminalReadersReaderResponseBody200
+mkPostTerminalReadersReaderResponseBody200 =
+  PostTerminalReadersReaderResponseBody200
+    { postTerminalReadersReaderResponseBody200Action = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Deleted = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200DeviceSwVersion = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200DeviceType = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Id = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200IpAddress = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Label = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Livemode = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Location = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Metadata = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Object = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200SerialNumber = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Status = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf.properties.action.anyOf@ in the specification.
+--
+-- The most recent action performed by the reader.
+data PostTerminalReadersReaderResponseBody200Action'NonNullable = PostTerminalReadersReaderResponseBody200Action'NonNullable
+  { -- | failure_code: Failure code, only set if status is \`failed\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200Action'NonNullableFailureCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | failure_message: Detailed failure message, only set if status is \`failed\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTerminalReadersReaderResponseBody200Action'NonNullableFailureMessage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | process_payment_intent: Represents a reader action to process a payment intent
+    postTerminalReadersReaderResponseBody200Action'NonNullableProcessPaymentIntent :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessPaymentIntentAction),
+    -- | process_setup_intent: Represents a reader action to process a setup intent
+    postTerminalReadersReaderResponseBody200Action'NonNullableProcessSetupIntent :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessSetupIntentAction),
+    -- | set_reader_display: Represents a reader action to set the reader display
+    postTerminalReadersReaderResponseBody200Action'NonNullableSetReaderDisplay :: (GHC.Maybe.Maybe TerminalReaderReaderResourceSetReaderDisplayAction),
+    -- | status: Status of the action performed by the reader.
+    postTerminalReadersReaderResponseBody200Action'NonNullableStatus :: (GHC.Maybe.Maybe PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'),
+    -- | type: Type of action performed by the reader.
+    postTerminalReadersReaderResponseBody200Action'NonNullableType :: (GHC.Maybe.Maybe PostTerminalReadersReaderResponseBody200Action'NonNullableType')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200Action'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderResponseBody200Action'NonNullableType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200Action'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderResponseBody200Action'NonNullable" (\obj -> ((((((GHC.Base.pure PostTerminalReadersReaderResponseBody200Action'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "set_reader_display")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+
+-- | Create a new 'PostTerminalReadersReaderResponseBody200Action'NonNullable' with all required fields.
+mkPostTerminalReadersReaderResponseBody200Action'NonNullable :: PostTerminalReadersReaderResponseBody200Action'NonNullable
+mkPostTerminalReadersReaderResponseBody200Action'NonNullable =
+  PostTerminalReadersReaderResponseBody200Action'NonNullable
+    { postTerminalReadersReaderResponseBody200Action'NonNullableFailureCode = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Action'NonNullableFailureMessage = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Action'NonNullableProcessPaymentIntent = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Action'NonNullableProcessSetupIntent = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Action'NonNullableSetReaderDisplay = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Action'NonNullableStatus = GHC.Maybe.Nothing,
+      postTerminalReadersReaderResponseBody200Action'NonNullableType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf.properties.action.anyOf.properties.status@ in the specification.
+--
+-- Status of the action performed by the reader.
+data PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"failed"@
+    PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumFailed
+  | -- | Represents the JSON value @"in_progress"@
+    PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumInProgress
+  | -- | Represents the JSON value @"succeeded"@
+    PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumSucceeded
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200Action'NonNullableStatus' where
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'Other val) = val
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumFailed) = "failed"
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumInProgress) = "in_progress"
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumSucceeded) = "succeeded"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200Action'NonNullableStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "failed" -> PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumFailed
+            | val GHC.Classes.== "in_progress" -> PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumInProgress
+            | val GHC.Classes.== "succeeded" -> PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'EnumSucceeded
+            | GHC.Base.otherwise -> PostTerminalReadersReaderResponseBody200Action'NonNullableStatus'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf.properties.action.anyOf.properties.type@ in the specification.
+--
+-- Type of action performed by the reader.
+data PostTerminalReadersReaderResponseBody200Action'NonNullableType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostTerminalReadersReaderResponseBody200Action'NonNullableType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostTerminalReadersReaderResponseBody200Action'NonNullableType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"process_payment_intent"@
+    PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumProcessPaymentIntent
+  | -- | Represents the JSON value @"process_setup_intent"@
+    PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumProcessSetupIntent
+  | -- | Represents the JSON value @"set_reader_display"@
+    PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumSetReaderDisplay
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200Action'NonNullableType' where
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableType'Other val) = val
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumProcessPaymentIntent) = "process_payment_intent"
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumProcessSetupIntent) = "process_setup_intent"
+  toJSON (PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumSetReaderDisplay) = "set_reader_display"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200Action'NonNullableType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "process_payment_intent" -> PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumProcessPaymentIntent
+            | val GHC.Classes.== "process_setup_intent" -> PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumProcessSetupIntent
+            | val GHC.Classes.== "set_reader_display" -> PostTerminalReadersReaderResponseBody200Action'NonNullableType'EnumSetReaderDisplay
+            | GHC.Base.otherwise -> PostTerminalReadersReaderResponseBody200Action'NonNullableType'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf.properties.deleted@ in the specification.
+--
+-- Always true for a deleted object
+data PostTerminalReadersReaderResponseBody200Deleted'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostTerminalReadersReaderResponseBody200Deleted'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostTerminalReadersReaderResponseBody200Deleted'Typed GHC.Types.Bool
+  | -- | Represents the JSON value @true@
+    PostTerminalReadersReaderResponseBody200Deleted'EnumTrue
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200Deleted' where
+  toJSON (PostTerminalReadersReaderResponseBody200Deleted'Other val) = val
+  toJSON (PostTerminalReadersReaderResponseBody200Deleted'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostTerminalReadersReaderResponseBody200Deleted'EnumTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200Deleted' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> PostTerminalReadersReaderResponseBody200Deleted'EnumTrue
+            | GHC.Base.otherwise -> PostTerminalReadersReaderResponseBody200Deleted'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf.properties.device_type@ in the specification.
+--
+-- Type of reader, one of \`bbpos_wisepad3\`, \`stripe_m2\`, \`bbpos_chipper2x\`, \`bbpos_wisepos_e\`, \`verifone_P400\`, or \`simulated_wisepos_e\`.
+data PostTerminalReadersReaderResponseBody200DeviceType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostTerminalReadersReaderResponseBody200DeviceType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostTerminalReadersReaderResponseBody200DeviceType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bbpos_chipper2x"@
+    PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposChipper2x
+  | -- | Represents the JSON value @"bbpos_wisepad3"@
+    PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposWisepad3
+  | -- | Represents the JSON value @"bbpos_wisepos_e"@
+    PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposWiseposE
+  | -- | Represents the JSON value @"simulated_wisepos_e"@
+    PostTerminalReadersReaderResponseBody200DeviceType'EnumSimulatedWiseposE
+  | -- | Represents the JSON value @"stripe_m2"@
+    PostTerminalReadersReaderResponseBody200DeviceType'EnumStripeM2
+  | -- | Represents the JSON value @"verifone_P400"@
+    PostTerminalReadersReaderResponseBody200DeviceType'EnumVerifoneP400
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200DeviceType' where
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'Other val) = val
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposChipper2x) = "bbpos_chipper2x"
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposWisepad3) = "bbpos_wisepad3"
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposWiseposE) = "bbpos_wisepos_e"
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'EnumSimulatedWiseposE) = "simulated_wisepos_e"
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'EnumStripeM2) = "stripe_m2"
+  toJSON (PostTerminalReadersReaderResponseBody200DeviceType'EnumVerifoneP400) = "verifone_P400"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200DeviceType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "bbpos_chipper2x" -> PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposChipper2x
+            | val GHC.Classes.== "bbpos_wisepad3" -> PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposWisepad3
+            | val GHC.Classes.== "bbpos_wisepos_e" -> PostTerminalReadersReaderResponseBody200DeviceType'EnumBbposWiseposE
+            | val GHC.Classes.== "simulated_wisepos_e" -> PostTerminalReadersReaderResponseBody200DeviceType'EnumSimulatedWiseposE
+            | val GHC.Classes.== "stripe_m2" -> PostTerminalReadersReaderResponseBody200DeviceType'EnumStripeM2
+            | val GHC.Classes.== "verifone_P400" -> PostTerminalReadersReaderResponseBody200DeviceType'EnumVerifoneP400
+            | GHC.Base.otherwise -> PostTerminalReadersReaderResponseBody200DeviceType'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf.properties.location.anyOf@ in the specification.
+--
+-- The location identifier of the reader.
+data PostTerminalReadersReaderResponseBody200Location'NonNullableVariants
+  = PostTerminalReadersReaderResponseBody200Location'NonNullableText Data.Text.Internal.Text
+  | PostTerminalReadersReaderResponseBody200Location'NonNullableTerminal'location Terminal'location
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200Location'NonNullableVariants where
+  toJSON (PostTerminalReadersReaderResponseBody200Location'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostTerminalReadersReaderResponseBody200Location'NonNullableTerminal'location a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200Location'NonNullableVariants where
+  parseJSON val = case (PostTerminalReadersReaderResponseBody200Location'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostTerminalReadersReaderResponseBody200Location'NonNullableTerminal'location Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/readers\/{reader}.POST.responses.200.content.application\/json.schema.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data PostTerminalReadersReaderResponseBody200Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostTerminalReadersReaderResponseBody200Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostTerminalReadersReaderResponseBody200Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"terminal.reader"@
+    PostTerminalReadersReaderResponseBody200Object'EnumTerminal'reader
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderResponseBody200Object' where
+  toJSON (PostTerminalReadersReaderResponseBody200Object'Other val) = val
+  toJSON (PostTerminalReadersReaderResponseBody200Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostTerminalReadersReaderResponseBody200Object'EnumTerminal'reader) = "terminal.reader"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderResponseBody200Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "terminal.reader" -> PostTerminalReadersReaderResponseBody200Object'EnumTerminal'reader
+            | GHC.Base.otherwise -> PostTerminalReadersReaderResponseBody200Object'Other val
+      )

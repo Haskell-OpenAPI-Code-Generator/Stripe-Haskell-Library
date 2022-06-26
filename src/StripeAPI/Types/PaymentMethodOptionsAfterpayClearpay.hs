@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -32,13 +34,21 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_method_options_afterpay_clearpay@ in the specification.
 data PaymentMethodOptionsAfterpayClearpay = PaymentMethodOptionsAfterpayClearpay
-  { -- | reference: Order identifier shown to the merchant in Afterpay’s online portal. We recommend using a value that helps you answer any questions a customer might have about
+  { -- | capture_method: Controls when the funds will be captured from the customer\'s account.
+    paymentMethodOptionsAfterpayClearpayCaptureMethod :: (GHC.Maybe.Maybe PaymentMethodOptionsAfterpayClearpayCaptureMethod'),
+    -- | reference: Order identifier shown to the customer in Afterpay’s online portal. We recommend using a value that helps you answer any questions a customer might have about
     -- the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodOptionsAfterpayClearpayReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodOptionsAfterpayClearpayReference :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+    --
+    -- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+    --
+    -- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+    paymentMethodOptionsAfterpayClearpaySetupFutureUsage :: (GHC.Maybe.Maybe PaymentMethodOptionsAfterpayClearpaySetupFutureUsage')
   }
   deriving
     ( GHC.Show.Show,
@@ -46,12 +56,71 @@ data PaymentMethodOptionsAfterpayClearpay = PaymentMethodOptionsAfterpayClearpay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsAfterpayClearpay where
-  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= paymentMethodOptionsAfterpayClearpayReference obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("reference" Data.Aeson.Types.ToJSON..= paymentMethodOptionsAfterpayClearpayReference obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsAfterpayClearpayCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsAfterpayClearpayReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsAfterpayClearpaySetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsAfterpayClearpayCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsAfterpayClearpayReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsAfterpayClearpaySetupFutureUsage obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsAfterpayClearpay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsAfterpayClearpay" (\obj -> GHC.Base.pure PaymentMethodOptionsAfterpayClearpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsAfterpayClearpay" (\obj -> ((GHC.Base.pure PaymentMethodOptionsAfterpayClearpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
 
 -- | Create a new 'PaymentMethodOptionsAfterpayClearpay' with all required fields.
 mkPaymentMethodOptionsAfterpayClearpay :: PaymentMethodOptionsAfterpayClearpay
-mkPaymentMethodOptionsAfterpayClearpay = PaymentMethodOptionsAfterpayClearpay {paymentMethodOptionsAfterpayClearpayReference = GHC.Maybe.Nothing}
+mkPaymentMethodOptionsAfterpayClearpay =
+  PaymentMethodOptionsAfterpayClearpay
+    { paymentMethodOptionsAfterpayClearpayCaptureMethod = GHC.Maybe.Nothing,
+      paymentMethodOptionsAfterpayClearpayReference = GHC.Maybe.Nothing,
+      paymentMethodOptionsAfterpayClearpaySetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_options_afterpay_clearpay.properties.capture_method@ in the specification.
+--
+-- Controls when the funds will be captured from the customer\'s account.
+data PaymentMethodOptionsAfterpayClearpayCaptureMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodOptionsAfterpayClearpayCaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodOptionsAfterpayClearpayCaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"manual"@
+    PaymentMethodOptionsAfterpayClearpayCaptureMethod'EnumManual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsAfterpayClearpayCaptureMethod' where
+  toJSON (PaymentMethodOptionsAfterpayClearpayCaptureMethod'Other val) = val
+  toJSON (PaymentMethodOptionsAfterpayClearpayCaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsAfterpayClearpayCaptureMethod'EnumManual) = "manual"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsAfterpayClearpayCaptureMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "manual" -> PaymentMethodOptionsAfterpayClearpayCaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PaymentMethodOptionsAfterpayClearpayCaptureMethod'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_method_options_afterpay_clearpay.properties.setup_future_usage@ in the specification.
+--
+-- Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+--
+-- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+--
+-- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+data PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsAfterpayClearpaySetupFutureUsage' where
+  toJSON (PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'Other val) = val
+  toJSON (PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsAfterpayClearpaySetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PaymentMethodOptionsAfterpayClearpaySetupFutureUsage'Other val
+      )

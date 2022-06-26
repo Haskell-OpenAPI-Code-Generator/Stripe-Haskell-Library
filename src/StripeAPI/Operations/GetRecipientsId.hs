@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetRecipientsIdParameters = GetRecipientsIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getRecipientsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRecipientsIdParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getRecipientsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getRecipientsIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= getRecipientsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= getRecipientsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdParameters" (\obj -> (GHC.Base.pure GetRecipientsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdParameters" (\obj -> (GHC.Base.pure GetRecipientsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetRecipientsIdParameters' with all required fields.
 mkGetRecipientsIdParameters ::
@@ -131,13 +133,13 @@ data GetRecipientsIdResponse
 -- | Defines the object schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf@ in the specification.
 data GetRecipientsIdResponseBody200 = GetRecipientsIdResponseBody200
   { -- | active_account: Hash describing the current account on the recipient, if there is one.
-    getRecipientsIdResponseBody200ActiveAccount :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'),
+    getRecipientsIdResponseBody200ActiveAccount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GetRecipientsIdResponseBody200ActiveAccount'NonNullable)),
     -- | cards:
-    getRecipientsIdResponseBody200Cards :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200Cards'),
+    getRecipientsIdResponseBody200Cards :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GetRecipientsIdResponseBody200Cards'NonNullable)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     getRecipientsIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | default_card: The default card to use for creating transfers to this recipient.
-    getRecipientsIdResponseBody200DefaultCard :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200DefaultCard'Variants),
+    getRecipientsIdResponseBody200DefaultCard :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GetRecipientsIdResponseBody200DefaultCard'NonNullableVariants)),
     -- | deleted: Always true for a deleted object
     getRecipientsIdResponseBody200Deleted :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200Deleted'),
     -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
@@ -145,13 +147,13 @@ data GetRecipientsIdResponseBody200 = GetRecipientsIdResponseBody200
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200Description :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | email
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200Email :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -163,13 +165,13 @@ data GetRecipientsIdResponseBody200 = GetRecipientsIdResponseBody200
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     getRecipientsIdResponseBody200Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | migrated_to: The ID of the [Custom account](https:\/\/stripe.com\/docs\/connect\/custom-accounts) this recipient was migrated to. If set, the recipient can no longer be updated, nor can transfers be made to it: use the Custom account instead.
-    getRecipientsIdResponseBody200MigratedTo :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200MigratedTo'Variants),
+    getRecipientsIdResponseBody200MigratedTo :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GetRecipientsIdResponseBody200MigratedTo'NonNullableVariants)),
     -- | name: Full, legal name of the recipient.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200Name :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | object: String representing the object\'s type. Objects of the same type share the same value.
     getRecipientsIdResponseBody200Object :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200Object'),
     -- | rolled_back_from
@@ -187,11 +189,11 @@ data GetRecipientsIdResponseBody200 = GetRecipientsIdResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active_account" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount obj : "cards" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards obj : "created" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Created obj : "default_card" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200DefaultCard obj : "deleted" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Deleted obj : "description" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Description obj : "email" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Email obj : "id" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Id obj : "livemode" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Metadata obj : "migrated_to" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200MigratedTo obj : "name" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Name obj : "object" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Object obj : "rolled_back_from" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200RolledBackFrom obj : "type" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Type obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active_account" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount obj) GHC.Base.<> (("cards" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Created obj) GHC.Base.<> (("default_card" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200DefaultCard obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Deleted obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Description obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Email obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Id obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Metadata obj) GHC.Base.<> (("migrated_to" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200MigratedTo obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Name obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Object obj) GHC.Base.<> (("rolled_back_from" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200RolledBackFrom obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Type obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active_account" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cards" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Cards obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Created obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_card" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200DefaultCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Email obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("migrated_to" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200MigratedTo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rolled_back_from" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200RolledBackFrom obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Type obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active_account" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cards" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Cards obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Created obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_card" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200DefaultCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Email obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("migrated_to" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200MigratedTo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rolled_back_from" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200RolledBackFrom obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200Type obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200" (\obj -> ((((((((((((((GHC.Base.pure GetRecipientsIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cards")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "migrated_to")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "rolled_back_from")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200" (\obj -> ((((((((((((((GHC.Base.pure GetRecipientsIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cards")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "migrated_to")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rolled_back_from")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
 
 -- | Create a new 'GetRecipientsIdResponseBody200' with all required fields.
 mkGetRecipientsIdResponseBody200 :: GetRecipientsIdResponseBody200
@@ -217,69 +219,75 @@ mkGetRecipientsIdResponseBody200 =
 -- | Defines the object schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.active_account.anyOf@ in the specification.
 --
 -- Hash describing the current account on the recipient, if there is one.
-data GetRecipientsIdResponseBody200ActiveAccount' = GetRecipientsIdResponseBody200ActiveAccount'
+data GetRecipientsIdResponseBody200ActiveAccount'NonNullable = GetRecipientsIdResponseBody200ActiveAccount'NonNullable
   { -- | account: The ID of the account that the bank account is associated with.
-    getRecipientsIdResponseBody200ActiveAccount'Account :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'Account'Variants),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableAccount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableVariants)),
     -- | account_holder_name: The name of the person or business that owns the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'AccountHolderType :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | account_type: The bank account type. This can only be \`checking\` or \`savings\` in most countries. In Japan, this can only be \`futsu\` or \`toza\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | available_payout_methods: A set of available payout methods for this bank account. Only values from this set should be passed as the \`method\` when creating a payout.
-    getRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods :: (GHC.Maybe.Maybe ([GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'])),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullable]))),
     -- | bank_name: Name of the bank associated with the routing number (e.g., \`WELLS FARGO\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'BankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter ISO code representing the country the bank account is located in.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
-    getRecipientsIdResponseBody200ActiveAccount'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | customer: The ID of the customer that the bank account is associated with.
-    getRecipientsIdResponseBody200ActiveAccount'Customer :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableVariants)),
     -- | default_for_currency: Whether this bank account is the default external account for its currency.
-    getRecipientsIdResponseBody200ActiveAccount'DefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableDefaultForCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
     -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'Fingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | last4: The last four digits of the bank account number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    getRecipientsIdResponseBody200ActiveAccount'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | object: String representing the object\'s type. Objects of the same type share the same value.
-    getRecipientsIdResponseBody200ActiveAccount'Object :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'Object'),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableObject :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'),
     -- | routing_number: The routing transit number for the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableRoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a transfer sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send transfers until the bank details are updated.
     --
     -- For external accounts, possible values are \`new\` and \`errored\`. Validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
@@ -287,185 +295,186 @@ data GetRecipientsIdResponseBody200ActiveAccount' = GetRecipientsIdResponseBody2
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200ActiveAccount'Status :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    getRecipientsIdResponseBody200ActiveAccount'NonNullableStatus :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'AccountHolderType obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods obj : "bank_name" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'BankName obj : "country" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Country obj : "currency" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Currency obj : "customer" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Customer obj : "default_for_currency" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'DefaultForCurrency obj : "fingerprint" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Fingerprint obj : "id" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Id obj : "last4" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Last4 obj : "metadata" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Metadata obj : "object" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Object obj : "routing_number" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'RoutingNumber obj : "status" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Status obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'AccountHolderType obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'BankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Customer obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'DefaultForCurrency obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Fingerprint obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Id obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Last4 obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Metadata obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Object obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'RoutingNumber obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200ActiveAccount'Status obj))))))))))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableRoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableStatus obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableRoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (getRecipientsIdResponseBody200ActiveAccount'NonNullableStatus obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200ActiveAccount'" (\obj -> (((((((((((((((GHC.Base.pure GetRecipientsIdResponseBody200ActiveAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200ActiveAccount'NonNullable" (\obj -> ((((((((((((((((GHC.Base.pure GetRecipientsIdResponseBody200ActiveAccount'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
 
--- | Create a new 'GetRecipientsIdResponseBody200ActiveAccount'' with all required fields.
-mkGetRecipientsIdResponseBody200ActiveAccount' :: GetRecipientsIdResponseBody200ActiveAccount'
-mkGetRecipientsIdResponseBody200ActiveAccount' =
-  GetRecipientsIdResponseBody200ActiveAccount'
-    { getRecipientsIdResponseBody200ActiveAccount'Account = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'AccountHolderName = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'AccountHolderType = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'BankName = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Country = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Currency = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Customer = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'DefaultForCurrency = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Fingerprint = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Id = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Last4 = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Metadata = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Object = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'RoutingNumber = GHC.Maybe.Nothing,
-      getRecipientsIdResponseBody200ActiveAccount'Status = GHC.Maybe.Nothing
+-- | Create a new 'GetRecipientsIdResponseBody200ActiveAccount'NonNullable' with all required fields.
+mkGetRecipientsIdResponseBody200ActiveAccount'NonNullable :: GetRecipientsIdResponseBody200ActiveAccount'NonNullable
+mkGetRecipientsIdResponseBody200ActiveAccount'NonNullable =
+  GetRecipientsIdResponseBody200ActiveAccount'NonNullable
+    { getRecipientsIdResponseBody200ActiveAccount'NonNullableAccount = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderName = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountHolderType = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableAccountType = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableBankName = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableCountry = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableCurrency = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableDefaultForCurrency = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableFingerprint = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableId = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableLast4 = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableMetadata = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableObject = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableRoutingNumber = GHC.Maybe.Nothing,
+      getRecipientsIdResponseBody200ActiveAccount'NonNullableStatus = GHC.Maybe.Nothing
     }
 
 -- | Defines the oneOf schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.active_account.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
-data GetRecipientsIdResponseBody200ActiveAccount'Account'Variants
-  = GetRecipientsIdResponseBody200ActiveAccount'Account'Text Data.Text.Internal.Text
-  | GetRecipientsIdResponseBody200ActiveAccount'Account'Account Account
+data GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableVariants
+  = GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableText Data.Text.Internal.Text
+  | GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableAccount Account
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Account'Variants where
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Account'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableVariants where
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableAccount a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Account'Variants where
-  parseJSON val = case (GetRecipientsIdResponseBody200ActiveAccount'Account'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200ActiveAccount'Account'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableVariants where
+  parseJSON val = case (GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200ActiveAccount'NonNullableAccount'NonNullableAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.active_account.anyOf.properties.available_payout_methods.items@ in the specification.
-data GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'
+data GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+    GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'Typed Data.Text.Internal.Text
+    GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"instant"@
-    GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'EnumInstant
+    GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableEnumInstant
   | -- | Represents the JSON value @"standard"@
-    GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'EnumStandard
+    GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableEnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods' where
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'Other val) = val
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'EnumInstant) = "instant"
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'EnumStandard) = "standard"
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullable where
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableOther val) = val
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableEnumInstant) = "instant"
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableEnumStandard) = "standard"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "instant" -> GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'EnumInstant
-            | val GHC.Classes.== "standard" -> GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'EnumStandard
-            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200ActiveAccount'AvailablePayoutMethods'Other val
+            | val GHC.Classes.== "instant" -> GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableEnumInstant
+            | val GHC.Classes.== "standard" -> GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableEnumStandard
+            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200ActiveAccount'NonNullableAvailablePayoutMethods'NonNullableOther val
       )
 
 -- | Defines the oneOf schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.active_account.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer that the bank account is associated with.
-data GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants
-  = GetRecipientsIdResponseBody200ActiveAccount'Customer'Text Data.Text.Internal.Text
-  | GetRecipientsIdResponseBody200ActiveAccount'Customer'Customer Customer
-  | GetRecipientsIdResponseBody200ActiveAccount'Customer'DeletedCustomer DeletedCustomer
+data GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableVariants
+  = GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableText Data.Text.Internal.Text
+  | GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableCustomer Customer
+  | GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableDeletedCustomer DeletedCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants where
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Customer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Customer'DeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableVariants where
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableDeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants where
-  parseJSON val = case (GetRecipientsIdResponseBody200ActiveAccount'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200ActiveAccount'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200ActiveAccount'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableVariants where
+  parseJSON val = case (GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200ActiveAccount'NonNullableCustomer'NonNullableDeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.active_account.anyOf.properties.object@ in the specification.
 --
 -- String representing the object\'s type. Objects of the same type share the same value.
-data GetRecipientsIdResponseBody200ActiveAccount'Object'
+data GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GetRecipientsIdResponseBody200ActiveAccount'Object'Other Data.Aeson.Types.Internal.Value
+    GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GetRecipientsIdResponseBody200ActiveAccount'Object'Typed Data.Text.Internal.Text
+    GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"bank_account"@
-    GetRecipientsIdResponseBody200ActiveAccount'Object'EnumBankAccount
+    GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'EnumBankAccount
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Object' where
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Object'Other val) = val
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Object'EnumBankAccount) = "bank_account"
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject' where
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'Other val) = val
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'EnumBankAccount) = "bank_account"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "bank_account" -> GetRecipientsIdResponseBody200ActiveAccount'Object'EnumBankAccount
-            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200ActiveAccount'Object'Other val
+            | val GHC.Classes.== "bank_account" -> GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'EnumBankAccount
+            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200ActiveAccount'NonNullableObject'Other val
       )
 
 -- | Defines the object schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.cards@ in the specification.
-data GetRecipientsIdResponseBody200Cards' = GetRecipientsIdResponseBody200Cards'
+data GetRecipientsIdResponseBody200Cards'NonNullable = GetRecipientsIdResponseBody200Cards'NonNullable
   { -- | data
-    getRecipientsIdResponseBody200Cards'Data :: ([Card]),
+    getRecipientsIdResponseBody200Cards'NonNullableData :: ([Card]),
     -- | has_more: True if this list has another page of items after this one that can be fetched.
-    getRecipientsIdResponseBody200Cards'HasMore :: GHC.Types.Bool,
+    getRecipientsIdResponseBody200Cards'NonNullableHasMore :: GHC.Types.Bool,
     -- | url: The URL where this list can be accessed.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getRecipientsIdResponseBody200Cards'Url :: Data.Text.Internal.Text
+    getRecipientsIdResponseBody200Cards'NonNullableUrl :: Data.Text.Internal.Text
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200Cards' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'Data obj : "has_more" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'HasMore obj : "url" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200Cards'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'NonNullableData obj] : ["has_more" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'NonNullableHasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'NonNullableUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'NonNullableData obj] : ["has_more" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'NonNullableHasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getRecipientsIdResponseBody200Cards'NonNullableUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Cards' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200Cards'" (\obj -> ((GHC.Base.pure GetRecipientsIdResponseBody200Cards' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Cards'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200Cards'NonNullable" (\obj -> ((GHC.Base.pure GetRecipientsIdResponseBody200Cards'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
--- | Create a new 'GetRecipientsIdResponseBody200Cards'' with all required fields.
-mkGetRecipientsIdResponseBody200Cards' ::
-  -- | 'getRecipientsIdResponseBody200Cards'Data'
+-- | Create a new 'GetRecipientsIdResponseBody200Cards'NonNullable' with all required fields.
+mkGetRecipientsIdResponseBody200Cards'NonNullable ::
+  -- | 'getRecipientsIdResponseBody200Cards'NonNullableData'
   [Card] ->
-  -- | 'getRecipientsIdResponseBody200Cards'HasMore'
+  -- | 'getRecipientsIdResponseBody200Cards'NonNullableHasMore'
   GHC.Types.Bool ->
-  -- | 'getRecipientsIdResponseBody200Cards'Url'
+  -- | 'getRecipientsIdResponseBody200Cards'NonNullableUrl'
   Data.Text.Internal.Text ->
-  GetRecipientsIdResponseBody200Cards'
-mkGetRecipientsIdResponseBody200Cards' getRecipientsIdResponseBody200Cards'Data getRecipientsIdResponseBody200Cards'HasMore getRecipientsIdResponseBody200Cards'Url =
-  GetRecipientsIdResponseBody200Cards'
-    { getRecipientsIdResponseBody200Cards'Data = getRecipientsIdResponseBody200Cards'Data,
-      getRecipientsIdResponseBody200Cards'HasMore = getRecipientsIdResponseBody200Cards'HasMore,
-      getRecipientsIdResponseBody200Cards'Url = getRecipientsIdResponseBody200Cards'Url
+  GetRecipientsIdResponseBody200Cards'NonNullable
+mkGetRecipientsIdResponseBody200Cards'NonNullable getRecipientsIdResponseBody200Cards'NonNullableData getRecipientsIdResponseBody200Cards'NonNullableHasMore getRecipientsIdResponseBody200Cards'NonNullableUrl =
+  GetRecipientsIdResponseBody200Cards'NonNullable
+    { getRecipientsIdResponseBody200Cards'NonNullableData = getRecipientsIdResponseBody200Cards'NonNullableData,
+      getRecipientsIdResponseBody200Cards'NonNullableHasMore = getRecipientsIdResponseBody200Cards'NonNullableHasMore,
+      getRecipientsIdResponseBody200Cards'NonNullableUrl = getRecipientsIdResponseBody200Cards'NonNullableUrl
     }
 
 -- | Defines the oneOf schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.default_card.anyOf@ in the specification.
 --
 -- The default card to use for creating transfers to this recipient.
-data GetRecipientsIdResponseBody200DefaultCard'Variants
-  = GetRecipientsIdResponseBody200DefaultCard'Text Data.Text.Internal.Text
-  | GetRecipientsIdResponseBody200DefaultCard'Card Card
+data GetRecipientsIdResponseBody200DefaultCard'NonNullableVariants
+  = GetRecipientsIdResponseBody200DefaultCard'NonNullableText Data.Text.Internal.Text
+  | GetRecipientsIdResponseBody200DefaultCard'NonNullableCard Card
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200DefaultCard'Variants where
-  toJSON (GetRecipientsIdResponseBody200DefaultCard'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (GetRecipientsIdResponseBody200DefaultCard'Card a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200DefaultCard'NonNullableVariants where
+  toJSON (GetRecipientsIdResponseBody200DefaultCard'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200DefaultCard'NonNullableCard a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200DefaultCard'Variants where
-  parseJSON val = case (GetRecipientsIdResponseBody200DefaultCard'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200DefaultCard'Card Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200DefaultCard'NonNullableVariants where
+  parseJSON val = case (GetRecipientsIdResponseBody200DefaultCard'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200DefaultCard'NonNullableCard Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
@@ -497,17 +506,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Delete
 -- | Defines the oneOf schema located at @paths.\/v1\/recipients\/{id}.GET.responses.200.content.application\/json.schema.anyOf.properties.migrated_to.anyOf@ in the specification.
 --
 -- The ID of the [Custom account](https:\/\/stripe.com\/docs\/connect\/custom-accounts) this recipient was migrated to. If set, the recipient can no longer be updated, nor can transfers be made to it: use the Custom account instead.
-data GetRecipientsIdResponseBody200MigratedTo'Variants
-  = GetRecipientsIdResponseBody200MigratedTo'Text Data.Text.Internal.Text
-  | GetRecipientsIdResponseBody200MigratedTo'Account Account
+data GetRecipientsIdResponseBody200MigratedTo'NonNullableVariants
+  = GetRecipientsIdResponseBody200MigratedTo'NonNullableText Data.Text.Internal.Text
+  | GetRecipientsIdResponseBody200MigratedTo'NonNullableAccount Account
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200MigratedTo'Variants where
-  toJSON (GetRecipientsIdResponseBody200MigratedTo'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (GetRecipientsIdResponseBody200MigratedTo'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200MigratedTo'NonNullableVariants where
+  toJSON (GetRecipientsIdResponseBody200MigratedTo'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200MigratedTo'NonNullableAccount a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200MigratedTo'Variants where
-  parseJSON val = case (GetRecipientsIdResponseBody200MigratedTo'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200MigratedTo'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200MigratedTo'NonNullableVariants where
+  parseJSON val = case (GetRecipientsIdResponseBody200MigratedTo'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRecipientsIdResponseBody200MigratedTo'NonNullableAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

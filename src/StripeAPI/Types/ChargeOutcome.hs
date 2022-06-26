@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -38,13 +40,13 @@ data ChargeOutcome = ChargeOutcome
     -- Constraints:
     --
     -- * Maximum length of 5000
-    chargeOutcomeNetworkStatus :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    chargeOutcomeNetworkStatus :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | reason: An enumerated value providing a more detailed explanation of the outcome\'s \`type\`. Charges blocked by Radar\'s default block rule have the value \`highest_risk_level\`. Charges placed in review by Radar\'s default review rule have the value \`elevated_risk_level\`. Charges authorized, blocked, or placed in review by custom rules have the value \`rule\`. See [understanding declines](https:\/\/stripe.com\/docs\/declines) for more details.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    chargeOutcomeReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    chargeOutcomeReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | risk_level: Stripe Radar\'s evaluation of the riskiness of the payment. Possible values for evaluated payments are \`normal\`, \`elevated\`, \`highest\`. For non-card payments, and card-based payments predating the public assignment of risk levels, this field will have the value \`not_assessed\`. In the event of an error in the evaluation, this field will have the value \`unknown\`. This field is only available with Radar.
     --
     -- Constraints:
@@ -60,7 +62,7 @@ data ChargeOutcome = ChargeOutcome
     -- Constraints:
     --
     -- * Maximum length of 5000
-    chargeOutcomeSellerMessage :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    chargeOutcomeSellerMessage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | type: Possible values are \`authorized\`, \`manual_review\`, \`issuer_declined\`, \`blocked\`, and \`invalid\`. See [understanding declines](https:\/\/stripe.com\/docs\/declines) and [Radar reviews](https:\/\/stripe.com\/docs\/radar\/reviews) for details.
     --
     -- Constraints:
@@ -74,11 +76,11 @@ data ChargeOutcome = ChargeOutcome
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeOutcome where
-  toJSON obj = Data.Aeson.Types.Internal.object ("network_status" Data.Aeson.Types.ToJSON..= chargeOutcomeNetworkStatus obj : "reason" Data.Aeson.Types.ToJSON..= chargeOutcomeReason obj : "risk_level" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskLevel obj : "risk_score" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskScore obj : "rule" Data.Aeson.Types.ToJSON..= chargeOutcomeRule obj : "seller_message" Data.Aeson.Types.ToJSON..= chargeOutcomeSellerMessage obj : "type" Data.Aeson.Types.ToJSON..= chargeOutcomeType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("network_status" Data.Aeson.Types.ToJSON..= chargeOutcomeNetworkStatus obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= chargeOutcomeReason obj) GHC.Base.<> (("risk_level" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskLevel obj) GHC.Base.<> (("risk_score" Data.Aeson.Types.ToJSON..= chargeOutcomeRiskScore obj) GHC.Base.<> (("rule" Data.Aeson.Types.ToJSON..= chargeOutcomeRule obj) GHC.Base.<> (("seller_message" Data.Aeson.Types.ToJSON..= chargeOutcomeSellerMessage obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= chargeOutcomeType obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_status" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeNetworkStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("risk_level" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeRiskLevel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("risk_score" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeRiskScore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rule" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeRule obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("seller_message" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeSellerMessage obj) : ["type" Data.Aeson.Types.ToJSON..= chargeOutcomeType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_status" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeNetworkStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("risk_level" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeRiskLevel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("risk_score" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeRiskScore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rule" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeRule obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("seller_message" Data.Aeson.Types.ToJSON..=)) (chargeOutcomeSellerMessage obj) : ["type" Data.Aeson.Types.ToJSON..= chargeOutcomeType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeOutcome where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeOutcome" (\obj -> ((((((GHC.Base.pure ChargeOutcome GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "network_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "risk_level")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "risk_score")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "rule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "seller_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeOutcome" (\obj -> ((((((GHC.Base.pure ChargeOutcome GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "risk_level")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "risk_score")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "seller_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'ChargeOutcome' with all required fields.
 mkChargeOutcome ::

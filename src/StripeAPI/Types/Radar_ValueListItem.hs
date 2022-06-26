@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -71,8 +73,8 @@ data Radar'valueListItem = Radar'valueListItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Radar'valueListItem where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= radar'valueListItemCreated obj : "created_by" Data.Aeson.Types.ToJSON..= radar'valueListItemCreatedBy obj : "id" Data.Aeson.Types.ToJSON..= radar'valueListItemId obj : "livemode" Data.Aeson.Types.ToJSON..= radar'valueListItemLivemode obj : "value" Data.Aeson.Types.ToJSON..= radar'valueListItemValue obj : "value_list" Data.Aeson.Types.ToJSON..= radar'valueListItemValueList obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list_item" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= radar'valueListItemCreated obj) GHC.Base.<> (("created_by" Data.Aeson.Types.ToJSON..= radar'valueListItemCreatedBy obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= radar'valueListItemId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= radar'valueListItemLivemode obj) GHC.Base.<> (("value" Data.Aeson.Types.ToJSON..= radar'valueListItemValue obj) GHC.Base.<> (("value_list" Data.Aeson.Types.ToJSON..= radar'valueListItemValueList obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list_item")))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= radar'valueListItemCreated obj] : ["created_by" Data.Aeson.Types.ToJSON..= radar'valueListItemCreatedBy obj] : ["id" Data.Aeson.Types.ToJSON..= radar'valueListItemId obj] : ["livemode" Data.Aeson.Types.ToJSON..= radar'valueListItemLivemode obj] : ["value" Data.Aeson.Types.ToJSON..= radar'valueListItemValue obj] : ["value_list" Data.Aeson.Types.ToJSON..= radar'valueListItemValueList obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list_item"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= radar'valueListItemCreated obj] : ["created_by" Data.Aeson.Types.ToJSON..= radar'valueListItemCreatedBy obj] : ["id" Data.Aeson.Types.ToJSON..= radar'valueListItemId obj] : ["livemode" Data.Aeson.Types.ToJSON..= radar'valueListItemLivemode obj] : ["value" Data.Aeson.Types.ToJSON..= radar'valueListItemValue obj] : ["value_list" Data.Aeson.Types.ToJSON..= radar'valueListItemValueList obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.value_list_item"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListItem where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Radar'valueListItem" (\obj -> (((((GHC.Base.pure Radar'valueListItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value_list"))

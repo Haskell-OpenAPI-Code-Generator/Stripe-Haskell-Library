@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data PostPayoutsPayoutReverseRequestBody = PostPayoutsPayoutReverseRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPayoutsPayoutReverseRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postPayoutsPayoutReverseRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postPayoutsPayoutReverseRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postPayoutsPayoutReverseRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postPayoutsPayoutReverseRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPayoutsPayoutReverseRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPayoutsPayoutReverseRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPayoutsPayoutReverseRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPayoutsPayoutReverseRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsPayoutReverseRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPayoutsPayoutReverseRequestBody" (\obj -> (GHC.Base.pure PostPayoutsPayoutReverseRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPayoutsPayoutReverseRequestBody" (\obj -> (GHC.Base.pure PostPayoutsPayoutReverseRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostPayoutsPayoutReverseRequestBody' with all required fields.
 mkPostPayoutsPayoutReverseRequestBody :: PostPayoutsPayoutReverseRequestBody

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -121,11 +123,11 @@ data PostChargesChargeRequestBody = PostChargesChargeRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("customer" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyCustomer obj : "description" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyExpand obj : "fraud_details" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails obj : "metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyMetadata obj : "receipt_email" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyReceiptEmail obj : "shipping" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping obj : "transfer_group" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyTransferGroup obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyExpand obj) GHC.Base.<> (("fraud_details" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyMetadata obj) GHC.Base.<> (("receipt_email" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyReceiptEmail obj) GHC.Base.<> (("shipping" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping obj) GHC.Base.<> ("transfer_group" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyTransferGroup obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fraud_details" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyFraudDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt_email" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyReceiptEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyTransferGroup obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fraud_details" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyFraudDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt_email" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyReceiptEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyTransferGroup obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBody" (\obj -> (((((((GHC.Base.pure PostChargesChargeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fraud_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_group"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBody" (\obj -> (((((((GHC.Base.pure PostChargesChargeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fraud_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receipt_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_group"))
 
 -- | Create a new 'PostChargesChargeRequestBody' with all required fields.
 mkPostChargesChargeRequestBody :: PostChargesChargeRequestBody
@@ -158,8 +160,8 @@ data PostChargesChargeRequestBodyFraudDetails' = PostChargesChargeRequestBodyFra
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyFraudDetails' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("user_report" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails'UserReport obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("user_report" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails'UserReport obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["user_report" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails'UserReport obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["user_report" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyFraudDetails'UserReport obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyFraudDetails' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyFraudDetails'" (\obj -> GHC.Base.pure PostChargesChargeRequestBodyFraudDetails' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "user_report"))
@@ -260,11 +262,11 @@ data PostChargesChargeRequestBodyShipping' = PostChargesChargeRequestBodyShippin
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyShipping' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address obj : "carrier" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Carrier obj : "name" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Phone obj : "tracking_number" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'TrackingNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Carrier obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Phone obj) GHC.Base.<> ("tracking_number" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'TrackingNumber obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Carrier obj) : ["name" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Phone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'TrackingNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Carrier obj) : ["name" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Phone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'TrackingNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyShipping' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyShipping'" (\obj -> ((((GHC.Base.pure PostChargesChargeRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyShipping'" (\obj -> ((((GHC.Base.pure PostChargesChargeRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracking_number"))
 
 -- | Create a new 'PostChargesChargeRequestBodyShipping'' with all required fields.
 mkPostChargesChargeRequestBodyShipping' ::
@@ -301,7 +303,7 @@ data PostChargesChargeRequestBodyShipping'Address' = PostChargesChargeRequestBod
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postChargesChargeRequestBodyShipping'Address'Line1 :: Data.Text.Internal.Text,
+    postChargesChargeRequestBodyShipping'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | line2
     --
     -- Constraints:
@@ -327,22 +329,19 @@ data PostChargesChargeRequestBodyShipping'Address' = PostChargesChargeRequestBod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyShipping'Address' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postChargesChargeRequestBodyShipping'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'State obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRequestBodyShipping'Address'State obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyShipping'Address' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyShipping'Address'" (\obj -> (((((GHC.Base.pure PostChargesChargeRequestBodyShipping'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRequestBodyShipping'Address'" (\obj -> (((((GHC.Base.pure PostChargesChargeRequestBodyShipping'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
 -- | Create a new 'PostChargesChargeRequestBodyShipping'Address'' with all required fields.
-mkPostChargesChargeRequestBodyShipping'Address' ::
-  -- | 'postChargesChargeRequestBodyShipping'Address'Line1'
-  Data.Text.Internal.Text ->
-  PostChargesChargeRequestBodyShipping'Address'
-mkPostChargesChargeRequestBodyShipping'Address' postChargesChargeRequestBodyShipping'Address'Line1 =
+mkPostChargesChargeRequestBodyShipping'Address' :: PostChargesChargeRequestBodyShipping'Address'
+mkPostChargesChargeRequestBodyShipping'Address' =
   PostChargesChargeRequestBodyShipping'Address'
     { postChargesChargeRequestBodyShipping'Address'City = GHC.Maybe.Nothing,
       postChargesChargeRequestBodyShipping'Address'Country = GHC.Maybe.Nothing,
-      postChargesChargeRequestBodyShipping'Address'Line1 = postChargesChargeRequestBodyShipping'Address'Line1,
+      postChargesChargeRequestBodyShipping'Address'Line1 = GHC.Maybe.Nothing,
       postChargesChargeRequestBodyShipping'Address'Line2 = GHC.Maybe.Nothing,
       postChargesChargeRequestBodyShipping'Address'PostalCode = GHC.Maybe.Nothing,
       postChargesChargeRequestBodyShipping'Address'State = GHC.Maybe.Nothing

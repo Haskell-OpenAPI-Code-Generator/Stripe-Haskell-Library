@@ -1,103 +1,109 @@
 module StripeAPI.Types.Charge where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Charge
 instance Show Charge
 instance Eq Charge
 instance FromJSON Charge
 instance ToJSON Charge
-data ChargeApplication'Variants
-instance Show ChargeApplication'Variants
-instance Eq ChargeApplication'Variants
-instance FromJSON ChargeApplication'Variants
-instance ToJSON ChargeApplication'Variants
-data ChargeApplicationFee'Variants
-instance Show ChargeApplicationFee'Variants
-instance Eq ChargeApplicationFee'Variants
-instance FromJSON ChargeApplicationFee'Variants
-instance ToJSON ChargeApplicationFee'Variants
-data ChargeBalanceTransaction'Variants
-instance Show ChargeBalanceTransaction'Variants
-instance Eq ChargeBalanceTransaction'Variants
-instance FromJSON ChargeBalanceTransaction'Variants
-instance ToJSON ChargeBalanceTransaction'Variants
-data ChargeCustomer'Variants
-instance Show ChargeCustomer'Variants
-instance Eq ChargeCustomer'Variants
-instance FromJSON ChargeCustomer'Variants
-instance ToJSON ChargeCustomer'Variants
-data ChargeFraudDetails'
-instance Show ChargeFraudDetails'
-instance Eq ChargeFraudDetails'
-instance FromJSON ChargeFraudDetails'
-instance ToJSON ChargeFraudDetails'
-data ChargeInvoice'Variants
-instance Show ChargeInvoice'Variants
-instance Eq ChargeInvoice'Variants
-instance FromJSON ChargeInvoice'Variants
-instance ToJSON ChargeInvoice'Variants
-data ChargeOnBehalfOf'Variants
-instance Show ChargeOnBehalfOf'Variants
-instance Eq ChargeOnBehalfOf'Variants
-instance FromJSON ChargeOnBehalfOf'Variants
-instance ToJSON ChargeOnBehalfOf'Variants
-data ChargeOrder'Variants
-instance Show ChargeOrder'Variants
-instance Eq ChargeOrder'Variants
-instance FromJSON ChargeOrder'Variants
-instance ToJSON ChargeOrder'Variants
-data ChargeOutcome'
-instance Show ChargeOutcome'
-instance Eq ChargeOutcome'
-instance FromJSON ChargeOutcome'
-instance ToJSON ChargeOutcome'
-data ChargeOutcome'Rule'Variants
-instance Show ChargeOutcome'Rule'Variants
-instance Eq ChargeOutcome'Rule'Variants
-instance FromJSON ChargeOutcome'Rule'Variants
-instance ToJSON ChargeOutcome'Rule'Variants
-data ChargePaymentIntent'Variants
-instance Show ChargePaymentIntent'Variants
-instance Eq ChargePaymentIntent'Variants
-instance FromJSON ChargePaymentIntent'Variants
-instance ToJSON ChargePaymentIntent'Variants
-data ChargePaymentMethodDetails'
-instance Show ChargePaymentMethodDetails'
-instance Eq ChargePaymentMethodDetails'
-instance FromJSON ChargePaymentMethodDetails'
-instance ToJSON ChargePaymentMethodDetails'
+data ChargeApplication'NonNullableVariants
+instance Show ChargeApplication'NonNullableVariants
+instance Eq ChargeApplication'NonNullableVariants
+instance FromJSON ChargeApplication'NonNullableVariants
+instance ToJSON ChargeApplication'NonNullableVariants
+data ChargeApplicationFee'NonNullableVariants
+instance Show ChargeApplicationFee'NonNullableVariants
+instance Eq ChargeApplicationFee'NonNullableVariants
+instance FromJSON ChargeApplicationFee'NonNullableVariants
+instance ToJSON ChargeApplicationFee'NonNullableVariants
+data ChargeBalanceTransaction'NonNullableVariants
+instance Show ChargeBalanceTransaction'NonNullableVariants
+instance Eq ChargeBalanceTransaction'NonNullableVariants
+instance FromJSON ChargeBalanceTransaction'NonNullableVariants
+instance ToJSON ChargeBalanceTransaction'NonNullableVariants
+data ChargeCustomer'NonNullableVariants
+instance Show ChargeCustomer'NonNullableVariants
+instance Eq ChargeCustomer'NonNullableVariants
+instance FromJSON ChargeCustomer'NonNullableVariants
+instance ToJSON ChargeCustomer'NonNullableVariants
+data ChargeFailureBalanceTransaction'NonNullableVariants
+instance Show ChargeFailureBalanceTransaction'NonNullableVariants
+instance Eq ChargeFailureBalanceTransaction'NonNullableVariants
+instance FromJSON ChargeFailureBalanceTransaction'NonNullableVariants
+instance ToJSON ChargeFailureBalanceTransaction'NonNullableVariants
+data ChargeFraudDetails'NonNullable
+instance Show ChargeFraudDetails'NonNullable
+instance Eq ChargeFraudDetails'NonNullable
+instance FromJSON ChargeFraudDetails'NonNullable
+instance ToJSON ChargeFraudDetails'NonNullable
+data ChargeInvoice'NonNullableVariants
+instance Show ChargeInvoice'NonNullableVariants
+instance Eq ChargeInvoice'NonNullableVariants
+instance FromJSON ChargeInvoice'NonNullableVariants
+instance ToJSON ChargeInvoice'NonNullableVariants
+data ChargeOnBehalfOf'NonNullableVariants
+instance Show ChargeOnBehalfOf'NonNullableVariants
+instance Eq ChargeOnBehalfOf'NonNullableVariants
+instance FromJSON ChargeOnBehalfOf'NonNullableVariants
+instance ToJSON ChargeOnBehalfOf'NonNullableVariants
+data ChargeOutcome'NonNullable
+instance Show ChargeOutcome'NonNullable
+instance Eq ChargeOutcome'NonNullable
+instance FromJSON ChargeOutcome'NonNullable
+instance ToJSON ChargeOutcome'NonNullable
+data ChargeOutcome'NonNullableRule'Variants
+instance Show ChargeOutcome'NonNullableRule'Variants
+instance Eq ChargeOutcome'NonNullableRule'Variants
+instance FromJSON ChargeOutcome'NonNullableRule'Variants
+instance ToJSON ChargeOutcome'NonNullableRule'Variants
+data ChargePaymentIntent'NonNullableVariants
+instance Show ChargePaymentIntent'NonNullableVariants
+instance Eq ChargePaymentIntent'NonNullableVariants
+instance FromJSON ChargePaymentIntent'NonNullableVariants
+instance ToJSON ChargePaymentIntent'NonNullableVariants
+data ChargePaymentMethodDetails'NonNullable
+instance Show ChargePaymentMethodDetails'NonNullable
+instance Eq ChargePaymentMethodDetails'NonNullable
+instance FromJSON ChargePaymentMethodDetails'NonNullable
+instance ToJSON ChargePaymentMethodDetails'NonNullable
 data ChargeRefunds'
 instance Show ChargeRefunds'
 instance Eq ChargeRefunds'
 instance FromJSON ChargeRefunds'
 instance ToJSON ChargeRefunds'
-data ChargeReview'Variants
-instance Show ChargeReview'Variants
-instance Eq ChargeReview'Variants
-instance FromJSON ChargeReview'Variants
-instance ToJSON ChargeReview'Variants
-data ChargeShipping'
-instance Show ChargeShipping'
-instance Eq ChargeShipping'
-instance FromJSON ChargeShipping'
-instance ToJSON ChargeShipping'
-data ChargeSourceTransfer'Variants
-instance Show ChargeSourceTransfer'Variants
-instance Eq ChargeSourceTransfer'Variants
-instance FromJSON ChargeSourceTransfer'Variants
-instance ToJSON ChargeSourceTransfer'Variants
+data ChargeReview'NonNullableVariants
+instance Show ChargeReview'NonNullableVariants
+instance Eq ChargeReview'NonNullableVariants
+instance FromJSON ChargeReview'NonNullableVariants
+instance ToJSON ChargeReview'NonNullableVariants
+data ChargeShipping'NonNullable
+instance Show ChargeShipping'NonNullable
+instance Eq ChargeShipping'NonNullable
+instance FromJSON ChargeShipping'NonNullable
+instance ToJSON ChargeShipping'NonNullable
+data ChargeSourceTransfer'NonNullableVariants
+instance Show ChargeSourceTransfer'NonNullableVariants
+instance Eq ChargeSourceTransfer'NonNullableVariants
+instance FromJSON ChargeSourceTransfer'NonNullableVariants
+instance ToJSON ChargeSourceTransfer'NonNullableVariants
+data ChargeStatus'
+instance Show ChargeStatus'
+instance Eq ChargeStatus'
+instance FromJSON ChargeStatus'
+instance ToJSON ChargeStatus'
 data ChargeTransfer'Variants
 instance Show ChargeTransfer'Variants
 instance Eq ChargeTransfer'Variants
 instance FromJSON ChargeTransfer'Variants
 instance ToJSON ChargeTransfer'Variants
-data ChargeTransferData'
-instance Show ChargeTransferData'
-instance Eq ChargeTransferData'
-instance FromJSON ChargeTransferData'
-instance ToJSON ChargeTransferData'
-data ChargeTransferData'Destination'Variants
-instance Show ChargeTransferData'Destination'Variants
-instance Eq ChargeTransferData'Destination'Variants
-instance FromJSON ChargeTransferData'Destination'Variants
-instance ToJSON ChargeTransferData'Destination'Variants
+data ChargeTransferData'NonNullable
+instance Show ChargeTransferData'NonNullable
+instance Eq ChargeTransferData'NonNullable
+instance FromJSON ChargeTransferData'NonNullable
+instance ToJSON ChargeTransferData'NonNullable
+data ChargeTransferData'NonNullableDestination'Variants
+instance Show ChargeTransferData'NonNullableDestination'Variants
+instance Eq ChargeTransferData'NonNullableDestination'Variants
+instance FromJSON ChargeTransferData'NonNullableDestination'Variants
+instance ToJSON ChargeTransferData'NonNullableDestination'Variants

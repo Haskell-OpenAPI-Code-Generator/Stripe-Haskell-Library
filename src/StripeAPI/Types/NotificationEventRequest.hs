@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,13 +39,13 @@ data NotificationEventRequest = NotificationEventRequest
     -- Constraints:
     --
     -- * Maximum length of 5000
-    notificationEventRequestId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    notificationEventRequestId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | idempotency_key: The idempotency key transmitted during the request, if any. *Note: This property is populated only for events on or after May 23, 2017*.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    notificationEventRequestIdempotencyKey :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    notificationEventRequestIdempotencyKey :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data NotificationEventRequest = NotificationEventRequest
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON NotificationEventRequest where
-  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= notificationEventRequestId obj : "idempotency_key" Data.Aeson.Types.ToJSON..= notificationEventRequestIdempotencyKey obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= notificationEventRequestId obj) GHC.Base.<> ("idempotency_key" Data.Aeson.Types.ToJSON..= notificationEventRequestIdempotencyKey obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (notificationEventRequestId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("idempotency_key" Data.Aeson.Types.ToJSON..=)) (notificationEventRequestIdempotencyKey obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (notificationEventRequestId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("idempotency_key" Data.Aeson.Types.ToJSON..=)) (notificationEventRequestIdempotencyKey obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON NotificationEventRequest where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventRequest" (\obj -> (GHC.Base.pure NotificationEventRequest GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "idempotency_key"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventRequest" (\obj -> (GHC.Base.pure NotificationEventRequest GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "idempotency_key"))
 
 -- | Create a new 'NotificationEventRequest' with all required fields.
 mkNotificationEventRequest :: NotificationEventRequest

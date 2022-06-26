@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.customer_acceptance@ in the specification.
 data CustomerAcceptance = CustomerAcceptance
   { -- | accepted_at: The time at which the customer accepted the Mandate.
-    customerAcceptanceAcceptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    customerAcceptanceAcceptedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | offline:
     customerAcceptanceOffline :: (GHC.Maybe.Maybe OfflineAcceptance),
     -- | online:
@@ -48,11 +50,11 @@ data CustomerAcceptance = CustomerAcceptance
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CustomerAcceptance where
-  toJSON obj = Data.Aeson.Types.Internal.object ("accepted_at" Data.Aeson.Types.ToJSON..= customerAcceptanceAcceptedAt obj : "offline" Data.Aeson.Types.ToJSON..= customerAcceptanceOffline obj : "online" Data.Aeson.Types.ToJSON..= customerAcceptanceOnline obj : "type" Data.Aeson.Types.ToJSON..= customerAcceptanceType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("accepted_at" Data.Aeson.Types.ToJSON..= customerAcceptanceAcceptedAt obj) GHC.Base.<> (("offline" Data.Aeson.Types.ToJSON..= customerAcceptanceOffline obj) GHC.Base.<> (("online" Data.Aeson.Types.ToJSON..= customerAcceptanceOnline obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= customerAcceptanceType obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("accepted_at" Data.Aeson.Types.ToJSON..=)) (customerAcceptanceAcceptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (customerAcceptanceOffline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("online" Data.Aeson.Types.ToJSON..=)) (customerAcceptanceOnline obj) : ["type" Data.Aeson.Types.ToJSON..= customerAcceptanceType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("accepted_at" Data.Aeson.Types.ToJSON..=)) (customerAcceptanceAcceptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (customerAcceptanceOffline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("online" Data.Aeson.Types.ToJSON..=)) (customerAcceptanceOnline obj) : ["type" Data.Aeson.Types.ToJSON..= customerAcceptanceType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CustomerAcceptance where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerAcceptance" (\obj -> (((GHC.Base.pure CustomerAcceptance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "accepted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerAcceptance" (\obj -> (((GHC.Base.pure CustomerAcceptance GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "accepted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'CustomerAcceptance' with all required fields.
 mkCustomerAcceptance ::

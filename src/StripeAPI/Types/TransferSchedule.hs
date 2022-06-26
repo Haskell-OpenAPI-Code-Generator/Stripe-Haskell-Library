@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -55,11 +57,11 @@ data TransferSchedule = TransferSchedule
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TransferSchedule where
-  toJSON obj = Data.Aeson.Types.Internal.object ("delay_days" Data.Aeson.Types.ToJSON..= transferScheduleDelayDays obj : "interval" Data.Aeson.Types.ToJSON..= transferScheduleInterval obj : "monthly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleMonthlyAnchor obj : "weekly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleWeeklyAnchor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("delay_days" Data.Aeson.Types.ToJSON..= transferScheduleDelayDays obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= transferScheduleInterval obj) GHC.Base.<> (("monthly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleMonthlyAnchor obj) GHC.Base.<> ("weekly_anchor" Data.Aeson.Types.ToJSON..= transferScheduleWeeklyAnchor obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["delay_days" Data.Aeson.Types.ToJSON..= transferScheduleDelayDays obj] : ["interval" Data.Aeson.Types.ToJSON..= transferScheduleInterval obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("monthly_anchor" Data.Aeson.Types.ToJSON..=)) (transferScheduleMonthlyAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("weekly_anchor" Data.Aeson.Types.ToJSON..=)) (transferScheduleWeeklyAnchor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["delay_days" Data.Aeson.Types.ToJSON..= transferScheduleDelayDays obj] : ["interval" Data.Aeson.Types.ToJSON..= transferScheduleInterval obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("monthly_anchor" Data.Aeson.Types.ToJSON..=)) (transferScheduleMonthlyAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("weekly_anchor" Data.Aeson.Types.ToJSON..=)) (transferScheduleWeeklyAnchor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransferSchedule where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TransferSchedule" (\obj -> (((GHC.Base.pure TransferSchedule GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "delay_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "monthly_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "weekly_anchor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TransferSchedule" (\obj -> (((GHC.Base.pure TransferSchedule GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "delay_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "monthly_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "weekly_anchor"))
 
 -- | Create a new 'TransferSchedule' with all required fields.
 mkTransferSchedule ::

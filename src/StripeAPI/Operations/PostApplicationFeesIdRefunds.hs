@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -94,7 +96,7 @@ postApplicationFeesIdRefunds
 
 -- | Defines the object schema located at @paths.\/v1\/application_fees\/{id}\/refunds.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostApplicationFeesIdRefundsRequestBody = PostApplicationFeesIdRefundsRequestBody
-  { -- | amount: A positive integer, in _%s_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
+  { -- | amount: A positive integer, in _cents (or local equivalent)_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
     postApplicationFeesIdRefundsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | expand: Specifies which fields in the response should be expanded.
     postApplicationFeesIdRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
@@ -107,11 +109,11 @@ data PostApplicationFeesIdRefundsRequestBody = PostApplicationFeesIdRefundsReque
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplicationFeesIdRefundsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyAmount obj : "expand" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesIdRefundsRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesIdRefundsRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesIdRefundsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesIdRefundsRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesIdRefundsRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesIdRefundsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesIdRefundsRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesIdRefundsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesIdRefundsRequestBody" (\obj -> ((GHC.Base.pure PostApplicationFeesIdRefundsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesIdRefundsRequestBody" (\obj -> ((GHC.Base.pure PostApplicationFeesIdRefundsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostApplicationFeesIdRefundsRequestBody' with all required fields.
 mkPostApplicationFeesIdRefundsRequestBody :: PostApplicationFeesIdRefundsRequestBody

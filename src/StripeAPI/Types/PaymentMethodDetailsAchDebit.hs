@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,37 +35,37 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.payment_method_details_ach_debit@ in the specification.
 data PaymentMethodDetailsAchDebit = PaymentMethodDetailsAchDebit
   { -- | account_holder_type: Type of entity that holds the account. This can be either \`individual\` or \`company\`.
-    paymentMethodDetailsAchDebitAccountHolderType :: (GHC.Maybe.Maybe PaymentMethodDetailsAchDebitAccountHolderType'),
+    paymentMethodDetailsAchDebitAccountHolderType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodDetailsAchDebitAccountHolderType'NonNullable)),
     -- | bank_name: Name of the bank associated with the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchDebitBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAchDebitBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter ISO code representing the country the bank account is located in.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAchDebitCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAchDebitFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last4: Last four digits of the bank account number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAchDebitLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | routing_number: Routing transit number of the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchDebitRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsAchDebitRoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -71,11 +73,11 @@ data PaymentMethodDetailsAchDebit = PaymentMethodDetailsAchDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAchDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitAccountHolderType obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitBankName obj : "country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitCountry obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitLast4 obj : "routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitRoutingNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitAccountHolderType obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitBankName obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitCountry obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitLast4 obj) GHC.Base.<> ("routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchDebitRoutingNumber obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitRoutingNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchDebitRoutingNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAchDebit" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsAchDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAchDebit" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsAchDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number"))
 
 -- | Create a new 'PaymentMethodDetailsAchDebit' with all required fields.
 mkPaymentMethodDetailsAchDebit :: PaymentMethodDetailsAchDebit
@@ -92,28 +94,28 @@ mkPaymentMethodDetailsAchDebit =
 -- | Defines the enum schema located at @components.schemas.payment_method_details_ach_debit.properties.account_holder_type@ in the specification.
 --
 -- Type of entity that holds the account. This can be either \`individual\` or \`company\`.
-data PaymentMethodDetailsAchDebitAccountHolderType'
+data PaymentMethodDetailsAchDebitAccountHolderType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentMethodDetailsAchDebitAccountHolderType'Other Data.Aeson.Types.Internal.Value
+    PaymentMethodDetailsAchDebitAccountHolderType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentMethodDetailsAchDebitAccountHolderType'Typed Data.Text.Internal.Text
+    PaymentMethodDetailsAchDebitAccountHolderType'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"company"@
-    PaymentMethodDetailsAchDebitAccountHolderType'EnumCompany
+    PaymentMethodDetailsAchDebitAccountHolderType'NonNullableEnumCompany
   | -- | Represents the JSON value @"individual"@
-    PaymentMethodDetailsAchDebitAccountHolderType'EnumIndividual
+    PaymentMethodDetailsAchDebitAccountHolderType'NonNullableEnumIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAchDebitAccountHolderType' where
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'Other val) = val
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumCompany) = "company"
-  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'EnumIndividual) = "individual"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAchDebitAccountHolderType'NonNullable where
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'NonNullableOther val) = val
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'NonNullableEnumCompany) = "company"
+  toJSON (PaymentMethodDetailsAchDebitAccountHolderType'NonNullableEnumIndividual) = "individual"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchDebitAccountHolderType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchDebitAccountHolderType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "company" -> PaymentMethodDetailsAchDebitAccountHolderType'EnumCompany
-            | val GHC.Classes.== "individual" -> PaymentMethodDetailsAchDebitAccountHolderType'EnumIndividual
-            | GHC.Base.otherwise -> PaymentMethodDetailsAchDebitAccountHolderType'Other val
+            | val GHC.Classes.== "company" -> PaymentMethodDetailsAchDebitAccountHolderType'NonNullableEnumCompany
+            | val GHC.Classes.== "individual" -> PaymentMethodDetailsAchDebitAccountHolderType'NonNullableEnumIndividual
+            | GHC.Base.otherwise -> PaymentMethodDetailsAchDebitAccountHolderType'NonNullableOther val
       )

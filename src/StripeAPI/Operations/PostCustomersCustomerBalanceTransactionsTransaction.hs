@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,8 +107,8 @@ data PostCustomersCustomerBalanceTransactionsTransactionParameters = PostCustome
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBalanceTransactionsTransactionParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj : "pathTransaction" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj) GHC.Base.<> ("pathTransaction" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj] : ["pathTransaction" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathCustomer obj] : ["pathTransaction" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionParametersPathTransaction obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBalanceTransactionsTransactionParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsTransactionParameters" (\obj -> (GHC.Base.pure PostCustomersCustomerBalanceTransactionsTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransaction"))
@@ -143,11 +145,11 @@ data PostCustomersCustomerBalanceTransactionsTransactionRequestBody = PostCustom
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBalanceTransactionsTransactionRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("description" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("description" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBalanceTransactionsTransactionRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsTransactionRequestBody" (\obj -> ((GHC.Base.pure PostCustomersCustomerBalanceTransactionsTransactionRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsTransactionRequestBody" (\obj -> ((GHC.Base.pure PostCustomersCustomerBalanceTransactionsTransactionRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostCustomersCustomerBalanceTransactionsTransactionRequestBody' with all required fields.
 mkPostCustomersCustomerBalanceTransactionsTransactionRequestBody :: PostCustomersCustomerBalanceTransactionsTransactionRequestBody

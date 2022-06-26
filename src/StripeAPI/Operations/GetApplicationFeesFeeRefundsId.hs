@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,11 +107,11 @@ data GetApplicationFeesFeeRefundsIdParameters = GetApplicationFeesFeeRefundsIdPa
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplicationFeesFeeRefundsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathFee" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathFee obj : "pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathFee" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathFee obj) GHC.Base.<> (("pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathFee" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathFee obj] : ["pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getApplicationFeesFeeRefundsIdParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathFee" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathFee obj] : ["pathId" Data.Aeson.Types.ToJSON..= getApplicationFeesFeeRefundsIdParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getApplicationFeesFeeRefundsIdParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesFeeRefundsIdParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesFeeRefundsIdParameters" (\obj -> ((GHC.Base.pure GetApplicationFeesFeeRefundsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesFeeRefundsIdParameters" (\obj -> ((GHC.Base.pure GetApplicationFeesFeeRefundsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetApplicationFeesFeeRefundsIdParameters' with all required fields.
 mkGetApplicationFeesFeeRefundsIdParameters ::

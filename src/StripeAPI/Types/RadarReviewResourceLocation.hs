@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,23 +39,23 @@ data RadarReviewResourceLocation = RadarReviewResourceLocation
     -- Constraints:
     --
     -- * Maximum length of 5000
-    radarReviewResourceLocationCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    radarReviewResourceLocationCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter ISO code representing the country where the payment originated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    radarReviewResourceLocationCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    radarReviewResourceLocationCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | latitude: The geographic latitude where the payment originated.
-    radarReviewResourceLocationLatitude :: (GHC.Maybe.Maybe GHC.Types.Double),
+    radarReviewResourceLocationLatitude :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | longitude: The geographic longitude where the payment originated.
-    radarReviewResourceLocationLongitude :: (GHC.Maybe.Maybe GHC.Types.Double),
+    radarReviewResourceLocationLongitude :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | region: The state\/county\/province\/region where the payment originated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    radarReviewResourceLocationRegion :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    radarReviewResourceLocationRegion :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -61,11 +63,11 @@ data RadarReviewResourceLocation = RadarReviewResourceLocation
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON RadarReviewResourceLocation where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCity obj : "country" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCountry obj : "latitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLatitude obj : "longitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLongitude obj : "region" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationRegion obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCity obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationCountry obj) GHC.Base.<> (("latitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLatitude obj) GHC.Base.<> (("longitude" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationLongitude obj) GHC.Base.<> ("region" Data.Aeson.Types.ToJSON..= radarReviewResourceLocationRegion obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("latitude" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationLatitude obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("longitude" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationLongitude obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("region" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationRegion obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("latitude" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationLatitude obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("longitude" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationLongitude obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("region" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceLocationRegion obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON RadarReviewResourceLocation where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "RadarReviewResourceLocation" (\obj -> ((((GHC.Base.pure RadarReviewResourceLocation GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "latitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "longitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "region"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "RadarReviewResourceLocation" (\obj -> ((((GHC.Base.pure RadarReviewResourceLocation GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "latitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "longitude")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "region"))
 
 -- | Create a new 'RadarReviewResourceLocation' with all required fields.
 mkRadarReviewResourceLocation :: RadarReviewResourceLocation

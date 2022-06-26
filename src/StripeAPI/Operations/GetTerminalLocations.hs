@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -121,11 +123,11 @@ data GetTerminalLocationsParameters = GetTerminalLocationsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getTerminalLocationsParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsParameters" (\obj -> (((GHC.Base.pure GetTerminalLocationsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsParameters" (\obj -> (((GHC.Base.pure GetTerminalLocationsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetTerminalLocationsParameters' with all required fields.
 mkGetTerminalLocationsParameters :: GetTerminalLocationsParameters
@@ -169,8 +171,8 @@ data GetTerminalLocationsResponseBody200 = GetTerminalLocationsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getTerminalLocationsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsResponseBody200" (\obj -> ((GHC.Base.pure GetTerminalLocationsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

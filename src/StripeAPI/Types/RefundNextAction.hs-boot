@@ -1,0 +1,14 @@
+module StripeAPI.Types.RefundNextAction where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data RefundNextAction
+instance Show RefundNextAction
+instance Eq RefundNextAction
+instance FromJSON RefundNextAction
+instance ToJSON RefundNextAction
+data RefundNextActionDisplayDetails'NonNullable
+instance Show RefundNextActionDisplayDetails'NonNullable
+instance Eq RefundNextActionDisplayDetails'NonNullable
+instance FromJSON RefundNextActionDisplayDetails'NonNullable
+instance ToJSON RefundNextActionDisplayDetails'NonNullable

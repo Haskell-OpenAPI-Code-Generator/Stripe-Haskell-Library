@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentIntentNextActionBoleto where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentIntentNextActionBoleto
 instance Show PaymentIntentNextActionBoleto
 instance Eq PaymentIntentNextActionBoleto

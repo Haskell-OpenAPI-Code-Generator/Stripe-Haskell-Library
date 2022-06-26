@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,11 +37,11 @@ import qualified Prelude as GHC.Maybe
 -- Point in Time
 data GelatoDataDocumentReportDateOfBirth = GelatoDataDocumentReportDateOfBirth
   { -- | day: Numerical day between 1 and 31.
-    gelatoDataDocumentReportDateOfBirthDay :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDataDocumentReportDateOfBirthDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoDataDocumentReportDateOfBirthMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDataDocumentReportDateOfBirthMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoDataDocumentReportDateOfBirthYear :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoDataDocumentReportDateOfBirthYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data GelatoDataDocumentReportDateOfBirth = GelatoDataDocumentReportDateOfBirth
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoDataDocumentReportDateOfBirth where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportDateOfBirthDay obj : "month" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportDateOfBirthMonth obj : "year" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportDateOfBirthYear obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportDateOfBirthDay obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportDateOfBirthMonth obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportDateOfBirthYear obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportDateOfBirthDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportDateOfBirthMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportDateOfBirthYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportDateOfBirthDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportDateOfBirthMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportDateOfBirthYear obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoDataDocumentReportDateOfBirth where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDataDocumentReportDateOfBirth" (\obj -> ((GHC.Base.pure GelatoDataDocumentReportDateOfBirth GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDataDocumentReportDateOfBirth" (\obj -> ((GHC.Base.pure GelatoDataDocumentReportDateOfBirth GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
 -- | Create a new 'GelatoDataDocumentReportDateOfBirth' with all required fields.
 mkGelatoDataDocumentReportDateOfBirth :: GelatoDataDocumentReportDateOfBirth

@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentMethodDetailsInteracPresentReceipt where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodDetailsInteracPresentReceipt
 instance Show PaymentMethodDetailsInteracPresentReceipt
 instance Eq PaymentMethodDetailsInteracPresentReceipt

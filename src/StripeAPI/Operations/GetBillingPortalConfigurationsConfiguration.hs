@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetBillingPortalConfigurationsConfigurationParameters = GetBillingPortalCon
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetBillingPortalConfigurationsConfigurationParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathConfiguration" Data.Aeson.Types.ToJSON..= getBillingPortalConfigurationsConfigurationParametersPathConfiguration obj : "queryExpand" Data.Aeson.Types.ToJSON..= getBillingPortalConfigurationsConfigurationParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathConfiguration" Data.Aeson.Types.ToJSON..= getBillingPortalConfigurationsConfigurationParametersPathConfiguration obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getBillingPortalConfigurationsConfigurationParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathConfiguration" Data.Aeson.Types.ToJSON..= getBillingPortalConfigurationsConfigurationParametersPathConfiguration obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getBillingPortalConfigurationsConfigurationParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathConfiguration" Data.Aeson.Types.ToJSON..= getBillingPortalConfigurationsConfigurationParametersPathConfiguration obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getBillingPortalConfigurationsConfigurationParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetBillingPortalConfigurationsConfigurationParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBillingPortalConfigurationsConfigurationParameters" (\obj -> (GHC.Base.pure GetBillingPortalConfigurationsConfigurationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathConfiguration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBillingPortalConfigurationsConfigurationParameters" (\obj -> (GHC.Base.pure GetBillingPortalConfigurationsConfigurationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathConfiguration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetBillingPortalConfigurationsConfigurationParameters' with all required fields.
 mkGetBillingPortalConfigurationsConfigurationParameters ::

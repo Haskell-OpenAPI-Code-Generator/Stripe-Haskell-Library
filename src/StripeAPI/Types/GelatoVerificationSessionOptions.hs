@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -44,11 +46,11 @@ data GelatoVerificationSessionOptions = GelatoVerificationSessionOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoVerificationSessionOptions where
-  toJSON obj = Data.Aeson.Types.Internal.object ("document" Data.Aeson.Types.ToJSON..= gelatoVerificationSessionOptionsDocument obj : "id_number" Data.Aeson.Types.ToJSON..= gelatoVerificationSessionOptionsIdNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("document" Data.Aeson.Types.ToJSON..= gelatoVerificationSessionOptionsDocument obj) GHC.Base.<> ("id_number" Data.Aeson.Types.ToJSON..= gelatoVerificationSessionOptionsIdNumber obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (gelatoVerificationSessionOptionsDocument obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (gelatoVerificationSessionOptionsIdNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (gelatoVerificationSessionOptionsDocument obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (gelatoVerificationSessionOptionsIdNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoVerificationSessionOptions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerificationSessionOptions" (\obj -> (GHC.Base.pure GelatoVerificationSessionOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoVerificationSessionOptions" (\obj -> (GHC.Base.pure GelatoVerificationSessionOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "document")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number"))
 
 -- | Create a new 'GelatoVerificationSessionOptions' with all required fields.
 mkGelatoVerificationSessionOptions :: GelatoVerificationSessionOptions

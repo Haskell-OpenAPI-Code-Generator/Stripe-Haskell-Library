@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,7 +37,7 @@ data SourceTypeWechat = SourceTypeWechat
   { -- | prepay_id
     sourceTypeWechatPrepayId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | qr_code_url
-    sourceTypeWechatQrCodeUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeWechatQrCodeUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | statement_descriptor
     sourceTypeWechatStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
@@ -45,11 +47,11 @@ data SourceTypeWechat = SourceTypeWechat
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeWechat where
-  toJSON obj = Data.Aeson.Types.Internal.object ("prepay_id" Data.Aeson.Types.ToJSON..= sourceTypeWechatPrepayId obj : "qr_code_url" Data.Aeson.Types.ToJSON..= sourceTypeWechatQrCodeUrl obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeWechatStatementDescriptor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("prepay_id" Data.Aeson.Types.ToJSON..= sourceTypeWechatPrepayId obj) GHC.Base.<> (("qr_code_url" Data.Aeson.Types.ToJSON..= sourceTypeWechatQrCodeUrl obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeWechatStatementDescriptor obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prepay_id" Data.Aeson.Types.ToJSON..=)) (sourceTypeWechatPrepayId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("qr_code_url" Data.Aeson.Types.ToJSON..=)) (sourceTypeWechatQrCodeUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeWechatStatementDescriptor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prepay_id" Data.Aeson.Types.ToJSON..=)) (sourceTypeWechatPrepayId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("qr_code_url" Data.Aeson.Types.ToJSON..=)) (sourceTypeWechatQrCodeUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeWechatStatementDescriptor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeWechat where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeWechat" (\obj -> ((GHC.Base.pure SourceTypeWechat GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prepay_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "qr_code_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeWechat" (\obj -> ((GHC.Base.pure SourceTypeWechat GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prepay_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qr_code_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
 
 -- | Create a new 'SourceTypeWechat' with all required fields.
 mkSourceTypeWechat :: SourceTypeWechat

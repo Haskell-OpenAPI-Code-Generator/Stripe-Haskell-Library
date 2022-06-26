@@ -1,0 +1,14 @@
+module StripeAPI.Types.PaymentMethodDetailsKonbiniStore where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentMethodDetailsKonbiniStore
+instance Show PaymentMethodDetailsKonbiniStore
+instance Eq PaymentMethodDetailsKonbiniStore
+instance FromJSON PaymentMethodDetailsKonbiniStore
+instance ToJSON PaymentMethodDetailsKonbiniStore
+data PaymentMethodDetailsKonbiniStoreChain'NonNullable
+instance Show PaymentMethodDetailsKonbiniStoreChain'NonNullable
+instance Eq PaymentMethodDetailsKonbiniStoreChain'NonNullable
+instance FromJSON PaymentMethodDetailsKonbiniStoreChain'NonNullable
+instance ToJSON PaymentMethodDetailsKonbiniStoreChain'NonNullable

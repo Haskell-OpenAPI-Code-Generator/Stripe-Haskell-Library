@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_ideal@ in the specification.
 data SourceTypeIdeal = SourceTypeIdeal
   { -- | bank
-    sourceTypeIdealBank :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeIdealBank :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bic
-    sourceTypeIdealBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeIdealBic :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | iban_last4
-    sourceTypeIdealIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeIdealIbanLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | statement_descriptor
-    sourceTypeIdealStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeIdealStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data SourceTypeIdeal = SourceTypeIdeal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeIdeal where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank" Data.Aeson.Types.ToJSON..= sourceTypeIdealBank obj : "bic" Data.Aeson.Types.ToJSON..= sourceTypeIdealBic obj : "iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeIdealIbanLast4 obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeIdealStatementDescriptor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank" Data.Aeson.Types.ToJSON..= sourceTypeIdealBank obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= sourceTypeIdealBic obj) GHC.Base.<> (("iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeIdealIbanLast4 obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeIdealStatementDescriptor obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealBank obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban_last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealIbanLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealStatementDescriptor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealBank obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban_last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealIbanLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeIdealStatementDescriptor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeIdeal where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeIdeal" (\obj -> (((GHC.Base.pure SourceTypeIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeIdeal" (\obj -> (((GHC.Base.pure SourceTypeIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
 
 -- | Create a new 'SourceTypeIdeal' with all required fields.
 mkSourceTypeIdeal :: SourceTypeIdeal

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,11 +47,11 @@ data BalanceAmountBySourceType = BalanceAmountBySourceType
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BalanceAmountBySourceType where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_account" Data.Aeson.Types.ToJSON..= balanceAmountBySourceTypeBankAccount obj : "card" Data.Aeson.Types.ToJSON..= balanceAmountBySourceTypeCard obj : "fpx" Data.Aeson.Types.ToJSON..= balanceAmountBySourceTypeFpx obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_account" Data.Aeson.Types.ToJSON..= balanceAmountBySourceTypeBankAccount obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= balanceAmountBySourceTypeCard obj) GHC.Base.<> ("fpx" Data.Aeson.Types.ToJSON..= balanceAmountBySourceTypeFpx obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (balanceAmountBySourceTypeBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (balanceAmountBySourceTypeCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (balanceAmountBySourceTypeFpx obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (balanceAmountBySourceTypeBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (balanceAmountBySourceTypeCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (balanceAmountBySourceTypeFpx obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceAmountBySourceType where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceAmountBySourceType" (\obj -> ((GHC.Base.pure BalanceAmountBySourceType GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fpx"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceAmountBySourceType" (\obj -> ((GHC.Base.pure BalanceAmountBySourceType GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fpx"))
 
 -- | Create a new 'BalanceAmountBySourceType' with all required fields.
 mkBalanceAmountBySourceType :: BalanceAmountBySourceType

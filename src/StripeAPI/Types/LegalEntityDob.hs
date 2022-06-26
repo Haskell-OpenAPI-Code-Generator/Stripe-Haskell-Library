@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,11 +35,11 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.legal_entity_dob@ in the specification.
 data LegalEntityDob = LegalEntityDob
   { -- | day: The day of birth, between 1 and 31.
-    legalEntityDobDay :: (GHC.Maybe.Maybe GHC.Types.Int),
+    legalEntityDobDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: The month of birth, between 1 and 12.
-    legalEntityDobMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
+    legalEntityDobMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year of birth.
-    legalEntityDobYear :: (GHC.Maybe.Maybe GHC.Types.Int)
+    legalEntityDobYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data LegalEntityDob = LegalEntityDob
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityDob where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= legalEntityDobDay obj : "month" Data.Aeson.Types.ToJSON..= legalEntityDobMonth obj : "year" Data.Aeson.Types.ToJSON..= legalEntityDobYear obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= legalEntityDobDay obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= legalEntityDobMonth obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= legalEntityDobYear obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (legalEntityDobDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (legalEntityDobMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (legalEntityDobYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (legalEntityDobDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (legalEntityDobMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (legalEntityDobYear obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityDob where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityDob" (\obj -> ((GHC.Base.pure LegalEntityDob GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityDob" (\obj -> ((GHC.Base.pure LegalEntityDob GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
 -- | Create a new 'LegalEntityDob' with all required fields.
 mkLegalEntityDob :: LegalEntityDob

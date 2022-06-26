@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetPlansPlanParameters = GetPlansPlanParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPlansPlanParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathPlan" Data.Aeson.Types.ToJSON..= getPlansPlanParametersPathPlan obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPlansPlanParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPlan" Data.Aeson.Types.ToJSON..= getPlansPlanParametersPathPlan obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPlansPlanParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathPlan" Data.Aeson.Types.ToJSON..= getPlansPlanParametersPathPlan obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPlansPlanParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathPlan" Data.Aeson.Types.ToJSON..= getPlansPlanParametersPathPlan obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPlansPlanParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPlansPlanParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPlansPlanParameters" (\obj -> (GHC.Base.pure GetPlansPlanParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPlan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPlansPlanParameters" (\obj -> (GHC.Base.pure GetPlansPlanParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPlan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetPlansPlanParameters' with all required fields.
 mkGetPlansPlanParameters ::

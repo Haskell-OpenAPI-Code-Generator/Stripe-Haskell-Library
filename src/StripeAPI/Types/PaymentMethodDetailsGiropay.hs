@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,19 +39,19 @@ data PaymentMethodDetailsGiropay = PaymentMethodDetailsGiropay
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsGiropayBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsGiropayBankCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_name: Name of the bank associated with the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsGiropayBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsGiropayBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bic: Bank Identifier Code of the bank associated with the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsGiropayBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsGiropayBic :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_name: Owner\'s verified full name. Values are verified or provided by Giropay directly
     -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
     -- Giropay rarely provides this information so the attribute is usually empty.
@@ -57,7 +59,7 @@ data PaymentMethodDetailsGiropay = PaymentMethodDetailsGiropay
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsGiropayVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsGiropayVerifiedName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -65,11 +67,11 @@ data PaymentMethodDetailsGiropay = PaymentMethodDetailsGiropay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsGiropay where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankName obj : "bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBic obj : "verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayVerifiedName obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayBic obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGiropayVerifiedName obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayVerifiedName obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGiropayVerifiedName obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsGiropay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsGiropay" (\obj -> (((GHC.Base.pure PaymentMethodDetailsGiropay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsGiropay" (\obj -> (((GHC.Base.pure PaymentMethodDetailsGiropay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_name"))
 
 -- | Create a new 'PaymentMethodDetailsGiropay' with all required fields.
 mkPaymentMethodDetailsGiropay :: PaymentMethodDetailsGiropay

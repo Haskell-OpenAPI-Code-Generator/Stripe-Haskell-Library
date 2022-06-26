@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,9 +37,9 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.sepa_debit_generated_from@ in the specification.
 data SepaDebitGeneratedFrom = SepaDebitGeneratedFrom
   { -- | charge: The ID of the Charge that generated this PaymentMethod, if any.
-    sepaDebitGeneratedFromCharge :: (GHC.Maybe.Maybe SepaDebitGeneratedFromCharge'Variants),
+    sepaDebitGeneratedFromCharge :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SepaDebitGeneratedFromCharge'NonNullableVariants)),
     -- | setup_attempt: The ID of the SetupAttempt that generated this PaymentMethod, if any.
-    sepaDebitGeneratedFromSetupAttempt :: (GHC.Maybe.Maybe SepaDebitGeneratedFromSetupAttempt'Variants)
+    sepaDebitGeneratedFromSetupAttempt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SepaDebitGeneratedFromSetupAttempt'NonNullableVariants))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data SepaDebitGeneratedFrom = SepaDebitGeneratedFrom
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SepaDebitGeneratedFrom where
-  toJSON obj = Data.Aeson.Types.Internal.object ("charge" Data.Aeson.Types.ToJSON..= sepaDebitGeneratedFromCharge obj : "setup_attempt" Data.Aeson.Types.ToJSON..= sepaDebitGeneratedFromSetupAttempt obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("charge" Data.Aeson.Types.ToJSON..= sepaDebitGeneratedFromCharge obj) GHC.Base.<> ("setup_attempt" Data.Aeson.Types.ToJSON..= sepaDebitGeneratedFromSetupAttempt obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (sepaDebitGeneratedFromCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_attempt" Data.Aeson.Types.ToJSON..=)) (sepaDebitGeneratedFromSetupAttempt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (sepaDebitGeneratedFromCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_attempt" Data.Aeson.Types.ToJSON..=)) (sepaDebitGeneratedFromSetupAttempt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SepaDebitGeneratedFrom where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SepaDebitGeneratedFrom" (\obj -> (GHC.Base.pure SepaDebitGeneratedFrom GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_attempt"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SepaDebitGeneratedFrom" (\obj -> (GHC.Base.pure SepaDebitGeneratedFrom GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_attempt"))
 
 -- | Create a new 'SepaDebitGeneratedFrom' with all required fields.
 mkSepaDebitGeneratedFrom :: SepaDebitGeneratedFrom
@@ -62,33 +64,33 @@ mkSepaDebitGeneratedFrom =
 -- | Defines the oneOf schema located at @components.schemas.sepa_debit_generated_from.properties.charge.anyOf@ in the specification.
 --
 -- The ID of the Charge that generated this PaymentMethod, if any.
-data SepaDebitGeneratedFromCharge'Variants
-  = SepaDebitGeneratedFromCharge'Text Data.Text.Internal.Text
-  | SepaDebitGeneratedFromCharge'Charge Charge
+data SepaDebitGeneratedFromCharge'NonNullableVariants
+  = SepaDebitGeneratedFromCharge'NonNullableText Data.Text.Internal.Text
+  | SepaDebitGeneratedFromCharge'NonNullableCharge Charge
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON SepaDebitGeneratedFromCharge'Variants where
-  toJSON (SepaDebitGeneratedFromCharge'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (SepaDebitGeneratedFromCharge'Charge a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON SepaDebitGeneratedFromCharge'NonNullableVariants where
+  toJSON (SepaDebitGeneratedFromCharge'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (SepaDebitGeneratedFromCharge'NonNullableCharge a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON SepaDebitGeneratedFromCharge'Variants where
-  parseJSON val = case (SepaDebitGeneratedFromCharge'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SepaDebitGeneratedFromCharge'Charge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON SepaDebitGeneratedFromCharge'NonNullableVariants where
+  parseJSON val = case (SepaDebitGeneratedFromCharge'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SepaDebitGeneratedFromCharge'NonNullableCharge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @components.schemas.sepa_debit_generated_from.properties.setup_attempt.anyOf@ in the specification.
 --
 -- The ID of the SetupAttempt that generated this PaymentMethod, if any.
-data SepaDebitGeneratedFromSetupAttempt'Variants
-  = SepaDebitGeneratedFromSetupAttempt'Text Data.Text.Internal.Text
-  | SepaDebitGeneratedFromSetupAttempt'SetupAttempt SetupAttempt
+data SepaDebitGeneratedFromSetupAttempt'NonNullableVariants
+  = SepaDebitGeneratedFromSetupAttempt'NonNullableText Data.Text.Internal.Text
+  | SepaDebitGeneratedFromSetupAttempt'NonNullableSetupAttempt SetupAttempt
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON SepaDebitGeneratedFromSetupAttempt'Variants where
-  toJSON (SepaDebitGeneratedFromSetupAttempt'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (SepaDebitGeneratedFromSetupAttempt'SetupAttempt a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON SepaDebitGeneratedFromSetupAttempt'NonNullableVariants where
+  toJSON (SepaDebitGeneratedFromSetupAttempt'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (SepaDebitGeneratedFromSetupAttempt'NonNullableSetupAttempt a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON SepaDebitGeneratedFromSetupAttempt'Variants where
-  parseJSON val = case (SepaDebitGeneratedFromSetupAttempt'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SepaDebitGeneratedFromSetupAttempt'SetupAttempt Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON SepaDebitGeneratedFromSetupAttempt'NonNullableVariants where
+  parseJSON val = case (SepaDebitGeneratedFromSetupAttempt'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SepaDebitGeneratedFromSetupAttempt'NonNullableSetupAttempt Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

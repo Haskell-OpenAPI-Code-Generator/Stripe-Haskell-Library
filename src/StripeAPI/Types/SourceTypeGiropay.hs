@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_giropay@ in the specification.
 data SourceTypeGiropay = SourceTypeGiropay
   { -- | bank_code
-    sourceTypeGiropayBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeGiropayBankCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_name
-    sourceTypeGiropayBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeGiropayBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bic
-    sourceTypeGiropayBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeGiropayBic :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | statement_descriptor
-    sourceTypeGiropayStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeGiropayStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data SourceTypeGiropay = SourceTypeGiropay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeGiropay where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeGiropayBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= sourceTypeGiropayBankName obj : "bic" Data.Aeson.Types.ToJSON..= sourceTypeGiropayBic obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeGiropayStatementDescriptor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeGiropayBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeGiropayBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= sourceTypeGiropayBic obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeGiropayStatementDescriptor obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayStatementDescriptor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeGiropayStatementDescriptor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeGiropay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeGiropay" (\obj -> (((GHC.Base.pure SourceTypeGiropay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeGiropay" (\obj -> (((GHC.Base.pure SourceTypeGiropay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
 
 -- | Create a new 'SourceTypeGiropay' with all required fields.
 mkSourceTypeGiropay :: SourceTypeGiropay

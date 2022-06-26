@@ -1,0 +1,14 @@
+module StripeAPI.Types.LinkedAccountOptionsUsBankAccount where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data LinkedAccountOptionsUsBankAccount
+instance Show LinkedAccountOptionsUsBankAccount
+instance Eq LinkedAccountOptionsUsBankAccount
+instance FromJSON LinkedAccountOptionsUsBankAccount
+instance ToJSON LinkedAccountOptionsUsBankAccount
+data LinkedAccountOptionsUsBankAccountPermissions'
+instance Show LinkedAccountOptionsUsBankAccountPermissions'
+instance Eq LinkedAccountOptionsUsBankAccountPermissions'
+instance FromJSON LinkedAccountOptionsUsBankAccountPermissions'
+instance ToJSON LinkedAccountOptionsUsBankAccountPermissions'

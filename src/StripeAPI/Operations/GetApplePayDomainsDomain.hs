@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetApplePayDomainsDomainParameters = GetApplePayDomainsDomainParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsDomainParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathDomain" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersPathDomain obj : "queryExpand" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathDomain" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersPathDomain obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathDomain" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersPathDomain obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getApplePayDomainsDomainParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathDomain" Data.Aeson.Types.ToJSON..= getApplePayDomainsDomainParametersPathDomain obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getApplePayDomainsDomainParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplePayDomainsDomainParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplePayDomainsDomainParameters" (\obj -> (GHC.Base.pure GetApplePayDomainsDomainParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathDomain")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplePayDomainsDomainParameters" (\obj -> (GHC.Base.pure GetApplePayDomainsDomainParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathDomain")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetApplePayDomainsDomainParameters' with all required fields.
 mkGetApplePayDomainsDomainParameters ::

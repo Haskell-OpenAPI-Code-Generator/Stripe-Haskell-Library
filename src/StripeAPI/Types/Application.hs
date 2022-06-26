@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ data Application = Application
     -- Constraints:
     --
     -- * Maximum length of 5000
-    applicationName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    applicationName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data Application = Application
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Application where
-  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= applicationId obj : "name" Data.Aeson.Types.ToJSON..= applicationName obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= applicationId obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= applicationName obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application")))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= applicationId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (applicationName obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= applicationId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (applicationName obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Application where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Application" (\obj -> (GHC.Base.pure Application GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Application" (\obj -> (GHC.Base.pure Application GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name"))
 
 -- | Create a new 'Application' with all required fields.
 mkApplication ::

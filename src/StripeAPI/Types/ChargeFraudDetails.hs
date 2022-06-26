@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -51,11 +53,11 @@ data ChargeFraudDetails = ChargeFraudDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ChargeFraudDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("stripe_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsStripeReport obj : "user_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsUserReport obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("stripe_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsStripeReport obj) GHC.Base.<> ("user_report" Data.Aeson.Types.ToJSON..= chargeFraudDetailsUserReport obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("stripe_report" Data.Aeson.Types.ToJSON..=)) (chargeFraudDetailsStripeReport obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_report" Data.Aeson.Types.ToJSON..=)) (chargeFraudDetailsUserReport obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("stripe_report" Data.Aeson.Types.ToJSON..=)) (chargeFraudDetailsStripeReport obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_report" Data.Aeson.Types.ToJSON..=)) (chargeFraudDetailsUserReport obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ChargeFraudDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeFraudDetails" (\obj -> (GHC.Base.pure ChargeFraudDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "stripe_report")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "user_report"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ChargeFraudDetails" (\obj -> (GHC.Base.pure ChargeFraudDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stripe_report")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "user_report"))
 
 -- | Create a new 'ChargeFraudDetails' with all required fields.
 mkChargeFraudDetails :: ChargeFraudDetails

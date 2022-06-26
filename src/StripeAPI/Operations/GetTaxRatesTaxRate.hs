@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetTaxRatesTaxRateParameters = GetTaxRatesTaxRateParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTaxRatesTaxRateParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathTax_rate" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersPathTaxRate obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathTax_rate" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersPathTaxRate obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathTax_rate" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersPathTaxRate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTaxRatesTaxRateParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathTax_rate" Data.Aeson.Types.ToJSON..= getTaxRatesTaxRateParametersPathTaxRate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTaxRatesTaxRateParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesTaxRateParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesTaxRateParameters" (\obj -> (GHC.Base.pure GetTaxRatesTaxRateParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTax_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesTaxRateParameters" (\obj -> (GHC.Base.pure GetTaxRatesTaxRateParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTax_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetTaxRatesTaxRateParameters' with all required fields.
 mkGetTaxRatesTaxRateParameters ::

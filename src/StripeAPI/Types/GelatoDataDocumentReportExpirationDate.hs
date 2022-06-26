@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,11 +37,11 @@ import qualified Prelude as GHC.Maybe
 -- Point in Time
 data GelatoDataDocumentReportExpirationDate = GelatoDataDocumentReportExpirationDate
   { -- | day: Numerical day between 1 and 31.
-    gelatoDataDocumentReportExpirationDateDay :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDataDocumentReportExpirationDateDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoDataDocumentReportExpirationDateMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDataDocumentReportExpirationDateMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoDataDocumentReportExpirationDateYear :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoDataDocumentReportExpirationDateYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data GelatoDataDocumentReportExpirationDate = GelatoDataDocumentReportExpiration
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoDataDocumentReportExpirationDate where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportExpirationDateDay obj : "month" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportExpirationDateMonth obj : "year" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportExpirationDateYear obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportExpirationDateDay obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportExpirationDateMonth obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoDataDocumentReportExpirationDateYear obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportExpirationDateDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportExpirationDateMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportExpirationDateYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportExpirationDateDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportExpirationDateMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDataDocumentReportExpirationDateYear obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoDataDocumentReportExpirationDate where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDataDocumentReportExpirationDate" (\obj -> ((GHC.Base.pure GelatoDataDocumentReportExpirationDate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDataDocumentReportExpirationDate" (\obj -> ((GHC.Base.pure GelatoDataDocumentReportExpirationDate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
 -- | Create a new 'GelatoDataDocumentReportExpirationDate' with all required fields.
 mkGelatoDataDocumentReportExpirationDate :: GelatoDataDocumentReportExpirationDate

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,25 +35,25 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_acss_debit@ in the specification.
 data SourceTypeAcssDebit = SourceTypeAcssDebit
   { -- | bank_address_city
-    sourceTypeAcssDebitBankAddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitBankAddressCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_address_line_1
-    sourceTypeAcssDebitBankAddressLine_1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitBankAddressLine_1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_address_line_2
-    sourceTypeAcssDebitBankAddressLine_2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitBankAddressLine_2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_address_postal_code
-    sourceTypeAcssDebitBankAddressPostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitBankAddressPostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_name
-    sourceTypeAcssDebitBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | category
-    sourceTypeAcssDebitCategory :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitCategory :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country
-    sourceTypeAcssDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | fingerprint
-    sourceTypeAcssDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last4
-    sourceTypeAcssDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAcssDebitLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | routing_number
-    sourceTypeAcssDebitRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeAcssDebitRoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -59,11 +61,11 @@ data SourceTypeAcssDebit = SourceTypeAcssDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeAcssDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_address_city" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressCity obj : "bank_address_line_1" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressLine_1 obj : "bank_address_line_2" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressLine_2 obj : "bank_address_postal_code" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressPostalCode obj : "bank_name" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankName obj : "category" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitCategory obj : "country" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitCountry obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitLast4 obj : "routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitRoutingNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_address_city" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressCity obj) GHC.Base.<> (("bank_address_line_1" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressLine_1 obj) GHC.Base.<> (("bank_address_line_2" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressLine_2 obj) GHC.Base.<> (("bank_address_postal_code" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankAddressPostalCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitBankName obj) GHC.Base.<> (("category" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitCategory obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitCountry obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitLast4 obj) GHC.Base.<> ("routing_number" Data.Aeson.Types.ToJSON..= sourceTypeAcssDebitRoutingNumber obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_city" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_line_1" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressLine_1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_line_2" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressLine_2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_postal_code" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressPostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("category" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitCategory obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitRoutingNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_city" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_line_1" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressLine_1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_line_2" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressLine_2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_address_postal_code" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankAddressPostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("category" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitCategory obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (sourceTypeAcssDebitRoutingNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeAcssDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeAcssDebit" (\obj -> (((((((((GHC.Base.pure SourceTypeAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_address_line_1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_address_line_2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_address_postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeAcssDebit" (\obj -> (((((((((GHC.Base.pure SourceTypeAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_address_line_1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_address_line_2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_address_postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number"))
 
 -- | Create a new 'SourceTypeAcssDebit' with all required fields.
 mkSourceTypeAcssDebit :: SourceTypeAcssDebit

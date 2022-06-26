@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -55,8 +57,8 @@ data TaxDeductedAtSource = TaxDeductedAtSource
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxDeductedAtSource where
-  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceId obj : "period_end" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodEnd obj : "period_start" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodStart obj : "tax_deduction_account_number" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceTaxDeductionAccountNumber obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_deducted_at_source" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceId obj) GHC.Base.<> (("period_end" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodEnd obj) GHC.Base.<> (("period_start" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodStart obj) GHC.Base.<> (("tax_deduction_account_number" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceTaxDeductionAccountNumber obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_deducted_at_source")))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceId obj] : ["period_end" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodEnd obj] : ["period_start" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodStart obj] : ["tax_deduction_account_number" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceTaxDeductionAccountNumber obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_deducted_at_source"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceId obj] : ["period_end" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodEnd obj] : ["period_start" Data.Aeson.Types.ToJSON..= taxDeductedAtSourcePeriodStart obj] : ["tax_deduction_account_number" Data.Aeson.Types.ToJSON..= taxDeductedAtSourceTaxDeductionAccountNumber obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_deducted_at_source"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxDeductedAtSource where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxDeductedAtSource" (\obj -> (((GHC.Base.pure TaxDeductedAtSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "period_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_deduction_account_number"))

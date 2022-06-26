@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.setup_intent_payment_method_options_acss_debit@ in the specification.
 data SetupIntentPaymentMethodOptionsAcssDebit = SetupIntentPaymentMethodOptionsAcssDebit
   { -- | currency: Currency supported by the bank account
-    setupIntentPaymentMethodOptionsAcssDebitCurrency :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsAcssDebitCurrency'),
+    setupIntentPaymentMethodOptionsAcssDebitCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullable)),
     -- | mandate_options:
     setupIntentPaymentMethodOptionsAcssDebitMandateOptions :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsMandateOptionsAcssDebit),
     -- | verification_method: Bank account verification method.
@@ -46,11 +48,11 @@ data SetupIntentPaymentMethodOptionsAcssDebit = SetupIntentPaymentMethodOptionsA
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsAcssDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsAcssDebitCurrency obj : "mandate_options" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsAcssDebitMandateOptions obj : "verification_method" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsAcssDebitVerificationMethod obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsAcssDebitCurrency obj) GHC.Base.<> (("mandate_options" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsAcssDebitMandateOptions obj) GHC.Base.<> ("verification_method" Data.Aeson.Types.ToJSON..= setupIntentPaymentMethodOptionsAcssDebitVerificationMethod obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebitCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebitMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebitVerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebitCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebitMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebitVerificationMethod obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsAcssDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsAcssDebit" (\obj -> ((GHC.Base.pure SetupIntentPaymentMethodOptionsAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification_method"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsAcssDebit" (\obj -> ((GHC.Base.pure SetupIntentPaymentMethodOptionsAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
 
 -- | Create a new 'SetupIntentPaymentMethodOptionsAcssDebit' with all required fields.
 mkSetupIntentPaymentMethodOptionsAcssDebit :: SetupIntentPaymentMethodOptionsAcssDebit
@@ -64,30 +66,30 @@ mkSetupIntentPaymentMethodOptionsAcssDebit =
 -- | Defines the enum schema located at @components.schemas.setup_intent_payment_method_options_acss_debit.properties.currency@ in the specification.
 --
 -- Currency supported by the bank account
-data SetupIntentPaymentMethodOptionsAcssDebitCurrency'
+data SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    SetupIntentPaymentMethodOptionsAcssDebitCurrency'Other Data.Aeson.Types.Internal.Value
+    SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    SetupIntentPaymentMethodOptionsAcssDebitCurrency'Typed Data.Text.Internal.Text
+    SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"cad"@
-    SetupIntentPaymentMethodOptionsAcssDebitCurrency'EnumCad
+    SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableEnumCad
   | -- | Represents the JSON value @"usd"@
-    SetupIntentPaymentMethodOptionsAcssDebitCurrency'EnumUsd
+    SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableEnumUsd
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsAcssDebitCurrency' where
-  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'Other val) = val
-  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'EnumCad) = "cad"
-  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'EnumUsd) = "usd"
+instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullable where
+  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableOther val) = val
+  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableEnumCad) = "cad"
+  toJSON (SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableEnumUsd) = "usd"
 
-instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsAcssDebitCurrency' where
+instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "cad" -> SetupIntentPaymentMethodOptionsAcssDebitCurrency'EnumCad
-            | val GHC.Classes.== "usd" -> SetupIntentPaymentMethodOptionsAcssDebitCurrency'EnumUsd
-            | GHC.Base.otherwise -> SetupIntentPaymentMethodOptionsAcssDebitCurrency'Other val
+            | val GHC.Classes.== "cad" -> SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableEnumCad
+            | val GHC.Classes.== "usd" -> SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableEnumUsd
+            | GHC.Base.otherwise -> SetupIntentPaymentMethodOptionsAcssDebitCurrency'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.setup_intent_payment_method_options_acss_debit.properties.verification_method@ in the specification.

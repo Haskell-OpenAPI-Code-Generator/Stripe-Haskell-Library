@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetWebhookEndpointsWebhookEndpointParameters = GetWebhookEndpointsWebhookEn
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetWebhookEndpointsWebhookEndpointParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathWebhook_endpoint" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj : "queryExpand" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathWebhook_endpoint" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathWebhook_endpoint" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getWebhookEndpointsWebhookEndpointParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathWebhook_endpoint" Data.Aeson.Types.ToJSON..= getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getWebhookEndpointsWebhookEndpointParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetWebhookEndpointsWebhookEndpointParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsWebhookEndpointParameters" (\obj -> (GHC.Base.pure GetWebhookEndpointsWebhookEndpointParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathWebhook_endpoint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsWebhookEndpointParameters" (\obj -> (GHC.Base.pure GetWebhookEndpointsWebhookEndpointParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathWebhook_endpoint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetWebhookEndpointsWebhookEndpointParameters' with all required fields.
 mkGetWebhookEndpointsWebhookEndpointParameters ::

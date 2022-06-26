@@ -1,26 +1,27 @@
 module StripeAPI.Types.Account where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Account
 instance Show Account
 instance Eq Account
 instance FromJSON Account
 instance ToJSON Account
-data AccountBusinessProfile'
-instance Show AccountBusinessProfile'
-instance Eq AccountBusinessProfile'
-instance FromJSON AccountBusinessProfile'
-instance ToJSON AccountBusinessProfile'
-data AccountBusinessProfile'SupportAddress'
-instance Show AccountBusinessProfile'SupportAddress'
-instance Eq AccountBusinessProfile'SupportAddress'
-instance FromJSON AccountBusinessProfile'SupportAddress'
-instance ToJSON AccountBusinessProfile'SupportAddress'
-data AccountBusinessType'
-instance Show AccountBusinessType'
-instance Eq AccountBusinessType'
-instance FromJSON AccountBusinessType'
-instance ToJSON AccountBusinessType'
+data AccountBusinessProfile'NonNullable
+instance Show AccountBusinessProfile'NonNullable
+instance Eq AccountBusinessProfile'NonNullable
+instance FromJSON AccountBusinessProfile'NonNullable
+instance ToJSON AccountBusinessProfile'NonNullable
+data AccountBusinessProfile'NonNullableSupportAddress'NonNullable
+instance Show AccountBusinessProfile'NonNullableSupportAddress'NonNullable
+instance Eq AccountBusinessProfile'NonNullableSupportAddress'NonNullable
+instance FromJSON AccountBusinessProfile'NonNullableSupportAddress'NonNullable
+instance ToJSON AccountBusinessProfile'NonNullableSupportAddress'NonNullable
+data AccountBusinessType'NonNullable
+instance Show AccountBusinessType'NonNullable
+instance Eq AccountBusinessType'NonNullable
+instance FromJSON AccountBusinessType'NonNullable
+instance ToJSON AccountBusinessType'NonNullable
 data AccountExternalAccounts'
 instance Show AccountExternalAccounts'
 instance Eq AccountExternalAccounts'
@@ -31,36 +32,36 @@ instance Show AccountExternalAccounts'Data'
 instance Eq AccountExternalAccounts'Data'
 instance FromJSON AccountExternalAccounts'Data'
 instance ToJSON AccountExternalAccounts'Data'
-data AccountExternalAccounts'Data'Account'Variants
-instance Show AccountExternalAccounts'Data'Account'Variants
-instance Eq AccountExternalAccounts'Data'Account'Variants
-instance FromJSON AccountExternalAccounts'Data'Account'Variants
-instance ToJSON AccountExternalAccounts'Data'Account'Variants
-data AccountExternalAccounts'Data'AvailablePayoutMethods'
-instance Show AccountExternalAccounts'Data'AvailablePayoutMethods'
-instance Eq AccountExternalAccounts'Data'AvailablePayoutMethods'
-instance FromJSON AccountExternalAccounts'Data'AvailablePayoutMethods'
-instance ToJSON AccountExternalAccounts'Data'AvailablePayoutMethods'
-data AccountExternalAccounts'Data'Customer'Variants
-instance Show AccountExternalAccounts'Data'Customer'Variants
-instance Eq AccountExternalAccounts'Data'Customer'Variants
-instance FromJSON AccountExternalAccounts'Data'Customer'Variants
-instance ToJSON AccountExternalAccounts'Data'Customer'Variants
+data AccountExternalAccounts'Data'Account'NonNullableVariants
+instance Show AccountExternalAccounts'Data'Account'NonNullableVariants
+instance Eq AccountExternalAccounts'Data'Account'NonNullableVariants
+instance FromJSON AccountExternalAccounts'Data'Account'NonNullableVariants
+instance ToJSON AccountExternalAccounts'Data'Account'NonNullableVariants
+data AccountExternalAccounts'Data'AvailablePayoutMethods'NonNullable
+instance Show AccountExternalAccounts'Data'AvailablePayoutMethods'NonNullable
+instance Eq AccountExternalAccounts'Data'AvailablePayoutMethods'NonNullable
+instance FromJSON AccountExternalAccounts'Data'AvailablePayoutMethods'NonNullable
+instance ToJSON AccountExternalAccounts'Data'AvailablePayoutMethods'NonNullable
+data AccountExternalAccounts'Data'Customer'NonNullableVariants
+instance Show AccountExternalAccounts'Data'Customer'NonNullableVariants
+instance Eq AccountExternalAccounts'Data'Customer'NonNullableVariants
+instance FromJSON AccountExternalAccounts'Data'Customer'NonNullableVariants
+instance ToJSON AccountExternalAccounts'Data'Customer'NonNullableVariants
 data AccountExternalAccounts'Data'Object'
 instance Show AccountExternalAccounts'Data'Object'
 instance Eq AccountExternalAccounts'Data'Object'
 instance FromJSON AccountExternalAccounts'Data'Object'
 instance ToJSON AccountExternalAccounts'Data'Object'
-data AccountExternalAccounts'Data'Recipient'Variants
-instance Show AccountExternalAccounts'Data'Recipient'Variants
-instance Eq AccountExternalAccounts'Data'Recipient'Variants
-instance FromJSON AccountExternalAccounts'Data'Recipient'Variants
-instance ToJSON AccountExternalAccounts'Data'Recipient'Variants
-data AccountSettings'
-instance Show AccountSettings'
-instance Eq AccountSettings'
-instance FromJSON AccountSettings'
-instance ToJSON AccountSettings'
+data AccountExternalAccounts'Data'Recipient'NonNullableVariants
+instance Show AccountExternalAccounts'Data'Recipient'NonNullableVariants
+instance Eq AccountExternalAccounts'Data'Recipient'NonNullableVariants
+instance FromJSON AccountExternalAccounts'Data'Recipient'NonNullableVariants
+instance ToJSON AccountExternalAccounts'Data'Recipient'NonNullableVariants
+data AccountSettings'NonNullable
+instance Show AccountSettings'NonNullable
+instance Eq AccountSettings'NonNullable
+instance FromJSON AccountSettings'NonNullable
+instance ToJSON AccountSettings'NonNullable
 data AccountType'
 instance Show AccountType'
 instance Eq AccountType'

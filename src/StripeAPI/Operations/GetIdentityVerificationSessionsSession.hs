@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -102,11 +104,11 @@ data GetIdentityVerificationSessionsSessionParameters = GetIdentityVerificationS
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIdentityVerificationSessionsSessionParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathSession" Data.Aeson.Types.ToJSON..= getIdentityVerificationSessionsSessionParametersPathSession obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIdentityVerificationSessionsSessionParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSession" Data.Aeson.Types.ToJSON..= getIdentityVerificationSessionsSessionParametersPathSession obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIdentityVerificationSessionsSessionParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathSession" Data.Aeson.Types.ToJSON..= getIdentityVerificationSessionsSessionParametersPathSession obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIdentityVerificationSessionsSessionParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathSession" Data.Aeson.Types.ToJSON..= getIdentityVerificationSessionsSessionParametersPathSession obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIdentityVerificationSessionsSessionParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIdentityVerificationSessionsSessionParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIdentityVerificationSessionsSessionParameters" (\obj -> (GHC.Base.pure GetIdentityVerificationSessionsSessionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSession")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIdentityVerificationSessionsSessionParameters" (\obj -> (GHC.Base.pure GetIdentityVerificationSessionsSessionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSession")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetIdentityVerificationSessionsSessionParameters' with all required fields.
 mkGetIdentityVerificationSessionsSessionParameters ::

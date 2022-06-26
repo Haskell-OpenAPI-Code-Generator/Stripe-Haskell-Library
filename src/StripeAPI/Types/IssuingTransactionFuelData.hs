@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,7 +49,7 @@ data IssuingTransactionFuelData = IssuingTransactionFuelData
     -- | unit_cost_decimal: The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
     issuingTransactionFuelDataUnitCostDecimal :: Data.Text.Internal.Text,
     -- | volume_decimal: The volume of the fuel that was pumped, represented as a decimal string with at most 12 decimal places.
-    issuingTransactionFuelDataVolumeDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    issuingTransactionFuelDataVolumeDecimal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -55,11 +57,11 @@ data IssuingTransactionFuelData = IssuingTransactionFuelData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingTransactionFuelData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("type" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataType obj : "unit" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnit obj : "unit_cost_decimal" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnitCostDecimal obj : "volume_decimal" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataVolumeDecimal obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("type" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataType obj) GHC.Base.<> (("unit" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnit obj) GHC.Base.<> (("unit_cost_decimal" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnitCostDecimal obj) GHC.Base.<> ("volume_decimal" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataVolumeDecimal obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["type" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataType obj] : ["unit" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnit obj] : ["unit_cost_decimal" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnitCostDecimal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("volume_decimal" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFuelDataVolumeDecimal obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["type" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataType obj] : ["unit" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnit obj] : ["unit_cost_decimal" Data.Aeson.Types.ToJSON..= issuingTransactionFuelDataUnitCostDecimal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("volume_decimal" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFuelDataVolumeDecimal obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingTransactionFuelData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionFuelData" (\obj -> (((GHC.Base.pure IssuingTransactionFuelData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "unit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "unit_cost_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "volume_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionFuelData" (\obj -> (((GHC.Base.pure IssuingTransactionFuelData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "unit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "unit_cost_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "volume_decimal"))
 
 -- | Create a new 'IssuingTransactionFuelData' with all required fields.
 mkIssuingTransactionFuelData ::

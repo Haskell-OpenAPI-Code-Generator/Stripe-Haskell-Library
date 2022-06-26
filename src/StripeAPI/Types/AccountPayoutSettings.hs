@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,7 +35,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.account_payout_settings@ in the specification.
 data AccountPayoutSettings = AccountPayoutSettings
-  { -- | debit_negative_balances: A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See our [Understanding Connect Account Balances](https:\/\/stripe.com\/docs\/connect\/account-balances) documentation for details. Default value is \`true\` for Express accounts and \`false\` for Custom accounts.
+  { -- | debit_negative_balances: A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See our [Understanding Connect Account Balances](https:\/\/stripe.com\/docs\/connect\/account-balances) documentation for details. Default value is \`false\` for Custom accounts, otherwise \`true\`.
     accountPayoutSettingsDebitNegativeBalances :: GHC.Types.Bool,
     -- | schedule:
     accountPayoutSettingsSchedule :: TransferSchedule,
@@ -42,7 +44,7 @@ data AccountPayoutSettings = AccountPayoutSettings
     -- Constraints:
     --
     -- * Maximum length of 5000
-    accountPayoutSettingsStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    accountPayoutSettingsStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -50,11 +52,11 @@ data AccountPayoutSettings = AccountPayoutSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountPayoutSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object ("debit_negative_balances" Data.Aeson.Types.ToJSON..= accountPayoutSettingsDebitNegativeBalances obj : "schedule" Data.Aeson.Types.ToJSON..= accountPayoutSettingsSchedule obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= accountPayoutSettingsStatementDescriptor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("debit_negative_balances" Data.Aeson.Types.ToJSON..= accountPayoutSettingsDebitNegativeBalances obj) GHC.Base.<> (("schedule" Data.Aeson.Types.ToJSON..= accountPayoutSettingsSchedule obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= accountPayoutSettingsStatementDescriptor obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["debit_negative_balances" Data.Aeson.Types.ToJSON..= accountPayoutSettingsDebitNegativeBalances obj] : ["schedule" Data.Aeson.Types.ToJSON..= accountPayoutSettingsSchedule obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (accountPayoutSettingsStatementDescriptor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["debit_negative_balances" Data.Aeson.Types.ToJSON..= accountPayoutSettingsDebitNegativeBalances obj] : ["schedule" Data.Aeson.Types.ToJSON..= accountPayoutSettingsSchedule obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (accountPayoutSettingsStatementDescriptor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountPayoutSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountPayoutSettings" (\obj -> ((GHC.Base.pure AccountPayoutSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "debit_negative_balances")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountPayoutSettings" (\obj -> ((GHC.Base.pure AccountPayoutSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "debit_negative_balances")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
 
 -- | Create a new 'AccountPayoutSettings' with all required fields.
 mkAccountPayoutSettings ::

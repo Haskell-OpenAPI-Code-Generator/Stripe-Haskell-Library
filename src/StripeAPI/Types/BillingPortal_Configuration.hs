@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -27,6 +29,8 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.Application
+import {-# SOURCE #-} StripeAPI.Types.DeletedApplication
 import {-# SOURCE #-} StripeAPI.Types.PortalBusinessProfile
 import {-# SOURCE #-} StripeAPI.Types.PortalFeatures
 import qualified Prelude as GHC.Integer.Type
@@ -39,11 +43,7 @@ data BillingPortal'configuration = BillingPortal'configuration
   { -- | active: Whether the configuration is active and can be used to create portal sessions.
     billingPortal'configurationActive :: GHC.Types.Bool,
     -- | application: ID of the Connect Application that created the configuration.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    billingPortal'configurationApplication :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingPortal'configurationApplication :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'configurationApplication'NonNullableVariants)),
     -- | business_profile:
     billingPortal'configurationBusinessProfile :: PortalBusinessProfile,
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -53,7 +53,7 @@ data BillingPortal'configuration = BillingPortal'configuration
     -- Constraints:
     --
     -- * Maximum length of 5000
-    billingPortal'configurationDefaultReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    billingPortal'configurationDefaultReturnUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | features:
     billingPortal'configurationFeatures :: PortalFeatures,
     -- | id: Unique identifier for the object.
@@ -66,6 +66,8 @@ data BillingPortal'configuration = BillingPortal'configuration
     billingPortal'configurationIsDefault :: GHC.Types.Bool,
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     billingPortal'configurationLivemode :: GHC.Types.Bool,
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+    billingPortal'configurationMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | updated: Time at which the object was last updated. Measured in seconds since the Unix epoch.
     billingPortal'configurationUpdated :: GHC.Types.Int
   }
@@ -75,11 +77,11 @@ data BillingPortal'configuration = BillingPortal'configuration
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'configuration where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= billingPortal'configurationActive obj : "application" Data.Aeson.Types.ToJSON..= billingPortal'configurationApplication obj : "business_profile" Data.Aeson.Types.ToJSON..= billingPortal'configurationBusinessProfile obj : "created" Data.Aeson.Types.ToJSON..= billingPortal'configurationCreated obj : "default_return_url" Data.Aeson.Types.ToJSON..= billingPortal'configurationDefaultReturnUrl obj : "features" Data.Aeson.Types.ToJSON..= billingPortal'configurationFeatures obj : "id" Data.Aeson.Types.ToJSON..= billingPortal'configurationId obj : "is_default" Data.Aeson.Types.ToJSON..= billingPortal'configurationIsDefault obj : "livemode" Data.Aeson.Types.ToJSON..= billingPortal'configurationLivemode obj : "updated" Data.Aeson.Types.ToJSON..= billingPortal'configurationUpdated obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.configuration" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= billingPortal'configurationActive obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= billingPortal'configurationApplication obj) GHC.Base.<> (("business_profile" Data.Aeson.Types.ToJSON..= billingPortal'configurationBusinessProfile obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= billingPortal'configurationCreated obj) GHC.Base.<> (("default_return_url" Data.Aeson.Types.ToJSON..= billingPortal'configurationDefaultReturnUrl obj) GHC.Base.<> (("features" Data.Aeson.Types.ToJSON..= billingPortal'configurationFeatures obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= billingPortal'configurationId obj) GHC.Base.<> (("is_default" Data.Aeson.Types.ToJSON..= billingPortal'configurationIsDefault obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= billingPortal'configurationLivemode obj) GHC.Base.<> (("updated" Data.Aeson.Types.ToJSON..= billingPortal'configurationUpdated obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.configuration")))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= billingPortal'configurationActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application" Data.Aeson.Types.ToJSON..=)) (billingPortal'configurationApplication obj) : ["business_profile" Data.Aeson.Types.ToJSON..= billingPortal'configurationBusinessProfile obj] : ["created" Data.Aeson.Types.ToJSON..= billingPortal'configurationCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (billingPortal'configurationDefaultReturnUrl obj) : ["features" Data.Aeson.Types.ToJSON..= billingPortal'configurationFeatures obj] : ["id" Data.Aeson.Types.ToJSON..= billingPortal'configurationId obj] : ["is_default" Data.Aeson.Types.ToJSON..= billingPortal'configurationIsDefault obj] : ["livemode" Data.Aeson.Types.ToJSON..= billingPortal'configurationLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (billingPortal'configurationMetadata obj) : ["updated" Data.Aeson.Types.ToJSON..= billingPortal'configurationUpdated obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.configuration"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= billingPortal'configurationActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application" Data.Aeson.Types.ToJSON..=)) (billingPortal'configurationApplication obj) : ["business_profile" Data.Aeson.Types.ToJSON..= billingPortal'configurationBusinessProfile obj] : ["created" Data.Aeson.Types.ToJSON..= billingPortal'configurationCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (billingPortal'configurationDefaultReturnUrl obj) : ["features" Data.Aeson.Types.ToJSON..= billingPortal'configurationFeatures obj] : ["id" Data.Aeson.Types.ToJSON..= billingPortal'configurationId obj] : ["is_default" Data.Aeson.Types.ToJSON..= billingPortal'configurationIsDefault obj] : ["livemode" Data.Aeson.Types.ToJSON..= billingPortal'configurationLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (billingPortal'configurationMetadata obj) : ["updated" Data.Aeson.Types.ToJSON..= billingPortal'configurationUpdated obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.configuration"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'configuration where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'configuration" (\obj -> (((((((((GHC.Base.pure BillingPortal'configuration GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_default")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'configuration" (\obj -> ((((((((((GHC.Base.pure BillingPortal'configuration GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_default")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated"))
 
 -- | Create a new 'BillingPortal'configuration' with all required fields.
 mkBillingPortal'configuration ::
@@ -111,5 +113,25 @@ mkBillingPortal'configuration billingPortal'configurationActive billingPortal'co
       billingPortal'configurationId = billingPortal'configurationId,
       billingPortal'configurationIsDefault = billingPortal'configurationIsDefault,
       billingPortal'configurationLivemode = billingPortal'configurationLivemode,
+      billingPortal'configurationMetadata = GHC.Maybe.Nothing,
       billingPortal'configurationUpdated = billingPortal'configurationUpdated
     }
+
+-- | Defines the oneOf schema located at @components.schemas.billing_portal.configuration.properties.application.anyOf@ in the specification.
+--
+-- ID of the Connect Application that created the configuration.
+data BillingPortal'configurationApplication'NonNullableVariants
+  = BillingPortal'configurationApplication'NonNullableText Data.Text.Internal.Text
+  | BillingPortal'configurationApplication'NonNullableApplication Application
+  | BillingPortal'configurationApplication'NonNullableDeletedApplication DeletedApplication
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'configurationApplication'NonNullableVariants where
+  toJSON (BillingPortal'configurationApplication'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (BillingPortal'configurationApplication'NonNullableApplication a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (BillingPortal'configurationApplication'NonNullableDeletedApplication a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'configurationApplication'NonNullableVariants where
+  parseJSON val = case (BillingPortal'configurationApplication'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BillingPortal'configurationApplication'NonNullableApplication Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BillingPortal'configurationApplication'NonNullableDeletedApplication Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

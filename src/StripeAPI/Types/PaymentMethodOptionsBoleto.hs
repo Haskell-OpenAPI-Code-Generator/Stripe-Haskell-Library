@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,7 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.payment_method_options_boleto@ in the specification.
 data PaymentMethodOptionsBoleto = PaymentMethodOptionsBoleto
   { -- | expires_after_days: The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America\/Sao_Paulo time.
-    paymentMethodOptionsBoletoExpiresAfterDays :: GHC.Types.Int
+    paymentMethodOptionsBoletoExpiresAfterDays :: GHC.Types.Int,
+    -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+    --
+    -- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+    --
+    -- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+    paymentMethodOptionsBoletoSetupFutureUsage :: (GHC.Maybe.Maybe PaymentMethodOptionsBoletoSetupFutureUsage')
   }
   deriving
     ( GHC.Show.Show,
@@ -41,15 +49,56 @@ data PaymentMethodOptionsBoleto = PaymentMethodOptionsBoleto
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsBoleto where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsBoletoExpiresAfterDays obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsBoletoExpiresAfterDays obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsBoletoExpiresAfterDays obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsBoletoSetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["expires_after_days" Data.Aeson.Types.ToJSON..= paymentMethodOptionsBoletoExpiresAfterDays obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsBoletoSetupFutureUsage obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsBoleto where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsBoleto" (\obj -> GHC.Base.pure PaymentMethodOptionsBoleto GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_after_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsBoleto" (\obj -> (GHC.Base.pure PaymentMethodOptionsBoleto GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_after_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
 
 -- | Create a new 'PaymentMethodOptionsBoleto' with all required fields.
 mkPaymentMethodOptionsBoleto ::
   -- | 'paymentMethodOptionsBoletoExpiresAfterDays'
   GHC.Types.Int ->
   PaymentMethodOptionsBoleto
-mkPaymentMethodOptionsBoleto paymentMethodOptionsBoletoExpiresAfterDays = PaymentMethodOptionsBoleto {paymentMethodOptionsBoletoExpiresAfterDays = paymentMethodOptionsBoletoExpiresAfterDays}
+mkPaymentMethodOptionsBoleto paymentMethodOptionsBoletoExpiresAfterDays =
+  PaymentMethodOptionsBoleto
+    { paymentMethodOptionsBoletoExpiresAfterDays = paymentMethodOptionsBoletoExpiresAfterDays,
+      paymentMethodOptionsBoletoSetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.payment_method_options_boleto.properties.setup_future_usage@ in the specification.
+--
+-- Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+--
+-- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+--
+-- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+data PaymentMethodOptionsBoletoSetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodOptionsBoletoSetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodOptionsBoletoSetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentMethodOptionsBoletoSetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PaymentMethodOptionsBoletoSetupFutureUsage'EnumOffSession
+  | -- | Represents the JSON value @"on_session"@
+    PaymentMethodOptionsBoletoSetupFutureUsage'EnumOnSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsBoletoSetupFutureUsage' where
+  toJSON (PaymentMethodOptionsBoletoSetupFutureUsage'Other val) = val
+  toJSON (PaymentMethodOptionsBoletoSetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsBoletoSetupFutureUsage'EnumNone) = "none"
+  toJSON (PaymentMethodOptionsBoletoSetupFutureUsage'EnumOffSession) = "off_session"
+  toJSON (PaymentMethodOptionsBoletoSetupFutureUsage'EnumOnSession) = "on_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsBoletoSetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentMethodOptionsBoletoSetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PaymentMethodOptionsBoletoSetupFutureUsage'EnumOffSession
+            | val GHC.Classes.== "on_session" -> PaymentMethodOptionsBoletoSetupFutureUsage'EnumOnSession
+            | GHC.Base.otherwise -> PaymentMethodOptionsBoletoSetupFutureUsage'Other val
+      )

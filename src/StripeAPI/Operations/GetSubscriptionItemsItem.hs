@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetSubscriptionItemsItemParameters = GetSubscriptionItemsItemParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsItemParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathItem" Data.Aeson.Types.ToJSON..= getSubscriptionItemsItemParametersPathItem obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionItemsItemParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathItem" Data.Aeson.Types.ToJSON..= getSubscriptionItemsItemParametersPathItem obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionItemsItemParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathItem" Data.Aeson.Types.ToJSON..= getSubscriptionItemsItemParametersPathItem obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsItemParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathItem" Data.Aeson.Types.ToJSON..= getSubscriptionItemsItemParametersPathItem obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSubscriptionItemsItemParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsItemParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsItemParameters" (\obj -> (GHC.Base.pure GetSubscriptionItemsItemParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathItem")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsItemParameters" (\obj -> (GHC.Base.pure GetSubscriptionItemsItemParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathItem")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetSubscriptionItemsItemParameters' with all required fields.
 mkGetSubscriptionItemsItemParameters ::

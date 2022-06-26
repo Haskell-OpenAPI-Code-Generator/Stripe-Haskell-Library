@@ -1,63 +1,74 @@
 module StripeAPI.Types.Issuing_Transaction where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Issuing'transaction
 instance Show Issuing'transaction
 instance Eq Issuing'transaction
 instance FromJSON Issuing'transaction
 instance ToJSON Issuing'transaction
-data Issuing'transactionAmountDetails'
-instance Show Issuing'transactionAmountDetails'
-instance Eq Issuing'transactionAmountDetails'
-instance FromJSON Issuing'transactionAmountDetails'
-instance ToJSON Issuing'transactionAmountDetails'
-data Issuing'transactionAuthorization'Variants
-instance Show Issuing'transactionAuthorization'Variants
-instance Eq Issuing'transactionAuthorization'Variants
-instance FromJSON Issuing'transactionAuthorization'Variants
-instance ToJSON Issuing'transactionAuthorization'Variants
-data Issuing'transactionBalanceTransaction'Variants
-instance Show Issuing'transactionBalanceTransaction'Variants
-instance Eq Issuing'transactionBalanceTransaction'Variants
-instance FromJSON Issuing'transactionBalanceTransaction'Variants
-instance ToJSON Issuing'transactionBalanceTransaction'Variants
+data Issuing'transactionAmountDetails'NonNullable
+instance Show Issuing'transactionAmountDetails'NonNullable
+instance Eq Issuing'transactionAmountDetails'NonNullable
+instance FromJSON Issuing'transactionAmountDetails'NonNullable
+instance ToJSON Issuing'transactionAmountDetails'NonNullable
+data Issuing'transactionAuthorization'NonNullableVariants
+instance Show Issuing'transactionAuthorization'NonNullableVariants
+instance Eq Issuing'transactionAuthorization'NonNullableVariants
+instance FromJSON Issuing'transactionAuthorization'NonNullableVariants
+instance ToJSON Issuing'transactionAuthorization'NonNullableVariants
+data Issuing'transactionBalanceTransaction'NonNullableVariants
+instance Show Issuing'transactionBalanceTransaction'NonNullableVariants
+instance Eq Issuing'transactionBalanceTransaction'NonNullableVariants
+instance FromJSON Issuing'transactionBalanceTransaction'NonNullableVariants
+instance ToJSON Issuing'transactionBalanceTransaction'NonNullableVariants
 data Issuing'transactionCard'Variants
 instance Show Issuing'transactionCard'Variants
 instance Eq Issuing'transactionCard'Variants
 instance FromJSON Issuing'transactionCard'Variants
 instance ToJSON Issuing'transactionCard'Variants
-data Issuing'transactionCardholder'Variants
-instance Show Issuing'transactionCardholder'Variants
-instance Eq Issuing'transactionCardholder'Variants
-instance FromJSON Issuing'transactionCardholder'Variants
-instance ToJSON Issuing'transactionCardholder'Variants
-data Issuing'transactionDispute'Variants
-instance Show Issuing'transactionDispute'Variants
-instance Eq Issuing'transactionDispute'Variants
-instance FromJSON Issuing'transactionDispute'Variants
-instance ToJSON Issuing'transactionDispute'Variants
-data Issuing'transactionPurchaseDetails'
-instance Show Issuing'transactionPurchaseDetails'
-instance Eq Issuing'transactionPurchaseDetails'
-instance FromJSON Issuing'transactionPurchaseDetails'
-instance ToJSON Issuing'transactionPurchaseDetails'
-data Issuing'transactionPurchaseDetails'Flight'
-instance Show Issuing'transactionPurchaseDetails'Flight'
-instance Eq Issuing'transactionPurchaseDetails'Flight'
-instance FromJSON Issuing'transactionPurchaseDetails'Flight'
-instance ToJSON Issuing'transactionPurchaseDetails'Flight'
-data Issuing'transactionPurchaseDetails'Fuel'
-instance Show Issuing'transactionPurchaseDetails'Fuel'
-instance Eq Issuing'transactionPurchaseDetails'Fuel'
-instance FromJSON Issuing'transactionPurchaseDetails'Fuel'
-instance ToJSON Issuing'transactionPurchaseDetails'Fuel'
-data Issuing'transactionPurchaseDetails'Lodging'
-instance Show Issuing'transactionPurchaseDetails'Lodging'
-instance Eq Issuing'transactionPurchaseDetails'Lodging'
-instance FromJSON Issuing'transactionPurchaseDetails'Lodging'
-instance ToJSON Issuing'transactionPurchaseDetails'Lodging'
+data Issuing'transactionCardholder'NonNullableVariants
+instance Show Issuing'transactionCardholder'NonNullableVariants
+instance Eq Issuing'transactionCardholder'NonNullableVariants
+instance FromJSON Issuing'transactionCardholder'NonNullableVariants
+instance ToJSON Issuing'transactionCardholder'NonNullableVariants
+data Issuing'transactionDispute'NonNullableVariants
+instance Show Issuing'transactionDispute'NonNullableVariants
+instance Eq Issuing'transactionDispute'NonNullableVariants
+instance FromJSON Issuing'transactionDispute'NonNullableVariants
+instance ToJSON Issuing'transactionDispute'NonNullableVariants
+data Issuing'transactionPurchaseDetails'NonNullable
+instance Show Issuing'transactionPurchaseDetails'NonNullable
+instance Eq Issuing'transactionPurchaseDetails'NonNullable
+instance FromJSON Issuing'transactionPurchaseDetails'NonNullable
+instance ToJSON Issuing'transactionPurchaseDetails'NonNullable
+data Issuing'transactionPurchaseDetails'NonNullableFlight'NonNullable
+instance Show Issuing'transactionPurchaseDetails'NonNullableFlight'NonNullable
+instance Eq Issuing'transactionPurchaseDetails'NonNullableFlight'NonNullable
+instance FromJSON Issuing'transactionPurchaseDetails'NonNullableFlight'NonNullable
+instance ToJSON Issuing'transactionPurchaseDetails'NonNullableFlight'NonNullable
+data Issuing'transactionPurchaseDetails'NonNullableFuel'NonNullable
+instance Show Issuing'transactionPurchaseDetails'NonNullableFuel'NonNullable
+instance Eq Issuing'transactionPurchaseDetails'NonNullableFuel'NonNullable
+instance FromJSON Issuing'transactionPurchaseDetails'NonNullableFuel'NonNullable
+instance ToJSON Issuing'transactionPurchaseDetails'NonNullableFuel'NonNullable
+data Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
+instance Show Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
+instance Eq Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
+instance FromJSON Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
+instance ToJSON Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
+data Issuing'transactionTreasury'NonNullable
+instance Show Issuing'transactionTreasury'NonNullable
+instance Eq Issuing'transactionTreasury'NonNullable
+instance FromJSON Issuing'transactionTreasury'NonNullable
+instance ToJSON Issuing'transactionTreasury'NonNullable
 data Issuing'transactionType'
 instance Show Issuing'transactionType'
 instance Eq Issuing'transactionType'
 instance FromJSON Issuing'transactionType'
 instance ToJSON Issuing'transactionType'
+data Issuing'transactionWallet'NonNullable
+instance Show Issuing'transactionWallet'NonNullable
+instance Eq Issuing'transactionWallet'NonNullable
+instance FromJSON Issuing'transactionWallet'NonNullable
+instance ToJSON Issuing'transactionWallet'NonNullable

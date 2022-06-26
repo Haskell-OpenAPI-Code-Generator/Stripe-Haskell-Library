@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -90,11 +92,11 @@ data PostPricesPriceRequestBody = PostPricesPriceRequestBody
     postPricesPriceRequestBodyActive :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | expand: Specifies which fields in the response should be expanded.
     postPricesPriceRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | lookup_key: A lookup key used to retrieve prices dynamically from a static string.
+    -- | lookup_key: A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
     --
     -- Constraints:
     --
-    -- * Maximum length of 5000
+    -- * Maximum length of 200
     postPricesPriceRequestBodyLookupKey :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postPricesPriceRequestBodyMetadata :: (GHC.Maybe.Maybe PostPricesPriceRequestBodyMetadata'Variants),
@@ -115,11 +117,11 @@ data PostPricesPriceRequestBody = PostPricesPriceRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPricesPriceRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyActive obj : "expand" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyExpand obj : "lookup_key" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyLookupKey obj : "metadata" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyMetadata obj : "nickname" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyNickname obj : "tax_behavior" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyTaxBehavior obj : "transfer_lookup_key" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyTransferLookupKey obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyActive obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyExpand obj) GHC.Base.<> (("lookup_key" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyLookupKey obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyMetadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyNickname obj) GHC.Base.<> (("tax_behavior" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyTaxBehavior obj) GHC.Base.<> ("transfer_lookup_key" Data.Aeson.Types.ToJSON..= postPricesPriceRequestBodyTransferLookupKey obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyTransferLookupKey obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesPriceRequestBodyTransferLookupKey obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPricesPriceRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPricesPriceRequestBody" (\obj -> ((((((GHC.Base.pure PostPricesPriceRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfer_lookup_key"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPricesPriceRequestBody" (\obj -> ((((((GHC.Base.pure PostPricesPriceRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_lookup_key"))
 
 -- | Create a new 'PostPricesPriceRequestBody' with all required fields.
 mkPostPricesPriceRequestBody :: PostPricesPriceRequestBody

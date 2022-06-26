@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -121,11 +123,11 @@ data GetSigmaScheduledQueryRunsParameters = GetSigmaScheduledQueryRunsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getSigmaScheduledQueryRunsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsParameters" (\obj -> (((GHC.Base.pure GetSigmaScheduledQueryRunsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsParameters" (\obj -> (((GHC.Base.pure GetSigmaScheduledQueryRunsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetSigmaScheduledQueryRunsParameters' with all required fields.
 mkGetSigmaScheduledQueryRunsParameters :: GetSigmaScheduledQueryRunsParameters
@@ -169,8 +171,8 @@ data GetSigmaScheduledQueryRunsResponseBody200 = GetSigmaScheduledQueryRunsRespo
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getSigmaScheduledQueryRunsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsResponseBody200" (\obj -> ((GHC.Base.pure GetSigmaScheduledQueryRunsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

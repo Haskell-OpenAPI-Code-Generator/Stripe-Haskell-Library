@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.invoice_threshold_reason@ in the specification.
 data InvoiceThresholdReason = InvoiceThresholdReason
   { -- | amount_gte: The total invoice amount threshold boundary if it triggered the threshold invoice.
-    invoiceThresholdReasonAmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
+    invoiceThresholdReasonAmountGte :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | item_reasons: Indicates which line items triggered a threshold invoice.
     invoiceThresholdReasonItemReasons :: ([InvoiceItemThresholdReason])
   }
@@ -44,11 +46,11 @@ data InvoiceThresholdReason = InvoiceThresholdReason
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceThresholdReason where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount_gte" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonAmountGte obj : "item_reasons" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonItemReasons obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_gte" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonAmountGte obj) GHC.Base.<> ("item_reasons" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonItemReasons obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_gte" Data.Aeson.Types.ToJSON..=)) (invoiceThresholdReasonAmountGte obj) : ["item_reasons" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonItemReasons obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_gte" Data.Aeson.Types.ToJSON..=)) (invoiceThresholdReasonAmountGte obj) : ["item_reasons" Data.Aeson.Types.ToJSON..= invoiceThresholdReasonItemReasons obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceThresholdReason where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceThresholdReason" (\obj -> (GHC.Base.pure InvoiceThresholdReason GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "item_reasons"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceThresholdReason" (\obj -> (GHC.Base.pure InvoiceThresholdReason GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "item_reasons"))
 
 -- | Create a new 'InvoiceThresholdReason' with all required fields.
 mkInvoiceThresholdReason ::

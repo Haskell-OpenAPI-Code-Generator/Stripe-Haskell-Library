@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,9 +35,9 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_eps@ in the specification.
 data SourceTypeEps = SourceTypeEps
   { -- | reference
-    sourceTypeEpsReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeEpsReference :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | statement_descriptor
-    sourceTypeEpsStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeEpsStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -43,11 +45,11 @@ data SourceTypeEps = SourceTypeEps
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeEps where
-  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= sourceTypeEpsReference obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeEpsStatementDescriptor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("reference" Data.Aeson.Types.ToJSON..= sourceTypeEpsReference obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeEpsStatementDescriptor obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (sourceTypeEpsReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeEpsStatementDescriptor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (sourceTypeEpsReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeEpsStatementDescriptor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeEps where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeEps" (\obj -> (GHC.Base.pure SourceTypeEps GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeEps" (\obj -> (GHC.Base.pure SourceTypeEps GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
 
 -- | Create a new 'SourceTypeEps' with all required fields.
 mkSourceTypeEps :: SourceTypeEps

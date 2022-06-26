@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,13 +36,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing_dispute_fraudulent_evidence@ in the specification.
 data IssuingDisputeFraudulentEvidence = IssuingDisputeFraudulentEvidence
   { -- | additional_documentation: (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-    issuingDisputeFraudulentEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe IssuingDisputeFraudulentEvidenceAdditionalDocumentation'Variants),
+    issuingDisputeFraudulentEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableVariants)),
     -- | explanation: Explanation of why the cardholder is disputing this transaction.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeFraudulentEvidenceExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    issuingDisputeFraudulentEvidenceExplanation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -48,11 +50,11 @@ data IssuingDisputeFraudulentEvidence = IssuingDisputeFraudulentEvidence
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeFraudulentEvidence where
-  toJSON obj = Data.Aeson.Types.Internal.object ("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeFraudulentEvidenceAdditionalDocumentation obj : "explanation" Data.Aeson.Types.ToJSON..= issuingDisputeFraudulentEvidenceExplanation obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeFraudulentEvidenceAdditionalDocumentation obj) GHC.Base.<> ("explanation" Data.Aeson.Types.ToJSON..= issuingDisputeFraudulentEvidenceExplanation obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeFraudulentEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeFraudulentEvidenceExplanation obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeFraudulentEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeFraudulentEvidenceExplanation obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeFraudulentEvidence where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeFraudulentEvidence" (\obj -> (GHC.Base.pure IssuingDisputeFraudulentEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "explanation"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeFraudulentEvidence" (\obj -> (GHC.Base.pure IssuingDisputeFraudulentEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "explanation"))
 
 -- | Create a new 'IssuingDisputeFraudulentEvidence' with all required fields.
 mkIssuingDisputeFraudulentEvidence :: IssuingDisputeFraudulentEvidence
@@ -65,16 +67,16 @@ mkIssuingDisputeFraudulentEvidence =
 -- | Defines the oneOf schema located at @components.schemas.issuing_dispute_fraudulent_evidence.properties.additional_documentation.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-data IssuingDisputeFraudulentEvidenceAdditionalDocumentation'Variants
-  = IssuingDisputeFraudulentEvidenceAdditionalDocumentation'Text Data.Text.Internal.Text
-  | IssuingDisputeFraudulentEvidenceAdditionalDocumentation'File File
+data IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableVariants
+  = IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableText Data.Text.Internal.Text
+  | IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableFile File
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeFraudulentEvidenceAdditionalDocumentation'Variants where
-  toJSON (IssuingDisputeFraudulentEvidenceAdditionalDocumentation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (IssuingDisputeFraudulentEvidenceAdditionalDocumentation'File a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableVariants where
+  toJSON (IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableFile a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeFraudulentEvidenceAdditionalDocumentation'Variants where
-  parseJSON val = case (IssuingDisputeFraudulentEvidenceAdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeFraudulentEvidenceAdditionalDocumentation'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableVariants where
+  parseJSON val = case (IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeFraudulentEvidenceAdditionalDocumentation'NonNullableFile Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

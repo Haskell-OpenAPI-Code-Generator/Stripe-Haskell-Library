@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,7 +35,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_p24@ in the specification.
 data SourceTypeP24 = SourceTypeP24
   { -- | reference
-    sourceTypeP24Reference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeP24Reference :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -41,11 +43,11 @@ data SourceTypeP24 = SourceTypeP24
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeP24 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("reference" Data.Aeson.Types.ToJSON..= sourceTypeP24Reference obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("reference" Data.Aeson.Types.ToJSON..= sourceTypeP24Reference obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (sourceTypeP24Reference obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (sourceTypeP24Reference obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeP24 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeP24" (\obj -> GHC.Base.pure SourceTypeP24 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeP24" (\obj -> GHC.Base.pure SourceTypeP24 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference"))
 
 -- | Create a new 'SourceTypeP24' with all required fields.
 mkSourceTypeP24 :: SourceTypeP24

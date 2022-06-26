@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -51,8 +53,8 @@ data InvoiceSettingCustomField = InvoiceSettingCustomField
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceSettingCustomField where
-  toJSON obj = Data.Aeson.Types.Internal.object ("name" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldName obj : "value" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldValue obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("name" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldName obj) GHC.Base.<> ("value" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldValue obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["name" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldName obj] : ["value" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldValue obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["name" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldName obj] : ["value" Data.Aeson.Types.ToJSON..= invoiceSettingCustomFieldValue obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceSettingCustomField where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceSettingCustomField" (\obj -> (GHC.Base.pure InvoiceSettingCustomField GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))

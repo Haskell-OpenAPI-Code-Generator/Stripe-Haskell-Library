@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetRadarValueListsValueListParameters = GetRadarValueListsValueListParamete
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarValueListsValueListParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersPathValueList obj : "queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersPathValueList obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersPathValueList obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRadarValueListsValueListParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathValue_list" Data.Aeson.Types.ToJSON..= getRadarValueListsValueListParametersPathValueList obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRadarValueListsValueListParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsValueListParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsValueListParameters" (\obj -> (GHC.Base.pure GetRadarValueListsValueListParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathValue_list")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsValueListParameters" (\obj -> (GHC.Base.pure GetRadarValueListsValueListParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathValue_list")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetRadarValueListsValueListParameters' with all required fields.
 mkGetRadarValueListsValueListParameters ::

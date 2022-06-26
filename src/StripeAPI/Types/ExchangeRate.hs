@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -59,8 +61,8 @@ data ExchangeRate = ExchangeRate
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ExchangeRate where
-  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= exchangeRateId obj : "rates" Data.Aeson.Types.ToJSON..= exchangeRateRates obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "exchange_rate" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= exchangeRateId obj) GHC.Base.<> (("rates" Data.Aeson.Types.ToJSON..= exchangeRateRates obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "exchange_rate")))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= exchangeRateId obj] : ["rates" Data.Aeson.Types.ToJSON..= exchangeRateRates obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "exchange_rate"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= exchangeRateId obj] : ["rates" Data.Aeson.Types.ToJSON..= exchangeRateRates obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "exchange_rate"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ExchangeRate where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ExchangeRate" (\obj -> (GHC.Base.pure ExchangeRate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "rates"))

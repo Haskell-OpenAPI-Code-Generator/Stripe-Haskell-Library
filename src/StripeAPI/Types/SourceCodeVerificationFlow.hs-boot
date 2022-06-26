@@ -1,6 +1,7 @@
 module StripeAPI.Types.SourceCodeVerificationFlow where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data SourceCodeVerificationFlow
 instance Show SourceCodeVerificationFlow
 instance Eq SourceCodeVerificationFlow

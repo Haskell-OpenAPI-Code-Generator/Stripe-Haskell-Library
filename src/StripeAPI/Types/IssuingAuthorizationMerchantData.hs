@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -38,24 +40,30 @@ data IssuingAuthorizationMerchantData = IssuingAuthorizationMerchantData
     --
     -- * Maximum length of 5000
     issuingAuthorizationMerchantDataCategory :: Data.Text.Internal.Text,
+    -- | category_code: The merchant category code for the seller’s business
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuingAuthorizationMerchantDataCategoryCode :: Data.Text.Internal.Text,
     -- | city: City where the seller is located
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingAuthorizationMerchantDataCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingAuthorizationMerchantDataCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Country where the seller is located
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingAuthorizationMerchantDataCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingAuthorizationMerchantDataCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name: Name of the seller
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingAuthorizationMerchantDataName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingAuthorizationMerchantDataName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | network_id: Identifier assigned to the seller by the card brand
     --
     -- Constraints:
@@ -67,13 +75,13 @@ data IssuingAuthorizationMerchantData = IssuingAuthorizationMerchantData
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingAuthorizationMerchantDataPostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingAuthorizationMerchantDataPostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State where the seller is located
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingAuthorizationMerchantDataState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    issuingAuthorizationMerchantDataState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -81,22 +89,25 @@ data IssuingAuthorizationMerchantData = IssuingAuthorizationMerchantData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationMerchantData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("category" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCategory obj : "city" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCity obj : "country" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCountry obj : "name" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataName obj : "network_id" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataNetworkId obj : "postal_code" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataPostalCode obj : "state" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataState obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("category" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCategory obj) GHC.Base.<> (("city" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCity obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCountry obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataName obj) GHC.Base.<> (("network_id" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataNetworkId obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataPostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataState obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["category" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCategory obj] : ["category_code" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCategoryCode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataName obj) : ["network_id" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataNetworkId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataPostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["category" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCategory obj] : ["category_code" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataCategoryCode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataName obj) : ["network_id" Data.Aeson.Types.ToJSON..= issuingAuthorizationMerchantDataNetworkId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataPostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationMerchantDataState obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationMerchantData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationMerchantData" (\obj -> ((((((GHC.Base.pure IssuingAuthorizationMerchantData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationMerchantData" (\obj -> (((((((GHC.Base.pure IssuingAuthorizationMerchantData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "category_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
 -- | Create a new 'IssuingAuthorizationMerchantData' with all required fields.
 mkIssuingAuthorizationMerchantData ::
   -- | 'issuingAuthorizationMerchantDataCategory'
   Data.Text.Internal.Text ->
+  -- | 'issuingAuthorizationMerchantDataCategoryCode'
+  Data.Text.Internal.Text ->
   -- | 'issuingAuthorizationMerchantDataNetworkId'
   Data.Text.Internal.Text ->
   IssuingAuthorizationMerchantData
-mkIssuingAuthorizationMerchantData issuingAuthorizationMerchantDataCategory issuingAuthorizationMerchantDataNetworkId =
+mkIssuingAuthorizationMerchantData issuingAuthorizationMerchantDataCategory issuingAuthorizationMerchantDataCategoryCode issuingAuthorizationMerchantDataNetworkId =
   IssuingAuthorizationMerchantData
     { issuingAuthorizationMerchantDataCategory = issuingAuthorizationMerchantDataCategory,
+      issuingAuthorizationMerchantDataCategoryCode = issuingAuthorizationMerchantDataCategoryCode,
       issuingAuthorizationMerchantDataCity = GHC.Maybe.Nothing,
       issuingAuthorizationMerchantDataCountry = GHC.Maybe.Nothing,
       issuingAuthorizationMerchantDataName = GHC.Maybe.Nothing,

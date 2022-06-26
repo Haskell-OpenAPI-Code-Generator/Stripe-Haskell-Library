@@ -1,73 +1,84 @@
 module StripeAPI.Types.Item where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Item
 instance Show Item
 instance Eq Item
 instance FromJSON Item
 instance ToJSON Item
-data ItemPrice'
-instance Show ItemPrice'
-instance Eq ItemPrice'
-instance FromJSON ItemPrice'
-instance ToJSON ItemPrice'
-data ItemPrice'BillingScheme'
-instance Show ItemPrice'BillingScheme'
-instance Eq ItemPrice'BillingScheme'
-instance FromJSON ItemPrice'BillingScheme'
-instance ToJSON ItemPrice'BillingScheme'
-data ItemPrice'Object'
-instance Show ItemPrice'Object'
-instance Eq ItemPrice'Object'
-instance FromJSON ItemPrice'Object'
-instance ToJSON ItemPrice'Object'
-data ItemPrice'Product'Variants
-instance Show ItemPrice'Product'Variants
-instance Eq ItemPrice'Product'Variants
-instance FromJSON ItemPrice'Product'Variants
-instance ToJSON ItemPrice'Product'Variants
-data ItemPrice'Recurring'
-instance Show ItemPrice'Recurring'
-instance Eq ItemPrice'Recurring'
-instance FromJSON ItemPrice'Recurring'
-instance ToJSON ItemPrice'Recurring'
-data ItemPrice'Recurring'AggregateUsage'
-instance Show ItemPrice'Recurring'AggregateUsage'
-instance Eq ItemPrice'Recurring'AggregateUsage'
-instance FromJSON ItemPrice'Recurring'AggregateUsage'
-instance ToJSON ItemPrice'Recurring'AggregateUsage'
-data ItemPrice'Recurring'Interval'
-instance Show ItemPrice'Recurring'Interval'
-instance Eq ItemPrice'Recurring'Interval'
-instance FromJSON ItemPrice'Recurring'Interval'
-instance ToJSON ItemPrice'Recurring'Interval'
-data ItemPrice'Recurring'UsageType'
-instance Show ItemPrice'Recurring'UsageType'
-instance Eq ItemPrice'Recurring'UsageType'
-instance FromJSON ItemPrice'Recurring'UsageType'
-instance ToJSON ItemPrice'Recurring'UsageType'
-data ItemPrice'TaxBehavior'
-instance Show ItemPrice'TaxBehavior'
-instance Eq ItemPrice'TaxBehavior'
-instance FromJSON ItemPrice'TaxBehavior'
-instance ToJSON ItemPrice'TaxBehavior'
-data ItemPrice'TiersMode'
-instance Show ItemPrice'TiersMode'
-instance Eq ItemPrice'TiersMode'
-instance FromJSON ItemPrice'TiersMode'
-instance ToJSON ItemPrice'TiersMode'
-data ItemPrice'TransformQuantity'
-instance Show ItemPrice'TransformQuantity'
-instance Eq ItemPrice'TransformQuantity'
-instance FromJSON ItemPrice'TransformQuantity'
-instance ToJSON ItemPrice'TransformQuantity'
-data ItemPrice'TransformQuantity'Round'
-instance Show ItemPrice'TransformQuantity'Round'
-instance Eq ItemPrice'TransformQuantity'Round'
-instance FromJSON ItemPrice'TransformQuantity'Round'
-instance ToJSON ItemPrice'TransformQuantity'Round'
-data ItemPrice'Type'
-instance Show ItemPrice'Type'
-instance Eq ItemPrice'Type'
-instance FromJSON ItemPrice'Type'
-instance ToJSON ItemPrice'Type'
+data ItemPrice'NonNullable
+instance Show ItemPrice'NonNullable
+instance Eq ItemPrice'NonNullable
+instance FromJSON ItemPrice'NonNullable
+instance ToJSON ItemPrice'NonNullable
+data ItemPrice'NonNullableBillingScheme'
+instance Show ItemPrice'NonNullableBillingScheme'
+instance Eq ItemPrice'NonNullableBillingScheme'
+instance FromJSON ItemPrice'NonNullableBillingScheme'
+instance ToJSON ItemPrice'NonNullableBillingScheme'
+data ItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance Show ItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance Eq ItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance FromJSON ItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance ToJSON ItemPrice'NonNullableCustomUnitAmount'NonNullable
+data ItemPrice'NonNullableObject'
+instance Show ItemPrice'NonNullableObject'
+instance Eq ItemPrice'NonNullableObject'
+instance FromJSON ItemPrice'NonNullableObject'
+instance ToJSON ItemPrice'NonNullableObject'
+data ItemPrice'NonNullableProduct'Variants
+instance Show ItemPrice'NonNullableProduct'Variants
+instance Eq ItemPrice'NonNullableProduct'Variants
+instance FromJSON ItemPrice'NonNullableProduct'Variants
+instance ToJSON ItemPrice'NonNullableProduct'Variants
+data ItemPrice'NonNullableRecurring'NonNullable
+instance Show ItemPrice'NonNullableRecurring'NonNullable
+instance Eq ItemPrice'NonNullableRecurring'NonNullable
+instance FromJSON ItemPrice'NonNullableRecurring'NonNullable
+instance ToJSON ItemPrice'NonNullableRecurring'NonNullable
+data ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance Show ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance Eq ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance FromJSON ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance ToJSON ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+data ItemPrice'NonNullableRecurring'NonNullableInterval'
+instance Show ItemPrice'NonNullableRecurring'NonNullableInterval'
+instance Eq ItemPrice'NonNullableRecurring'NonNullableInterval'
+instance FromJSON ItemPrice'NonNullableRecurring'NonNullableInterval'
+instance ToJSON ItemPrice'NonNullableRecurring'NonNullableInterval'
+data ItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance Show ItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance Eq ItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance FromJSON ItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance ToJSON ItemPrice'NonNullableRecurring'NonNullableUsageType'
+data ItemPrice'NonNullableTaxBehavior'NonNullable
+instance Show ItemPrice'NonNullableTaxBehavior'NonNullable
+instance Eq ItemPrice'NonNullableTaxBehavior'NonNullable
+instance FromJSON ItemPrice'NonNullableTaxBehavior'NonNullable
+instance ToJSON ItemPrice'NonNullableTaxBehavior'NonNullable
+data ItemPrice'NonNullableTiersMode'NonNullable
+instance Show ItemPrice'NonNullableTiersMode'NonNullable
+instance Eq ItemPrice'NonNullableTiersMode'NonNullable
+instance FromJSON ItemPrice'NonNullableTiersMode'NonNullable
+instance ToJSON ItemPrice'NonNullableTiersMode'NonNullable
+data ItemPrice'NonNullableTransformQuantity'NonNullable
+instance Show ItemPrice'NonNullableTransformQuantity'NonNullable
+instance Eq ItemPrice'NonNullableTransformQuantity'NonNullable
+instance FromJSON ItemPrice'NonNullableTransformQuantity'NonNullable
+instance ToJSON ItemPrice'NonNullableTransformQuantity'NonNullable
+data ItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance Show ItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance Eq ItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance FromJSON ItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance ToJSON ItemPrice'NonNullableTransformQuantity'NonNullableRound'
+data ItemPrice'NonNullableType'
+instance Show ItemPrice'NonNullableType'
+instance Eq ItemPrice'NonNullableType'
+instance FromJSON ItemPrice'NonNullableType'
+instance ToJSON ItemPrice'NonNullableType'
+data ItemProduct'Variants
+instance Show ItemProduct'Variants
+instance Eq ItemProduct'Variants
+instance FromJSON ItemProduct'Variants
+instance ToJSON ItemProduct'Variants

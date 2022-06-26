@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,8 +45,8 @@ data AccountDeclineChargeOn = AccountDeclineChargeOn
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountDeclineChargeOn where
-  toJSON obj = Data.Aeson.Types.Internal.object ("avs_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnAvsFailure obj : "cvc_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnCvcFailure obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("avs_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnAvsFailure obj) GHC.Base.<> ("cvc_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnCvcFailure obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["avs_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnAvsFailure obj] : ["cvc_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnCvcFailure obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["avs_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnAvsFailure obj] : ["cvc_failure" Data.Aeson.Types.ToJSON..= accountDeclineChargeOnCvcFailure obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountDeclineChargeOn where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountDeclineChargeOn" (\obj -> (GHC.Base.pure AccountDeclineChargeOn GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "avs_failure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cvc_failure"))

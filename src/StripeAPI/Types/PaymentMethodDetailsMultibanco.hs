@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,13 +39,13 @@ data PaymentMethodDetailsMultibanco = PaymentMethodDetailsMultibanco
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsMultibancoEntity :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsMultibancoEntity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | reference: Reference number associated with this Multibanco payment.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsMultibancoReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsMultibancoReference :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data PaymentMethodDetailsMultibanco = PaymentMethodDetailsMultibanco
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsMultibanco where
-  toJSON obj = Data.Aeson.Types.Internal.object ("entity" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoEntity obj : "reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoReference obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("entity" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoEntity obj) GHC.Base.<> ("reference" Data.Aeson.Types.ToJSON..= paymentMethodDetailsMultibancoReference obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("entity" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsMultibancoEntity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsMultibancoReference obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("entity" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsMultibancoEntity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsMultibancoReference obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsMultibanco where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsMultibanco" (\obj -> (GHC.Base.pure PaymentMethodDetailsMultibanco GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "entity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reference"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsMultibanco" (\obj -> (GHC.Base.pure PaymentMethodDetailsMultibanco GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "entity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference"))
 
 -- | Create a new 'PaymentMethodDetailsMultibanco' with all required fields.
 mkPaymentMethodDetailsMultibanco :: PaymentMethodDetailsMultibanco

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,7 +39,7 @@ data PaymentMethodSofort = PaymentMethodSofort
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodSofortCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodSofortCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data PaymentMethodSofort = PaymentMethodSofort
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodSofort where
-  toJSON obj = Data.Aeson.Types.Internal.object ("country" Data.Aeson.Types.ToJSON..= paymentMethodSofortCountry obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("country" Data.Aeson.Types.ToJSON..= paymentMethodSofortCountry obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodSofortCountry obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodSofortCountry obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodSofort where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodSofort" (\obj -> GHC.Base.pure PaymentMethodSofort GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodSofort" (\obj -> GHC.Base.pure PaymentMethodSofort GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country"))
 
 -- | Create a new 'PaymentMethodSofort' with all required fields.
 mkPaymentMethodSofort :: PaymentMethodSofort

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -44,8 +46,8 @@ data CountrySpecVerificationFields = CountrySpecVerificationFields
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CountrySpecVerificationFields where
-  toJSON obj = Data.Aeson.Types.Internal.object ("company" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsCompany obj : "individual" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsIndividual obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("company" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsCompany obj) GHC.Base.<> ("individual" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsIndividual obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["company" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsCompany obj] : ["individual" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsIndividual obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["company" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsCompany obj] : ["individual" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldsIndividual obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CountrySpecVerificationFields where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CountrySpecVerificationFields" (\obj -> (GHC.Base.pure CountrySpecVerificationFields GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "individual"))

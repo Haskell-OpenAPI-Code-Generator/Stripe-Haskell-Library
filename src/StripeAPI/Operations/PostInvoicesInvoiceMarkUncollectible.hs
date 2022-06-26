@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -95,11 +97,11 @@ data PostInvoicesInvoiceMarkUncollectibleRequestBody = PostInvoicesInvoiceMarkUn
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoiceMarkUncollectibleRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoiceMarkUncollectibleRequestBodyExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoiceMarkUncollectibleRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoiceMarkUncollectibleRequestBody" (\obj -> GHC.Base.pure PostInvoicesInvoiceMarkUncollectibleRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoiceMarkUncollectibleRequestBody" (\obj -> GHC.Base.pure PostInvoicesInvoiceMarkUncollectibleRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand"))
 
 -- | Create a new 'PostInvoicesInvoiceMarkUncollectibleRequestBody' with all required fields.
 mkPostInvoicesInvoiceMarkUncollectibleRequestBody :: PostInvoicesInvoiceMarkUncollectibleRequestBody

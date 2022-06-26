@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentMethodDetailsKlarna where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentMethodDetailsKlarna
+instance Show PaymentMethodDetailsKlarna
+instance Eq PaymentMethodDetailsKlarna
+instance FromJSON PaymentMethodDetailsKlarna
+instance ToJSON PaymentMethodDetailsKlarna

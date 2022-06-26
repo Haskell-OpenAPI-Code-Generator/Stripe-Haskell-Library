@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetTransfersTransferParameters = GetTransfersTransferParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersTransferParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersPathTransfer obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersPathTransfer obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersPathTransfer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTransfersTransferParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathTransfer" Data.Aeson.Types.ToJSON..= getTransfersTransferParametersPathTransfer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTransfersTransferParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersTransferParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersTransferParameters" (\obj -> (GHC.Base.pure GetTransfersTransferParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersTransferParameters" (\obj -> (GHC.Base.pure GetTransfersTransferParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetTransfersTransferParameters' with all required fields.
 mkGetTransfersTransferParameters ::

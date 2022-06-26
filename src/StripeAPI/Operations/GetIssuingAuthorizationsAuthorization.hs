@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetIssuingAuthorizationsAuthorizationParameters = GetIssuingAuthorizationsA
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingAuthorizationsAuthorizationParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathAuthorization" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAuthorization" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathAuthorization" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingAuthorizationsAuthorizationParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathAuthorization" Data.Aeson.Types.ToJSON..= getIssuingAuthorizationsAuthorizationParametersPathAuthorization obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingAuthorizationsAuthorizationParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingAuthorizationsAuthorizationParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingAuthorizationsAuthorizationParameters" (\obj -> (GHC.Base.pure GetIssuingAuthorizationsAuthorizationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAuthorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingAuthorizationsAuthorizationParameters" (\obj -> (GHC.Base.pure GetIssuingAuthorizationsAuthorizationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAuthorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetIssuingAuthorizationsAuthorizationParameters' with all required fields.
 mkGetIssuingAuthorizationsAuthorizationParameters ::

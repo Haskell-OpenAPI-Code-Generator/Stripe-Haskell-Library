@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetCountrySpecsCountryParameters = GetCountrySpecsCountryParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCountrySpecsCountryParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCountry" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersPathCountry obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCountry" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersPathCountry obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCountry" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersPathCountry obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCountrySpecsCountryParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCountry" Data.Aeson.Types.ToJSON..= getCountrySpecsCountryParametersPathCountry obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCountrySpecsCountryParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsCountryParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsCountryParameters" (\obj -> (GHC.Base.pure GetCountrySpecsCountryParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCountry")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsCountryParameters" (\obj -> (GHC.Base.pure GetCountrySpecsCountryParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCountry")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetCountrySpecsCountryParameters' with all required fields.
 mkGetCountrySpecsCountryParameters ::

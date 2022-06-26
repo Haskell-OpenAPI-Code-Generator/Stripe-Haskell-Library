@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -39,13 +41,13 @@ import qualified Prelude as GHC.Maybe
 -- A phase item describes the price and quantity of a phase.
 data SubscriptionScheduleConfigurationItem = SubscriptionScheduleConfigurationItem
   { -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
-    subscriptionScheduleConfigurationItemBillingThresholds :: (GHC.Maybe.Maybe SubscriptionScheduleConfigurationItemBillingThresholds'),
+    subscriptionScheduleConfigurationItemBillingThresholds :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable)),
     -- | price: ID of the price to which the customer should be subscribed.
     subscriptionScheduleConfigurationItemPrice :: SubscriptionScheduleConfigurationItemPrice'Variants,
     -- | quantity: Quantity of the plan to which the customer should be subscribed.
     subscriptionScheduleConfigurationItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | tax_rates: The tax rates which apply to this \`phase_item\`. When set, the \`default_tax_rates\` on the phase do not apply to this \`phase_item\`.
-    subscriptionScheduleConfigurationItemTaxRates :: (GHC.Maybe.Maybe ([TaxRate]))
+    subscriptionScheduleConfigurationItemTaxRates :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([TaxRate])))
   }
   deriving
     ( GHC.Show.Show,
@@ -53,11 +55,11 @@ data SubscriptionScheduleConfigurationItem = SubscriptionScheduleConfigurationIt
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleConfigurationItem where
-  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds obj : "price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj : "quantity" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemQuantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemTaxRates obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds obj) GHC.Base.<> (("price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemQuantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemTaxRates obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds obj) : ["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemTaxRates obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds obj) : ["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemTaxRates obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleConfigurationItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItem" (\obj -> (((GHC.Base.pure SubscriptionScheduleConfigurationItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItem" (\obj -> (((GHC.Base.pure SubscriptionScheduleConfigurationItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
 
 -- | Create a new 'SubscriptionScheduleConfigurationItem' with all required fields.
 mkSubscriptionScheduleConfigurationItem ::
@@ -75,25 +77,25 @@ mkSubscriptionScheduleConfigurationItem subscriptionScheduleConfigurationItemPri
 -- | Defines the object schema located at @components.schemas.subscription_schedule_configuration_item.properties.billing_thresholds.anyOf@ in the specification.
 --
 -- Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
-data SubscriptionScheduleConfigurationItemBillingThresholds' = SubscriptionScheduleConfigurationItemBillingThresholds'
+data SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable = SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable
   { -- | usage_gte: Usage threshold that triggers the subscription to create an invoice
-    subscriptionScheduleConfigurationItemBillingThresholds'UsageGte :: (GHC.Maybe.Maybe GHC.Types.Int)
+    subscriptionScheduleConfigurationItemBillingThresholds'NonNullableUsageGte :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleConfigurationItemBillingThresholds' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds'UsageGte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemBillingThresholds'UsageGte obj)
+instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage_gte" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds'NonNullableUsageGte obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage_gte" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds'NonNullableUsageGte obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleConfigurationItemBillingThresholds' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItemBillingThresholds'" (\obj -> GHC.Base.pure SubscriptionScheduleConfigurationItemBillingThresholds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_gte"))
+instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable" (\obj -> GHC.Base.pure SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage_gte"))
 
--- | Create a new 'SubscriptionScheduleConfigurationItemBillingThresholds'' with all required fields.
-mkSubscriptionScheduleConfigurationItemBillingThresholds' :: SubscriptionScheduleConfigurationItemBillingThresholds'
-mkSubscriptionScheduleConfigurationItemBillingThresholds' = SubscriptionScheduleConfigurationItemBillingThresholds' {subscriptionScheduleConfigurationItemBillingThresholds'UsageGte = GHC.Maybe.Nothing}
+-- | Create a new 'SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable' with all required fields.
+mkSubscriptionScheduleConfigurationItemBillingThresholds'NonNullable :: SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable
+mkSubscriptionScheduleConfigurationItemBillingThresholds'NonNullable = SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable {subscriptionScheduleConfigurationItemBillingThresholds'NonNullableUsageGte = GHC.Maybe.Nothing}
 
 -- | Defines the oneOf schema located at @components.schemas.subscription_schedule_configuration_item.properties.price.anyOf@ in the specification.
 --

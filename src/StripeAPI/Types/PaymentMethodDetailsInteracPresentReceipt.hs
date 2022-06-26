@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -39,49 +41,49 @@ data PaymentMethodDetailsInteracPresentReceipt = PaymentMethodDetailsInteracPres
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptApplicationCryptogram :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsInteracPresentReceiptApplicationCryptogram :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | application_preferred_name: Mnenomic of the Application Identifier.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptApplicationPreferredName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsInteracPresentReceiptApplicationPreferredName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | authorization_code: Identifier for this transaction.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptAuthorizationCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsInteracPresentReceiptAuthorizationCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | authorization_response_code: EMV tag 8A. A code returned by the card issuer.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptAuthorizationResponseCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsInteracPresentReceiptAuthorizationResponseCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | cardholder_verification_method: How the cardholder verified ownership of the card.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptCardholderVerificationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsInteracPresentReceiptCardholderVerificationMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | dedicated_file_name: EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptDedicatedFileName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsInteracPresentReceiptDedicatedFileName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | terminal_verification_results: The outcome of a series of EMV functions performed by the card reader.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptTerminalVerificationResults :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsInteracPresentReceiptTerminalVerificationResults :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | transaction_status_information: An indication of various EMV functions performed during the transaction.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsInteracPresentReceiptTransactionStatusInformation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsInteracPresentReceiptTransactionStatusInformation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -89,11 +91,11 @@ data PaymentMethodDetailsInteracPresentReceipt = PaymentMethodDetailsInteracPres
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsInteracPresentReceipt where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account_type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptAccountType obj : "application_cryptogram" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptApplicationCryptogram obj : "application_preferred_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptApplicationPreferredName obj : "authorization_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptAuthorizationCode obj : "authorization_response_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptAuthorizationResponseCode obj : "cardholder_verification_method" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptCardholderVerificationMethod obj : "dedicated_file_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptDedicatedFileName obj : "terminal_verification_results" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptTerminalVerificationResults obj : "transaction_status_information" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptTransactionStatusInformation obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_type" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptAccountType obj) GHC.Base.<> (("application_cryptogram" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptApplicationCryptogram obj) GHC.Base.<> (("application_preferred_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptApplicationPreferredName obj) GHC.Base.<> (("authorization_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptAuthorizationCode obj) GHC.Base.<> (("authorization_response_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptAuthorizationResponseCode obj) GHC.Base.<> (("cardholder_verification_method" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptCardholderVerificationMethod obj) GHC.Base.<> (("dedicated_file_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptDedicatedFileName obj) GHC.Base.<> (("terminal_verification_results" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptTerminalVerificationResults obj) GHC.Base.<> ("transaction_status_information" Data.Aeson.Types.ToJSON..= paymentMethodDetailsInteracPresentReceiptTransactionStatusInformation obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_cryptogram" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptApplicationCryptogram obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_preferred_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptApplicationPreferredName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptAuthorizationCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization_response_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptAuthorizationResponseCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder_verification_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptCardholderVerificationMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dedicated_file_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptDedicatedFileName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terminal_verification_results" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptTerminalVerificationResults obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_status_information" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptTransactionStatusInformation obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_cryptogram" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptApplicationCryptogram obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_preferred_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptApplicationPreferredName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptAuthorizationCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization_response_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptAuthorizationResponseCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder_verification_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptCardholderVerificationMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dedicated_file_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptDedicatedFileName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terminal_verification_results" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptTerminalVerificationResults obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_status_information" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsInteracPresentReceiptTransactionStatusInformation obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsInteracPresentReceipt where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsInteracPresentReceipt" (\obj -> ((((((((GHC.Base.pure PaymentMethodDetailsInteracPresentReceipt GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_cryptogram")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application_preferred_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization_response_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cardholder_verification_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dedicated_file_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "terminal_verification_results")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transaction_status_information"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsInteracPresentReceipt" (\obj -> ((((((((GHC.Base.pure PaymentMethodDetailsInteracPresentReceipt GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_cryptogram")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_preferred_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authorization_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authorization_response_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cardholder_verification_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dedicated_file_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terminal_verification_results")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_status_information"))
 
 -- | Create a new 'PaymentMethodDetailsInteracPresentReceipt' with all required fields.
 mkPaymentMethodDetailsInteracPresentReceipt :: PaymentMethodDetailsInteracPresentReceipt

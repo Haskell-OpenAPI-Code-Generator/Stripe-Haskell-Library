@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -84,7 +86,7 @@ postTerminalConnectionTokens body =
 data PostTerminalConnectionTokensRequestBody = PostTerminalConnectionTokensRequestBody
   { -- | expand: Specifies which fields in the response should be expanded.
     postTerminalConnectionTokensRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | location: The id of the location that this connection token is scoped to. If specified the connection token will only be usable with readers assigned to that location, otherwise the connection token will be usable with all readers. Note that location scoping only applies to internet-connected readers. For more details, see [the docs on scoping connection tokens](https:\/\/stripe.com\/docs\/terminal\/readers\/fleet-management\#connection-tokens).
+    -- | location: The id of the location that this connection token is scoped to. If specified the connection token will only be usable with readers assigned to that location, otherwise the connection token will be usable with all readers. Note that location scoping only applies to internet-connected readers. For more details, see [the docs on scoping connection tokens](https:\/\/stripe.com\/docs\/terminal\/fleet\/locations\#connection-tokens).
     --
     -- Constraints:
     --
@@ -97,11 +99,11 @@ data PostTerminalConnectionTokensRequestBody = PostTerminalConnectionTokensReque
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalConnectionTokensRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyExpand obj : "location" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyLocation obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyExpand obj) GHC.Base.<> ("location" Data.Aeson.Types.ToJSON..= postTerminalConnectionTokensRequestBodyLocation obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalConnectionTokensRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (postTerminalConnectionTokensRequestBodyLocation obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalConnectionTokensRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (postTerminalConnectionTokensRequestBodyLocation obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConnectionTokensRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalConnectionTokensRequestBody" (\obj -> (GHC.Base.pure PostTerminalConnectionTokensRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalConnectionTokensRequestBody" (\obj -> (GHC.Base.pure PostTerminalConnectionTokensRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location"))
 
 -- | Create a new 'PostTerminalConnectionTokensRequestBody' with all required fields.
 mkPostTerminalConnectionTokensRequestBody :: PostTerminalConnectionTokensRequestBody

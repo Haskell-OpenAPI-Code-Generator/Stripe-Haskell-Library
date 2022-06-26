@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -72,7 +74,7 @@ data Dispute = Dispute
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     disputeMetadata :: Data.Aeson.Types.Internal.Object,
     -- | payment_intent: ID of the PaymentIntent that was disputed.
-    disputePaymentIntent :: (GHC.Maybe.Maybe DisputePaymentIntent'Variants),
+    disputePaymentIntent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable DisputePaymentIntent'NonNullableVariants)),
     -- | reason: Reason given by cardholder for dispute. Possible values are \`bank_cannot_process\`, \`check_returned\`, \`credit_not_processed\`, \`customer_initiated\`, \`debit_not_authorized\`, \`duplicate\`, \`fraudulent\`, \`general\`, \`incorrect_account_details\`, \`insufficient_funds\`, \`product_not_received\`, \`product_unacceptable\`, \`subscription_canceled\`, or \`unrecognized\`. Read more about [dispute reasons](https:\/\/stripe.com\/docs\/disputes\/categories).
     --
     -- Constraints:
@@ -88,11 +90,11 @@ data Dispute = Dispute
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Dispute where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= disputeAmount obj : "balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj : "charge" Data.Aeson.Types.ToJSON..= disputeCharge obj : "created" Data.Aeson.Types.ToJSON..= disputeCreated obj : "currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj : "evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj : "evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj : "id" Data.Aeson.Types.ToJSON..= disputeId obj : "is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj : "livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj : "payment_intent" Data.Aeson.Types.ToJSON..= disputePaymentIntent obj : "reason" Data.Aeson.Types.ToJSON..= disputeReason obj : "status" Data.Aeson.Types.ToJSON..= disputeStatus obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= disputeAmount obj) GHC.Base.<> (("balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj) GHC.Base.<> (("charge" Data.Aeson.Types.ToJSON..= disputeCharge obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= disputeCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj) GHC.Base.<> (("evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj) GHC.Base.<> (("evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= disputeId obj) GHC.Base.<> (("is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= disputePaymentIntent obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= disputeReason obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= disputeStatus obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute")))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= disputeAmount obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj] : ["charge" Data.Aeson.Types.ToJSON..= disputeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj] : ["evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj] : ["id" Data.Aeson.Types.ToJSON..= disputeId obj] : ["is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj] : ["livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (disputePaymentIntent obj) : ["reason" Data.Aeson.Types.ToJSON..= disputeReason obj] : ["status" Data.Aeson.Types.ToJSON..= disputeStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= disputeAmount obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj] : ["charge" Data.Aeson.Types.ToJSON..= disputeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj] : ["evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj] : ["id" Data.Aeson.Types.ToJSON..= disputeId obj] : ["is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj] : ["livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (disputePaymentIntent obj) : ["reason" Data.Aeson.Types.ToJSON..= disputeReason obj] : ["status" Data.Aeson.Types.ToJSON..= disputeStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Dispute where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Dispute" (\obj -> (((((((((((((GHC.Base.pure Dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_charge_refundable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Dispute" (\obj -> (((((((((((((GHC.Base.pure Dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_charge_refundable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
 -- | Create a new 'Dispute' with all required fields.
 mkDispute ::
@@ -161,17 +163,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON DisputeCharge'Variants where
 -- | Defines the oneOf schema located at @components.schemas.dispute.properties.payment_intent.anyOf@ in the specification.
 --
 -- ID of the PaymentIntent that was disputed.
-data DisputePaymentIntent'Variants
-  = DisputePaymentIntent'Text Data.Text.Internal.Text
-  | DisputePaymentIntent'PaymentIntent PaymentIntent
+data DisputePaymentIntent'NonNullableVariants
+  = DisputePaymentIntent'NonNullableText Data.Text.Internal.Text
+  | DisputePaymentIntent'NonNullablePaymentIntent PaymentIntent
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON DisputePaymentIntent'Variants where
-  toJSON (DisputePaymentIntent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (DisputePaymentIntent'PaymentIntent a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON DisputePaymentIntent'NonNullableVariants where
+  toJSON (DisputePaymentIntent'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (DisputePaymentIntent'NonNullablePaymentIntent a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON DisputePaymentIntent'Variants where
-  parseJSON val = case (DisputePaymentIntent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputePaymentIntent'PaymentIntent Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON DisputePaymentIntent'NonNullableVariants where
+  parseJSON val = case (DisputePaymentIntent'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((DisputePaymentIntent'NonNullablePaymentIntent Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

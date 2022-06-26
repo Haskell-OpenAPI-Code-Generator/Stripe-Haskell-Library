@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -109,8 +111,8 @@ data DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdParameters = Delet
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj : "pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) GHC.Base.<> ("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdParameters" (\obj -> (GHC.Base.pure DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id"))
@@ -143,11 +145,11 @@ data DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = Dele
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj : "invoice_now" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj : "prorate" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) GHC.Base.<> (("invoice_now" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj) GHC.Base.<> ("prorate" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_now" Data.Aeson.Types.ToJSON..=)) (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prorate" Data.Aeson.Types.ToJSON..=)) (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrate obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_now" Data.Aeson.Types.ToJSON..=)) (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prorate" Data.Aeson.Types.ToJSON..=)) (deleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrate obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody" (\obj -> ((GHC.Base.pure DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_now")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prorate"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody" (\obj -> ((GHC.Base.pure DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_now")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prorate"))
 
 -- | Create a new 'DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody' with all required fields.
 mkDeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody :: DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody

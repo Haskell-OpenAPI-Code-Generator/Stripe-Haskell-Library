@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -92,6 +94,8 @@ data PostIssuingCardsCardRequestBody = PostIssuingCardsCardRequestBody
     postIssuingCardsCardRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postIssuingCardsCardRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingCardsCardRequestBodyMetadata'Variants),
+    -- | pin: The desired new PIN for this card.
+    postIssuingCardsCardRequestBodyPin :: (GHC.Maybe.Maybe PostIssuingCardsCardRequestBodyPin'),
     -- | spending_controls: Rules that control spending for this card. Refer to our [documentation](https:\/\/stripe.com\/docs\/issuing\/controls\/spending-controls) for more details.
     postIssuingCardsCardRequestBodySpendingControls :: (GHC.Maybe.Maybe PostIssuingCardsCardRequestBodySpendingControls'),
     -- | status: Dictates whether authorizations can be approved on this card. If this card is being canceled because it was lost or stolen, this information should be provided as \`cancellation_reason\`.
@@ -103,11 +107,11 @@ data PostIssuingCardsCardRequestBody = PostIssuingCardsCardRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsCardRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("cancellation_reason" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyCancellationReason obj : "expand" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyMetadata obj : "spending_controls" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls obj : "status" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyStatus obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("cancellation_reason" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyCancellationReason obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyMetadata obj) GHC.Base.<> (("spending_controls" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodyStatus obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pin" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyPin obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spending_controls" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyStatus obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pin" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyPin obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spending_controls" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyStatus obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBody" (\obj -> ((((GHC.Base.pure PostIssuingCardsCardRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_controls")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBody" (\obj -> (((((GHC.Base.pure PostIssuingCardsCardRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pin")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spending_controls")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
 
 -- | Create a new 'PostIssuingCardsCardRequestBody' with all required fields.
 mkPostIssuingCardsCardRequestBody :: PostIssuingCardsCardRequestBody
@@ -116,6 +120,7 @@ mkPostIssuingCardsCardRequestBody =
     { postIssuingCardsCardRequestBodyCancellationReason = GHC.Maybe.Nothing,
       postIssuingCardsCardRequestBodyExpand = GHC.Maybe.Nothing,
       postIssuingCardsCardRequestBodyMetadata = GHC.Maybe.Nothing,
+      postIssuingCardsCardRequestBodyPin = GHC.Maybe.Nothing,
       postIssuingCardsCardRequestBodySpendingControls = GHC.Maybe.Nothing,
       postIssuingCardsCardRequestBodyStatus = GHC.Maybe.Nothing
     }
@@ -170,6 +175,33 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBodyMetad
           Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
           Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.pin@ in the specification.
+--
+-- The desired new PIN for this card.
+data PostIssuingCardsCardRequestBodyPin' = PostIssuingCardsCardRequestBodyPin'
+  { -- | encrypted_number
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postIssuingCardsCardRequestBodyPin'EncryptedNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsCardRequestBodyPin' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("encrypted_number" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyPin'EncryptedNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("encrypted_number" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodyPin'EncryptedNumber obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBodyPin' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBodyPin'" (\obj -> GHC.Base.pure PostIssuingCardsCardRequestBodyPin' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "encrypted_number"))
+
+-- | Create a new 'PostIssuingCardsCardRequestBodyPin'' with all required fields.
+mkPostIssuingCardsCardRequestBodyPin' :: PostIssuingCardsCardRequestBodyPin'
+mkPostIssuingCardsCardRequestBodyPin' = PostIssuingCardsCardRequestBodyPin' {postIssuingCardsCardRequestBodyPin'EncryptedNumber = GHC.Maybe.Nothing}
+
 -- | Defines the object schema located at @paths.\/v1\/issuing\/cards\/{card}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.spending_controls@ in the specification.
 --
 -- Rules that control spending for this card. Refer to our [documentation](https:\/\/stripe.com\/docs\/issuing\/controls\/spending-controls) for more details.
@@ -187,11 +219,11 @@ data PostIssuingCardsCardRequestBodySpendingControls' = PostIssuingCardsCardRequ
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsCardRequestBodySpendingControls' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("allowed_categories" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'AllowedCategories obj : "blocked_categories" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'BlockedCategories obj : "spending_limits" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("allowed_categories" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'AllowedCategories obj) GHC.Base.<> (("blocked_categories" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'BlockedCategories obj) GHC.Base.<> ("spending_limits" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_categories" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'AllowedCategories obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blocked_categories" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'BlockedCategories obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spending_limits" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'SpendingLimits obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_categories" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'AllowedCategories obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blocked_categories" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'BlockedCategories obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spending_limits" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'SpendingLimits obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBodySpendingControls' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBodySpendingControls'" (\obj -> ((GHC.Base.pure PostIssuingCardsCardRequestBodySpendingControls' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "allowed_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "blocked_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_limits"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBodySpendingControls'" (\obj -> ((GHC.Base.pure PostIssuingCardsCardRequestBodySpendingControls' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allowed_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "blocked_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spending_limits"))
 
 -- | Create a new 'PostIssuingCardsCardRequestBodySpendingControls'' with all required fields.
 mkPostIssuingCardsCardRequestBodySpendingControls' :: PostIssuingCardsCardRequestBodySpendingControls'
@@ -2559,11 +2591,11 @@ data PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits' = PostIssui
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Amount obj : "categories" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Categories obj : "interval" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Interval obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Amount obj) GHC.Base.<> (("categories" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Categories obj) GHC.Base.<> ("interval" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Interval obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Amount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("categories" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Categories obj) : ["interval" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Interval obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Amount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("categories" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Categories obj) : ["interval" Data.Aeson.Types.ToJSON..= postIssuingCardsCardRequestBodySpendingControls'SpendingLimits'Interval obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits'" (\obj -> ((GHC.Base.pure PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits'" (\obj -> ((GHC.Base.pure PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))
 
 -- | Create a new 'PostIssuingCardsCardRequestBodySpendingControls'SpendingLimits'' with all required fields.
 mkPostIssuingCardsCardRequestBodySpendingControls'SpendingLimits' ::

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -46,11 +48,11 @@ data BalanceAmount = BalanceAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BalanceAmount where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= balanceAmountAmount obj : "currency" Data.Aeson.Types.ToJSON..= balanceAmountCurrency obj : "source_types" Data.Aeson.Types.ToJSON..= balanceAmountSourceTypes obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= balanceAmountAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= balanceAmountCurrency obj) GHC.Base.<> ("source_types" Data.Aeson.Types.ToJSON..= balanceAmountSourceTypes obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= balanceAmountAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= balanceAmountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_types" Data.Aeson.Types.ToJSON..=)) (balanceAmountSourceTypes obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= balanceAmountAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= balanceAmountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_types" Data.Aeson.Types.ToJSON..=)) (balanceAmountSourceTypes obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceAmount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceAmount" (\obj -> ((GHC.Base.pure BalanceAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_types"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceAmount" (\obj -> ((GHC.Base.pure BalanceAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source_types"))
 
 -- | Create a new 'BalanceAmount' with all required fields.
 mkBalanceAmount ::

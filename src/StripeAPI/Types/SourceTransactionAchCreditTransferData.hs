@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -63,11 +65,11 @@ data SourceTransactionAchCreditTransferData = SourceTransactionAchCreditTransfer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTransactionAchCreditTransferData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("customer_data" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataCustomerData obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataLast4 obj : "routing_number" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataRoutingNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer_data" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataCustomerData obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataLast4 obj) GHC.Base.<> ("routing_number" Data.Aeson.Types.ToJSON..= sourceTransactionAchCreditTransferDataRoutingNumber obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_data" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataCustomerData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataRoutingNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_data" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataCustomerData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (sourceTransactionAchCreditTransferDataRoutingNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTransactionAchCreditTransferData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionAchCreditTransferData" (\obj -> (((GHC.Base.pure SourceTransactionAchCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransactionAchCreditTransferData" (\obj -> (((GHC.Base.pure SourceTransactionAchCreditTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number"))
 
 -- | Create a new 'SourceTransactionAchCreditTransferData' with all required fields.
 mkSourceTransactionAchCreditTransferData :: SourceTransactionAchCreditTransferData

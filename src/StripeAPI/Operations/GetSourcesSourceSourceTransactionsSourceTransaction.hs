@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,11 +107,11 @@ data GetSourcesSourceSourceTransactionsSourceTransactionParameters = GetSourcesS
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceSourceTransactionsSourceTransactionParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj : "pathSource_transaction" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj) GHC.Base.<> (("pathSource_transaction" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj] : ["pathSource_transaction" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSource obj] : ["pathSource_transaction" Data.Aeson.Types.ToJSON..= getSourcesSourceSourceTransactionsSourceTransactionParametersPathSourceTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceSourceTransactionsSourceTransactionParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceSourceTransactionsSourceTransactionParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceSourceTransactionsSourceTransactionParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceSourceTransactionsSourceTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceSourceTransactionsSourceTransactionParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceSourceTransactionsSourceTransactionParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetSourcesSourceSourceTransactionsSourceTransactionParameters' with all required fields.
 mkGetSourcesSourceSourceTransactionsSourceTransactionParameters ::

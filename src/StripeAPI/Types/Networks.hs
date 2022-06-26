@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -39,7 +41,7 @@ data Networks = Networks
     -- Constraints:
     --
     -- * Maximum length of 5000
-    networksPreferred :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    networksPreferred :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data Networks = Networks
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Networks where
-  toJSON obj = Data.Aeson.Types.Internal.object ("available" Data.Aeson.Types.ToJSON..= networksAvailable obj : "preferred" Data.Aeson.Types.ToJSON..= networksPreferred obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("available" Data.Aeson.Types.ToJSON..= networksAvailable obj) GHC.Base.<> ("preferred" Data.Aeson.Types.ToJSON..= networksPreferred obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["available" Data.Aeson.Types.ToJSON..= networksAvailable obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred" Data.Aeson.Types.ToJSON..=)) (networksPreferred obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["available" Data.Aeson.Types.ToJSON..= networksAvailable obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred" Data.Aeson.Types.ToJSON..=)) (networksPreferred obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Networks where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Networks" (\obj -> (GHC.Base.pure Networks GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preferred"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Networks" (\obj -> (GHC.Base.pure Networks GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred"))
 
 -- | Create a new 'Networks' with all required fields.
 mkNetworks ::

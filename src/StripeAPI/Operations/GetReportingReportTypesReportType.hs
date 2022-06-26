@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -95,11 +97,11 @@ data GetReportingReportTypesReportTypeParameters = GetReportingReportTypesReport
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportTypesReportTypeParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathReport_type" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersPathReportType obj : "queryExpand" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathReport_type" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersPathReportType obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathReport_type" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersPathReportType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getReportingReportTypesReportTypeParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathReport_type" Data.Aeson.Types.ToJSON..= getReportingReportTypesReportTypeParametersPathReportType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getReportingReportTypesReportTypeParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportTypesReportTypeParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportTypesReportTypeParameters" (\obj -> (GHC.Base.pure GetReportingReportTypesReportTypeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathReport_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportTypesReportTypeParameters" (\obj -> (GHC.Base.pure GetReportingReportTypesReportTypeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathReport_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetReportingReportTypesReportTypeParameters' with all required fields.
 mkGetReportingReportTypesReportTypeParameters ::

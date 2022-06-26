@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -41,8 +43,8 @@ data VerificationSessionRedaction = VerificationSessionRedaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON VerificationSessionRedaction where
-  toJSON obj = Data.Aeson.Types.Internal.object ("status" Data.Aeson.Types.ToJSON..= verificationSessionRedactionStatus obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("status" Data.Aeson.Types.ToJSON..= verificationSessionRedactionStatus obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["status" Data.Aeson.Types.ToJSON..= verificationSessionRedactionStatus obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["status" Data.Aeson.Types.ToJSON..= verificationSessionRedactionStatus obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON VerificationSessionRedaction where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "VerificationSessionRedaction" (\obj -> GHC.Base.pure VerificationSessionRedaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))

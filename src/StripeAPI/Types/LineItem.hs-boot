@@ -1,81 +1,97 @@
 module StripeAPI.Types.LineItem where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data LineItem
 instance Show LineItem
 instance Eq LineItem
 instance FromJSON LineItem
 instance ToJSON LineItem
-data LineItemDiscounts'Variants
-instance Show LineItemDiscounts'Variants
-instance Eq LineItemDiscounts'Variants
-instance FromJSON LineItemDiscounts'Variants
-instance ToJSON LineItemDiscounts'Variants
-data LineItemPrice'
-instance Show LineItemPrice'
-instance Eq LineItemPrice'
-instance FromJSON LineItemPrice'
-instance ToJSON LineItemPrice'
-data LineItemPrice'BillingScheme'
-instance Show LineItemPrice'BillingScheme'
-instance Eq LineItemPrice'BillingScheme'
-instance FromJSON LineItemPrice'BillingScheme'
-instance ToJSON LineItemPrice'BillingScheme'
-data LineItemPrice'Object'
-instance Show LineItemPrice'Object'
-instance Eq LineItemPrice'Object'
-instance FromJSON LineItemPrice'Object'
-instance ToJSON LineItemPrice'Object'
-data LineItemPrice'Product'Variants
-instance Show LineItemPrice'Product'Variants
-instance Eq LineItemPrice'Product'Variants
-instance FromJSON LineItemPrice'Product'Variants
-instance ToJSON LineItemPrice'Product'Variants
-data LineItemPrice'Recurring'
-instance Show LineItemPrice'Recurring'
-instance Eq LineItemPrice'Recurring'
-instance FromJSON LineItemPrice'Recurring'
-instance ToJSON LineItemPrice'Recurring'
-data LineItemPrice'Recurring'AggregateUsage'
-instance Show LineItemPrice'Recurring'AggregateUsage'
-instance Eq LineItemPrice'Recurring'AggregateUsage'
-instance FromJSON LineItemPrice'Recurring'AggregateUsage'
-instance ToJSON LineItemPrice'Recurring'AggregateUsage'
-data LineItemPrice'Recurring'Interval'
-instance Show LineItemPrice'Recurring'Interval'
-instance Eq LineItemPrice'Recurring'Interval'
-instance FromJSON LineItemPrice'Recurring'Interval'
-instance ToJSON LineItemPrice'Recurring'Interval'
-data LineItemPrice'Recurring'UsageType'
-instance Show LineItemPrice'Recurring'UsageType'
-instance Eq LineItemPrice'Recurring'UsageType'
-instance FromJSON LineItemPrice'Recurring'UsageType'
-instance ToJSON LineItemPrice'Recurring'UsageType'
-data LineItemPrice'TaxBehavior'
-instance Show LineItemPrice'TaxBehavior'
-instance Eq LineItemPrice'TaxBehavior'
-instance FromJSON LineItemPrice'TaxBehavior'
-instance ToJSON LineItemPrice'TaxBehavior'
-data LineItemPrice'TiersMode'
-instance Show LineItemPrice'TiersMode'
-instance Eq LineItemPrice'TiersMode'
-instance FromJSON LineItemPrice'TiersMode'
-instance ToJSON LineItemPrice'TiersMode'
-data LineItemPrice'TransformQuantity'
-instance Show LineItemPrice'TransformQuantity'
-instance Eq LineItemPrice'TransformQuantity'
-instance FromJSON LineItemPrice'TransformQuantity'
-instance ToJSON LineItemPrice'TransformQuantity'
-data LineItemPrice'TransformQuantity'Round'
-instance Show LineItemPrice'TransformQuantity'Round'
-instance Eq LineItemPrice'TransformQuantity'Round'
-instance FromJSON LineItemPrice'TransformQuantity'Round'
-instance ToJSON LineItemPrice'TransformQuantity'Round'
-data LineItemPrice'Type'
-instance Show LineItemPrice'Type'
-instance Eq LineItemPrice'Type'
-instance FromJSON LineItemPrice'Type'
-instance ToJSON LineItemPrice'Type'
+data LineItemDiscounts'NonNullableVariants
+instance Show LineItemDiscounts'NonNullableVariants
+instance Eq LineItemDiscounts'NonNullableVariants
+instance FromJSON LineItemDiscounts'NonNullableVariants
+instance ToJSON LineItemDiscounts'NonNullableVariants
+data LineItemPrice'NonNullable
+instance Show LineItemPrice'NonNullable
+instance Eq LineItemPrice'NonNullable
+instance FromJSON LineItemPrice'NonNullable
+instance ToJSON LineItemPrice'NonNullable
+data LineItemPrice'NonNullableBillingScheme'
+instance Show LineItemPrice'NonNullableBillingScheme'
+instance Eq LineItemPrice'NonNullableBillingScheme'
+instance FromJSON LineItemPrice'NonNullableBillingScheme'
+instance ToJSON LineItemPrice'NonNullableBillingScheme'
+data LineItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance Show LineItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance Eq LineItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance FromJSON LineItemPrice'NonNullableCustomUnitAmount'NonNullable
+instance ToJSON LineItemPrice'NonNullableCustomUnitAmount'NonNullable
+data LineItemPrice'NonNullableObject'
+instance Show LineItemPrice'NonNullableObject'
+instance Eq LineItemPrice'NonNullableObject'
+instance FromJSON LineItemPrice'NonNullableObject'
+instance ToJSON LineItemPrice'NonNullableObject'
+data LineItemPrice'NonNullableProduct'Variants
+instance Show LineItemPrice'NonNullableProduct'Variants
+instance Eq LineItemPrice'NonNullableProduct'Variants
+instance FromJSON LineItemPrice'NonNullableProduct'Variants
+instance ToJSON LineItemPrice'NonNullableProduct'Variants
+data LineItemPrice'NonNullableRecurring'NonNullable
+instance Show LineItemPrice'NonNullableRecurring'NonNullable
+instance Eq LineItemPrice'NonNullableRecurring'NonNullable
+instance FromJSON LineItemPrice'NonNullableRecurring'NonNullable
+instance ToJSON LineItemPrice'NonNullableRecurring'NonNullable
+data LineItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance Show LineItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance Eq LineItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance FromJSON LineItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+instance ToJSON LineItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
+data LineItemPrice'NonNullableRecurring'NonNullableInterval'
+instance Show LineItemPrice'NonNullableRecurring'NonNullableInterval'
+instance Eq LineItemPrice'NonNullableRecurring'NonNullableInterval'
+instance FromJSON LineItemPrice'NonNullableRecurring'NonNullableInterval'
+instance ToJSON LineItemPrice'NonNullableRecurring'NonNullableInterval'
+data LineItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance Show LineItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance Eq LineItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance FromJSON LineItemPrice'NonNullableRecurring'NonNullableUsageType'
+instance ToJSON LineItemPrice'NonNullableRecurring'NonNullableUsageType'
+data LineItemPrice'NonNullableTaxBehavior'NonNullable
+instance Show LineItemPrice'NonNullableTaxBehavior'NonNullable
+instance Eq LineItemPrice'NonNullableTaxBehavior'NonNullable
+instance FromJSON LineItemPrice'NonNullableTaxBehavior'NonNullable
+instance ToJSON LineItemPrice'NonNullableTaxBehavior'NonNullable
+data LineItemPrice'NonNullableTiersMode'NonNullable
+instance Show LineItemPrice'NonNullableTiersMode'NonNullable
+instance Eq LineItemPrice'NonNullableTiersMode'NonNullable
+instance FromJSON LineItemPrice'NonNullableTiersMode'NonNullable
+instance ToJSON LineItemPrice'NonNullableTiersMode'NonNullable
+data LineItemPrice'NonNullableTransformQuantity'NonNullable
+instance Show LineItemPrice'NonNullableTransformQuantity'NonNullable
+instance Eq LineItemPrice'NonNullableTransformQuantity'NonNullable
+instance FromJSON LineItemPrice'NonNullableTransformQuantity'NonNullable
+instance ToJSON LineItemPrice'NonNullableTransformQuantity'NonNullable
+data LineItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance Show LineItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance Eq LineItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance FromJSON LineItemPrice'NonNullableTransformQuantity'NonNullableRound'
+instance ToJSON LineItemPrice'NonNullableTransformQuantity'NonNullableRound'
+data LineItemPrice'NonNullableType'
+instance Show LineItemPrice'NonNullableType'
+instance Eq LineItemPrice'NonNullableType'
+instance FromJSON LineItemPrice'NonNullableType'
+instance ToJSON LineItemPrice'NonNullableType'
+data LineItemProrationDetails'NonNullable
+instance Show LineItemProrationDetails'NonNullable
+instance Eq LineItemProrationDetails'NonNullable
+instance FromJSON LineItemProrationDetails'NonNullable
+instance ToJSON LineItemProrationDetails'NonNullable
+data LineItemProrationDetails'NonNullableCreditedItems'NonNullable
+instance Show LineItemProrationDetails'NonNullableCreditedItems'NonNullable
+instance Eq LineItemProrationDetails'NonNullableCreditedItems'NonNullable
+instance FromJSON LineItemProrationDetails'NonNullableCreditedItems'NonNullable
+instance ToJSON LineItemProrationDetails'NonNullableCreditedItems'NonNullable
 data LineItemType'
 instance Show LineItemType'
 instance Eq LineItemType'

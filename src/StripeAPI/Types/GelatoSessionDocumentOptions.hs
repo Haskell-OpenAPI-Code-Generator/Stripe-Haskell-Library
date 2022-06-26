@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,11 +49,11 @@ data GelatoSessionDocumentOptions = GelatoSessionDocumentOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoSessionDocumentOptions where
-  toJSON obj = Data.Aeson.Types.Internal.object ("allowed_types" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsAllowedTypes obj : "require_id_number" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsRequireIdNumber obj : "require_live_capture" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsRequireLiveCapture obj : "require_matching_selfie" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsRequireMatchingSelfie obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("allowed_types" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsAllowedTypes obj) GHC.Base.<> (("require_id_number" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsRequireIdNumber obj) GHC.Base.<> (("require_live_capture" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsRequireLiveCapture obj) GHC.Base.<> ("require_matching_selfie" Data.Aeson.Types.ToJSON..= gelatoSessionDocumentOptionsRequireMatchingSelfie obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_types" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsAllowedTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_id_number" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsRequireIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_live_capture" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsRequireLiveCapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_matching_selfie" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsRequireMatchingSelfie obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_types" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsAllowedTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_id_number" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsRequireIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_live_capture" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsRequireLiveCapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_matching_selfie" Data.Aeson.Types.ToJSON..=)) (gelatoSessionDocumentOptionsRequireMatchingSelfie obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoSessionDocumentOptions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoSessionDocumentOptions" (\obj -> (((GHC.Base.pure GelatoSessionDocumentOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "allowed_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "require_id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "require_live_capture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "require_matching_selfie"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoSessionDocumentOptions" (\obj -> (((GHC.Base.pure GelatoSessionDocumentOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allowed_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_live_capture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_matching_selfie"))
 
 -- | Create a new 'GelatoSessionDocumentOptions' with all required fields.
 mkGelatoSessionDocumentOptions :: GelatoSessionDocumentOptions

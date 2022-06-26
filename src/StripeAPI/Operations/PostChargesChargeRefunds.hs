@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -90,6 +92,8 @@ data PostChargesChargeRefundsRequestBody = PostChargesChargeRefundsRequestBody
     postChargesChargeRefundsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | expand: Specifies which fields in the response should be expanded.
     postChargesChargeRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | instructions_email
+    postChargesChargeRefundsRequestBodyInstructionsEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postChargesChargeRefundsRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesChargeRefundsRequestBodyMetadata'Variants),
     -- | payment_intent
@@ -115,11 +119,11 @@ data PostChargesChargeRefundsRequestBody = PostChargesChargeRefundsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRefundsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyAmount obj : "expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyMetadata obj : "payment_intent" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyPaymentIntent obj : "reason" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReason obj : "refund_application_fee" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyRefundApplicationFee obj : "reverse_transfer" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReverseTransfer obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyMetadata obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyPaymentIntent obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReason obj) GHC.Base.<> (("refund_application_fee" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyRefundApplicationFee obj) GHC.Base.<> ("reverse_transfer" Data.Aeson.Types.ToJSON..= postChargesChargeRefundsRequestBodyReverseTransfer obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instructions_email" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyInstructionsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_application_fee" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyRefundApplicationFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reverse_transfer" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyReverseTransfer obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instructions_email" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyInstructionsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_application_fee" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyRefundApplicationFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reverse_transfer" Data.Aeson.Types.ToJSON..=)) (postChargesChargeRefundsRequestBodyReverseTransfer obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRequestBody" (\obj -> ((((((GHC.Base.pure PostChargesChargeRefundsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reverse_transfer"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeRefundsRequestBody" (\obj -> (((((((GHC.Base.pure PostChargesChargeRefundsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "instructions_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refund_application_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reverse_transfer"))
 
 -- | Create a new 'PostChargesChargeRefundsRequestBody' with all required fields.
 mkPostChargesChargeRefundsRequestBody :: PostChargesChargeRefundsRequestBody
@@ -127,6 +131,7 @@ mkPostChargesChargeRefundsRequestBody =
   PostChargesChargeRefundsRequestBody
     { postChargesChargeRefundsRequestBodyAmount = GHC.Maybe.Nothing,
       postChargesChargeRefundsRequestBodyExpand = GHC.Maybe.Nothing,
+      postChargesChargeRefundsRequestBodyInstructionsEmail = GHC.Maybe.Nothing,
       postChargesChargeRefundsRequestBodyMetadata = GHC.Maybe.Nothing,
       postChargesChargeRefundsRequestBodyPaymentIntent = GHC.Maybe.Nothing,
       postChargesChargeRefundsRequestBodyReason = GHC.Maybe.Nothing,

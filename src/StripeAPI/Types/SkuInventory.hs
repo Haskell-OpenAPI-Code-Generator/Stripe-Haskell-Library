@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,7 +35,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.sku_inventory@ in the specification.
 data SkuInventory = SkuInventory
   { -- | quantity: The count of inventory available. Will be present if and only if \`type\` is \`finite\`.
-    skuInventoryQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+    skuInventoryQuantity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | type: Inventory type. Possible values are \`finite\`, \`bucket\` (not quantified), and \`infinite\`.
     --
     -- Constraints:
@@ -45,7 +47,7 @@ data SkuInventory = SkuInventory
     -- Constraints:
     --
     -- * Maximum length of 5000
-    skuInventoryValue :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    skuInventoryValue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -53,11 +55,11 @@ data SkuInventory = SkuInventory
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SkuInventory where
-  toJSON obj = Data.Aeson.Types.Internal.object ("quantity" Data.Aeson.Types.ToJSON..= skuInventoryQuantity obj : "type" Data.Aeson.Types.ToJSON..= skuInventoryType obj : "value" Data.Aeson.Types.ToJSON..= skuInventoryValue obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("quantity" Data.Aeson.Types.ToJSON..= skuInventoryQuantity obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= skuInventoryType obj) GHC.Base.<> ("value" Data.Aeson.Types.ToJSON..= skuInventoryValue obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (skuInventoryQuantity obj) : ["type" Data.Aeson.Types.ToJSON..= skuInventoryType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("value" Data.Aeson.Types.ToJSON..=)) (skuInventoryValue obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (skuInventoryQuantity obj) : ["type" Data.Aeson.Types.ToJSON..= skuInventoryType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("value" Data.Aeson.Types.ToJSON..=)) (skuInventoryValue obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SkuInventory where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SkuInventory" (\obj -> ((GHC.Base.pure SkuInventory GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "value"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SkuInventory" (\obj -> ((GHC.Base.pure SkuInventory GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "value"))
 
 -- | Create a new 'SkuInventory' with all required fields.
 mkSkuInventory ::

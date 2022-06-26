@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,7 +35,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.subscription_item_billing_thresholds@ in the specification.
 data SubscriptionItemBillingThresholds = SubscriptionItemBillingThresholds
   { -- | usage_gte: Usage threshold that triggers the subscription to create an invoice
-    subscriptionItemBillingThresholdsUsageGte :: (GHC.Maybe.Maybe GHC.Types.Int)
+    subscriptionItemBillingThresholdsUsageGte :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -41,11 +43,11 @@ data SubscriptionItemBillingThresholds = SubscriptionItemBillingThresholds
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItemBillingThresholds where
-  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholdsUsageGte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholdsUsageGte obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage_gte" Data.Aeson.Types.ToJSON..=)) (subscriptionItemBillingThresholdsUsageGte obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage_gte" Data.Aeson.Types.ToJSON..=)) (subscriptionItemBillingThresholdsUsageGte obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItemBillingThresholds where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItemBillingThresholds" (\obj -> GHC.Base.pure SubscriptionItemBillingThresholds GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_gte"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItemBillingThresholds" (\obj -> GHC.Base.pure SubscriptionItemBillingThresholds GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage_gte"))
 
 -- | Create a new 'SubscriptionItemBillingThresholds' with all required fields.
 mkSubscriptionItemBillingThresholds :: SubscriptionItemBillingThresholds

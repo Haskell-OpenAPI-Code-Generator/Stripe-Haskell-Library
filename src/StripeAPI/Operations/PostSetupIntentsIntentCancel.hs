@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -103,11 +105,11 @@ data PostSetupIntentsIntentCancelRequestBody = PostSetupIntentsIntentCancelReque
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentCancelRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("cancellation_reason" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyCancellationReason obj : "expand" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("cancellation_reason" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyCancellationReason obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postSetupIntentsIntentCancelRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsIntentCancelRequestBodyCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsIntentCancelRequestBodyExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsIntentCancelRequestBodyCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsIntentCancelRequestBodyExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentCancelRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsIntentCancelRequestBody" (\obj -> (GHC.Base.pure PostSetupIntentsIntentCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsIntentCancelRequestBody" (\obj -> (GHC.Base.pure PostSetupIntentsIntentCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand"))
 
 -- | Create a new 'PostSetupIntentsIntentCancelRequestBody' with all required fields.
 mkPostSetupIntentsIntentCancelRequestBody :: PostSetupIntentsIntentCancelRequestBody

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -83,13 +85,13 @@ postRecipients body =
 
 -- | Defines the object schema located at @paths.\/v1\/recipients.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostRecipientsRequestBody = PostRecipientsRequestBody
-  { -- | bank_account: A bank account to attach to the recipient. You can provide either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe-js), or a dictionary containing a user\'s bank account details, with the options described below.
+  { -- | bank_account: A bank account to attach to the recipient. You can provide either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/js), or a dictionary containing a user\'s bank account details, with the options described below.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postRecipientsRequestBodyBankAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | card: A U.S. Visa or MasterCard debit card (_not_ prepaid) to attach to the recipient. If the debit card is not valid, recipient creation will fail. You can provide either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe-js), or a dictionary containing a user\'s debit card details, with the options described below. Although not all information is required, the extra info helps prevent fraud.
+    -- | card: A U.S. Visa or MasterCard debit card (_not_ prepaid) to attach to the recipient. If the debit card is not valid, recipient creation will fail. You can provide either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/js), or a dictionary containing a user\'s debit card details, with the options described below. Although not all information is required, the extra info helps prevent fraud.
     --
     -- Constraints:
     --
@@ -136,11 +138,11 @@ data PostRecipientsRequestBody = PostRecipientsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostRecipientsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_account" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyBankAccount obj : "card" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyCard obj : "description" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyDescription obj : "email" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyEmail obj : "expand" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyName obj : "tax_id" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyTaxId obj : "type" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_account" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyBankAccount obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyCard obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyDescription obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyEmail obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyMetadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyName obj) GHC.Base.<> (("tax_id" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyTaxId obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyType obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyMetadata obj) : ["name" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyTaxId obj) : ["type" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyMetadata obj) : ["name" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id" Data.Aeson.Types.ToJSON..=)) (postRecipientsRequestBodyTaxId obj) : ["type" Data.Aeson.Types.ToJSON..= postRecipientsRequestBodyType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostRecipientsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRecipientsRequestBody" (\obj -> ((((((((GHC.Base.pure PostRecipientsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRecipientsRequestBody" (\obj -> ((((((((GHC.Base.pure PostRecipientsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'PostRecipientsRequestBody' with all required fields.
 mkPostRecipientsRequestBody ::

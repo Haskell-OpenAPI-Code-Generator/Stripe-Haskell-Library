@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -103,11 +105,11 @@ data PostAccountsAccountRejectRequestBody = PostAccountsAccountRejectRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountRejectRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyExpand obj : "reason" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyReason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyExpand obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyReason obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountRejectRequestBodyExpand obj) : ["reason" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyReason obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountRejectRequestBodyExpand obj) : ["reason" Data.Aeson.Types.ToJSON..= postAccountsAccountRejectRequestBodyReason obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountRejectRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRejectRequestBody" (\obj -> (GHC.Base.pure PostAccountsAccountRejectRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountRejectRequestBody" (\obj -> (GHC.Base.pure PostAccountsAccountRejectRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason"))
 
 -- | Create a new 'PostAccountsAccountRejectRequestBody' with all required fields.
 mkPostAccountsAccountRejectRequestBody ::

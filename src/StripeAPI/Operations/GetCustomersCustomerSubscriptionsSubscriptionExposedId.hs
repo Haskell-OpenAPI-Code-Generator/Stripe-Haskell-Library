@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,11 +107,11 @@ data GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters = GetCusto
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj : "pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) GHC.Base.<> (("pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj] : ["pathSubscription_exposed_id" Data.Aeson.Types.ToJSON..= getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters" (\obj -> ((GHC.Base.pure GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSubscription_exposed_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters' with all required fields.
 mkGetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters ::

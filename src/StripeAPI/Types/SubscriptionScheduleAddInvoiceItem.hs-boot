@@ -1,6 +1,7 @@
 module StripeAPI.Types.SubscriptionScheduleAddInvoiceItem where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data SubscriptionScheduleAddInvoiceItem
 instance Show SubscriptionScheduleAddInvoiceItem
 instance Eq SubscriptionScheduleAddInvoiceItem

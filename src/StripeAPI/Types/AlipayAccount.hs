@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,7 +39,7 @@ data AlipayAccount = AlipayAccount
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     alipayAccountCreated :: GHC.Types.Int,
     -- | customer: The ID of the customer associated with this Alipay Account.
-    alipayAccountCustomer :: (GHC.Maybe.Maybe AlipayAccountCustomer'Variants),
+    alipayAccountCustomer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable AlipayAccountCustomer'NonNullableVariants)),
     -- | fingerprint: Uniquely identifies the account and will be the same across all Alipay account objects that are linked to the same Alipay account.
     --
     -- Constraints:
@@ -55,9 +57,9 @@ data AlipayAccount = AlipayAccount
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     alipayAccountMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | payment_amount: If the Alipay account object is not reusable, the exact amount that you can create a charge for.
-    alipayAccountPaymentAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    alipayAccountPaymentAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | payment_currency: If the Alipay account object is not reusable, the exact currency that you can create a charge for.
-    alipayAccountPaymentCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    alipayAccountPaymentCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | reusable: True if you can create multiple payments using this account. If the account is reusable, then you can freely choose the amount of each payment.
     alipayAccountReusable :: GHC.Types.Bool,
     -- | used: Whether this Alipay account object has ever been used for a payment.
@@ -75,11 +77,11 @@ data AlipayAccount = AlipayAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AlipayAccount where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= alipayAccountCreated obj : "customer" Data.Aeson.Types.ToJSON..= alipayAccountCustomer obj : "fingerprint" Data.Aeson.Types.ToJSON..= alipayAccountFingerprint obj : "id" Data.Aeson.Types.ToJSON..= alipayAccountId obj : "livemode" Data.Aeson.Types.ToJSON..= alipayAccountLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= alipayAccountMetadata obj : "payment_amount" Data.Aeson.Types.ToJSON..= alipayAccountPaymentAmount obj : "payment_currency" Data.Aeson.Types.ToJSON..= alipayAccountPaymentCurrency obj : "reusable" Data.Aeson.Types.ToJSON..= alipayAccountReusable obj : "used" Data.Aeson.Types.ToJSON..= alipayAccountUsed obj : "username" Data.Aeson.Types.ToJSON..= alipayAccountUsername obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= alipayAccountCreated obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= alipayAccountCustomer obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= alipayAccountFingerprint obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= alipayAccountId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= alipayAccountLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= alipayAccountMetadata obj) GHC.Base.<> (("payment_amount" Data.Aeson.Types.ToJSON..= alipayAccountPaymentAmount obj) GHC.Base.<> (("payment_currency" Data.Aeson.Types.ToJSON..= alipayAccountPaymentCurrency obj) GHC.Base.<> (("reusable" Data.Aeson.Types.ToJSON..= alipayAccountReusable obj) GHC.Base.<> (("used" Data.Aeson.Types.ToJSON..= alipayAccountUsed obj) GHC.Base.<> (("username" Data.Aeson.Types.ToJSON..= alipayAccountUsername obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account"))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= alipayAccountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (alipayAccountCustomer obj) : ["fingerprint" Data.Aeson.Types.ToJSON..= alipayAccountFingerprint obj] : ["id" Data.Aeson.Types.ToJSON..= alipayAccountId obj] : ["livemode" Data.Aeson.Types.ToJSON..= alipayAccountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (alipayAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_amount" Data.Aeson.Types.ToJSON..=)) (alipayAccountPaymentAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_currency" Data.Aeson.Types.ToJSON..=)) (alipayAccountPaymentCurrency obj) : ["reusable" Data.Aeson.Types.ToJSON..= alipayAccountReusable obj] : ["used" Data.Aeson.Types.ToJSON..= alipayAccountUsed obj] : ["username" Data.Aeson.Types.ToJSON..= alipayAccountUsername obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= alipayAccountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (alipayAccountCustomer obj) : ["fingerprint" Data.Aeson.Types.ToJSON..= alipayAccountFingerprint obj] : ["id" Data.Aeson.Types.ToJSON..= alipayAccountId obj] : ["livemode" Data.Aeson.Types.ToJSON..= alipayAccountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (alipayAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_amount" Data.Aeson.Types.ToJSON..=)) (alipayAccountPaymentAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_currency" Data.Aeson.Types.ToJSON..=)) (alipayAccountPaymentCurrency obj) : ["reusable" Data.Aeson.Types.ToJSON..= alipayAccountReusable obj] : ["used" Data.Aeson.Types.ToJSON..= alipayAccountUsed obj] : ["username" Data.Aeson.Types.ToJSON..= alipayAccountUsername obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "alipay_account"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AlipayAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AlipayAccount" (\obj -> ((((((((((GHC.Base.pure AlipayAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reusable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "used")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "username"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AlipayAccount" (\obj -> ((((((((((GHC.Base.pure AlipayAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reusable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "used")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "username"))
 
 -- | Create a new 'AlipayAccount' with all required fields.
 mkAlipayAccount ::
@@ -116,18 +118,18 @@ mkAlipayAccount alipayAccountCreated alipayAccountFingerprint alipayAccountId al
 -- | Defines the oneOf schema located at @components.schemas.alipay_account.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer associated with this Alipay Account.
-data AlipayAccountCustomer'Variants
-  = AlipayAccountCustomer'Text Data.Text.Internal.Text
-  | AlipayAccountCustomer'Customer Customer
-  | AlipayAccountCustomer'DeletedCustomer DeletedCustomer
+data AlipayAccountCustomer'NonNullableVariants
+  = AlipayAccountCustomer'NonNullableText Data.Text.Internal.Text
+  | AlipayAccountCustomer'NonNullableCustomer Customer
+  | AlipayAccountCustomer'NonNullableDeletedCustomer DeletedCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON AlipayAccountCustomer'Variants where
-  toJSON (AlipayAccountCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (AlipayAccountCustomer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (AlipayAccountCustomer'DeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON AlipayAccountCustomer'NonNullableVariants where
+  toJSON (AlipayAccountCustomer'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (AlipayAccountCustomer'NonNullableCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (AlipayAccountCustomer'NonNullableDeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON AlipayAccountCustomer'Variants where
-  parseJSON val = case (AlipayAccountCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((AlipayAccountCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((AlipayAccountCustomer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+instance Data.Aeson.Types.FromJSON.FromJSON AlipayAccountCustomer'NonNullableVariants where
+  parseJSON val = case (AlipayAccountCustomer'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((AlipayAccountCustomer'NonNullableCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((AlipayAccountCustomer'NonNullableDeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

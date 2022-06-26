@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,25 +39,25 @@ data PaymentMethodDetailsAchCreditTransfer = PaymentMethodDetailsAchCreditTransf
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_name: Name of the bank associated with the routing number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchCreditTransferBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAchCreditTransferBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | routing_number: Routing transit number for the bank account to transfer funds to.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | swift_code: SWIFT code of the bank associated with the routing number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -63,11 +65,11 @@ data PaymentMethodDetailsAchCreditTransfer = PaymentMethodDetailsAchCreditTransf
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAchCreditTransfer where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferAccountNumber obj : "bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferBankName obj : "routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferRoutingNumber obj : "swift_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferSwiftCode obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferAccountNumber obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferBankName obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferRoutingNumber obj) GHC.Base.<> ("swift_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAchCreditTransferSwiftCode obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferAccountNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferRoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("swift_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferSwiftCode obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferAccountNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferRoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("swift_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAchCreditTransferSwiftCode obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchCreditTransfer where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAchCreditTransfer" (\obj -> (((GHC.Base.pure PaymentMethodDetailsAchCreditTransfer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "swift_code"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAchCreditTransfer" (\obj -> (((GHC.Base.pure PaymentMethodDetailsAchCreditTransfer GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "swift_code"))
 
 -- | Create a new 'PaymentMethodDetailsAchCreditTransfer' with all required fields.
 mkPaymentMethodDetailsAchCreditTransfer :: PaymentMethodDetailsAchCreditTransfer

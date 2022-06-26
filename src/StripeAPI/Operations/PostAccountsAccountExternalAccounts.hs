@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -86,7 +88,7 @@ postAccountsAccountExternalAccounts
 
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/external_accounts.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountsAccountExternalAccountsRequestBody = PostAccountsAccountExternalAccountsRequestBody
-  { -- | bank_account: Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js), or a dictionary containing a user\'s bank account details.
+  { -- | bank_account: Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/js), or a dictionary containing a user\'s bank account details.
     postAccountsAccountExternalAccountsRequestBodyBankAccount :: (GHC.Maybe.Maybe PostAccountsAccountExternalAccountsRequestBodyBankAccount'Variants),
     -- | default_for_currency: When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
     postAccountsAccountExternalAccountsRequestBodyDefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool),
@@ -107,11 +109,11 @@ data PostAccountsAccountExternalAccountsRequestBody = PostAccountsAccountExterna
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountExternalAccountsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_account" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount obj : "default_for_currency" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyDefaultForCurrency obj : "expand" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyExpand obj : "external_account" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyExternalAccount obj : "metadata" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_account" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyDefaultForCurrency obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyExpand obj) GHC.Base.<> (("external_account" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyExternalAccount obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyMetadata obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("external_account" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyExternalAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("external_account" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyExternalAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountExternalAccountsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountExternalAccountsRequestBody" (\obj -> ((((GHC.Base.pure PostAccountsAccountExternalAccountsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "external_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountExternalAccountsRequestBody" (\obj -> ((((GHC.Base.pure PostAccountsAccountExternalAccountsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "external_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostAccountsAccountExternalAccountsRequestBody' with all required fields.
 mkPostAccountsAccountExternalAccountsRequestBody :: PostAccountsAccountExternalAccountsRequestBody
@@ -144,6 +146,12 @@ data PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 = PostAcco
     --
     -- * Maximum length of 5000
     postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountNumber :: Data.Text.Internal.Text,
+    -- | account_type
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType :: (GHC.Maybe.Maybe PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'),
     -- | country
     --
     -- Constraints:
@@ -171,11 +179,11 @@ data PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 = PostAcco
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_name" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderType obj : "account_number" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountNumber obj : "country" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Country obj : "currency" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Currency obj : "object" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Object obj : "routing_number" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1RoutingNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_name" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderType obj) GHC.Base.<> (("account_number" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountNumber obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Country obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Currency obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Object obj) GHC.Base.<> ("routing_number" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1RoutingNumber obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderType obj) : ["account_number" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType obj) : ["country" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Country obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1RoutingNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderType obj) : ["account_number" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType obj) : ["country" Data.Aeson.Types.ToJSON..= postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Country obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1RoutingNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1" (\obj -> ((((((GHC.Base.pure PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1" (\obj -> (((((((GHC.Base.pure PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number"))
 
 -- | Create a new 'PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1' with all required fields.
 mkPostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 ::
@@ -189,6 +197,7 @@ mkPostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 postAccountsA
     { postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderName = GHC.Maybe.Nothing,
       postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderType = GHC.Maybe.Nothing,
       postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountNumber = postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountNumber,
+      postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType = GHC.Maybe.Nothing,
       postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Country = postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Country,
       postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Currency = GHC.Maybe.Nothing,
       postAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Object = GHC.Maybe.Nothing,
@@ -222,6 +231,41 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountExternalAccountsR
             | GHC.Base.otherwise -> PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountHolderType'Other val
       )
 
+-- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}\/external_accounts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf.properties.account_type@ in the specification.
+data PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"checking"@
+    PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumChecking
+  | -- | Represents the JSON value @"futsu"@
+    PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumFutsu
+  | -- | Represents the JSON value @"savings"@
+    PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumSavings
+  | -- | Represents the JSON value @"toza"@
+    PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumToza
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType' where
+  toJSON (PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'Other val) = val
+  toJSON (PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumChecking) = "checking"
+  toJSON (PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumFutsu) = "futsu"
+  toJSON (PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumSavings) = "savings"
+  toJSON (PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumToza) = "toza"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "checking" -> PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumChecking
+            | val GHC.Classes.== "futsu" -> PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumFutsu
+            | val GHC.Classes.== "savings" -> PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumSavings
+            | val GHC.Classes.== "toza" -> PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'EnumToza
+            | GHC.Base.otherwise -> PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1AccountType'Other val
+      )
+
 -- | Defines the enum schema located at @paths.\/v1\/accounts\/{account}\/external_accounts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf.properties.object@ in the specification.
 data PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1Object'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
@@ -247,7 +291,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountExternalAccountsR
 
 -- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}\/external_accounts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf@ in the specification.
 --
--- Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js), or a dictionary containing a user\'s bank account details.
+-- Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/js), or a dictionary containing a user\'s bank account details.
 data PostAccountsAccountExternalAccountsRequestBodyBankAccount'Variants
   = PostAccountsAccountExternalAccountsRequestBodyBankAccount'PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1 PostAccountsAccountExternalAccountsRequestBodyBankAccount'OneOf1
   | PostAccountsAccountExternalAccountsRequestBodyBankAccount'Text Data.Text.Internal.Text

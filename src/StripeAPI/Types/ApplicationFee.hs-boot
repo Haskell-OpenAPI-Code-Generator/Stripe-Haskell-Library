@@ -1,6 +1,7 @@
 module StripeAPI.Types.ApplicationFee where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data ApplicationFee
 instance Show ApplicationFee
 instance Eq ApplicationFee
@@ -16,21 +17,21 @@ instance Show ApplicationFeeApplication'Variants
 instance Eq ApplicationFeeApplication'Variants
 instance FromJSON ApplicationFeeApplication'Variants
 instance ToJSON ApplicationFeeApplication'Variants
-data ApplicationFeeBalanceTransaction'Variants
-instance Show ApplicationFeeBalanceTransaction'Variants
-instance Eq ApplicationFeeBalanceTransaction'Variants
-instance FromJSON ApplicationFeeBalanceTransaction'Variants
-instance ToJSON ApplicationFeeBalanceTransaction'Variants
+data ApplicationFeeBalanceTransaction'NonNullableVariants
+instance Show ApplicationFeeBalanceTransaction'NonNullableVariants
+instance Eq ApplicationFeeBalanceTransaction'NonNullableVariants
+instance FromJSON ApplicationFeeBalanceTransaction'NonNullableVariants
+instance ToJSON ApplicationFeeBalanceTransaction'NonNullableVariants
 data ApplicationFeeCharge'Variants
 instance Show ApplicationFeeCharge'Variants
 instance Eq ApplicationFeeCharge'Variants
 instance FromJSON ApplicationFeeCharge'Variants
 instance ToJSON ApplicationFeeCharge'Variants
-data ApplicationFeeOriginatingTransaction'Variants
-instance Show ApplicationFeeOriginatingTransaction'Variants
-instance Eq ApplicationFeeOriginatingTransaction'Variants
-instance FromJSON ApplicationFeeOriginatingTransaction'Variants
-instance ToJSON ApplicationFeeOriginatingTransaction'Variants
+data ApplicationFeeOriginatingTransaction'NonNullableVariants
+instance Show ApplicationFeeOriginatingTransaction'NonNullableVariants
+instance Eq ApplicationFeeOriginatingTransaction'NonNullableVariants
+instance FromJSON ApplicationFeeOriginatingTransaction'NonNullableVariants
+instance ToJSON ApplicationFeeOriginatingTransaction'NonNullableVariants
 data ApplicationFeeRefunds'
 instance Show ApplicationFeeRefunds'
 instance Eq ApplicationFeeRefunds'

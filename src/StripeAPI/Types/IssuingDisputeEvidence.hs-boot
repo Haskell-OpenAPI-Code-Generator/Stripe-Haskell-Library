@@ -1,6 +1,7 @@
 module StripeAPI.Types.IssuingDisputeEvidence where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data IssuingDisputeEvidence
 instance Show IssuingDisputeEvidence
 instance Eq IssuingDisputeEvidence

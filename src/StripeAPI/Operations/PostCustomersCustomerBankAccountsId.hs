@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,8 +107,8 @@ data PostCustomersCustomerBankAccountsIdParameters = PostCustomersCustomerBankAc
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathCustomer obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdParametersPathId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdParameters" (\obj -> (GHC.Base.pure PostCustomersCustomerBankAccountsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
@@ -205,11 +207,11 @@ data PostCustomersCustomerBankAccountsIdRequestBody = PostCustomersCustomerBankA
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAccountHolderType obj : "address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressLine1 obj : "address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressZip obj : "exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyExpYear obj : "expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyName obj : "owner" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAccountHolderType obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressLine1 obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyAddressZip obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyExpYear obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyMetadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyName obj) GHC.Base.<> ("owner" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner obj))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressZip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyAddressZip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdRequestBody" (\obj -> (((((((((((((GHC.Base.pure PostCustomersCustomerBankAccountsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdRequestBody" (\obj -> (((((((((((((GHC.Base.pure PostCustomersCustomerBankAccountsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owner"))
 
 -- | Create a new 'PostCustomersCustomerBankAccountsIdRequestBody' with all required fields.
 mkPostCustomersCustomerBankAccountsIdRequestBody :: PostCustomersCustomerBankAccountsIdRequestBody
@@ -306,11 +308,11 @@ data PostCustomersCustomerBankAccountsIdRequestBodyOwner' = PostCustomersCustome
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address obj : "email" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Email obj : "name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Name obj : "phone" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Phone obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Email obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Name obj) GHC.Base.<> ("phone" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Phone obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Email obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Phone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Email obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Phone obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdRequestBodyOwner'" (\obj -> (((GHC.Base.pure PostCustomersCustomerBankAccountsIdRequestBodyOwner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdRequestBodyOwner'" (\obj -> (((GHC.Base.pure PostCustomersCustomerBankAccountsIdRequestBodyOwner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone"))
 
 -- | Create a new 'PostCustomersCustomerBankAccountsIdRequestBodyOwner'' with all required fields.
 mkPostCustomersCustomerBankAccountsIdRequestBodyOwner' :: PostCustomersCustomerBankAccountsIdRequestBodyOwner'
@@ -367,11 +369,11 @@ data PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' = PostCustomer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'State obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'State obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address'" (\obj -> (((((GHC.Base.pure PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address'" (\obj -> (((((GHC.Base.pure PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
 -- | Create a new 'PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address'' with all required fields.
 mkPostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' :: PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address'
@@ -400,19 +402,25 @@ data PostCustomersCustomerBankAccountsIdResponse
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf@ in the specification.
 data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerBankAccountsIdResponseBody200
   { -- | account: The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead.
-    postCustomersCustomerBankAccountsIdResponseBody200Account :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants),
+    postCustomersCustomerBankAccountsIdResponseBody200Account :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableVariants)),
     -- | account_holder_name: The name of the person or business that owns the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | account_type: The bank account type. This can only be \`checking\` or \`savings\` in most countries. In Japan, this can only be \`futsu\` or \`toza\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postCustomersCustomerBankAccountsIdResponseBody200AccountType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | ach_credit_transfer
     postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer :: (GHC.Maybe.Maybe SourceTypeAchCreditTransfer),
     -- | ach_debit
@@ -424,57 +432,57 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_country: Billing address country, if provided when creating card.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_line1: Address line 1 (Street address\/PO Box\/Company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_line1_check: If \`address_line1\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_line2: Address line 2 (Apartment\/Suite\/Unit\/Building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_state: State\/County\/Province\/Region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_zip: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressZip :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_zip_check: If \`address_zip\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | alipay
     postCustomersCustomerBankAccountsIdResponseBody200Alipay :: (GHC.Maybe.Maybe SourceTypeAlipay),
     -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for \`single_use\` sources.
-    postCustomersCustomerBankAccountsIdResponseBody200Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    postCustomersCustomerBankAccountsIdResponseBody200Amount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | au_becs_debit
     postCustomersCustomerBankAccountsIdResponseBody200AuBecsDebit :: (GHC.Maybe.Maybe SourceTypeAuBecsDebit),
     -- | available_payout_methods: A set of available payout methods for this card. Only values from this set should be passed as the \`method\` when creating a payout.
-    postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods :: (GHC.Maybe.Maybe ([PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'])),
+    postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullable]))),
     -- | bancontact
     postCustomersCustomerBankAccountsIdResponseBody200Bancontact :: (GHC.Maybe.Maybe SourceTypeBancontact),
     -- | bank_name: Name of the bank associated with the routing number (e.g., \`WELLS FARGO\`).
@@ -482,7 +490,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200BankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200BankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | brand: Card brand. Can be \`American Express\`, \`Diners Club\`, \`Discover\`, \`JCB\`, \`MasterCard\`, \`UnionPay\`, \`Visa\`, or \`Unknown\`.
     --
     -- Constraints:
@@ -506,27 +514,27 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Country :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     postCustomersCustomerBankAccountsIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | currency: Three-letter [ISO code for currency](https:\/\/stripe.com\/docs\/payouts). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency.
-    postCustomersCustomerBankAccountsIdResponseBody200Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Currency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | customer: The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
-    postCustomersCustomerBankAccountsIdResponseBody200Customer :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants),
+    postCustomersCustomerBankAccountsIdResponseBody200Customer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableVariants)),
     -- | cvc_check: If a CVC was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`. A result of unchecked indicates that CVC was provided but hasn\'t been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https:\/\/support.stripe.com\/questions\/check-if-a-card-is-valid-without-a-charge).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200CvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200CvcCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | default_for_currency: Whether this card is the default external account for its currency.
-    postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
     -- | dynamic_last4: (For tokenized numbers only.) The last four digits of the device account number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | eps
     postCustomersCustomerBankAccountsIdResponseBody200Eps :: (GHC.Maybe.Maybe SourceTypeEps),
     -- | exp_month: Two-digit number representing the card\'s expiration month.
@@ -540,7 +548,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Fingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Fingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | flow: The authentication \`flow\` of the source. \`flow\` is one of \`redirect\`, \`receiver\`, \`code_verification\`, \`none\`.
     --
     -- Constraints:
@@ -574,7 +582,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     postCustomersCustomerBankAccountsIdResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    postCustomersCustomerBankAccountsIdResponseBody200Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    postCustomersCustomerBankAccountsIdResponseBody200Metadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | multibanco
     postCustomersCustomerBankAccountsIdResponseBody200Multibanco :: (GHC.Maybe.Maybe SourceTypeMultibanco),
     -- | name: Cardholder name.
@@ -582,17 +590,17 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Name :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | object: String representing the object\'s type. Objects of the same type share the same value.
     postCustomersCustomerBankAccountsIdResponseBody200Object :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Object'),
     -- | owner: Information about the owner of the payment instrument that may be used or required by particular source types.
-    postCustomersCustomerBankAccountsIdResponseBody200Owner :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Owner'),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable)),
     -- | p24
     postCustomersCustomerBankAccountsIdResponseBody200P24 :: (GHC.Maybe.Maybe SourceTypeP24),
     -- | receiver:
     postCustomersCustomerBankAccountsIdResponseBody200Receiver :: (GHC.Maybe.Maybe SourceReceiverFlow),
     -- | recipient: The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
-    postCustomersCustomerBankAccountsIdResponseBody200Recipient :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants),
+    postCustomersCustomerBankAccountsIdResponseBody200Recipient :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableVariants)),
     -- | redirect:
     postCustomersCustomerBankAccountsIdResponseBody200Redirect :: (GHC.Maybe.Maybe SourceRedirectFlow),
     -- | routing_number: The routing transit number for the bank account.
@@ -600,7 +608,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | sepa_debit
     postCustomersCustomerBankAccountsIdResponseBody200SepaDebit :: (GHC.Maybe.Maybe SourceTypeSepaDebit),
     -- | sofort
@@ -612,15 +620,13 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a transfer sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send transfers until the bank details are updated.
-    --
-    -- For external accounts, possible values are \`new\` and \`errored\`. Validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
+    postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | status: For external accounts, possible values are \`new\` and \`errored\`. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Status :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Status :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | three_d_secure
     postCustomersCustomerBankAccountsIdResponseBody200ThreeDSecure :: (GHC.Maybe.Maybe SourceTypeThreeDSecure),
     -- | tokenization_method: If the card number is tokenized, this is the method that was used. Can be \`android_pay\` (includes Google Pay), \`apple_pay\`, \`masterpass\`, \`visa_checkout\`, or null.
@@ -628,7 +634,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | type: The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
     postCustomersCustomerBankAccountsIdResponseBody200Type :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Type'),
     -- | usage: Either \`reusable\` or \`single_use\`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
@@ -636,7 +642,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Usage :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Usage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | wechat
     postCustomersCustomerBankAccountsIdResponseBody200Wechat :: (GHC.Maybe.Maybe SourceTypeWechat)
   }
@@ -646,11 +652,11 @@ data PostCustomersCustomerBankAccountsIdResponseBody200 = PostCustomersCustomerB
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType obj : "ach_credit_transfer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer obj : "ach_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AchDebit obj : "acss_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AcssDebit obj : "address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 obj : "address_line1_check" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check obj : "address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressZip obj : "address_zip_check" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck obj : "alipay" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Alipay obj : "amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Amount obj : "au_becs_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AuBecsDebit obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods obj : "bancontact" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Bancontact obj : "bank_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200BankName obj : "brand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Brand obj : "card" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Card obj : "card_present" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200CardPresent obj : "client_secret" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ClientSecret obj : "code_verification" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200CodeVerification obj : "country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Country obj : "created" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Created obj : "currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Currency obj : "customer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Customer obj : "cvc_check" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200CvcCheck obj : "default_for_currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 obj : "eps" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Eps obj : "exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Fingerprint obj : "flow" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Flow obj : "funding" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Funding obj : "giropay" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Giropay obj : "id" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Id obj : "ideal" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Ideal obj : "klarna" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Klarna obj : "last4" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Last4 obj : "livemode" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Metadata obj : "multibanco" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Multibanco obj : "name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Name obj : "object" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Object obj : "owner" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner obj : "p24" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200P24 obj : "receiver" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Receiver obj : "recipient" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Recipient obj : "redirect" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Redirect obj : "routing_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber obj : "sepa_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200SepaDebit obj : "sofort" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Sofort obj : "source_order" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200SourceOrder obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Status obj : "three_d_secure" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ThreeDSecure obj : "tokenization_method" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod obj : "type" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Type obj : "usage" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Usage obj : "wechat" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Wechat obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType obj) GHC.Base.<> (("ach_credit_transfer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer obj) GHC.Base.<> (("ach_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AchDebit obj) GHC.Base.<> (("acss_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AcssDebit obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 obj) GHC.Base.<> (("address_line1_check" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressZip obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck obj) GHC.Base.<> (("alipay" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Alipay obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Amount obj) GHC.Base.<> (("au_becs_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AuBecsDebit obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods obj) GHC.Base.<> (("bancontact" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Bancontact obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200BankName obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Brand obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Card obj) GHC.Base.<> (("card_present" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200CardPresent obj) GHC.Base.<> (("client_secret" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ClientSecret obj) GHC.Base.<> (("code_verification" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200CodeVerification obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Country obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Customer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200CvcCheck obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 obj) GHC.Base.<> (("eps" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Eps obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Fingerprint obj) GHC.Base.<> (("flow" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Flow obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Funding obj) GHC.Base.<> (("giropay" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Giropay obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Id obj) GHC.Base.<> (("ideal" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Ideal obj) GHC.Base.<> (("klarna" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Klarna obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Last4 obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Metadata obj) GHC.Base.<> (("multibanco" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Multibanco obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Name obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Object obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner obj) GHC.Base.<> (("p24" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200P24 obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Receiver obj) GHC.Base.<> (("recipient" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Recipient obj) GHC.Base.<> (("redirect" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Redirect obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200SepaDebit obj) GHC.Base.<> (("sofort" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Sofort obj) GHC.Base.<> (("source_order" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200SourceOrder obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Status obj) GHC.Base.<> (("three_d_secure" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200ThreeDSecure obj) GHC.Base.<> (("tokenization_method" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Type obj) GHC.Base.<> (("usage" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Usage obj) GHC.Base.<> ("wechat" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Wechat obj))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Account obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_credit_transfer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AchDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressZip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip_check" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Amount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200BankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Brand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200CardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code_verification" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200CodeVerification obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Created obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Customer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200CvcCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Fingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Flow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Funding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Last4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("multibanco" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Multibanco obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receiver" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Receiver obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recipient" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Recipient obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Redirect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_order" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200SourceOrder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Status obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tokenization_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Type obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Usage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Wechat obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Account obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_credit_transfer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AchDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressZip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip_check" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Amount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200BankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Brand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200CardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code_verification" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200CodeVerification obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Created obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Customer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200CvcCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Fingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Flow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Funding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Last4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("multibanco" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Multibanco obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receiver" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Receiver obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recipient" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Recipient obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Redirect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_order" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200SourceOrder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Status obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200ThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tokenization_method" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Type obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Usage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Wechat obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200" (\obj -> (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200" (\obj -> ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat"))
 
 -- | Create a new 'PostCustomersCustomerBankAccountsIdResponseBody200' with all required fields.
 mkPostCustomersCustomerBankAccountsIdResponseBody200 :: PostCustomersCustomerBankAccountsIdResponseBody200
@@ -659,6 +665,7 @@ mkPostCustomersCustomerBankAccountsIdResponseBody200 =
     { postCustomersCustomerBankAccountsIdResponseBody200Account = GHC.Maybe.Nothing,
       postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName = GHC.Maybe.Nothing,
       postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200AccountType = GHC.Maybe.Nothing,
       postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer = GHC.Maybe.Nothing,
       postCustomersCustomerBankAccountsIdResponseBody200AchDebit = GHC.Maybe.Nothing,
       postCustomersCustomerBankAccountsIdResponseBody200AcssDebit = GHC.Maybe.Nothing,
@@ -725,63 +732,63 @@ mkPostCustomersCustomerBankAccountsIdResponseBody200 =
 -- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead.
-data PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants
-  = PostCustomersCustomerBankAccountsIdResponseBody200Account'Text Data.Text.Internal.Text
-  | PostCustomersCustomerBankAccountsIdResponseBody200Account'Account Account
+data PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableVariants
+  = PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableText Data.Text.Internal.Text
+  | PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableAccount Account
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants where
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Account'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableVariants where
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableAccount a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants where
-  parseJSON val = case (PostCustomersCustomerBankAccountsIdResponseBody200Account'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Account'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableVariants where
+  parseJSON val = case (PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Account'NonNullableAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf.properties.available_payout_methods.items@ in the specification.
-data PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'
+data PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'Typed Data.Text.Internal.Text
+    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"instant"@
-    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumInstant
+    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableEnumInstant
   | -- | Represents the JSON value @"standard"@
-    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStandard
+    PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableEnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods' where
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'Other val) = val
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumInstant) = "instant"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStandard) = "standard"
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullable where
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableOther val) = val
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableEnumInstant) = "instant"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableEnumStandard) = "standard"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "instant" -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumInstant
-            | val GHC.Classes.== "standard" -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStandard
-            | GHC.Base.otherwise -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'Other val
+            | val GHC.Classes.== "instant" -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableEnumInstant
+            | val GHC.Classes.== "standard" -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableEnumStandard
+            | GHC.Base.otherwise -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'NonNullableOther val
       )
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
-data PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants
-  = PostCustomersCustomerBankAccountsIdResponseBody200Customer'Text Data.Text.Internal.Text
-  | PostCustomersCustomerBankAccountsIdResponseBody200Customer'Customer Customer
-  | PostCustomersCustomerBankAccountsIdResponseBody200Customer'DeletedCustomer DeletedCustomer
+data PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableVariants
+  = PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableText Data.Text.Internal.Text
+  | PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableCustomer Customer
+  | PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableDeletedCustomer DeletedCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants where
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'DeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableVariants where
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableDeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants where
-  parseJSON val = case (PostCustomersCustomerBankAccountsIdResponseBody200Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableVariants where
+  parseJSON val = case (PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Customer'NonNullableDeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
@@ -813,218 +820,218 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdR
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf.properties.owner.anyOf@ in the specification.
 --
 -- Information about the owner of the payment instrument that may be used or required by particular source types.
-data PostCustomersCustomerBankAccountsIdResponseBody200Owner' = PostCustomersCustomerBankAccountsIdResponseBody200Owner'
+data PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable = PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable
   { -- | address: Owner\'s address.
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Address :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address'),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable)),
     -- | email: Owner\'s email address.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name: Owner\'s full name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | phone: Owner\'s phone number (including extension).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullablePhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_address: Verified owner\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable)),
     -- | verified_email: Verified owner\'s email address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_name: Verified owner\'s full name. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_phone: Verified owner\'s phone number (including extension). Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address obj : "email" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Email obj : "name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Name obj : "phone" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Phone obj : "verified_address" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress obj : "verified_email" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedEmail obj : "verified_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedName obj : "verified_phone" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedPhone obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Email obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Phone obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress obj) GHC.Base.<> (("verified_email" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedEmail obj) GHC.Base.<> (("verified_name" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedName obj) GHC.Base.<> ("verified_phone" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedPhone obj))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullablePhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedPhone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullablePhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedPhone obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200Owner'" (\obj -> (((((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200Owner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_phone"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable" (\obj -> (((((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_phone"))
 
--- | Create a new 'PostCustomersCustomerBankAccountsIdResponseBody200Owner'' with all required fields.
-mkPostCustomersCustomerBankAccountsIdResponseBody200Owner' :: PostCustomersCustomerBankAccountsIdResponseBody200Owner'
-mkPostCustomersCustomerBankAccountsIdResponseBody200Owner' =
-  PostCustomersCustomerBankAccountsIdResponseBody200Owner'
-    { postCustomersCustomerBankAccountsIdResponseBody200Owner'Address = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Email = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Name = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Phone = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedEmail = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedName = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedPhone = GHC.Maybe.Nothing
+-- | Create a new 'PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable' with all required fields.
+mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable :: PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable
+mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable =
+  PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullable
+    { postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableEmail = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableName = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullablePhone = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedEmail = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedName = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedPhone = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf.properties.owner.anyOf.properties.address.anyOf@ in the specification.
 --
 -- Owner\\\'s address.
-data PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' = PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address'
+data PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable = PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address'" (\obj -> (((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable" (\obj -> (((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address'' with all required fields.
-mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' :: PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address'
-mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' =
-  PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address'
-    { postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'City = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Country = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line1 = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line2 = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'PostalCode = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'State = GHC.Maybe.Nothing
+-- | Create a new 'PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable' with all required fields.
+mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable :: PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable
+mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable =
+  PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullable
+    { postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCity = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableAddress'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf.properties.owner.anyOf.properties.verified_address.anyOf@ in the specification.
 --
 -- Verified owner\\\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
-data PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' = PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'
+data PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable = PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'City obj : "country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'" (\obj -> (((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable" (\obj -> (((((GHC.Base.pure PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'' with all required fields.
-mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' :: PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'
-mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' =
-  PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'
-    { postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'City = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Country = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line1 = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line2 = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'PostalCode = GHC.Maybe.Nothing,
-      postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'State = GHC.Maybe.Nothing
+-- | Create a new 'PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable' with all required fields.
+mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable :: PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable
+mkPostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable =
+  PostCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullable
+    { postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCity = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      postCustomersCustomerBankAccountsIdResponseBody200Owner'NonNullableVerifiedAddress'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}\/bank_accounts\/{id}.POST.responses.200.content.application\/json.schema.anyOf.properties.recipient.anyOf@ in the specification.
 --
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
-data PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants
-  = PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Text Data.Text.Internal.Text
-  | PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Recipient Recipient
+data PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableVariants
+  = PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableText Data.Text.Internal.Text
+  | PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableRecipient Recipient
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants where
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Recipient a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableVariants where
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableRecipient a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants where
-  parseJSON val = case (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Recipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableVariants where
+  parseJSON val = case (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PostCustomersCustomerBankAccountsIdResponseBody200Recipient'NonNullableRecipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

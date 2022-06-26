@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,8 +47,8 @@ data MandateAuBecsDebit = MandateAuBecsDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON MandateAuBecsDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("url" Data.Aeson.Types.ToJSON..= mandateAuBecsDebitUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("url" Data.Aeson.Types.ToJSON..= mandateAuBecsDebitUrl obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["url" Data.Aeson.Types.ToJSON..= mandateAuBecsDebitUrl obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["url" Data.Aeson.Types.ToJSON..= mandateAuBecsDebitUrl obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON MandateAuBecsDebit where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "MandateAuBecsDebit" (\obj -> GHC.Base.pure MandateAuBecsDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

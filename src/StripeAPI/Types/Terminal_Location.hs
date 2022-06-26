@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,10 +37,16 @@ import qualified Prelude as GHC.Maybe
 --
 -- A Location represents a grouping of readers.
 --
--- Related guide: [Fleet Management](https:\/\/stripe.com\/docs\/terminal\/creating-locations).
+-- Related guide: [Fleet Management](https:\/\/stripe.com\/docs\/terminal\/fleet\/locations).
 data Terminal'location = Terminal'location
   { -- | address:
     terminal'locationAddress :: Address,
+    -- | configuration_overrides: The ID of a configuration that will be used to customize all readers in this location.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    terminal'locationConfigurationOverrides :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | display_name: The display name of the location.
     --
     -- Constraints:
@@ -62,11 +70,11 @@ data Terminal'location = Terminal'location
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Terminal'location where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= terminal'locationAddress obj : "display_name" Data.Aeson.Types.ToJSON..= terminal'locationDisplayName obj : "id" Data.Aeson.Types.ToJSON..= terminal'locationId obj : "livemode" Data.Aeson.Types.ToJSON..= terminal'locationLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= terminal'locationMetadata obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.location" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= terminal'locationAddress obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= terminal'locationDisplayName obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= terminal'locationId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= terminal'locationLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= terminal'locationMetadata obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.location"))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= terminal'locationAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration_overrides" Data.Aeson.Types.ToJSON..=)) (terminal'locationConfigurationOverrides obj) : ["display_name" Data.Aeson.Types.ToJSON..= terminal'locationDisplayName obj] : ["id" Data.Aeson.Types.ToJSON..= terminal'locationId obj] : ["livemode" Data.Aeson.Types.ToJSON..= terminal'locationLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= terminal'locationMetadata obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.location"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= terminal'locationAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration_overrides" Data.Aeson.Types.ToJSON..=)) (terminal'locationConfigurationOverrides obj) : ["display_name" Data.Aeson.Types.ToJSON..= terminal'locationDisplayName obj] : ["id" Data.Aeson.Types.ToJSON..= terminal'locationId obj] : ["livemode" Data.Aeson.Types.ToJSON..= terminal'locationLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= terminal'locationMetadata obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "terminal.location"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'location where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'location" (\obj -> ((((GHC.Base.pure Terminal'location GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'location" (\obj -> (((((GHC.Base.pure Terminal'location GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "configuration_overrides")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata"))
 
 -- | Create a new 'Terminal'location' with all required fields.
 mkTerminal'location ::
@@ -84,6 +92,7 @@ mkTerminal'location ::
 mkTerminal'location terminal'locationAddress terminal'locationDisplayName terminal'locationId terminal'locationLivemode terminal'locationMetadata =
   Terminal'location
     { terminal'locationAddress = terminal'locationAddress,
+      terminal'locationConfigurationOverrides = GHC.Maybe.Nothing,
       terminal'locationDisplayName = terminal'locationDisplayName,
       terminal'locationId = terminal'locationId,
       terminal'locationLivemode = terminal'locationLivemode,

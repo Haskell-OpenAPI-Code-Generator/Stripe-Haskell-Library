@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,25 +39,25 @@ data PaymentIntentNextActionAlipayHandleRedirect = PaymentIntentNextActionAlipay
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionAlipayHandleRedirectNativeData :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentIntentNextActionAlipayHandleRedirectNativeData :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | native_url: The native URL you must redirect your customer to in order to authenticate the payment in an iOS App.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionAlipayHandleRedirectNativeUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentIntentNextActionAlipayHandleRedirectNativeUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | return_url: If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionAlipayHandleRedirectReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentIntentNextActionAlipayHandleRedirectReturnUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | url: The URL you must redirect your customer to in order to authenticate the payment.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionAlipayHandleRedirectUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentIntentNextActionAlipayHandleRedirectUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -63,11 +65,11 @@ data PaymentIntentNextActionAlipayHandleRedirect = PaymentIntentNextActionAlipay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionAlipayHandleRedirect where
-  toJSON obj = Data.Aeson.Types.Internal.object ("native_data" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectNativeData obj : "native_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectNativeUrl obj : "return_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectReturnUrl obj : "url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("native_data" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectNativeData obj) GHC.Base.<> (("native_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectNativeUrl obj) GHC.Base.<> (("return_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectReturnUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionAlipayHandleRedirectUrl obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("native_data" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectNativeData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("native_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectNativeUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("native_data" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectNativeData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("native_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectNativeUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionAlipayHandleRedirectUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionAlipayHandleRedirect where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionAlipayHandleRedirect" (\obj -> (((GHC.Base.pure PaymentIntentNextActionAlipayHandleRedirect GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "native_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "native_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionAlipayHandleRedirect" (\obj -> (((GHC.Base.pure PaymentIntentNextActionAlipayHandleRedirect GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "native_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "native_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))
 
 -- | Create a new 'PaymentIntentNextActionAlipayHandleRedirect' with all required fields.
 mkPaymentIntentNextActionAlipayHandleRedirect :: PaymentIntentNextActionAlipayHandleRedirect

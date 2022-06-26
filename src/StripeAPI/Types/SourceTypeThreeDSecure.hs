@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,39 +35,39 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_three_d_secure@ in the specification.
 data SourceTypeThreeDSecure = SourceTypeThreeDSecure
   { -- | address_line1_check
-    sourceTypeThreeDSecureAddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureAddressLine1Check :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_zip_check
-    sourceTypeThreeDSecureAddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureAddressZipCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | authenticated
-    sourceTypeThreeDSecureAuthenticated :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    sourceTypeThreeDSecureAuthenticated :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
     -- | brand
-    sourceTypeThreeDSecureBrand :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureBrand :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | card
-    sourceTypeThreeDSecureCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureCard :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country
-    sourceTypeThreeDSecureCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | customer
-    sourceTypeThreeDSecureCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureCustomer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | cvc_check
-    sourceTypeThreeDSecureCvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureCvcCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | dynamic_last4
-    sourceTypeThreeDSecureDynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureDynamicLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | exp_month
-    sourceTypeThreeDSecureExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
+    sourceTypeThreeDSecureExpMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | exp_year
-    sourceTypeThreeDSecureExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
+    sourceTypeThreeDSecureExpYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | fingerprint
     sourceTypeThreeDSecureFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | funding
-    sourceTypeThreeDSecureFunding :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureFunding :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last4
-    sourceTypeThreeDSecureLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name
-    sourceTypeThreeDSecureName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeThreeDSecureName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | three_d_secure
     sourceTypeThreeDSecureThreeDSecure :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | tokenization_method
-    sourceTypeThreeDSecureTokenizationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeThreeDSecureTokenizationMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -73,11 +75,11 @@ data SourceTypeThreeDSecure = SourceTypeThreeDSecure
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeThreeDSecure where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address_line1_check" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureAddressLine1Check obj : "address_zip_check" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureAddressZipCheck obj : "authenticated" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureAuthenticated obj : "brand" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureBrand obj : "card" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCard obj : "country" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCountry obj : "customer" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCustomer obj : "cvc_check" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCvcCheck obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureDynamicLast4 obj : "exp_month" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureFingerprint obj : "funding" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureFunding obj : "last4" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureLast4 obj : "name" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureName obj : "three_d_secure" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureThreeDSecure obj : "tokenization_method" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureTokenizationMethod obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address_line1_check" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureAddressLine1Check obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureAddressZipCheck obj) GHC.Base.<> (("authenticated" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureAuthenticated obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureBrand obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCard obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCountry obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCustomer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureCvcCheck obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureDynamicLast4 obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureFingerprint obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureFunding obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureLast4 obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureName obj) GHC.Base.<> (("three_d_secure" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureThreeDSecure obj) GHC.Base.<> ("tokenization_method" Data.Aeson.Types.ToJSON..= sourceTypeThreeDSecureTokenizationMethod obj)))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureAddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip_check" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureAddressZipCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authenticated" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureAuthenticated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureBrand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCvcCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureDynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureFunding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tokenization_method" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureTokenizationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureAddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip_check" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureAddressZipCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authenticated" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureAuthenticated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureBrand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureCvcCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureDynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureFunding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tokenization_method" Data.Aeson.Types.ToJSON..=)) (sourceTypeThreeDSecureTokenizationMethod obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeThreeDSecure where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeThreeDSecure" (\obj -> ((((((((((((((((GHC.Base.pure SourceTypeThreeDSecure GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authenticated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeThreeDSecure" (\obj -> ((((((((((((((((GHC.Base.pure SourceTypeThreeDSecure GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authenticated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tokenization_method"))
 
 -- | Create a new 'SourceTypeThreeDSecure' with all required fields.
 mkSourceTypeThreeDSecure :: SourceTypeThreeDSecure

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,7 +39,7 @@ data PaymentMethodDetailsGrabpay = PaymentMethodDetailsGrabpay
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsGrabpayTransactionId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsGrabpayTransactionId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data PaymentMethodDetailsGrabpay = PaymentMethodDetailsGrabpay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsGrabpay where
-  toJSON obj = Data.Aeson.Types.Internal.object ("transaction_id" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGrabpayTransactionId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("transaction_id" Data.Aeson.Types.ToJSON..= paymentMethodDetailsGrabpayTransactionId obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGrabpayTransactionId obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsGrabpayTransactionId obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsGrabpay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsGrabpay" (\obj -> GHC.Base.pure PaymentMethodDetailsGrabpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transaction_id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsGrabpay" (\obj -> GHC.Base.pure PaymentMethodDetailsGrabpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id"))
 
 -- | Create a new 'PaymentMethodDetailsGrabpay' with all required fields.
 mkPaymentMethodDetailsGrabpay :: PaymentMethodDetailsGrabpay

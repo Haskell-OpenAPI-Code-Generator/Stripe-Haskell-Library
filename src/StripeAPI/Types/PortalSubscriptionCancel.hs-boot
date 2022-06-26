@@ -1,6 +1,7 @@
 module StripeAPI.Types.PortalSubscriptionCancel where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PortalSubscriptionCancel
 instance Show PortalSubscriptionCancel
 instance Eq PortalSubscriptionCancel

@@ -1,6 +1,7 @@
 module StripeAPI.Types.DiscountsResourceDiscountAmount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data DiscountsResourceDiscountAmount
 instance Show DiscountsResourceDiscountAmount
 instance Eq DiscountsResourceDiscountAmount

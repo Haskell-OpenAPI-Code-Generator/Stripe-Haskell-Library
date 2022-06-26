@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,11 +107,11 @@ data PostAccountLinksRequestBody = PostAccountLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLinksRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyAccount obj : "collect" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyCollect obj : "expand" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyExpand obj : "refresh_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyRefreshUrl obj : "return_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyReturnUrl obj : "type" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyAccount obj) GHC.Base.<> (("collect" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyCollect obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyExpand obj) GHC.Base.<> (("refresh_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyRefreshUrl obj) GHC.Base.<> (("return_url" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyReturnUrl obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyType obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collect" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyCollect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refresh_url" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyRefreshUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyReturnUrl obj) : ["type" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collect" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyCollect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refresh_url" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyRefreshUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postAccountLinksRequestBodyReturnUrl obj) : ["type" Data.Aeson.Types.ToJSON..= postAccountLinksRequestBodyType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLinksRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountLinksRequestBody" (\obj -> (((((GHC.Base.pure PostAccountLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "collect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refresh_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountLinksRequestBody" (\obj -> (((((GHC.Base.pure PostAccountLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refresh_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'PostAccountLinksRequestBody' with all required fields.
 mkPostAccountLinksRequestBody ::

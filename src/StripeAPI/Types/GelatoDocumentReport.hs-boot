@@ -1,48 +1,49 @@
 module StripeAPI.Types.GelatoDocumentReport where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data GelatoDocumentReport
 instance Show GelatoDocumentReport
 instance Eq GelatoDocumentReport
 instance FromJSON GelatoDocumentReport
 instance ToJSON GelatoDocumentReport
-data GelatoDocumentReportAddress'
-instance Show GelatoDocumentReportAddress'
-instance Eq GelatoDocumentReportAddress'
-instance FromJSON GelatoDocumentReportAddress'
-instance ToJSON GelatoDocumentReportAddress'
-data GelatoDocumentReportDob'
-instance Show GelatoDocumentReportDob'
-instance Eq GelatoDocumentReportDob'
-instance FromJSON GelatoDocumentReportDob'
-instance ToJSON GelatoDocumentReportDob'
-data GelatoDocumentReportError'
-instance Show GelatoDocumentReportError'
-instance Eq GelatoDocumentReportError'
-instance FromJSON GelatoDocumentReportError'
-instance ToJSON GelatoDocumentReportError'
-data GelatoDocumentReportError'Code'
-instance Show GelatoDocumentReportError'Code'
-instance Eq GelatoDocumentReportError'Code'
-instance FromJSON GelatoDocumentReportError'Code'
-instance ToJSON GelatoDocumentReportError'Code'
-data GelatoDocumentReportExpirationDate'
-instance Show GelatoDocumentReportExpirationDate'
-instance Eq GelatoDocumentReportExpirationDate'
-instance FromJSON GelatoDocumentReportExpirationDate'
-instance ToJSON GelatoDocumentReportExpirationDate'
-data GelatoDocumentReportIssuedDate'
-instance Show GelatoDocumentReportIssuedDate'
-instance Eq GelatoDocumentReportIssuedDate'
-instance FromJSON GelatoDocumentReportIssuedDate'
-instance ToJSON GelatoDocumentReportIssuedDate'
+data GelatoDocumentReportAddress'NonNullable
+instance Show GelatoDocumentReportAddress'NonNullable
+instance Eq GelatoDocumentReportAddress'NonNullable
+instance FromJSON GelatoDocumentReportAddress'NonNullable
+instance ToJSON GelatoDocumentReportAddress'NonNullable
+data GelatoDocumentReportDob'NonNullable
+instance Show GelatoDocumentReportDob'NonNullable
+instance Eq GelatoDocumentReportDob'NonNullable
+instance FromJSON GelatoDocumentReportDob'NonNullable
+instance ToJSON GelatoDocumentReportDob'NonNullable
+data GelatoDocumentReportError'NonNullable
+instance Show GelatoDocumentReportError'NonNullable
+instance Eq GelatoDocumentReportError'NonNullable
+instance FromJSON GelatoDocumentReportError'NonNullable
+instance ToJSON GelatoDocumentReportError'NonNullable
+data GelatoDocumentReportError'NonNullableCode'NonNullable
+instance Show GelatoDocumentReportError'NonNullableCode'NonNullable
+instance Eq GelatoDocumentReportError'NonNullableCode'NonNullable
+instance FromJSON GelatoDocumentReportError'NonNullableCode'NonNullable
+instance ToJSON GelatoDocumentReportError'NonNullableCode'NonNullable
+data GelatoDocumentReportExpirationDate'NonNullable
+instance Show GelatoDocumentReportExpirationDate'NonNullable
+instance Eq GelatoDocumentReportExpirationDate'NonNullable
+instance FromJSON GelatoDocumentReportExpirationDate'NonNullable
+instance ToJSON GelatoDocumentReportExpirationDate'NonNullable
+data GelatoDocumentReportIssuedDate'NonNullable
+instance Show GelatoDocumentReportIssuedDate'NonNullable
+instance Eq GelatoDocumentReportIssuedDate'NonNullable
+instance FromJSON GelatoDocumentReportIssuedDate'NonNullable
+instance ToJSON GelatoDocumentReportIssuedDate'NonNullable
 data GelatoDocumentReportStatus'
 instance Show GelatoDocumentReportStatus'
 instance Eq GelatoDocumentReportStatus'
 instance FromJSON GelatoDocumentReportStatus'
 instance ToJSON GelatoDocumentReportStatus'
-data GelatoDocumentReportType'
-instance Show GelatoDocumentReportType'
-instance Eq GelatoDocumentReportType'
-instance FromJSON GelatoDocumentReportType'
-instance ToJSON GelatoDocumentReportType'
+data GelatoDocumentReportType'NonNullable
+instance Show GelatoDocumentReportType'NonNullable
+instance Eq GelatoDocumentReportType'NonNullable
+instance FromJSON GelatoDocumentReportType'NonNullable
+instance ToJSON GelatoDocumentReportType'NonNullable

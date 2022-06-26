@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -55,8 +57,8 @@ data ApplePayDomain = ApplePayDomain
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ApplePayDomain where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= applePayDomainCreated obj : "domain_name" Data.Aeson.Types.ToJSON..= applePayDomainDomainName obj : "id" Data.Aeson.Types.ToJSON..= applePayDomainId obj : "livemode" Data.Aeson.Types.ToJSON..= applePayDomainLivemode obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apple_pay_domain" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= applePayDomainCreated obj) GHC.Base.<> (("domain_name" Data.Aeson.Types.ToJSON..= applePayDomainDomainName obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= applePayDomainId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= applePayDomainLivemode obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apple_pay_domain")))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= applePayDomainCreated obj] : ["domain_name" Data.Aeson.Types.ToJSON..= applePayDomainDomainName obj] : ["id" Data.Aeson.Types.ToJSON..= applePayDomainId obj] : ["livemode" Data.Aeson.Types.ToJSON..= applePayDomainLivemode obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apple_pay_domain"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= applePayDomainCreated obj] : ["domain_name" Data.Aeson.Types.ToJSON..= applePayDomainDomainName obj] : ["id" Data.Aeson.Types.ToJSON..= applePayDomainId obj] : ["livemode" Data.Aeson.Types.ToJSON..= applePayDomainLivemode obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apple_pay_domain"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ApplePayDomain where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ApplePayDomain" (\obj -> (((GHC.Base.pure ApplePayDomain GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "domain_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode"))

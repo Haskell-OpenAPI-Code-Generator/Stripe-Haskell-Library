@@ -1,6 +1,7 @@
 module StripeAPI.Types.SubscriptionItemBillingThresholds where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data SubscriptionItemBillingThresholds
 instance Show SubscriptionItemBillingThresholds
 instance Eq SubscriptionItemBillingThresholds

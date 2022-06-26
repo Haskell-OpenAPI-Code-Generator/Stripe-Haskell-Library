@@ -1,0 +1,9 @@
+module StripeAPI.Types.TerminalReaderReaderResourceCart where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TerminalReaderReaderResourceCart
+instance Show TerminalReaderReaderResourceCart
+instance Eq TerminalReaderReaderResourceCart
+instance FromJSON TerminalReaderReaderResourceCart
+instance ToJSON TerminalReaderReaderResourceCart

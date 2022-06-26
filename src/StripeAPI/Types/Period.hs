@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,9 +35,9 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.period@ in the specification.
 data Period = Period
   { -- | end: The end date of this usage period. All usage up to and including this point in time is included.
-    periodEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
+    periodEnd :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | start: The start date of this usage period. All usage after this point in time is included.
-    periodStart :: (GHC.Maybe.Maybe GHC.Types.Int)
+    periodStart :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -43,11 +45,11 @@ data Period = Period
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Period where
-  toJSON obj = Data.Aeson.Types.Internal.object ("end" Data.Aeson.Types.ToJSON..= periodEnd obj : "start" Data.Aeson.Types.ToJSON..= periodStart obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("end" Data.Aeson.Types.ToJSON..= periodEnd obj) GHC.Base.<> ("start" Data.Aeson.Types.ToJSON..= periodStart obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end" Data.Aeson.Types.ToJSON..=)) (periodEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("start" Data.Aeson.Types.ToJSON..=)) (periodStart obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end" Data.Aeson.Types.ToJSON..=)) (periodEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("start" Data.Aeson.Types.ToJSON..=)) (periodStart obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Period where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Period" (\obj -> (GHC.Base.pure Period GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "start"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Period" (\obj -> (GHC.Base.pure Period GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "start"))
 
 -- | Create a new 'Period' with all required fields.
 mkPeriod :: Period

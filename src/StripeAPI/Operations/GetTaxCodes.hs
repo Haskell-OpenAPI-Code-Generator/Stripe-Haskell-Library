@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > GET /v1/tax_codes
 --
--- \<p>A list of \<a href=\"https:\/\/stripe.com\/docs\/tax\/tax-codes\">all tax codes available\<\/a> to add to Products in order to allow specific tax calculations.\<\/p>
+-- \<p>A list of \<a href=\"https:\/\/stripe.com\/docs\/tax\/tax-categories\">all tax codes available\<\/a> to add to Products in order to allow specific tax calculations.\<\/p>
 getTaxCodes ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -113,11 +115,11 @@ data GetTaxCodesParameters = GetTaxCodesParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTaxCodesParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryEnding_before" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getTaxCodesParametersQueryStartingAfter obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getTaxCodesParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxCodesParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxCodesParameters" (\obj -> (((GHC.Base.pure GetTaxCodesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxCodesParameters" (\obj -> (((GHC.Base.pure GetTaxCodesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetTaxCodesParameters' with all required fields.
 mkGetTaxCodesParameters :: GetTaxCodesParameters
@@ -160,8 +162,8 @@ data GetTaxCodesResponseBody200 = GetTaxCodesResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTaxCodesResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getTaxCodesResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxCodesResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxCodesResponseBody200" (\obj -> ((GHC.Base.pure GetTaxCodesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

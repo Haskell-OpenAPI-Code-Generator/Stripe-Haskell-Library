@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -31,6 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.Address
 import {-# SOURCE #-} StripeAPI.Types.LegalEntityCompanyVerification
 import {-# SOURCE #-} StripeAPI.Types.LegalEntityCompanyVerificationDocument
 import {-# SOURCE #-} StripeAPI.Types.LegalEntityJapanAddress
+import {-# SOURCE #-} StripeAPI.Types.LegalEntityUboDeclaration
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -39,9 +42,9 @@ data LegalEntityCompany = LegalEntityCompany
   { -- | address:
     legalEntityCompanyAddress :: (GHC.Maybe.Maybe Address),
     -- | address_kana: The Kana variation of the company\'s primary address (Japan only).
-    legalEntityCompanyAddressKana :: (GHC.Maybe.Maybe LegalEntityCompanyAddressKana'),
+    legalEntityCompanyAddressKana :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable LegalEntityCompanyAddressKana'NonNullable)),
     -- | address_kanji: The Kanji variation of the company\'s primary address (Japan only).
-    legalEntityCompanyAddressKanji :: (GHC.Maybe.Maybe LegalEntityCompanyAddressKanji'),
+    legalEntityCompanyAddressKanji :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable LegalEntityCompanyAddressKanji'NonNullable)),
     -- | directors_provided: Whether the company\'s directors have been provided. This Boolean will be \`true\` if you\'ve manually indicated that all directors are provided via [the \`directors_provided\` parameter](https:\/\/stripe.com\/docs\/api\/accounts\/update\#update_account-company-directors_provided).
     legalEntityCompanyDirectorsProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | executives_provided: Whether the company\'s executives have been provided. This Boolean will be \`true\` if you\'ve manually indicated that all executives are provided via [the \`executives_provided\` parameter](https:\/\/stripe.com\/docs\/api\/accounts\/update\#update_account-company-executives_provided), or if Stripe determined that sufficient executives were provided.
@@ -51,27 +54,29 @@ data LegalEntityCompany = LegalEntityCompany
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name_kana: The Kana variation of the company\'s legal name (Japan only).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyNameKana :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyNameKana :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name_kanji: The Kanji variation of the company\'s legal name (Japan only).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyNameKanji :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyNameKanji :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | owners_provided: Whether the company\'s owners have been provided. This Boolean will be \`true\` if you\'ve manually indicated that all owners are provided via [the \`owners_provided\` parameter](https:\/\/stripe.com\/docs\/api\/accounts\/update\#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the \`percent_ownership\` of each owner together).
     legalEntityCompanyOwnersProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | ownership_declaration: This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+    legalEntityCompanyOwnershipDeclaration :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable LegalEntityCompanyOwnershipDeclaration'NonNullable)),
     -- | phone: The company\'s phone number (used for verification).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | structure: The category identifying the legal structure of the company or legal entity. See [Business structure](https:\/\/stripe.com\/docs\/connect\/identity-verification\#business-structure) for more details.
     legalEntityCompanyStructure :: (GHC.Maybe.Maybe LegalEntityCompanyStructure'),
     -- | tax_id_provided: Whether the company\'s business ID number was provided.
@@ -85,7 +90,7 @@ data LegalEntityCompany = LegalEntityCompany
     -- | vat_id_provided: Whether the company\'s business VAT number was provided.
     legalEntityCompanyVatIdProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | verification: Information on the verification state of the company.
-    legalEntityCompanyVerification :: (GHC.Maybe.Maybe LegalEntityCompanyVerification')
+    legalEntityCompanyVerification :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable LegalEntityCompanyVerification'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -93,11 +98,11 @@ data LegalEntityCompany = LegalEntityCompany
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompany where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddress obj : "address_kana" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana obj : "address_kanji" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji obj : "directors_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyDirectorsProvided obj : "executives_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyExecutivesProvided obj : "name" Data.Aeson.Types.ToJSON..= legalEntityCompanyName obj : "name_kana" Data.Aeson.Types.ToJSON..= legalEntityCompanyNameKana obj : "name_kanji" Data.Aeson.Types.ToJSON..= legalEntityCompanyNameKanji obj : "owners_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyOwnersProvided obj : "phone" Data.Aeson.Types.ToJSON..= legalEntityCompanyPhone obj : "structure" Data.Aeson.Types.ToJSON..= legalEntityCompanyStructure obj : "tax_id_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyTaxIdProvided obj : "tax_id_registrar" Data.Aeson.Types.ToJSON..= legalEntityCompanyTaxIdRegistrar obj : "vat_id_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyVatIdProvided obj : "verification" Data.Aeson.Types.ToJSON..= legalEntityCompanyVerification obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddress obj) GHC.Base.<> (("address_kana" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana obj) GHC.Base.<> (("address_kanji" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji obj) GHC.Base.<> (("directors_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyDirectorsProvided obj) GHC.Base.<> (("executives_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyExecutivesProvided obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= legalEntityCompanyName obj) GHC.Base.<> (("name_kana" Data.Aeson.Types.ToJSON..= legalEntityCompanyNameKana obj) GHC.Base.<> (("name_kanji" Data.Aeson.Types.ToJSON..= legalEntityCompanyNameKanji obj) GHC.Base.<> (("owners_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyOwnersProvided obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= legalEntityCompanyPhone obj) GHC.Base.<> (("structure" Data.Aeson.Types.ToJSON..= legalEntityCompanyStructure obj) GHC.Base.<> (("tax_id_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyTaxIdProvided obj) GHC.Base.<> (("tax_id_registrar" Data.Aeson.Types.ToJSON..= legalEntityCompanyTaxIdRegistrar obj) GHC.Base.<> (("vat_id_provided" Data.Aeson.Types.ToJSON..= legalEntityCompanyVatIdProvided obj) GHC.Base.<> ("verification" Data.Aeson.Types.ToJSON..= legalEntityCompanyVerification obj)))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("directors_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyDirectorsProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executives_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExecutivesProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owners_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnersProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_declaration" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("structure" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyStructure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_registrar" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdRegistrar obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("vat_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVatIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("directors_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyDirectorsProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executives_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExecutivesProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owners_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnersProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_declaration" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("structure" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyStructure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_registrar" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdRegistrar obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("vat_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVatIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompany where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompany" (\obj -> ((((((((((((((GHC.Base.pure LegalEntityCompany GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "directors_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "executives_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owners_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "structure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_id_registrar")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "vat_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompany" (\obj -> (((((((((((((((GHC.Base.pure LegalEntityCompany GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "directors_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "executives_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owners_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ownership_declaration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "structure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_registrar")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "vat_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
 
 -- | Create a new 'LegalEntityCompany' with all required fields.
 mkLegalEntityCompany :: LegalEntityCompany
@@ -112,6 +117,7 @@ mkLegalEntityCompany =
       legalEntityCompanyNameKana = GHC.Maybe.Nothing,
       legalEntityCompanyNameKanji = GHC.Maybe.Nothing,
       legalEntityCompanyOwnersProvided = GHC.Maybe.Nothing,
+      legalEntityCompanyOwnershipDeclaration = GHC.Maybe.Nothing,
       legalEntityCompanyPhone = GHC.Maybe.Nothing,
       legalEntityCompanyStructure = GHC.Maybe.Nothing,
       legalEntityCompanyTaxIdProvided = GHC.Maybe.Nothing,
@@ -123,145 +129,185 @@ mkLegalEntityCompany =
 -- | Defines the object schema located at @components.schemas.legal_entity_company.properties.address_kana.anyOf@ in the specification.
 --
 -- The Kana variation of the company\\\'s primary address (Japan only).
-data LegalEntityCompanyAddressKana' = LegalEntityCompanyAddressKana'
+data LegalEntityCompanyAddressKana'NonNullable = LegalEntityCompanyAddressKana'NonNullable
   { -- | city: City\/Ward.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKana'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKana'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKana'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKana'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Block\/Building number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKana'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKana'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Building details.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKana'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKana'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKana'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKana'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: Prefecture.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKana'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKana'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | town: Town\/cho-me.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKana'Town :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    legalEntityCompanyAddressKana'NonNullableTown :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyAddressKana' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'City obj : "country" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Country obj : "line1" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'State obj : "town" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Town obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKana'Town obj)))))))
+instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyAddressKana'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableTown obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana'NonNullableTown obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyAddressKana' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyAddressKana'" (\obj -> ((((((GHC.Base.pure LegalEntityCompanyAddressKana' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
+instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyAddressKana'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyAddressKana'NonNullable" (\obj -> ((((((GHC.Base.pure LegalEntityCompanyAddressKana'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "town"))
 
--- | Create a new 'LegalEntityCompanyAddressKana'' with all required fields.
-mkLegalEntityCompanyAddressKana' :: LegalEntityCompanyAddressKana'
-mkLegalEntityCompanyAddressKana' =
-  LegalEntityCompanyAddressKana'
-    { legalEntityCompanyAddressKana'City = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKana'Country = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKana'Line1 = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKana'Line2 = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKana'PostalCode = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKana'State = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKana'Town = GHC.Maybe.Nothing
+-- | Create a new 'LegalEntityCompanyAddressKana'NonNullable' with all required fields.
+mkLegalEntityCompanyAddressKana'NonNullable :: LegalEntityCompanyAddressKana'NonNullable
+mkLegalEntityCompanyAddressKana'NonNullable =
+  LegalEntityCompanyAddressKana'NonNullable
+    { legalEntityCompanyAddressKana'NonNullableCity = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKana'NonNullableCountry = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKana'NonNullableLine1 = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKana'NonNullableLine2 = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKana'NonNullablePostalCode = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKana'NonNullableState = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKana'NonNullableTown = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.legal_entity_company.properties.address_kanji.anyOf@ in the specification.
 --
 -- The Kanji variation of the company\\\'s primary address (Japan only).
-data LegalEntityCompanyAddressKanji' = LegalEntityCompanyAddressKanji'
+data LegalEntityCompanyAddressKanji'NonNullable = LegalEntityCompanyAddressKanji'NonNullable
   { -- | city: City\/Ward.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKanji'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKanji'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKanji'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKanji'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Block\/Building number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKanji'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKanji'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Building details.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKanji'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKanji'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKanji'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKanji'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: Prefecture.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKanji'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    legalEntityCompanyAddressKanji'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | town: Town\/cho-me.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    legalEntityCompanyAddressKanji'Town :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    legalEntityCompanyAddressKanji'NonNullableTown :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyAddressKanji' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'City obj : "country" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Country obj : "line1" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'State obj : "town" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Town obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= legalEntityCompanyAddressKanji'Town obj)))))))
+instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyAddressKanji'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableTown obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji'NonNullableTown obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyAddressKanji' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyAddressKanji'" (\obj -> ((((((GHC.Base.pure LegalEntityCompanyAddressKanji' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
+instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyAddressKanji'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyAddressKanji'NonNullable" (\obj -> ((((((GHC.Base.pure LegalEntityCompanyAddressKanji'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "town"))
 
--- | Create a new 'LegalEntityCompanyAddressKanji'' with all required fields.
-mkLegalEntityCompanyAddressKanji' :: LegalEntityCompanyAddressKanji'
-mkLegalEntityCompanyAddressKanji' =
-  LegalEntityCompanyAddressKanji'
-    { legalEntityCompanyAddressKanji'City = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKanji'Country = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKanji'Line1 = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKanji'Line2 = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKanji'PostalCode = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKanji'State = GHC.Maybe.Nothing,
-      legalEntityCompanyAddressKanji'Town = GHC.Maybe.Nothing
+-- | Create a new 'LegalEntityCompanyAddressKanji'NonNullable' with all required fields.
+mkLegalEntityCompanyAddressKanji'NonNullable :: LegalEntityCompanyAddressKanji'NonNullable
+mkLegalEntityCompanyAddressKanji'NonNullable =
+  LegalEntityCompanyAddressKanji'NonNullable
+    { legalEntityCompanyAddressKanji'NonNullableCity = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKanji'NonNullableCountry = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKanji'NonNullableLine1 = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKanji'NonNullableLine2 = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKanji'NonNullablePostalCode = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKanji'NonNullableState = GHC.Maybe.Nothing,
+      legalEntityCompanyAddressKanji'NonNullableTown = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.legal_entity_company.properties.ownership_declaration.anyOf@ in the specification.
+--
+-- This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+data LegalEntityCompanyOwnershipDeclaration'NonNullable = LegalEntityCompanyOwnershipDeclaration'NonNullable
+  { -- | date: The Unix timestamp marking when the beneficial owner attestation was made.
+    legalEntityCompanyOwnershipDeclaration'NonNullableDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | ip: The IP address from which the beneficial owner attestation was made.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    legalEntityCompanyOwnershipDeclaration'NonNullableIp :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | user_agent: The user-agent string from the browser where the beneficial owner attestation was made.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    legalEntityCompanyOwnershipDeclaration'NonNullableUserAgent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyOwnershipDeclaration'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration'NonNullableDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration'NonNullableIp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration'NonNullableUserAgent obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration'NonNullableDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration'NonNullableIp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration'NonNullableUserAgent obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyOwnershipDeclaration'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyOwnershipDeclaration'NonNullable" (\obj -> ((GHC.Base.pure LegalEntityCompanyOwnershipDeclaration'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "user_agent"))
+
+-- | Create a new 'LegalEntityCompanyOwnershipDeclaration'NonNullable' with all required fields.
+mkLegalEntityCompanyOwnershipDeclaration'NonNullable :: LegalEntityCompanyOwnershipDeclaration'NonNullable
+mkLegalEntityCompanyOwnershipDeclaration'NonNullable =
+  LegalEntityCompanyOwnershipDeclaration'NonNullable
+    { legalEntityCompanyOwnershipDeclaration'NonNullableDate = GHC.Maybe.Nothing,
+      legalEntityCompanyOwnershipDeclaration'NonNullableIp = GHC.Maybe.Nothing,
+      legalEntityCompanyOwnershipDeclaration'NonNullableUserAgent = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.legal_entity_company.properties.structure@ in the specification.
@@ -368,22 +414,22 @@ instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyStructure' where
 -- | Defines the object schema located at @components.schemas.legal_entity_company.properties.verification.anyOf@ in the specification.
 --
 -- Information on the verification state of the company.
-data LegalEntityCompanyVerification' = LegalEntityCompanyVerification'
+data LegalEntityCompanyVerification'NonNullable = LegalEntityCompanyVerification'NonNullable
   { -- | document:
-    legalEntityCompanyVerification'Document :: (GHC.Maybe.Maybe LegalEntityCompanyVerificationDocument)
+    legalEntityCompanyVerification'NonNullableDocument :: (GHC.Maybe.Maybe LegalEntityCompanyVerificationDocument)
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyVerification' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("document" Data.Aeson.Types.ToJSON..= legalEntityCompanyVerification'Document obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("document" Data.Aeson.Types.ToJSON..= legalEntityCompanyVerification'Document obj)
+instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyVerification'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification'NonNullableDocument obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification'NonNullableDocument obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyVerification' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyVerification'" (\obj -> GHC.Base.pure LegalEntityCompanyVerification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document"))
+instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyVerification'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompanyVerification'NonNullable" (\obj -> GHC.Base.pure LegalEntityCompanyVerification'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "document"))
 
--- | Create a new 'LegalEntityCompanyVerification'' with all required fields.
-mkLegalEntityCompanyVerification' :: LegalEntityCompanyVerification'
-mkLegalEntityCompanyVerification' = LegalEntityCompanyVerification' {legalEntityCompanyVerification'Document = GHC.Maybe.Nothing}
+-- | Create a new 'LegalEntityCompanyVerification'NonNullable' with all required fields.
+mkLegalEntityCompanyVerification'NonNullable :: LegalEntityCompanyVerification'NonNullable
+mkLegalEntityCompanyVerification'NonNullable = LegalEntityCompanyVerification'NonNullable {legalEntityCompanyVerification'NonNullableDocument = GHC.Maybe.Nothing}

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,17 +35,17 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_bancontact@ in the specification.
 data SourceTypeBancontact = SourceTypeBancontact
   { -- | bank_code
-    sourceTypeBancontactBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeBancontactBankCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bank_name
-    sourceTypeBancontactBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeBancontactBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | bic
-    sourceTypeBancontactBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeBancontactBic :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | iban_last4
-    sourceTypeBancontactIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeBancontactIbanLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | preferred_language
-    sourceTypeBancontactPreferredLanguage :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeBancontactPreferredLanguage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | statement_descriptor
-    sourceTypeBancontactStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeBancontactStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data SourceTypeBancontact = SourceTypeBancontact
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeBancontact where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankCode obj : "bank_name" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankName obj : "bic" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBic obj : "iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeBancontactIbanLast4 obj : "preferred_language" Data.Aeson.Types.ToJSON..= sourceTypeBancontactPreferredLanguage obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeBancontactStatementDescriptor obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_code" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankCode obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBankName obj) GHC.Base.<> (("bic" Data.Aeson.Types.ToJSON..= sourceTypeBancontactBic obj) GHC.Base.<> (("iban_last4" Data.Aeson.Types.ToJSON..= sourceTypeBancontactIbanLast4 obj) GHC.Base.<> (("preferred_language" Data.Aeson.Types.ToJSON..= sourceTypeBancontactPreferredLanguage obj) GHC.Base.<> ("statement_descriptor" Data.Aeson.Types.ToJSON..= sourceTypeBancontactStatementDescriptor obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban_last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactIbanLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactPreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactStatementDescriptor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_code" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactBankCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bic" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactBic obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban_last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactIbanLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactPreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (sourceTypeBancontactStatementDescriptor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeBancontact where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeBancontact" (\obj -> (((((GHC.Base.pure SourceTypeBancontact GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeBancontact" (\obj -> (((((GHC.Base.pure SourceTypeBancontact GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
 
 -- | Create a new 'SourceTypeBancontact' with all required fields.
 mkSourceTypeBancontact :: SourceTypeBancontact

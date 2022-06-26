@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -103,11 +105,11 @@ data PostRadarValueListItemsRequestBody = PostRadarValueListItemsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostRadarValueListItemsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyExpand obj : "value" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValue obj : "value_list" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValueList obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyExpand obj) GHC.Base.<> (("value" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValue obj) GHC.Base.<> ("value_list" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValueList obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postRadarValueListItemsRequestBodyExpand obj) : ["value" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValue obj] : ["value_list" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValueList obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postRadarValueListItemsRequestBodyExpand obj) : ["value" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValue obj] : ["value_list" Data.Aeson.Types.ToJSON..= postRadarValueListItemsRequestBodyValueList obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListItemsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListItemsRequestBody" (\obj -> ((GHC.Base.pure PostRadarValueListItemsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value_list"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListItemsRequestBody" (\obj -> ((GHC.Base.pure PostRadarValueListItemsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value_list"))
 
 -- | Create a new 'PostRadarValueListItemsRequestBody' with all required fields.
 mkPostRadarValueListItemsRequestBody ::

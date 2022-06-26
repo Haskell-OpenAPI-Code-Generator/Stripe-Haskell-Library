@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,11 +47,11 @@ data SourceMandateNotificationBacsDebitData = SourceMandateNotificationBacsDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceMandateNotificationBacsDebitData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationBacsDebitDataLast4 obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("last4" Data.Aeson.Types.ToJSON..= sourceMandateNotificationBacsDebitDataLast4 obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationBacsDebitDataLast4 obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceMandateNotificationBacsDebitDataLast4 obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceMandateNotificationBacsDebitData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotificationBacsDebitData" (\obj -> GHC.Base.pure SourceMandateNotificationBacsDebitData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceMandateNotificationBacsDebitData" (\obj -> GHC.Base.pure SourceMandateNotificationBacsDebitData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4"))
 
 -- | Create a new 'SourceMandateNotificationBacsDebitData' with all required fields.
 mkSourceMandateNotificationBacsDebitData :: SourceMandateNotificationBacsDebitData

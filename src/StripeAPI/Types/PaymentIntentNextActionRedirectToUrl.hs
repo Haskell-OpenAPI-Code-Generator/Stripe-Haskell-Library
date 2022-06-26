@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,13 +39,13 @@ data PaymentIntentNextActionRedirectToUrl = PaymentIntentNextActionRedirectToUrl
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | url: The URL you must redirect your customer to in order to authenticate the payment.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data PaymentIntentNextActionRedirectToUrl = PaymentIntentNextActionRedirectToUrl
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionRedirectToUrl where
-  toJSON obj = Data.Aeson.Types.Internal.object ("return_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlReturnUrl obj : "url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("return_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlReturnUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionRedirectToUrlUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionRedirectToUrlReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionRedirectToUrlUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionRedirectToUrlReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionRedirectToUrlUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionRedirectToUrl where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionRedirectToUrl" (\obj -> (GHC.Base.pure PaymentIntentNextActionRedirectToUrl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionRedirectToUrl" (\obj -> (GHC.Base.pure PaymentIntentNextActionRedirectToUrl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))
 
 -- | Create a new 'PaymentIntentNextActionRedirectToUrl' with all required fields.
 mkPaymentIntentNextActionRedirectToUrl :: PaymentIntentNextActionRedirectToUrl

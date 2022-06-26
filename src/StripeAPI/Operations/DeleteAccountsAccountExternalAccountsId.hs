@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -97,8 +99,8 @@ data DeleteAccountsAccountExternalAccountsIdParameters = DeleteAccountsAccountEx
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteAccountsAccountExternalAccountsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathAccount obj : "pathId" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathAccount obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathAccount obj] : ["pathId" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathAccount" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathAccount obj] : ["pathId" Data.Aeson.Types.ToJSON..= deleteAccountsAccountExternalAccountsIdParametersPathId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteAccountsAccountExternalAccountsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountsAccountExternalAccountsIdParameters" (\obj -> (GHC.Base.pure DeleteAccountsAccountExternalAccountsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathAccount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))

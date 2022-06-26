@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -90,7 +92,7 @@ data PostTerminalReadersRequestBody = PostTerminalReadersRequestBody
     --
     -- * Maximum length of 5000
     postTerminalReadersRequestBodyLabel :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | location: The location to assign the reader to. If no location is specified, the reader will be assigned to the account\'s default location.
+    -- | location: The location to assign the reader to.
     --
     -- Constraints:
     --
@@ -111,11 +113,11 @@ data PostTerminalReadersRequestBody = PostTerminalReadersRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyExpand obj : "label" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLabel obj : "location" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLocation obj : "metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyMetadata obj : "registration_code" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyRegistrationCode obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyExpand obj) GHC.Base.<> (("label" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLabel obj) GHC.Base.<> (("location" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyLocation obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyMetadata obj) GHC.Base.<> ("registration_code" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyRegistrationCode obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("label" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyLabel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyLocation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyMetadata obj) : ["registration_code" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyRegistrationCode obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("label" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyLabel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyLocation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersRequestBodyMetadata obj) : ["registration_code" Data.Aeson.Types.ToJSON..= postTerminalReadersRequestBodyRegistrationCode obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersRequestBody" (\obj -> ((((GHC.Base.pure PostTerminalReadersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "registration_code"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersRequestBody" (\obj -> ((((GHC.Base.pure PostTerminalReadersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "registration_code"))
 
 -- | Create a new 'PostTerminalReadersRequestBody' with all required fields.
 mkPostTerminalReadersRequestBody ::

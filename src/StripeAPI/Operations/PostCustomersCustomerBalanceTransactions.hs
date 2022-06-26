@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -86,7 +88,7 @@ postCustomersCustomerBalanceTransactions
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/balance_transactions.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerBalanceTransactionsRequestBody = PostCustomersCustomerBalanceTransactionsRequestBody
-  { -- | amount: The integer amount in **%s** to apply to the customer\'s credit balance.
+  { -- | amount: The integer amount in **cents (or local equivalent)** to apply to the customer\'s credit balance.
     postCustomersCustomerBalanceTransactionsRequestBodyAmount :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies). If the customer\'s [\`currency\`](https:\/\/stripe.com\/docs\/api\/customers\/object\#customer_object-currency) is set, this value must match it. If the customer\'s \`currency\` is not set, it will be updated to this value.
     postCustomersCustomerBalanceTransactionsRequestBodyCurrency :: Data.Text.Internal.Text,
@@ -107,11 +109,11 @@ data PostCustomersCustomerBalanceTransactionsRequestBody = PostCustomersCustomer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBalanceTransactionsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyAmount obj : "currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyCurrency obj : "description" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyMetadata obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= postCustomersCustomerBalanceTransactionsRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerBalanceTransactionsRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBalanceTransactionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsRequestBody" (\obj -> ((((GHC.Base.pure PostCustomersCustomerBalanceTransactionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsRequestBody" (\obj -> ((((GHC.Base.pure PostCustomersCustomerBalanceTransactionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostCustomersCustomerBalanceTransactionsRequestBody' with all required fields.
 mkPostCustomersCustomerBalanceTransactionsRequestBody ::

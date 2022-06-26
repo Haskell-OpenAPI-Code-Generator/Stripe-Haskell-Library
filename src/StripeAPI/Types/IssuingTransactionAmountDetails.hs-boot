@@ -1,6 +1,7 @@
 module StripeAPI.Types.IssuingTransactionAmountDetails where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data IssuingTransactionAmountDetails
 instance Show IssuingTransactionAmountDetails
 instance Eq IssuingTransactionAmountDetails

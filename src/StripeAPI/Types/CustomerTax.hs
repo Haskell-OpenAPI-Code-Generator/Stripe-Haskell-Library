@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -40,9 +42,9 @@ data CustomerTax = CustomerTax
     -- Constraints:
     --
     -- * Maximum length of 5000
-    customerTaxIpAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    customerTaxIpAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | location: The customer\'s location as identified by Stripe Tax.
-    customerTaxLocation :: (GHC.Maybe.Maybe CustomerTaxLocation')
+    customerTaxLocation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CustomerTaxLocation'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -50,11 +52,11 @@ data CustomerTax = CustomerTax
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CustomerTax where
-  toJSON obj = Data.Aeson.Types.Internal.object ("automatic_tax" Data.Aeson.Types.ToJSON..= customerTaxAutomaticTax obj : "ip_address" Data.Aeson.Types.ToJSON..= customerTaxIpAddress obj : "location" Data.Aeson.Types.ToJSON..= customerTaxLocation obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("automatic_tax" Data.Aeson.Types.ToJSON..= customerTaxAutomaticTax obj) GHC.Base.<> (("ip_address" Data.Aeson.Types.ToJSON..= customerTaxIpAddress obj) GHC.Base.<> ("location" Data.Aeson.Types.ToJSON..= customerTaxLocation obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["automatic_tax" Data.Aeson.Types.ToJSON..= customerTaxAutomaticTax obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (customerTaxIpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["automatic_tax" Data.Aeson.Types.ToJSON..= customerTaxAutomaticTax obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (customerTaxIpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CustomerTax where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerTax" (\obj -> ((GHC.Base.pure CustomerTax GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerTax" (\obj -> ((GHC.Base.pure CustomerTax GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location"))
 
 -- | Create a new 'CustomerTax' with all required fields.
 mkCustomerTax ::
@@ -108,76 +110,76 @@ instance Data.Aeson.Types.FromJSON.FromJSON CustomerTaxAutomaticTax' where
 -- | Defines the object schema located at @components.schemas.customer_tax.properties.location.anyOf@ in the specification.
 --
 -- The customer\\\'s location as identified by Stripe Tax.
-data CustomerTaxLocation' = CustomerTaxLocation'
+data CustomerTaxLocation'NonNullable = CustomerTaxLocation'NonNullable
   { -- | country: The customer\'s country as identified by Stripe Tax.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    customerTaxLocation'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    customerTaxLocation'NonNullableCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | source: The data source used to infer the customer\'s location.
-    customerTaxLocation'Source :: (GHC.Maybe.Maybe CustomerTaxLocation'Source'),
+    customerTaxLocation'NonNullableSource :: (GHC.Maybe.Maybe CustomerTaxLocation'NonNullableSource'),
     -- | state: The customer\'s state, county, province, or region as identified by Stripe Tax.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    customerTaxLocation'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    customerTaxLocation'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON CustomerTaxLocation' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("country" Data.Aeson.Types.ToJSON..= customerTaxLocation'Country obj : "source" Data.Aeson.Types.ToJSON..= customerTaxLocation'Source obj : "state" Data.Aeson.Types.ToJSON..= customerTaxLocation'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("country" Data.Aeson.Types.ToJSON..= customerTaxLocation'Country obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= customerTaxLocation'Source obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= customerTaxLocation'State obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON CustomerTaxLocation'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation'NonNullableSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation'NonNullableSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (customerTaxLocation'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON CustomerTaxLocation' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerTaxLocation'" (\obj -> ((GHC.Base.pure CustomerTaxLocation' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON CustomerTaxLocation'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerTaxLocation'NonNullable" (\obj -> ((GHC.Base.pure CustomerTaxLocation'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'CustomerTaxLocation'' with all required fields.
-mkCustomerTaxLocation' :: CustomerTaxLocation'
-mkCustomerTaxLocation' =
-  CustomerTaxLocation'
-    { customerTaxLocation'Country = GHC.Maybe.Nothing,
-      customerTaxLocation'Source = GHC.Maybe.Nothing,
-      customerTaxLocation'State = GHC.Maybe.Nothing
+-- | Create a new 'CustomerTaxLocation'NonNullable' with all required fields.
+mkCustomerTaxLocation'NonNullable :: CustomerTaxLocation'NonNullable
+mkCustomerTaxLocation'NonNullable =
+  CustomerTaxLocation'NonNullable
+    { customerTaxLocation'NonNullableCountry = GHC.Maybe.Nothing,
+      customerTaxLocation'NonNullableSource = GHC.Maybe.Nothing,
+      customerTaxLocation'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.customer_tax.properties.location.anyOf.properties.source@ in the specification.
 --
 -- The data source used to infer the customer\'s location.
-data CustomerTaxLocation'Source'
+data CustomerTaxLocation'NonNullableSource'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    CustomerTaxLocation'Source'Other Data.Aeson.Types.Internal.Value
+    CustomerTaxLocation'NonNullableSource'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    CustomerTaxLocation'Source'Typed Data.Text.Internal.Text
+    CustomerTaxLocation'NonNullableSource'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"billing_address"@
-    CustomerTaxLocation'Source'EnumBillingAddress
+    CustomerTaxLocation'NonNullableSource'EnumBillingAddress
   | -- | Represents the JSON value @"ip_address"@
-    CustomerTaxLocation'Source'EnumIpAddress
+    CustomerTaxLocation'NonNullableSource'EnumIpAddress
   | -- | Represents the JSON value @"payment_method"@
-    CustomerTaxLocation'Source'EnumPaymentMethod
+    CustomerTaxLocation'NonNullableSource'EnumPaymentMethod
   | -- | Represents the JSON value @"shipping_destination"@
-    CustomerTaxLocation'Source'EnumShippingDestination
+    CustomerTaxLocation'NonNullableSource'EnumShippingDestination
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON CustomerTaxLocation'Source' where
-  toJSON (CustomerTaxLocation'Source'Other val) = val
-  toJSON (CustomerTaxLocation'Source'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (CustomerTaxLocation'Source'EnumBillingAddress) = "billing_address"
-  toJSON (CustomerTaxLocation'Source'EnumIpAddress) = "ip_address"
-  toJSON (CustomerTaxLocation'Source'EnumPaymentMethod) = "payment_method"
-  toJSON (CustomerTaxLocation'Source'EnumShippingDestination) = "shipping_destination"
+instance Data.Aeson.Types.ToJSON.ToJSON CustomerTaxLocation'NonNullableSource' where
+  toJSON (CustomerTaxLocation'NonNullableSource'Other val) = val
+  toJSON (CustomerTaxLocation'NonNullableSource'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (CustomerTaxLocation'NonNullableSource'EnumBillingAddress) = "billing_address"
+  toJSON (CustomerTaxLocation'NonNullableSource'EnumIpAddress) = "ip_address"
+  toJSON (CustomerTaxLocation'NonNullableSource'EnumPaymentMethod) = "payment_method"
+  toJSON (CustomerTaxLocation'NonNullableSource'EnumShippingDestination) = "shipping_destination"
 
-instance Data.Aeson.Types.FromJSON.FromJSON CustomerTaxLocation'Source' where
+instance Data.Aeson.Types.FromJSON.FromJSON CustomerTaxLocation'NonNullableSource' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "billing_address" -> CustomerTaxLocation'Source'EnumBillingAddress
-            | val GHC.Classes.== "ip_address" -> CustomerTaxLocation'Source'EnumIpAddress
-            | val GHC.Classes.== "payment_method" -> CustomerTaxLocation'Source'EnumPaymentMethod
-            | val GHC.Classes.== "shipping_destination" -> CustomerTaxLocation'Source'EnumShippingDestination
-            | GHC.Base.otherwise -> CustomerTaxLocation'Source'Other val
+            | val GHC.Classes.== "billing_address" -> CustomerTaxLocation'NonNullableSource'EnumBillingAddress
+            | val GHC.Classes.== "ip_address" -> CustomerTaxLocation'NonNullableSource'EnumIpAddress
+            | val GHC.Classes.== "payment_method" -> CustomerTaxLocation'NonNullableSource'EnumPaymentMethod
+            | val GHC.Classes.== "shipping_destination" -> CustomerTaxLocation'NonNullableSource'EnumShippingDestination
+            | GHC.Base.otherwise -> CustomerTaxLocation'NonNullableSource'Other val
       )

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,37 +36,37 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing_dispute_canceled_evidence@ in the specification.
 data IssuingDisputeCanceledEvidence = IssuingDisputeCanceledEvidence
   { -- | additional_documentation: (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-    issuingDisputeCanceledEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe IssuingDisputeCanceledEvidenceAdditionalDocumentation'Variants),
+    issuingDisputeCanceledEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableVariants)),
     -- | canceled_at: Date when order was canceled.
-    issuingDisputeCanceledEvidenceCanceledAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    issuingDisputeCanceledEvidenceCanceledAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | cancellation_policy_provided: Whether the cardholder was provided with a cancellation policy.
-    issuingDisputeCanceledEvidenceCancellationPolicyProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    issuingDisputeCanceledEvidenceCancellationPolicyProvided :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
     -- | cancellation_reason: Reason for canceling the order.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeCanceledEvidenceCancellationReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingDisputeCanceledEvidenceCancellationReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | expected_at: Date when the cardholder expected to receive the product.
-    issuingDisputeCanceledEvidenceExpectedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    issuingDisputeCanceledEvidenceExpectedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | explanation: Explanation of why the cardholder is disputing this transaction.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeCanceledEvidenceExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingDisputeCanceledEvidenceExplanation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | product_description: Description of the merchandise or service that was purchased.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeCanceledEvidenceProductDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingDisputeCanceledEvidenceProductDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | product_type: Whether the product was a merchandise or service.
-    issuingDisputeCanceledEvidenceProductType :: (GHC.Maybe.Maybe IssuingDisputeCanceledEvidenceProductType'),
+    issuingDisputeCanceledEvidenceProductType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingDisputeCanceledEvidenceProductType'NonNullable)),
     -- | return_status: Result of cardholder\'s attempt to return the product.
-    issuingDisputeCanceledEvidenceReturnStatus :: (GHC.Maybe.Maybe IssuingDisputeCanceledEvidenceReturnStatus'),
+    issuingDisputeCanceledEvidenceReturnStatus :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingDisputeCanceledEvidenceReturnStatus'NonNullable)),
     -- | returned_at: Date when the product was returned or attempted to be returned.
-    issuingDisputeCanceledEvidenceReturnedAt :: (GHC.Maybe.Maybe GHC.Types.Int)
+    issuingDisputeCanceledEvidenceReturnedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -72,11 +74,11 @@ data IssuingDisputeCanceledEvidence = IssuingDisputeCanceledEvidence
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeCanceledEvidence where
-  toJSON obj = Data.Aeson.Types.Internal.object ("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceAdditionalDocumentation obj : "canceled_at" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceCanceledAt obj : "cancellation_policy_provided" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceCancellationPolicyProvided obj : "cancellation_reason" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceCancellationReason obj : "expected_at" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceExpectedAt obj : "explanation" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceExplanation obj : "product_description" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceProductDescription obj : "product_type" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceProductType obj : "return_status" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceReturnStatus obj : "returned_at" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceReturnedAt obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceAdditionalDocumentation obj) GHC.Base.<> (("canceled_at" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceCanceledAt obj) GHC.Base.<> (("cancellation_policy_provided" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceCancellationPolicyProvided obj) GHC.Base.<> (("cancellation_reason" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceCancellationReason obj) GHC.Base.<> (("expected_at" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceExpectedAt obj) GHC.Base.<> (("explanation" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceExplanation obj) GHC.Base.<> (("product_description" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceProductDescription obj) GHC.Base.<> (("product_type" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceProductType obj) GHC.Base.<> (("return_status" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceReturnStatus obj) GHC.Base.<> ("returned_at" Data.Aeson.Types.ToJSON..= issuingDisputeCanceledEvidenceReturnedAt obj))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("canceled_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceCanceledAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_policy_provided" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceCancellationPolicyProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceExpectedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceExplanation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_description" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceProductDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_type" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceProductType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_status" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceReturnStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("returned_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceReturnedAt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("canceled_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceCanceledAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_policy_provided" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceCancellationPolicyProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceExpectedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceExplanation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_description" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceProductDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_type" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceProductType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_status" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceReturnStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("returned_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeCanceledEvidenceReturnedAt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeCanceledEvidence where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeCanceledEvidence" (\obj -> (((((((((GHC.Base.pure IssuingDisputeCanceledEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_policy_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expected_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "returned_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeCanceledEvidence" (\obj -> (((((((((GHC.Base.pure IssuingDisputeCanceledEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancellation_policy_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expected_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "returned_at"))
 
 -- | Create a new 'IssuingDisputeCanceledEvidence' with all required fields.
 mkIssuingDisputeCanceledEvidence :: IssuingDisputeCanceledEvidence
@@ -97,74 +99,74 @@ mkIssuingDisputeCanceledEvidence =
 -- | Defines the oneOf schema located at @components.schemas.issuing_dispute_canceled_evidence.properties.additional_documentation.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-data IssuingDisputeCanceledEvidenceAdditionalDocumentation'Variants
-  = IssuingDisputeCanceledEvidenceAdditionalDocumentation'Text Data.Text.Internal.Text
-  | IssuingDisputeCanceledEvidenceAdditionalDocumentation'File File
+data IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableVariants
+  = IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableText Data.Text.Internal.Text
+  | IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableFile File
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeCanceledEvidenceAdditionalDocumentation'Variants where
-  toJSON (IssuingDisputeCanceledEvidenceAdditionalDocumentation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (IssuingDisputeCanceledEvidenceAdditionalDocumentation'File a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableVariants where
+  toJSON (IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableFile a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeCanceledEvidenceAdditionalDocumentation'Variants where
-  parseJSON val = case (IssuingDisputeCanceledEvidenceAdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeCanceledEvidenceAdditionalDocumentation'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableVariants where
+  parseJSON val = case (IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeCanceledEvidenceAdditionalDocumentation'NonNullableFile Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @components.schemas.issuing_dispute_canceled_evidence.properties.product_type@ in the specification.
 --
 -- Whether the product was a merchandise or service.
-data IssuingDisputeCanceledEvidenceProductType'
+data IssuingDisputeCanceledEvidenceProductType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    IssuingDisputeCanceledEvidenceProductType'Other Data.Aeson.Types.Internal.Value
+    IssuingDisputeCanceledEvidenceProductType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    IssuingDisputeCanceledEvidenceProductType'Typed Data.Text.Internal.Text
+    IssuingDisputeCanceledEvidenceProductType'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"merchandise"@
-    IssuingDisputeCanceledEvidenceProductType'EnumMerchandise
+    IssuingDisputeCanceledEvidenceProductType'NonNullableEnumMerchandise
   | -- | Represents the JSON value @"service"@
-    IssuingDisputeCanceledEvidenceProductType'EnumService
+    IssuingDisputeCanceledEvidenceProductType'NonNullableEnumService
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeCanceledEvidenceProductType' where
-  toJSON (IssuingDisputeCanceledEvidenceProductType'Other val) = val
-  toJSON (IssuingDisputeCanceledEvidenceProductType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (IssuingDisputeCanceledEvidenceProductType'EnumMerchandise) = "merchandise"
-  toJSON (IssuingDisputeCanceledEvidenceProductType'EnumService) = "service"
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeCanceledEvidenceProductType'NonNullable where
+  toJSON (IssuingDisputeCanceledEvidenceProductType'NonNullableOther val) = val
+  toJSON (IssuingDisputeCanceledEvidenceProductType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingDisputeCanceledEvidenceProductType'NonNullableEnumMerchandise) = "merchandise"
+  toJSON (IssuingDisputeCanceledEvidenceProductType'NonNullableEnumService) = "service"
 
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeCanceledEvidenceProductType' where
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeCanceledEvidenceProductType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "merchandise" -> IssuingDisputeCanceledEvidenceProductType'EnumMerchandise
-            | val GHC.Classes.== "service" -> IssuingDisputeCanceledEvidenceProductType'EnumService
-            | GHC.Base.otherwise -> IssuingDisputeCanceledEvidenceProductType'Other val
+            | val GHC.Classes.== "merchandise" -> IssuingDisputeCanceledEvidenceProductType'NonNullableEnumMerchandise
+            | val GHC.Classes.== "service" -> IssuingDisputeCanceledEvidenceProductType'NonNullableEnumService
+            | GHC.Base.otherwise -> IssuingDisputeCanceledEvidenceProductType'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.issuing_dispute_canceled_evidence.properties.return_status@ in the specification.
 --
 -- Result of cardholder\'s attempt to return the product.
-data IssuingDisputeCanceledEvidenceReturnStatus'
+data IssuingDisputeCanceledEvidenceReturnStatus'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    IssuingDisputeCanceledEvidenceReturnStatus'Other Data.Aeson.Types.Internal.Value
+    IssuingDisputeCanceledEvidenceReturnStatus'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    IssuingDisputeCanceledEvidenceReturnStatus'Typed Data.Text.Internal.Text
+    IssuingDisputeCanceledEvidenceReturnStatus'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"merchant_rejected"@
-    IssuingDisputeCanceledEvidenceReturnStatus'EnumMerchantRejected
+    IssuingDisputeCanceledEvidenceReturnStatus'NonNullableEnumMerchantRejected
   | -- | Represents the JSON value @"successful"@
-    IssuingDisputeCanceledEvidenceReturnStatus'EnumSuccessful
+    IssuingDisputeCanceledEvidenceReturnStatus'NonNullableEnumSuccessful
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeCanceledEvidenceReturnStatus' where
-  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'Other val) = val
-  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'EnumMerchantRejected) = "merchant_rejected"
-  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'EnumSuccessful) = "successful"
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeCanceledEvidenceReturnStatus'NonNullable where
+  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'NonNullableOther val) = val
+  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'NonNullableEnumMerchantRejected) = "merchant_rejected"
+  toJSON (IssuingDisputeCanceledEvidenceReturnStatus'NonNullableEnumSuccessful) = "successful"
 
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeCanceledEvidenceReturnStatus' where
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeCanceledEvidenceReturnStatus'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "merchant_rejected" -> IssuingDisputeCanceledEvidenceReturnStatus'EnumMerchantRejected
-            | val GHC.Classes.== "successful" -> IssuingDisputeCanceledEvidenceReturnStatus'EnumSuccessful
-            | GHC.Base.otherwise -> IssuingDisputeCanceledEvidenceReturnStatus'Other val
+            | val GHC.Classes.== "merchant_rejected" -> IssuingDisputeCanceledEvidenceReturnStatus'NonNullableEnumMerchantRejected
+            | val GHC.Classes.== "successful" -> IssuingDisputeCanceledEvidenceReturnStatus'NonNullableEnumSuccessful
+            | GHC.Base.otherwise -> IssuingDisputeCanceledEvidenceReturnStatus'NonNullableOther val
       )

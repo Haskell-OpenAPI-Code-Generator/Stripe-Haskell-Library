@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -111,8 +113,8 @@ data GetReportingReportTypesResponseBody200 = GetReportingReportTypesResponseBod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportTypesResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getReportingReportTypesResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportTypesResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportTypesResponseBody200" (\obj -> ((GHC.Base.pure GetReportingReportTypesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

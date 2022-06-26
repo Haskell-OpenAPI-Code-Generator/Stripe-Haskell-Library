@@ -1,6 +1,7 @@
 module StripeAPI.Types.SourceMandateNotificationBacsDebitData where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data SourceMandateNotificationBacsDebitData
 instance Show SourceMandateNotificationBacsDebitData
 instance Eq SourceMandateNotificationBacsDebitData

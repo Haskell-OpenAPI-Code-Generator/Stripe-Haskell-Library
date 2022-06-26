@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -68,11 +70,11 @@ data Radar'earlyFraudWarning = Radar'earlyFraudWarning
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Radar'earlyFraudWarning where
-  toJSON obj = Data.Aeson.Types.Internal.object ("actionable" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningActionable obj : "charge" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCharge obj : "created" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCreated obj : "fraud_type" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningFraudType obj : "id" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningId obj : "livemode" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningLivemode obj : "payment_intent" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningPaymentIntent obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.early_fraud_warning" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("actionable" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningActionable obj) GHC.Base.<> (("charge" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCharge obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCreated obj) GHC.Base.<> (("fraud_type" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningFraudType obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningLivemode obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningPaymentIntent obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.early_fraud_warning"))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["actionable" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningActionable obj] : ["charge" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCharge obj] : ["created" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCreated obj] : ["fraud_type" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningFraudType obj] : ["id" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningId obj] : ["livemode" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (radar'earlyFraudWarningPaymentIntent obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.early_fraud_warning"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["actionable" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningActionable obj] : ["charge" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCharge obj] : ["created" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningCreated obj] : ["fraud_type" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningFraudType obj] : ["id" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningId obj] : ["livemode" Data.Aeson.Types.ToJSON..= radar'earlyFraudWarningLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (radar'earlyFraudWarningPaymentIntent obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "radar.early_fraud_warning"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Radar'earlyFraudWarning where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Radar'earlyFraudWarning" (\obj -> ((((((GHC.Base.pure Radar'earlyFraudWarning GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "actionable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fraud_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Radar'earlyFraudWarning" (\obj -> ((((((GHC.Base.pure Radar'earlyFraudWarning GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "actionable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fraud_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent"))
 
 -- | Create a new 'Radar'earlyFraudWarning' with all required fields.
 mkRadar'earlyFraudWarning ::

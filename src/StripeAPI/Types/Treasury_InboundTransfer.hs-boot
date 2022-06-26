@@ -1,0 +1,39 @@
+module StripeAPI.Types.Treasury_InboundTransfer where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data Treasury'inboundTransfer
+instance Show Treasury'inboundTransfer
+instance Eq Treasury'inboundTransfer
+instance FromJSON Treasury'inboundTransfer
+instance ToJSON Treasury'inboundTransfer
+data Treasury'inboundTransferFailureDetails'NonNullable
+instance Show Treasury'inboundTransferFailureDetails'NonNullable
+instance Eq Treasury'inboundTransferFailureDetails'NonNullable
+instance FromJSON Treasury'inboundTransferFailureDetails'NonNullable
+instance ToJSON Treasury'inboundTransferFailureDetails'NonNullable
+data Treasury'inboundTransferFailureDetails'NonNullableCode'
+instance Show Treasury'inboundTransferFailureDetails'NonNullableCode'
+instance Eq Treasury'inboundTransferFailureDetails'NonNullableCode'
+instance FromJSON Treasury'inboundTransferFailureDetails'NonNullableCode'
+instance ToJSON Treasury'inboundTransferFailureDetails'NonNullableCode'
+data Treasury'inboundTransferOriginPaymentMethodDetails'NonNullable
+instance Show Treasury'inboundTransferOriginPaymentMethodDetails'NonNullable
+instance Eq Treasury'inboundTransferOriginPaymentMethodDetails'NonNullable
+instance FromJSON Treasury'inboundTransferOriginPaymentMethodDetails'NonNullable
+instance ToJSON Treasury'inboundTransferOriginPaymentMethodDetails'NonNullable
+data Treasury'inboundTransferOriginPaymentMethodDetails'NonNullableType'
+instance Show Treasury'inboundTransferOriginPaymentMethodDetails'NonNullableType'
+instance Eq Treasury'inboundTransferOriginPaymentMethodDetails'NonNullableType'
+instance FromJSON Treasury'inboundTransferOriginPaymentMethodDetails'NonNullableType'
+instance ToJSON Treasury'inboundTransferOriginPaymentMethodDetails'NonNullableType'
+data Treasury'inboundTransferStatus'
+instance Show Treasury'inboundTransferStatus'
+instance Eq Treasury'inboundTransferStatus'
+instance FromJSON Treasury'inboundTransferStatus'
+instance ToJSON Treasury'inboundTransferStatus'
+data Treasury'inboundTransferTransaction'NonNullableVariants
+instance Show Treasury'inboundTransferTransaction'NonNullableVariants
+instance Eq Treasury'inboundTransferTransaction'NonNullableVariants
+instance FromJSON Treasury'inboundTransferTransaction'NonNullableVariants
+instance ToJSON Treasury'inboundTransferTransaction'NonNullableVariants

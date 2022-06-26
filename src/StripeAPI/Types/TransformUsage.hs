@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,8 +45,8 @@ data TransformUsage = TransformUsage
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TransformUsage where
-  toJSON obj = Data.Aeson.Types.Internal.object ("divide_by" Data.Aeson.Types.ToJSON..= transformUsageDivideBy obj : "round" Data.Aeson.Types.ToJSON..= transformUsageRound obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("divide_by" Data.Aeson.Types.ToJSON..= transformUsageDivideBy obj) GHC.Base.<> ("round" Data.Aeson.Types.ToJSON..= transformUsageRound obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["divide_by" Data.Aeson.Types.ToJSON..= transformUsageDivideBy obj] : ["round" Data.Aeson.Types.ToJSON..= transformUsageRound obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["divide_by" Data.Aeson.Types.ToJSON..= transformUsageDivideBy obj] : ["round" Data.Aeson.Types.ToJSON..= transformUsageRound obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TransformUsage where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TransformUsage" (\obj -> (GHC.Base.pure TransformUsage GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "round"))

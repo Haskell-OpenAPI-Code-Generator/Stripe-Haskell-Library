@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -90,7 +92,7 @@ postTransfersIdReversals
 
 -- | Defines the object schema located at @paths.\/v1\/transfers\/{id}\/reversals.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTransfersIdReversalsRequestBody = PostTransfersIdReversalsRequestBody
-  { -- | amount: A positive integer in %s representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
+  { -- | amount: A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
     postTransfersIdReversalsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | description: An arbitrary string which you can attach to a reversal object. It is displayed alongside the reversal in the Dashboard. This will be unset if you POST an empty value.
     --
@@ -111,11 +113,11 @@ data PostTransfersIdReversalsRequestBody = PostTransfersIdReversalsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersIdReversalsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyAmount obj : "description" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyMetadata obj : "refund_application_fee" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyRefundApplicationFee obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyAmount obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyMetadata obj) GHC.Base.<> ("refund_application_fee" Data.Aeson.Types.ToJSON..= postTransfersIdReversalsRequestBodyRefundApplicationFee obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_application_fee" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyRefundApplicationFee obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_application_fee" Data.Aeson.Types.ToJSON..=)) (postTransfersIdReversalsRequestBodyRefundApplicationFee obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersIdReversalsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersIdReversalsRequestBody" (\obj -> ((((GHC.Base.pure PostTransfersIdReversalsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_application_fee"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersIdReversalsRequestBody" (\obj -> ((((GHC.Base.pure PostTransfersIdReversalsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refund_application_fee"))
 
 -- | Create a new 'PostTransfersIdReversalsRequestBody' with all required fields.
 mkPostTransfersIdReversalsRequestBody :: PostTransfersIdReversalsRequestBody

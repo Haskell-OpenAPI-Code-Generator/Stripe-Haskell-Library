@@ -21,19 +21,23 @@ paymentIntentRequestBody =
 checkoutLineItem =
   Stripe.mkPostCheckoutSessionsRequestBodyLineItems'
     { Stripe.postCheckoutSessionsRequestBodyLineItems'Quantity = Just 2,
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Amount = Just 1000,
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Currency = Just "CHF",
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Description = Just "algebrai&c data types",
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Name = Just "static types"
+      Stripe.postCheckoutSessionsRequestBodyLineItems'PriceData =
+        Just $
+          (Stripe.mkPostCheckoutSessionsRequestBodyLineItems'PriceData' "CHF")
+            { Stripe.postCheckoutSessionsRequestBodyLineItems'PriceData'Product = Just "static types",
+              Stripe.postCheckoutSessionsRequestBodyLineItems'PriceData'UnitAmount = Just 1000
+            }
     }
 
 checkoutLineItem2 =
   Stripe.mkPostCheckoutSessionsRequestBodyLineItems'
     { Stripe.postCheckoutSessionsRequestBodyLineItems'Quantity = Just 2,
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Amount = Just 5000,
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Currency = Just "CHF",
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Description = Just "lambda calculus",
-      Stripe.postCheckoutSessionsRequestBodyLineItems'Name = Just "Haskell"
+      Stripe.postCheckoutSessionsRequestBodyLineItems'PriceData =
+        Just $
+          (Stripe.mkPostCheckoutSessionsRequestBodyLineItems'PriceData' "CHF")
+            { Stripe.postCheckoutSessionsRequestBodyLineItems'PriceData'Product = Just "haskell",
+              Stripe.postCheckoutSessionsRequestBodyLineItems'PriceData'UnitAmount = Just 5000
+            }
     }
 
 checkoutSession =
@@ -66,30 +70,31 @@ getCheckoutSessionId = do
   putStrLn "getCheckoutSessionId"
   resp <- Stripe.runWithConfiguration conf $ Stripe.postCheckoutSessions checkoutSession
   print resp
-  pure $ T.unpack $ case HS.getResponseBody resp of
-    Stripe.PostCheckoutSessionsResponse200 session ->
-      Stripe.checkout'sessionId session
-    _ -> "wrong type of response"
+  pure $
+    T.unpack $ case HS.getResponseBody resp of
+      Stripe.PostCheckoutSessionsResponse200 session ->
+        Stripe.checkout'sessionId session
+      _ -> "wrong type of response"
 
 readSession :: String -> IO (Either String Stripe.Checkout'session)
 readSession sessionId = Stripe.runWithConfiguration conf $ do
   MIO.liftIO $ putStrLn $ "readSession " <> sessionId
   resp <-
-    Stripe.getCheckoutSessionsSession
-      $ Stripe.mkGetCheckoutSessionsSessionParameters
-      $ T.pack sessionId
+    Stripe.getCheckoutSessionsSession $
+      Stripe.mkGetCheckoutSessionsSessionParameters $
+        T.pack sessionId
   MIO.liftIO $ print resp
   case HS.getResponseBody resp of
     Stripe.GetCheckoutSessionsSessionResponse200 session ->
       let variants = Stripe.checkout'sessionPaymentIntent session
        in case variants of
-            Just (Stripe.Checkout'sessionPaymentIntent'Text paymentIntentId) -> do
+            Just (Stripe.NonNull (Stripe.Checkout'sessionPaymentIntent'NonNullableText paymentIntentId)) -> do
               paymentIntent <-
                 Stripe.getPaymentIntentsIntent
                   (Stripe.mkGetPaymentIntentsIntentParameters paymentIntentId)
               case HS.getResponseBody paymentIntent of
                 Stripe.GetPaymentIntentsIntentResponse200 paymentIntent ->
-                  pure $ Right (session {Stripe.checkout'sessionPaymentIntent = Just $ Stripe.Checkout'sessionPaymentIntent'PaymentIntent paymentIntent})
+                  pure $ Right (session {Stripe.checkout'sessionPaymentIntent = Just $ Stripe.NonNull $ Stripe.Checkout'sessionPaymentIntent'NonNullablePaymentIntent paymentIntent})
                 _ -> pure $ Right session
             _ -> pure $ Right session
     _ -> pure $ Left "wrong type of response"
@@ -105,7 +110,10 @@ getPaymentIntentCallSecret :: IO String
 getPaymentIntentCallSecret =
   let trans response = T.unpack $ case HS.getResponseBody response of
         Stripe.PostPaymentIntentsResponse200 paymentIntent ->
-          Maybe.fromMaybe "no secret given" (Stripe.paymentIntentClientSecret paymentIntent)
+          case Stripe.paymentIntentClientSecret paymentIntent of
+            Just (Stripe.NonNull x) -> x
+            Just Stripe.Null -> "no secret given"
+            Nothing -> "no secret given"
         _ -> "invalid response"
    in do
         putStrLn "getPaymentIntentCallSecret"
@@ -118,7 +126,10 @@ getPaymentIntentSepaCallSecret :: IO String
 getPaymentIntentSepaCallSecret =
   let trans response = T.unpack $ case HS.getResponseBody response of
         Stripe.PostPaymentIntentsResponse200 paymentIntent ->
-          Maybe.fromMaybe "no secret given" (Stripe.paymentIntentClientSecret paymentIntent)
+          case Stripe.paymentIntentClientSecret paymentIntent of
+            Just (Stripe.NonNull x) -> x
+            Just Stripe.Null -> "no secret given"
+            Nothing -> "no secret given"
         Stripe.PostPaymentIntentsResponseDefault error -> Maybe.fromMaybe "payment intent failed, no error message available" $ Stripe.apiErrorsMessage $ Stripe.errorError error
         Stripe.PostPaymentIntentsResponseError error -> T.pack error
    in Stripe.runWithConfiguration conf $ do

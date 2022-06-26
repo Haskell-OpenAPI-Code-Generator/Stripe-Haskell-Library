@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -88,11 +90,7 @@ deleteSubscriptionItemsItem
 data DeleteSubscriptionItemsItemRequestBody = DeleteSubscriptionItemsItemRequestBody
   { -- | clear_usage: Delete all usage for the given subscription item. Allowed only when the current plan\'s \`usage_type\` is \`metered\`.
     deleteSubscriptionItemsItemRequestBodyClearUsage :: (GHC.Maybe.Maybe GHC.Types.Bool),
-    -- | proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
-    --
-    -- Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.
-    --
-    -- Prorations can be disabled by passing \`none\`.
+    -- | proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes.
     deleteSubscriptionItemsItemRequestBodyProrationBehavior :: (GHC.Maybe.Maybe DeleteSubscriptionItemsItemRequestBodyProrationBehavior'),
     -- | proration_date: If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https:\/\/stripe.com\/docs\/api\#retrieve_customer_invoice) endpoint.
     deleteSubscriptionItemsItemRequestBodyProrationDate :: (GHC.Maybe.Maybe GHC.Types.Int)
@@ -103,11 +101,11 @@ data DeleteSubscriptionItemsItemRequestBody = DeleteSubscriptionItemsItemRequest
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteSubscriptionItemsItemRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("clear_usage" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyClearUsage obj : "proration_behavior" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationBehavior obj : "proration_date" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationDate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("clear_usage" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyClearUsage obj) GHC.Base.<> (("proration_behavior" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationBehavior obj) GHC.Base.<> ("proration_date" Data.Aeson.Types.ToJSON..= deleteSubscriptionItemsItemRequestBodyProrationDate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("clear_usage" Data.Aeson.Types.ToJSON..=)) (deleteSubscriptionItemsItemRequestBodyClearUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (deleteSubscriptionItemsItemRequestBodyProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_date" Data.Aeson.Types.ToJSON..=)) (deleteSubscriptionItemsItemRequestBodyProrationDate obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("clear_usage" Data.Aeson.Types.ToJSON..=)) (deleteSubscriptionItemsItemRequestBodyClearUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (deleteSubscriptionItemsItemRequestBodyProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_date" Data.Aeson.Types.ToJSON..=)) (deleteSubscriptionItemsItemRequestBodyProrationDate obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteSubscriptionItemsItemRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteSubscriptionItemsItemRequestBody" (\obj -> ((GHC.Base.pure DeleteSubscriptionItemsItemRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "clear_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_date"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteSubscriptionItemsItemRequestBody" (\obj -> ((GHC.Base.pure DeleteSubscriptionItemsItemRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "clear_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_date"))
 
 -- | Create a new 'DeleteSubscriptionItemsItemRequestBody' with all required fields.
 mkDeleteSubscriptionItemsItemRequestBody :: DeleteSubscriptionItemsItemRequestBody
@@ -120,11 +118,7 @@ mkDeleteSubscriptionItemsItemRequestBody =
 
 -- | Defines the enum schema located at @paths.\/v1\/subscription_items\/{item}.DELETE.requestBody.content.application\/x-www-form-urlencoded.schema.properties.proration_behavior@ in the specification.
 --
--- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
---
--- Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.
---
--- Prorations can be disabled by passing \`none\`.
+-- Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes.
 data DeleteSubscriptionItemsItemRequestBodyProrationBehavior'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     DeleteSubscriptionItemsItemRequestBodyProrationBehavior'Other Data.Aeson.Types.Internal.Value

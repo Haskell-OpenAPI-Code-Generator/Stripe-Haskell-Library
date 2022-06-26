@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.invoice_transfer_data@ in the specification.
 data InvoiceTransferData = InvoiceTransferData
   { -- | amount: The amount in %s that will be transferred to the destination account when the invoice is paid. By default, the entire amount is transferred to the destination.
-    invoiceTransferDataAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    invoiceTransferDataAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | destination: The account where funds from the payment will be transferred to upon payment success.
     invoiceTransferDataDestination :: InvoiceTransferDataDestination'Variants
   }
@@ -44,11 +46,11 @@ data InvoiceTransferData = InvoiceTransferData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceTransferData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= invoiceTransferDataAmount obj : "destination" Data.Aeson.Types.ToJSON..= invoiceTransferDataDestination obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= invoiceTransferDataAmount obj) GHC.Base.<> ("destination" Data.Aeson.Types.ToJSON..= invoiceTransferDataDestination obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (invoiceTransferDataAmount obj) : ["destination" Data.Aeson.Types.ToJSON..= invoiceTransferDataDestination obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (invoiceTransferDataAmount obj) : ["destination" Data.Aeson.Types.ToJSON..= invoiceTransferDataDestination obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTransferData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceTransferData" (\obj -> (GHC.Base.pure InvoiceTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceTransferData" (\obj -> (GHC.Base.pure InvoiceTransferData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
 
 -- | Create a new 'InvoiceTransferData' with all required fields.
 mkInvoiceTransferData ::

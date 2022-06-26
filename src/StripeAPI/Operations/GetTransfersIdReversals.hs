@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -127,11 +129,11 @@ data GetTransfersIdReversalsParameters = GetTransfersIdReversalsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersIdReversalsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersPathId obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersPathId obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsParametersPathId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getTransfersIdReversalsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsParameters" (\obj -> ((((GHC.Base.pure GetTransfersIdReversalsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsParameters" (\obj -> ((((GHC.Base.pure GetTransfersIdReversalsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetTransfersIdReversalsParameters' with all required fields.
 mkGetTransfersIdReversalsParameters ::
@@ -178,8 +180,8 @@ data GetTransfersIdReversalsResponseBody200 = GetTransfersIdReversalsResponseBod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTransfersIdReversalsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getTransfersIdReversalsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsResponseBody200" (\obj -> ((GHC.Base.pure GetTransfersIdReversalsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

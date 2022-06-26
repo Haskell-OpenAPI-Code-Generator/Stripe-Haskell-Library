@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -27,8 +29,14 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsAcssDebit
+import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsAcssDebitMandateOptions
 import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsBancontact
 import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsCard
+import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsCustomerBalance
+import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsCustomerBalanceBankTransfer
+import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsUsBankAccount
+import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsUsBankAccountLinkedAccountOptions
 import {-# SOURCE #-} StripeAPI.Types.InvoicesPaymentMethodOptions
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -36,9 +44,9 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.invoices_payment_settings@ in the specification.
 data InvoicesPaymentSettings = InvoicesPaymentSettings
   { -- | payment_method_options: Payment-method-specific configuration to provide to the invoice’s PaymentIntent.
-    invoicesPaymentSettingsPaymentMethodOptions :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'),
+    invoicesPaymentSettingsPaymentMethodOptions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullable)),
     -- | payment_method_types: The list of payment method types (e.g. card) to provide to the invoice’s PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice’s default payment method, the subscription’s default payment method, the customer’s default payment method, and your [invoice template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/invoice).
-    invoicesPaymentSettingsPaymentMethodTypes :: (GHC.Maybe.Maybe ([InvoicesPaymentSettingsPaymentMethodTypes']))
+    invoicesPaymentSettingsPaymentMethodTypes :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([InvoicesPaymentSettingsPaymentMethodTypes'NonNullable])))
   }
   deriving
     ( GHC.Show.Show,
@@ -46,11 +54,11 @@ data InvoicesPaymentSettings = InvoicesPaymentSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object ("payment_method_options" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions obj : "payment_method_types" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodTypes obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("payment_method_options" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions obj) GHC.Base.<> ("payment_method_types" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodTypes obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodTypes obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodTypes obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettings" (\obj -> (GHC.Base.pure InvoicesPaymentSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_types"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettings" (\obj -> (GHC.Base.pure InvoicesPaymentSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types"))
 
 -- | Create a new 'InvoicesPaymentSettings' with all required fields.
 mkInvoicesPaymentSettings :: InvoicesPaymentSettings
@@ -63,203 +71,433 @@ mkInvoicesPaymentSettings =
 -- | Defines the object schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf@ in the specification.
 --
 -- Payment-method-specific configuration to provide to the invoice’s PaymentIntent.
-data InvoicesPaymentSettingsPaymentMethodOptions' = InvoicesPaymentSettingsPaymentMethodOptions'
-  { -- | bancontact: If paying by \`bancontact\`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
-    invoicesPaymentSettingsPaymentMethodOptions'Bancontact :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'),
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullable
+  { -- | acss_debit: If paying by \`acss_debit\`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable)),
+    -- | bancontact: If paying by \`bancontact\`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable)),
     -- | card: If paying by \`card\`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
-    invoicesPaymentSettingsPaymentMethodOptions'Card :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'Card')
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable)),
+    -- | customer_balance: If paying by \`customer_balance\`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice’s PaymentIntent.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable)),
+    -- | konbini: If paying by \`konbini\`, this sub-hash contains details about the Konbini payment method options to pass to the invoice’s PaymentIntent.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableKonbini :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
+    -- | us_bank_account: If paying by \`us_bank_account\`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bancontact" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Bancontact obj : "card" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Card obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bancontact" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Bancontact obj) GHC.Base.<> ("card" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Card obj))
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableKonbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableKonbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'" (\obj -> (GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card"))
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'NonNullable" (\obj -> (((((GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account"))
 
--- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'' with all required fields.
-mkInvoicesPaymentSettingsPaymentMethodOptions' :: InvoicesPaymentSettingsPaymentMethodOptions'
-mkInvoicesPaymentSettingsPaymentMethodOptions' =
-  InvoicesPaymentSettingsPaymentMethodOptions'
-    { invoicesPaymentSettingsPaymentMethodOptions'Bancontact = GHC.Maybe.Nothing,
-      invoicesPaymentSettingsPaymentMethodOptions'Card = GHC.Maybe.Nothing
+-- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'NonNullable' with all required fields.
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullable :: InvoicesPaymentSettingsPaymentMethodOptions'NonNullable
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullable =
+  InvoicesPaymentSettingsPaymentMethodOptions'NonNullable
+    { invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableKonbini = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.acss_debit.anyOf@ in the specification.
+--
+-- If paying by \\\`acss_debit\\\`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable
+  { -- | mandate_options:
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableMandateOptions :: (GHC.Maybe.Maybe InvoicePaymentMethodOptionsAcssDebitMandateOptions),
+    -- | verification_method: Bank account verification method.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable" (\obj -> (GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+
+-- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable' with all required fields.
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable :: InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable =
+  InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullable
+    { invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableMandateOptions = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.acss_debit.anyOf.properties.verification_method@ in the specification.
+--
+-- Bank account verification method.
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumAutomatic
+  | -- | Represents the JSON value @"instant"@
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumInstant
+  | -- | Represents the JSON value @"microdeposits"@
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumMicrodeposits
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod' where
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'Other val) = val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumAutomatic) = "automatic"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumInstant) = "instant"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumMicrodeposits) = "microdeposits"
+
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumAutomatic
+            | val GHC.Classes.== "instant" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumInstant
+            | val GHC.Classes.== "microdeposits" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'EnumMicrodeposits
+            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableAcssDebit'NonNullableVerificationMethod'Other val
+      )
 
 -- | Defines the object schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.bancontact.anyOf@ in the specification.
 --
 -- If paying by \\\`bancontact\\\`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
-data InvoicesPaymentSettingsPaymentMethodOptions'Bancontact' = InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable
   { -- | preferred_language: Preferred language of the Bancontact authorization page that the customer is redirected to.
-    invoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage')
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage')
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'Bancontact' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("preferred_language" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("preferred_language" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage obj)
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'Bancontact' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'" (\obj -> GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'Bancontact' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preferred_language"))
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable" (\obj -> GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_language"))
 
--- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'' with all required fields.
-mkInvoicesPaymentSettingsPaymentMethodOptions'Bancontact' :: InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'
-mkInvoicesPaymentSettingsPaymentMethodOptions'Bancontact' = InvoicesPaymentSettingsPaymentMethodOptions'Bancontact' {invoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage = GHC.Maybe.Nothing}
+-- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable' with all required fields.
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable :: InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullable {invoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.bancontact.anyOf.properties.preferred_language@ in the specification.
 --
 -- Preferred language of the Bancontact authorization page that the customer is redirected to.
-data InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'Other Data.Aeson.Types.Internal.Value
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'Typed Data.Text.Internal.Text
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"de"@
-    InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumDe
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumDe
   | -- | Represents the JSON value @"en"@
-    InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumEn
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumEn
   | -- | Represents the JSON value @"fr"@
-    InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumFr
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumFr
   | -- | Represents the JSON value @"nl"@
-    InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumNl
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumNl
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage' where
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'Other val) = val
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumDe) = "de"
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumEn) = "en"
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumFr) = "fr"
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumNl) = "nl"
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage' where
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'Other val) = val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumDe) = "de"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumEn) = "en"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumFr) = "fr"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumNl) = "nl"
 
-instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage' where
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "de" -> InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumDe
-            | val GHC.Classes.== "en" -> InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumEn
-            | val GHC.Classes.== "fr" -> InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumFr
-            | val GHC.Classes.== "nl" -> InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'EnumNl
-            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodOptions'Bancontact'PreferredLanguage'Other val
+            | val GHC.Classes.== "de" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumDe
+            | val GHC.Classes.== "en" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumEn
+            | val GHC.Classes.== "fr" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumFr
+            | val GHC.Classes.== "nl" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'EnumNl
+            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableBancontact'NonNullablePreferredLanguage'Other val
       )
 
 -- | Defines the object schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.card.anyOf@ in the specification.
 --
 -- If paying by \\\`card\\\`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
-data InvoicesPaymentSettingsPaymentMethodOptions'Card' = InvoicesPaymentSettingsPaymentMethodOptions'Card'
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable
   { -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-    invoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure')
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'Card' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("request_three_d_secure" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("request_three_d_secure" Data.Aeson.Types.ToJSON..= invoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure obj)
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'Card' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'Card'" (\obj -> GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'Card' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "request_three_d_secure"))
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable" (\obj -> GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
 
--- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'Card'' with all required fields.
-mkInvoicesPaymentSettingsPaymentMethodOptions'Card' :: InvoicesPaymentSettingsPaymentMethodOptions'Card'
-mkInvoicesPaymentSettingsPaymentMethodOptions'Card' = InvoicesPaymentSettingsPaymentMethodOptions'Card' {invoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure = GHC.Maybe.Nothing}
+-- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable' with all required fields.
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable :: InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullable {invoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.card.anyOf.properties.request_three_d_secure@ in the specification.
 --
 -- We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-data InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'Other Data.Aeson.Types.Internal.Value
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'Typed Data.Text.Internal.Text
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"any"@
-    InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'EnumAny
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableEnumAny
   | -- | Represents the JSON value @"automatic"@
-    InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'EnumAutomatic
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableEnumAutomatic
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure' where
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'Other val) = val
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'EnumAny) = "any"
-  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'EnumAutomatic) = "automatic"
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullable where
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableOther val) = val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableEnumAny) = "any"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableEnumAutomatic) = "automatic"
 
-instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure' where
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "any" -> InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'EnumAny
-            | val GHC.Classes.== "automatic" -> InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'EnumAutomatic
-            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodOptions'Card'RequestThreeDSecure'Other val
+            | val GHC.Classes.== "any" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableEnumAny
+            | val GHC.Classes.== "automatic" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableEnumAutomatic
+            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCard'NonNullableRequestThreeDSecure'NonNullableOther val
+      )
+
+-- | Defines the object schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.customer_balance.anyOf@ in the specification.
+--
+-- If paying by \\\`customer_balance\\\`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice’s PaymentIntent.
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable
+  { -- | bank_transfer:
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableBankTransfer :: (GHC.Maybe.Maybe InvoicePaymentMethodOptionsCustomerBalanceBankTransfer),
+    -- | funding_type: The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: \`bank_transfer\`.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullable))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable" (\obj -> (GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding_type"))
+
+-- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable' with all required fields.
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable :: InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable =
+  InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullable
+    { invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableBankTransfer = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.customer_balance.anyOf.properties.funding_type@ in the specification.
+--
+-- The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: \`bank_transfer\`.
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_transfer"@
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableEnumBankTransfer
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullable where
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableOther val) = val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableEnumBankTransfer) = "bank_transfer"
+
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "bank_transfer" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableEnumBankTransfer
+            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableCustomerBalance'NonNullableFundingType'NonNullableOther val
+      )
+
+-- | Defines the object schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.us_bank_account.anyOf@ in the specification.
+--
+-- If paying by \\\`us_bank_account\\\`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable = InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable
+  { -- | financial_connections:
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableFinancialConnections :: (GHC.Maybe.Maybe InvoicePaymentMethodOptionsUsBankAccountLinkedAccountOptions),
+    -- | verification_method: Bank account verification method.
+    invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod :: (GHC.Maybe.Maybe InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableFinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableFinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable" (\obj -> (GHC.Base.pure InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+
+-- | Create a new 'InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable' with all required fields.
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable :: InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable
+mkInvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable =
+  InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullable
+    { invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableFinancialConnections = GHC.Maybe.Nothing,
+      invoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.invoices_payment_settings.properties.payment_method_options.anyOf.properties.us_bank_account.anyOf.properties.verification_method@ in the specification.
+--
+-- Bank account verification method.
+data InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumAutomatic
+  | -- | Represents the JSON value @"instant"@
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumInstant
+  | -- | Represents the JSON value @"microdeposits"@
+    InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumMicrodeposits
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod' where
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'Other val) = val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumAutomatic) = "automatic"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumInstant) = "instant"
+  toJSON (InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumMicrodeposits) = "microdeposits"
+
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumAutomatic
+            | val GHC.Classes.== "instant" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumInstant
+            | val GHC.Classes.== "microdeposits" -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'EnumMicrodeposits
+            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodOptions'NonNullableUsBankAccount'NonNullableVerificationMethod'Other val
       )
 
 -- | Defines the enum schema located at @components.schemas.invoices_payment_settings.properties.payment_method_types.items@ in the specification.
-data InvoicesPaymentSettingsPaymentMethodTypes'
+data InvoicesPaymentSettingsPaymentMethodTypes'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    InvoicesPaymentSettingsPaymentMethodTypes'Other Data.Aeson.Types.Internal.Value
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    InvoicesPaymentSettingsPaymentMethodTypes'Typed Data.Text.Internal.Text
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"ach_credit_transfer"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumAchCreditTransfer
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAchCreditTransfer
   | -- | Represents the JSON value @"ach_debit"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumAchDebit
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAchDebit
+  | -- | Represents the JSON value @"acss_debit"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAcssDebit
   | -- | Represents the JSON value @"au_becs_debit"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumAuBecsDebit
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAuBecsDebit
   | -- | Represents the JSON value @"bacs_debit"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumBacsDebit
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBacsDebit
   | -- | Represents the JSON value @"bancontact"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumBancontact
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBancontact
+  | -- | Represents the JSON value @"boleto"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBoleto
   | -- | Represents the JSON value @"card"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumCard
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumCard
+  | -- | Represents the JSON value @"customer_balance"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumCustomerBalance
   | -- | Represents the JSON value @"fpx"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumFpx
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumFpx
   | -- | Represents the JSON value @"giropay"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumGiropay
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumGiropay
+  | -- | Represents the JSON value @"grabpay"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumGrabpay
   | -- | Represents the JSON value @"ideal"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumIdeal
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumIdeal
+  | -- | Represents the JSON value @"konbini"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumKonbini
+  | -- | Represents the JSON value @"link"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumLink
+  | -- | Represents the JSON value @"paynow"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumPaynow
+  | -- | Represents the JSON value @"promptpay"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumPromptpay
   | -- | Represents the JSON value @"sepa_debit"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumSepaDebit
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumSepaDebit
   | -- | Represents the JSON value @"sofort"@
-    InvoicesPaymentSettingsPaymentMethodTypes'EnumSofort
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumSofort
+  | -- | Represents the JSON value @"us_bank_account"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumUsBankAccount
+  | -- | Represents the JSON value @"wechat_pay"@
+    InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumWechatPay
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodTypes' where
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'Other val) = val
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumAchCreditTransfer) = "ach_credit_transfer"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumAchDebit) = "ach_debit"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumAuBecsDebit) = "au_becs_debit"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumBacsDebit) = "bacs_debit"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumBancontact) = "bancontact"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumCard) = "card"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumFpx) = "fpx"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumGiropay) = "giropay"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumIdeal) = "ideal"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumSepaDebit) = "sepa_debit"
-  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'EnumSofort) = "sofort"
+instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentSettingsPaymentMethodTypes'NonNullable where
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableOther val) = val
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAchCreditTransfer) = "ach_credit_transfer"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAchDebit) = "ach_debit"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAcssDebit) = "acss_debit"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAuBecsDebit) = "au_becs_debit"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBacsDebit) = "bacs_debit"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBancontact) = "bancontact"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBoleto) = "boleto"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumCard) = "card"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumCustomerBalance) = "customer_balance"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumFpx) = "fpx"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumGiropay) = "giropay"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumGrabpay) = "grabpay"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumIdeal) = "ideal"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumKonbini) = "konbini"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumLink) = "link"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumPaynow) = "paynow"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumPromptpay) = "promptpay"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumSepaDebit) = "sepa_debit"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumSofort) = "sofort"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumUsBankAccount) = "us_bank_account"
+  toJSON (InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumWechatPay) = "wechat_pay"
 
-instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodTypes' where
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentSettingsPaymentMethodTypes'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "ach_credit_transfer" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumAchCreditTransfer
-            | val GHC.Classes.== "ach_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumAchDebit
-            | val GHC.Classes.== "au_becs_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumAuBecsDebit
-            | val GHC.Classes.== "bacs_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumBacsDebit
-            | val GHC.Classes.== "bancontact" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumBancontact
-            | val GHC.Classes.== "card" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumCard
-            | val GHC.Classes.== "fpx" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumFpx
-            | val GHC.Classes.== "giropay" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumGiropay
-            | val GHC.Classes.== "ideal" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumIdeal
-            | val GHC.Classes.== "sepa_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumSepaDebit
-            | val GHC.Classes.== "sofort" -> InvoicesPaymentSettingsPaymentMethodTypes'EnumSofort
-            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodTypes'Other val
+            | val GHC.Classes.== "ach_credit_transfer" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAchCreditTransfer
+            | val GHC.Classes.== "ach_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAchDebit
+            | val GHC.Classes.== "acss_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAcssDebit
+            | val GHC.Classes.== "au_becs_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumAuBecsDebit
+            | val GHC.Classes.== "bacs_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBacsDebit
+            | val GHC.Classes.== "bancontact" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBancontact
+            | val GHC.Classes.== "boleto" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumBoleto
+            | val GHC.Classes.== "card" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumCard
+            | val GHC.Classes.== "customer_balance" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumCustomerBalance
+            | val GHC.Classes.== "fpx" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumFpx
+            | val GHC.Classes.== "giropay" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumGiropay
+            | val GHC.Classes.== "grabpay" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumGrabpay
+            | val GHC.Classes.== "ideal" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumIdeal
+            | val GHC.Classes.== "konbini" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumKonbini
+            | val GHC.Classes.== "link" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumLink
+            | val GHC.Classes.== "paynow" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumPaynow
+            | val GHC.Classes.== "promptpay" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumPromptpay
+            | val GHC.Classes.== "sepa_debit" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumSepaDebit
+            | val GHC.Classes.== "sofort" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumSofort
+            | val GHC.Classes.== "us_bank_account" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumUsBankAccount
+            | val GHC.Classes.== "wechat_pay" -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableEnumWechatPay
+            | GHC.Base.otherwise -> InvoicesPaymentSettingsPaymentMethodTypes'NonNullableOther val
       )

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetChargesChargeDisputeParameters = GetChargesChargeDisputeParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetChargesChargeDisputeParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeDisputeParametersPathCharge obj : "queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeDisputeParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeDisputeParametersPathCharge obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getChargesChargeDisputeParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeDisputeParametersPathCharge obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getChargesChargeDisputeParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCharge" Data.Aeson.Types.ToJSON..= getChargesChargeDisputeParametersPathCharge obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getChargesChargeDisputeParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesChargeDisputeParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeDisputeParameters" (\obj -> (GHC.Base.pure GetChargesChargeDisputeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesChargeDisputeParameters" (\obj -> (GHC.Base.pure GetChargesChargeDisputeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetChargesChargeDisputeParameters' with all required fields.
 mkGetChargesChargeDisputeParameters ::

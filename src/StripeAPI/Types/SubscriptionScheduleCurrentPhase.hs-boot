@@ -1,6 +1,7 @@
 module StripeAPI.Types.SubscriptionScheduleCurrentPhase where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data SubscriptionScheduleCurrentPhase
 instance Show SubscriptionScheduleCurrentPhase
 instance Eq SubscriptionScheduleCurrentPhase

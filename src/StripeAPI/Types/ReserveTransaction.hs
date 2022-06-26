@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -41,7 +43,7 @@ data ReserveTransaction = ReserveTransaction
     -- Constraints:
     --
     -- * Maximum length of 5000
-    reserveTransactionDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    reserveTransactionDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -55,11 +57,11 @@ data ReserveTransaction = ReserveTransaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ReserveTransaction where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= reserveTransactionAmount obj : "currency" Data.Aeson.Types.ToJSON..= reserveTransactionCurrency obj : "description" Data.Aeson.Types.ToJSON..= reserveTransactionDescription obj : "id" Data.Aeson.Types.ToJSON..= reserveTransactionId obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reserve_transaction" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= reserveTransactionAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= reserveTransactionCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= reserveTransactionDescription obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reserveTransactionId obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reserve_transaction")))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= reserveTransactionAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= reserveTransactionCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (reserveTransactionDescription obj) : ["id" Data.Aeson.Types.ToJSON..= reserveTransactionId obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reserve_transaction"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= reserveTransactionAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= reserveTransactionCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (reserveTransactionDescription obj) : ["id" Data.Aeson.Types.ToJSON..= reserveTransactionId obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reserve_transaction"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ReserveTransaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ReserveTransaction" (\obj -> (((GHC.Base.pure ReserveTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ReserveTransaction" (\obj -> (((GHC.Base.pure ReserveTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id"))
 
 -- | Create a new 'ReserveTransaction' with all required fields.
 mkReserveTransaction ::

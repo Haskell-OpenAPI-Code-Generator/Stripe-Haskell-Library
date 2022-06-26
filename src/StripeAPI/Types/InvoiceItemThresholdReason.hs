@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,8 +45,8 @@ data InvoiceItemThresholdReason = InvoiceItemThresholdReason
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceItemThresholdReason where
-  toJSON obj = Data.Aeson.Types.Internal.object ("line_item_ids" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonLineItemIds obj : "usage_gte" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonUsageGte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("line_item_ids" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonLineItemIds obj) GHC.Base.<> ("usage_gte" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonUsageGte obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["line_item_ids" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonLineItemIds obj] : ["usage_gte" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonUsageGte obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["line_item_ids" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonLineItemIds obj] : ["usage_gte" Data.Aeson.Types.ToJSON..= invoiceItemThresholdReasonUsageGte obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceItemThresholdReason where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceItemThresholdReason" (\obj -> (GHC.Base.pure InvoiceItemThresholdReason GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line_item_ids")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_gte"))

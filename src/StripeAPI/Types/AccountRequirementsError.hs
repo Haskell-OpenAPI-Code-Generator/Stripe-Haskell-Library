@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -53,8 +55,8 @@ data AccountRequirementsError = AccountRequirementsError
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountRequirementsError where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= accountRequirementsErrorCode obj : "reason" Data.Aeson.Types.ToJSON..= accountRequirementsErrorReason obj : "requirement" Data.Aeson.Types.ToJSON..= accountRequirementsErrorRequirement obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= accountRequirementsErrorCode obj) GHC.Base.<> (("reason" Data.Aeson.Types.ToJSON..= accountRequirementsErrorReason obj) GHC.Base.<> ("requirement" Data.Aeson.Types.ToJSON..= accountRequirementsErrorRequirement obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["code" Data.Aeson.Types.ToJSON..= accountRequirementsErrorCode obj] : ["reason" Data.Aeson.Types.ToJSON..= accountRequirementsErrorReason obj] : ["requirement" Data.Aeson.Types.ToJSON..= accountRequirementsErrorRequirement obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["code" Data.Aeson.Types.ToJSON..= accountRequirementsErrorCode obj] : ["reason" Data.Aeson.Types.ToJSON..= accountRequirementsErrorReason obj] : ["requirement" Data.Aeson.Types.ToJSON..= accountRequirementsErrorRequirement obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsError where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountRequirementsError" (\obj -> ((GHC.Base.pure AccountRequirementsError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "requirement"))

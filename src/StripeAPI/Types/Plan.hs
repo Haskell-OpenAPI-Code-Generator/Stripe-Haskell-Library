@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,16 +45,16 @@ import qualified Prelude as GHC.Maybe
 --
 -- For example, you might have a single \"gold\" product that has plans for \$10\/month, \$100\/year, €9\/month, and €90\/year.
 --
--- Related guides: [Set up a subscription](https:\/\/stripe.com\/docs\/billing\/subscriptions\/set-up-subscription) and more about [products and prices](https:\/\/stripe.com\/docs\/billing\/prices-guide).
+-- Related guides: [Set up a subscription](https:\/\/stripe.com\/docs\/billing\/subscriptions\/set-up-subscription) and more about [products and prices](https:\/\/stripe.com\/docs\/products-prices\/overview).
 data Plan = Plan
   { -- | active: Whether the plan can be used for new purchases.
     planActive :: GHC.Types.Bool,
     -- | aggregate_usage: Specifies a usage aggregation strategy for plans of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
-    planAggregateUsage :: (GHC.Maybe.Maybe PlanAggregateUsage'),
+    planAggregateUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PlanAggregateUsage'NonNullable)),
     -- | amount: The unit amount in %s to be charged, represented as a whole integer if possible. Only set if \`billing_scheme=per_unit\`.
-    planAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    planAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | amount_decimal: The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if \`billing_scheme=per_unit\`.
-    planAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    planAmountDecimal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | billing_scheme: Describes how to compute the price per period. Either \`per_unit\` or \`tiered\`. \`per_unit\` indicates that the fixed amount (specified in \`amount\`) will be charged per unit in \`quantity\` (for plans with \`usage_type=licensed\`), or per unit of total usage (for plans with \`usage_type=metered\`). \`tiered\` indicates that the unit pricing will be computed using a tiering strategy as defined using the \`tiers\` and \`tiers_mode\` attributes.
     planBillingScheme :: PlanBillingScheme',
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -72,23 +74,23 @@ data Plan = Plan
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     planLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    planMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    planMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | nickname: A brief description of the plan, hidden from customers.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    planNickname :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    planNickname :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | product: The product whose pricing this plan determines.
-    planProduct :: (GHC.Maybe.Maybe PlanProduct'Variants),
+    planProduct :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PlanProduct'NonNullableVariants)),
     -- | tiers: Each element represents a pricing tier. This parameter requires \`billing_scheme\` to be set to \`tiered\`. See also the documentation for \`billing_scheme\`.
     planTiers :: (GHC.Maybe.Maybe ([PlanTier])),
     -- | tiers_mode: Defines if the tiering price should be \`graduated\` or \`volume\` based. In \`volume\`-based tiering, the maximum quantity within a period determines the per unit price. In \`graduated\` tiering, pricing can change as the quantity grows.
-    planTiersMode :: (GHC.Maybe.Maybe PlanTiersMode'),
+    planTiersMode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PlanTiersMode'NonNullable)),
     -- | transform_usage: Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with \`tiers\`.
-    planTransformUsage :: (GHC.Maybe.Maybe PlanTransformUsage'),
+    planTransformUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PlanTransformUsage'NonNullable)),
     -- | trial_period_days: Default number of trial days when subscribing a customer to this plan using [\`trial_from_plan=true\`](https:\/\/stripe.com\/docs\/api\#create_subscription-trial_from_plan).
-    planTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int),
+    planTrialPeriodDays :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | usage_type: Configures how the quantity per period should be determined. Can be either \`metered\` or \`licensed\`. \`licensed\` automatically bills the \`quantity\` set when adding it to a subscription. \`metered\` aggregates the total usage based on usage records. Defaults to \`licensed\`.
     planUsageType :: PlanUsageType'
   }
@@ -98,11 +100,11 @@ data Plan = Plan
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Plan where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= planActive obj : "aggregate_usage" Data.Aeson.Types.ToJSON..= planAggregateUsage obj : "amount" Data.Aeson.Types.ToJSON..= planAmount obj : "amount_decimal" Data.Aeson.Types.ToJSON..= planAmountDecimal obj : "billing_scheme" Data.Aeson.Types.ToJSON..= planBillingScheme obj : "created" Data.Aeson.Types.ToJSON..= planCreated obj : "currency" Data.Aeson.Types.ToJSON..= planCurrency obj : "id" Data.Aeson.Types.ToJSON..= planId obj : "interval" Data.Aeson.Types.ToJSON..= planInterval obj : "interval_count" Data.Aeson.Types.ToJSON..= planIntervalCount obj : "livemode" Data.Aeson.Types.ToJSON..= planLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= planMetadata obj : "nickname" Data.Aeson.Types.ToJSON..= planNickname obj : "product" Data.Aeson.Types.ToJSON..= planProduct obj : "tiers" Data.Aeson.Types.ToJSON..= planTiers obj : "tiers_mode" Data.Aeson.Types.ToJSON..= planTiersMode obj : "transform_usage" Data.Aeson.Types.ToJSON..= planTransformUsage obj : "trial_period_days" Data.Aeson.Types.ToJSON..= planTrialPeriodDays obj : "usage_type" Data.Aeson.Types.ToJSON..= planUsageType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= planActive obj) GHC.Base.<> (("aggregate_usage" Data.Aeson.Types.ToJSON..= planAggregateUsage obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= planAmount obj) GHC.Base.<> (("amount_decimal" Data.Aeson.Types.ToJSON..= planAmountDecimal obj) GHC.Base.<> (("billing_scheme" Data.Aeson.Types.ToJSON..= planBillingScheme obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= planCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= planCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= planId obj) GHC.Base.<> (("interval" Data.Aeson.Types.ToJSON..= planInterval obj) GHC.Base.<> (("interval_count" Data.Aeson.Types.ToJSON..= planIntervalCount obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= planLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= planMetadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= planNickname obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= planProduct obj) GHC.Base.<> (("tiers" Data.Aeson.Types.ToJSON..= planTiers obj) GHC.Base.<> (("tiers_mode" Data.Aeson.Types.ToJSON..= planTiersMode obj) GHC.Base.<> (("transform_usage" Data.Aeson.Types.ToJSON..= planTransformUsage obj) GHC.Base.<> (("trial_period_days" Data.Aeson.Types.ToJSON..= planTrialPeriodDays obj) GHC.Base.<> (("usage_type" Data.Aeson.Types.ToJSON..= planUsageType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan"))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= planActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("aggregate_usage" Data.Aeson.Types.ToJSON..=)) (planAggregateUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (planAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_decimal" Data.Aeson.Types.ToJSON..=)) (planAmountDecimal obj) : ["billing_scheme" Data.Aeson.Types.ToJSON..= planBillingScheme obj] : ["created" Data.Aeson.Types.ToJSON..= planCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= planCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= planId obj] : ["interval" Data.Aeson.Types.ToJSON..= planInterval obj] : ["interval_count" Data.Aeson.Types.ToJSON..= planIntervalCount obj] : ["livemode" Data.Aeson.Types.ToJSON..= planLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (planMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (planNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (planProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (planTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (planTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_usage" Data.Aeson.Types.ToJSON..=)) (planTransformUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (planTrialPeriodDays obj) : ["usage_type" Data.Aeson.Types.ToJSON..= planUsageType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= planActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("aggregate_usage" Data.Aeson.Types.ToJSON..=)) (planAggregateUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (planAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_decimal" Data.Aeson.Types.ToJSON..=)) (planAmountDecimal obj) : ["billing_scheme" Data.Aeson.Types.ToJSON..= planBillingScheme obj] : ["created" Data.Aeson.Types.ToJSON..= planCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= planCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= planId obj] : ["interval" Data.Aeson.Types.ToJSON..= planInterval obj] : ["interval_count" Data.Aeson.Types.ToJSON..= planIntervalCount obj] : ["livemode" Data.Aeson.Types.ToJSON..= planLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (planMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (planNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (planProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (planTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (planTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_usage" Data.Aeson.Types.ToJSON..=)) (planTransformUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (planTrialPeriodDays obj) : ["usage_type" Data.Aeson.Types.ToJSON..= planUsageType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "plan"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Plan where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Plan" (\obj -> ((((((((((((((((((GHC.Base.pure Plan GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "aggregate_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transform_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Plan" (\obj -> ((((((((((((((((((GHC.Base.pure Plan GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "aggregate_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transform_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "usage_type"))
 
 -- | Create a new 'Plan' with all required fields.
 mkPlan ::
@@ -151,38 +153,38 @@ mkPlan planActive planBillingScheme planCreated planCurrency planId planInterval
 -- | Defines the enum schema located at @components.schemas.plan.properties.aggregate_usage@ in the specification.
 --
 -- Specifies a usage aggregation strategy for plans of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
-data PlanAggregateUsage'
+data PlanAggregateUsage'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PlanAggregateUsage'Other Data.Aeson.Types.Internal.Value
+    PlanAggregateUsage'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PlanAggregateUsage'Typed Data.Text.Internal.Text
+    PlanAggregateUsage'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"last_during_period"@
-    PlanAggregateUsage'EnumLastDuringPeriod
+    PlanAggregateUsage'NonNullableEnumLastDuringPeriod
   | -- | Represents the JSON value @"last_ever"@
-    PlanAggregateUsage'EnumLastEver
+    PlanAggregateUsage'NonNullableEnumLastEver
   | -- | Represents the JSON value @"max"@
-    PlanAggregateUsage'EnumMax
+    PlanAggregateUsage'NonNullableEnumMax
   | -- | Represents the JSON value @"sum"@
-    PlanAggregateUsage'EnumSum
+    PlanAggregateUsage'NonNullableEnumSum
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PlanAggregateUsage' where
-  toJSON (PlanAggregateUsage'Other val) = val
-  toJSON (PlanAggregateUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PlanAggregateUsage'EnumLastDuringPeriod) = "last_during_period"
-  toJSON (PlanAggregateUsage'EnumLastEver) = "last_ever"
-  toJSON (PlanAggregateUsage'EnumMax) = "max"
-  toJSON (PlanAggregateUsage'EnumSum) = "sum"
+instance Data.Aeson.Types.ToJSON.ToJSON PlanAggregateUsage'NonNullable where
+  toJSON (PlanAggregateUsage'NonNullableOther val) = val
+  toJSON (PlanAggregateUsage'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PlanAggregateUsage'NonNullableEnumLastDuringPeriod) = "last_during_period"
+  toJSON (PlanAggregateUsage'NonNullableEnumLastEver) = "last_ever"
+  toJSON (PlanAggregateUsage'NonNullableEnumMax) = "max"
+  toJSON (PlanAggregateUsage'NonNullableEnumSum) = "sum"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PlanAggregateUsage' where
+instance Data.Aeson.Types.FromJSON.FromJSON PlanAggregateUsage'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "last_during_period" -> PlanAggregateUsage'EnumLastDuringPeriod
-            | val GHC.Classes.== "last_ever" -> PlanAggregateUsage'EnumLastEver
-            | val GHC.Classes.== "max" -> PlanAggregateUsage'EnumMax
-            | val GHC.Classes.== "sum" -> PlanAggregateUsage'EnumSum
-            | GHC.Base.otherwise -> PlanAggregateUsage'Other val
+            | val GHC.Classes.== "last_during_period" -> PlanAggregateUsage'NonNullableEnumLastDuringPeriod
+            | val GHC.Classes.== "last_ever" -> PlanAggregateUsage'NonNullableEnumLastEver
+            | val GHC.Classes.== "max" -> PlanAggregateUsage'NonNullableEnumMax
+            | val GHC.Classes.== "sum" -> PlanAggregateUsage'NonNullableEnumSum
+            | GHC.Base.otherwise -> PlanAggregateUsage'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.plan.properties.billing_scheme@ in the specification.
@@ -254,107 +256,107 @@ instance Data.Aeson.Types.FromJSON.FromJSON PlanInterval' where
 -- | Defines the oneOf schema located at @components.schemas.plan.properties.product.anyOf@ in the specification.
 --
 -- The product whose pricing this plan determines.
-data PlanProduct'Variants
-  = PlanProduct'Text Data.Text.Internal.Text
-  | PlanProduct'Product Product
-  | PlanProduct'DeletedProduct DeletedProduct
+data PlanProduct'NonNullableVariants
+  = PlanProduct'NonNullableText Data.Text.Internal.Text
+  | PlanProduct'NonNullableProduct Product
+  | PlanProduct'NonNullableDeletedProduct DeletedProduct
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PlanProduct'Variants where
-  toJSON (PlanProduct'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PlanProduct'Product a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PlanProduct'DeletedProduct a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON PlanProduct'NonNullableVariants where
+  toJSON (PlanProduct'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PlanProduct'NonNullableProduct a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PlanProduct'NonNullableDeletedProduct a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON PlanProduct'Variants where
-  parseJSON val = case (PlanProduct'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PlanProduct'Product Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PlanProduct'DeletedProduct Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+instance Data.Aeson.Types.FromJSON.FromJSON PlanProduct'NonNullableVariants where
+  parseJSON val = case (PlanProduct'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PlanProduct'NonNullableProduct Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PlanProduct'NonNullableDeletedProduct Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @components.schemas.plan.properties.tiers_mode@ in the specification.
 --
 -- Defines if the tiering price should be \`graduated\` or \`volume\` based. In \`volume\`-based tiering, the maximum quantity within a period determines the per unit price. In \`graduated\` tiering, pricing can change as the quantity grows.
-data PlanTiersMode'
+data PlanTiersMode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PlanTiersMode'Other Data.Aeson.Types.Internal.Value
+    PlanTiersMode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PlanTiersMode'Typed Data.Text.Internal.Text
+    PlanTiersMode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"graduated"@
-    PlanTiersMode'EnumGraduated
+    PlanTiersMode'NonNullableEnumGraduated
   | -- | Represents the JSON value @"volume"@
-    PlanTiersMode'EnumVolume
+    PlanTiersMode'NonNullableEnumVolume
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PlanTiersMode' where
-  toJSON (PlanTiersMode'Other val) = val
-  toJSON (PlanTiersMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PlanTiersMode'EnumGraduated) = "graduated"
-  toJSON (PlanTiersMode'EnumVolume) = "volume"
+instance Data.Aeson.Types.ToJSON.ToJSON PlanTiersMode'NonNullable where
+  toJSON (PlanTiersMode'NonNullableOther val) = val
+  toJSON (PlanTiersMode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PlanTiersMode'NonNullableEnumGraduated) = "graduated"
+  toJSON (PlanTiersMode'NonNullableEnumVolume) = "volume"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PlanTiersMode' where
+instance Data.Aeson.Types.FromJSON.FromJSON PlanTiersMode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "graduated" -> PlanTiersMode'EnumGraduated
-            | val GHC.Classes.== "volume" -> PlanTiersMode'EnumVolume
-            | GHC.Base.otherwise -> PlanTiersMode'Other val
+            | val GHC.Classes.== "graduated" -> PlanTiersMode'NonNullableEnumGraduated
+            | val GHC.Classes.== "volume" -> PlanTiersMode'NonNullableEnumVolume
+            | GHC.Base.otherwise -> PlanTiersMode'NonNullableOther val
       )
 
 -- | Defines the object schema located at @components.schemas.plan.properties.transform_usage.anyOf@ in the specification.
 --
 -- Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with \\\`tiers\\\`.
-data PlanTransformUsage' = PlanTransformUsage'
+data PlanTransformUsage'NonNullable = PlanTransformUsage'NonNullable
   { -- | divide_by: Divide usage by this number.
-    planTransformUsage'DivideBy :: (GHC.Maybe.Maybe GHC.Types.Int),
+    planTransformUsage'NonNullableDivideBy :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | round: After division, either round the result \`up\` or \`down\`.
-    planTransformUsage'Round :: (GHC.Maybe.Maybe PlanTransformUsage'Round')
+    planTransformUsage'NonNullableRound :: (GHC.Maybe.Maybe PlanTransformUsage'NonNullableRound')
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PlanTransformUsage' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("divide_by" Data.Aeson.Types.ToJSON..= planTransformUsage'DivideBy obj : "round" Data.Aeson.Types.ToJSON..= planTransformUsage'Round obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("divide_by" Data.Aeson.Types.ToJSON..= planTransformUsage'DivideBy obj) GHC.Base.<> ("round" Data.Aeson.Types.ToJSON..= planTransformUsage'Round obj))
+instance Data.Aeson.Types.ToJSON.ToJSON PlanTransformUsage'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("divide_by" Data.Aeson.Types.ToJSON..=)) (planTransformUsage'NonNullableDivideBy obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("round" Data.Aeson.Types.ToJSON..=)) (planTransformUsage'NonNullableRound obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("divide_by" Data.Aeson.Types.ToJSON..=)) (planTransformUsage'NonNullableDivideBy obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("round" Data.Aeson.Types.ToJSON..=)) (planTransformUsage'NonNullableRound obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PlanTransformUsage' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PlanTransformUsage'" (\obj -> (GHC.Base.pure PlanTransformUsage' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "round"))
+instance Data.Aeson.Types.FromJSON.FromJSON PlanTransformUsage'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PlanTransformUsage'NonNullable" (\obj -> (GHC.Base.pure PlanTransformUsage'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "round"))
 
--- | Create a new 'PlanTransformUsage'' with all required fields.
-mkPlanTransformUsage' :: PlanTransformUsage'
-mkPlanTransformUsage' =
-  PlanTransformUsage'
-    { planTransformUsage'DivideBy = GHC.Maybe.Nothing,
-      planTransformUsage'Round = GHC.Maybe.Nothing
+-- | Create a new 'PlanTransformUsage'NonNullable' with all required fields.
+mkPlanTransformUsage'NonNullable :: PlanTransformUsage'NonNullable
+mkPlanTransformUsage'NonNullable =
+  PlanTransformUsage'NonNullable
+    { planTransformUsage'NonNullableDivideBy = GHC.Maybe.Nothing,
+      planTransformUsage'NonNullableRound = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.plan.properties.transform_usage.anyOf.properties.round@ in the specification.
 --
 -- After division, either round the result \`up\` or \`down\`.
-data PlanTransformUsage'Round'
+data PlanTransformUsage'NonNullableRound'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PlanTransformUsage'Round'Other Data.Aeson.Types.Internal.Value
+    PlanTransformUsage'NonNullableRound'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PlanTransformUsage'Round'Typed Data.Text.Internal.Text
+    PlanTransformUsage'NonNullableRound'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"down"@
-    PlanTransformUsage'Round'EnumDown
+    PlanTransformUsage'NonNullableRound'EnumDown
   | -- | Represents the JSON value @"up"@
-    PlanTransformUsage'Round'EnumUp
+    PlanTransformUsage'NonNullableRound'EnumUp
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PlanTransformUsage'Round' where
-  toJSON (PlanTransformUsage'Round'Other val) = val
-  toJSON (PlanTransformUsage'Round'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PlanTransformUsage'Round'EnumDown) = "down"
-  toJSON (PlanTransformUsage'Round'EnumUp) = "up"
+instance Data.Aeson.Types.ToJSON.ToJSON PlanTransformUsage'NonNullableRound' where
+  toJSON (PlanTransformUsage'NonNullableRound'Other val) = val
+  toJSON (PlanTransformUsage'NonNullableRound'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PlanTransformUsage'NonNullableRound'EnumDown) = "down"
+  toJSON (PlanTransformUsage'NonNullableRound'EnumUp) = "up"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PlanTransformUsage'Round' where
+instance Data.Aeson.Types.FromJSON.FromJSON PlanTransformUsage'NonNullableRound' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "down" -> PlanTransformUsage'Round'EnumDown
-            | val GHC.Classes.== "up" -> PlanTransformUsage'Round'EnumUp
-            | GHC.Base.otherwise -> PlanTransformUsage'Round'Other val
+            | val GHC.Classes.== "down" -> PlanTransformUsage'NonNullableRound'EnumDown
+            | val GHC.Classes.== "up" -> PlanTransformUsage'NonNullableRound'EnumUp
+            | GHC.Base.otherwise -> PlanTransformUsage'NonNullableRound'Other val
       )
 
 -- | Defines the enum schema located at @components.schemas.plan.properties.usage_type@ in the specification.

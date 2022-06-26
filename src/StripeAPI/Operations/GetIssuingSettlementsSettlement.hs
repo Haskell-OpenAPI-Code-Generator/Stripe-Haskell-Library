@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetIssuingSettlementsSettlementParameters = GetIssuingSettlementsSettlement
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingSettlementsSettlementParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathSettlement" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersPathSettlement obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSettlement" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersPathSettlement obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathSettlement" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersPathSettlement obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingSettlementsSettlementParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathSettlement" Data.Aeson.Types.ToJSON..= getIssuingSettlementsSettlementParametersPathSettlement obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingSettlementsSettlementParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingSettlementsSettlementParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingSettlementsSettlementParameters" (\obj -> (GHC.Base.pure GetIssuingSettlementsSettlementParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSettlement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingSettlementsSettlementParameters" (\obj -> (GHC.Base.pure GetIssuingSettlementsSettlementParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSettlement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetIssuingSettlementsSettlementParameters' with all required fields.
 mkGetIssuingSettlementsSettlementParameters ::

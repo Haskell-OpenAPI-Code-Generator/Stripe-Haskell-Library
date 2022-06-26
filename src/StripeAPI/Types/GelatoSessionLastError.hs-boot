@@ -1,13 +1,14 @@
 module StripeAPI.Types.GelatoSessionLastError where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data GelatoSessionLastError
 instance Show GelatoSessionLastError
 instance Eq GelatoSessionLastError
 instance FromJSON GelatoSessionLastError
 instance ToJSON GelatoSessionLastError
-data GelatoSessionLastErrorCode'
-instance Show GelatoSessionLastErrorCode'
-instance Eq GelatoSessionLastErrorCode'
-instance FromJSON GelatoSessionLastErrorCode'
-instance ToJSON GelatoSessionLastErrorCode'
+data GelatoSessionLastErrorCode'NonNullable
+instance Show GelatoSessionLastErrorCode'NonNullable
+instance Eq GelatoSessionLastErrorCode'NonNullable
+instance FromJSON GelatoSessionLastErrorCode'NonNullable
+instance ToJSON GelatoSessionLastErrorCode'NonNullable

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -98,8 +100,8 @@ data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody = PostSubscrip
     postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | quantity: The usage quantity for the specified timestamp.
     postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity :: GHC.Types.Int,
-    -- | timestamp: The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided \`subscription_item\`.
-    postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp :: GHC.Types.Int
+    -- | timestamp: The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided \`subscription_item\`, and must not be in the future. When passing \`\"now\"\`, Stripe records usage for the current time. Default is \`\"now\"\` if a value is not provided.
+    postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp :: (GHC.Maybe.Maybe PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Variants)
   }
   deriving
     ( GHC.Show.Show,
@@ -107,25 +109,23 @@ data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody = PostSubscrip
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("action" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj : "expand" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj : "quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj : "timestamp" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("action" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj) GHC.Base.<> ("timestamp" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("action" Data.Aeson.Types.ToJSON..=)) (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) : ["quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("timestamp" Data.Aeson.Types.ToJSON..=)) (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("action" Data.Aeson.Types.ToJSON..=)) (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand obj) : ["quantity" Data.Aeson.Types.ToJSON..= postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("timestamp" Data.Aeson.Types.ToJSON..=)) (postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody" (\obj -> (((GHC.Base.pure PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "timestamp"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody" (\obj -> (((GHC.Base.pure PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "timestamp"))
 
 -- | Create a new 'PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody' with all required fields.
 mkPostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ::
   -- | 'postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity'
   GHC.Types.Int ->
-  -- | 'postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'
-  GHC.Types.Int ->
   PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
-mkPostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp =
+mkPostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity =
   PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
     { postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction = GHC.Maybe.Nothing,
       postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand = GHC.Maybe.Nothing,
       postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity = postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity,
-      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp = postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp
+      postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_records.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.action@ in the specification.
@@ -156,6 +156,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionIte
             | val GHC.Classes.== "set" -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumSet
             | GHC.Base.otherwise -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'Other val
       )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_items\/{subscription_item}\/usage_records.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.timestamp.anyOf@ in the specification.
+--
+-- The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided \`subscription_item\`, and must not be in the future. When passing \`\"now\"\`, Stripe records usage for the current time. Default is \`\"now\"\` if a value is not provided.
+data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Variants
+  = -- | Represents the JSON value @"now"@
+    PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Now
+  | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Int GHC.Types.Int
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Variants where
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Now) = "now"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "now" -> GHC.Base.pure PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Now
+        | GHC.Base.otherwise -> case (PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postSubscriptionItemsSubscriptionItemUsageRecords'.
 --

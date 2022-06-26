@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,7 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.payment_method_options_sofort@ in the specification.
 data PaymentMethodOptionsSofort = PaymentMethodOptionsSofort
   { -- | preferred_language: Preferred language of the SOFORT authorization page that the customer is redirected to.
-    paymentMethodOptionsSofortPreferredLanguage :: (GHC.Maybe.Maybe PaymentMethodOptionsSofortPreferredLanguage')
+    paymentMethodOptionsSofortPreferredLanguage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodOptionsSofortPreferredLanguage'NonNullable)),
+    -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+    --
+    -- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+    --
+    -- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+    paymentMethodOptionsSofortSetupFutureUsage :: (GHC.Maybe.Maybe PaymentMethodOptionsSofortSetupFutureUsage')
   }
   deriving
     ( GHC.Show.Show,
@@ -41,61 +49,98 @@ data PaymentMethodOptionsSofort = PaymentMethodOptionsSofort
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsSofort where
-  toJSON obj = Data.Aeson.Types.Internal.object ("preferred_language" Data.Aeson.Types.ToJSON..= paymentMethodOptionsSofortPreferredLanguage obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("preferred_language" Data.Aeson.Types.ToJSON..= paymentMethodOptionsSofortPreferredLanguage obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsSofortPreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsSofortSetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsSofortPreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsSofortSetupFutureUsage obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsSofort where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsSofort" (\obj -> GHC.Base.pure PaymentMethodOptionsSofort GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "preferred_language"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsSofort" (\obj -> (GHC.Base.pure PaymentMethodOptionsSofort GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
 
 -- | Create a new 'PaymentMethodOptionsSofort' with all required fields.
 mkPaymentMethodOptionsSofort :: PaymentMethodOptionsSofort
-mkPaymentMethodOptionsSofort = PaymentMethodOptionsSofort {paymentMethodOptionsSofortPreferredLanguage = GHC.Maybe.Nothing}
+mkPaymentMethodOptionsSofort =
+  PaymentMethodOptionsSofort
+    { paymentMethodOptionsSofortPreferredLanguage = GHC.Maybe.Nothing,
+      paymentMethodOptionsSofortSetupFutureUsage = GHC.Maybe.Nothing
+    }
 
 -- | Defines the enum schema located at @components.schemas.payment_method_options_sofort.properties.preferred_language@ in the specification.
 --
 -- Preferred language of the SOFORT authorization page that the customer is redirected to.
-data PaymentMethodOptionsSofortPreferredLanguage'
+data PaymentMethodOptionsSofortPreferredLanguage'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentMethodOptionsSofortPreferredLanguage'Other Data.Aeson.Types.Internal.Value
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentMethodOptionsSofortPreferredLanguage'Typed Data.Text.Internal.Text
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"de"@
-    PaymentMethodOptionsSofortPreferredLanguage'EnumDe
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumDe
   | -- | Represents the JSON value @"en"@
-    PaymentMethodOptionsSofortPreferredLanguage'EnumEn
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumEn
   | -- | Represents the JSON value @"es"@
-    PaymentMethodOptionsSofortPreferredLanguage'EnumEs
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumEs
   | -- | Represents the JSON value @"fr"@
-    PaymentMethodOptionsSofortPreferredLanguage'EnumFr
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumFr
   | -- | Represents the JSON value @"it"@
-    PaymentMethodOptionsSofortPreferredLanguage'EnumIt
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumIt
   | -- | Represents the JSON value @"nl"@
-    PaymentMethodOptionsSofortPreferredLanguage'EnumNl
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumNl
   | -- | Represents the JSON value @"pl"@
-    PaymentMethodOptionsSofortPreferredLanguage'EnumPl
+    PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumPl
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsSofortPreferredLanguage' where
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'Other val) = val
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'EnumDe) = "de"
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'EnumEn) = "en"
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'EnumEs) = "es"
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'EnumFr) = "fr"
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'EnumIt) = "it"
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'EnumNl) = "nl"
-  toJSON (PaymentMethodOptionsSofortPreferredLanguage'EnumPl) = "pl"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsSofortPreferredLanguage'NonNullable where
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableOther val) = val
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumDe) = "de"
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumEn) = "en"
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumEs) = "es"
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumFr) = "fr"
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumIt) = "it"
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumNl) = "nl"
+  toJSON (PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumPl) = "pl"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsSofortPreferredLanguage' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsSofortPreferredLanguage'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "de" -> PaymentMethodOptionsSofortPreferredLanguage'EnumDe
-            | val GHC.Classes.== "en" -> PaymentMethodOptionsSofortPreferredLanguage'EnumEn
-            | val GHC.Classes.== "es" -> PaymentMethodOptionsSofortPreferredLanguage'EnumEs
-            | val GHC.Classes.== "fr" -> PaymentMethodOptionsSofortPreferredLanguage'EnumFr
-            | val GHC.Classes.== "it" -> PaymentMethodOptionsSofortPreferredLanguage'EnumIt
-            | val GHC.Classes.== "nl" -> PaymentMethodOptionsSofortPreferredLanguage'EnumNl
-            | val GHC.Classes.== "pl" -> PaymentMethodOptionsSofortPreferredLanguage'EnumPl
-            | GHC.Base.otherwise -> PaymentMethodOptionsSofortPreferredLanguage'Other val
+            | val GHC.Classes.== "de" -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumDe
+            | val GHC.Classes.== "en" -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumEn
+            | val GHC.Classes.== "es" -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumEs
+            | val GHC.Classes.== "fr" -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumFr
+            | val GHC.Classes.== "it" -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumIt
+            | val GHC.Classes.== "nl" -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumNl
+            | val GHC.Classes.== "pl" -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableEnumPl
+            | GHC.Base.otherwise -> PaymentMethodOptionsSofortPreferredLanguage'NonNullableOther val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_method_options_sofort.properties.setup_future_usage@ in the specification.
+--
+-- Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+--
+-- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+--
+-- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+data PaymentMethodOptionsSofortSetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodOptionsSofortSetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodOptionsSofortSetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentMethodOptionsSofortSetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PaymentMethodOptionsSofortSetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsSofortSetupFutureUsage' where
+  toJSON (PaymentMethodOptionsSofortSetupFutureUsage'Other val) = val
+  toJSON (PaymentMethodOptionsSofortSetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsSofortSetupFutureUsage'EnumNone) = "none"
+  toJSON (PaymentMethodOptionsSofortSetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsSofortSetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentMethodOptionsSofortSetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PaymentMethodOptionsSofortSetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PaymentMethodOptionsSofortSetupFutureUsage'Other val
       )

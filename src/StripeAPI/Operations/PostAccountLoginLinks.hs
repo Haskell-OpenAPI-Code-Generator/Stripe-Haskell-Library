@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -101,11 +103,11 @@ data PostAccountLoginLinksRequestBody = PostAccountLoginLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLoginLinksRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyAccount obj : "expand" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyExpand obj : "redirect_url" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyRedirectUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyAccount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyExpand obj) GHC.Base.<> ("redirect_url" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyRedirectUrl obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountLoginLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_url" Data.Aeson.Types.ToJSON..=)) (postAccountLoginLinksRequestBodyRedirectUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= postAccountLoginLinksRequestBodyAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountLoginLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_url" Data.Aeson.Types.ToJSON..=)) (postAccountLoginLinksRequestBodyRedirectUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLoginLinksRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountLoginLinksRequestBody" (\obj -> ((GHC.Base.pure PostAccountLoginLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountLoginLinksRequestBody" (\obj -> ((GHC.Base.pure PostAccountLoginLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect_url"))
 
 -- | Create a new 'PostAccountLoginLinksRequestBody' with all required fields.
 mkPostAccountLoginLinksRequestBody ::

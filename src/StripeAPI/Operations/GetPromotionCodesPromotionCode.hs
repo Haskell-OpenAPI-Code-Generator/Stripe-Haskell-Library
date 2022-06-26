@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > GET /v1/promotion_codes/{promotion_code}
 --
--- \<p>Retrieves the promotion code with the given ID.\<\/p>
+-- \<p>Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing \<code>code\<\/code> use \<a href=\"\/docs\/api\/promotion_codes\/list\">list\<\/a> with the desired \<code>code\<\/code>.\<\/p>
 getPromotionCodesPromotionCode ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -99,11 +101,11 @@ data GetPromotionCodesPromotionCodeParameters = GetPromotionCodesPromotionCodePa
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPromotionCodesPromotionCodeParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathPromotion_code" Data.Aeson.Types.ToJSON..= getPromotionCodesPromotionCodeParametersPathPromotionCode obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPromotionCodesPromotionCodeParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPromotion_code" Data.Aeson.Types.ToJSON..= getPromotionCodesPromotionCodeParametersPathPromotionCode obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPromotionCodesPromotionCodeParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathPromotion_code" Data.Aeson.Types.ToJSON..= getPromotionCodesPromotionCodeParametersPathPromotionCode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPromotionCodesPromotionCodeParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathPromotion_code" Data.Aeson.Types.ToJSON..= getPromotionCodesPromotionCodeParametersPathPromotionCode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPromotionCodesPromotionCodeParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPromotionCodesPromotionCodeParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPromotionCodesPromotionCodeParameters" (\obj -> (GHC.Base.pure GetPromotionCodesPromotionCodeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPromotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPromotionCodesPromotionCodeParameters" (\obj -> (GHC.Base.pure GetPromotionCodesPromotionCodeParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPromotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetPromotionCodesPromotionCodeParameters' with all required fields.
 mkGetPromotionCodesPromotionCodeParameters ::

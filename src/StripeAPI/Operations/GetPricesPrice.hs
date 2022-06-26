@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetPricesPriceParameters = GetPricesPriceParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetPricesPriceParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathPrice" Data.Aeson.Types.ToJSON..= getPricesPriceParametersPathPrice obj : "queryExpand" Data.Aeson.Types.ToJSON..= getPricesPriceParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathPrice" Data.Aeson.Types.ToJSON..= getPricesPriceParametersPathPrice obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getPricesPriceParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathPrice" Data.Aeson.Types.ToJSON..= getPricesPriceParametersPathPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPricesPriceParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathPrice" Data.Aeson.Types.ToJSON..= getPricesPriceParametersPathPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getPricesPriceParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetPricesPriceParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPricesPriceParameters" (\obj -> (GHC.Base.pure GetPricesPriceParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPrice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPricesPriceParameters" (\obj -> (GHC.Base.pure GetPricesPriceParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPrice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetPricesPriceParameters' with all required fields.
 mkGetPricesPriceParameters ::

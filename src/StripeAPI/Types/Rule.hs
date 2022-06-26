@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -57,8 +59,8 @@ data Rule = Rule
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Rule where
-  toJSON obj = Data.Aeson.Types.Internal.object ("action" Data.Aeson.Types.ToJSON..= ruleAction obj : "id" Data.Aeson.Types.ToJSON..= ruleId obj : "predicate" Data.Aeson.Types.ToJSON..= rulePredicate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("action" Data.Aeson.Types.ToJSON..= ruleAction obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= ruleId obj) GHC.Base.<> ("predicate" Data.Aeson.Types.ToJSON..= rulePredicate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["action" Data.Aeson.Types.ToJSON..= ruleAction obj] : ["id" Data.Aeson.Types.ToJSON..= ruleId obj] : ["predicate" Data.Aeson.Types.ToJSON..= rulePredicate obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["action" Data.Aeson.Types.ToJSON..= ruleAction obj] : ["id" Data.Aeson.Types.ToJSON..= ruleId obj] : ["predicate" Data.Aeson.Types.ToJSON..= rulePredicate obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Rule where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Rule" (\obj -> ((GHC.Base.pure Rule GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "predicate"))

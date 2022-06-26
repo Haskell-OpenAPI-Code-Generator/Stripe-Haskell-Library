@@ -1,6 +1,7 @@
 module StripeAPI.Types.ChargeTransferData where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data ChargeTransferData
 instance Show ChargeTransferData
 instance Eq ChargeTransferData

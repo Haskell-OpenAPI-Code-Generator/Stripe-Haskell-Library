@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,7 +47,7 @@ data SourceOrder = SourceOrder
     -- * Maximum length of 5000
     sourceOrderEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | items: List of items constituting the order.
-    sourceOrderItems :: (GHC.Maybe.Maybe ([SourceOrderItem])),
+    sourceOrderItems :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([SourceOrderItem]))),
     -- | shipping:
     sourceOrderShipping :: (GHC.Maybe.Maybe Shipping)
   }
@@ -55,11 +57,11 @@ data SourceOrder = SourceOrder
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceOrder where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= sourceOrderAmount obj : "currency" Data.Aeson.Types.ToJSON..= sourceOrderCurrency obj : "email" Data.Aeson.Types.ToJSON..= sourceOrderEmail obj : "items" Data.Aeson.Types.ToJSON..= sourceOrderItems obj : "shipping" Data.Aeson.Types.ToJSON..= sourceOrderShipping obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= sourceOrderAmount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= sourceOrderCurrency obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= sourceOrderEmail obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= sourceOrderItems obj) GHC.Base.<> ("shipping" Data.Aeson.Types.ToJSON..= sourceOrderShipping obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= sourceOrderAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= sourceOrderCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (sourceOrderEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (sourceOrderItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (sourceOrderShipping obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= sourceOrderAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= sourceOrderCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (sourceOrderEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (sourceOrderItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (sourceOrderShipping obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceOrder where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceOrder" (\obj -> ((((GHC.Base.pure SourceOrder GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceOrder" (\obj -> ((((GHC.Base.pure SourceOrder GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping"))
 
 -- | Create a new 'SourceOrder' with all required fields.
 mkSourceOrder ::

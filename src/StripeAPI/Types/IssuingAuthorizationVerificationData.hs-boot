@@ -1,6 +1,7 @@
 module StripeAPI.Types.IssuingAuthorizationVerificationData where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data IssuingAuthorizationVerificationData
 instance Show IssuingAuthorizationVerificationData
 instance Eq IssuingAuthorizationVerificationData

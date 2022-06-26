@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -54,8 +56,8 @@ data AccountLink = AccountLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountLink where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= accountLinkCreated obj : "expires_at" Data.Aeson.Types.ToJSON..= accountLinkExpiresAt obj : "url" Data.Aeson.Types.ToJSON..= accountLinkUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account_link" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= accountLinkCreated obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= accountLinkExpiresAt obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= accountLinkUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account_link"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= accountLinkCreated obj] : ["expires_at" Data.Aeson.Types.ToJSON..= accountLinkExpiresAt obj] : ["url" Data.Aeson.Types.ToJSON..= accountLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account_link"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= accountLinkCreated obj] : ["expires_at" Data.Aeson.Types.ToJSON..= accountLinkExpiresAt obj] : ["url" Data.Aeson.Types.ToJSON..= accountLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "account_link"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountLink where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountLink" (\obj -> ((GHC.Base.pure AccountLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

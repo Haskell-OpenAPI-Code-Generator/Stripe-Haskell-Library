@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -63,8 +65,8 @@ data PlatformTaxFee = PlatformTaxFee
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PlatformTaxFee where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= platformTaxFeeAccount obj : "id" Data.Aeson.Types.ToJSON..= platformTaxFeeId obj : "source_transaction" Data.Aeson.Types.ToJSON..= platformTaxFeeSourceTransaction obj : "type" Data.Aeson.Types.ToJSON..= platformTaxFeeType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "platform_tax_fee" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= platformTaxFeeAccount obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= platformTaxFeeId obj) GHC.Base.<> (("source_transaction" Data.Aeson.Types.ToJSON..= platformTaxFeeSourceTransaction obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= platformTaxFeeType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "platform_tax_fee")))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= platformTaxFeeAccount obj] : ["id" Data.Aeson.Types.ToJSON..= platformTaxFeeId obj] : ["source_transaction" Data.Aeson.Types.ToJSON..= platformTaxFeeSourceTransaction obj] : ["type" Data.Aeson.Types.ToJSON..= platformTaxFeeType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "platform_tax_fee"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= platformTaxFeeAccount obj] : ["id" Data.Aeson.Types.ToJSON..= platformTaxFeeId obj] : ["source_transaction" Data.Aeson.Types.ToJSON..= platformTaxFeeSourceTransaction obj] : ["type" Data.Aeson.Types.ToJSON..= platformTaxFeeType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "platform_tax_fee"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PlatformTaxFee where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PlatformTaxFee" (\obj -> (((GHC.Base.pure PlatformTaxFee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))

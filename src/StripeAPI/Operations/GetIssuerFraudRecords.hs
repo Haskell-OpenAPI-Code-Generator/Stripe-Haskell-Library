@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -126,11 +128,11 @@ data GetIssuerFraudRecordsParameters = GetIssuerFraudRecordsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryCharge" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryCharge obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCharge" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryCharge obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsParametersQueryStartingAfter obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCharge" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCharge" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getIssuerFraudRecordsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsParameters" (\obj -> ((((GHC.Base.pure GetIssuerFraudRecordsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsParameters" (\obj -> ((((GHC.Base.pure GetIssuerFraudRecordsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetIssuerFraudRecordsParameters' with all required fields.
 mkGetIssuerFraudRecordsParameters :: GetIssuerFraudRecordsParameters
@@ -175,8 +177,8 @@ data GetIssuerFraudRecordsResponseBody200 = GetIssuerFraudRecordsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getIssuerFraudRecordsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuerFraudRecordsResponseBody200" (\obj -> ((GHC.Base.pure GetIssuerFraudRecordsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

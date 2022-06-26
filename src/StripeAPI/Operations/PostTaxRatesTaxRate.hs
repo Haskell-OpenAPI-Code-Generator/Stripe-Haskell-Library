@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -131,11 +133,11 @@ data PostTaxRatesTaxRateRequestBody = PostTaxRatesTaxRateRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTaxRatesTaxRateRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyActive obj : "country" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyCountry obj : "description" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDescription obj : "display_name" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDisplayName obj : "expand" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyExpand obj : "jurisdiction" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyJurisdiction obj : "metadata" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyMetadata obj : "state" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyState obj : "tax_type" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyTaxType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyActive obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyCountry obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDescription obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyDisplayName obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyExpand obj) GHC.Base.<> (("jurisdiction" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyJurisdiction obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyMetadata obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyState obj) GHC.Base.<> ("tax_type" Data.Aeson.Types.ToJSON..= postTaxRatesTaxRateRequestBodyTaxType obj)))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyDisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("jurisdiction" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyJurisdiction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_type" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyTaxType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyDisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("jurisdiction" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyJurisdiction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_type" Data.Aeson.Types.ToJSON..=)) (postTaxRatesTaxRateRequestBodyTaxType obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTaxRatesTaxRateRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTaxRatesTaxRateRequestBody" (\obj -> ((((((((GHC.Base.pure PostTaxRatesTaxRateRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "jurisdiction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTaxRatesTaxRateRequestBody" (\obj -> ((((((((GHC.Base.pure PostTaxRatesTaxRateRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "jurisdiction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_type"))
 
 -- | Create a new 'PostTaxRatesTaxRateRequestBody' with all required fields.
 mkPostTaxRatesTaxRateRequestBody :: PostTaxRatesTaxRateRequestBody
@@ -185,10 +187,14 @@ data PostTaxRatesTaxRateRequestBodyTaxType'
     PostTaxRatesTaxRateRequestBodyTaxType'EnumGst
   | -- | Represents the JSON value @"hst"@
     PostTaxRatesTaxRateRequestBodyTaxType'EnumHst
+  | -- | Represents the JSON value @"jct"@
+    PostTaxRatesTaxRateRequestBodyTaxType'EnumJct
   | -- | Represents the JSON value @"pst"@
     PostTaxRatesTaxRateRequestBodyTaxType'EnumPst
   | -- | Represents the JSON value @"qst"@
     PostTaxRatesTaxRateRequestBodyTaxType'EnumQst
+  | -- | Represents the JSON value @"rst"@
+    PostTaxRatesTaxRateRequestBodyTaxType'EnumRst
   | -- | Represents the JSON value @"sales_tax"@
     PostTaxRatesTaxRateRequestBodyTaxType'EnumSalesTax
   | -- | Represents the JSON value @"vat"@
@@ -200,8 +206,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostTaxRatesTaxRateRequestBodyTaxType' w
   toJSON (PostTaxRatesTaxRateRequestBodyTaxType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumGst) = "gst"
   toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumHst) = "hst"
+  toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumJct) = "jct"
   toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumPst) = "pst"
   toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumQst) = "qst"
+  toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumRst) = "rst"
   toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumSalesTax) = "sales_tax"
   toJSON (PostTaxRatesTaxRateRequestBodyTaxType'EnumVat) = "vat"
 
@@ -211,8 +219,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTaxRatesTaxRateRequestBodyTaxTyp
       ( if
             | val GHC.Classes.== "gst" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumGst
             | val GHC.Classes.== "hst" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumHst
+            | val GHC.Classes.== "jct" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumJct
             | val GHC.Classes.== "pst" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumPst
             | val GHC.Classes.== "qst" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumQst
+            | val GHC.Classes.== "rst" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumRst
             | val GHC.Classes.== "sales_tax" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumSalesTax
             | val GHC.Classes.== "vat" -> PostTaxRatesTaxRateRequestBodyTaxType'EnumVat
             | GHC.Base.otherwise -> PostTaxRatesTaxRateRequestBodyTaxType'Other val

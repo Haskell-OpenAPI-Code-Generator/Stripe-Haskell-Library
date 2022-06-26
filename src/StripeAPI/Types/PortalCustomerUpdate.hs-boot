@@ -1,6 +1,7 @@
 module StripeAPI.Types.PortalCustomerUpdate where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PortalCustomerUpdate
 instance Show PortalCustomerUpdate
 instance Eq PortalCustomerUpdate

@@ -1,0 +1,9 @@
+module StripeAPI.Types.TerminalConfigurationConfigurationResourceTipping where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TerminalConfigurationConfigurationResourceTipping
+instance Show TerminalConfigurationConfigurationResourceTipping
+instance Eq TerminalConfigurationConfigurationResourceTipping
+instance FromJSON TerminalConfigurationConfigurationResourceTipping
+instance ToJSON TerminalConfigurationConfigurationResourceTipping

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -32,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_method_fpx@ in the specification.
 data PaymentMethodFpx = PaymentMethodFpx
-  { -- | bank: The customer\'s bank, if provided. Can be one of \`affin_bank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
+  { -- | bank: The customer\'s bank, if provided. Can be one of \`affin_bank\`, \`agrobank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
     paymentMethodFpxBank :: PaymentMethodFpxBank'
   }
   deriving
@@ -41,8 +43,8 @@ data PaymentMethodFpx = PaymentMethodFpx
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodFpx where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank" Data.Aeson.Types.ToJSON..= paymentMethodFpxBank obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("bank" Data.Aeson.Types.ToJSON..= paymentMethodFpxBank obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["bank" Data.Aeson.Types.ToJSON..= paymentMethodFpxBank obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["bank" Data.Aeson.Types.ToJSON..= paymentMethodFpxBank obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodFpx where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodFpx" (\obj -> GHC.Base.pure PaymentMethodFpx GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bank"))
@@ -56,7 +58,7 @@ mkPaymentMethodFpx paymentMethodFpxBank = PaymentMethodFpx {paymentMethodFpxBank
 
 -- | Defines the enum schema located at @components.schemas.payment_method_fpx.properties.bank@ in the specification.
 --
--- The customer\'s bank, if provided. Can be one of \`affin_bank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
+-- The customer\'s bank, if provided. Can be one of \`affin_bank\`, \`agrobank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
 data PaymentMethodFpxBank'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentMethodFpxBank'Other Data.Aeson.Types.Internal.Value
@@ -64,6 +66,8 @@ data PaymentMethodFpxBank'
     PaymentMethodFpxBank'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"affin_bank"@
     PaymentMethodFpxBank'EnumAffinBank
+  | -- | Represents the JSON value @"agrobank"@
+    PaymentMethodFpxBank'EnumAgrobank
   | -- | Represents the JSON value @"alliance_bank"@
     PaymentMethodFpxBank'EnumAllianceBank
   | -- | Represents the JSON value @"ambank"@
@@ -108,6 +112,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodFpxBank' where
   toJSON (PaymentMethodFpxBank'Other val) = val
   toJSON (PaymentMethodFpxBank'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentMethodFpxBank'EnumAffinBank) = "affin_bank"
+  toJSON (PaymentMethodFpxBank'EnumAgrobank) = "agrobank"
   toJSON (PaymentMethodFpxBank'EnumAllianceBank) = "alliance_bank"
   toJSON (PaymentMethodFpxBank'EnumAmbank) = "ambank"
   toJSON (PaymentMethodFpxBank'EnumBankIslam) = "bank_islam"
@@ -133,6 +138,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodFpxBank' where
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "affin_bank" -> PaymentMethodFpxBank'EnumAffinBank
+            | val GHC.Classes.== "agrobank" -> PaymentMethodFpxBank'EnumAgrobank
             | val GHC.Classes.== "alliance_bank" -> PaymentMethodFpxBank'EnumAllianceBank
             | val GHC.Classes.== "ambank" -> PaymentMethodFpxBank'EnumAmbank
             | val GHC.Classes.== "bank_islam" -> PaymentMethodFpxBank'EnumBankIslam

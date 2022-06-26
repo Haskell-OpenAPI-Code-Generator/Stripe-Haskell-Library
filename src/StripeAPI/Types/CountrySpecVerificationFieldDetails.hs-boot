@@ -1,6 +1,7 @@
 module StripeAPI.Types.CountrySpecVerificationFieldDetails where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data CountrySpecVerificationFieldDetails
 instance Show CountrySpecVerificationFieldDetails
 instance Eq CountrySpecVerificationFieldDetails

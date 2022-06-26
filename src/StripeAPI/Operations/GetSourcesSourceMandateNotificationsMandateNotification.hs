@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -105,11 +107,11 @@ data GetSourcesSourceMandateNotificationsMandateNotificationParameters = GetSour
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceMandateNotificationsMandateNotificationParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathMandate_notification" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathMandateNotification obj : "pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathSource obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathMandate_notification" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathMandateNotification obj) GHC.Base.<> (("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathSource obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathMandate_notification" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathMandateNotification obj] : ["pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceMandateNotificationsMandateNotificationParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathMandate_notification" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathMandateNotification obj] : ["pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceMandateNotificationsMandateNotificationParametersPathSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceMandateNotificationsMandateNotificationParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceMandateNotificationsMandateNotificationParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceMandateNotificationsMandateNotificationParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceMandateNotificationsMandateNotificationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathMandate_notification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceMandateNotificationsMandateNotificationParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceMandateNotificationsMandateNotificationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathMandate_notification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetSourcesSourceMandateNotificationsMandateNotificationParameters' with all required fields.
 mkGetSourcesSourceMandateNotificationsMandateNotificationParameters ::

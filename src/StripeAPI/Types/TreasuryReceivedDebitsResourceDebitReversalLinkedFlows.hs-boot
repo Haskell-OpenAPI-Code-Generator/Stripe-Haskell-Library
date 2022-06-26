@@ -1,0 +1,9 @@
+module StripeAPI.Types.TreasuryReceivedDebitsResourceDebitReversalLinkedFlows where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TreasuryReceivedDebitsResourceDebitReversalLinkedFlows
+instance Show TreasuryReceivedDebitsResourceDebitReversalLinkedFlows
+instance Eq TreasuryReceivedDebitsResourceDebitReversalLinkedFlows
+instance FromJSON TreasuryReceivedDebitsResourceDebitReversalLinkedFlows
+instance ToJSON TreasuryReceivedDebitsResourceDebitReversalLinkedFlows

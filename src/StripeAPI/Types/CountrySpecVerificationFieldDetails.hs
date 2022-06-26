@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,8 +45,8 @@ data CountrySpecVerificationFieldDetails = CountrySpecVerificationFieldDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CountrySpecVerificationFieldDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("additional" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsAdditional obj : "minimum" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsMinimum obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsAdditional obj) GHC.Base.<> ("minimum" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsMinimum obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["additional" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsAdditional obj] : ["minimum" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsMinimum obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["additional" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsAdditional obj] : ["minimum" Data.Aeson.Types.ToJSON..= countrySpecVerificationFieldDetailsMinimum obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CountrySpecVerificationFieldDetails where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "CountrySpecVerificationFieldDetails" (\obj -> (GHC.Base.pure CountrySpecVerificationFieldDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "additional")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "minimum"))

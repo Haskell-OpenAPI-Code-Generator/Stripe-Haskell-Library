@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,15 +35,15 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.price_tier@ in the specification.
 data PriceTier = PriceTier
   { -- | flat_amount: Price for the entire tier.
-    priceTierFlatAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    priceTierFlatAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | flat_amount_decimal: Same as \`flat_amount\`, but contains a decimal value with at most 12 decimal places.
-    priceTierFlatAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    priceTierFlatAmountDecimal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | unit_amount: Per unit price for units relevant to the tier.
-    priceTierUnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    priceTierUnitAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | unit_amount_decimal: Same as \`unit_amount\`, but contains a decimal value with at most 12 decimal places.
-    priceTierUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    priceTierUnitAmountDecimal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | up_to: Up to and including to this quantity will be contained in the tier.
-    priceTierUpTo :: (GHC.Maybe.Maybe GHC.Types.Int)
+    priceTierUpTo :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -49,11 +51,11 @@ data PriceTier = PriceTier
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PriceTier where
-  toJSON obj = Data.Aeson.Types.Internal.object ("flat_amount" Data.Aeson.Types.ToJSON..= priceTierFlatAmount obj : "flat_amount_decimal" Data.Aeson.Types.ToJSON..= priceTierFlatAmountDecimal obj : "unit_amount" Data.Aeson.Types.ToJSON..= priceTierUnitAmount obj : "unit_amount_decimal" Data.Aeson.Types.ToJSON..= priceTierUnitAmountDecimal obj : "up_to" Data.Aeson.Types.ToJSON..= priceTierUpTo obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("flat_amount" Data.Aeson.Types.ToJSON..= priceTierFlatAmount obj) GHC.Base.<> (("flat_amount_decimal" Data.Aeson.Types.ToJSON..= priceTierFlatAmountDecimal obj) GHC.Base.<> (("unit_amount" Data.Aeson.Types.ToJSON..= priceTierUnitAmount obj) GHC.Base.<> (("unit_amount_decimal" Data.Aeson.Types.ToJSON..= priceTierUnitAmountDecimal obj) GHC.Base.<> ("up_to" Data.Aeson.Types.ToJSON..= priceTierUpTo obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flat_amount" Data.Aeson.Types.ToJSON..=)) (priceTierFlatAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flat_amount_decimal" Data.Aeson.Types.ToJSON..=)) (priceTierFlatAmountDecimal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (priceTierUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (priceTierUnitAmountDecimal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("up_to" Data.Aeson.Types.ToJSON..=)) (priceTierUpTo obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flat_amount" Data.Aeson.Types.ToJSON..=)) (priceTierFlatAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flat_amount_decimal" Data.Aeson.Types.ToJSON..=)) (priceTierFlatAmountDecimal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (priceTierUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (priceTierUnitAmountDecimal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("up_to" Data.Aeson.Types.ToJSON..=)) (priceTierUpTo obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PriceTier where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PriceTier" (\obj -> ((((GHC.Base.pure PriceTier GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flat_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flat_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "up_to"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PriceTier" (\obj -> ((((GHC.Base.pure PriceTier GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flat_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flat_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "up_to"))
 
 -- | Create a new 'PriceTier' with all required fields.
 mkPriceTier :: PriceTier

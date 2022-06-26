@@ -1,6 +1,7 @@
 module StripeAPI.Types.InvoiceTaxAmount where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data InvoiceTaxAmount
 instance Show InvoiceTaxAmount
 instance Eq InvoiceTaxAmount

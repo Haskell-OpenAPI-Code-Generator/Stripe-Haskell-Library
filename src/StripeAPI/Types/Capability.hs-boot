@@ -1,6 +1,7 @@
 module StripeAPI.Types.Capability where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Capability
 instance Show Capability
 instance Eq Capability

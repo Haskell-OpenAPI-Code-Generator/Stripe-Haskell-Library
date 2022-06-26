@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetCouponsCouponParameters = GetCouponsCouponParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCouponsCouponParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCoupon" Data.Aeson.Types.ToJSON..= getCouponsCouponParametersPathCoupon obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCouponsCouponParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCoupon" Data.Aeson.Types.ToJSON..= getCouponsCouponParametersPathCoupon obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getCouponsCouponParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCoupon" Data.Aeson.Types.ToJSON..= getCouponsCouponParametersPathCoupon obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCouponsCouponParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCoupon" Data.Aeson.Types.ToJSON..= getCouponsCouponParametersPathCoupon obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCouponsCouponParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsCouponParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsCouponParameters" (\obj -> (GHC.Base.pure GetCouponsCouponParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCoupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsCouponParameters" (\obj -> (GHC.Base.pure GetCouponsCouponParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCoupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetCouponsCouponParameters' with all required fields.
 mkGetCouponsCouponParameters ::

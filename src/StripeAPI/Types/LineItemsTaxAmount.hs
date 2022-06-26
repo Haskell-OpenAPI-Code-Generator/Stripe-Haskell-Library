@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -46,8 +48,8 @@ data LineItemsTaxAmount = LineItemsTaxAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LineItemsTaxAmount where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountAmount obj : "rate" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountRate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountAmount obj) GHC.Base.<> ("rate" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountRate obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountAmount obj] : ["rate" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountRate obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountAmount obj] : ["rate" Data.Aeson.Types.ToJSON..= lineItemsTaxAmountRate obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LineItemsTaxAmount where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LineItemsTaxAmount" (\obj -> (GHC.Base.pure LineItemsTaxAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "rate"))

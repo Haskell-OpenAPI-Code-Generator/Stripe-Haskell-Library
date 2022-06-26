@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,19 +39,19 @@ data PaymentMethodDetailsCardChecks = PaymentMethodDetailsCardChecks
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsCardChecksAddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsCardChecksAddressLine1Check :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_postal_code_check: If a address postal code was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsCardChecksAddressPostalCodeCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsCardChecksAddressPostalCodeCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | cvc_check: If a CVC was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsCardChecksCvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsCardChecksCvcCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -57,11 +59,11 @@ data PaymentMethodDetailsCardChecks = PaymentMethodDetailsCardChecks
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardChecks where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address_line1_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressLine1Check obj : "address_postal_code_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressPostalCodeCheck obj : "cvc_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksCvcCheck obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address_line1_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressLine1Check obj) GHC.Base.<> (("address_postal_code_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) GHC.Base.<> ("cvc_check" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardChecksCvcCheck obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardChecksAddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_postal_code_check" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardChecksCvcCheck obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardChecksAddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_postal_code_check" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardChecksCvcCheck obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardChecks where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardChecks" (\obj -> ((GHC.Base.pure PaymentMethodDetailsCardChecks GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_postal_code_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardChecks" (\obj -> ((GHC.Base.pure PaymentMethodDetailsCardChecks GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_postal_code_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cvc_check"))
 
 -- | Create a new 'PaymentMethodDetailsCardChecks' with all required fields.
 mkPaymentMethodDetailsCardChecks :: PaymentMethodDetailsCardChecks

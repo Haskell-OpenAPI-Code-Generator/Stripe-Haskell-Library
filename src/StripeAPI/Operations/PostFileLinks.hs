@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -101,11 +103,11 @@ data PostFileLinksRequestBody = PostFileLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpand obj : "expires_at" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpiresAt obj : "file" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyFile obj : "metadata" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpand obj) GHC.Base.<> (("expires_at" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyExpiresAt obj) GHC.Base.<> (("file" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyFile obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyMetadata obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postFileLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postFileLinksRequestBodyExpiresAt obj) : ["file" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyFile obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postFileLinksRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postFileLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postFileLinksRequestBodyExpiresAt obj) : ["file" Data.Aeson.Types.ToJSON..= postFileLinksRequestBodyFile obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postFileLinksRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostFileLinksRequestBody" (\obj -> (((GHC.Base.pure PostFileLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostFileLinksRequestBody" (\obj -> (((GHC.Base.pure PostFileLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "file")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostFileLinksRequestBody' with all required fields.
 mkPostFileLinksRequestBody ::

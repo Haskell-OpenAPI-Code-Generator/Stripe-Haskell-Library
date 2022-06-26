@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,8 +47,8 @@ data PaymentMethodBoleto = PaymentMethodBoleto
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodBoleto where
-  toJSON obj = Data.Aeson.Types.Internal.object ("tax_id" Data.Aeson.Types.ToJSON..= paymentMethodBoletoTaxId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("tax_id" Data.Aeson.Types.ToJSON..= paymentMethodBoletoTaxId obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["tax_id" Data.Aeson.Types.ToJSON..= paymentMethodBoletoTaxId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["tax_id" Data.Aeson.Types.ToJSON..= paymentMethodBoletoTaxId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodBoleto where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodBoleto" (\obj -> GHC.Base.pure PaymentMethodBoleto GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_id"))

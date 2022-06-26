@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/orders
 --
--- \<p>Creates a new order object.\<\/p>
+-- \<p>Creates a new \<code>open\<\/code> order object.\<\/p>
 postOrders ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -82,34 +84,42 @@ postOrders body =
 
 -- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostOrdersRequestBody = PostOrdersRequestBody
-  { -- | coupon: A coupon code that represents a discount to be applied to this order. Must be one-time duration and in same currency as the order. An order can have multiple coupons.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postOrdersRequestBodyCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+  { -- | automatic_tax: Settings for automatic tax calculation for this order.
+    postOrdersRequestBodyAutomaticTax :: (GHC.Maybe.Maybe PostOrdersRequestBodyAutomaticTax'),
+    -- | billing_details: Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
+    postOrdersRequestBodyBillingDetails :: (GHC.Maybe.Maybe PostOrdersRequestBodyBillingDetails'Variants),
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     postOrdersRequestBodyCurrency :: Data.Text.Internal.Text,
-    -- | customer: The ID of an existing customer to use for this order. If provided, the customer email and shipping address will be used to create the order. Subsequently, the customer will also be charged to pay the order. If \`email\` or \`shipping\` are also provided, they will override the values retrieved from the customer object.
+    -- | customer: The customer associated with this order.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postOrdersRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | email: The email address of the customer placing the order.
+    -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postOrdersRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | discounts: The coupons, promotion codes, and\/or discounts to apply to the order.
+    postOrdersRequestBodyDiscounts :: (GHC.Maybe.Maybe PostOrdersRequestBodyDiscounts'Variants),
     -- | expand: Specifies which fields in the response should be expanded.
     postOrdersRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | items: List of items constituting the order. An order can have up to 25 items.
-    postOrdersRequestBodyItems :: (GHC.Maybe.Maybe ([PostOrdersRequestBodyItems'])),
+    -- | ip_address: The IP address of the purchaser for this order.
+    postOrdersRequestBodyIpAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | line_items: A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
+    postOrdersRequestBodyLineItems :: ([PostOrdersRequestBodyLineItems']),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postOrdersRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-    -- | shipping: Shipping address for the order. Required if any of the SKUs are for products that have \`shippable\` set to true.
-    postOrdersRequestBodyShipping :: (GHC.Maybe.Maybe PostOrdersRequestBodyShipping')
+    -- | payment: Payment information associated with the order, including payment settings.
+    postOrdersRequestBodyPayment :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'),
+    -- | shipping_cost: Settings for the customer cost of shipping for this order.
+    postOrdersRequestBodyShippingCost :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'Variants),
+    -- | shipping_details: Shipping details for the order.
+    postOrdersRequestBodyShippingDetails :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingDetails'Variants),
+    -- | tax_details: Additional tax details about the purchaser to be used for this order.
+    postOrdersRequestBodyTaxDetails :: (GHC.Maybe.Maybe PostOrdersRequestBodyTaxDetails')
   }
   deriving
     ( GHC.Show.Show,
@@ -117,225 +127,2966 @@ data PostOrdersRequestBody = PostOrdersRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("coupon" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCoupon obj : "currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCurrency obj : "customer" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCustomer obj : "email" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyEmail obj : "expand" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyExpand obj : "items" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems obj : "metadata" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyMetadata obj : "shipping" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("coupon" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCoupon obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCustomer obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyEmail obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyExpand obj) GHC.Base.<> (("items" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyMetadata obj) GHC.Base.<> ("shipping" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails obj) : ["currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyIpAddress obj) : ["line_items" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyLineItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_cost" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_details" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_details" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyTaxDetails obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails obj) : ["currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyIpAddress obj) : ["line_items" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyLineItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_cost" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_details" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_details" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyTaxDetails obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBody" (\obj -> (((((((GHC.Base.pure PostOrdersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shipping"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBody" (\obj -> (((((((((((((GHC.Base.pure PostOrdersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_cost")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_details"))
 
 -- | Create a new 'PostOrdersRequestBody' with all required fields.
 mkPostOrdersRequestBody ::
   -- | 'postOrdersRequestBodyCurrency'
   Data.Text.Internal.Text ->
+  -- | 'postOrdersRequestBodyLineItems'
+  [PostOrdersRequestBodyLineItems'] ->
   PostOrdersRequestBody
-mkPostOrdersRequestBody postOrdersRequestBodyCurrency =
+mkPostOrdersRequestBody postOrdersRequestBodyCurrency postOrdersRequestBodyLineItems =
   PostOrdersRequestBody
-    { postOrdersRequestBodyCoupon = GHC.Maybe.Nothing,
+    { postOrdersRequestBodyAutomaticTax = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails = GHC.Maybe.Nothing,
       postOrdersRequestBodyCurrency = postOrdersRequestBodyCurrency,
       postOrdersRequestBodyCustomer = GHC.Maybe.Nothing,
-      postOrdersRequestBodyEmail = GHC.Maybe.Nothing,
+      postOrdersRequestBodyDescription = GHC.Maybe.Nothing,
+      postOrdersRequestBodyDiscounts = GHC.Maybe.Nothing,
       postOrdersRequestBodyExpand = GHC.Maybe.Nothing,
-      postOrdersRequestBodyItems = GHC.Maybe.Nothing,
+      postOrdersRequestBodyIpAddress = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems = postOrdersRequestBodyLineItems,
       postOrdersRequestBodyMetadata = GHC.Maybe.Nothing,
-      postOrdersRequestBodyShipping = GHC.Maybe.Nothing
+      postOrdersRequestBodyPayment = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingDetails = GHC.Maybe.Nothing,
+      postOrdersRequestBodyTaxDetails = GHC.Maybe.Nothing
     }
 
--- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items@ in the specification.
-data PostOrdersRequestBodyItems' = PostOrdersRequestBodyItems'
-  { -- | amount
-    postOrdersRequestBodyItems'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | currency
-    postOrdersRequestBodyItems'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | description
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1000
-    postOrdersRequestBodyItems'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | parent
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postOrdersRequestBodyItems'Parent :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | quantity
-    postOrdersRequestBodyItems'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | type
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postOrdersRequestBodyItems'Type :: (GHC.Maybe.Maybe PostOrdersRequestBodyItems'Type')
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.automatic_tax@ in the specification.
+--
+-- Settings for automatic tax calculation for this order.
+data PostOrdersRequestBodyAutomaticTax' = PostOrdersRequestBodyAutomaticTax'
+  { -- | enabled
+    postOrdersRequestBodyAutomaticTax'Enabled :: GHC.Types.Bool
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyItems' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Amount obj : "currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Currency obj : "description" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Description obj : "parent" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Parent obj : "quantity" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Quantity obj : "type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Type obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Amount obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Currency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Description obj) GHC.Base.<> (("parent" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Parent obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Quantity obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyItems'Type obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyAutomaticTax' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyAutomaticTax'Enabled obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyAutomaticTax'Enabled obj] : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyItems' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyItems'" (\obj -> (((((GHC.Base.pure PostOrdersRequestBodyItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyAutomaticTax' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyAutomaticTax'" (\obj -> GHC.Base.pure PostOrdersRequestBodyAutomaticTax' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled"))
 
--- | Create a new 'PostOrdersRequestBodyItems'' with all required fields.
-mkPostOrdersRequestBodyItems' :: PostOrdersRequestBodyItems'
-mkPostOrdersRequestBodyItems' =
-  PostOrdersRequestBodyItems'
-    { postOrdersRequestBodyItems'Amount = GHC.Maybe.Nothing,
-      postOrdersRequestBodyItems'Currency = GHC.Maybe.Nothing,
-      postOrdersRequestBodyItems'Description = GHC.Maybe.Nothing,
-      postOrdersRequestBodyItems'Parent = GHC.Maybe.Nothing,
-      postOrdersRequestBodyItems'Quantity = GHC.Maybe.Nothing,
-      postOrdersRequestBodyItems'Type = GHC.Maybe.Nothing
-    }
+-- | Create a new 'PostOrdersRequestBodyAutomaticTax'' with all required fields.
+mkPostOrdersRequestBodyAutomaticTax' ::
+  -- | 'postOrdersRequestBodyAutomaticTax'Enabled'
+  GHC.Types.Bool ->
+  PostOrdersRequestBodyAutomaticTax'
+mkPostOrdersRequestBodyAutomaticTax' postOrdersRequestBodyAutomaticTax'Enabled = PostOrdersRequestBodyAutomaticTax' {postOrdersRequestBodyAutomaticTax'Enabled = postOrdersRequestBodyAutomaticTax'Enabled}
 
--- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.items.items.properties.type@ in the specification.
-data PostOrdersRequestBodyItems'Type'
-  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PostOrdersRequestBodyItems'Type'Other Data.Aeson.Types.Internal.Value
-  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PostOrdersRequestBodyItems'Type'Typed Data.Text.Internal.Text
-  | -- | Represents the JSON value @"discount"@
-    PostOrdersRequestBodyItems'Type'EnumDiscount
-  | -- | Represents the JSON value @"shipping"@
-    PostOrdersRequestBodyItems'Type'EnumShipping
-  | -- | Represents the JSON value @"sku"@
-    PostOrdersRequestBodyItems'Type'EnumSku
-  | -- | Represents the JSON value @"tax"@
-    PostOrdersRequestBodyItems'Type'EnumTax
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyItems'Type' where
-  toJSON (PostOrdersRequestBodyItems'Type'Other val) = val
-  toJSON (PostOrdersRequestBodyItems'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PostOrdersRequestBodyItems'Type'EnumDiscount) = "discount"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumShipping) = "shipping"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumSku) = "sku"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumTax) = "tax"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyItems'Type' where
-  parseJSON val =
-    GHC.Base.pure
-      ( if
-            | val GHC.Classes.== "discount" -> PostOrdersRequestBodyItems'Type'EnumDiscount
-            | val GHC.Classes.== "shipping" -> PostOrdersRequestBodyItems'Type'EnumShipping
-            | val GHC.Classes.== "sku" -> PostOrdersRequestBodyItems'Type'EnumSku
-            | val GHC.Classes.== "tax" -> PostOrdersRequestBodyItems'Type'EnumTax
-            | GHC.Base.otherwise -> PostOrdersRequestBodyItems'Type'Other val
-      )
-
--- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping@ in the specification.
---
--- Shipping address for the order. Required if any of the SKUs are for products that have \`shippable\` set to true.
-data PostOrdersRequestBodyShipping' = PostOrdersRequestBodyShipping'
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_details.anyOf@ in the specification.
+data PostOrdersRequestBodyBillingDetails'OneOf1 = PostOrdersRequestBodyBillingDetails'OneOf1
   { -- | address
-    postOrdersRequestBodyShipping'Address :: PostOrdersRequestBodyShipping'Address',
+    postOrdersRequestBodyBillingDetails'OneOf1Address :: (GHC.Maybe.Maybe PostOrdersRequestBodyBillingDetails'OneOf1Address'),
+    -- | email
+    postOrdersRequestBodyBillingDetails'OneOf1Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | name
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Name :: Data.Text.Internal.Text,
+    postOrdersRequestBodyBillingDetails'OneOf1Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | phone
     --
     -- Constraints:
     --
-    -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    -- * Maximum length of 20
+    postOrdersRequestBodyBillingDetails'OneOf1Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShipping' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address obj : "name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Name obj : "phone" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Phone obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Name obj) GHC.Base.<> ("phone" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Phone obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyBillingDetails'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Email obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Phone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Email obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Phone obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShipping' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShipping'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyBillingDetails'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyBillingDetails'OneOf1" (\obj -> (((GHC.Base.pure PostOrdersRequestBodyBillingDetails'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone"))
 
--- | Create a new 'PostOrdersRequestBodyShipping'' with all required fields.
-mkPostOrdersRequestBodyShipping' ::
-  -- | 'postOrdersRequestBodyShipping'Address'
-  PostOrdersRequestBodyShipping'Address' ->
-  -- | 'postOrdersRequestBodyShipping'Name'
-  Data.Text.Internal.Text ->
-  PostOrdersRequestBodyShipping'
-mkPostOrdersRequestBodyShipping' postOrdersRequestBodyShipping'Address postOrdersRequestBodyShipping'Name =
-  PostOrdersRequestBodyShipping'
-    { postOrdersRequestBodyShipping'Address = postOrdersRequestBodyShipping'Address,
-      postOrdersRequestBodyShipping'Name = postOrdersRequestBodyShipping'Name,
-      postOrdersRequestBodyShipping'Phone = GHC.Maybe.Nothing
+-- | Create a new 'PostOrdersRequestBodyBillingDetails'OneOf1' with all required fields.
+mkPostOrdersRequestBodyBillingDetails'OneOf1 :: PostOrdersRequestBodyBillingDetails'OneOf1
+mkPostOrdersRequestBodyBillingDetails'OneOf1 =
+  PostOrdersRequestBodyBillingDetails'OneOf1
+    { postOrdersRequestBodyBillingDetails'OneOf1Address = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Email = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Name = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Phone = GHC.Maybe.Nothing
     }
 
--- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping.properties.address@ in the specification.
-data PostOrdersRequestBodyShipping'Address' = PostOrdersRequestBodyShipping'Address'
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_details.anyOf.properties.address@ in the specification.
+data PostOrdersRequestBodyBillingDetails'OneOf1Address' = PostOrdersRequestBodyBillingDetails'OneOf1Address'
   { -- | city
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postOrdersRequestBodyBillingDetails'OneOf1Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | country
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postOrdersRequestBodyBillingDetails'OneOf1Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | line1
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Address'Line1 :: Data.Text.Internal.Text,
+    postOrdersRequestBodyBillingDetails'OneOf1Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | line2
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postOrdersRequestBodyBillingDetails'OneOf1Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | postal_code
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postOrdersRequestBodyBillingDetails'OneOf1Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | state
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postOrdersRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postOrdersRequestBodyBillingDetails'OneOf1Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShipping'Address' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'City obj : "country" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShipping'Address'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyBillingDetails'OneOf1Address' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'State obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyBillingDetails'OneOf1Address'State obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShipping'Address' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShipping'Address'" (\obj -> (((((GHC.Base.pure PostOrdersRequestBodyShipping'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyBillingDetails'OneOf1Address' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyBillingDetails'OneOf1Address'" (\obj -> (((((GHC.Base.pure PostOrdersRequestBodyBillingDetails'OneOf1Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'PostOrdersRequestBodyShipping'Address'' with all required fields.
-mkPostOrdersRequestBodyShipping'Address' ::
-  -- | 'postOrdersRequestBodyShipping'Address'Line1'
-  Data.Text.Internal.Text ->
-  PostOrdersRequestBodyShipping'Address'
-mkPostOrdersRequestBodyShipping'Address' postOrdersRequestBodyShipping'Address'Line1 =
-  PostOrdersRequestBodyShipping'Address'
-    { postOrdersRequestBodyShipping'Address'City = GHC.Maybe.Nothing,
-      postOrdersRequestBodyShipping'Address'Country = GHC.Maybe.Nothing,
-      postOrdersRequestBodyShipping'Address'Line1 = postOrdersRequestBodyShipping'Address'Line1,
-      postOrdersRequestBodyShipping'Address'Line2 = GHC.Maybe.Nothing,
-      postOrdersRequestBodyShipping'Address'PostalCode = GHC.Maybe.Nothing,
-      postOrdersRequestBodyShipping'Address'State = GHC.Maybe.Nothing
+-- | Create a new 'PostOrdersRequestBodyBillingDetails'OneOf1Address'' with all required fields.
+mkPostOrdersRequestBodyBillingDetails'OneOf1Address' :: PostOrdersRequestBodyBillingDetails'OneOf1Address'
+mkPostOrdersRequestBodyBillingDetails'OneOf1Address' =
+  PostOrdersRequestBodyBillingDetails'OneOf1Address'
+    { postOrdersRequestBodyBillingDetails'OneOf1Address'City = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Address'Country = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Address'Line1 = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Address'Line2 = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Address'PostalCode = GHC.Maybe.Nothing,
+      postOrdersRequestBodyBillingDetails'OneOf1Address'State = GHC.Maybe.Nothing
     }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_details.anyOf@ in the specification.
+--
+-- Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
+data PostOrdersRequestBodyBillingDetails'Variants
+  = -- | Represents the JSON value @""@
+    PostOrdersRequestBodyBillingDetails'EmptyString
+  | PostOrdersRequestBodyBillingDetails'PostOrdersRequestBodyBillingDetails'OneOf1 PostOrdersRequestBodyBillingDetails'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyBillingDetails'Variants where
+  toJSON (PostOrdersRequestBodyBillingDetails'PostOrdersRequestBodyBillingDetails'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersRequestBodyBillingDetails'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyBillingDetails'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostOrdersRequestBodyBillingDetails'EmptyString
+        | GHC.Base.otherwise -> case (PostOrdersRequestBodyBillingDetails'PostOrdersRequestBodyBillingDetails'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.discounts.anyOf.items@ in the specification.
+data PostOrdersRequestBodyDiscounts'OneOf1 = PostOrdersRequestBodyDiscounts'OneOf1
+  { -- | coupon
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyDiscounts'OneOf1Coupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | discount
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyDiscounts'OneOf1Discount :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | promotion_code
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyDiscounts'OneOf1PromotionCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyDiscounts'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts'OneOf1Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts'OneOf1Discount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts'OneOf1PromotionCode obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts'OneOf1Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts'OneOf1Discount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyDiscounts'OneOf1PromotionCode obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyDiscounts'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyDiscounts'OneOf1" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyDiscounts'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotion_code"))
+
+-- | Create a new 'PostOrdersRequestBodyDiscounts'OneOf1' with all required fields.
+mkPostOrdersRequestBodyDiscounts'OneOf1 :: PostOrdersRequestBodyDiscounts'OneOf1
+mkPostOrdersRequestBodyDiscounts'OneOf1 =
+  PostOrdersRequestBodyDiscounts'OneOf1
+    { postOrdersRequestBodyDiscounts'OneOf1Coupon = GHC.Maybe.Nothing,
+      postOrdersRequestBodyDiscounts'OneOf1Discount = GHC.Maybe.Nothing,
+      postOrdersRequestBodyDiscounts'OneOf1PromotionCode = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.discounts.anyOf@ in the specification.
+--
+-- The coupons, promotion codes, and\/or discounts to apply to the order.
+data PostOrdersRequestBodyDiscounts'Variants
+  = -- | Represents the JSON value @""@
+    PostOrdersRequestBodyDiscounts'EmptyString
+  | PostOrdersRequestBodyDiscounts'ListTPostOrdersRequestBodyDiscounts'OneOf1 ([PostOrdersRequestBodyDiscounts'OneOf1])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyDiscounts'Variants where
+  toJSON (PostOrdersRequestBodyDiscounts'ListTPostOrdersRequestBodyDiscounts'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersRequestBodyDiscounts'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyDiscounts'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostOrdersRequestBodyDiscounts'EmptyString
+        | GHC.Base.otherwise -> case (PostOrdersRequestBodyDiscounts'ListTPostOrdersRequestBodyDiscounts'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items@ in the specification.
+data PostOrdersRequestBodyLineItems' = PostOrdersRequestBodyLineItems'
+  { -- | description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyLineItems'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | discounts
+    postOrdersRequestBodyLineItems'Discounts :: (GHC.Maybe.Maybe PostOrdersRequestBodyLineItems'Discounts'Variants),
+    -- | price
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyLineItems'Price :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | price_data
+    postOrdersRequestBodyLineItems'PriceData :: (GHC.Maybe.Maybe PostOrdersRequestBodyLineItems'PriceData'),
+    -- | product
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyLineItems'Product :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | quantity
+    postOrdersRequestBodyLineItems'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | tax_rates
+    postOrdersRequestBodyLineItems'TaxRates :: (GHC.Maybe.Maybe PostOrdersRequestBodyLineItems'TaxRates'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyLineItems' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Discounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Product obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'TaxRates obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Discounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Product obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'TaxRates obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyLineItems' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyLineItems'" (\obj -> ((((((GHC.Base.pure PostOrdersRequestBodyLineItems' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
+
+-- | Create a new 'PostOrdersRequestBodyLineItems'' with all required fields.
+mkPostOrdersRequestBodyLineItems' :: PostOrdersRequestBodyLineItems'
+mkPostOrdersRequestBodyLineItems' =
+  PostOrdersRequestBodyLineItems'
+    { postOrdersRequestBodyLineItems'Description = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'Discounts = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'Price = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'PriceData = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'Product = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'Quantity = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'TaxRates = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items.properties.discounts.anyOf.items@ in the specification.
+data PostOrdersRequestBodyLineItems'Discounts'OneOf1 = PostOrdersRequestBodyLineItems'Discounts'OneOf1
+  { -- | coupon
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyLineItems'Discounts'OneOf1Coupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | discount
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyLineItems'Discounts'OneOf1Discount :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyLineItems'Discounts'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Discounts'OneOf1Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Discounts'OneOf1Discount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Discounts'OneOf1Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'Discounts'OneOf1Discount obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyLineItems'Discounts'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyLineItems'Discounts'OneOf1" (\obj -> (GHC.Base.pure PostOrdersRequestBodyLineItems'Discounts'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discount"))
+
+-- | Create a new 'PostOrdersRequestBodyLineItems'Discounts'OneOf1' with all required fields.
+mkPostOrdersRequestBodyLineItems'Discounts'OneOf1 :: PostOrdersRequestBodyLineItems'Discounts'OneOf1
+mkPostOrdersRequestBodyLineItems'Discounts'OneOf1 =
+  PostOrdersRequestBodyLineItems'Discounts'OneOf1
+    { postOrdersRequestBodyLineItems'Discounts'OneOf1Coupon = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'Discounts'OneOf1Discount = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items.properties.discounts.anyOf@ in the specification.
+data PostOrdersRequestBodyLineItems'Discounts'Variants
+  = -- | Represents the JSON value @""@
+    PostOrdersRequestBodyLineItems'Discounts'EmptyString
+  | PostOrdersRequestBodyLineItems'Discounts'ListTPostOrdersRequestBodyLineItems'Discounts'OneOf1 ([PostOrdersRequestBodyLineItems'Discounts'OneOf1])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyLineItems'Discounts'Variants where
+  toJSON (PostOrdersRequestBodyLineItems'Discounts'ListTPostOrdersRequestBodyLineItems'Discounts'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersRequestBodyLineItems'Discounts'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyLineItems'Discounts'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostOrdersRequestBodyLineItems'Discounts'EmptyString
+        | GHC.Base.otherwise -> case (PostOrdersRequestBodyLineItems'Discounts'ListTPostOrdersRequestBodyLineItems'Discounts'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items.properties.price_data@ in the specification.
+data PostOrdersRequestBodyLineItems'PriceData' = PostOrdersRequestBodyLineItems'PriceData'
+  { -- | currency
+    postOrdersRequestBodyLineItems'PriceData'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | product
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyLineItems'PriceData'Product :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | tax_behavior
+    postOrdersRequestBodyLineItems'PriceData'TaxBehavior :: (GHC.Maybe.Maybe PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'),
+    -- | unit_amount
+    postOrdersRequestBodyLineItems'PriceData'UnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | unit_amount_decimal
+    postOrdersRequestBodyLineItems'PriceData'UnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyLineItems'PriceData' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'Product obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'UnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'UnitAmountDecimal obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'Product obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'UnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyLineItems'PriceData'UnitAmountDecimal obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyLineItems'PriceData' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyLineItems'PriceData'" (\obj -> ((((GHC.Base.pure PostOrdersRequestBodyLineItems'PriceData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
+
+-- | Create a new 'PostOrdersRequestBodyLineItems'PriceData'' with all required fields.
+mkPostOrdersRequestBodyLineItems'PriceData' :: PostOrdersRequestBodyLineItems'PriceData'
+mkPostOrdersRequestBodyLineItems'PriceData' =
+  PostOrdersRequestBodyLineItems'PriceData'
+    { postOrdersRequestBodyLineItems'PriceData'Currency = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'PriceData'Product = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'PriceData'TaxBehavior = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'PriceData'UnitAmount = GHC.Maybe.Nothing,
+      postOrdersRequestBodyLineItems'PriceData'UnitAmountDecimal = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items.properties.price_data.properties.tax_behavior@ in the specification.
+data PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"exclusive"@
+    PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumExclusive
+  | -- | Represents the JSON value @"inclusive"@
+    PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumInclusive
+  | -- | Represents the JSON value @"unspecified"@
+    PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumUnspecified
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyLineItems'PriceData'TaxBehavior' where
+  toJSON (PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'Other val) = val
+  toJSON (PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumExclusive) = "exclusive"
+  toJSON (PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumInclusive) = "inclusive"
+  toJSON (PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumUnspecified) = "unspecified"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyLineItems'PriceData'TaxBehavior' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "exclusive" -> PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumExclusive
+            | val GHC.Classes.== "inclusive" -> PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumInclusive
+            | val GHC.Classes.== "unspecified" -> PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'EnumUnspecified
+            | GHC.Base.otherwise -> PostOrdersRequestBodyLineItems'PriceData'TaxBehavior'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items.properties.tax_rates.anyOf@ in the specification.
+data PostOrdersRequestBodyLineItems'TaxRates'Variants
+  = -- | Represents the JSON value @""@
+    PostOrdersRequestBodyLineItems'TaxRates'EmptyString
+  | PostOrdersRequestBodyLineItems'TaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyLineItems'TaxRates'Variants where
+  toJSON (PostOrdersRequestBodyLineItems'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersRequestBodyLineItems'TaxRates'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyLineItems'TaxRates'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostOrdersRequestBodyLineItems'TaxRates'EmptyString
+        | GHC.Base.otherwise -> case (PostOrdersRequestBodyLineItems'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment@ in the specification.
+--
+-- Payment information associated with the order, including payment settings.
+data PostOrdersRequestBodyPayment' = PostOrdersRequestBodyPayment'
+  { -- | settings
+    postOrdersRequestBodyPayment'Settings :: PostOrdersRequestBodyPayment'Settings'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["settings" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["settings" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'" (\obj -> GHC.Base.pure PostOrdersRequestBodyPayment' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "settings"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'' with all required fields.
+mkPostOrdersRequestBodyPayment' ::
+  -- | 'postOrdersRequestBodyPayment'Settings'
+  PostOrdersRequestBodyPayment'Settings' ->
+  PostOrdersRequestBodyPayment'
+mkPostOrdersRequestBodyPayment' postOrdersRequestBodyPayment'Settings = PostOrdersRequestBodyPayment' {postOrdersRequestBodyPayment'Settings = postOrdersRequestBodyPayment'Settings}
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings@ in the specification.
+data PostOrdersRequestBodyPayment'Settings' = PostOrdersRequestBodyPayment'Settings'
+  { -- | application_fee_amount
+    postOrdersRequestBodyPayment'Settings'ApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | payment_method_options
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'),
+    -- | payment_method_types
+    postOrdersRequestBodyPayment'Settings'PaymentMethodTypes :: (GHC.Maybe.Maybe ([PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'])),
+    -- | return_url
+    postOrdersRequestBodyPayment'Settings'ReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | statement_descriptor
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 22
+    postOrdersRequestBodyPayment'Settings'StatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | statement_descriptor_suffix
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 22
+    postOrdersRequestBodyPayment'Settings'StatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | transfer_data
+    postOrdersRequestBodyPayment'Settings'TransferData :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'TransferData')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'ApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'ReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'StatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'TransferData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'ApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'ReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'StatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'TransferData obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'" (\obj -> ((((((GHC.Base.pure PostOrdersRequestBodyPayment'Settings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings' :: PostOrdersRequestBodyPayment'Settings'
+mkPostOrdersRequestBodyPayment'Settings' =
+  PostOrdersRequestBodyPayment'Settings'
+    { postOrdersRequestBodyPayment'Settings'ApplicationFeeAmount = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodTypes = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'ReturnUrl = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'StatementDescriptor = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'StatementDescriptorSuffix = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'TransferData = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'
+  { -- | acss_debit
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'),
+    -- | afterpay_clearpay
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'),
+    -- | alipay
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'),
+    -- | bancontact
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'),
+    -- | card
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'),
+    -- | customer_balance
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'),
+    -- | ideal
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'),
+    -- | klarna
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'),
+    -- | link
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'),
+    -- | oxxo
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'),
+    -- | p24
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24 :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'),
+    -- | sepa_debit
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'),
+    -- | sofort
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'),
+    -- | wechat_pay
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'" (\obj -> (((((((((((((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "afterpay_clearpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oxxo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat_pay"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24 = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.acss_debit@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'
+  { -- | mandate_options
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'),
+    -- | verification_method
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.acss_debit.properties.mandate_options@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'
+  { -- | custom_mandate_url
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Variants),
+    -- | interval_description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 500
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'IntervalDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | payment_schedule
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'),
+    -- | transaction_type
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_mandate_url" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_description" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'IntervalDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_schedule" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_mandate_url" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interval_description" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'IntervalDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_schedule" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'" (\obj -> (((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_mandate_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interval_description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_schedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_type"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'IntervalDescription = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.acss_debit.properties.mandate_options.properties.custom_mandate_url.anyOf@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Variants
+  = -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'EmptyString
+  | PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Variants where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'EmptyString
+        | GHC.Base.otherwise -> case (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.acss_debit.properties.mandate_options.properties.payment_schedule@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"combined"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumCombined
+  | -- | Represents the JSON value @"interval"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumInterval
+  | -- | Represents the JSON value @"sporadic"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumSporadic
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumCombined) = "combined"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumInterval) = "interval"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumSporadic) = "sporadic"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "combined" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumCombined
+            | val GHC.Classes.== "interval" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumInterval
+            | val GHC.Classes.== "sporadic" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'EnumSporadic
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'PaymentSchedule'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.acss_debit.properties.mandate_options.properties.transaction_type@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"business"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'EnumBusiness
+  | -- | Represents the JSON value @"personal"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'EnumPersonal
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'EnumBusiness) = "business"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'EnumPersonal) = "personal"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "business" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'EnumBusiness
+            | val GHC.Classes.== "personal" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'EnumPersonal
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'MandateOptions'TransactionType'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.acss_debit.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumOffSession
+  | -- | Represents the JSON value @"on_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumOnSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumOffSession) = "off_session"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumOnSession) = "on_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumOffSession
+            | val GHC.Classes.== "on_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'EnumOnSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'SetupFutureUsage'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.acss_debit.properties.verification_method@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumAutomatic
+  | -- | Represents the JSON value @"instant"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumInstant
+  | -- | Represents the JSON value @"microdeposits"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumMicrodeposits
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumAutomatic) = "automatic"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumInstant) = "instant"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumMicrodeposits) = "microdeposits"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumAutomatic
+            | val GHC.Classes.== "instant" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumInstant
+            | val GHC.Classes.== "microdeposits" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'EnumMicrodeposits
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AcssDebit'VerificationMethod'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.afterpay_clearpay@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'
+  { -- | capture_method
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'),
+    -- | reference
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 128
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'Reference :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'Reference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'Reference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'Reference = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.afterpay_clearpay.properties.capture_method@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'EnumAutomatic
+  | -- | Represents the JSON value @"manual"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'EnumManual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'EnumAutomatic) = "automatic"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'EnumManual) = "manual"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'EnumAutomatic
+            | val GHC.Classes.== "manual" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'CaptureMethod'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.afterpay_clearpay.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'AfterpayClearpay'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.alipay@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'
+  { -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'" (\obj -> GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay' {postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.alipay.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Alipay'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.bancontact@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'
+  { -- | preferred_language
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.bancontact.properties.preferred_language@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"de"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumDe
+  | -- | Represents the JSON value @"en"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumEn
+  | -- | Represents the JSON value @"fr"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumFr
+  | -- | Represents the JSON value @"nl"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumNl
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumDe) = "de"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumEn) = "en"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumFr) = "fr"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumNl) = "nl"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "de" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumDe
+            | val GHC.Classes.== "en" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumEn
+            | val GHC.Classes.== "fr" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumFr
+            | val GHC.Classes.== "nl" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'EnumNl
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'PreferredLanguage'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.bancontact.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Bancontact'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.card@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'
+  { -- | capture_method
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.card.properties.capture_method@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'EnumAutomatic
+  | -- | Represents the JSON value @"manual"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'EnumManual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'EnumAutomatic) = "automatic"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'EnumManual) = "manual"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'EnumAutomatic
+            | val GHC.Classes.== "manual" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'CaptureMethod'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.card.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumOffSession
+  | -- | Represents the JSON value @"on_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumOnSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumOffSession) = "off_session"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumOnSession) = "on_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumOffSession
+            | val GHC.Classes.== "on_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'EnumOnSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Card'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.customer_balance@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'
+  { -- | bank_transfer
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'),
+    -- | funding_type
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.customer_balance.properties.bank_transfer@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'
+  { -- | eu_bank_transfer
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'),
+    -- | requested_address_types
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes :: (GHC.Maybe.Maybe ([PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'])),
+    -- | type
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eu_bank_transfer" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requested_address_types" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes obj) : ["type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eu_bank_transfer" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requested_address_types" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes obj) : ["type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eu_bank_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "requested_address_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer' ::
+  -- | 'postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type' ->
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer' postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type = postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.customer_balance.properties.bank_transfer.properties.eu_bank_transfer@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'
+  { -- | country
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'" (\obj -> GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' ::
+  -- | 'postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' {postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country = postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country}
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.customer_balance.properties.bank_transfer.properties.requested_address_types.items@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"iban"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumIban
+  | -- | Represents the JSON value @"sepa"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSepa
+  | -- | Represents the JSON value @"sort_code"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSortCode
+  | -- | Represents the JSON value @"spei"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSpei
+  | -- | Represents the JSON value @"zengin"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumZengin
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumIban) = "iban"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSepa) = "sepa"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSortCode) = "sort_code"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSpei) = "spei"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumZengin) = "zengin"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "iban" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumIban
+            | val GHC.Classes.== "sepa" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSepa
+            | val GHC.Classes.== "sort_code" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSortCode
+            | val GHC.Classes.== "spei" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSpei
+            | val GHC.Classes.== "zengin" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumZengin
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.customer_balance.properties.bank_transfer.properties.type@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"eu_bank_transfer"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumEuBankTransfer
+  | -- | Represents the JSON value @"gb_bank_transfer"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumGbBankTransfer
+  | -- | Represents the JSON value @"jp_bank_transfer"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumJpBankTransfer
+  | -- | Represents the JSON value @"mx_bank_transfer"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumMxBankTransfer
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumEuBankTransfer) = "eu_bank_transfer"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumGbBankTransfer) = "gb_bank_transfer"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumJpBankTransfer) = "jp_bank_transfer"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumMxBankTransfer) = "mx_bank_transfer"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "eu_bank_transfer" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumEuBankTransfer
+            | val GHC.Classes.== "gb_bank_transfer" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumGbBankTransfer
+            | val GHC.Classes.== "jp_bank_transfer" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumJpBankTransfer
+            | val GHC.Classes.== "mx_bank_transfer" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumMxBankTransfer
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'BankTransfer'Type'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.customer_balance.properties.funding_type@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_transfer"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'EnumBankTransfer
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'EnumBankTransfer) = "bank_transfer"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "bank_transfer" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'EnumBankTransfer
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'FundingType'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.customer_balance.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'CustomerBalance'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.ideal@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'
+  { -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'" (\obj -> GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal' {postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.ideal.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Ideal'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.klarna@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'
+  { -- | capture_method
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'),
+    -- | preferred_locale
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.klarna.properties.capture_method@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'EnumEmptyString
+  | -- | Represents the JSON value @"manual"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'EnumManual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'EnumManual) = "manual"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'EnumEmptyString
+            | val GHC.Classes.== "manual" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'CaptureMethod'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.klarna.properties.preferred_locale@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"da-DK"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDaDK
+  | -- | Represents the JSON value @"de-AT"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDeAT
+  | -- | Represents the JSON value @"de-DE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDeDE
+  | -- | Represents the JSON value @"en-AT"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnAT
+  | -- | Represents the JSON value @"en-AU"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnAU
+  | -- | Represents the JSON value @"en-BE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnBE
+  | -- | Represents the JSON value @"en-DE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnDE
+  | -- | Represents the JSON value @"en-DK"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnDK
+  | -- | Represents the JSON value @"en-ES"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnES
+  | -- | Represents the JSON value @"en-FI"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnFI
+  | -- | Represents the JSON value @"en-FR"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnFR
+  | -- | Represents the JSON value @"en-GB"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnGB
+  | -- | Represents the JSON value @"en-IE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnIE
+  | -- | Represents the JSON value @"en-IT"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnIT
+  | -- | Represents the JSON value @"en-NL"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNL
+  | -- | Represents the JSON value @"en-NO"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNO
+  | -- | Represents the JSON value @"en-NZ"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNZ
+  | -- | Represents the JSON value @"en-SE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnSE
+  | -- | Represents the JSON value @"en-US"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnUS
+  | -- | Represents the JSON value @"es-ES"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEsES
+  | -- | Represents the JSON value @"es-US"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEsUS
+  | -- | Represents the JSON value @"fi-FI"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFiFI
+  | -- | Represents the JSON value @"fr-BE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFrBE
+  | -- | Represents the JSON value @"fr-FR"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFrFR
+  | -- | Represents the JSON value @"it-IT"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumItIT
+  | -- | Represents the JSON value @"nb-NO"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNbNO
+  | -- | Represents the JSON value @"nl-BE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNlBE
+  | -- | Represents the JSON value @"nl-NL"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNlNL
+  | -- | Represents the JSON value @"sv-FI"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumSvFI
+  | -- | Represents the JSON value @"sv-SE"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumSvSE
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDaDK) = "da-DK"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDeAT) = "de-AT"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDeDE) = "de-DE"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnAT) = "en-AT"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnAU) = "en-AU"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnBE) = "en-BE"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnDE) = "en-DE"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnDK) = "en-DK"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnES) = "en-ES"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnFI) = "en-FI"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnFR) = "en-FR"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnGB) = "en-GB"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnIE) = "en-IE"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnIT) = "en-IT"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNL) = "en-NL"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNO) = "en-NO"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNZ) = "en-NZ"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnSE) = "en-SE"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnUS) = "en-US"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEsES) = "es-ES"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEsUS) = "es-US"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFiFI) = "fi-FI"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFrBE) = "fr-BE"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFrFR) = "fr-FR"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumItIT) = "it-IT"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNbNO) = "nb-NO"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNlBE) = "nl-BE"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNlNL) = "nl-NL"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumSvFI) = "sv-FI"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumSvSE) = "sv-SE"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "da-DK" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDaDK
+            | val GHC.Classes.== "de-AT" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDeAT
+            | val GHC.Classes.== "de-DE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumDeDE
+            | val GHC.Classes.== "en-AT" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnAT
+            | val GHC.Classes.== "en-AU" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnAU
+            | val GHC.Classes.== "en-BE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnBE
+            | val GHC.Classes.== "en-DE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnDE
+            | val GHC.Classes.== "en-DK" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnDK
+            | val GHC.Classes.== "en-ES" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnES
+            | val GHC.Classes.== "en-FI" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnFI
+            | val GHC.Classes.== "en-FR" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnFR
+            | val GHC.Classes.== "en-GB" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnGB
+            | val GHC.Classes.== "en-IE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnIE
+            | val GHC.Classes.== "en-IT" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnIT
+            | val GHC.Classes.== "en-NL" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNL
+            | val GHC.Classes.== "en-NO" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNO
+            | val GHC.Classes.== "en-NZ" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnNZ
+            | val GHC.Classes.== "en-SE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnSE
+            | val GHC.Classes.== "en-US" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEnUS
+            | val GHC.Classes.== "es-ES" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEsES
+            | val GHC.Classes.== "es-US" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumEsUS
+            | val GHC.Classes.== "fi-FI" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFiFI
+            | val GHC.Classes.== "fr-BE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFrBE
+            | val GHC.Classes.== "fr-FR" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumFrFR
+            | val GHC.Classes.== "it-IT" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumItIT
+            | val GHC.Classes.== "nb-NO" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNbNO
+            | val GHC.Classes.== "nl-BE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNlBE
+            | val GHC.Classes.== "nl-NL" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumNlNL
+            | val GHC.Classes.== "sv-FI" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumSvFI
+            | val GHC.Classes.== "sv-SE" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'EnumSvSE
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'PreferredLocale'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.klarna.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Klarna'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.link@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'
+  { -- | capture_method
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'),
+    -- | persistent_token
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'PersistentToken :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'PersistentToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'PersistentToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "persistent_token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'PersistentToken = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.link.properties.capture_method@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'EnumEmptyString
+  | -- | Represents the JSON value @"manual"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'EnumManual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'EnumManual) = "manual"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'EnumEmptyString
+            | val GHC.Classes.== "manual" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'CaptureMethod'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.link.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Link'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.oxxo@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'
+  { -- | expires_after_days
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'ExpiresAfterDays :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_after_days" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'ExpiresAfterDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_after_days" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'ExpiresAfterDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_after_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'ExpiresAfterDays = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.oxxo.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Oxxo'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.p24@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'
+  { -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'),
+    -- | tos_shown_and_accepted
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'TosShownAndAccepted :: (GHC.Maybe.Maybe GHC.Types.Bool)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tos_shown_and_accepted" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'TosShownAndAccepted obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tos_shown_and_accepted" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'TosShownAndAccepted obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tos_shown_and_accepted"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'TosShownAndAccepted = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.p24.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'P24'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.sepa_debit@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'
+  { -- | mandate_options
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'MandateOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'MandateOptions = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.sepa_debit.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumOffSession
+  | -- | Represents the JSON value @"on_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumOnSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumOffSession) = "off_session"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumOnSession) = "on_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumOffSession
+            | val GHC.Classes.== "on_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'EnumOnSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'SepaDebit'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.sofort@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'
+  { -- | preferred_language
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'),
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_language" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_language")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort' :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort' =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.sofort.properties.preferred_language@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEmptyString
+  | -- | Represents the JSON value @"de"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumDe
+  | -- | Represents the JSON value @"en"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEn
+  | -- | Represents the JSON value @"es"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEs
+  | -- | Represents the JSON value @"fr"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumFr
+  | -- | Represents the JSON value @"it"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumIt
+  | -- | Represents the JSON value @"nl"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumNl
+  | -- | Represents the JSON value @"pl"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumPl
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumDe) = "de"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEn) = "en"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEs) = "es"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumFr) = "fr"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumIt) = "it"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumNl) = "nl"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumPl) = "pl"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEmptyString
+            | val GHC.Classes.== "de" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumDe
+            | val GHC.Classes.== "en" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEn
+            | val GHC.Classes.== "es" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumEs
+            | val GHC.Classes.== "fr" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumFr
+            | val GHC.Classes.== "it" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumIt
+            | val GHC.Classes.== "nl" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumNl
+            | val GHC.Classes.== "pl" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'EnumPl
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'PreferredLanguage'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.sofort.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'Sofort'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.wechat_pay@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay' = PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'
+  { -- | app_id
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'AppId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | client
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client :: PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client',
+    -- | setup_future_usage
+    postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage :: (GHC.Maybe.Maybe PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("app_id" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'AppId obj) : ["client" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("app_id" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'AppId obj) : ["client" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "app_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "client")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay' ::
+  -- | 'postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client' ->
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'
+mkPostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay' postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client =
+  PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'
+    { postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'AppId = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client = postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client,
+      postOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.wechat_pay.properties.client@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"android"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumAndroid
+  | -- | Represents the JSON value @"ios"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumIos
+  | -- | Represents the JSON value @"web"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumWeb
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumAndroid) = "android"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumIos) = "ios"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumWeb) = "web"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "android" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumAndroid
+            | val GHC.Classes.== "ios" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumIos
+            | val GHC.Classes.== "web" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'EnumWeb
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'Client'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_options.properties.wechat_pay.properties.setup_future_usage@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodOptions'WechatPay'SetupFutureUsage'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.payment_method_types.items@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"acss_debit"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAcssDebit
+  | -- | Represents the JSON value @"afterpay_clearpay"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAfterpayClearpay
+  | -- | Represents the JSON value @"alipay"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAlipay
+  | -- | Represents the JSON value @"au_becs_debit"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAuBecsDebit
+  | -- | Represents the JSON value @"bacs_debit"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumBacsDebit
+  | -- | Represents the JSON value @"bancontact"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumBancontact
+  | -- | Represents the JSON value @"card"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumCard
+  | -- | Represents the JSON value @"customer_balance"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumCustomerBalance
+  | -- | Represents the JSON value @"eps"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumEps
+  | -- | Represents the JSON value @"fpx"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumFpx
+  | -- | Represents the JSON value @"giropay"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumGiropay
+  | -- | Represents the JSON value @"grabpay"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumGrabpay
+  | -- | Represents the JSON value @"ideal"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumIdeal
+  | -- | Represents the JSON value @"klarna"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumKlarna
+  | -- | Represents the JSON value @"link"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumLink
+  | -- | Represents the JSON value @"oxxo"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumOxxo
+  | -- | Represents the JSON value @"p24"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumP24
+  | -- | Represents the JSON value @"paypal"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumPaypal
+  | -- | Represents the JSON value @"sepa_debit"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumSofort
+  | -- | Represents the JSON value @"wechat_pay"@
+    PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumWechatPay
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes' where
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'Other val) = val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAcssDebit) = "acss_debit"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAfterpayClearpay) = "afterpay_clearpay"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAlipay) = "alipay"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAuBecsDebit) = "au_becs_debit"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumBacsDebit) = "bacs_debit"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumBancontact) = "bancontact"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumCard) = "card"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumCustomerBalance) = "customer_balance"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumEps) = "eps"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumFpx) = "fpx"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumGiropay) = "giropay"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumGrabpay) = "grabpay"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumIdeal) = "ideal"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumKlarna) = "klarna"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumLink) = "link"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumOxxo) = "oxxo"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumP24) = "p24"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumPaypal) = "paypal"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumSepaDebit) = "sepa_debit"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumSofort) = "sofort"
+  toJSON (PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumWechatPay) = "wechat_pay"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "acss_debit" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAcssDebit
+            | val GHC.Classes.== "afterpay_clearpay" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAfterpayClearpay
+            | val GHC.Classes.== "alipay" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAlipay
+            | val GHC.Classes.== "au_becs_debit" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumAuBecsDebit
+            | val GHC.Classes.== "bacs_debit" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumBacsDebit
+            | val GHC.Classes.== "bancontact" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumBancontact
+            | val GHC.Classes.== "card" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumCard
+            | val GHC.Classes.== "customer_balance" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumCustomerBalance
+            | val GHC.Classes.== "eps" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumEps
+            | val GHC.Classes.== "fpx" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumFpx
+            | val GHC.Classes.== "giropay" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumGiropay
+            | val GHC.Classes.== "grabpay" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumGrabpay
+            | val GHC.Classes.== "ideal" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumIdeal
+            | val GHC.Classes.== "klarna" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumKlarna
+            | val GHC.Classes.== "link" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumLink
+            | val GHC.Classes.== "oxxo" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumOxxo
+            | val GHC.Classes.== "p24" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumP24
+            | val GHC.Classes.== "paypal" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumPaypal
+            | val GHC.Classes.== "sepa_debit" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumSepaDebit
+            | val GHC.Classes.== "sofort" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumSofort
+            | val GHC.Classes.== "wechat_pay" -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'EnumWechatPay
+            | GHC.Base.otherwise -> PostOrdersRequestBodyPayment'Settings'PaymentMethodTypes'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment.properties.settings.properties.transfer_data@ in the specification.
+data PostOrdersRequestBodyPayment'Settings'TransferData' = PostOrdersRequestBodyPayment'Settings'TransferData'
+  { -- | amount
+    postOrdersRequestBodyPayment'Settings'TransferData'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | destination
+    postOrdersRequestBodyPayment'Settings'TransferData'Destination :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyPayment'Settings'TransferData' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'TransferData'Amount obj) : ["destination" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'TransferData'Destination obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyPayment'Settings'TransferData'Amount obj) : ["destination" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyPayment'Settings'TransferData'Destination obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyPayment'Settings'TransferData' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyPayment'Settings'TransferData'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyPayment'Settings'TransferData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination"))
+
+-- | Create a new 'PostOrdersRequestBodyPayment'Settings'TransferData'' with all required fields.
+mkPostOrdersRequestBodyPayment'Settings'TransferData' ::
+  -- | 'postOrdersRequestBodyPayment'Settings'TransferData'Destination'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyPayment'Settings'TransferData'
+mkPostOrdersRequestBodyPayment'Settings'TransferData' postOrdersRequestBodyPayment'Settings'TransferData'Destination =
+  PostOrdersRequestBodyPayment'Settings'TransferData'
+    { postOrdersRequestBodyPayment'Settings'TransferData'Amount = GHC.Maybe.Nothing,
+      postOrdersRequestBodyPayment'Settings'TransferData'Destination = postOrdersRequestBodyPayment'Settings'TransferData'Destination
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1 = PostOrdersRequestBodyShippingCost'OneOf1
+  { -- | shipping_rate
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRate :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | shipping_rate_data
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_rate" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_rate_data" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_rate" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_rate_data" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingCost'OneOf1" (\obj -> (GHC.Base.pure PostOrdersRequestBodyShippingCost'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_rate_data"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingCost'OneOf1' with all required fields.
+mkPostOrdersRequestBodyShippingCost'OneOf1 :: PostOrdersRequestBodyShippingCost'OneOf1
+mkPostOrdersRequestBodyShippingCost'OneOf1 =
+  PostOrdersRequestBodyShippingCost'OneOf1
+    { postOrdersRequestBodyShippingCost'OneOf1ShippingRate = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData' = PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'
+  { -- | delivery_estimate
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'),
+    -- | display_name
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 100
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DisplayName :: Data.Text.Internal.Text,
+    -- | fixed_amount
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'),
+    -- | metadata
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | tax_behavior
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'),
+    -- | tax_code
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | type
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("delivery_estimate" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate obj) : ["display_name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DisplayName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fixed_amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("delivery_estimate" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate obj) : ["display_name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DisplayName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fixed_amount" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'" (\obj -> ((((((GHC.Base.pure PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "delivery_estimate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fixed_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'' with all required fields.
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData' ::
+  -- | 'postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DisplayName'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData' postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DisplayName =
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'
+    { postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DisplayName = postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DisplayName,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Metadata = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxCode = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.delivery_estimate@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate' = PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'
+  { -- | maximum
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'),
+    -- | minimum
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum :: (GHC.Maybe.Maybe PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maximum")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'' with all required fields.
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate' :: PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate' =
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'
+    { postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.delivery_estimate.properties.maximum@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum' = PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'
+  { -- | unit
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit :: PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit',
+    -- | value
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Value :: GHC.Types.Int
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["unit" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit obj] : ["value" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Value obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["unit" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit obj] : ["value" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Value obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "unit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'' with all required fields.
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum' ::
+  -- | 'postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit' ->
+  -- | 'postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Value'
+  GHC.Types.Int ->
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum' postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Value =
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'
+    { postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit = postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Value = postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Value
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.delivery_estimate.properties.maximum.properties.unit@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"business_day"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumBusinessDay
+  | -- | Represents the JSON value @"day"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumDay
+  | -- | Represents the JSON value @"hour"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumHour
+  | -- | Represents the JSON value @"month"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumWeek
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit' where
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'Other val) = val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumBusinessDay) = "business_day"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumDay) = "day"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumHour) = "hour"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumMonth) = "month"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumWeek) = "week"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "business_day" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumBusinessDay
+            | val GHC.Classes.== "day" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumDay
+            | val GHC.Classes.== "hour" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumHour
+            | val GHC.Classes.== "month" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumMonth
+            | val GHC.Classes.== "week" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'EnumWeek
+            | GHC.Base.otherwise -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Maximum'Unit'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.delivery_estimate.properties.minimum@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum' = PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'
+  { -- | unit
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit :: PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit',
+    -- | value
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Value :: GHC.Types.Int
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["unit" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit obj] : ["value" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Value obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["unit" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit obj] : ["value" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Value obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "unit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'' with all required fields.
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum' ::
+  -- | 'postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit' ->
+  -- | 'postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Value'
+  GHC.Types.Int ->
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum' postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Value =
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'
+    { postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit = postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Value = postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Value
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.delivery_estimate.properties.minimum.properties.unit@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"business_day"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumBusinessDay
+  | -- | Represents the JSON value @"day"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumDay
+  | -- | Represents the JSON value @"hour"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumHour
+  | -- | Represents the JSON value @"month"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumMonth
+  | -- | Represents the JSON value @"week"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumWeek
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit' where
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'Other val) = val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumBusinessDay) = "business_day"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumDay) = "day"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumHour) = "hour"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumMonth) = "month"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumWeek) = "week"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "business_day" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumBusinessDay
+            | val GHC.Classes.== "day" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumDay
+            | val GHC.Classes.== "hour" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumHour
+            | val GHC.Classes.== "month" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumMonth
+            | val GHC.Classes.== "week" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'EnumWeek
+            | GHC.Base.otherwise -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'DeliveryEstimate'Minimum'Unit'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.fixed_amount@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount' = PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'
+  { -- | amount
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Amount :: GHC.Types.Int,
+    -- | currency
+    postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Currency :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Amount obj] : ["currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Currency obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Amount obj] : ["currency" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Currency obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'' with all required fields.
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount' ::
+  -- | 'postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Amount'
+  GHC.Types.Int ->
+  -- | 'postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Currency'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'
+mkPostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount' postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Amount postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Currency =
+  PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'
+    { postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Amount = postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Amount,
+      postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Currency = postOrdersRequestBodyShippingCost'OneOf1ShippingRateData'FixedAmount'Currency
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.tax_behavior@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"exclusive"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumExclusive
+  | -- | Represents the JSON value @"inclusive"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumInclusive
+  | -- | Represents the JSON value @"unspecified"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumUnspecified
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior' where
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'Other val) = val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumExclusive) = "exclusive"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumInclusive) = "inclusive"
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumUnspecified) = "unspecified"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "exclusive" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumExclusive
+            | val GHC.Classes.== "inclusive" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumInclusive
+            | val GHC.Classes.== "unspecified" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'EnumUnspecified
+            | GHC.Base.otherwise -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'TaxBehavior'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf.properties.shipping_rate_data.properties.type@ in the specification.
+data PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"fixed_amount"@
+    PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'EnumFixedAmount
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type' where
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'Other val) = val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'EnumFixedAmount) = "fixed_amount"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "fixed_amount" -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'EnumFixedAmount
+            | GHC.Base.otherwise -> PostOrdersRequestBodyShippingCost'OneOf1ShippingRateData'Type'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf@ in the specification.
+--
+-- Settings for the customer cost of shipping for this order.
+data PostOrdersRequestBodyShippingCost'Variants
+  = -- | Represents the JSON value @""@
+    PostOrdersRequestBodyShippingCost'EmptyString
+  | PostOrdersRequestBodyShippingCost'PostOrdersRequestBodyShippingCost'OneOf1 PostOrdersRequestBodyShippingCost'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingCost'Variants where
+  toJSON (PostOrdersRequestBodyShippingCost'PostOrdersRequestBodyShippingCost'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersRequestBodyShippingCost'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingCost'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostOrdersRequestBodyShippingCost'EmptyString
+        | GHC.Base.otherwise -> case (PostOrdersRequestBodyShippingCost'PostOrdersRequestBodyShippingCost'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_details.anyOf@ in the specification.
+data PostOrdersRequestBodyShippingDetails'OneOf1 = PostOrdersRequestBodyShippingDetails'OneOf1
+  { -- | address
+    postOrdersRequestBodyShippingDetails'OneOf1Address :: PostOrdersRequestBodyShippingDetails'OneOf1Address',
+    -- | name
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Name :: Data.Text.Internal.Text,
+    -- | phone
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingDetails'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingDetails'OneOf1Address obj] : ["name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingDetails'OneOf1Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Phone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingDetails'OneOf1Address obj] : ["name" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyShippingDetails'OneOf1Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Phone obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingDetails'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingDetails'OneOf1" (\obj -> ((GHC.Base.pure PostOrdersRequestBodyShippingDetails'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingDetails'OneOf1' with all required fields.
+mkPostOrdersRequestBodyShippingDetails'OneOf1 ::
+  -- | 'postOrdersRequestBodyShippingDetails'OneOf1Address'
+  PostOrdersRequestBodyShippingDetails'OneOf1Address' ->
+  -- | 'postOrdersRequestBodyShippingDetails'OneOf1Name'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyShippingDetails'OneOf1
+mkPostOrdersRequestBodyShippingDetails'OneOf1 postOrdersRequestBodyShippingDetails'OneOf1Address postOrdersRequestBodyShippingDetails'OneOf1Name =
+  PostOrdersRequestBodyShippingDetails'OneOf1
+    { postOrdersRequestBodyShippingDetails'OneOf1Address = postOrdersRequestBodyShippingDetails'OneOf1Address,
+      postOrdersRequestBodyShippingDetails'OneOf1Name = postOrdersRequestBodyShippingDetails'OneOf1Name,
+      postOrdersRequestBodyShippingDetails'OneOf1Phone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_details.anyOf.properties.address@ in the specification.
+data PostOrdersRequestBodyShippingDetails'OneOf1Address' = PostOrdersRequestBodyShippingDetails'OneOf1Address'
+  { -- | city
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | country
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | line1
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | line2
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | postal_code
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | state
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyShippingDetails'OneOf1Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingDetails'OneOf1Address' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'State obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'City obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyShippingDetails'OneOf1Address'State obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingDetails'OneOf1Address' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyShippingDetails'OneOf1Address'" (\obj -> (((((GHC.Base.pure PostOrdersRequestBodyShippingDetails'OneOf1Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
+
+-- | Create a new 'PostOrdersRequestBodyShippingDetails'OneOf1Address'' with all required fields.
+mkPostOrdersRequestBodyShippingDetails'OneOf1Address' :: PostOrdersRequestBodyShippingDetails'OneOf1Address'
+mkPostOrdersRequestBodyShippingDetails'OneOf1Address' =
+  PostOrdersRequestBodyShippingDetails'OneOf1Address'
+    { postOrdersRequestBodyShippingDetails'OneOf1Address'City = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingDetails'OneOf1Address'Country = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingDetails'OneOf1Address'Line1 = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingDetails'OneOf1Address'Line2 = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingDetails'OneOf1Address'PostalCode = GHC.Maybe.Nothing,
+      postOrdersRequestBodyShippingDetails'OneOf1Address'State = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_details.anyOf@ in the specification.
+--
+-- Shipping details for the order.
+data PostOrdersRequestBodyShippingDetails'Variants
+  = -- | Represents the JSON value @""@
+    PostOrdersRequestBodyShippingDetails'EmptyString
+  | PostOrdersRequestBodyShippingDetails'PostOrdersRequestBodyShippingDetails'OneOf1 PostOrdersRequestBodyShippingDetails'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShippingDetails'Variants where
+  toJSON (PostOrdersRequestBodyShippingDetails'PostOrdersRequestBodyShippingDetails'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersRequestBodyShippingDetails'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyShippingDetails'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostOrdersRequestBodyShippingDetails'EmptyString
+        | GHC.Base.otherwise -> case (PostOrdersRequestBodyShippingDetails'PostOrdersRequestBodyShippingDetails'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_details@ in the specification.
+--
+-- Additional tax details about the purchaser to be used for this order.
+data PostOrdersRequestBodyTaxDetails' = PostOrdersRequestBodyTaxDetails'
+  { -- | tax_exempt
+    postOrdersRequestBodyTaxDetails'TaxExempt :: (GHC.Maybe.Maybe PostOrdersRequestBodyTaxDetails'TaxExempt'),
+    -- | tax_ids
+    postOrdersRequestBodyTaxDetails'TaxIds :: (GHC.Maybe.Maybe ([PostOrdersRequestBodyTaxDetails'TaxIds']))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyTaxDetails' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_exempt" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyTaxDetails'TaxExempt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_ids" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyTaxDetails'TaxIds obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_exempt" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyTaxDetails'TaxExempt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_ids" Data.Aeson.Types.ToJSON..=)) (postOrdersRequestBodyTaxDetails'TaxIds obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyTaxDetails' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyTaxDetails'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyTaxDetails' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_exempt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_ids"))
+
+-- | Create a new 'PostOrdersRequestBodyTaxDetails'' with all required fields.
+mkPostOrdersRequestBodyTaxDetails' :: PostOrdersRequestBodyTaxDetails'
+mkPostOrdersRequestBodyTaxDetails' =
+  PostOrdersRequestBodyTaxDetails'
+    { postOrdersRequestBodyTaxDetails'TaxExempt = GHC.Maybe.Nothing,
+      postOrdersRequestBodyTaxDetails'TaxIds = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_details.properties.tax_exempt@ in the specification.
+data PostOrdersRequestBodyTaxDetails'TaxExempt'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyTaxDetails'TaxExempt'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyTaxDetails'TaxExempt'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostOrdersRequestBodyTaxDetails'TaxExempt'EnumEmptyString
+  | -- | Represents the JSON value @"exempt"@
+    PostOrdersRequestBodyTaxDetails'TaxExempt'EnumExempt
+  | -- | Represents the JSON value @"none"@
+    PostOrdersRequestBodyTaxDetails'TaxExempt'EnumNone
+  | -- | Represents the JSON value @"reverse"@
+    PostOrdersRequestBodyTaxDetails'TaxExempt'EnumReverse
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyTaxDetails'TaxExempt' where
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxExempt'Other val) = val
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxExempt'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxExempt'EnumEmptyString) = ""
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxExempt'EnumExempt) = "exempt"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxExempt'EnumNone) = "none"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxExempt'EnumReverse) = "reverse"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyTaxDetails'TaxExempt' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostOrdersRequestBodyTaxDetails'TaxExempt'EnumEmptyString
+            | val GHC.Classes.== "exempt" -> PostOrdersRequestBodyTaxDetails'TaxExempt'EnumExempt
+            | val GHC.Classes.== "none" -> PostOrdersRequestBodyTaxDetails'TaxExempt'EnumNone
+            | val GHC.Classes.== "reverse" -> PostOrdersRequestBodyTaxDetails'TaxExempt'EnumReverse
+            | GHC.Base.otherwise -> PostOrdersRequestBodyTaxDetails'TaxExempt'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_details.properties.tax_ids.items@ in the specification.
+data PostOrdersRequestBodyTaxDetails'TaxIds' = PostOrdersRequestBodyTaxDetails'TaxIds'
+  { -- | type
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postOrdersRequestBodyTaxDetails'TaxIds'Type :: PostOrdersRequestBodyTaxDetails'TaxIds'Type',
+    -- | value
+    postOrdersRequestBodyTaxDetails'TaxIds'Value :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyTaxDetails'TaxIds' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyTaxDetails'TaxIds'Type obj] : ["value" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyTaxDetails'TaxIds'Value obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["type" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyTaxDetails'TaxIds'Type obj] : ["value" Data.Aeson.Types.ToJSON..= postOrdersRequestBodyTaxDetails'TaxIds'Value obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyTaxDetails'TaxIds' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostOrdersRequestBodyTaxDetails'TaxIds'" (\obj -> (GHC.Base.pure PostOrdersRequestBodyTaxDetails'TaxIds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+
+-- | Create a new 'PostOrdersRequestBodyTaxDetails'TaxIds'' with all required fields.
+mkPostOrdersRequestBodyTaxDetails'TaxIds' ::
+  -- | 'postOrdersRequestBodyTaxDetails'TaxIds'Type'
+  PostOrdersRequestBodyTaxDetails'TaxIds'Type' ->
+  -- | 'postOrdersRequestBodyTaxDetails'TaxIds'Value'
+  Data.Text.Internal.Text ->
+  PostOrdersRequestBodyTaxDetails'TaxIds'
+mkPostOrdersRequestBodyTaxDetails'TaxIds' postOrdersRequestBodyTaxDetails'TaxIds'Type postOrdersRequestBodyTaxDetails'TaxIds'Value =
+  PostOrdersRequestBodyTaxDetails'TaxIds'
+    { postOrdersRequestBodyTaxDetails'TaxIds'Type = postOrdersRequestBodyTaxDetails'TaxIds'Type,
+      postOrdersRequestBodyTaxDetails'TaxIds'Value = postOrdersRequestBodyTaxDetails'TaxIds'Value
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/orders.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_details.properties.tax_ids.items.properties.type@ in the specification.
+data PostOrdersRequestBodyTaxDetails'TaxIds'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ae_trn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAeTrn
+  | -- | Represents the JSON value @"au_abn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAuAbn
+  | -- | Represents the JSON value @"au_arn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAuArn
+  | -- | Represents the JSON value @"bg_uic"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBgUic
+  | -- | Represents the JSON value @"br_cnpj"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBrCnpj
+  | -- | Represents the JSON value @"br_cpf"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBrCpf
+  | -- | Represents the JSON value @"ca_bn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaBn
+  | -- | Represents the JSON value @"ca_gst_hst"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaGstHst
+  | -- | Represents the JSON value @"ca_pst_bc"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstBc
+  | -- | Represents the JSON value @"ca_pst_mb"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstMb
+  | -- | Represents the JSON value @"ca_pst_sk"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstSk
+  | -- | Represents the JSON value @"ca_qst"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaQst
+  | -- | Represents the JSON value @"ch_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumChVat
+  | -- | Represents the JSON value @"cl_tin"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumClTin
+  | -- | Represents the JSON value @"es_cif"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEsCif
+  | -- | Represents the JSON value @"eu_oss_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEuOssVat
+  | -- | Represents the JSON value @"eu_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEuVat
+  | -- | Represents the JSON value @"gb_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumGbVat
+  | -- | Represents the JSON value @"ge_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumGeVat
+  | -- | Represents the JSON value @"hk_br"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumHkBr
+  | -- | Represents the JSON value @"hu_tin"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumHuTin
+  | -- | Represents the JSON value @"id_npwp"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIdNpwp
+  | -- | Represents the JSON value @"il_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIlVat
+  | -- | Represents the JSON value @"in_gst"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumInGst
+  | -- | Represents the JSON value @"is_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIsVat
+  | -- | Represents the JSON value @"jp_cn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumJpCn
+  | -- | Represents the JSON value @"jp_rn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumJpRn
+  | -- | Represents the JSON value @"kr_brn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumKrBrn
+  | -- | Represents the JSON value @"li_uid"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumLiUid
+  | -- | Represents the JSON value @"mx_rfc"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMxRfc
+  | -- | Represents the JSON value @"my_frp"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMyFrp
+  | -- | Represents the JSON value @"my_itn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMyItn
+  | -- | Represents the JSON value @"my_sst"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMySst
+  | -- | Represents the JSON value @"no_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumNoVat
+  | -- | Represents the JSON value @"nz_gst"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumNzGst
+  | -- | Represents the JSON value @"ru_inn"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumRuInn
+  | -- | Represents the JSON value @"ru_kpp"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumRuKpp
+  | -- | Represents the JSON value @"sa_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSaVat
+  | -- | Represents the JSON value @"sg_gst"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSgGst
+  | -- | Represents the JSON value @"sg_uen"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSgUen
+  | -- | Represents the JSON value @"si_tin"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSiTin
+  | -- | Represents the JSON value @"th_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumThVat
+  | -- | Represents the JSON value @"tw_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumTwVat
+  | -- | Represents the JSON value @"ua_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumUaVat
+  | -- | Represents the JSON value @"us_ein"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumUsEin
+  | -- | Represents the JSON value @"za_vat"@
+    PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumZaVat
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyTaxDetails'TaxIds'Type' where
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'Other val) = val
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAeTrn) = "ae_trn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAuAbn) = "au_abn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAuArn) = "au_arn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBgUic) = "bg_uic"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBrCnpj) = "br_cnpj"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBrCpf) = "br_cpf"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaBn) = "ca_bn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaGstHst) = "ca_gst_hst"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstBc) = "ca_pst_bc"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstMb) = "ca_pst_mb"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstSk) = "ca_pst_sk"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaQst) = "ca_qst"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumChVat) = "ch_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumClTin) = "cl_tin"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEsCif) = "es_cif"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEuOssVat) = "eu_oss_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEuVat) = "eu_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumGbVat) = "gb_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumGeVat) = "ge_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumHkBr) = "hk_br"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumHuTin) = "hu_tin"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIdNpwp) = "id_npwp"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIlVat) = "il_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumInGst) = "in_gst"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIsVat) = "is_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumJpCn) = "jp_cn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumJpRn) = "jp_rn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumKrBrn) = "kr_brn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumLiUid) = "li_uid"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMxRfc) = "mx_rfc"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMyFrp) = "my_frp"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMyItn) = "my_itn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMySst) = "my_sst"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumNoVat) = "no_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumNzGst) = "nz_gst"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumRuInn) = "ru_inn"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumRuKpp) = "ru_kpp"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSaVat) = "sa_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSgGst) = "sg_gst"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSgUen) = "sg_uen"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSiTin) = "si_tin"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumThVat) = "th_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumTwVat) = "tw_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumUaVat) = "ua_vat"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumUsEin) = "us_ein"
+  toJSON (PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumZaVat) = "za_vat"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyTaxDetails'TaxIds'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "ae_trn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAeTrn
+            | val GHC.Classes.== "au_abn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAuAbn
+            | val GHC.Classes.== "au_arn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumAuArn
+            | val GHC.Classes.== "bg_uic" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBgUic
+            | val GHC.Classes.== "br_cnpj" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBrCnpj
+            | val GHC.Classes.== "br_cpf" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumBrCpf
+            | val GHC.Classes.== "ca_bn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaBn
+            | val GHC.Classes.== "ca_gst_hst" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaGstHst
+            | val GHC.Classes.== "ca_pst_bc" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstBc
+            | val GHC.Classes.== "ca_pst_mb" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstMb
+            | val GHC.Classes.== "ca_pst_sk" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaPstSk
+            | val GHC.Classes.== "ca_qst" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumCaQst
+            | val GHC.Classes.== "ch_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumChVat
+            | val GHC.Classes.== "cl_tin" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumClTin
+            | val GHC.Classes.== "es_cif" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEsCif
+            | val GHC.Classes.== "eu_oss_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEuOssVat
+            | val GHC.Classes.== "eu_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumEuVat
+            | val GHC.Classes.== "gb_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumGbVat
+            | val GHC.Classes.== "ge_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumGeVat
+            | val GHC.Classes.== "hk_br" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumHkBr
+            | val GHC.Classes.== "hu_tin" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumHuTin
+            | val GHC.Classes.== "id_npwp" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIdNpwp
+            | val GHC.Classes.== "il_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIlVat
+            | val GHC.Classes.== "in_gst" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumInGst
+            | val GHC.Classes.== "is_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumIsVat
+            | val GHC.Classes.== "jp_cn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumJpCn
+            | val GHC.Classes.== "jp_rn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumJpRn
+            | val GHC.Classes.== "kr_brn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumKrBrn
+            | val GHC.Classes.== "li_uid" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumLiUid
+            | val GHC.Classes.== "mx_rfc" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMxRfc
+            | val GHC.Classes.== "my_frp" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMyFrp
+            | val GHC.Classes.== "my_itn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMyItn
+            | val GHC.Classes.== "my_sst" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumMySst
+            | val GHC.Classes.== "no_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumNoVat
+            | val GHC.Classes.== "nz_gst" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumNzGst
+            | val GHC.Classes.== "ru_inn" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumRuInn
+            | val GHC.Classes.== "ru_kpp" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumRuKpp
+            | val GHC.Classes.== "sa_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSaVat
+            | val GHC.Classes.== "sg_gst" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSgGst
+            | val GHC.Classes.== "sg_uen" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSgUen
+            | val GHC.Classes.== "si_tin" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumSiTin
+            | val GHC.Classes.== "th_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumThVat
+            | val GHC.Classes.== "tw_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumTwVat
+            | val GHC.Classes.== "ua_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumUaVat
+            | val GHC.Classes.== "us_ein" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumUsEin
+            | val GHC.Classes.== "za_vat" -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'EnumZaVat
+            | GHC.Base.otherwise -> PostOrdersRequestBodyTaxDetails'TaxIds'Type'Other val
+      )
 
 -- | Represents a response of the operation 'postOrders'.
 --

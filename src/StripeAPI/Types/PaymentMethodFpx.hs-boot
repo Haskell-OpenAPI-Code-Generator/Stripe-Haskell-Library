@@ -1,6 +1,7 @@
 module StripeAPI.Types.PaymentMethodFpx where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PaymentMethodFpx
 instance Show PaymentMethodFpx
 instance Eq PaymentMethodFpx

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -41,8 +43,6 @@ import qualified Prelude as GHC.Maybe
 -- the \`size: large\`, \`color: red\` version of that shirt.
 --
 -- Can also be used to manage inventory.
---
--- Related guide: [Tax, Shipping, and Inventory](https:\/\/stripe.com\/docs\/orders).
 data Sku = Sku
   { -- | active: Whether the SKU is available for purchase.
     skuActive :: GHC.Types.Bool,
@@ -63,7 +63,7 @@ data Sku = Sku
     -- Constraints:
     --
     -- * Maximum length of 2048
-    skuImage :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    skuImage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | inventory:
     skuInventory :: SkuInventory,
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
@@ -71,7 +71,7 @@ data Sku = Sku
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     skuMetadata :: Data.Aeson.Types.Internal.Object,
     -- | package_dimensions: The dimensions of this SKU for shipping purposes.
-    skuPackageDimensions :: (GHC.Maybe.Maybe SkuPackageDimensions'),
+    skuPackageDimensions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SkuPackageDimensions'NonNullable)),
     -- | price: The cost of the item as a positive integer in the smallest currency unit (that is, 100 cents to charge \$1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).
     skuPrice :: GHC.Types.Int,
     -- | product: The ID of the product this SKU is associated with. The product must be currently active.
@@ -85,11 +85,11 @@ data Sku = Sku
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Sku where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= skuActive obj : "attributes" Data.Aeson.Types.ToJSON..= skuAttributes obj : "created" Data.Aeson.Types.ToJSON..= skuCreated obj : "currency" Data.Aeson.Types.ToJSON..= skuCurrency obj : "id" Data.Aeson.Types.ToJSON..= skuId obj : "image" Data.Aeson.Types.ToJSON..= skuImage obj : "inventory" Data.Aeson.Types.ToJSON..= skuInventory obj : "livemode" Data.Aeson.Types.ToJSON..= skuLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= skuMetadata obj : "package_dimensions" Data.Aeson.Types.ToJSON..= skuPackageDimensions obj : "price" Data.Aeson.Types.ToJSON..= skuPrice obj : "product" Data.Aeson.Types.ToJSON..= skuProduct obj : "updated" Data.Aeson.Types.ToJSON..= skuUpdated obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "sku" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= skuActive obj) GHC.Base.<> (("attributes" Data.Aeson.Types.ToJSON..= skuAttributes obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= skuCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= skuCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= skuId obj) GHC.Base.<> (("image" Data.Aeson.Types.ToJSON..= skuImage obj) GHC.Base.<> (("inventory" Data.Aeson.Types.ToJSON..= skuInventory obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= skuLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= skuMetadata obj) GHC.Base.<> (("package_dimensions" Data.Aeson.Types.ToJSON..= skuPackageDimensions obj) GHC.Base.<> (("price" Data.Aeson.Types.ToJSON..= skuPrice obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= skuProduct obj) GHC.Base.<> (("updated" Data.Aeson.Types.ToJSON..= skuUpdated obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "sku"))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= skuActive obj] : ["attributes" Data.Aeson.Types.ToJSON..= skuAttributes obj] : ["created" Data.Aeson.Types.ToJSON..= skuCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= skuCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= skuId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("image" Data.Aeson.Types.ToJSON..=)) (skuImage obj) : ["inventory" Data.Aeson.Types.ToJSON..= skuInventory obj] : ["livemode" Data.Aeson.Types.ToJSON..= skuLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= skuMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("package_dimensions" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions obj) : ["price" Data.Aeson.Types.ToJSON..= skuPrice obj] : ["product" Data.Aeson.Types.ToJSON..= skuProduct obj] : ["updated" Data.Aeson.Types.ToJSON..= skuUpdated obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "sku"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= skuActive obj] : ["attributes" Data.Aeson.Types.ToJSON..= skuAttributes obj] : ["created" Data.Aeson.Types.ToJSON..= skuCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= skuCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= skuId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("image" Data.Aeson.Types.ToJSON..=)) (skuImage obj) : ["inventory" Data.Aeson.Types.ToJSON..= skuInventory obj] : ["livemode" Data.Aeson.Types.ToJSON..= skuLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= skuMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("package_dimensions" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions obj) : ["price" Data.Aeson.Types.ToJSON..= skuPrice obj] : ["product" Data.Aeson.Types.ToJSON..= skuProduct obj] : ["updated" Data.Aeson.Types.ToJSON..= skuUpdated obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "sku"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Sku where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Sku" (\obj -> ((((((((((((GHC.Base.pure Sku GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "image")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inventory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Sku" (\obj -> ((((((((((((GHC.Base.pure Sku GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "image")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inventory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated"))
 
 -- | Create a new 'Sku' with all required fields.
 mkSku ::
@@ -136,36 +136,36 @@ mkSku skuActive skuAttributes skuCreated skuCurrency skuId skuInventory skuLivem
 -- | Defines the object schema located at @components.schemas.sku.properties.package_dimensions.anyOf@ in the specification.
 --
 -- The dimensions of this SKU for shipping purposes.
-data SkuPackageDimensions' = SkuPackageDimensions'
+data SkuPackageDimensions'NonNullable = SkuPackageDimensions'NonNullable
   { -- | height: Height, in inches.
-    skuPackageDimensions'Height :: (GHC.Maybe.Maybe GHC.Types.Double),
+    skuPackageDimensions'NonNullableHeight :: (GHC.Maybe.Maybe GHC.Types.Double),
     -- | length: Length, in inches.
-    skuPackageDimensions'Length :: (GHC.Maybe.Maybe GHC.Types.Double),
+    skuPackageDimensions'NonNullableLength :: (GHC.Maybe.Maybe GHC.Types.Double),
     -- | weight: Weight, in ounces.
-    skuPackageDimensions'Weight :: (GHC.Maybe.Maybe GHC.Types.Double),
+    skuPackageDimensions'NonNullableWeight :: (GHC.Maybe.Maybe GHC.Types.Double),
     -- | width: Width, in inches.
-    skuPackageDimensions'Width :: (GHC.Maybe.Maybe GHC.Types.Double)
+    skuPackageDimensions'NonNullableWidth :: (GHC.Maybe.Maybe GHC.Types.Double)
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON SkuPackageDimensions' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("height" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Height obj : "length" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Length obj : "weight" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Weight obj : "width" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Width obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("height" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Height obj) GHC.Base.<> (("length" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Length obj) GHC.Base.<> (("weight" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Weight obj) GHC.Base.<> ("width" Data.Aeson.Types.ToJSON..= skuPackageDimensions'Width obj))))
+instance Data.Aeson.Types.ToJSON.ToJSON SkuPackageDimensions'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("height" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableHeight obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("length" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("weight" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableWeight obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("width" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableWidth obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("height" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableHeight obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("length" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("weight" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableWeight obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("width" Data.Aeson.Types.ToJSON..=)) (skuPackageDimensions'NonNullableWidth obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON SkuPackageDimensions' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SkuPackageDimensions'" (\obj -> (((GHC.Base.pure SkuPackageDimensions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "width"))
+instance Data.Aeson.Types.FromJSON.FromJSON SkuPackageDimensions'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SkuPackageDimensions'NonNullable" (\obj -> (((GHC.Base.pure SkuPackageDimensions'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "width"))
 
--- | Create a new 'SkuPackageDimensions'' with all required fields.
-mkSkuPackageDimensions' :: SkuPackageDimensions'
-mkSkuPackageDimensions' =
-  SkuPackageDimensions'
-    { skuPackageDimensions'Height = GHC.Maybe.Nothing,
-      skuPackageDimensions'Length = GHC.Maybe.Nothing,
-      skuPackageDimensions'Weight = GHC.Maybe.Nothing,
-      skuPackageDimensions'Width = GHC.Maybe.Nothing
+-- | Create a new 'SkuPackageDimensions'NonNullable' with all required fields.
+mkSkuPackageDimensions'NonNullable :: SkuPackageDimensions'NonNullable
+mkSkuPackageDimensions'NonNullable =
+  SkuPackageDimensions'NonNullable
+    { skuPackageDimensions'NonNullableHeight = GHC.Maybe.Nothing,
+      skuPackageDimensions'NonNullableLength = GHC.Maybe.Nothing,
+      skuPackageDimensions'NonNullableWeight = GHC.Maybe.Nothing,
+      skuPackageDimensions'NonNullableWidth = GHC.Maybe.Nothing
     }
 
 -- | Defines the oneOf schema located at @components.schemas.sku.properties.product.anyOf@ in the specification.

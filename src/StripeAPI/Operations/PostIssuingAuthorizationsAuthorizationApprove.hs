@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data PostIssuingAuthorizationsAuthorizationApproveRequestBody = PostIssuingAutho
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingAuthorizationsAuthorizationApproveRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyAmount obj : "expand" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyAmount obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postIssuingAuthorizationsAuthorizationApproveRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postIssuingAuthorizationsAuthorizationApproveRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingAuthorizationsAuthorizationApproveRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingAuthorizationsAuthorizationApproveRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizationApproveRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingAuthorizationsAuthorizationApproveRequestBody" (\obj -> ((GHC.Base.pure PostIssuingAuthorizationsAuthorizationApproveRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingAuthorizationsAuthorizationApproveRequestBody" (\obj -> ((GHC.Base.pure PostIssuingAuthorizationsAuthorizationApproveRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostIssuingAuthorizationsAuthorizationApproveRequestBody' with all required fields.
 mkPostIssuingAuthorizationsAuthorizationApproveRequestBody :: PostIssuingAuthorizationsAuthorizationApproveRequestBody

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,7 @@ data FeeRefund = FeeRefund
   { -- | amount: Amount, in %s.
     feeRefundAmount :: GHC.Types.Int,
     -- | balance_transaction: Balance transaction that describes the impact on your account balance.
-    feeRefundBalanceTransaction :: (GHC.Maybe.Maybe FeeRefundBalanceTransaction'Variants),
+    feeRefundBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable FeeRefundBalanceTransaction'NonNullableVariants)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     feeRefundCreated :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
@@ -57,7 +59,7 @@ data FeeRefund = FeeRefund
     -- * Maximum length of 5000
     feeRefundId :: Data.Text.Internal.Text,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    feeRefundMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+    feeRefundMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object))
   }
   deriving
     ( GHC.Show.Show,
@@ -65,11 +67,11 @@ data FeeRefund = FeeRefund
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FeeRefund where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= feeRefundAmount obj : "balance_transaction" Data.Aeson.Types.ToJSON..= feeRefundBalanceTransaction obj : "created" Data.Aeson.Types.ToJSON..= feeRefundCreated obj : "currency" Data.Aeson.Types.ToJSON..= feeRefundCurrency obj : "fee" Data.Aeson.Types.ToJSON..= feeRefundFee obj : "id" Data.Aeson.Types.ToJSON..= feeRefundId obj : "metadata" Data.Aeson.Types.ToJSON..= feeRefundMetadata obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fee_refund" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= feeRefundAmount obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= feeRefundBalanceTransaction obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= feeRefundCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= feeRefundCurrency obj) GHC.Base.<> (("fee" Data.Aeson.Types.ToJSON..= feeRefundFee obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= feeRefundId obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= feeRefundMetadata obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fee_refund"))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= feeRefundAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (feeRefundBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= feeRefundCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= feeRefundCurrency obj] : ["fee" Data.Aeson.Types.ToJSON..= feeRefundFee obj] : ["id" Data.Aeson.Types.ToJSON..= feeRefundId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (feeRefundMetadata obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fee_refund"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= feeRefundAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (feeRefundBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= feeRefundCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= feeRefundCurrency obj] : ["fee" Data.Aeson.Types.ToJSON..= feeRefundFee obj] : ["id" Data.Aeson.Types.ToJSON..= feeRefundId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (feeRefundMetadata obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "fee_refund"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FeeRefund where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FeeRefund" (\obj -> ((((((GHC.Base.pure FeeRefund GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FeeRefund" (\obj -> ((((((GHC.Base.pure FeeRefund GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'FeeRefund' with all required fields.
 mkFeeRefund ::
@@ -98,17 +100,17 @@ mkFeeRefund feeRefundAmount feeRefundCreated feeRefundCurrency feeRefundFee feeR
 -- | Defines the oneOf schema located at @components.schemas.fee_refund.properties.balance_transaction.anyOf@ in the specification.
 --
 -- Balance transaction that describes the impact on your account balance.
-data FeeRefundBalanceTransaction'Variants
-  = FeeRefundBalanceTransaction'Text Data.Text.Internal.Text
-  | FeeRefundBalanceTransaction'BalanceTransaction BalanceTransaction
+data FeeRefundBalanceTransaction'NonNullableVariants
+  = FeeRefundBalanceTransaction'NonNullableText Data.Text.Internal.Text
+  | FeeRefundBalanceTransaction'NonNullableBalanceTransaction BalanceTransaction
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON FeeRefundBalanceTransaction'Variants where
-  toJSON (FeeRefundBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (FeeRefundBalanceTransaction'BalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON FeeRefundBalanceTransaction'NonNullableVariants where
+  toJSON (FeeRefundBalanceTransaction'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (FeeRefundBalanceTransaction'NonNullableBalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON FeeRefundBalanceTransaction'Variants where
-  parseJSON val = case (FeeRefundBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((FeeRefundBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON FeeRefundBalanceTransaction'NonNullableVariants where
+  parseJSON val = case (FeeRefundBalanceTransaction'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((FeeRefundBalanceTransaction'NonNullableBalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

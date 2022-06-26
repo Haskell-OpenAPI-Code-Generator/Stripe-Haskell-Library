@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,7 +39,7 @@ data PaymentMethodDetailsOxxo = PaymentMethodDetailsOxxo
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsOxxoNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsOxxoNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data PaymentMethodDetailsOxxo = PaymentMethodDetailsOxxo
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsOxxo where
-  toJSON obj = Data.Aeson.Types.Internal.object ("number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsOxxoNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsOxxoNumber obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsOxxoNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsOxxoNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsOxxo where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsOxxo" (\obj -> GHC.Base.pure PaymentMethodDetailsOxxo GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsOxxo" (\obj -> GHC.Base.pure PaymentMethodDetailsOxxo GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "number"))
 
 -- | Create a new 'PaymentMethodDetailsOxxo' with all required fields.
 mkPaymentMethodDetailsOxxo :: PaymentMethodDetailsOxxo

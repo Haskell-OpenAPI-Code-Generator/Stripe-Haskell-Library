@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,33 +39,33 @@ data IssuingTransactionFlightDataLeg = IssuingTransactionFlightDataLeg
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionFlightDataLegArrivalAirportCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingTransactionFlightDataLegArrivalAirportCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | carrier: The airline carrier code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionFlightDataLegCarrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingTransactionFlightDataLegCarrier :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | departure_airport_code: The three-letter IATA airport code that the flight departed from.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionFlightDataLegDepartureAirportCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingTransactionFlightDataLegDepartureAirportCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | flight_number: The flight number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionFlightDataLegFlightNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingTransactionFlightDataLegFlightNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | service_class: The flight\'s service class.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingTransactionFlightDataLegServiceClass :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingTransactionFlightDataLegServiceClass :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | stopover_allowed: Whether a stopover is allowed on this flight.
-    issuingTransactionFlightDataLegStopoverAllowed :: (GHC.Maybe.Maybe GHC.Types.Bool)
+    issuingTransactionFlightDataLegStopoverAllowed :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool))
   }
   deriving
     ( GHC.Show.Show,
@@ -71,11 +73,11 @@ data IssuingTransactionFlightDataLeg = IssuingTransactionFlightDataLeg
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingTransactionFlightDataLeg where
-  toJSON obj = Data.Aeson.Types.Internal.object ("arrival_airport_code" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegArrivalAirportCode obj : "carrier" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegCarrier obj : "departure_airport_code" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegDepartureAirportCode obj : "flight_number" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegFlightNumber obj : "service_class" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegServiceClass obj : "stopover_allowed" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegStopoverAllowed obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("arrival_airport_code" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegArrivalAirportCode obj) GHC.Base.<> (("carrier" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegCarrier obj) GHC.Base.<> (("departure_airport_code" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegDepartureAirportCode obj) GHC.Base.<> (("flight_number" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegFlightNumber obj) GHC.Base.<> (("service_class" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegServiceClass obj) GHC.Base.<> ("stopover_allowed" Data.Aeson.Types.ToJSON..= issuingTransactionFlightDataLegStopoverAllowed obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("arrival_airport_code" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegArrivalAirportCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("departure_airport_code" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegDepartureAirportCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flight_number" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegFlightNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service_class" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegServiceClass obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("stopover_allowed" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegStopoverAllowed obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("arrival_airport_code" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegArrivalAirportCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("departure_airport_code" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegDepartureAirportCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flight_number" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegFlightNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service_class" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegServiceClass obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("stopover_allowed" Data.Aeson.Types.ToJSON..=)) (issuingTransactionFlightDataLegStopoverAllowed obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingTransactionFlightDataLeg where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionFlightDataLeg" (\obj -> (((((GHC.Base.pure IssuingTransactionFlightDataLeg GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "arrival_airport_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "departure_airport_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flight_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "service_class")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "stopover_allowed"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionFlightDataLeg" (\obj -> (((((GHC.Base.pure IssuingTransactionFlightDataLeg GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "arrival_airport_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "departure_airport_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flight_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "service_class")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stopover_allowed"))
 
 -- | Create a new 'IssuingTransactionFlightDataLeg' with all required fields.
 mkIssuingTransactionFlightDataLeg :: IssuingTransactionFlightDataLeg

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -39,7 +41,7 @@ import qualified Prelude as GHC.Maybe
 -- one plan, making it easy to represent complex billing relationships.
 data SubscriptionItem = SubscriptionItem
   { -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
-    subscriptionItemBillingThresholds :: (GHC.Maybe.Maybe SubscriptionItemBillingThresholds'),
+    subscriptionItemBillingThresholds :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionItemBillingThresholds'NonNullable)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     subscriptionItemCreated :: GHC.Types.Int,
     -- | id: Unique identifier for the object.
@@ -55,7 +57,7 @@ data SubscriptionItem = SubscriptionItem
     --
     -- For example, you might have a single \"gold\" product that has prices for \$10\/month, \$100\/year, and €9 once.
     --
-    -- Related guides: [Set up a subscription](https:\/\/stripe.com\/docs\/billing\/subscriptions\/set-up-subscription), [create an invoice](https:\/\/stripe.com\/docs\/billing\/invoices\/create), and more about [products and prices](https:\/\/stripe.com\/docs\/billing\/prices-guide).
+    -- Related guides: [Set up a subscription](https:\/\/stripe.com\/docs\/billing\/subscriptions\/set-up-subscription), [create an invoice](https:\/\/stripe.com\/docs\/billing\/invoices\/create), and more about [products and prices](https:\/\/stripe.com\/docs\/products-prices\/overview).
     subscriptionItemPrice :: Price,
     -- | quantity: The [quantity](https:\/\/stripe.com\/docs\/subscriptions\/quantities) of the plan to which the customer should be subscribed.
     subscriptionItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
@@ -66,7 +68,7 @@ data SubscriptionItem = SubscriptionItem
     -- * Maximum length of 5000
     subscriptionItemSubscription :: Data.Text.Internal.Text,
     -- | tax_rates: The tax rates which apply to this \`subscription_item\`. When set, the \`default_tax_rates\` on the subscription do not apply to this \`subscription_item\`.
-    subscriptionItemTaxRates :: (GHC.Maybe.Maybe ([TaxRate]))
+    subscriptionItemTaxRates :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([TaxRate])))
   }
   deriving
     ( GHC.Show.Show,
@@ -74,11 +76,11 @@ data SubscriptionItem = SubscriptionItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItem where
-  toJSON obj = Data.Aeson.Types.Internal.object ("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds obj : "created" Data.Aeson.Types.ToJSON..= subscriptionItemCreated obj : "id" Data.Aeson.Types.ToJSON..= subscriptionItemId obj : "metadata" Data.Aeson.Types.ToJSON..= subscriptionItemMetadata obj : "price" Data.Aeson.Types.ToJSON..= subscriptionItemPrice obj : "quantity" Data.Aeson.Types.ToJSON..= subscriptionItemQuantity obj : "subscription" Data.Aeson.Types.ToJSON..= subscriptionItemSubscription obj : "tax_rates" Data.Aeson.Types.ToJSON..= subscriptionItemTaxRates obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_item" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("billing_thresholds" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= subscriptionItemCreated obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= subscriptionItemId obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= subscriptionItemMetadata obj) GHC.Base.<> (("price" Data.Aeson.Types.ToJSON..= subscriptionItemPrice obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= subscriptionItemQuantity obj) GHC.Base.<> (("subscription" Data.Aeson.Types.ToJSON..= subscriptionItemSubscription obj) GHC.Base.<> (("tax_rates" Data.Aeson.Types.ToJSON..= subscriptionItemTaxRates obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_item")))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionItemBillingThresholds obj) : ["created" Data.Aeson.Types.ToJSON..= subscriptionItemCreated obj] : ["id" Data.Aeson.Types.ToJSON..= subscriptionItemId obj] : ["metadata" Data.Aeson.Types.ToJSON..= subscriptionItemMetadata obj] : ["price" Data.Aeson.Types.ToJSON..= subscriptionItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionItemQuantity obj) : ["subscription" Data.Aeson.Types.ToJSON..= subscriptionItemSubscription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionItemTaxRates obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_item"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionItemBillingThresholds obj) : ["created" Data.Aeson.Types.ToJSON..= subscriptionItemCreated obj] : ["id" Data.Aeson.Types.ToJSON..= subscriptionItemId obj] : ["metadata" Data.Aeson.Types.ToJSON..= subscriptionItemMetadata obj] : ["price" Data.Aeson.Types.ToJSON..= subscriptionItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionItemQuantity obj) : ["subscription" Data.Aeson.Types.ToJSON..= subscriptionItemSubscription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionItemTaxRates obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "subscription_item"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItem" (\obj -> (((((((GHC.Base.pure SubscriptionItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItem" (\obj -> (((((((GHC.Base.pure SubscriptionItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
 
 -- | Create a new 'SubscriptionItem' with all required fields.
 mkSubscriptionItem ::
@@ -108,22 +110,22 @@ mkSubscriptionItem subscriptionItemCreated subscriptionItemId subscriptionItemMe
 -- | Defines the object schema located at @components.schemas.subscription_item.properties.billing_thresholds.anyOf@ in the specification.
 --
 -- Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
-data SubscriptionItemBillingThresholds' = SubscriptionItemBillingThresholds'
+data SubscriptionItemBillingThresholds'NonNullable = SubscriptionItemBillingThresholds'NonNullable
   { -- | usage_gte: Usage threshold that triggers the subscription to create an invoice
-    subscriptionItemBillingThresholds'UsageGte :: (GHC.Maybe.Maybe GHC.Types.Int)
+    subscriptionItemBillingThresholds'NonNullableUsageGte :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItemBillingThresholds' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds'UsageGte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("usage_gte" Data.Aeson.Types.ToJSON..= subscriptionItemBillingThresholds'UsageGte obj)
+instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionItemBillingThresholds'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage_gte" Data.Aeson.Types.ToJSON..=)) (subscriptionItemBillingThresholds'NonNullableUsageGte obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage_gte" Data.Aeson.Types.ToJSON..=)) (subscriptionItemBillingThresholds'NonNullableUsageGte obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItemBillingThresholds' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItemBillingThresholds'" (\obj -> GHC.Base.pure SubscriptionItemBillingThresholds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage_gte"))
+instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionItemBillingThresholds'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionItemBillingThresholds'NonNullable" (\obj -> GHC.Base.pure SubscriptionItemBillingThresholds'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage_gte"))
 
--- | Create a new 'SubscriptionItemBillingThresholds'' with all required fields.
-mkSubscriptionItemBillingThresholds' :: SubscriptionItemBillingThresholds'
-mkSubscriptionItemBillingThresholds' = SubscriptionItemBillingThresholds' {subscriptionItemBillingThresholds'UsageGte = GHC.Maybe.Nothing}
+-- | Create a new 'SubscriptionItemBillingThresholds'NonNullable' with all required fields.
+mkSubscriptionItemBillingThresholds'NonNullable :: SubscriptionItemBillingThresholds'NonNullable
+mkSubscriptionItemBillingThresholds'NonNullable = SubscriptionItemBillingThresholds'NonNullable {subscriptionItemBillingThresholds'NonNullableUsageGte = GHC.Maybe.Nothing}

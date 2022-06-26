@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -107,8 +109,8 @@ data PostApplicationFeesFeeRefundsIdParameters = PostApplicationFeesFeeRefundsId
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplicationFeesFeeRefundsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathFee" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathFee obj : "pathId" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathFee" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathFee obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathFee" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathFee obj] : ["pathId" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathFee" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathFee obj] : ["pathId" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdParametersPathId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesFeeRefundsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdParameters" (\obj -> (GHC.Base.pure PostApplicationFeesFeeRefundsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
@@ -139,11 +141,11 @@ data PostApplicationFeesFeeRefundsIdRequestBody = PostApplicationFeesFeeRefundsI
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostApplicationFeesFeeRefundsIdRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postApplicationFeesFeeRefundsIdRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesFeeRefundsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesFeeRefundsIdRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesFeeRefundsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postApplicationFeesFeeRefundsIdRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesFeeRefundsIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdRequestBody" (\obj -> (GHC.Base.pure PostApplicationFeesFeeRefundsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdRequestBody" (\obj -> (GHC.Base.pure PostApplicationFeesFeeRefundsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostApplicationFeesFeeRefundsIdRequestBody' with all required fields.
 mkPostApplicationFeesFeeRefundsIdRequestBody :: PostApplicationFeesFeeRefundsIdRequestBody

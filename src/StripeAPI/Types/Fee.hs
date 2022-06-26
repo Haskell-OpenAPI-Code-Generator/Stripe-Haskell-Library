@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -39,7 +41,7 @@ data Fee = Fee
     -- Constraints:
     --
     -- * Maximum length of 5000
-    feeApplication :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    feeApplication :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     feeCurrency :: Data.Text.Internal.Text,
     -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
@@ -47,7 +49,7 @@ data Fee = Fee
     -- Constraints:
     --
     -- * Maximum length of 5000
-    feeDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    feeDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | type: Type of the fee, one of: \`application_fee\`, \`stripe_fee\` or \`tax\`.
     --
     -- Constraints:
@@ -61,11 +63,11 @@ data Fee = Fee
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Fee where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= feeAmount obj : "application" Data.Aeson.Types.ToJSON..= feeApplication obj : "currency" Data.Aeson.Types.ToJSON..= feeCurrency obj : "description" Data.Aeson.Types.ToJSON..= feeDescription obj : "type" Data.Aeson.Types.ToJSON..= feeType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= feeAmount obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= feeApplication obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= feeCurrency obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= feeDescription obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= feeType obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= feeAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application" Data.Aeson.Types.ToJSON..=)) (feeApplication obj) : ["currency" Data.Aeson.Types.ToJSON..= feeCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (feeDescription obj) : ["type" Data.Aeson.Types.ToJSON..= feeType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= feeAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application" Data.Aeson.Types.ToJSON..=)) (feeApplication obj) : ["currency" Data.Aeson.Types.ToJSON..= feeCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (feeDescription obj) : ["type" Data.Aeson.Types.ToJSON..= feeType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Fee where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Fee" (\obj -> ((((GHC.Base.pure Fee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Fee" (\obj -> ((((GHC.Base.pure Fee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'Fee' with all required fields.
 mkFee ::

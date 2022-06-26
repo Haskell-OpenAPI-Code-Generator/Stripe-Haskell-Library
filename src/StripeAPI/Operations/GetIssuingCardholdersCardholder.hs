@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetIssuingCardholdersCardholderParameters = GetIssuingCardholdersCardholder
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingCardholdersCardholderParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCardholder" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersPathCardholder obj : "queryExpand" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCardholder" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersPathCardholder obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCardholder" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersPathCardholder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingCardholdersCardholderParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCardholder" Data.Aeson.Types.ToJSON..= getIssuingCardholdersCardholderParametersPathCardholder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getIssuingCardholdersCardholderParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardholdersCardholderParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardholdersCardholderParameters" (\obj -> (GHC.Base.pure GetIssuingCardholdersCardholderParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardholdersCardholderParameters" (\obj -> (GHC.Base.pure GetIssuingCardholdersCardholderParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetIssuingCardholdersCardholderParameters' with all required fields.
 mkGetIssuingCardholdersCardholderParameters ::

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,8 +45,8 @@ data SubscriptionPendingInvoiceItemInterval = SubscriptionPendingInvoiceItemInte
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionPendingInvoiceItemInterval where
-  toJSON obj = Data.Aeson.Types.Internal.object ("interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalInterval obj : "interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalIntervalCount obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalInterval obj) GHC.Base.<> ("interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalIntervalCount obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalInterval obj] : ["interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalIntervalCount obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["interval" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalInterval obj] : ["interval_count" Data.Aeson.Types.ToJSON..= subscriptionPendingInvoiceItemIntervalIntervalCount obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemInterval where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPendingInvoiceItemInterval" (\obj -> (GHC.Base.pure SubscriptionPendingInvoiceItemInterval GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval_count"))

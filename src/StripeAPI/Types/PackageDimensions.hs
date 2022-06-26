@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,8 +49,8 @@ data PackageDimensions = PackageDimensions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PackageDimensions where
-  toJSON obj = Data.Aeson.Types.Internal.object ("height" Data.Aeson.Types.ToJSON..= packageDimensionsHeight obj : "length" Data.Aeson.Types.ToJSON..= packageDimensionsLength obj : "weight" Data.Aeson.Types.ToJSON..= packageDimensionsWeight obj : "width" Data.Aeson.Types.ToJSON..= packageDimensionsWidth obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("height" Data.Aeson.Types.ToJSON..= packageDimensionsHeight obj) GHC.Base.<> (("length" Data.Aeson.Types.ToJSON..= packageDimensionsLength obj) GHC.Base.<> (("weight" Data.Aeson.Types.ToJSON..= packageDimensionsWeight obj) GHC.Base.<> ("width" Data.Aeson.Types.ToJSON..= packageDimensionsWidth obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["height" Data.Aeson.Types.ToJSON..= packageDimensionsHeight obj] : ["length" Data.Aeson.Types.ToJSON..= packageDimensionsLength obj] : ["weight" Data.Aeson.Types.ToJSON..= packageDimensionsWeight obj] : ["width" Data.Aeson.Types.ToJSON..= packageDimensionsWidth obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["height" Data.Aeson.Types.ToJSON..= packageDimensionsHeight obj] : ["length" Data.Aeson.Types.ToJSON..= packageDimensionsLength obj] : ["weight" Data.Aeson.Types.ToJSON..= packageDimensionsWeight obj] : ["width" Data.Aeson.Types.ToJSON..= packageDimensionsWidth obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PackageDimensions where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PackageDimensions" (\obj -> (((GHC.Base.pure PackageDimensions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "width"))

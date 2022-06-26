@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,25 +39,25 @@ data RadarReviewResourceSession = RadarReviewResourceSession
     -- Constraints:
     --
     -- * Maximum length of 5000
-    radarReviewResourceSessionBrowser :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    radarReviewResourceSessionBrowser :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | device: Information about the device used for the browser session (e.g., \`Samsung SM-G930T\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    radarReviewResourceSessionDevice :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    radarReviewResourceSessionDevice :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | platform: The platform for the browser session (e.g., \`Macintosh\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    radarReviewResourceSessionPlatform :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    radarReviewResourceSessionPlatform :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | version: The version for the browser session (e.g., \`61.0.3163.100\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    radarReviewResourceSessionVersion :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    radarReviewResourceSessionVersion :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -63,11 +65,11 @@ data RadarReviewResourceSession = RadarReviewResourceSession
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON RadarReviewResourceSession where
-  toJSON obj = Data.Aeson.Types.Internal.object ("browser" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionBrowser obj : "device" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionDevice obj : "platform" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionPlatform obj : "version" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionVersion obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("browser" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionBrowser obj) GHC.Base.<> (("device" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionDevice obj) GHC.Base.<> (("platform" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionPlatform obj) GHC.Base.<> ("version" Data.Aeson.Types.ToJSON..= radarReviewResourceSessionVersion obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("browser" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionBrowser obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionDevice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("platform" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionPlatform obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionVersion obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("browser" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionBrowser obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("device" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionDevice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("platform" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionPlatform obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (radarReviewResourceSessionVersion obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON RadarReviewResourceSession where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "RadarReviewResourceSession" (\obj -> (((GHC.Base.pure RadarReviewResourceSession GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "browser")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "device")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "platform")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "version"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "RadarReviewResourceSession" (\obj -> (((GHC.Base.pure RadarReviewResourceSession GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "browser")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "device")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "platform")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "version"))
 
 -- | Create a new 'RadarReviewResourceSession' with all required fields.
 mkRadarReviewResourceSession :: RadarReviewResourceSession

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,11 +35,11 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.source_type_au_becs_debit@ in the specification.
 data SourceTypeAuBecsDebit = SourceTypeAuBecsDebit
   { -- | bsb_number
-    sourceTypeAuBecsDebitBsbNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAuBecsDebitBsbNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | fingerprint
-    sourceTypeAuBecsDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    sourceTypeAuBecsDebitFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last4
-    sourceTypeAuBecsDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    sourceTypeAuBecsDebitLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data SourceTypeAuBecsDebit = SourceTypeAuBecsDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SourceTypeAuBecsDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bsb_number" Data.Aeson.Types.ToJSON..= sourceTypeAuBecsDebitBsbNumber obj : "fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAuBecsDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= sourceTypeAuBecsDebitLast4 obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bsb_number" Data.Aeson.Types.ToJSON..= sourceTypeAuBecsDebitBsbNumber obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= sourceTypeAuBecsDebitFingerprint obj) GHC.Base.<> ("last4" Data.Aeson.Types.ToJSON..= sourceTypeAuBecsDebitLast4 obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bsb_number" Data.Aeson.Types.ToJSON..=)) (sourceTypeAuBecsDebitBsbNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTypeAuBecsDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeAuBecsDebitLast4 obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bsb_number" Data.Aeson.Types.ToJSON..=)) (sourceTypeAuBecsDebitBsbNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (sourceTypeAuBecsDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (sourceTypeAuBecsDebitLast4 obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SourceTypeAuBecsDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeAuBecsDebit" (\obj -> ((GHC.Base.pure SourceTypeAuBecsDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bsb_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTypeAuBecsDebit" (\obj -> ((GHC.Base.pure SourceTypeAuBecsDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bsb_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4"))
 
 -- | Create a new 'SourceTypeAuBecsDebit' with all required fields.
 mkSourceTypeAuBecsDebit :: SourceTypeAuBecsDebit

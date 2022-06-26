@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,29 +39,29 @@ import qualified Prelude as GHC.Maybe
 -- Result from an id_number check
 data GelatoIdNumberReport = GelatoIdNumberReport
   { -- | dob: Date of birth.
-    gelatoIdNumberReportDob :: (GHC.Maybe.Maybe GelatoIdNumberReportDob'),
+    gelatoIdNumberReportDob :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoIdNumberReportDob'NonNullable)),
     -- | error: Details on the verification error. Present when status is \`unverified\`.
-    gelatoIdNumberReportError :: (GHC.Maybe.Maybe GelatoIdNumberReportError'),
+    gelatoIdNumberReportError :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoIdNumberReportError'NonNullable)),
     -- | first_name: First name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoIdNumberReportFirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoIdNumberReportFirstName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id_number: ID number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoIdNumberReportIdNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoIdNumberReportIdNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id_number_type: Type of ID number.
-    gelatoIdNumberReportIdNumberType :: (GHC.Maybe.Maybe GelatoIdNumberReportIdNumberType'),
+    gelatoIdNumberReportIdNumberType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoIdNumberReportIdNumberType'NonNullable)),
     -- | last_name: Last name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoIdNumberReportLastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoIdNumberReportLastName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | status: Status of this \`id_number\` check.
     gelatoIdNumberReportStatus :: GelatoIdNumberReportStatus'
   }
@@ -69,11 +71,11 @@ data GelatoIdNumberReport = GelatoIdNumberReport
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReport where
-  toJSON obj = Data.Aeson.Types.Internal.object ("dob" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob obj : "error" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportError obj : "first_name" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportFirstName obj : "id_number" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportIdNumber obj : "id_number_type" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportIdNumberType obj : "last_name" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportLastName obj : "status" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportStatus obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("dob" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob obj) GHC.Base.<> (("error" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportError obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportFirstName obj) GHC.Base.<> (("id_number" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportIdNumber obj) GHC.Base.<> (("id_number_type" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportIdNumberType obj) GHC.Base.<> (("last_name" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportLastName obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportStatus obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("error" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportError obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_type" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportIdNumberType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportLastName obj) : ["status" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportStatus obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("error" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportError obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_type" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportIdNumberType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportLastName obj) : ["status" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportStatus obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReport where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReport" (\obj -> ((((((GHC.Base.pure GelatoIdNumberReport GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReport" (\obj -> ((((((GHC.Base.pure GelatoIdNumberReport GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
 -- | Create a new 'GelatoIdNumberReport' with all required fields.
 mkGelatoIdNumberReport ::
@@ -94,132 +96,132 @@ mkGelatoIdNumberReport gelatoIdNumberReportStatus =
 -- | Defines the object schema located at @components.schemas.gelato_id_number_report.properties.dob.anyOf@ in the specification.
 --
 -- Date of birth.
-data GelatoIdNumberReportDob' = GelatoIdNumberReportDob'
+data GelatoIdNumberReportDob'NonNullable = GelatoIdNumberReportDob'NonNullable
   { -- | day: Numerical day between 1 and 31.
-    gelatoIdNumberReportDob'Day :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoIdNumberReportDob'NonNullableDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoIdNumberReportDob'Month :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoIdNumberReportDob'NonNullableMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoIdNumberReportDob'Year :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoIdNumberReportDob'NonNullableYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportDob' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob'Day obj : "month" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob'Month obj : "year" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob'Year obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob'Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob'Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportDob'Year obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportDob'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob'NonNullableYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportDob'NonNullableYear obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportDob' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReportDob'" (\obj -> ((GHC.Base.pure GelatoIdNumberReportDob' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportDob'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReportDob'NonNullable" (\obj -> ((GHC.Base.pure GelatoIdNumberReportDob'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
--- | Create a new 'GelatoIdNumberReportDob'' with all required fields.
-mkGelatoIdNumberReportDob' :: GelatoIdNumberReportDob'
-mkGelatoIdNumberReportDob' =
-  GelatoIdNumberReportDob'
-    { gelatoIdNumberReportDob'Day = GHC.Maybe.Nothing,
-      gelatoIdNumberReportDob'Month = GHC.Maybe.Nothing,
-      gelatoIdNumberReportDob'Year = GHC.Maybe.Nothing
+-- | Create a new 'GelatoIdNumberReportDob'NonNullable' with all required fields.
+mkGelatoIdNumberReportDob'NonNullable :: GelatoIdNumberReportDob'NonNullable
+mkGelatoIdNumberReportDob'NonNullable =
+  GelatoIdNumberReportDob'NonNullable
+    { gelatoIdNumberReportDob'NonNullableDay = GHC.Maybe.Nothing,
+      gelatoIdNumberReportDob'NonNullableMonth = GHC.Maybe.Nothing,
+      gelatoIdNumberReportDob'NonNullableYear = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.gelato_id_number_report.properties.error.anyOf@ in the specification.
 --
 -- Details on the verification error. Present when status is \\\`unverified\\\`.
-data GelatoIdNumberReportError' = GelatoIdNumberReportError'
+data GelatoIdNumberReportError'NonNullable = GelatoIdNumberReportError'NonNullable
   { -- | code: A short machine-readable string giving the reason for the verification failure.
-    gelatoIdNumberReportError'Code :: (GHC.Maybe.Maybe GelatoIdNumberReportError'Code'),
+    gelatoIdNumberReportError'NonNullableCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoIdNumberReportError'NonNullableCode'NonNullable)),
     -- | reason: A human-readable message giving the reason for the failure. These messages can be shown to your users.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoIdNumberReportError'Reason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoIdNumberReportError'NonNullableReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportError' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportError'Code obj : "reason" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportError'Reason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportError'Code obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportError'Reason obj))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportError'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportError'NonNullableCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportError'NonNullableReason obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportError'NonNullableCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportError'NonNullableReason obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportError' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReportError'" (\obj -> (GHC.Base.pure GelatoIdNumberReportError' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportError'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReportError'NonNullable" (\obj -> (GHC.Base.pure GelatoIdNumberReportError'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason"))
 
--- | Create a new 'GelatoIdNumberReportError'' with all required fields.
-mkGelatoIdNumberReportError' :: GelatoIdNumberReportError'
-mkGelatoIdNumberReportError' =
-  GelatoIdNumberReportError'
-    { gelatoIdNumberReportError'Code = GHC.Maybe.Nothing,
-      gelatoIdNumberReportError'Reason = GHC.Maybe.Nothing
+-- | Create a new 'GelatoIdNumberReportError'NonNullable' with all required fields.
+mkGelatoIdNumberReportError'NonNullable :: GelatoIdNumberReportError'NonNullable
+mkGelatoIdNumberReportError'NonNullable =
+  GelatoIdNumberReportError'NonNullable
+    { gelatoIdNumberReportError'NonNullableCode = GHC.Maybe.Nothing,
+      gelatoIdNumberReportError'NonNullableReason = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.gelato_id_number_report.properties.error.anyOf.properties.code@ in the specification.
 --
 -- A short machine-readable string giving the reason for the verification failure.
-data GelatoIdNumberReportError'Code'
+data GelatoIdNumberReportError'NonNullableCode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoIdNumberReportError'Code'Other Data.Aeson.Types.Internal.Value
+    GelatoIdNumberReportError'NonNullableCode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoIdNumberReportError'Code'Typed Data.Text.Internal.Text
+    GelatoIdNumberReportError'NonNullableCode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"id_number_insufficient_document_data"@
-    GelatoIdNumberReportError'Code'EnumIdNumberInsufficientDocumentData
+    GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberInsufficientDocumentData
   | -- | Represents the JSON value @"id_number_mismatch"@
-    GelatoIdNumberReportError'Code'EnumIdNumberMismatch
+    GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberMismatch
   | -- | Represents the JSON value @"id_number_unverified_other"@
-    GelatoIdNumberReportError'Code'EnumIdNumberUnverifiedOther
+    GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberUnverifiedOther
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportError'Code' where
-  toJSON (GelatoIdNumberReportError'Code'Other val) = val
-  toJSON (GelatoIdNumberReportError'Code'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoIdNumberReportError'Code'EnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
-  toJSON (GelatoIdNumberReportError'Code'EnumIdNumberMismatch) = "id_number_mismatch"
-  toJSON (GelatoIdNumberReportError'Code'EnumIdNumberUnverifiedOther) = "id_number_unverified_other"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportError'NonNullableCode'NonNullable where
+  toJSON (GelatoIdNumberReportError'NonNullableCode'NonNullableOther val) = val
+  toJSON (GelatoIdNumberReportError'NonNullableCode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
+  toJSON (GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberMismatch) = "id_number_mismatch"
+  toJSON (GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberUnverifiedOther) = "id_number_unverified_other"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportError'Code' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportError'NonNullableCode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "id_number_insufficient_document_data" -> GelatoIdNumberReportError'Code'EnumIdNumberInsufficientDocumentData
-            | val GHC.Classes.== "id_number_mismatch" -> GelatoIdNumberReportError'Code'EnumIdNumberMismatch
-            | val GHC.Classes.== "id_number_unverified_other" -> GelatoIdNumberReportError'Code'EnumIdNumberUnverifiedOther
-            | GHC.Base.otherwise -> GelatoIdNumberReportError'Code'Other val
+            | val GHC.Classes.== "id_number_insufficient_document_data" -> GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberInsufficientDocumentData
+            | val GHC.Classes.== "id_number_mismatch" -> GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberMismatch
+            | val GHC.Classes.== "id_number_unverified_other" -> GelatoIdNumberReportError'NonNullableCode'NonNullableEnumIdNumberUnverifiedOther
+            | GHC.Base.otherwise -> GelatoIdNumberReportError'NonNullableCode'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.gelato_id_number_report.properties.id_number_type@ in the specification.
 --
 -- Type of ID number.
-data GelatoIdNumberReportIdNumberType'
+data GelatoIdNumberReportIdNumberType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoIdNumberReportIdNumberType'Other Data.Aeson.Types.Internal.Value
+    GelatoIdNumberReportIdNumberType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoIdNumberReportIdNumberType'Typed Data.Text.Internal.Text
+    GelatoIdNumberReportIdNumberType'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"br_cpf"@
-    GelatoIdNumberReportIdNumberType'EnumBrCpf
+    GelatoIdNumberReportIdNumberType'NonNullableEnumBrCpf
   | -- | Represents the JSON value @"sg_nric"@
-    GelatoIdNumberReportIdNumberType'EnumSgNric
+    GelatoIdNumberReportIdNumberType'NonNullableEnumSgNric
   | -- | Represents the JSON value @"us_ssn"@
-    GelatoIdNumberReportIdNumberType'EnumUsSsn
+    GelatoIdNumberReportIdNumberType'NonNullableEnumUsSsn
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportIdNumberType' where
-  toJSON (GelatoIdNumberReportIdNumberType'Other val) = val
-  toJSON (GelatoIdNumberReportIdNumberType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoIdNumberReportIdNumberType'EnumBrCpf) = "br_cpf"
-  toJSON (GelatoIdNumberReportIdNumberType'EnumSgNric) = "sg_nric"
-  toJSON (GelatoIdNumberReportIdNumberType'EnumUsSsn) = "us_ssn"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportIdNumberType'NonNullable where
+  toJSON (GelatoIdNumberReportIdNumberType'NonNullableOther val) = val
+  toJSON (GelatoIdNumberReportIdNumberType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoIdNumberReportIdNumberType'NonNullableEnumBrCpf) = "br_cpf"
+  toJSON (GelatoIdNumberReportIdNumberType'NonNullableEnumSgNric) = "sg_nric"
+  toJSON (GelatoIdNumberReportIdNumberType'NonNullableEnumUsSsn) = "us_ssn"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportIdNumberType' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportIdNumberType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "br_cpf" -> GelatoIdNumberReportIdNumberType'EnumBrCpf
-            | val GHC.Classes.== "sg_nric" -> GelatoIdNumberReportIdNumberType'EnumSgNric
-            | val GHC.Classes.== "us_ssn" -> GelatoIdNumberReportIdNumberType'EnumUsSsn
-            | GHC.Base.otherwise -> GelatoIdNumberReportIdNumberType'Other val
+            | val GHC.Classes.== "br_cpf" -> GelatoIdNumberReportIdNumberType'NonNullableEnumBrCpf
+            | val GHC.Classes.== "sg_nric" -> GelatoIdNumberReportIdNumberType'NonNullableEnumSgNric
+            | val GHC.Classes.== "us_ssn" -> GelatoIdNumberReportIdNumberType'NonNullableEnumUsSsn
+            | GHC.Base.otherwise -> GelatoIdNumberReportIdNumberType'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.gelato_id_number_report.properties.status@ in the specification.

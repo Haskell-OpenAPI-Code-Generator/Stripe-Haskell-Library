@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -86,7 +88,8 @@ getCustomers parameters =
           StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
           StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
           StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "test_clock") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersParametersQueryTestClock parameters) (Data.Text.pack "form") GHC.Types.True
         ]
     )
 
@@ -125,7 +128,15 @@ data GetCustomersParameters = GetCustomersParameters
     -- Constraints:
     --
     -- * Maximum length of 5000
-    getCustomersParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    getCustomersParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | queryTest_clock: Represents the parameter named \'test_clock\'
+    --
+    -- Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getCustomersParametersQueryTestClock :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
   deriving
     ( GHC.Show.Show,
@@ -133,11 +144,11 @@ data GetCustomersParameters = GetCustomersParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated obj : "queryEmail" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryEmail obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryLimit obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated obj) GHC.Base.<> (("queryEmail" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryEmail obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryLimit obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryStartingAfter obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEmail" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryStartingAfter obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryTest_clock" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryTestClock obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEmail" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryStartingAfter obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryTest_clock" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryTestClock obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersParameters" (\obj -> (((((GHC.Base.pure GetCustomersParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEmail")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersParameters" (\obj -> ((((((GHC.Base.pure GetCustomersParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEmail")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryTest_clock"))
 
 -- | Create a new 'GetCustomersParameters' with all required fields.
 mkGetCustomersParameters :: GetCustomersParameters
@@ -148,7 +159,8 @@ mkGetCustomersParameters =
       getCustomersParametersQueryEndingBefore = GHC.Maybe.Nothing,
       getCustomersParametersQueryExpand = GHC.Maybe.Nothing,
       getCustomersParametersQueryLimit = GHC.Maybe.Nothing,
-      getCustomersParametersQueryStartingAfter = GHC.Maybe.Nothing
+      getCustomersParametersQueryStartingAfter = GHC.Maybe.Nothing,
+      getCustomersParametersQueryTestClock = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/customers.GET.parameters.properties.queryCreated.anyOf@ in the specification.
@@ -168,11 +180,11 @@ data GetCustomersParametersQueryCreated'OneOf1 = GetCustomersParametersQueryCrea
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersParametersQueryCreated'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Gt obj : "gte" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Gte obj : "lt" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Lt obj : "lte" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Lte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getCustomersParametersQueryCreated'OneOf1Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getCustomersParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersParametersQueryCreated'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersParametersQueryCreated'OneOf1" (\obj -> (((GHC.Base.pure GetCustomersParametersQueryCreated'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersParametersQueryCreated'OneOf1" (\obj -> (((GHC.Base.pure GetCustomersParametersQueryCreated'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lte"))
 
 -- | Create a new 'GetCustomersParametersQueryCreated'OneOf1' with all required fields.
 mkGetCustomersParametersQueryCreated'OneOf1 :: GetCustomersParametersQueryCreated'OneOf1
@@ -233,8 +245,8 @@ data GetCustomersResponseBody200 = GetCustomersResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getCustomersResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersResponseBody200" (\obj -> ((GHC.Base.pure GetCustomersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

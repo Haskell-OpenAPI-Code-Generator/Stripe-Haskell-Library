@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -113,11 +115,11 @@ data GetSourcesSourceParameters = GetSourcesSourceParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSourcesSourceParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersPathSource obj : "queryClient_secret" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryClientSecret obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersPathSource obj) GHC.Base.<> (("queryClient_secret" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryClientSecret obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersQueryExpand obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersPathSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryClient_secret" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceParametersQueryClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathSource" Data.Aeson.Types.ToJSON..= getSourcesSourceParametersPathSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryClient_secret" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceParametersQueryClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSourcesSourceParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryClient_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceParameters" (\obj -> ((GHC.Base.pure GetSourcesSourceParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryClient_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetSourcesSourceParameters' with all required fields.
 mkGetSourcesSourceParameters ::

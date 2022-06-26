@@ -1,6 +1,7 @@
 module StripeAPI.Types.PromotionCodesResourceRestrictions where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data PromotionCodesResourceRestrictions
 instance Show PromotionCodesResourceRestrictions
 instance Eq PromotionCodesResourceRestrictions

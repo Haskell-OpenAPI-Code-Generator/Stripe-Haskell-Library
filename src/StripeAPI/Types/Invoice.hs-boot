@@ -1,178 +1,199 @@
 module StripeAPI.Types.Invoice where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Invoice
 instance Show Invoice
 instance Eq Invoice
 instance FromJSON Invoice
 instance ToJSON Invoice
-data InvoiceAccountTaxIds'Variants
-instance Show InvoiceAccountTaxIds'Variants
-instance Eq InvoiceAccountTaxIds'Variants
-instance FromJSON InvoiceAccountTaxIds'Variants
-instance ToJSON InvoiceAccountTaxIds'Variants
-data InvoiceBillingReason'
-instance Show InvoiceBillingReason'
-instance Eq InvoiceBillingReason'
-instance FromJSON InvoiceBillingReason'
-instance ToJSON InvoiceBillingReason'
-data InvoiceCharge'Variants
-instance Show InvoiceCharge'Variants
-instance Eq InvoiceCharge'Variants
-instance FromJSON InvoiceCharge'Variants
-instance ToJSON InvoiceCharge'Variants
+data InvoiceAccountTaxIds'NonNullableVariants
+instance Show InvoiceAccountTaxIds'NonNullableVariants
+instance Eq InvoiceAccountTaxIds'NonNullableVariants
+instance FromJSON InvoiceAccountTaxIds'NonNullableVariants
+instance ToJSON InvoiceAccountTaxIds'NonNullableVariants
+data InvoiceApplication'NonNullableVariants
+instance Show InvoiceApplication'NonNullableVariants
+instance Eq InvoiceApplication'NonNullableVariants
+instance FromJSON InvoiceApplication'NonNullableVariants
+instance ToJSON InvoiceApplication'NonNullableVariants
+data InvoiceBillingReason'NonNullable
+instance Show InvoiceBillingReason'NonNullable
+instance Eq InvoiceBillingReason'NonNullable
+instance FromJSON InvoiceBillingReason'NonNullable
+instance ToJSON InvoiceBillingReason'NonNullable
+data InvoiceCharge'NonNullableVariants
+instance Show InvoiceCharge'NonNullableVariants
+instance Eq InvoiceCharge'NonNullableVariants
+instance FromJSON InvoiceCharge'NonNullableVariants
+instance ToJSON InvoiceCharge'NonNullableVariants
 data InvoiceCollectionMethod'
 instance Show InvoiceCollectionMethod'
 instance Eq InvoiceCollectionMethod'
 instance FromJSON InvoiceCollectionMethod'
 instance ToJSON InvoiceCollectionMethod'
-data InvoiceCustomer'Variants
-instance Show InvoiceCustomer'Variants
-instance Eq InvoiceCustomer'Variants
-instance FromJSON InvoiceCustomer'Variants
-instance ToJSON InvoiceCustomer'Variants
-data InvoiceCustomerAddress'
-instance Show InvoiceCustomerAddress'
-instance Eq InvoiceCustomerAddress'
-instance FromJSON InvoiceCustomerAddress'
-instance ToJSON InvoiceCustomerAddress'
-data InvoiceCustomerShipping'
-instance Show InvoiceCustomerShipping'
-instance Eq InvoiceCustomerShipping'
-instance FromJSON InvoiceCustomerShipping'
-instance ToJSON InvoiceCustomerShipping'
-data InvoiceCustomerTaxExempt'
-instance Show InvoiceCustomerTaxExempt'
-instance Eq InvoiceCustomerTaxExempt'
-instance FromJSON InvoiceCustomerTaxExempt'
-instance ToJSON InvoiceCustomerTaxExempt'
-data InvoiceDefaultPaymentMethod'Variants
-instance Show InvoiceDefaultPaymentMethod'Variants
-instance Eq InvoiceDefaultPaymentMethod'Variants
-instance FromJSON InvoiceDefaultPaymentMethod'Variants
-instance ToJSON InvoiceDefaultPaymentMethod'Variants
-data InvoiceDefaultSource'Variants
-instance Show InvoiceDefaultSource'Variants
-instance Eq InvoiceDefaultSource'Variants
-instance FromJSON InvoiceDefaultSource'Variants
-instance ToJSON InvoiceDefaultSource'Variants
-data InvoiceDiscount'
-instance Show InvoiceDiscount'
-instance Eq InvoiceDiscount'
-instance FromJSON InvoiceDiscount'
-instance ToJSON InvoiceDiscount'
-data InvoiceDiscount'Customer'Variants
-instance Show InvoiceDiscount'Customer'Variants
-instance Eq InvoiceDiscount'Customer'Variants
-instance FromJSON InvoiceDiscount'Customer'Variants
-instance ToJSON InvoiceDiscount'Customer'Variants
-data InvoiceDiscount'Object'
-instance Show InvoiceDiscount'Object'
-instance Eq InvoiceDiscount'Object'
-instance FromJSON InvoiceDiscount'Object'
-instance ToJSON InvoiceDiscount'Object'
-data InvoiceDiscount'PromotionCode'Variants
-instance Show InvoiceDiscount'PromotionCode'Variants
-instance Eq InvoiceDiscount'PromotionCode'Variants
-instance FromJSON InvoiceDiscount'PromotionCode'Variants
-instance ToJSON InvoiceDiscount'PromotionCode'Variants
-data InvoiceDiscounts'Variants
-instance Show InvoiceDiscounts'Variants
-instance Eq InvoiceDiscounts'Variants
-instance FromJSON InvoiceDiscounts'Variants
-instance ToJSON InvoiceDiscounts'Variants
-data InvoiceLastFinalizationError'
-instance Show InvoiceLastFinalizationError'
-instance Eq InvoiceLastFinalizationError'
-instance FromJSON InvoiceLastFinalizationError'
-instance ToJSON InvoiceLastFinalizationError'
-data InvoiceLastFinalizationError'Source'
-instance Show InvoiceLastFinalizationError'Source'
-instance Eq InvoiceLastFinalizationError'Source'
-instance FromJSON InvoiceLastFinalizationError'Source'
-instance ToJSON InvoiceLastFinalizationError'Source'
-data InvoiceLastFinalizationError'Source'Account'Variants
-instance Show InvoiceLastFinalizationError'Source'Account'Variants
-instance Eq InvoiceLastFinalizationError'Source'Account'Variants
-instance FromJSON InvoiceLastFinalizationError'Source'Account'Variants
-instance ToJSON InvoiceLastFinalizationError'Source'Account'Variants
-data InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
-instance Show InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
-instance Eq InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
-instance FromJSON InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
-instance ToJSON InvoiceLastFinalizationError'Source'AvailablePayoutMethods'
-data InvoiceLastFinalizationError'Source'Customer'Variants
-instance Show InvoiceLastFinalizationError'Source'Customer'Variants
-instance Eq InvoiceLastFinalizationError'Source'Customer'Variants
-instance FromJSON InvoiceLastFinalizationError'Source'Customer'Variants
-instance ToJSON InvoiceLastFinalizationError'Source'Customer'Variants
-data InvoiceLastFinalizationError'Source'Object'
-instance Show InvoiceLastFinalizationError'Source'Object'
-instance Eq InvoiceLastFinalizationError'Source'Object'
-instance FromJSON InvoiceLastFinalizationError'Source'Object'
-instance ToJSON InvoiceLastFinalizationError'Source'Object'
-data InvoiceLastFinalizationError'Source'Owner'
-instance Show InvoiceLastFinalizationError'Source'Owner'
-instance Eq InvoiceLastFinalizationError'Source'Owner'
-instance FromJSON InvoiceLastFinalizationError'Source'Owner'
-instance ToJSON InvoiceLastFinalizationError'Source'Owner'
-data InvoiceLastFinalizationError'Source'Owner'Address'
-instance Show InvoiceLastFinalizationError'Source'Owner'Address'
-instance Eq InvoiceLastFinalizationError'Source'Owner'Address'
-instance FromJSON InvoiceLastFinalizationError'Source'Owner'Address'
-instance ToJSON InvoiceLastFinalizationError'Source'Owner'Address'
-data InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
-instance Show InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
-instance Eq InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
-instance FromJSON InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
-instance ToJSON InvoiceLastFinalizationError'Source'Owner'VerifiedAddress'
-data InvoiceLastFinalizationError'Source'Recipient'Variants
-instance Show InvoiceLastFinalizationError'Source'Recipient'Variants
-instance Eq InvoiceLastFinalizationError'Source'Recipient'Variants
-instance FromJSON InvoiceLastFinalizationError'Source'Recipient'Variants
-instance ToJSON InvoiceLastFinalizationError'Source'Recipient'Variants
-data InvoiceLastFinalizationError'Source'Type'
-instance Show InvoiceLastFinalizationError'Source'Type'
-instance Eq InvoiceLastFinalizationError'Source'Type'
-instance FromJSON InvoiceLastFinalizationError'Source'Type'
-instance ToJSON InvoiceLastFinalizationError'Source'Type'
-data InvoiceLastFinalizationError'Type'
-instance Show InvoiceLastFinalizationError'Type'
-instance Eq InvoiceLastFinalizationError'Type'
-instance FromJSON InvoiceLastFinalizationError'Type'
-instance ToJSON InvoiceLastFinalizationError'Type'
+data InvoiceCustomer'NonNullableVariants
+instance Show InvoiceCustomer'NonNullableVariants
+instance Eq InvoiceCustomer'NonNullableVariants
+instance FromJSON InvoiceCustomer'NonNullableVariants
+instance ToJSON InvoiceCustomer'NonNullableVariants
+data InvoiceCustomerAddress'NonNullable
+instance Show InvoiceCustomerAddress'NonNullable
+instance Eq InvoiceCustomerAddress'NonNullable
+instance FromJSON InvoiceCustomerAddress'NonNullable
+instance ToJSON InvoiceCustomerAddress'NonNullable
+data InvoiceCustomerShipping'NonNullable
+instance Show InvoiceCustomerShipping'NonNullable
+instance Eq InvoiceCustomerShipping'NonNullable
+instance FromJSON InvoiceCustomerShipping'NonNullable
+instance ToJSON InvoiceCustomerShipping'NonNullable
+data InvoiceCustomerTaxExempt'NonNullable
+instance Show InvoiceCustomerTaxExempt'NonNullable
+instance Eq InvoiceCustomerTaxExempt'NonNullable
+instance FromJSON InvoiceCustomerTaxExempt'NonNullable
+instance ToJSON InvoiceCustomerTaxExempt'NonNullable
+data InvoiceDefaultPaymentMethod'NonNullableVariants
+instance Show InvoiceDefaultPaymentMethod'NonNullableVariants
+instance Eq InvoiceDefaultPaymentMethod'NonNullableVariants
+instance FromJSON InvoiceDefaultPaymentMethod'NonNullableVariants
+instance ToJSON InvoiceDefaultPaymentMethod'NonNullableVariants
+data InvoiceDefaultSource'NonNullableVariants
+instance Show InvoiceDefaultSource'NonNullableVariants
+instance Eq InvoiceDefaultSource'NonNullableVariants
+instance FromJSON InvoiceDefaultSource'NonNullableVariants
+instance ToJSON InvoiceDefaultSource'NonNullableVariants
+data InvoiceDiscount'NonNullable
+instance Show InvoiceDiscount'NonNullable
+instance Eq InvoiceDiscount'NonNullable
+instance FromJSON InvoiceDiscount'NonNullable
+instance ToJSON InvoiceDiscount'NonNullable
+data InvoiceDiscount'NonNullableCustomer'NonNullableVariants
+instance Show InvoiceDiscount'NonNullableCustomer'NonNullableVariants
+instance Eq InvoiceDiscount'NonNullableCustomer'NonNullableVariants
+instance FromJSON InvoiceDiscount'NonNullableCustomer'NonNullableVariants
+instance ToJSON InvoiceDiscount'NonNullableCustomer'NonNullableVariants
+data InvoiceDiscount'NonNullableObject'
+instance Show InvoiceDiscount'NonNullableObject'
+instance Eq InvoiceDiscount'NonNullableObject'
+instance FromJSON InvoiceDiscount'NonNullableObject'
+instance ToJSON InvoiceDiscount'NonNullableObject'
+data InvoiceDiscount'NonNullablePromotionCode'NonNullableVariants
+instance Show InvoiceDiscount'NonNullablePromotionCode'NonNullableVariants
+instance Eq InvoiceDiscount'NonNullablePromotionCode'NonNullableVariants
+instance FromJSON InvoiceDiscount'NonNullablePromotionCode'NonNullableVariants
+instance ToJSON InvoiceDiscount'NonNullablePromotionCode'NonNullableVariants
+data InvoiceDiscounts'NonNullableVariants
+instance Show InvoiceDiscounts'NonNullableVariants
+instance Eq InvoiceDiscounts'NonNullableVariants
+instance FromJSON InvoiceDiscounts'NonNullableVariants
+instance ToJSON InvoiceDiscounts'NonNullableVariants
+data InvoiceLastFinalizationError'NonNullable
+instance Show InvoiceLastFinalizationError'NonNullable
+instance Eq InvoiceLastFinalizationError'NonNullable
+instance FromJSON InvoiceLastFinalizationError'NonNullable
+instance ToJSON InvoiceLastFinalizationError'NonNullable
+data InvoiceLastFinalizationError'NonNullableSource'
+instance Show InvoiceLastFinalizationError'NonNullableSource'
+instance Eq InvoiceLastFinalizationError'NonNullableSource'
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'
+data InvoiceLastFinalizationError'NonNullableSource'Account'NonNullableVariants
+instance Show InvoiceLastFinalizationError'NonNullableSource'Account'NonNullableVariants
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Account'NonNullableVariants
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Account'NonNullableVariants
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Account'NonNullableVariants
+data InvoiceLastFinalizationError'NonNullableSource'AvailablePayoutMethods'NonNullable
+instance Show InvoiceLastFinalizationError'NonNullableSource'AvailablePayoutMethods'NonNullable
+instance Eq InvoiceLastFinalizationError'NonNullableSource'AvailablePayoutMethods'NonNullable
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'AvailablePayoutMethods'NonNullable
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'AvailablePayoutMethods'NonNullable
+data InvoiceLastFinalizationError'NonNullableSource'Customer'NonNullableVariants
+instance Show InvoiceLastFinalizationError'NonNullableSource'Customer'NonNullableVariants
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Customer'NonNullableVariants
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Customer'NonNullableVariants
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Customer'NonNullableVariants
+data InvoiceLastFinalizationError'NonNullableSource'Object'
+instance Show InvoiceLastFinalizationError'NonNullableSource'Object'
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Object'
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Object'
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Object'
+data InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullable
+instance Show InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullable
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullable
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullable
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullable
+data InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableAddress'NonNullable
+instance Show InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableAddress'NonNullable
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableAddress'NonNullable
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableAddress'NonNullable
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableAddress'NonNullable
+data InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance Show InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableVerifiedAddress'NonNullable
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Owner'NonNullableVerifiedAddress'NonNullable
+data InvoiceLastFinalizationError'NonNullableSource'Recipient'NonNullableVariants
+instance Show InvoiceLastFinalizationError'NonNullableSource'Recipient'NonNullableVariants
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Recipient'NonNullableVariants
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Recipient'NonNullableVariants
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Recipient'NonNullableVariants
+data InvoiceLastFinalizationError'NonNullableSource'Type'
+instance Show InvoiceLastFinalizationError'NonNullableSource'Type'
+instance Eq InvoiceLastFinalizationError'NonNullableSource'Type'
+instance FromJSON InvoiceLastFinalizationError'NonNullableSource'Type'
+instance ToJSON InvoiceLastFinalizationError'NonNullableSource'Type'
+data InvoiceLastFinalizationError'NonNullableType'
+instance Show InvoiceLastFinalizationError'NonNullableType'
+instance Eq InvoiceLastFinalizationError'NonNullableType'
+instance FromJSON InvoiceLastFinalizationError'NonNullableType'
+instance ToJSON InvoiceLastFinalizationError'NonNullableType'
 data InvoiceLines'
 instance Show InvoiceLines'
 instance Eq InvoiceLines'
 instance FromJSON InvoiceLines'
 instance ToJSON InvoiceLines'
-data InvoiceOnBehalfOf'Variants
-instance Show InvoiceOnBehalfOf'Variants
-instance Eq InvoiceOnBehalfOf'Variants
-instance FromJSON InvoiceOnBehalfOf'Variants
-instance ToJSON InvoiceOnBehalfOf'Variants
-data InvoicePaymentIntent'Variants
-instance Show InvoicePaymentIntent'Variants
-instance Eq InvoicePaymentIntent'Variants
-instance FromJSON InvoicePaymentIntent'Variants
-instance ToJSON InvoicePaymentIntent'Variants
-data InvoiceStatus'
-instance Show InvoiceStatus'
-instance Eq InvoiceStatus'
-instance FromJSON InvoiceStatus'
-instance ToJSON InvoiceStatus'
-data InvoiceSubscription'Variants
-instance Show InvoiceSubscription'Variants
-instance Eq InvoiceSubscription'Variants
-instance FromJSON InvoiceSubscription'Variants
-instance ToJSON InvoiceSubscription'Variants
-data InvoiceTransferData'
-instance Show InvoiceTransferData'
-instance Eq InvoiceTransferData'
-instance FromJSON InvoiceTransferData'
-instance ToJSON InvoiceTransferData'
-data InvoiceTransferData'Destination'Variants
-instance Show InvoiceTransferData'Destination'Variants
-instance Eq InvoiceTransferData'Destination'Variants
-instance FromJSON InvoiceTransferData'Destination'Variants
-instance ToJSON InvoiceTransferData'Destination'Variants
+data InvoiceOnBehalfOf'NonNullableVariants
+instance Show InvoiceOnBehalfOf'NonNullableVariants
+instance Eq InvoiceOnBehalfOf'NonNullableVariants
+instance FromJSON InvoiceOnBehalfOf'NonNullableVariants
+instance ToJSON InvoiceOnBehalfOf'NonNullableVariants
+data InvoicePaymentIntent'NonNullableVariants
+instance Show InvoicePaymentIntent'NonNullableVariants
+instance Eq InvoicePaymentIntent'NonNullableVariants
+instance FromJSON InvoicePaymentIntent'NonNullableVariants
+instance ToJSON InvoicePaymentIntent'NonNullableVariants
+data InvoiceQuote'NonNullableVariants
+instance Show InvoiceQuote'NonNullableVariants
+instance Eq InvoiceQuote'NonNullableVariants
+instance FromJSON InvoiceQuote'NonNullableVariants
+instance ToJSON InvoiceQuote'NonNullableVariants
+data InvoiceRenderingOptions'NonNullable
+instance Show InvoiceRenderingOptions'NonNullable
+instance Eq InvoiceRenderingOptions'NonNullable
+instance FromJSON InvoiceRenderingOptions'NonNullable
+instance ToJSON InvoiceRenderingOptions'NonNullable
+data InvoiceStatus'NonNullable
+instance Show InvoiceStatus'NonNullable
+instance Eq InvoiceStatus'NonNullable
+instance FromJSON InvoiceStatus'NonNullable
+instance ToJSON InvoiceStatus'NonNullable
+data InvoiceSubscription'NonNullableVariants
+instance Show InvoiceSubscription'NonNullableVariants
+instance Eq InvoiceSubscription'NonNullableVariants
+instance FromJSON InvoiceSubscription'NonNullableVariants
+instance ToJSON InvoiceSubscription'NonNullableVariants
+data InvoiceTestClock'NonNullableVariants
+instance Show InvoiceTestClock'NonNullableVariants
+instance Eq InvoiceTestClock'NonNullableVariants
+instance FromJSON InvoiceTestClock'NonNullableVariants
+instance ToJSON InvoiceTestClock'NonNullableVariants
+data InvoiceTransferData'NonNullable
+instance Show InvoiceTransferData'NonNullable
+instance Eq InvoiceTransferData'NonNullable
+instance FromJSON InvoiceTransferData'NonNullable
+instance ToJSON InvoiceTransferData'NonNullable
+data InvoiceTransferData'NonNullableDestination'Variants
+instance Show InvoiceTransferData'NonNullableDestination'Variants
+instance Eq InvoiceTransferData'NonNullableDestination'Variants
+instance FromJSON InvoiceTransferData'NonNullableDestination'Variants
+instance ToJSON InvoiceTransferData'NonNullableDestination'Variants

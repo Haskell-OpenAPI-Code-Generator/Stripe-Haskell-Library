@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -63,7 +65,7 @@ getTerminalLocationsLocation parameters =
                                      Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
                                                           Data.Either.Either
                                                             GHC.Base.String
-                                                            Terminal'location
+                                                            GetTerminalLocationsLocationResponseBody200
                                                       )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
                                    GetTerminalLocationsLocationResponseDefault
@@ -99,11 +101,11 @@ data GetTerminalLocationsLocationParameters = GetTerminalLocationsLocationParame
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsLocationParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathLocation" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersPathLocation obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathLocation" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersPathLocation obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathLocation" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersPathLocation obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathLocation" Data.Aeson.Types.ToJSON..= getTerminalLocationsLocationParametersPathLocation obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsLocationParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsLocationParameters" (\obj -> (GHC.Base.pure GetTerminalLocationsLocationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathLocation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsLocationParameters" (\obj -> (GHC.Base.pure GetTerminalLocationsLocationParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathLocation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetTerminalLocationsLocationParameters' with all required fields.
 mkGetTerminalLocationsLocationParameters ::
@@ -123,7 +125,114 @@ data GetTerminalLocationsLocationResponse
   = -- | Means either no matching case available or a parse error
     GetTerminalLocationsLocationResponseError GHC.Base.String
   | -- | Successful response.
-    GetTerminalLocationsLocationResponse200 Terminal'location
+    GetTerminalLocationsLocationResponse200 GetTerminalLocationsLocationResponseBody200
   | -- | Error response.
     GetTerminalLocationsLocationResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | Defines the object schema located at @paths.\/v1\/terminal\/locations\/{location}.GET.responses.200.content.application\/json.schema.anyOf@ in the specification.
+data GetTerminalLocationsLocationResponseBody200 = GetTerminalLocationsLocationResponseBody200
+  { -- | address:
+    getTerminalLocationsLocationResponseBody200Address :: (GHC.Maybe.Maybe Address),
+    -- | configuration_overrides: The ID of a configuration that will be used to customize all readers in this location.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getTerminalLocationsLocationResponseBody200ConfigurationOverrides :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | deleted: Always true for a deleted object
+    getTerminalLocationsLocationResponseBody200Deleted :: (GHC.Maybe.Maybe GetTerminalLocationsLocationResponseBody200Deleted'),
+    -- | display_name: The display name of the location.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getTerminalLocationsLocationResponseBody200DisplayName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | id: Unique identifier for the object.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    getTerminalLocationsLocationResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
+    getTerminalLocationsLocationResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+    getTerminalLocationsLocationResponseBody200Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    getTerminalLocationsLocationResponseBody200Object :: (GHC.Maybe.Maybe GetTerminalLocationsLocationResponseBody200Object')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsLocationResponseBody200 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Address obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration_overrides" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200ConfigurationOverrides obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200DisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Object obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Address obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration_overrides" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200ConfigurationOverrides obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200DisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getTerminalLocationsLocationResponseBody200Object obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsLocationResponseBody200 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsLocationResponseBody200" (\obj -> (((((((GHC.Base.pure GetTerminalLocationsLocationResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "configuration_overrides")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object"))
+
+-- | Create a new 'GetTerminalLocationsLocationResponseBody200' with all required fields.
+mkGetTerminalLocationsLocationResponseBody200 :: GetTerminalLocationsLocationResponseBody200
+mkGetTerminalLocationsLocationResponseBody200 =
+  GetTerminalLocationsLocationResponseBody200
+    { getTerminalLocationsLocationResponseBody200Address = GHC.Maybe.Nothing,
+      getTerminalLocationsLocationResponseBody200ConfigurationOverrides = GHC.Maybe.Nothing,
+      getTerminalLocationsLocationResponseBody200Deleted = GHC.Maybe.Nothing,
+      getTerminalLocationsLocationResponseBody200DisplayName = GHC.Maybe.Nothing,
+      getTerminalLocationsLocationResponseBody200Id = GHC.Maybe.Nothing,
+      getTerminalLocationsLocationResponseBody200Livemode = GHC.Maybe.Nothing,
+      getTerminalLocationsLocationResponseBody200Metadata = GHC.Maybe.Nothing,
+      getTerminalLocationsLocationResponseBody200Object = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/locations\/{location}.GET.responses.200.content.application\/json.schema.anyOf.properties.deleted@ in the specification.
+--
+-- Always true for a deleted object
+data GetTerminalLocationsLocationResponseBody200Deleted'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetTerminalLocationsLocationResponseBody200Deleted'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetTerminalLocationsLocationResponseBody200Deleted'Typed GHC.Types.Bool
+  | -- | Represents the JSON value @true@
+    GetTerminalLocationsLocationResponseBody200Deleted'EnumTrue
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsLocationResponseBody200Deleted' where
+  toJSON (GetTerminalLocationsLocationResponseBody200Deleted'Other val) = val
+  toJSON (GetTerminalLocationsLocationResponseBody200Deleted'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetTerminalLocationsLocationResponseBody200Deleted'EnumTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsLocationResponseBody200Deleted' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> GetTerminalLocationsLocationResponseBody200Deleted'EnumTrue
+            | GHC.Base.otherwise -> GetTerminalLocationsLocationResponseBody200Deleted'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/terminal\/locations\/{location}.GET.responses.200.content.application\/json.schema.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data GetTerminalLocationsLocationResponseBody200Object'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    GetTerminalLocationsLocationResponseBody200Object'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    GetTerminalLocationsLocationResponseBody200Object'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"terminal.location"@
+    GetTerminalLocationsLocationResponseBody200Object'EnumTerminal'location
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalLocationsLocationResponseBody200Object' where
+  toJSON (GetTerminalLocationsLocationResponseBody200Object'Other val) = val
+  toJSON (GetTerminalLocationsLocationResponseBody200Object'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GetTerminalLocationsLocationResponseBody200Object'EnumTerminal'location) = "terminal.location"
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsLocationResponseBody200Object' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "terminal.location" -> GetTerminalLocationsLocationResponseBody200Object'EnumTerminal'location
+            | GHC.Base.otherwise -> GetTerminalLocationsLocationResponseBody200Object'Other val
+      )

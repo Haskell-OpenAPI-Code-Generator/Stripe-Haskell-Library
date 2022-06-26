@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -95,7 +97,9 @@ data PostBillingPortalConfigurationsConfigurationRequestBody = PostBillingPortal
     -- | expand: Specifies which fields in the response should be expanded.
     postBillingPortalConfigurationsConfigurationRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | features: Information about the features available in the portal.
-    postBillingPortalConfigurationsConfigurationRequestBodyFeatures :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyFeatures')
+    postBillingPortalConfigurationsConfigurationRequestBodyFeatures :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+    postBillingPortalConfigurationsConfigurationRequestBodyMetadata :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Variants)
   }
   deriving
     ( GHC.Show.Show,
@@ -103,11 +107,11 @@ data PostBillingPortalConfigurationsConfigurationRequestBody = PostBillingPortal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyActive obj : "business_profile" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj : "default_return_url" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj : "expand" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyExpand obj : "features" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyActive obj) GHC.Base.<> (("business_profile" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj) GHC.Base.<> (("default_return_url" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyExpand obj) GHC.Base.<> ("features" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("business_profile" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("business_profile" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBody" (\obj -> ((((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "features"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBody" (\obj -> (((((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBody' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBody :: PostBillingPortalConfigurationsConfigurationRequestBody
@@ -117,7 +121,8 @@ mkPostBillingPortalConfigurationsConfigurationRequestBody =
       postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyExpand = GHC.Maybe.Nothing,
-      postBillingPortalConfigurationsConfigurationRequestBodyFeatures = GHC.Maybe.Nothing
+      postBillingPortalConfigurationsConfigurationRequestBodyFeatures = GHC.Maybe.Nothing,
+      postBillingPortalConfigurationsConfigurationRequestBodyMetadata = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_profile@ in the specification.
@@ -131,9 +136,9 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' = P
     -- * Maximum length of 60
     postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | privacy_policy_url
-    postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Variants),
     -- | terms_of_service_url
-    postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Variants)
   }
   deriving
     ( GHC.Show.Show,
@@ -141,11 +146,11 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' = P
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("headline" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline obj : "privacy_policy_url" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl obj : "terms_of_service_url" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("headline" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline obj) GHC.Base.<> (("privacy_policy_url" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl obj) GHC.Base.<> ("terms_of_service_url" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("headline" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("privacy_policy_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("headline" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("privacy_policy_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'" (\obj -> ((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "headline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "privacy_policy_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "terms_of_service_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'" (\obj -> ((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "headline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "privacy_policy_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service_url"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' :: PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'
@@ -155,6 +160,44 @@ mkPostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' =
       postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl = GHC.Maybe.Nothing
     }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_profile.properties.privacy_policy_url.anyOf@ in the specification.
+data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Variants
+  = -- | Represents the JSON value @""@
+    PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'EmptyString
+  | PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Variants where
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'EmptyString
+        | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_profile.properties.terms_of_service_url.anyOf@ in the specification.
+data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Variants
+  = -- | Represents the JSON value @""@
+    PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'EmptyString
+  | PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Variants where
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'EmptyString
+        | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_return_url.anyOf@ in the specification.
 --
@@ -200,11 +243,11 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures' = PostBill
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("customer_update" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate obj : "invoice_history" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory obj : "payment_method_update" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate obj : "subscription_cancel" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel obj : "subscription_pause" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause obj : "subscription_update" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer_update" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate obj) GHC.Base.<> (("invoice_history" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory obj) GHC.Base.<> (("payment_method_update" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate obj) GHC.Base.<> (("subscription_cancel" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel obj) GHC.Base.<> (("subscription_pause" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause obj) GHC.Base.<> ("subscription_update" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_history" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_cancel" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_pause" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_history" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_cancel" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_pause" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'" (\obj -> (((((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_history")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_cancel")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_pause")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription_update"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'" (\obj -> (((((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_history")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_cancel")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_pause")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_update"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures' :: PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'
@@ -231,11 +274,11 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpd
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("allowed_updates" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates obj : "enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'Enabled obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("allowed_updates" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates obj) GHC.Base.<> ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'Enabled obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_updates" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'Enabled obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_updates" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'Enabled obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'" (\obj -> (GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "allowed_updates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "enabled"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'" (\obj -> (GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allowed_updates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enabled"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate' :: PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'
@@ -314,8 +357,8 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHist
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory'Enabled obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory'Enabled obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory'Enabled obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory'Enabled obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory'" (\obj -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled"))
@@ -338,8 +381,8 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMeth
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate'Enabled obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate'Enabled obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate'Enabled obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate'Enabled obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate'" (\obj -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodUpdate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled"))
@@ -353,7 +396,9 @@ mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'PaymentMethodU
 
 -- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_cancel@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel' = PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'
-  { -- | enabled
+  { -- | cancellation_reason
+    postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'),
+    -- | enabled
     postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Enabled :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | mode
     postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode'),
@@ -366,20 +411,121 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'Subscriptio
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Enabled obj : "mode" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode obj : "proration_behavior" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'ProrationBehavior obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Enabled obj) GHC.Base.<> (("mode" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode obj) GHC.Base.<> ("proration_behavior" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'ProrationBehavior obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Enabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mode" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'ProrationBehavior obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Enabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mode" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'ProrationBehavior obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'" (\obj -> ((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'" (\obj -> (((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_behavior"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel' :: PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'
 mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel' =
   PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'
-    { postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Enabled = GHC.Maybe.Nothing,
+    { postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason = GHC.Maybe.Nothing,
+      postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Enabled = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'ProrationBehavior = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_cancel.properties.cancellation_reason@ in the specification.
+data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason' = PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'
+  { -- | enabled
+    postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Enabled :: GHC.Types.Bool,
+    -- | options
+    postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Enabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("options" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Enabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("options" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'" (\obj -> (GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "options"))
+
+-- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'' with all required fields.
+mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason' ::
+  -- | 'postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Enabled'
+  GHC.Types.Bool ->
+  PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'
+mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason' postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Enabled =
+  PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'
+    { postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Enabled = postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Enabled,
+      postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_cancel.properties.cancellation_reason.properties.options.anyOf.items@ in the specification.
+data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"customer_service"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumCustomerService
+  | -- | Represents the JSON value @"low_quality"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumLowQuality
+  | -- | Represents the JSON value @"missing_features"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumMissingFeatures
+  | -- | Represents the JSON value @"other"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumOther
+  | -- | Represents the JSON value @"switched_service"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumSwitchedService
+  | -- | Represents the JSON value @"too_complex"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumTooComplex
+  | -- | Represents the JSON value @"too_expensive"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumTooExpensive
+  | -- | Represents the JSON value @"unused"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumUnused
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1 where
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1Other val) = val
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumCustomerService) = "customer_service"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumLowQuality) = "low_quality"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumMissingFeatures) = "missing_features"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumOther) = "other"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumSwitchedService) = "switched_service"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumTooComplex) = "too_complex"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumTooExpensive) = "too_expensive"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumUnused) = "unused"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1 where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "customer_service" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumCustomerService
+            | val GHC.Classes.== "low_quality" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumLowQuality
+            | val GHC.Classes.== "missing_features" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumMissingFeatures
+            | val GHC.Classes.== "other" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumOther
+            | val GHC.Classes.== "switched_service" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumSwitchedService
+            | val GHC.Classes.== "too_complex" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumTooComplex
+            | val GHC.Classes.== "too_expensive" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumTooExpensive
+            | val GHC.Classes.== "unused" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1EnumUnused
+            | GHC.Base.otherwise -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_cancel.properties.cancellation_reason.properties.options.anyOf@ in the specification.
+data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'Variants
+  = -- | Represents the JSON value @""@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'EmptyString
+  | PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'ListTPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1 ([PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'Variants where
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'ListTPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'EmptyString
+        | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'ListTPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_cancel.properties.mode@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode'
@@ -450,11 +596,11 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'Subscriptio
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'Enabled obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'Enabled obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'Enabled obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'Enabled obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'" (\obj -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "enabled"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'" (\obj -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enabled"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause' :: PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionPause'
@@ -477,11 +623,11 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'Subscriptio
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("default_allowed_updates" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'DefaultAllowedUpdates obj : "enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Enabled obj : "products" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products obj : "proration_behavior" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("default_allowed_updates" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'DefaultAllowedUpdates obj) GHC.Base.<> (("enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Enabled obj) GHC.Base.<> (("products" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products obj) GHC.Base.<> ("proration_behavior" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_allowed_updates" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'DefaultAllowedUpdates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Enabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("products" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_allowed_updates" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'DefaultAllowedUpdates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Enabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("products" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'" (\obj -> (((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_allowed_updates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "products")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "proration_behavior"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'" (\obj -> (((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_allowed_updates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "products")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_behavior"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate' :: PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'
@@ -560,8 +706,8 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'Subscriptio
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("prices" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Prices obj : "product" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Product obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("prices" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Prices obj) GHC.Base.<> ("product" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Product obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["prices" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Prices obj] : ["product" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Product obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["prices" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Prices obj] : ["product" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1Product obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1" (\obj -> (GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "prices")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "product"))
@@ -628,6 +774,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
             | val GHC.Classes.== "none" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior'EnumNone
             | GHC.Base.otherwise -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior'Other val
       )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
+--
+-- Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+data PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Variants
+  = -- | Represents the JSON value @""@
+    PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'EmptyString
+  | PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Object Data.Aeson.Types.Internal.Object
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Variants where
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Object a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'EmptyString
+        | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postBillingPortalConfigurationsConfiguration'.
 --

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -41,7 +43,7 @@ data DeletedPaymentSource = DeletedPaymentSource
     -- Constraints:
     --
     -- * Maximum length of 5000
-    deletedPaymentSourceCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    deletedPaymentSourceCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | deleted: Always true for a deleted object
     deletedPaymentSourceDeleted :: (GHC.Maybe.Maybe DeletedPaymentSourceDeleted'),
     -- | id: Unique identifier for the object.
@@ -59,11 +61,11 @@ data DeletedPaymentSource = DeletedPaymentSource
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSource where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj : "deleted" Data.Aeson.Types.ToJSON..= deletedPaymentSourceDeleted obj : "id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj : "object" Data.Aeson.Types.ToJSON..= deletedPaymentSourceObject obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currency" Data.Aeson.Types.ToJSON..= deletedPaymentSourceCurrency obj) GHC.Base.<> (("deleted" Data.Aeson.Types.ToJSON..= deletedPaymentSourceDeleted obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= deletedPaymentSourceId obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= deletedPaymentSourceObject obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceDeleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceObject obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceDeleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (deletedPaymentSourceObject obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSource where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPaymentSource" (\obj -> (((GHC.Base.pure DeletedPaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPaymentSource" (\obj -> (((GHC.Base.pure DeletedPaymentSource GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object"))
 
 -- | Create a new 'DeletedPaymentSource' with all required fields.
 mkDeletedPaymentSource :: DeletedPaymentSource

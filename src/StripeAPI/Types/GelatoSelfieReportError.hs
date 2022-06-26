@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.gelato_selfie_report_error@ in the specification.
 data GelatoSelfieReportError = GelatoSelfieReportError
   { -- | code: A short machine-readable string giving the reason for the verification failure.
-    gelatoSelfieReportErrorCode :: (GHC.Maybe.Maybe GelatoSelfieReportErrorCode'),
+    gelatoSelfieReportErrorCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoSelfieReportErrorCode'NonNullable)),
     -- | reason: A human-readable message giving the reason for the failure. These messages can be shown to your users.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoSelfieReportErrorReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoSelfieReportErrorReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data GelatoSelfieReportError = GelatoSelfieReportError
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoSelfieReportError where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= gelatoSelfieReportErrorCode obj : "reason" Data.Aeson.Types.ToJSON..= gelatoSelfieReportErrorReason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= gelatoSelfieReportErrorCode obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= gelatoSelfieReportErrorReason obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoSelfieReportErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoSelfieReportErrorReason obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoSelfieReportErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoSelfieReportErrorReason obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoSelfieReportError where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoSelfieReportError" (\obj -> (GHC.Base.pure GelatoSelfieReportError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoSelfieReportError" (\obj -> (GHC.Base.pure GelatoSelfieReportError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason"))
 
 -- | Create a new 'GelatoSelfieReportError' with all required fields.
 mkGelatoSelfieReportError :: GelatoSelfieReportError
@@ -64,36 +66,36 @@ mkGelatoSelfieReportError =
 -- | Defines the enum schema located at @components.schemas.gelato_selfie_report_error.properties.code@ in the specification.
 --
 -- A short machine-readable string giving the reason for the verification failure.
-data GelatoSelfieReportErrorCode'
+data GelatoSelfieReportErrorCode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoSelfieReportErrorCode'Other Data.Aeson.Types.Internal.Value
+    GelatoSelfieReportErrorCode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoSelfieReportErrorCode'Typed Data.Text.Internal.Text
+    GelatoSelfieReportErrorCode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"selfie_document_missing_photo"@
-    GelatoSelfieReportErrorCode'EnumSelfieDocumentMissingPhoto
+    GelatoSelfieReportErrorCode'NonNullableEnumSelfieDocumentMissingPhoto
   | -- | Represents the JSON value @"selfie_face_mismatch"@
-    GelatoSelfieReportErrorCode'EnumSelfieFaceMismatch
+    GelatoSelfieReportErrorCode'NonNullableEnumSelfieFaceMismatch
   | -- | Represents the JSON value @"selfie_manipulated"@
-    GelatoSelfieReportErrorCode'EnumSelfieManipulated
+    GelatoSelfieReportErrorCode'NonNullableEnumSelfieManipulated
   | -- | Represents the JSON value @"selfie_unverified_other"@
-    GelatoSelfieReportErrorCode'EnumSelfieUnverifiedOther
+    GelatoSelfieReportErrorCode'NonNullableEnumSelfieUnverifiedOther
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoSelfieReportErrorCode' where
-  toJSON (GelatoSelfieReportErrorCode'Other val) = val
-  toJSON (GelatoSelfieReportErrorCode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoSelfieReportErrorCode'EnumSelfieDocumentMissingPhoto) = "selfie_document_missing_photo"
-  toJSON (GelatoSelfieReportErrorCode'EnumSelfieFaceMismatch) = "selfie_face_mismatch"
-  toJSON (GelatoSelfieReportErrorCode'EnumSelfieManipulated) = "selfie_manipulated"
-  toJSON (GelatoSelfieReportErrorCode'EnumSelfieUnverifiedOther) = "selfie_unverified_other"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoSelfieReportErrorCode'NonNullable where
+  toJSON (GelatoSelfieReportErrorCode'NonNullableOther val) = val
+  toJSON (GelatoSelfieReportErrorCode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoSelfieReportErrorCode'NonNullableEnumSelfieDocumentMissingPhoto) = "selfie_document_missing_photo"
+  toJSON (GelatoSelfieReportErrorCode'NonNullableEnumSelfieFaceMismatch) = "selfie_face_mismatch"
+  toJSON (GelatoSelfieReportErrorCode'NonNullableEnumSelfieManipulated) = "selfie_manipulated"
+  toJSON (GelatoSelfieReportErrorCode'NonNullableEnumSelfieUnverifiedOther) = "selfie_unverified_other"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoSelfieReportErrorCode' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoSelfieReportErrorCode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "selfie_document_missing_photo" -> GelatoSelfieReportErrorCode'EnumSelfieDocumentMissingPhoto
-            | val GHC.Classes.== "selfie_face_mismatch" -> GelatoSelfieReportErrorCode'EnumSelfieFaceMismatch
-            | val GHC.Classes.== "selfie_manipulated" -> GelatoSelfieReportErrorCode'EnumSelfieManipulated
-            | val GHC.Classes.== "selfie_unverified_other" -> GelatoSelfieReportErrorCode'EnumSelfieUnverifiedOther
-            | GHC.Base.otherwise -> GelatoSelfieReportErrorCode'Other val
+            | val GHC.Classes.== "selfie_document_missing_photo" -> GelatoSelfieReportErrorCode'NonNullableEnumSelfieDocumentMissingPhoto
+            | val GHC.Classes.== "selfie_face_mismatch" -> GelatoSelfieReportErrorCode'NonNullableEnumSelfieFaceMismatch
+            | val GHC.Classes.== "selfie_manipulated" -> GelatoSelfieReportErrorCode'NonNullableEnumSelfieManipulated
+            | val GHC.Classes.== "selfie_unverified_other" -> GelatoSelfieReportErrorCode'NonNullableEnumSelfieUnverifiedOther
+            | GHC.Base.otherwise -> GelatoSelfieReportErrorCode'NonNullableOther val
       )

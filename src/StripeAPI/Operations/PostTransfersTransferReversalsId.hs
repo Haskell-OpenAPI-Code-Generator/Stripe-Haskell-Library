@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -107,8 +109,8 @@ data PostTransfersTransferReversalsIdParameters = PostTransfersTransferReversals
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersTransferReversalsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathId" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathId obj : "pathTransfer" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathTransfer obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathId" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathId obj) GHC.Base.<> ("pathTransfer" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathTransfer obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathId obj] : ["pathTransfer" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathTransfer obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathId" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathId obj] : ["pathTransfer" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdParametersPathTransfer obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersTransferReversalsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferReversalsIdParameters" (\obj -> (GHC.Base.pure PostTransfersTransferReversalsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathTransfer"))
@@ -139,11 +141,11 @@ data PostTransfersTransferReversalsIdRequestBody = PostTransfersTransferReversal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTransfersTransferReversalsIdRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTransfersTransferReversalsIdRequestBodyMetadata obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferReversalsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferReversalsIdRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferReversalsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTransfersTransferReversalsIdRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersTransferReversalsIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferReversalsIdRequestBody" (\obj -> (GHC.Base.pure PostTransfersTransferReversalsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTransfersTransferReversalsIdRequestBody" (\obj -> (GHC.Base.pure PostTransfersTransferReversalsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostTransfersTransferReversalsIdRequestBody' with all required fields.
 mkPostTransfersTransferReversalsIdRequestBody :: PostTransfersTransferReversalsIdRequestBody

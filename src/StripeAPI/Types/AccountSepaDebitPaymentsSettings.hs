@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -45,11 +47,11 @@ data AccountSepaDebitPaymentsSettings = AccountSepaDebitPaymentsSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountSepaDebitPaymentsSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object ("creditor_id" Data.Aeson.Types.ToJSON..= accountSepaDebitPaymentsSettingsCreditorId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("creditor_id" Data.Aeson.Types.ToJSON..= accountSepaDebitPaymentsSettingsCreditorId obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("creditor_id" Data.Aeson.Types.ToJSON..=)) (accountSepaDebitPaymentsSettingsCreditorId obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("creditor_id" Data.Aeson.Types.ToJSON..=)) (accountSepaDebitPaymentsSettingsCreditorId obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountSepaDebitPaymentsSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountSepaDebitPaymentsSettings" (\obj -> GHC.Base.pure AccountSepaDebitPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "creditor_id"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountSepaDebitPaymentsSettings" (\obj -> GHC.Base.pure AccountSepaDebitPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "creditor_id"))
 
 -- | Create a new 'AccountSepaDebitPaymentsSettings' with all required fields.
 mkAccountSepaDebitPaymentsSettings :: AccountSepaDebitPaymentsSettings

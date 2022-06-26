@@ -1,6 +1,7 @@
 module StripeAPI.Types.Radar_EarlyFraudWarning where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Radar'earlyFraudWarning
 instance Show Radar'earlyFraudWarning
 instance Eq Radar'earlyFraudWarning

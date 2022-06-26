@@ -1,26 +1,27 @@
 module StripeAPI.Types.IssuingCardShipping where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data IssuingCardShipping
 instance Show IssuingCardShipping
 instance Eq IssuingCardShipping
 instance FromJSON IssuingCardShipping
 instance ToJSON IssuingCardShipping
-data IssuingCardShippingCarrier'
-instance Show IssuingCardShippingCarrier'
-instance Eq IssuingCardShippingCarrier'
-instance FromJSON IssuingCardShippingCarrier'
-instance ToJSON IssuingCardShippingCarrier'
+data IssuingCardShippingCarrier'NonNullable
+instance Show IssuingCardShippingCarrier'NonNullable
+instance Eq IssuingCardShippingCarrier'NonNullable
+instance FromJSON IssuingCardShippingCarrier'NonNullable
+instance ToJSON IssuingCardShippingCarrier'NonNullable
 data IssuingCardShippingService'
 instance Show IssuingCardShippingService'
 instance Eq IssuingCardShippingService'
 instance FromJSON IssuingCardShippingService'
 instance ToJSON IssuingCardShippingService'
-data IssuingCardShippingStatus'
-instance Show IssuingCardShippingStatus'
-instance Eq IssuingCardShippingStatus'
-instance FromJSON IssuingCardShippingStatus'
-instance ToJSON IssuingCardShippingStatus'
+data IssuingCardShippingStatus'NonNullable
+instance Show IssuingCardShippingStatus'NonNullable
+instance Eq IssuingCardShippingStatus'NonNullable
+instance FromJSON IssuingCardShippingStatus'NonNullable
+instance ToJSON IssuingCardShippingStatus'NonNullable
 data IssuingCardShippingType'
 instance Show IssuingCardShippingType'
 instance Eq IssuingCardShippingType'

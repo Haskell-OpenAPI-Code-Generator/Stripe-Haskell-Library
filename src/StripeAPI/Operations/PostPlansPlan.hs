@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -113,11 +115,11 @@ data PostPlansPlanRequestBody = PostPlansPlanRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPlansPlanRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyActive obj : "expand" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyMetadata obj : "nickname" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyNickname obj : "product" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyProduct obj : "trial_period_days" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyTrialPeriodDays obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyActive obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyExpand obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyMetadata obj) GHC.Base.<> (("nickname" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyNickname obj) GHC.Base.<> (("product" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyProduct obj) GHC.Base.<> ("trial_period_days" Data.Aeson.Types.ToJSON..= postPlansPlanRequestBodyTrialPeriodDays obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyTrialPeriodDays obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postPlansPlanRequestBodyTrialPeriodDays obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPlansPlanRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansPlanRequestBody" (\obj -> (((((GHC.Base.pure PostPlansPlanRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "trial_period_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansPlanRequestBody" (\obj -> (((((GHC.Base.pure PostPlansPlanRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days"))
 
 -- | Create a new 'PostPlansPlanRequestBody' with all required fields.
 mkPostPlansPlanRequestBody :: PostPlansPlanRequestBody

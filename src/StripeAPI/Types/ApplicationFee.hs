@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -46,7 +48,7 @@ data ApplicationFee = ApplicationFee
     -- | application: ID of the Connect application that earned the fee.
     applicationFeeApplication :: ApplicationFeeApplication'Variants,
     -- | balance_transaction: Balance transaction that describes the impact of this collected application fee on your account balance (not including refunds).
-    applicationFeeBalanceTransaction :: (GHC.Maybe.Maybe ApplicationFeeBalanceTransaction'Variants),
+    applicationFeeBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApplicationFeeBalanceTransaction'NonNullableVariants)),
     -- | charge: ID of the charge that the application fee was taken from.
     applicationFeeCharge :: ApplicationFeeCharge'Variants,
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -62,7 +64,7 @@ data ApplicationFee = ApplicationFee
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     applicationFeeLivemode :: GHC.Types.Bool,
     -- | originating_transaction: ID of the corresponding charge on the platform account, if this fee was the result of a charge using the \`destination\` parameter.
-    applicationFeeOriginatingTransaction :: (GHC.Maybe.Maybe ApplicationFeeOriginatingTransaction'Variants),
+    applicationFeeOriginatingTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApplicationFeeOriginatingTransaction'NonNullableVariants)),
     -- | refunded: Whether the fee has been fully refunded. If the fee is only partially refunded, this attribute will still be false.
     applicationFeeRefunded :: GHC.Types.Bool,
     -- | refunds: A list of refunds that have been applied to the fee.
@@ -74,11 +76,11 @@ data ApplicationFee = ApplicationFee
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ApplicationFee where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= applicationFeeAccount obj : "amount" Data.Aeson.Types.ToJSON..= applicationFeeAmount obj : "amount_refunded" Data.Aeson.Types.ToJSON..= applicationFeeAmountRefunded obj : "application" Data.Aeson.Types.ToJSON..= applicationFeeApplication obj : "balance_transaction" Data.Aeson.Types.ToJSON..= applicationFeeBalanceTransaction obj : "charge" Data.Aeson.Types.ToJSON..= applicationFeeCharge obj : "created" Data.Aeson.Types.ToJSON..= applicationFeeCreated obj : "currency" Data.Aeson.Types.ToJSON..= applicationFeeCurrency obj : "id" Data.Aeson.Types.ToJSON..= applicationFeeId obj : "livemode" Data.Aeson.Types.ToJSON..= applicationFeeLivemode obj : "originating_transaction" Data.Aeson.Types.ToJSON..= applicationFeeOriginatingTransaction obj : "refunded" Data.Aeson.Types.ToJSON..= applicationFeeRefunded obj : "refunds" Data.Aeson.Types.ToJSON..= applicationFeeRefunds obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application_fee" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= applicationFeeAccount obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= applicationFeeAmount obj) GHC.Base.<> (("amount_refunded" Data.Aeson.Types.ToJSON..= applicationFeeAmountRefunded obj) GHC.Base.<> (("application" Data.Aeson.Types.ToJSON..= applicationFeeApplication obj) GHC.Base.<> (("balance_transaction" Data.Aeson.Types.ToJSON..= applicationFeeBalanceTransaction obj) GHC.Base.<> (("charge" Data.Aeson.Types.ToJSON..= applicationFeeCharge obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= applicationFeeCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= applicationFeeCurrency obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= applicationFeeId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= applicationFeeLivemode obj) GHC.Base.<> (("originating_transaction" Data.Aeson.Types.ToJSON..= applicationFeeOriginatingTransaction obj) GHC.Base.<> (("refunded" Data.Aeson.Types.ToJSON..= applicationFeeRefunded obj) GHC.Base.<> (("refunds" Data.Aeson.Types.ToJSON..= applicationFeeRefunds obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application_fee"))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= applicationFeeAccount obj] : ["amount" Data.Aeson.Types.ToJSON..= applicationFeeAmount obj] : ["amount_refunded" Data.Aeson.Types.ToJSON..= applicationFeeAmountRefunded obj] : ["application" Data.Aeson.Types.ToJSON..= applicationFeeApplication obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (applicationFeeBalanceTransaction obj) : ["charge" Data.Aeson.Types.ToJSON..= applicationFeeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= applicationFeeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= applicationFeeCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= applicationFeeId obj] : ["livemode" Data.Aeson.Types.ToJSON..= applicationFeeLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("originating_transaction" Data.Aeson.Types.ToJSON..=)) (applicationFeeOriginatingTransaction obj) : ["refunded" Data.Aeson.Types.ToJSON..= applicationFeeRefunded obj] : ["refunds" Data.Aeson.Types.ToJSON..= applicationFeeRefunds obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application_fee"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= applicationFeeAccount obj] : ["amount" Data.Aeson.Types.ToJSON..= applicationFeeAmount obj] : ["amount_refunded" Data.Aeson.Types.ToJSON..= applicationFeeAmountRefunded obj] : ["application" Data.Aeson.Types.ToJSON..= applicationFeeApplication obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (applicationFeeBalanceTransaction obj) : ["charge" Data.Aeson.Types.ToJSON..= applicationFeeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= applicationFeeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= applicationFeeCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= applicationFeeId obj] : ["livemode" Data.Aeson.Types.ToJSON..= applicationFeeLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("originating_transaction" Data.Aeson.Types.ToJSON..=)) (applicationFeeOriginatingTransaction obj) : ["refunded" Data.Aeson.Types.ToJSON..= applicationFeeRefunded obj] : ["refunds" Data.Aeson.Types.ToJSON..= applicationFeeRefunds obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "application_fee"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFee where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApplicationFee" (\obj -> ((((((((((((GHC.Base.pure ApplicationFee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "originating_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunds"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApplicationFee" (\obj -> ((((((((((((GHC.Base.pure ApplicationFee GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "originating_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunded")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "refunds"))
 
 -- | Create a new 'ApplicationFee' with all required fields.
 mkApplicationFee ::
@@ -159,17 +161,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFeeApplication'Variants w
 -- | Defines the oneOf schema located at @components.schemas.application_fee.properties.balance_transaction.anyOf@ in the specification.
 --
 -- Balance transaction that describes the impact of this collected application fee on your account balance (not including refunds).
-data ApplicationFeeBalanceTransaction'Variants
-  = ApplicationFeeBalanceTransaction'Text Data.Text.Internal.Text
-  | ApplicationFeeBalanceTransaction'BalanceTransaction BalanceTransaction
+data ApplicationFeeBalanceTransaction'NonNullableVariants
+  = ApplicationFeeBalanceTransaction'NonNullableText Data.Text.Internal.Text
+  | ApplicationFeeBalanceTransaction'NonNullableBalanceTransaction BalanceTransaction
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApplicationFeeBalanceTransaction'Variants where
-  toJSON (ApplicationFeeBalanceTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ApplicationFeeBalanceTransaction'BalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON ApplicationFeeBalanceTransaction'NonNullableVariants where
+  toJSON (ApplicationFeeBalanceTransaction'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (ApplicationFeeBalanceTransaction'NonNullableBalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFeeBalanceTransaction'Variants where
-  parseJSON val = case (ApplicationFeeBalanceTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApplicationFeeBalanceTransaction'BalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFeeBalanceTransaction'NonNullableVariants where
+  parseJSON val = case (ApplicationFeeBalanceTransaction'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApplicationFeeBalanceTransaction'NonNullableBalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
@@ -193,17 +195,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFeeCharge'Variants where
 -- | Defines the oneOf schema located at @components.schemas.application_fee.properties.originating_transaction.anyOf@ in the specification.
 --
 -- ID of the corresponding charge on the platform account, if this fee was the result of a charge using the \`destination\` parameter.
-data ApplicationFeeOriginatingTransaction'Variants
-  = ApplicationFeeOriginatingTransaction'Text Data.Text.Internal.Text
-  | ApplicationFeeOriginatingTransaction'Charge Charge
+data ApplicationFeeOriginatingTransaction'NonNullableVariants
+  = ApplicationFeeOriginatingTransaction'NonNullableText Data.Text.Internal.Text
+  | ApplicationFeeOriginatingTransaction'NonNullableCharge Charge
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApplicationFeeOriginatingTransaction'Variants where
-  toJSON (ApplicationFeeOriginatingTransaction'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ApplicationFeeOriginatingTransaction'Charge a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON ApplicationFeeOriginatingTransaction'NonNullableVariants where
+  toJSON (ApplicationFeeOriginatingTransaction'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (ApplicationFeeOriginatingTransaction'NonNullableCharge a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFeeOriginatingTransaction'Variants where
-  parseJSON val = case (ApplicationFeeOriginatingTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApplicationFeeOriginatingTransaction'Charge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFeeOriginatingTransaction'NonNullableVariants where
+  parseJSON val = case (ApplicationFeeOriginatingTransaction'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApplicationFeeOriginatingTransaction'NonNullableCharge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
@@ -228,8 +230,8 @@ data ApplicationFeeRefunds' = ApplicationFeeRefunds'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ApplicationFeeRefunds' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Data obj : "has_more" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'HasMore obj : "url" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= applicationFeeRefunds'Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ApplicationFeeRefunds' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "ApplicationFeeRefunds'" (\obj -> ((GHC.Base.pure ApplicationFeeRefunds' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

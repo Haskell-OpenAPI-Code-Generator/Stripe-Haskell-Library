@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,13 +39,13 @@ data SetupIntentNextActionRedirectToUrl = SetupIntentNextActionRedirectToUrl
     -- Constraints:
     --
     -- * Maximum length of 5000
-    setupIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    setupIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | url: The URL you must redirect your customer to in order to authenticate.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    setupIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    setupIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -51,11 +53,11 @@ data SetupIntentNextActionRedirectToUrl = SetupIntentNextActionRedirectToUrl
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentNextActionRedirectToUrl where
-  toJSON obj = Data.Aeson.Types.Internal.object ("return_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlReturnUrl obj : "url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("return_url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlReturnUrl obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= setupIntentNextActionRedirectToUrlUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrlReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrlUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrlReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrlUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentNextActionRedirectToUrl where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextActionRedirectToUrl" (\obj -> (GHC.Base.pure SetupIntentNextActionRedirectToUrl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextActionRedirectToUrl" (\obj -> (GHC.Base.pure SetupIntentNextActionRedirectToUrl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))
 
 -- | Create a new 'SetupIntentNextActionRedirectToUrl' with all required fields.
 mkSetupIntentNextActionRedirectToUrl :: SetupIntentNextActionRedirectToUrl

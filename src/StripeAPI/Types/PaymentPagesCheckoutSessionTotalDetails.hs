@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,11 +35,11 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_pages_checkout_session_total_details@ in the specification.
 data PaymentPagesCheckoutSessionTotalDetails = PaymentPagesCheckoutSessionTotalDetails
-  { -- | amount_discount: This is the sum of all the line item discounts.
+  { -- | amount_discount: This is the sum of all the discounts.
     paymentPagesCheckoutSessionTotalDetailsAmountDiscount :: GHC.Types.Int,
-    -- | amount_shipping: This is the sum of all the line item shipping amounts.
-    paymentPagesCheckoutSessionTotalDetailsAmountShipping :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | amount_tax: This is the sum of all the line item tax amounts.
+    -- | amount_shipping: This is the sum of all the shipping amounts.
+    paymentPagesCheckoutSessionTotalDetailsAmountShipping :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | amount_tax: This is the sum of all the tax amounts.
     paymentPagesCheckoutSessionTotalDetailsAmountTax :: GHC.Types.Int,
     -- | breakdown:
     paymentPagesCheckoutSessionTotalDetailsBreakdown :: (GHC.Maybe.Maybe PaymentPagesCheckoutSessionTotalDetailsResourceBreakdown)
@@ -48,11 +50,11 @@ data PaymentPagesCheckoutSessionTotalDetails = PaymentPagesCheckoutSessionTotalD
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionTotalDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount_discount" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountDiscount obj : "amount_shipping" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountShipping obj : "amount_tax" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountTax obj : "breakdown" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsBreakdown obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount_discount" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountDiscount obj) GHC.Base.<> (("amount_shipping" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountShipping obj) GHC.Base.<> (("amount_tax" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountTax obj) GHC.Base.<> ("breakdown" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsBreakdown obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount_discount" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountDiscount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_shipping" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionTotalDetailsAmountShipping obj) : ["amount_tax" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountTax obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("breakdown" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionTotalDetailsBreakdown obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount_discount" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountDiscount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_shipping" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionTotalDetailsAmountShipping obj) : ["amount_tax" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionTotalDetailsAmountTax obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("breakdown" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionTotalDetailsBreakdown obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionTotalDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionTotalDetails" (\obj -> (((GHC.Base.pure PaymentPagesCheckoutSessionTotalDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount_shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "breakdown"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionTotalDetails" (\obj -> (((GHC.Base.pure PaymentPagesCheckoutSessionTotalDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "breakdown"))
 
 -- | Create a new 'PaymentPagesCheckoutSessionTotalDetails' with all required fields.
 mkPaymentPagesCheckoutSessionTotalDetails ::

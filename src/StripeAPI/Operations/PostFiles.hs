@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -46,7 +48,10 @@ import qualified Prelude as GHC.Maybe
 -- \<p>To upload a file to Stripe, you’ll need to send a request of type \<code>multipart\/form-data\<\/code>. The request should contain the file you would like to upload, as well as the parameters for creating a file.\<\/p>
 --
 -- \<p>All of Stripe’s officially supported Client libraries should have support for sending \<code>multipart\/form-data\<\/code>.\<\/p>
-postFiles :: forall m. StripeAPI.Common.MonadHTTP m => -- | Monadic computation which returns the result of the operation
+postFiles ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Monadic computation which returns the result of the operation
   StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostFilesResponse)
 postFiles =
   GHC.Base.fmap

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -46,13 +48,15 @@ data Reporting'reportType = Reporting'reportType
     -- | data_available_start: Earliest time for which this Report Type is available. Measured in seconds since the Unix epoch.
     reporting'reportTypeDataAvailableStart :: GHC.Types.Int,
     -- | default_columns: List of column names that are included by default when this Report Type gets run. (If the Report Type doesn\'t support the \`columns\` parameter, this will be null.)
-    reporting'reportTypeDefaultColumns :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    reporting'reportTypeDefaultColumns :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
     -- | id: The [ID of the Report Type](https:\/\/stripe.com\/docs\/reporting\/statements\/api\#available-report-types), such as \`balance.summary.1\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     reporting'reportTypeId :: Data.Text.Internal.Text,
+    -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
+    reporting'reportTypeLivemode :: GHC.Types.Bool,
     -- | name: Human-readable name of the Report Type
     --
     -- Constraints:
@@ -70,11 +74,11 @@ data Reporting'reportType = Reporting'reportType
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportType where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data_available_end" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableEnd obj : "data_available_start" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableStart obj : "default_columns" Data.Aeson.Types.ToJSON..= reporting'reportTypeDefaultColumns obj : "id" Data.Aeson.Types.ToJSON..= reporting'reportTypeId obj : "name" Data.Aeson.Types.ToJSON..= reporting'reportTypeName obj : "updated" Data.Aeson.Types.ToJSON..= reporting'reportTypeUpdated obj : "version" Data.Aeson.Types.ToJSON..= reporting'reportTypeVersion obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_type" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data_available_end" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableEnd obj) GHC.Base.<> (("data_available_start" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableStart obj) GHC.Base.<> (("default_columns" Data.Aeson.Types.ToJSON..= reporting'reportTypeDefaultColumns obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= reporting'reportTypeId obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= reporting'reportTypeName obj) GHC.Base.<> (("updated" Data.Aeson.Types.ToJSON..= reporting'reportTypeUpdated obj) GHC.Base.<> (("version" Data.Aeson.Types.ToJSON..= reporting'reportTypeVersion obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_type"))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data_available_end" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableEnd obj] : ["data_available_start" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableStart obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_columns" Data.Aeson.Types.ToJSON..=)) (reporting'reportTypeDefaultColumns obj) : ["id" Data.Aeson.Types.ToJSON..= reporting'reportTypeId obj] : ["livemode" Data.Aeson.Types.ToJSON..= reporting'reportTypeLivemode obj] : ["name" Data.Aeson.Types.ToJSON..= reporting'reportTypeName obj] : ["updated" Data.Aeson.Types.ToJSON..= reporting'reportTypeUpdated obj] : ["version" Data.Aeson.Types.ToJSON..= reporting'reportTypeVersion obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_type"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data_available_end" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableEnd obj] : ["data_available_start" Data.Aeson.Types.ToJSON..= reporting'reportTypeDataAvailableStart obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_columns" Data.Aeson.Types.ToJSON..=)) (reporting'reportTypeDefaultColumns obj) : ["id" Data.Aeson.Types.ToJSON..= reporting'reportTypeId obj] : ["livemode" Data.Aeson.Types.ToJSON..= reporting'reportTypeLivemode obj] : ["name" Data.Aeson.Types.ToJSON..= reporting'reportTypeName obj] : ["updated" Data.Aeson.Types.ToJSON..= reporting'reportTypeUpdated obj] : ["version" Data.Aeson.Types.ToJSON..= reporting'reportTypeVersion obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "reporting.report_type"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportType where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportType" (\obj -> ((((((GHC.Base.pure Reporting'reportType GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data_available_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data_available_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_columns")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "version"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Reporting'reportType" (\obj -> (((((((GHC.Base.pure Reporting'reportType GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data_available_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data_available_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_columns")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "updated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "version"))
 
 -- | Create a new 'Reporting'reportType' with all required fields.
 mkReporting'reportType ::
@@ -84,6 +88,8 @@ mkReporting'reportType ::
   GHC.Types.Int ->
   -- | 'reporting'reportTypeId'
   Data.Text.Internal.Text ->
+  -- | 'reporting'reportTypeLivemode'
+  GHC.Types.Bool ->
   -- | 'reporting'reportTypeName'
   Data.Text.Internal.Text ->
   -- | 'reporting'reportTypeUpdated'
@@ -91,12 +97,13 @@ mkReporting'reportType ::
   -- | 'reporting'reportTypeVersion'
   GHC.Types.Int ->
   Reporting'reportType
-mkReporting'reportType reporting'reportTypeDataAvailableEnd reporting'reportTypeDataAvailableStart reporting'reportTypeId reporting'reportTypeName reporting'reportTypeUpdated reporting'reportTypeVersion =
+mkReporting'reportType reporting'reportTypeDataAvailableEnd reporting'reportTypeDataAvailableStart reporting'reportTypeId reporting'reportTypeLivemode reporting'reportTypeName reporting'reportTypeUpdated reporting'reportTypeVersion =
   Reporting'reportType
     { reporting'reportTypeDataAvailableEnd = reporting'reportTypeDataAvailableEnd,
       reporting'reportTypeDataAvailableStart = reporting'reportTypeDataAvailableStart,
       reporting'reportTypeDefaultColumns = GHC.Maybe.Nothing,
       reporting'reportTypeId = reporting'reportTypeId,
+      reporting'reportTypeLivemode = reporting'reportTypeLivemode,
       reporting'reportTypeName = reporting'reportTypeName,
       reporting'reportTypeUpdated = reporting'reportTypeUpdated,
       reporting'reportTypeVersion = reporting'reportTypeVersion

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetTokensTokenParameters = GetTokensTokenParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTokensTokenParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathToken" Data.Aeson.Types.ToJSON..= getTokensTokenParametersPathToken obj : "queryExpand" Data.Aeson.Types.ToJSON..= getTokensTokenParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathToken" Data.Aeson.Types.ToJSON..= getTokensTokenParametersPathToken obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getTokensTokenParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathToken" Data.Aeson.Types.ToJSON..= getTokensTokenParametersPathToken obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTokensTokenParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathToken" Data.Aeson.Types.ToJSON..= getTokensTokenParametersPathToken obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getTokensTokenParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTokensTokenParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTokensTokenParameters" (\obj -> (GHC.Base.pure GetTokensTokenParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathToken")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTokensTokenParameters" (\obj -> (GHC.Base.pure GetTokensTokenParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathToken")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetTokensTokenParameters' with all required fields.
 mkGetTokensTokenParameters ::

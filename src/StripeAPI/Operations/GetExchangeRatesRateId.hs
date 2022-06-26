@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -86,7 +88,7 @@ data GetExchangeRatesRateIdParameters = GetExchangeRatesRateIdParameters
     --
     -- Constraints:
     --
-    -- * Maximum length of 3
+    -- * Maximum length of 5000
     getExchangeRatesRateIdParametersPathRateId :: Data.Text.Internal.Text,
     -- | queryExpand: Represents the parameter named \'expand\'
     --
@@ -99,11 +101,11 @@ data GetExchangeRatesRateIdParameters = GetExchangeRatesRateIdParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetExchangeRatesRateIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathRate_id" Data.Aeson.Types.ToJSON..= getExchangeRatesRateIdParametersPathRateId obj : "queryExpand" Data.Aeson.Types.ToJSON..= getExchangeRatesRateIdParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathRate_id" Data.Aeson.Types.ToJSON..= getExchangeRatesRateIdParametersPathRateId obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getExchangeRatesRateIdParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathRate_id" Data.Aeson.Types.ToJSON..= getExchangeRatesRateIdParametersPathRateId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getExchangeRatesRateIdParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathRate_id" Data.Aeson.Types.ToJSON..= getExchangeRatesRateIdParametersPathRateId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getExchangeRatesRateIdParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesRateIdParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesRateIdParameters" (\obj -> (GHC.Base.pure GetExchangeRatesRateIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathRate_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesRateIdParameters" (\obj -> (GHC.Base.pure GetExchangeRatesRateIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathRate_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetExchangeRatesRateIdParameters' with all required fields.
 mkGetExchangeRatesRateIdParameters ::

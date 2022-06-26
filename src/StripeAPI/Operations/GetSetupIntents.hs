@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -81,7 +83,8 @@ getSetupIntents parameters =
     ( StripeAPI.Common.doCallWithConfigurationM
         (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
         (Data.Text.pack "/v1/setup_intents")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSetupIntentsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "attach_to_self") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSetupIntentsParametersQueryAttachToSelf parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSetupIntentsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
           StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSetupIntentsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
           StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSetupIntentsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
           StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSetupIntentsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
@@ -93,7 +96,13 @@ getSetupIntents parameters =
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.GET.parameters@ in the specification.
 data GetSetupIntentsParameters = GetSetupIntentsParameters
-  { -- | queryCreated: Represents the parameter named \'created\'
+  { -- | queryAttach_to_self: Represents the parameter named \'attach_to_self\'
+    --
+    -- If present, the SetupIntent\'s payment method will be attached to the in-context Stripe Account.
+    --
+    -- It can only be used for this Stripe Account’s own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
+    getSetupIntentsParametersQueryAttachToSelf :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | queryCreated: Represents the parameter named \'created\'
     --
     -- A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
     getSetupIntentsParametersQueryCreated :: (GHC.Maybe.Maybe GetSetupIntentsParametersQueryCreated'Variants),
@@ -144,17 +153,18 @@ data GetSetupIntentsParameters = GetSetupIntentsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("queryCreated" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated obj : "queryCustomer" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCustomer obj : "queryEnding_before" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryEndingBefore obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryExpand obj : "queryLimit" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryLimit obj : "queryPayment_method" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryPaymentMethod obj : "queryStarting_after" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryStartingAfter obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("queryCreated" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated obj) GHC.Base.<> (("queryCustomer" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCustomer obj) GHC.Base.<> (("queryEnding_before" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryEndingBefore obj) GHC.Base.<> (("queryExpand" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryExpand obj) GHC.Base.<> (("queryLimit" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryLimit obj) GHC.Base.<> (("queryPayment_method" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryPaymentMethod obj) GHC.Base.<> ("queryStarting_after" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryStartingAfter obj)))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryAttach_to_self" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryAttachToSelf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCustomer" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryPayment_method" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryAttach_to_self" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryAttachToSelf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCustomer" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryPayment_method" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsParameters" (\obj -> ((((((GHC.Base.pure GetSetupIntentsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPayment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsParameters" (\obj -> (((((((GHC.Base.pure GetSetupIntentsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryAttach_to_self")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryPayment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetSetupIntentsParameters' with all required fields.
 mkGetSetupIntentsParameters :: GetSetupIntentsParameters
 mkGetSetupIntentsParameters =
   GetSetupIntentsParameters
-    { getSetupIntentsParametersQueryCreated = GHC.Maybe.Nothing,
+    { getSetupIntentsParametersQueryAttachToSelf = GHC.Maybe.Nothing,
+      getSetupIntentsParametersQueryCreated = GHC.Maybe.Nothing,
       getSetupIntentsParametersQueryCustomer = GHC.Maybe.Nothing,
       getSetupIntentsParametersQueryEndingBefore = GHC.Maybe.Nothing,
       getSetupIntentsParametersQueryExpand = GHC.Maybe.Nothing,
@@ -180,11 +190,11 @@ data GetSetupIntentsParametersQueryCreated'OneOf1 = GetSetupIntentsParametersQue
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsParametersQueryCreated'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("gt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Gt obj : "gte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Gte obj : "lt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Lt obj : "lte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Lte obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("gt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Gt obj) GHC.Base.<> (("gte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Gte obj) GHC.Base.<> (("lt" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Lt obj) GHC.Base.<> ("lte" Data.Aeson.Types.ToJSON..= getSetupIntentsParametersQueryCreated'OneOf1Lte obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getSetupIntentsParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsParametersQueryCreated'OneOf1 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsParametersQueryCreated'OneOf1" (\obj -> (((GHC.Base.pure GetSetupIntentsParametersQueryCreated'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsParametersQueryCreated'OneOf1" (\obj -> (((GHC.Base.pure GetSetupIntentsParametersQueryCreated'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lte"))
 
 -- | Create a new 'GetSetupIntentsParametersQueryCreated'OneOf1' with all required fields.
 mkGetSetupIntentsParametersQueryCreated'OneOf1 :: GetSetupIntentsParametersQueryCreated'OneOf1
@@ -247,8 +257,8 @@ data GetSetupIntentsResponseBody200 = GetSetupIntentsResponseBody200
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSetupIntentsResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Data obj : "has_more" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200HasMore obj : "url" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= getSetupIntentsResponseBody200Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSetupIntentsResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSetupIntentsResponseBody200" (\obj -> ((GHC.Base.pure GetSetupIntentsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

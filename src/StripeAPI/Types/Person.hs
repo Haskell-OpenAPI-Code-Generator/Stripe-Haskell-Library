@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -27,11 +29,13 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.AccountRequirementsAlternative
 import {-# SOURCE #-} StripeAPI.Types.AccountRequirementsError
 import {-# SOURCE #-} StripeAPI.Types.Address
 import {-# SOURCE #-} StripeAPI.Types.LegalEntityDob
 import {-# SOURCE #-} StripeAPI.Types.LegalEntityJapanAddress
 import {-# SOURCE #-} StripeAPI.Types.LegalEntityPersonVerification
+import {-# SOURCE #-} StripeAPI.Types.PersonFutureRequirements
 import {-# SOURCE #-} StripeAPI.Types.PersonRelationship
 import {-# SOURCE #-} StripeAPI.Types.PersonRequirements
 import qualified Prelude as GHC.Integer.Type
@@ -55,9 +59,9 @@ data Person = Person
     -- | address:
     personAddress :: (GHC.Maybe.Maybe Address),
     -- | address_kana
-    personAddressKana :: (GHC.Maybe.Maybe PersonAddressKana'),
+    personAddressKana :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PersonAddressKana'NonNullable)),
     -- | address_kanji
-    personAddressKanji :: (GHC.Maybe.Maybe PersonAddressKanji'),
+    personAddressKanji :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PersonAddressKanji'NonNullable)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     personCreated :: GHC.Types.Int,
     -- | dob:
@@ -67,27 +71,31 @@ data Person = Person
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | first_name: The person\'s first name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personFirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personFirstName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | first_name_kana: The Kana variation of the person\'s first name (Japan only).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personFirstNameKana :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personFirstNameKana :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | first_name_kanji: The Kanji variation of the person\'s first name (Japan only).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personFirstNameKanji :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personFirstNameKanji :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | full_name_aliases: A list of alternate names or aliases that the person is known by.
+    personFullNameAliases :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | future_requirements
+    personFutureRequirements :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PersonFutureRequirements'NonNullable)),
     -- | gender: The person\'s gender (International regulations require either \"male\" or \"female\").
-    personGender :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personGender :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -96,30 +104,32 @@ data Person = Person
     personId :: Data.Text.Internal.Text,
     -- | id_number_provided: Whether the person\'s \`id_number\` was provided.
     personIdNumberProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | id_number_secondary_provided: Whether the person\'s \`id_number_secondary\` was provided.
+    personIdNumberSecondaryProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | last_name: The person\'s last name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personLastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personLastName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last_name_kana: The Kana variation of the person\'s last name (Japan only).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personLastNameKana :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personLastNameKana :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last_name_kanji: The Kanji variation of the person\'s last name (Japan only).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personLastNameKanji :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personLastNameKanji :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | maiden_name: The person\'s maiden name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personMaidenName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personMaidenName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     personMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | nationality: The country where the person is a national.
@@ -127,19 +137,21 @@ data Person = Person
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personNationality :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personNationality :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | phone: The person\'s phone number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | political_exposure: Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
     personPoliticalExposure :: (GHC.Maybe.Maybe PersonPoliticalExposure'),
+    -- | registered_address:
+    personRegisteredAddress :: (GHC.Maybe.Maybe Address),
     -- | relationship:
     personRelationship :: (GHC.Maybe.Maybe PersonRelationship),
     -- | requirements
-    personRequirements :: (GHC.Maybe.Maybe PersonRequirements'),
+    personRequirements :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PersonRequirements'NonNullable)),
     -- | ssn_last_4_provided: Whether the last four digits of the person\'s Social Security number have been provided (U.S. only).
     personSsnLast_4Provided :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | verification:
@@ -151,11 +163,11 @@ data Person = Person
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Person where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= personAccount obj : "address" Data.Aeson.Types.ToJSON..= personAddress obj : "address_kana" Data.Aeson.Types.ToJSON..= personAddressKana obj : "address_kanji" Data.Aeson.Types.ToJSON..= personAddressKanji obj : "created" Data.Aeson.Types.ToJSON..= personCreated obj : "dob" Data.Aeson.Types.ToJSON..= personDob obj : "email" Data.Aeson.Types.ToJSON..= personEmail obj : "first_name" Data.Aeson.Types.ToJSON..= personFirstName obj : "first_name_kana" Data.Aeson.Types.ToJSON..= personFirstNameKana obj : "first_name_kanji" Data.Aeson.Types.ToJSON..= personFirstNameKanji obj : "gender" Data.Aeson.Types.ToJSON..= personGender obj : "id" Data.Aeson.Types.ToJSON..= personId obj : "id_number_provided" Data.Aeson.Types.ToJSON..= personIdNumberProvided obj : "last_name" Data.Aeson.Types.ToJSON..= personLastName obj : "last_name_kana" Data.Aeson.Types.ToJSON..= personLastNameKana obj : "last_name_kanji" Data.Aeson.Types.ToJSON..= personLastNameKanji obj : "maiden_name" Data.Aeson.Types.ToJSON..= personMaidenName obj : "metadata" Data.Aeson.Types.ToJSON..= personMetadata obj : "nationality" Data.Aeson.Types.ToJSON..= personNationality obj : "phone" Data.Aeson.Types.ToJSON..= personPhone obj : "political_exposure" Data.Aeson.Types.ToJSON..= personPoliticalExposure obj : "relationship" Data.Aeson.Types.ToJSON..= personRelationship obj : "requirements" Data.Aeson.Types.ToJSON..= personRequirements obj : "ssn_last_4_provided" Data.Aeson.Types.ToJSON..= personSsnLast_4Provided obj : "verification" Data.Aeson.Types.ToJSON..= personVerification obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= personAccount obj) GHC.Base.<> (("address" Data.Aeson.Types.ToJSON..= personAddress obj) GHC.Base.<> (("address_kana" Data.Aeson.Types.ToJSON..= personAddressKana obj) GHC.Base.<> (("address_kanji" Data.Aeson.Types.ToJSON..= personAddressKanji obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= personCreated obj) GHC.Base.<> (("dob" Data.Aeson.Types.ToJSON..= personDob obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= personEmail obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= personFirstName obj) GHC.Base.<> (("first_name_kana" Data.Aeson.Types.ToJSON..= personFirstNameKana obj) GHC.Base.<> (("first_name_kanji" Data.Aeson.Types.ToJSON..= personFirstNameKanji obj) GHC.Base.<> (("gender" Data.Aeson.Types.ToJSON..= personGender obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= personId obj) GHC.Base.<> (("id_number_provided" Data.Aeson.Types.ToJSON..= personIdNumberProvided obj) GHC.Base.<> (("last_name" Data.Aeson.Types.ToJSON..= personLastName obj) GHC.Base.<> (("last_name_kana" Data.Aeson.Types.ToJSON..= personLastNameKana obj) GHC.Base.<> (("last_name_kanji" Data.Aeson.Types.ToJSON..= personLastNameKanji obj) GHC.Base.<> (("maiden_name" Data.Aeson.Types.ToJSON..= personMaidenName obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= personMetadata obj) GHC.Base.<> (("nationality" Data.Aeson.Types.ToJSON..= personNationality obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= personPhone obj) GHC.Base.<> (("political_exposure" Data.Aeson.Types.ToJSON..= personPoliticalExposure obj) GHC.Base.<> (("relationship" Data.Aeson.Types.ToJSON..= personRelationship obj) GHC.Base.<> (("requirements" Data.Aeson.Types.ToJSON..= personRequirements obj) GHC.Base.<> (("ssn_last_4_provided" Data.Aeson.Types.ToJSON..= personSsnLast_4Provided obj) GHC.Base.<> (("verification" Data.Aeson.Types.ToJSON..= personVerification obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person"))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= personAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (personAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (personAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (personAddressKanji obj) : ["created" Data.Aeson.Types.ToJSON..= personCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (personDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (personEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (personFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kana" Data.Aeson.Types.ToJSON..=)) (personFirstNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kanji" Data.Aeson.Types.ToJSON..=)) (personFirstNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("full_name_aliases" Data.Aeson.Types.ToJSON..=)) (personFullNameAliases obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("future_requirements" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gender" Data.Aeson.Types.ToJSON..=)) (personGender obj) : ["id" Data.Aeson.Types.ToJSON..= personId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_provided" Data.Aeson.Types.ToJSON..=)) (personIdNumberProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_secondary_provided" Data.Aeson.Types.ToJSON..=)) (personIdNumberSecondaryProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (personLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kana" Data.Aeson.Types.ToJSON..=)) (personLastNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kanji" Data.Aeson.Types.ToJSON..=)) (personLastNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maiden_name" Data.Aeson.Types.ToJSON..=)) (personMaidenName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (personMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nationality" Data.Aeson.Types.ToJSON..=)) (personNationality obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (personPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("political_exposure" Data.Aeson.Types.ToJSON..=)) (personPoliticalExposure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("registered_address" Data.Aeson.Types.ToJSON..=)) (personRegisteredAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("relationship" Data.Aeson.Types.ToJSON..=)) (personRelationship obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requirements" Data.Aeson.Types.ToJSON..=)) (personRequirements obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ssn_last_4_provided" Data.Aeson.Types.ToJSON..=)) (personSsnLast_4Provided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (personVerification obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account" Data.Aeson.Types.ToJSON..= personAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (personAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (personAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (personAddressKanji obj) : ["created" Data.Aeson.Types.ToJSON..= personCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (personDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (personEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (personFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kana" Data.Aeson.Types.ToJSON..=)) (personFirstNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kanji" Data.Aeson.Types.ToJSON..=)) (personFirstNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("full_name_aliases" Data.Aeson.Types.ToJSON..=)) (personFullNameAliases obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("future_requirements" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gender" Data.Aeson.Types.ToJSON..=)) (personGender obj) : ["id" Data.Aeson.Types.ToJSON..= personId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_provided" Data.Aeson.Types.ToJSON..=)) (personIdNumberProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_secondary_provided" Data.Aeson.Types.ToJSON..=)) (personIdNumberSecondaryProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (personLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kana" Data.Aeson.Types.ToJSON..=)) (personLastNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kanji" Data.Aeson.Types.ToJSON..=)) (personLastNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maiden_name" Data.Aeson.Types.ToJSON..=)) (personMaidenName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (personMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nationality" Data.Aeson.Types.ToJSON..=)) (personNationality obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (personPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("political_exposure" Data.Aeson.Types.ToJSON..=)) (personPoliticalExposure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("registered_address" Data.Aeson.Types.ToJSON..=)) (personRegisteredAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("relationship" Data.Aeson.Types.ToJSON..=)) (personRelationship obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requirements" Data.Aeson.Types.ToJSON..=)) (personRequirements obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ssn_last_4_provided" Data.Aeson.Types.ToJSON..=)) (personSsnLast_4Provided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (personVerification obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "person"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Person where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Person" (\obj -> ((((((((((((((((((((((((GHC.Base.pure Person GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gender")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "maiden_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nationality")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "political_exposure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "relationship")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ssn_last_4_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Person" (\obj -> ((((((((((((((((((((((((((((GHC.Base.pure Person GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "full_name_aliases")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "future_requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gender")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number_secondary_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maiden_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nationality")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "political_exposure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "registered_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "relationship")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ssn_last_4_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
 
 -- | Create a new 'Person' with all required fields.
 mkPerson ::
@@ -178,9 +190,12 @@ mkPerson personAccount personCreated personId =
       personFirstName = GHC.Maybe.Nothing,
       personFirstNameKana = GHC.Maybe.Nothing,
       personFirstNameKanji = GHC.Maybe.Nothing,
+      personFullNameAliases = GHC.Maybe.Nothing,
+      personFutureRequirements = GHC.Maybe.Nothing,
       personGender = GHC.Maybe.Nothing,
       personId = personId,
       personIdNumberProvided = GHC.Maybe.Nothing,
+      personIdNumberSecondaryProvided = GHC.Maybe.Nothing,
       personLastName = GHC.Maybe.Nothing,
       personLastNameKana = GHC.Maybe.Nothing,
       personLastNameKanji = GHC.Maybe.Nothing,
@@ -189,6 +204,7 @@ mkPerson personAccount personCreated personId =
       personNationality = GHC.Maybe.Nothing,
       personPhone = GHC.Maybe.Nothing,
       personPoliticalExposure = GHC.Maybe.Nothing,
+      personRegisteredAddress = GHC.Maybe.Nothing,
       personRelationship = GHC.Maybe.Nothing,
       personRequirements = GHC.Maybe.Nothing,
       personSsnLast_4Provided = GHC.Maybe.Nothing,
@@ -196,143 +212,182 @@ mkPerson personAccount personCreated personId =
     }
 
 -- | Defines the object schema located at @components.schemas.person.properties.address_kana.anyOf@ in the specification.
-data PersonAddressKana' = PersonAddressKana'
+data PersonAddressKana'NonNullable = PersonAddressKana'NonNullable
   { -- | city: City\/Ward.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKana'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKana'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKana'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKana'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Block\/Building number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKana'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKana'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Building details.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKana'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKana'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKana'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKana'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: Prefecture.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKana'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKana'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | town: Town\/cho-me.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKana'Town :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    personAddressKana'NonNullableTown :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PersonAddressKana' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= personAddressKana'City obj : "country" Data.Aeson.Types.ToJSON..= personAddressKana'Country obj : "line1" Data.Aeson.Types.ToJSON..= personAddressKana'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= personAddressKana'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= personAddressKana'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= personAddressKana'State obj : "town" Data.Aeson.Types.ToJSON..= personAddressKana'Town obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= personAddressKana'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= personAddressKana'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= personAddressKana'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= personAddressKana'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= personAddressKana'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= personAddressKana'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= personAddressKana'Town obj)))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PersonAddressKana'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableTown obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (personAddressKana'NonNullableTown obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PersonAddressKana' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonAddressKana'" (\obj -> ((((((GHC.Base.pure PersonAddressKana' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
+instance Data.Aeson.Types.FromJSON.FromJSON PersonAddressKana'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonAddressKana'NonNullable" (\obj -> ((((((GHC.Base.pure PersonAddressKana'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "town"))
 
--- | Create a new 'PersonAddressKana'' with all required fields.
-mkPersonAddressKana' :: PersonAddressKana'
-mkPersonAddressKana' =
-  PersonAddressKana'
-    { personAddressKana'City = GHC.Maybe.Nothing,
-      personAddressKana'Country = GHC.Maybe.Nothing,
-      personAddressKana'Line1 = GHC.Maybe.Nothing,
-      personAddressKana'Line2 = GHC.Maybe.Nothing,
-      personAddressKana'PostalCode = GHC.Maybe.Nothing,
-      personAddressKana'State = GHC.Maybe.Nothing,
-      personAddressKana'Town = GHC.Maybe.Nothing
+-- | Create a new 'PersonAddressKana'NonNullable' with all required fields.
+mkPersonAddressKana'NonNullable :: PersonAddressKana'NonNullable
+mkPersonAddressKana'NonNullable =
+  PersonAddressKana'NonNullable
+    { personAddressKana'NonNullableCity = GHC.Maybe.Nothing,
+      personAddressKana'NonNullableCountry = GHC.Maybe.Nothing,
+      personAddressKana'NonNullableLine1 = GHC.Maybe.Nothing,
+      personAddressKana'NonNullableLine2 = GHC.Maybe.Nothing,
+      personAddressKana'NonNullablePostalCode = GHC.Maybe.Nothing,
+      personAddressKana'NonNullableState = GHC.Maybe.Nothing,
+      personAddressKana'NonNullableTown = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.person.properties.address_kanji.anyOf@ in the specification.
-data PersonAddressKanji' = PersonAddressKanji'
+data PersonAddressKanji'NonNullable = PersonAddressKanji'NonNullable
   { -- | city: City\/Ward.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKanji'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKanji'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKanji'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKanji'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Block\/Building number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKanji'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKanji'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Building details.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKanji'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKanji'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKanji'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKanji'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: Prefecture.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKanji'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    personAddressKanji'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | town: Town\/cho-me.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    personAddressKanji'Town :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    personAddressKanji'NonNullableTown :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PersonAddressKanji' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= personAddressKanji'City obj : "country" Data.Aeson.Types.ToJSON..= personAddressKanji'Country obj : "line1" Data.Aeson.Types.ToJSON..= personAddressKanji'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= personAddressKanji'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= personAddressKanji'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= personAddressKanji'State obj : "town" Data.Aeson.Types.ToJSON..= personAddressKanji'Town obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= personAddressKanji'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= personAddressKanji'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= personAddressKanji'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= personAddressKanji'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= personAddressKanji'PostalCode obj) GHC.Base.<> (("state" Data.Aeson.Types.ToJSON..= personAddressKanji'State obj) GHC.Base.<> ("town" Data.Aeson.Types.ToJSON..= personAddressKanji'Town obj)))))))
+instance Data.Aeson.Types.ToJSON.ToJSON PersonAddressKanji'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableTown obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("town" Data.Aeson.Types.ToJSON..=)) (personAddressKanji'NonNullableTown obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PersonAddressKanji' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonAddressKanji'" (\obj -> ((((((GHC.Base.pure PersonAddressKanji' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "town"))
+instance Data.Aeson.Types.FromJSON.FromJSON PersonAddressKanji'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonAddressKanji'NonNullable" (\obj -> ((((((GHC.Base.pure PersonAddressKanji'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "town"))
 
--- | Create a new 'PersonAddressKanji'' with all required fields.
-mkPersonAddressKanji' :: PersonAddressKanji'
-mkPersonAddressKanji' =
-  PersonAddressKanji'
-    { personAddressKanji'City = GHC.Maybe.Nothing,
-      personAddressKanji'Country = GHC.Maybe.Nothing,
-      personAddressKanji'Line1 = GHC.Maybe.Nothing,
-      personAddressKanji'Line2 = GHC.Maybe.Nothing,
-      personAddressKanji'PostalCode = GHC.Maybe.Nothing,
-      personAddressKanji'State = GHC.Maybe.Nothing,
-      personAddressKanji'Town = GHC.Maybe.Nothing
+-- | Create a new 'PersonAddressKanji'NonNullable' with all required fields.
+mkPersonAddressKanji'NonNullable :: PersonAddressKanji'NonNullable
+mkPersonAddressKanji'NonNullable =
+  PersonAddressKanji'NonNullable
+    { personAddressKanji'NonNullableCity = GHC.Maybe.Nothing,
+      personAddressKanji'NonNullableCountry = GHC.Maybe.Nothing,
+      personAddressKanji'NonNullableLine1 = GHC.Maybe.Nothing,
+      personAddressKanji'NonNullableLine2 = GHC.Maybe.Nothing,
+      personAddressKanji'NonNullablePostalCode = GHC.Maybe.Nothing,
+      personAddressKanji'NonNullableState = GHC.Maybe.Nothing,
+      personAddressKanji'NonNullableTown = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.person.properties.future_requirements.anyOf@ in the specification.
+data PersonFutureRequirements'NonNullable = PersonFutureRequirements'NonNullable
+  { -- | alternatives: Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+    personFutureRequirements'NonNullableAlternatives :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([AccountRequirementsAlternative]))),
+    -- | currently_due: Fields that need to be collected to keep the person\'s account enabled. If not collected by the account\'s \`future_requirements[current_deadline]\`, these fields will transition to the main \`requirements\` hash, and may immediately become \`past_due\`, but the account may also be given a grace period depending on the account\'s enablement state prior to transition.
+    personFutureRequirements'NonNullableCurrentlyDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | errors: Fields that are \`currently_due\` and need to be collected again because validation or verification failed.
+    personFutureRequirements'NonNullableErrors :: (GHC.Maybe.Maybe ([AccountRequirementsError])),
+    -- | eventually_due: Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in \`currently_due\` as well, and the account\'s \`future_requirements[current_deadline]\` becomes set.
+    personFutureRequirements'NonNullableEventuallyDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | past_due: Fields that weren\'t collected by the account\'s \`requirements.current_deadline\`. These fields need to be collected to enable the person\'s account. New fields will never appear here; \`future_requirements.past_due\` will always be a subset of \`requirements.past_due\`.
+    personFutureRequirements'NonNullablePastDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | pending_verification: Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to \`eventually_due\` or \`currently_due\`.
+    personFutureRequirements'NonNullablePendingVerification :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PersonFutureRequirements'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alternatives" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableAlternatives obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eventually_due" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableEventuallyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alternatives" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableAlternatives obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eventually_due" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullableEventuallyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (personFutureRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PersonFutureRequirements'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonFutureRequirements'NonNullable" (\obj -> (((((GHC.Base.pure PersonFutureRequirements'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alternatives")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currently_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "errors")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eventually_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_verification"))
+
+-- | Create a new 'PersonFutureRequirements'NonNullable' with all required fields.
+mkPersonFutureRequirements'NonNullable :: PersonFutureRequirements'NonNullable
+mkPersonFutureRequirements'NonNullable =
+  PersonFutureRequirements'NonNullable
+    { personFutureRequirements'NonNullableAlternatives = GHC.Maybe.Nothing,
+      personFutureRequirements'NonNullableCurrentlyDue = GHC.Maybe.Nothing,
+      personFutureRequirements'NonNullableErrors = GHC.Maybe.Nothing,
+      personFutureRequirements'NonNullableEventuallyDue = GHC.Maybe.Nothing,
+      personFutureRequirements'NonNullablePastDue = GHC.Maybe.Nothing,
+      personFutureRequirements'NonNullablePendingVerification = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.person.properties.political_exposure@ in the specification.
@@ -365,37 +420,40 @@ instance Data.Aeson.Types.FromJSON.FromJSON PersonPoliticalExposure' where
       )
 
 -- | Defines the object schema located at @components.schemas.person.properties.requirements.anyOf@ in the specification.
-data PersonRequirements' = PersonRequirements'
-  { -- | currently_due: Fields that need to be collected to keep the person\'s account enabled. If not collected by the account\'s \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
-    personRequirements'CurrentlyDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+data PersonRequirements'NonNullable = PersonRequirements'NonNullable
+  { -- | alternatives: Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+    personRequirements'NonNullableAlternatives :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([AccountRequirementsAlternative]))),
+    -- | currently_due: Fields that need to be collected to keep the person\'s account enabled. If not collected by the account\'s \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
+    personRequirements'NonNullableCurrentlyDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | errors: Fields that are \`currently_due\` and need to be collected again because validation or verification failed.
-    personRequirements'Errors :: (GHC.Maybe.Maybe ([AccountRequirementsError])),
+    personRequirements'NonNullableErrors :: (GHC.Maybe.Maybe ([AccountRequirementsError])),
     -- | eventually_due: Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in \`currently_due\` as well, and the account\'s \`current_deadline\` becomes set.
-    personRequirements'EventuallyDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    personRequirements'NonNullableEventuallyDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | past_due: Fields that weren\'t collected by the account\'s \`current_deadline\`. These fields need to be collected to enable the person\'s account.
-    personRequirements'PastDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    personRequirements'NonNullablePastDue :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | pending_verification: Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to \`eventually_due\`, \`currently_due\`, or \`past_due\`.
-    personRequirements'PendingVerification :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
+    personRequirements'NonNullablePendingVerification :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PersonRequirements' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("currently_due" Data.Aeson.Types.ToJSON..= personRequirements'CurrentlyDue obj : "errors" Data.Aeson.Types.ToJSON..= personRequirements'Errors obj : "eventually_due" Data.Aeson.Types.ToJSON..= personRequirements'EventuallyDue obj : "past_due" Data.Aeson.Types.ToJSON..= personRequirements'PastDue obj : "pending_verification" Data.Aeson.Types.ToJSON..= personRequirements'PendingVerification obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("currently_due" Data.Aeson.Types.ToJSON..= personRequirements'CurrentlyDue obj) GHC.Base.<> (("errors" Data.Aeson.Types.ToJSON..= personRequirements'Errors obj) GHC.Base.<> (("eventually_due" Data.Aeson.Types.ToJSON..= personRequirements'EventuallyDue obj) GHC.Base.<> (("past_due" Data.Aeson.Types.ToJSON..= personRequirements'PastDue obj) GHC.Base.<> ("pending_verification" Data.Aeson.Types.ToJSON..= personRequirements'PendingVerification obj)))))
+instance Data.Aeson.Types.ToJSON.ToJSON PersonRequirements'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alternatives" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableAlternatives obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eventually_due" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableEventuallyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alternatives" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableAlternatives obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eventually_due" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullableEventuallyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (personRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PersonRequirements' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonRequirements'" (\obj -> ((((GHC.Base.pure PersonRequirements' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currently_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "errors")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eventually_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "pending_verification"))
+instance Data.Aeson.Types.FromJSON.FromJSON PersonRequirements'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PersonRequirements'NonNullable" (\obj -> (((((GHC.Base.pure PersonRequirements'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alternatives")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currently_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "errors")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eventually_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_verification"))
 
--- | Create a new 'PersonRequirements'' with all required fields.
-mkPersonRequirements' :: PersonRequirements'
-mkPersonRequirements' =
-  PersonRequirements'
-    { personRequirements'CurrentlyDue = GHC.Maybe.Nothing,
-      personRequirements'Errors = GHC.Maybe.Nothing,
-      personRequirements'EventuallyDue = GHC.Maybe.Nothing,
-      personRequirements'PastDue = GHC.Maybe.Nothing,
-      personRequirements'PendingVerification = GHC.Maybe.Nothing
+-- | Create a new 'PersonRequirements'NonNullable' with all required fields.
+mkPersonRequirements'NonNullable :: PersonRequirements'NonNullable
+mkPersonRequirements'NonNullable =
+  PersonRequirements'NonNullable
+    { personRequirements'NonNullableAlternatives = GHC.Maybe.Nothing,
+      personRequirements'NonNullableCurrentlyDue = GHC.Maybe.Nothing,
+      personRequirements'NonNullableErrors = GHC.Maybe.Nothing,
+      personRequirements'NonNullableEventuallyDue = GHC.Maybe.Nothing,
+      personRequirements'NonNullablePastDue = GHC.Maybe.Nothing,
+      personRequirements'NonNullablePendingVerification = GHC.Maybe.Nothing
     }

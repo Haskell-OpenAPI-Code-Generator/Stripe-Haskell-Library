@@ -1,0 +1,14 @@
+module StripeAPI.Types.PaymentPagesCheckoutSessionConsent where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentPagesCheckoutSessionConsent
+instance Show PaymentPagesCheckoutSessionConsent
+instance Eq PaymentPagesCheckoutSessionConsent
+instance FromJSON PaymentPagesCheckoutSessionConsent
+instance ToJSON PaymentPagesCheckoutSessionConsent
+data PaymentPagesCheckoutSessionConsentPromotions'NonNullable
+instance Show PaymentPagesCheckoutSessionConsentPromotions'NonNullable
+instance Eq PaymentPagesCheckoutSessionConsentPromotions'NonNullable
+instance FromJSON PaymentPagesCheckoutSessionConsentPromotions'NonNullable
+instance ToJSON PaymentPagesCheckoutSessionConsentPromotions'NonNullable

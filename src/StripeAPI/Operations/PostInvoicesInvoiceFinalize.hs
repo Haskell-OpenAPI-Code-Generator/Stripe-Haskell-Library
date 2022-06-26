@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -86,7 +88,7 @@ postInvoicesInvoiceFinalize
 
 -- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/finalize.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoicesInvoiceFinalizeRequestBody = PostInvoicesInvoiceFinalizeRequestBody
-  { -- | auto_advance: Controls whether Stripe will perform [automatic collection](https:\/\/stripe.com\/docs\/billing\/invoices\/overview\#auto-advance) of the invoice. When \`false\`, the invoice\'s state will not automatically advance without an explicit action.
+  { -- | auto_advance: Controls whether Stripe will perform [automatic collection](https:\/\/stripe.com\/docs\/invoicing\/automatic-charging) of the invoice. When \`false\`, the invoice\'s state will not automatically advance without an explicit action.
     postInvoicesInvoiceFinalizeRequestBodyAutoAdvance :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | expand: Specifies which fields in the response should be expanded.
     postInvoicesInvoiceFinalizeRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
@@ -97,11 +99,11 @@ data PostInvoicesInvoiceFinalizeRequestBody = PostInvoicesInvoiceFinalizeRequest
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoiceFinalizeRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("auto_advance" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj : "expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("auto_advance" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) GHC.Base.<> ("expand" Data.Aeson.Types.ToJSON..= postInvoicesInvoiceFinalizeRequestBodyExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("auto_advance" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoiceFinalizeRequestBodyExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("auto_advance" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoiceFinalizeRequestBodyExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoiceFinalizeRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoiceFinalizeRequestBody" (\obj -> (GHC.Base.pure PostInvoicesInvoiceFinalizeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "auto_advance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoiceFinalizeRequestBody" (\obj -> (GHC.Base.pure PostInvoicesInvoiceFinalizeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "auto_advance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand"))
 
 -- | Create a new 'PostInvoicesInvoiceFinalizeRequestBody' with all required fields.
 mkPostInvoicesInvoiceFinalizeRequestBody :: PostInvoicesInvoiceFinalizeRequestBody

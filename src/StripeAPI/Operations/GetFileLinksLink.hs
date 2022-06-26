@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -95,11 +97,11 @@ data GetFileLinksLinkParameters = GetFileLinksLinkParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFileLinksLinkParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathLink" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersPathLink obj : "queryExpand" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathLink" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersPathLink obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathLink" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersPathLink obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getFileLinksLinkParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathLink" Data.Aeson.Types.ToJSON..= getFileLinksLinkParametersPathLink obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getFileLinksLinkParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksLinkParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksLinkParameters" (\obj -> (GHC.Base.pure GetFileLinksLinkParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathLink")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksLinkParameters" (\obj -> (GHC.Base.pure GetFileLinksLinkParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathLink")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetFileLinksLinkParameters' with all required fields.
 mkGetFileLinksLinkParameters ::

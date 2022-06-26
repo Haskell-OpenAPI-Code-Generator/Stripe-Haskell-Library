@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.gelato_document_report_error@ in the specification.
 data GelatoDocumentReportError = GelatoDocumentReportError
   { -- | code: A short machine-readable string giving the reason for the verification failure.
-    gelatoDocumentReportErrorCode :: (GHC.Maybe.Maybe GelatoDocumentReportErrorCode'),
+    gelatoDocumentReportErrorCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportErrorCode'NonNullable)),
     -- | reason: A human-readable message giving the reason for the failure. These messages can be shown to your users.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportErrorReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoDocumentReportErrorReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data GelatoDocumentReportError = GelatoDocumentReportError
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportError where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= gelatoDocumentReportErrorCode obj : "reason" Data.Aeson.Types.ToJSON..= gelatoDocumentReportErrorReason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= gelatoDocumentReportErrorCode obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= gelatoDocumentReportErrorReason obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportErrorReason obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportErrorReason obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportError where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportError" (\obj -> (GHC.Base.pure GelatoDocumentReportError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportError" (\obj -> (GHC.Base.pure GelatoDocumentReportError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason"))
 
 -- | Create a new 'GelatoDocumentReportError' with all required fields.
 mkGelatoDocumentReportError :: GelatoDocumentReportError
@@ -64,32 +66,32 @@ mkGelatoDocumentReportError =
 -- | Defines the enum schema located at @components.schemas.gelato_document_report_error.properties.code@ in the specification.
 --
 -- A short machine-readable string giving the reason for the verification failure.
-data GelatoDocumentReportErrorCode'
+data GelatoDocumentReportErrorCode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoDocumentReportErrorCode'Other Data.Aeson.Types.Internal.Value
+    GelatoDocumentReportErrorCode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoDocumentReportErrorCode'Typed Data.Text.Internal.Text
+    GelatoDocumentReportErrorCode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"document_expired"@
-    GelatoDocumentReportErrorCode'EnumDocumentExpired
+    GelatoDocumentReportErrorCode'NonNullableEnumDocumentExpired
   | -- | Represents the JSON value @"document_type_not_supported"@
-    GelatoDocumentReportErrorCode'EnumDocumentTypeNotSupported
+    GelatoDocumentReportErrorCode'NonNullableEnumDocumentTypeNotSupported
   | -- | Represents the JSON value @"document_unverified_other"@
-    GelatoDocumentReportErrorCode'EnumDocumentUnverifiedOther
+    GelatoDocumentReportErrorCode'NonNullableEnumDocumentUnverifiedOther
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportErrorCode' where
-  toJSON (GelatoDocumentReportErrorCode'Other val) = val
-  toJSON (GelatoDocumentReportErrorCode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoDocumentReportErrorCode'EnumDocumentExpired) = "document_expired"
-  toJSON (GelatoDocumentReportErrorCode'EnumDocumentTypeNotSupported) = "document_type_not_supported"
-  toJSON (GelatoDocumentReportErrorCode'EnumDocumentUnverifiedOther) = "document_unverified_other"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportErrorCode'NonNullable where
+  toJSON (GelatoDocumentReportErrorCode'NonNullableOther val) = val
+  toJSON (GelatoDocumentReportErrorCode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoDocumentReportErrorCode'NonNullableEnumDocumentExpired) = "document_expired"
+  toJSON (GelatoDocumentReportErrorCode'NonNullableEnumDocumentTypeNotSupported) = "document_type_not_supported"
+  toJSON (GelatoDocumentReportErrorCode'NonNullableEnumDocumentUnverifiedOther) = "document_unverified_other"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportErrorCode' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportErrorCode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "document_expired" -> GelatoDocumentReportErrorCode'EnumDocumentExpired
-            | val GHC.Classes.== "document_type_not_supported" -> GelatoDocumentReportErrorCode'EnumDocumentTypeNotSupported
-            | val GHC.Classes.== "document_unverified_other" -> GelatoDocumentReportErrorCode'EnumDocumentUnverifiedOther
-            | GHC.Base.otherwise -> GelatoDocumentReportErrorCode'Other val
+            | val GHC.Classes.== "document_expired" -> GelatoDocumentReportErrorCode'NonNullableEnumDocumentExpired
+            | val GHC.Classes.== "document_type_not_supported" -> GelatoDocumentReportErrorCode'NonNullableEnumDocumentTypeNotSupported
+            | val GHC.Classes.== "document_unverified_other" -> GelatoDocumentReportErrorCode'NonNullableEnumDocumentUnverifiedOther
+            | GHC.Base.otherwise -> GelatoDocumentReportErrorCode'NonNullableOther val
       )

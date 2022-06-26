@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -40,7 +42,19 @@ data AccountCardPaymentsSettings = AccountCardPaymentsSettings
     -- Constraints:
     --
     -- * Maximum length of 5000
-    accountCardPaymentsSettingsStatementDescriptorPrefix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    accountCardPaymentsSettingsStatementDescriptorPrefix :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | statement_descriptor_prefix_kana: The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic \`statement_descriptor_suffix_kana\` specified on the charge. \`statement_descriptor_prefix_kana\` is useful for maximizing descriptor space for the dynamic portion.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    accountCardPaymentsSettingsStatementDescriptorPrefixKana :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | statement_descriptor_prefix_kanji: The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic \`statement_descriptor_suffix_kanji\` specified on the charge. \`statement_descriptor_prefix_kanji\` is useful for maximizing descriptor space for the dynamic portion.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    accountCardPaymentsSettingsStatementDescriptorPrefixKanji :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -48,16 +62,18 @@ data AccountCardPaymentsSettings = AccountCardPaymentsSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountCardPaymentsSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object ("decline_on" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsDeclineOn obj : "statement_descriptor_prefix" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsStatementDescriptorPrefix obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("decline_on" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsDeclineOn obj) GHC.Base.<> ("statement_descriptor_prefix" Data.Aeson.Types.ToJSON..= accountCardPaymentsSettingsStatementDescriptorPrefix obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("decline_on" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsDeclineOn obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_prefix" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsStatementDescriptorPrefix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_prefix_kana" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsStatementDescriptorPrefixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_prefix_kanji" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsStatementDescriptorPrefixKanji obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("decline_on" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsDeclineOn obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_prefix" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsStatementDescriptorPrefix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_prefix_kana" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsStatementDescriptorPrefixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_prefix_kanji" Data.Aeson.Types.ToJSON..=)) (accountCardPaymentsSettingsStatementDescriptorPrefixKanji obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountCardPaymentsSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountCardPaymentsSettings" (\obj -> (GHC.Base.pure AccountCardPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "decline_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor_prefix"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountCardPaymentsSettings" (\obj -> (((GHC.Base.pure AccountCardPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "decline_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_prefix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_prefix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_prefix_kanji"))
 
 -- | Create a new 'AccountCardPaymentsSettings' with all required fields.
 mkAccountCardPaymentsSettings :: AccountCardPaymentsSettings
 mkAccountCardPaymentsSettings =
   AccountCardPaymentsSettings
     { accountCardPaymentsSettingsDeclineOn = GHC.Maybe.Nothing,
-      accountCardPaymentsSettingsStatementDescriptorPrefix = GHC.Maybe.Nothing
+      accountCardPaymentsSettingsStatementDescriptorPrefix = GHC.Maybe.Nothing,
+      accountCardPaymentsSettingsStatementDescriptorPrefixKana = GHC.Maybe.Nothing,
+      accountCardPaymentsSettingsStatementDescriptorPrefixKanji = GHC.Maybe.Nothing
     }

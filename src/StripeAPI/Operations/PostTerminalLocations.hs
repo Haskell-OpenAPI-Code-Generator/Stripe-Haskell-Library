@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,7 +45,8 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/terminal/locations
 --
--- \<p>Creates a new \<code>Location\<\/code> object.\<\/p>
+-- \<p>Creates a new \<code>Location\<\/code> object.
+-- For further details, including which address fields are required in each country, see the \<a href=\"\/docs\/terminal\/fleet\/locations\">Manage locations\<\/a> guide.\<\/p>
 postTerminalLocations ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -84,6 +87,12 @@ postTerminalLocations body =
 data PostTerminalLocationsRequestBody = PostTerminalLocationsRequestBody
   { -- | address: The full address of the location.
     postTerminalLocationsRequestBodyAddress :: PostTerminalLocationsRequestBodyAddress',
+    -- | configuration_overrides: The ID of a configuration that will be used to customize all readers in this location.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1000
+    postTerminalLocationsRequestBodyConfigurationOverrides :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | display_name: A name for the location.
     --
     -- Constraints:
@@ -101,11 +110,11 @@ data PostTerminalLocationsRequestBody = PostTerminalLocationsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalLocationsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj : "display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj : "expand" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyExpand obj : "metadata" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyMetadata obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj) GHC.Base.<> (("display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyExpand obj) GHC.Base.<> ("metadata" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyMetadata obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration_overrides" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyConfigurationOverrides obj) : ["display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration_overrides" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyConfigurationOverrides obj) : ["display_name" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyDisplayName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBody" (\obj -> (((GHC.Base.pure PostTerminalLocationsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBody" (\obj -> ((((GHC.Base.pure PostTerminalLocationsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "configuration_overrides")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostTerminalLocationsRequestBody' with all required fields.
 mkPostTerminalLocationsRequestBody ::
@@ -117,6 +126,7 @@ mkPostTerminalLocationsRequestBody ::
 mkPostTerminalLocationsRequestBody postTerminalLocationsRequestBodyAddress postTerminalLocationsRequestBodyDisplayName =
   PostTerminalLocationsRequestBody
     { postTerminalLocationsRequestBodyAddress = postTerminalLocationsRequestBodyAddress,
+      postTerminalLocationsRequestBodyConfigurationOverrides = GHC.Maybe.Nothing,
       postTerminalLocationsRequestBodyDisplayName = postTerminalLocationsRequestBodyDisplayName,
       postTerminalLocationsRequestBodyExpand = GHC.Maybe.Nothing,
       postTerminalLocationsRequestBodyMetadata = GHC.Maybe.Nothing
@@ -169,11 +179,11 @@ data PostTerminalLocationsRequestBodyAddress' = PostTerminalLocationsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalLocationsRequestBodyAddress' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'City obj : "country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'State obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'City obj) : ["country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'State obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'City obj) : ["country" Data.Aeson.Types.ToJSON..= postTerminalLocationsRequestBodyAddress'Country obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'Line1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'Line2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'PostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (postTerminalLocationsRequestBodyAddress'State obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsRequestBodyAddress' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBodyAddress'" (\obj -> (((((GHC.Base.pure PostTerminalLocationsRequestBodyAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalLocationsRequestBodyAddress'" (\obj -> (((((GHC.Base.pure PostTerminalLocationsRequestBodyAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
 -- | Create a new 'PostTerminalLocationsRequestBodyAddress'' with all required fields.
 mkPostTerminalLocationsRequestBodyAddress' ::

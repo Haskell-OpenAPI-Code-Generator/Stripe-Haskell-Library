@@ -1,6 +1,7 @@
 module StripeAPI.Types.Coupon where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data Coupon
 instance Show Coupon
 instance Eq Coupon

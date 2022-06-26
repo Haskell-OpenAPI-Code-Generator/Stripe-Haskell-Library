@@ -1,0 +1,9 @@
+module StripeAPI.Types.TreasuryTransactionsResourceBalanceImpact where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TreasuryTransactionsResourceBalanceImpact
+instance Show TreasuryTransactionsResourceBalanceImpact
+instance Eq TreasuryTransactionsResourceBalanceImpact
+instance FromJSON TreasuryTransactionsResourceBalanceImpact
+instance ToJSON TreasuryTransactionsResourceBalanceImpact

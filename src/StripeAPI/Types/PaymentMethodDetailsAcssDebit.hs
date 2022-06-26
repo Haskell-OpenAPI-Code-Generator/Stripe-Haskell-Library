@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,25 +39,25 @@ data PaymentMethodDetailsAcssDebit = PaymentMethodDetailsAcssDebit
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAcssDebitBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAcssDebitBankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAcssDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAcssDebitFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | institution_number: Institution number of the bank account
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAcssDebitInstitutionNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAcssDebitInstitutionNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last4: Last four digits of the bank account number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAcssDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsAcssDebitLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | mandate: ID of the mandate used to make this payment.
     --
     -- Constraints:
@@ -67,7 +69,7 @@ data PaymentMethodDetailsAcssDebit = PaymentMethodDetailsAcssDebit
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsAcssDebitTransitNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsAcssDebitTransitNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -75,11 +77,11 @@ data PaymentMethodDetailsAcssDebit = PaymentMethodDetailsAcssDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAcssDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitBankName obj : "fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitFingerprint obj : "institution_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitInstitutionNumber obj : "last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitLast4 obj : "mandate" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitMandate obj : "transit_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitTransitNumber obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bank_name" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitBankName obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitFingerprint obj) GHC.Base.<> (("institution_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitInstitutionNumber obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitLast4 obj) GHC.Base.<> (("mandate" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitMandate obj) GHC.Base.<> ("transit_number" Data.Aeson.Types.ToJSON..= paymentMethodDetailsAcssDebitTransitNumber obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("institution_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitInstitutionNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitMandate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transit_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitTransitNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("institution_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitInstitutionNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitMandate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transit_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAcssDebitTransitNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAcssDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAcssDebit" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "institution_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transit_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAcssDebit" (\obj -> (((((GHC.Base.pure PaymentMethodDetailsAcssDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "institution_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transit_number"))
 
 -- | Create a new 'PaymentMethodDetailsAcssDebit' with all required fields.
 mkPaymentMethodDetailsAcssDebit :: PaymentMethodDetailsAcssDebit

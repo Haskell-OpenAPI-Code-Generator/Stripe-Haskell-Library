@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -58,19 +60,19 @@ data BitcoinReceiver = BitcoinReceiver
     -- Constraints:
     --
     -- * Maximum length of 5000
-    bitcoinReceiverCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    bitcoinReceiverCustomer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    bitcoinReceiverDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    bitcoinReceiverDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | email: The customer\'s email address, set by the API call that creates the receiver.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    bitcoinReceiverEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    bitcoinReceiverEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | filled: This flag is initially false and updates to true when the customer sends the \`bitcoin_amount\` to this receiver.
     bitcoinReceiverFilled :: GHC.Types.Bool,
     -- | id: Unique identifier for the object.
@@ -88,25 +90,25 @@ data BitcoinReceiver = BitcoinReceiver
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     bitcoinReceiverLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    bitcoinReceiverMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    bitcoinReceiverMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | payment: The ID of the payment created from the receiver, if any. Hidden when viewing the receiver with a publishable key.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    bitcoinReceiverPayment :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    bitcoinReceiverPayment :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | refund_address: The refund address of this bitcoin receiver.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    bitcoinReceiverRefundAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    bitcoinReceiverRefundAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | transactions: A list with one entry for each time that the customer sent bitcoin to the receiver. Hidden when viewing the receiver with a publishable key.
     bitcoinReceiverTransactions :: (GHC.Maybe.Maybe BitcoinReceiverTransactions'),
     -- | uncaptured_funds: This receiver contains uncaptured funds that can be used for a payment or refunded.
     bitcoinReceiverUncapturedFunds :: GHC.Types.Bool,
     -- | used_for_payment: Indicate if this source is used for payment.
-    bitcoinReceiverUsedForPayment :: (GHC.Maybe.Maybe GHC.Types.Bool)
+    bitcoinReceiverUsedForPayment :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool))
   }
   deriving
     ( GHC.Show.Show,
@@ -114,11 +116,11 @@ data BitcoinReceiver = BitcoinReceiver
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BitcoinReceiver where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= bitcoinReceiverActive obj : "amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmount obj : "amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmountReceived obj : "bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmount obj : "bitcoin_amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmountReceived obj : "bitcoin_uri" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinUri obj : "created" Data.Aeson.Types.ToJSON..= bitcoinReceiverCreated obj : "currency" Data.Aeson.Types.ToJSON..= bitcoinReceiverCurrency obj : "customer" Data.Aeson.Types.ToJSON..= bitcoinReceiverCustomer obj : "description" Data.Aeson.Types.ToJSON..= bitcoinReceiverDescription obj : "email" Data.Aeson.Types.ToJSON..= bitcoinReceiverEmail obj : "filled" Data.Aeson.Types.ToJSON..= bitcoinReceiverFilled obj : "id" Data.Aeson.Types.ToJSON..= bitcoinReceiverId obj : "inbound_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverInboundAddress obj : "livemode" Data.Aeson.Types.ToJSON..= bitcoinReceiverLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= bitcoinReceiverMetadata obj : "payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverPayment obj : "refund_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverRefundAddress obj : "transactions" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions obj : "uncaptured_funds" Data.Aeson.Types.ToJSON..= bitcoinReceiverUncapturedFunds obj : "used_for_payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverUsedForPayment obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= bitcoinReceiverActive obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmount obj) GHC.Base.<> (("amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmountReceived obj) GHC.Base.<> (("bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmount obj) GHC.Base.<> (("bitcoin_amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmountReceived obj) GHC.Base.<> (("bitcoin_uri" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinUri obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= bitcoinReceiverCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= bitcoinReceiverCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= bitcoinReceiverCustomer obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= bitcoinReceiverDescription obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= bitcoinReceiverEmail obj) GHC.Base.<> (("filled" Data.Aeson.Types.ToJSON..= bitcoinReceiverFilled obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= bitcoinReceiverId obj) GHC.Base.<> (("inbound_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverInboundAddress obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= bitcoinReceiverLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= bitcoinReceiverMetadata obj) GHC.Base.<> (("payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverPayment obj) GHC.Base.<> (("refund_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverRefundAddress obj) GHC.Base.<> (("transactions" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions obj) GHC.Base.<> (("uncaptured_funds" Data.Aeson.Types.ToJSON..= bitcoinReceiverUncapturedFunds obj) GHC.Base.<> (("used_for_payment" Data.Aeson.Types.ToJSON..= bitcoinReceiverUsedForPayment obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver"))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= bitcoinReceiverActive obj] : ["amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmount obj] : ["amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmountReceived obj] : ["bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmount obj] : ["bitcoin_amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmountReceived obj] : ["bitcoin_uri" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinUri obj] : ["created" Data.Aeson.Types.ToJSON..= bitcoinReceiverCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= bitcoinReceiverCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverEmail obj) : ["filled" Data.Aeson.Types.ToJSON..= bitcoinReceiverFilled obj] : ["id" Data.Aeson.Types.ToJSON..= bitcoinReceiverId obj] : ["inbound_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverInboundAddress obj] : ["livemode" Data.Aeson.Types.ToJSON..= bitcoinReceiverLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverPayment obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_address" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverRefundAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transactions" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverTransactions obj) : ["uncaptured_funds" Data.Aeson.Types.ToJSON..= bitcoinReceiverUncapturedFunds obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("used_for_payment" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverUsedForPayment obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= bitcoinReceiverActive obj] : ["amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmount obj] : ["amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverAmountReceived obj] : ["bitcoin_amount" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmount obj] : ["bitcoin_amount_received" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinAmountReceived obj] : ["bitcoin_uri" Data.Aeson.Types.ToJSON..= bitcoinReceiverBitcoinUri obj] : ["created" Data.Aeson.Types.ToJSON..= bitcoinReceiverCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= bitcoinReceiverCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverEmail obj) : ["filled" Data.Aeson.Types.ToJSON..= bitcoinReceiverFilled obj] : ["id" Data.Aeson.Types.ToJSON..= bitcoinReceiverId obj] : ["inbound_address" Data.Aeson.Types.ToJSON..= bitcoinReceiverInboundAddress obj] : ["livemode" Data.Aeson.Types.ToJSON..= bitcoinReceiverLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverPayment obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_address" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverRefundAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transactions" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverTransactions obj) : ["uncaptured_funds" Data.Aeson.Types.ToJSON..= bitcoinReceiverUncapturedFunds obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("used_for_payment" Data.Aeson.Types.ToJSON..=)) (bitcoinReceiverUsedForPayment obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bitcoin_receiver"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiver where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiver" (\obj -> ((((((((((((((((((((GHC.Base.pure BitcoinReceiver GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_uri")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "filled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inbound_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "uncaptured_funds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used_for_payment"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiver" (\obj -> ((((((((((((((((((((GHC.Base.pure BitcoinReceiver GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_uri")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "filled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inbound_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refund_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "uncaptured_funds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "used_for_payment"))
 
 -- | Create a new 'BitcoinReceiver' with all required fields.
 mkBitcoinReceiver ::
@@ -195,8 +197,8 @@ data BitcoinReceiverTransactions' = BitcoinReceiverTransactions'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BitcoinReceiverTransactions' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("data" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Data obj : "has_more" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'HasMore obj : "url" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Url obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("data" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Data obj) GHC.Base.<> (("has_more" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'HasMore obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Url obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Data obj] : ["has_more" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'HasMore obj] : ["url" Data.Aeson.Types.ToJSON..= bitcoinReceiverTransactions'Url obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "list"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiverTransactions' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiverTransactions'" (\obj -> ((GHC.Base.pure BitcoinReceiverTransactions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

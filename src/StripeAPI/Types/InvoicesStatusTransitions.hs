@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.invoices_status_transitions@ in the specification.
 data InvoicesStatusTransitions = InvoicesStatusTransitions
   { -- | finalized_at: The time that the invoice draft was finalized.
-    invoicesStatusTransitionsFinalizedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    invoicesStatusTransitionsFinalizedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | marked_uncollectible_at: The time that the invoice was marked uncollectible.
-    invoicesStatusTransitionsMarkedUncollectibleAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    invoicesStatusTransitionsMarkedUncollectibleAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | paid_at: The time that the invoice was paid.
-    invoicesStatusTransitionsPaidAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    invoicesStatusTransitionsPaidAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | voided_at: The time that the invoice was voided.
-    invoicesStatusTransitionsVoidedAt :: (GHC.Maybe.Maybe GHC.Types.Int)
+    invoicesStatusTransitionsVoidedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data InvoicesStatusTransitions = InvoicesStatusTransitions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoicesStatusTransitions where
-  toJSON obj = Data.Aeson.Types.Internal.object ("finalized_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsFinalizedAt obj : "marked_uncollectible_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsMarkedUncollectibleAt obj : "paid_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsPaidAt obj : "voided_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsVoidedAt obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("finalized_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsFinalizedAt obj) GHC.Base.<> (("marked_uncollectible_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsMarkedUncollectibleAt obj) GHC.Base.<> (("paid_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsPaidAt obj) GHC.Base.<> ("voided_at" Data.Aeson.Types.ToJSON..= invoicesStatusTransitionsVoidedAt obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("finalized_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsFinalizedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("marked_uncollectible_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsMarkedUncollectibleAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paid_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsPaidAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("voided_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsVoidedAt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("finalized_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsFinalizedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("marked_uncollectible_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsMarkedUncollectibleAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paid_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsPaidAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("voided_at" Data.Aeson.Types.ToJSON..=)) (invoicesStatusTransitionsVoidedAt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoicesStatusTransitions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesStatusTransitions" (\obj -> (((GHC.Base.pure InvoicesStatusTransitions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "finalized_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "marked_uncollectible_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paid_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "voided_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesStatusTransitions" (\obj -> (((GHC.Base.pure InvoicesStatusTransitions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "finalized_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "marked_uncollectible_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paid_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "voided_at"))
 
 -- | Create a new 'InvoicesStatusTransitions' with all required fields.
 mkInvoicesStatusTransitions :: InvoicesStatusTransitions

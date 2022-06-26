@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -97,11 +99,11 @@ data PostAccountCapabilitiesCapabilityRequestBody = PostAccountCapabilitiesCapab
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountCapabilitiesCapabilityRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyExpand obj : "requested" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyRequested obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyExpand obj) GHC.Base.<> ("requested" Data.Aeson.Types.ToJSON..= postAccountCapabilitiesCapabilityRequestBodyRequested obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountCapabilitiesCapabilityRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requested" Data.Aeson.Types.ToJSON..=)) (postAccountCapabilitiesCapabilityRequestBodyRequested obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountCapabilitiesCapabilityRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requested" Data.Aeson.Types.ToJSON..=)) (postAccountCapabilitiesCapabilityRequestBodyRequested obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountCapabilitiesCapabilityRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountCapabilitiesCapabilityRequestBody" (\obj -> (GHC.Base.pure PostAccountCapabilitiesCapabilityRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requested"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountCapabilitiesCapabilityRequestBody" (\obj -> (GHC.Base.pure PostAccountCapabilitiesCapabilityRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "requested"))
 
 -- | Create a new 'PostAccountCapabilitiesCapabilityRequestBody' with all required fields.
 mkPostAccountCapabilitiesCapabilityRequestBody :: PostAccountCapabilitiesCapabilityRequestBody

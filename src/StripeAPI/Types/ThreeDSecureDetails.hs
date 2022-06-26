@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,14 +36,14 @@ import qualified Prelude as GHC.Maybe
 data ThreeDSecureDetails = ThreeDSecureDetails
   { -- | authentication_flow: For authenticated transactions: how the customer was authenticated by
     -- the issuing bank.
-    threeDSecureDetailsAuthenticationFlow :: (GHC.Maybe.Maybe ThreeDSecureDetailsAuthenticationFlow'),
+    threeDSecureDetailsAuthenticationFlow :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsAuthenticationFlow'NonNullable)),
     -- | result: Indicates the outcome of 3D Secure authentication.
-    threeDSecureDetailsResult :: ThreeDSecureDetailsResult',
+    threeDSecureDetailsResult :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsResult'NonNullable)),
     -- | result_reason: Additional information about why 3D Secure succeeded or failed based
     -- on the \`result\`.
-    threeDSecureDetailsResultReason :: (GHC.Maybe.Maybe ThreeDSecureDetailsResultReason'),
+    threeDSecureDetailsResultReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsResultReason'NonNullable)),
     -- | version: The version of 3D Secure that was used.
-    threeDSecureDetailsVersion :: ThreeDSecureDetailsVersion'
+    threeDSecureDetailsVersion :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsVersion'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -49,177 +51,172 @@ data ThreeDSecureDetails = ThreeDSecureDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object ("authentication_flow" Data.Aeson.Types.ToJSON..= threeDSecureDetailsAuthenticationFlow obj : "result" Data.Aeson.Types.ToJSON..= threeDSecureDetailsResult obj : "result_reason" Data.Aeson.Types.ToJSON..= threeDSecureDetailsResultReason obj : "version" Data.Aeson.Types.ToJSON..= threeDSecureDetailsVersion obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("authentication_flow" Data.Aeson.Types.ToJSON..= threeDSecureDetailsAuthenticationFlow obj) GHC.Base.<> (("result" Data.Aeson.Types.ToJSON..= threeDSecureDetailsResult obj) GHC.Base.<> (("result_reason" Data.Aeson.Types.ToJSON..= threeDSecureDetailsResultReason obj) GHC.Base.<> ("version" Data.Aeson.Types.ToJSON..= threeDSecureDetailsVersion obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authentication_flow" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsAuthenticationFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResult obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result_reason" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResultReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsVersion obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authentication_flow" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsAuthenticationFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResult obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result_reason" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResultReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsVersion obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecureDetails" (\obj -> (((GHC.Base.pure ThreeDSecureDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authentication_flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "result")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "result_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "version"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecureDetails" (\obj -> (((GHC.Base.pure ThreeDSecureDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authentication_flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "version"))
 
 -- | Create a new 'ThreeDSecureDetails' with all required fields.
-mkThreeDSecureDetails ::
-  -- | 'threeDSecureDetailsResult'
-  ThreeDSecureDetailsResult' ->
-  -- | 'threeDSecureDetailsVersion'
-  ThreeDSecureDetailsVersion' ->
-  ThreeDSecureDetails
-mkThreeDSecureDetails threeDSecureDetailsResult threeDSecureDetailsVersion =
+mkThreeDSecureDetails :: ThreeDSecureDetails
+mkThreeDSecureDetails =
   ThreeDSecureDetails
     { threeDSecureDetailsAuthenticationFlow = GHC.Maybe.Nothing,
-      threeDSecureDetailsResult = threeDSecureDetailsResult,
+      threeDSecureDetailsResult = GHC.Maybe.Nothing,
       threeDSecureDetailsResultReason = GHC.Maybe.Nothing,
-      threeDSecureDetailsVersion = threeDSecureDetailsVersion
+      threeDSecureDetailsVersion = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.three_d_secure_details.properties.authentication_flow@ in the specification.
 --
 -- For authenticated transactions: how the customer was authenticated by
 -- the issuing bank.
-data ThreeDSecureDetailsAuthenticationFlow'
+data ThreeDSecureDetailsAuthenticationFlow'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    ThreeDSecureDetailsAuthenticationFlow'Other Data.Aeson.Types.Internal.Value
+    ThreeDSecureDetailsAuthenticationFlow'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    ThreeDSecureDetailsAuthenticationFlow'Typed Data.Text.Internal.Text
+    ThreeDSecureDetailsAuthenticationFlow'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"challenge"@
-    ThreeDSecureDetailsAuthenticationFlow'EnumChallenge
+    ThreeDSecureDetailsAuthenticationFlow'NonNullableEnumChallenge
   | -- | Represents the JSON value @"frictionless"@
-    ThreeDSecureDetailsAuthenticationFlow'EnumFrictionless
+    ThreeDSecureDetailsAuthenticationFlow'NonNullableEnumFrictionless
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsAuthenticationFlow' where
-  toJSON (ThreeDSecureDetailsAuthenticationFlow'Other val) = val
-  toJSON (ThreeDSecureDetailsAuthenticationFlow'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (ThreeDSecureDetailsAuthenticationFlow'EnumChallenge) = "challenge"
-  toJSON (ThreeDSecureDetailsAuthenticationFlow'EnumFrictionless) = "frictionless"
+instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsAuthenticationFlow'NonNullable where
+  toJSON (ThreeDSecureDetailsAuthenticationFlow'NonNullableOther val) = val
+  toJSON (ThreeDSecureDetailsAuthenticationFlow'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ThreeDSecureDetailsAuthenticationFlow'NonNullableEnumChallenge) = "challenge"
+  toJSON (ThreeDSecureDetailsAuthenticationFlow'NonNullableEnumFrictionless) = "frictionless"
 
-instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsAuthenticationFlow' where
+instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsAuthenticationFlow'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "challenge" -> ThreeDSecureDetailsAuthenticationFlow'EnumChallenge
-            | val GHC.Classes.== "frictionless" -> ThreeDSecureDetailsAuthenticationFlow'EnumFrictionless
-            | GHC.Base.otherwise -> ThreeDSecureDetailsAuthenticationFlow'Other val
+            | val GHC.Classes.== "challenge" -> ThreeDSecureDetailsAuthenticationFlow'NonNullableEnumChallenge
+            | val GHC.Classes.== "frictionless" -> ThreeDSecureDetailsAuthenticationFlow'NonNullableEnumFrictionless
+            | GHC.Base.otherwise -> ThreeDSecureDetailsAuthenticationFlow'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.three_d_secure_details.properties.result@ in the specification.
 --
 -- Indicates the outcome of 3D Secure authentication.
-data ThreeDSecureDetailsResult'
+data ThreeDSecureDetailsResult'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    ThreeDSecureDetailsResult'Other Data.Aeson.Types.Internal.Value
+    ThreeDSecureDetailsResult'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    ThreeDSecureDetailsResult'Typed Data.Text.Internal.Text
+    ThreeDSecureDetailsResult'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"attempt_acknowledged"@
-    ThreeDSecureDetailsResult'EnumAttemptAcknowledged
+    ThreeDSecureDetailsResult'NonNullableEnumAttemptAcknowledged
   | -- | Represents the JSON value @"authenticated"@
-    ThreeDSecureDetailsResult'EnumAuthenticated
+    ThreeDSecureDetailsResult'NonNullableEnumAuthenticated
   | -- | Represents the JSON value @"failed"@
-    ThreeDSecureDetailsResult'EnumFailed
+    ThreeDSecureDetailsResult'NonNullableEnumFailed
   | -- | Represents the JSON value @"not_supported"@
-    ThreeDSecureDetailsResult'EnumNotSupported
+    ThreeDSecureDetailsResult'NonNullableEnumNotSupported
   | -- | Represents the JSON value @"processing_error"@
-    ThreeDSecureDetailsResult'EnumProcessingError
+    ThreeDSecureDetailsResult'NonNullableEnumProcessingError
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsResult' where
-  toJSON (ThreeDSecureDetailsResult'Other val) = val
-  toJSON (ThreeDSecureDetailsResult'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (ThreeDSecureDetailsResult'EnumAttemptAcknowledged) = "attempt_acknowledged"
-  toJSON (ThreeDSecureDetailsResult'EnumAuthenticated) = "authenticated"
-  toJSON (ThreeDSecureDetailsResult'EnumFailed) = "failed"
-  toJSON (ThreeDSecureDetailsResult'EnumNotSupported) = "not_supported"
-  toJSON (ThreeDSecureDetailsResult'EnumProcessingError) = "processing_error"
+instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsResult'NonNullable where
+  toJSON (ThreeDSecureDetailsResult'NonNullableOther val) = val
+  toJSON (ThreeDSecureDetailsResult'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ThreeDSecureDetailsResult'NonNullableEnumAttemptAcknowledged) = "attempt_acknowledged"
+  toJSON (ThreeDSecureDetailsResult'NonNullableEnumAuthenticated) = "authenticated"
+  toJSON (ThreeDSecureDetailsResult'NonNullableEnumFailed) = "failed"
+  toJSON (ThreeDSecureDetailsResult'NonNullableEnumNotSupported) = "not_supported"
+  toJSON (ThreeDSecureDetailsResult'NonNullableEnumProcessingError) = "processing_error"
 
-instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsResult' where
+instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsResult'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "attempt_acknowledged" -> ThreeDSecureDetailsResult'EnumAttemptAcknowledged
-            | val GHC.Classes.== "authenticated" -> ThreeDSecureDetailsResult'EnumAuthenticated
-            | val GHC.Classes.== "failed" -> ThreeDSecureDetailsResult'EnumFailed
-            | val GHC.Classes.== "not_supported" -> ThreeDSecureDetailsResult'EnumNotSupported
-            | val GHC.Classes.== "processing_error" -> ThreeDSecureDetailsResult'EnumProcessingError
-            | GHC.Base.otherwise -> ThreeDSecureDetailsResult'Other val
+            | val GHC.Classes.== "attempt_acknowledged" -> ThreeDSecureDetailsResult'NonNullableEnumAttemptAcknowledged
+            | val GHC.Classes.== "authenticated" -> ThreeDSecureDetailsResult'NonNullableEnumAuthenticated
+            | val GHC.Classes.== "failed" -> ThreeDSecureDetailsResult'NonNullableEnumFailed
+            | val GHC.Classes.== "not_supported" -> ThreeDSecureDetailsResult'NonNullableEnumNotSupported
+            | val GHC.Classes.== "processing_error" -> ThreeDSecureDetailsResult'NonNullableEnumProcessingError
+            | GHC.Base.otherwise -> ThreeDSecureDetailsResult'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.three_d_secure_details.properties.result_reason@ in the specification.
 --
 -- Additional information about why 3D Secure succeeded or failed based
 -- on the \`result\`.
-data ThreeDSecureDetailsResultReason'
+data ThreeDSecureDetailsResultReason'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    ThreeDSecureDetailsResultReason'Other Data.Aeson.Types.Internal.Value
+    ThreeDSecureDetailsResultReason'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    ThreeDSecureDetailsResultReason'Typed Data.Text.Internal.Text
+    ThreeDSecureDetailsResultReason'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"abandoned"@
-    ThreeDSecureDetailsResultReason'EnumAbandoned
+    ThreeDSecureDetailsResultReason'NonNullableEnumAbandoned
   | -- | Represents the JSON value @"bypassed"@
-    ThreeDSecureDetailsResultReason'EnumBypassed
+    ThreeDSecureDetailsResultReason'NonNullableEnumBypassed
   | -- | Represents the JSON value @"canceled"@
-    ThreeDSecureDetailsResultReason'EnumCanceled
+    ThreeDSecureDetailsResultReason'NonNullableEnumCanceled
   | -- | Represents the JSON value @"card_not_enrolled"@
-    ThreeDSecureDetailsResultReason'EnumCardNotEnrolled
+    ThreeDSecureDetailsResultReason'NonNullableEnumCardNotEnrolled
   | -- | Represents the JSON value @"network_not_supported"@
-    ThreeDSecureDetailsResultReason'EnumNetworkNotSupported
+    ThreeDSecureDetailsResultReason'NonNullableEnumNetworkNotSupported
   | -- | Represents the JSON value @"protocol_error"@
-    ThreeDSecureDetailsResultReason'EnumProtocolError
+    ThreeDSecureDetailsResultReason'NonNullableEnumProtocolError
   | -- | Represents the JSON value @"rejected"@
-    ThreeDSecureDetailsResultReason'EnumRejected
+    ThreeDSecureDetailsResultReason'NonNullableEnumRejected
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsResultReason' where
-  toJSON (ThreeDSecureDetailsResultReason'Other val) = val
-  toJSON (ThreeDSecureDetailsResultReason'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (ThreeDSecureDetailsResultReason'EnumAbandoned) = "abandoned"
-  toJSON (ThreeDSecureDetailsResultReason'EnumBypassed) = "bypassed"
-  toJSON (ThreeDSecureDetailsResultReason'EnumCanceled) = "canceled"
-  toJSON (ThreeDSecureDetailsResultReason'EnumCardNotEnrolled) = "card_not_enrolled"
-  toJSON (ThreeDSecureDetailsResultReason'EnumNetworkNotSupported) = "network_not_supported"
-  toJSON (ThreeDSecureDetailsResultReason'EnumProtocolError) = "protocol_error"
-  toJSON (ThreeDSecureDetailsResultReason'EnumRejected) = "rejected"
+instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsResultReason'NonNullable where
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableOther val) = val
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableEnumAbandoned) = "abandoned"
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableEnumBypassed) = "bypassed"
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableEnumCanceled) = "canceled"
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableEnumCardNotEnrolled) = "card_not_enrolled"
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableEnumNetworkNotSupported) = "network_not_supported"
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableEnumProtocolError) = "protocol_error"
+  toJSON (ThreeDSecureDetailsResultReason'NonNullableEnumRejected) = "rejected"
 
-instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsResultReason' where
+instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsResultReason'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "abandoned" -> ThreeDSecureDetailsResultReason'EnumAbandoned
-            | val GHC.Classes.== "bypassed" -> ThreeDSecureDetailsResultReason'EnumBypassed
-            | val GHC.Classes.== "canceled" -> ThreeDSecureDetailsResultReason'EnumCanceled
-            | val GHC.Classes.== "card_not_enrolled" -> ThreeDSecureDetailsResultReason'EnumCardNotEnrolled
-            | val GHC.Classes.== "network_not_supported" -> ThreeDSecureDetailsResultReason'EnumNetworkNotSupported
-            | val GHC.Classes.== "protocol_error" -> ThreeDSecureDetailsResultReason'EnumProtocolError
-            | val GHC.Classes.== "rejected" -> ThreeDSecureDetailsResultReason'EnumRejected
-            | GHC.Base.otherwise -> ThreeDSecureDetailsResultReason'Other val
+            | val GHC.Classes.== "abandoned" -> ThreeDSecureDetailsResultReason'NonNullableEnumAbandoned
+            | val GHC.Classes.== "bypassed" -> ThreeDSecureDetailsResultReason'NonNullableEnumBypassed
+            | val GHC.Classes.== "canceled" -> ThreeDSecureDetailsResultReason'NonNullableEnumCanceled
+            | val GHC.Classes.== "card_not_enrolled" -> ThreeDSecureDetailsResultReason'NonNullableEnumCardNotEnrolled
+            | val GHC.Classes.== "network_not_supported" -> ThreeDSecureDetailsResultReason'NonNullableEnumNetworkNotSupported
+            | val GHC.Classes.== "protocol_error" -> ThreeDSecureDetailsResultReason'NonNullableEnumProtocolError
+            | val GHC.Classes.== "rejected" -> ThreeDSecureDetailsResultReason'NonNullableEnumRejected
+            | GHC.Base.otherwise -> ThreeDSecureDetailsResultReason'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.three_d_secure_details.properties.version@ in the specification.
 --
 -- The version of 3D Secure that was used.
-data ThreeDSecureDetailsVersion'
+data ThreeDSecureDetailsVersion'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    ThreeDSecureDetailsVersion'Other Data.Aeson.Types.Internal.Value
+    ThreeDSecureDetailsVersion'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    ThreeDSecureDetailsVersion'Typed Data.Text.Internal.Text
+    ThreeDSecureDetailsVersion'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"1.0.2"@
-    ThreeDSecureDetailsVersion'Enum1'0'2
+    ThreeDSecureDetailsVersion'NonNullableEnum1'0'2
   | -- | Represents the JSON value @"2.1.0"@
-    ThreeDSecureDetailsVersion'Enum2'1'0
+    ThreeDSecureDetailsVersion'NonNullableEnum2'1'0
   | -- | Represents the JSON value @"2.2.0"@
-    ThreeDSecureDetailsVersion'Enum2'2'0
+    ThreeDSecureDetailsVersion'NonNullableEnum2'2'0
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsVersion' where
-  toJSON (ThreeDSecureDetailsVersion'Other val) = val
-  toJSON (ThreeDSecureDetailsVersion'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (ThreeDSecureDetailsVersion'Enum1'0'2) = "1.0.2"
-  toJSON (ThreeDSecureDetailsVersion'Enum2'1'0) = "2.1.0"
-  toJSON (ThreeDSecureDetailsVersion'Enum2'2'0) = "2.2.0"
+instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsVersion'NonNullable where
+  toJSON (ThreeDSecureDetailsVersion'NonNullableOther val) = val
+  toJSON (ThreeDSecureDetailsVersion'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ThreeDSecureDetailsVersion'NonNullableEnum1'0'2) = "1.0.2"
+  toJSON (ThreeDSecureDetailsVersion'NonNullableEnum2'1'0) = "2.1.0"
+  toJSON (ThreeDSecureDetailsVersion'NonNullableEnum2'2'0) = "2.2.0"
 
-instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsVersion' where
+instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsVersion'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "1.0.2" -> ThreeDSecureDetailsVersion'Enum1'0'2
-            | val GHC.Classes.== "2.1.0" -> ThreeDSecureDetailsVersion'Enum2'1'0
-            | val GHC.Classes.== "2.2.0" -> ThreeDSecureDetailsVersion'Enum2'2'0
-            | GHC.Base.otherwise -> ThreeDSecureDetailsVersion'Other val
+            | val GHC.Classes.== "1.0.2" -> ThreeDSecureDetailsVersion'NonNullableEnum1'0'2
+            | val GHC.Classes.== "2.1.0" -> ThreeDSecureDetailsVersion'NonNullableEnum2'1'0
+            | val GHC.Classes.== "2.2.0" -> ThreeDSecureDetailsVersion'NonNullableEnum2'2'0
+            | GHC.Base.otherwise -> ThreeDSecureDetailsVersion'NonNullableOther val
       )

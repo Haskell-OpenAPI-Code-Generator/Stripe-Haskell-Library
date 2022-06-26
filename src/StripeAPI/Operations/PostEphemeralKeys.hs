@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -103,11 +105,11 @@ data PostEphemeralKeysRequestBody = PostEphemeralKeysRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostEphemeralKeysRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("customer" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyCustomer obj : "expand" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyExpand obj : "issuing_card" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyIssuingCard obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("customer" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyCustomer obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyExpand obj) GHC.Base.<> ("issuing_card" Data.Aeson.Types.ToJSON..= postEphemeralKeysRequestBodyIssuingCard obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postEphemeralKeysRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postEphemeralKeysRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issuing_card" Data.Aeson.Types.ToJSON..=)) (postEphemeralKeysRequestBodyIssuingCard obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postEphemeralKeysRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postEphemeralKeysRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issuing_card" Data.Aeson.Types.ToJSON..=)) (postEphemeralKeysRequestBodyIssuingCard obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostEphemeralKeysRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostEphemeralKeysRequestBody" (\obj -> ((GHC.Base.pure PostEphemeralKeysRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "issuing_card"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostEphemeralKeysRequestBody" (\obj -> ((GHC.Base.pure PostEphemeralKeysRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "issuing_card"))
 
 -- | Create a new 'PostEphemeralKeysRequestBody' with all required fields.
 mkPostEphemeralKeysRequestBody :: PostEphemeralKeysRequestBody

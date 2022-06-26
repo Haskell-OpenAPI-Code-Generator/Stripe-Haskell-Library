@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -43,11 +45,11 @@ data NotificationEventData = NotificationEventData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON NotificationEventData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("object" Data.Aeson.Types.ToJSON..= notificationEventDataObject obj : "previous_attributes" Data.Aeson.Types.ToJSON..= notificationEventDataPreviousAttributes obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("object" Data.Aeson.Types.ToJSON..= notificationEventDataObject obj) GHC.Base.<> ("previous_attributes" Data.Aeson.Types.ToJSON..= notificationEventDataPreviousAttributes obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["object" Data.Aeson.Types.ToJSON..= notificationEventDataObject obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("previous_attributes" Data.Aeson.Types.ToJSON..=)) (notificationEventDataPreviousAttributes obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["object" Data.Aeson.Types.ToJSON..= notificationEventDataObject obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("previous_attributes" Data.Aeson.Types.ToJSON..=)) (notificationEventDataPreviousAttributes obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON NotificationEventData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventData" (\obj -> (GHC.Base.pure NotificationEventData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "previous_attributes"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventData" (\obj -> (GHC.Base.pure NotificationEventData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "previous_attributes"))
 
 -- | Create a new 'NotificationEventData' with all required fields.
 mkNotificationEventData ::

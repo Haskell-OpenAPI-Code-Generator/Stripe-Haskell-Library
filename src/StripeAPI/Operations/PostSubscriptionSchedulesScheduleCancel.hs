@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data PostSubscriptionSchedulesScheduleCancelRequestBody = PostSubscriptionSchedu
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesScheduleCancelRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj : "invoice_now" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj : "prorate" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("expand" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj) GHC.Base.<> (("invoice_now" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj) GHC.Base.<> ("prorate" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_now" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prorate" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesScheduleCancelRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_now" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prorate" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesScheduleCancelRequestBodyProrate obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesScheduleCancelRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleCancelRequestBody" (\obj -> ((GHC.Base.pure PostSubscriptionSchedulesScheduleCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice_now")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "prorate"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesScheduleCancelRequestBody" (\obj -> ((GHC.Base.pure PostSubscriptionSchedulesScheduleCancelRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_now")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prorate"))
 
 -- | Create a new 'PostSubscriptionSchedulesScheduleCancelRequestBody' with all required fields.
 mkPostSubscriptionSchedulesScheduleCancelRequestBody :: PostSubscriptionSchedulesScheduleCancelRequestBody

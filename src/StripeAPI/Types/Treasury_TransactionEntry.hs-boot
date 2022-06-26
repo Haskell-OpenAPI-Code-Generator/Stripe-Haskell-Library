@@ -1,0 +1,34 @@
+module StripeAPI.Types.Treasury_TransactionEntry where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data Treasury'transactionEntry
+instance Show Treasury'transactionEntry
+instance Eq Treasury'transactionEntry
+instance FromJSON Treasury'transactionEntry
+instance ToJSON Treasury'transactionEntry
+data Treasury'transactionEntryFlowDetails'NonNullable
+instance Show Treasury'transactionEntryFlowDetails'NonNullable
+instance Eq Treasury'transactionEntryFlowDetails'NonNullable
+instance FromJSON Treasury'transactionEntryFlowDetails'NonNullable
+instance ToJSON Treasury'transactionEntryFlowDetails'NonNullable
+data Treasury'transactionEntryFlowDetails'NonNullableType'
+instance Show Treasury'transactionEntryFlowDetails'NonNullableType'
+instance Eq Treasury'transactionEntryFlowDetails'NonNullableType'
+instance FromJSON Treasury'transactionEntryFlowDetails'NonNullableType'
+instance ToJSON Treasury'transactionEntryFlowDetails'NonNullableType'
+data Treasury'transactionEntryFlowType'
+instance Show Treasury'transactionEntryFlowType'
+instance Eq Treasury'transactionEntryFlowType'
+instance FromJSON Treasury'transactionEntryFlowType'
+instance ToJSON Treasury'transactionEntryFlowType'
+data Treasury'transactionEntryTransaction'Variants
+instance Show Treasury'transactionEntryTransaction'Variants
+instance Eq Treasury'transactionEntryTransaction'Variants
+instance FromJSON Treasury'transactionEntryTransaction'Variants
+instance ToJSON Treasury'transactionEntryTransaction'Variants
+data Treasury'transactionEntryType'
+instance Show Treasury'transactionEntryType'
+instance Eq Treasury'transactionEntryType'
+instance FromJSON Treasury'transactionEntryType'
+instance ToJSON Treasury'transactionEntryType'

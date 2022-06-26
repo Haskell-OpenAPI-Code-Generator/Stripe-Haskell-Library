@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,11 +49,11 @@ data GelatoReportDocumentOptions = GelatoReportDocumentOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoReportDocumentOptions where
-  toJSON obj = Data.Aeson.Types.Internal.object ("allowed_types" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsAllowedTypes obj : "require_id_number" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsRequireIdNumber obj : "require_live_capture" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsRequireLiveCapture obj : "require_matching_selfie" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsRequireMatchingSelfie obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("allowed_types" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsAllowedTypes obj) GHC.Base.<> (("require_id_number" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsRequireIdNumber obj) GHC.Base.<> (("require_live_capture" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsRequireLiveCapture obj) GHC.Base.<> ("require_matching_selfie" Data.Aeson.Types.ToJSON..= gelatoReportDocumentOptionsRequireMatchingSelfie obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_types" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsAllowedTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_id_number" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsRequireIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_live_capture" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsRequireLiveCapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_matching_selfie" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsRequireMatchingSelfie obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allowed_types" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsAllowedTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_id_number" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsRequireIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_live_capture" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsRequireLiveCapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_matching_selfie" Data.Aeson.Types.ToJSON..=)) (gelatoReportDocumentOptionsRequireMatchingSelfie obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoReportDocumentOptions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoReportDocumentOptions" (\obj -> (((GHC.Base.pure GelatoReportDocumentOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "allowed_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "require_id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "require_live_capture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "require_matching_selfie"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoReportDocumentOptions" (\obj -> (((GHC.Base.pure GelatoReportDocumentOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allowed_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_live_capture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_matching_selfie"))
 
 -- | Create a new 'GelatoReportDocumentOptions' with all required fields.
 mkGelatoReportDocumentOptions :: GelatoReportDocumentOptions

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -27,12 +29,15 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.PortalSubscriptionCancellationReason
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.portal_subscription_cancel@ in the specification.
 data PortalSubscriptionCancel = PortalSubscriptionCancel
-  { -- | enabled: Whether the feature is enabled.
+  { -- | cancellation_reason:
+    portalSubscriptionCancelCancellationReason :: PortalSubscriptionCancellationReason,
+    -- | enabled: Whether the feature is enabled.
     portalSubscriptionCancelEnabled :: GHC.Types.Bool,
     -- | mode: Whether to cancel subscriptions immediately or at the end of the billing period.
     portalSubscriptionCancelMode :: PortalSubscriptionCancelMode',
@@ -45,14 +50,16 @@ data PortalSubscriptionCancel = PortalSubscriptionCancel
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PortalSubscriptionCancel where
-  toJSON obj = Data.Aeson.Types.Internal.object ("enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelEnabled obj : "mode" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelMode obj : "proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelProrationBehavior obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelEnabled obj) GHC.Base.<> (("mode" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelMode obj) GHC.Base.<> ("proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelProrationBehavior obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["cancellation_reason" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelCancellationReason obj] : ["enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelEnabled obj] : ["mode" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelMode obj] : ["proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelProrationBehavior obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["cancellation_reason" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelCancellationReason obj] : ["enabled" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelEnabled obj] : ["mode" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelMode obj] : ["proration_behavior" Data.Aeson.Types.ToJSON..= portalSubscriptionCancelProrationBehavior obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PortalSubscriptionCancel where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalSubscriptionCancel" (\obj -> ((GHC.Base.pure PortalSubscriptionCancel GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration_behavior"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalSubscriptionCancel" (\obj -> (((GHC.Base.pure PortalSubscriptionCancel GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration_behavior"))
 
 -- | Create a new 'PortalSubscriptionCancel' with all required fields.
 mkPortalSubscriptionCancel ::
+  -- | 'portalSubscriptionCancelCancellationReason'
+  PortalSubscriptionCancellationReason ->
   -- | 'portalSubscriptionCancelEnabled'
   GHC.Types.Bool ->
   -- | 'portalSubscriptionCancelMode'
@@ -60,9 +67,10 @@ mkPortalSubscriptionCancel ::
   -- | 'portalSubscriptionCancelProrationBehavior'
   PortalSubscriptionCancelProrationBehavior' ->
   PortalSubscriptionCancel
-mkPortalSubscriptionCancel portalSubscriptionCancelEnabled portalSubscriptionCancelMode portalSubscriptionCancelProrationBehavior =
+mkPortalSubscriptionCancel portalSubscriptionCancelCancellationReason portalSubscriptionCancelEnabled portalSubscriptionCancelMode portalSubscriptionCancelProrationBehavior =
   PortalSubscriptionCancel
-    { portalSubscriptionCancelEnabled = portalSubscriptionCancelEnabled,
+    { portalSubscriptionCancelCancellationReason = portalSubscriptionCancelCancellationReason,
+      portalSubscriptionCancelEnabled = portalSubscriptionCancelEnabled,
       portalSubscriptionCancelMode = portalSubscriptionCancelMode,
       portalSubscriptionCancelProrationBehavior = portalSubscriptionCancelProrationBehavior
     }

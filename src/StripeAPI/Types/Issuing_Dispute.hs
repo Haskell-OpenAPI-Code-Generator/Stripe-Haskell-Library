@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -29,6 +31,7 @@ import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.BalanceTransaction
 import {-# SOURCE #-} StripeAPI.Types.IssuingDisputeEvidence
+import {-# SOURCE #-} StripeAPI.Types.IssuingDisputeTreasury
 import {-# SOURCE #-} StripeAPI.Types.Issuing_Transaction
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -42,7 +45,7 @@ data Issuing'dispute = Issuing'dispute
   { -- | amount: Disputed amount. Usually the amount of the \`transaction\`, but can differ (usually because of currency fluctuation).
     issuing'disputeAmount :: GHC.Types.Int,
     -- | balance_transactions: List of balance transactions associated with the dispute.
-    issuing'disputeBalanceTransactions :: (GHC.Maybe.Maybe ([BalanceTransaction])),
+    issuing'disputeBalanceTransactions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([BalanceTransaction]))),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     issuing'disputeCreated :: GHC.Types.Int,
     -- | currency: The currency the \`transaction\` was made in.
@@ -62,7 +65,9 @@ data Issuing'dispute = Issuing'dispute
     -- | status: Current status of the dispute.
     issuing'disputeStatus :: Issuing'disputeStatus',
     -- | transaction: The transaction being disputed.
-    issuing'disputeTransaction :: Issuing'disputeTransaction'Variants
+    issuing'disputeTransaction :: Issuing'disputeTransaction'Variants,
+    -- | treasury: [Treasury](https:\/\/stripe.com\/docs\/api\/treasury) details related to this dispute if it was created on a [FinancialAccount](\/docs\/api\/treasury\/financial_accounts
+    issuing'disputeTreasury :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'disputeTreasury'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -70,11 +75,11 @@ data Issuing'dispute = Issuing'dispute
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'dispute where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= issuing'disputeAmount obj : "balance_transactions" Data.Aeson.Types.ToJSON..= issuing'disputeBalanceTransactions obj : "created" Data.Aeson.Types.ToJSON..= issuing'disputeCreated obj : "currency" Data.Aeson.Types.ToJSON..= issuing'disputeCurrency obj : "evidence" Data.Aeson.Types.ToJSON..= issuing'disputeEvidence obj : "id" Data.Aeson.Types.ToJSON..= issuing'disputeId obj : "livemode" Data.Aeson.Types.ToJSON..= issuing'disputeLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= issuing'disputeMetadata obj : "status" Data.Aeson.Types.ToJSON..= issuing'disputeStatus obj : "transaction" Data.Aeson.Types.ToJSON..= issuing'disputeTransaction obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.dispute" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= issuing'disputeAmount obj) GHC.Base.<> (("balance_transactions" Data.Aeson.Types.ToJSON..= issuing'disputeBalanceTransactions obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= issuing'disputeCreated obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= issuing'disputeCurrency obj) GHC.Base.<> (("evidence" Data.Aeson.Types.ToJSON..= issuing'disputeEvidence obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= issuing'disputeId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= issuing'disputeLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= issuing'disputeMetadata obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= issuing'disputeStatus obj) GHC.Base.<> (("transaction" Data.Aeson.Types.ToJSON..= issuing'disputeTransaction obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.dispute")))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'disputeAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transactions" Data.Aeson.Types.ToJSON..=)) (issuing'disputeBalanceTransactions obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= issuing'disputeEvidence obj] : ["id" Data.Aeson.Types.ToJSON..= issuing'disputeId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'disputeMetadata obj] : ["status" Data.Aeson.Types.ToJSON..= issuing'disputeStatus obj] : ["transaction" Data.Aeson.Types.ToJSON..= issuing'disputeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'disputeTreasury obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.dispute"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'disputeAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transactions" Data.Aeson.Types.ToJSON..=)) (issuing'disputeBalanceTransactions obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= issuing'disputeEvidence obj] : ["id" Data.Aeson.Types.ToJSON..= issuing'disputeId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'disputeMetadata obj] : ["status" Data.Aeson.Types.ToJSON..= issuing'disputeStatus obj] : ["transaction" Data.Aeson.Types.ToJSON..= issuing'disputeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'disputeTreasury obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.dispute"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'dispute where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'dispute" (\obj -> (((((((((GHC.Base.pure Issuing'dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'dispute" (\obj -> ((((((((((GHC.Base.pure Issuing'dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury"))
 
 -- | Create a new 'Issuing'dispute' with all required fields.
 mkIssuing'dispute ::
@@ -108,7 +113,8 @@ mkIssuing'dispute issuing'disputeAmount issuing'disputeCreated issuing'disputeCu
       issuing'disputeLivemode = issuing'disputeLivemode,
       issuing'disputeMetadata = issuing'disputeMetadata,
       issuing'disputeStatus = issuing'disputeStatus,
-      issuing'disputeTransaction = issuing'disputeTransaction
+      issuing'disputeTransaction = issuing'disputeTransaction,
+      issuing'disputeTreasury = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.issuing.dispute.properties.status@ in the specification.
@@ -168,3 +174,40 @@ instance Data.Aeson.Types.FromJSON.FromJSON Issuing'disputeTransaction'Variants 
   parseJSON val = case (Issuing'disputeTransaction'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'disputeTransaction'Issuing'transaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @components.schemas.issuing.dispute.properties.treasury.anyOf@ in the specification.
+--
+-- [Treasury](https:\\\/\\\/stripe.com\\\/docs\\\/api\\\/treasury) details related to this dispute if it was created on a [FinancialAccount](\\\/docs\\\/api\\\/treasury\\\/financial_accounts
+data Issuing'disputeTreasury'NonNullable = Issuing'disputeTreasury'NonNullable
+  { -- | debit_reversal: The Treasury [DebitReversal](https:\/\/stripe.com\/docs\/api\/treasury\/debit_reversals) representing this Issuing dispute
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'disputeTreasury'NonNullableDebitReversal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | received_debit: The Treasury [ReceivedDebit](https:\/\/stripe.com\/docs\/api\/treasury\/received_debits) that is being disputed.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'disputeTreasury'NonNullableReceivedDebit :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON Issuing'disputeTreasury'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("debit_reversal" Data.Aeson.Types.ToJSON..=)) (issuing'disputeTreasury'NonNullableDebitReversal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("received_debit" Data.Aeson.Types.ToJSON..=)) (issuing'disputeTreasury'NonNullableReceivedDebit obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("debit_reversal" Data.Aeson.Types.ToJSON..=)) (issuing'disputeTreasury'NonNullableDebitReversal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("received_debit" Data.Aeson.Types.ToJSON..=)) (issuing'disputeTreasury'NonNullableReceivedDebit obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON Issuing'disputeTreasury'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'disputeTreasury'NonNullable" (\obj -> (GHC.Base.pure Issuing'disputeTreasury'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "debit_reversal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "received_debit"))
+
+-- | Create a new 'Issuing'disputeTreasury'NonNullable' with all required fields.
+mkIssuing'disputeTreasury'NonNullable :: Issuing'disputeTreasury'NonNullable
+mkIssuing'disputeTreasury'NonNullable =
+  Issuing'disputeTreasury'NonNullable
+    { issuing'disputeTreasury'NonNullableDebitReversal = GHC.Maybe.Nothing,
+      issuing'disputeTreasury'NonNullableReceivedDebit = GHC.Maybe.Nothing
+    }

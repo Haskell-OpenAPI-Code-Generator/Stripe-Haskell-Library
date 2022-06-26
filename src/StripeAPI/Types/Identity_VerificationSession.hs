@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -56,7 +58,7 @@ data Identity'verificationSession = Identity'verificationSession
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionClientSecret :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionClientSecret :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     identity'verificationSessionCreated :: GHC.Types.Int,
     -- | id: Unique identifier for the object.
@@ -66,9 +68,9 @@ data Identity'verificationSession = Identity'verificationSession
     -- * Maximum length of 5000
     identity'verificationSessionId :: Data.Text.Internal.Text,
     -- | last_error: If present, this property tells you the last error encountered when processing the verification.
-    identity'verificationSessionLastError :: (GHC.Maybe.Maybe Identity'verificationSessionLastError'),
+    identity'verificationSessionLastError :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionLastError'NonNullable)),
     -- | last_verification_report: ID of the most recent VerificationReport. [Learn more about accessing detailed verification results.](https:\/\/stripe.com\/docs\/identity\/verification-sessions\#results)
-    identity'verificationSessionLastVerificationReport :: (GHC.Maybe.Maybe Identity'verificationSessionLastVerificationReport'Variants),
+    identity'verificationSessionLastVerificationReport :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionLastVerificationReport'NonNullableVariants)),
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     identity'verificationSessionLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -76,19 +78,19 @@ data Identity'verificationSession = Identity'verificationSession
     -- | options:
     identity'verificationSessionOptions :: GelatoVerificationSessionOptions,
     -- | redaction: Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
-    identity'verificationSessionRedaction :: (GHC.Maybe.Maybe Identity'verificationSessionRedaction'),
+    identity'verificationSessionRedaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionRedaction'NonNullable)),
     -- | status: Status of this VerificationSession. [Learn more about the lifecycle of sessions](https:\/\/stripe.com\/docs\/identity\/how-sessions-work).
     identity'verificationSessionStatus :: Identity'verificationSessionStatus',
     -- | type: The type of [verification check](https:\/\/stripe.com\/docs\/identity\/verification-checks) to be performed.
     identity'verificationSessionType :: Identity'verificationSessionType',
-    -- | url: The short-lived URL that you use to redirect a user to Stripe to submit their identity information. This URL expires after 24 hours and can only be used once. Don’t store it, log it, send it in emails or expose it to anyone other than the user. Refer to our docs on [verifying identity documents](https:\/\/stripe.com\/docs\/identity\/verify-identity-documents?platform=web&type=redirect) to learn how to redirect users to Stripe.
+    -- | url: The short-lived URL that you use to redirect a user to Stripe to submit their identity information. This URL expires after 48 hours and can only be used once. Don’t store it, log it, send it in emails or expose it to anyone other than the user. Refer to our docs on [verifying identity documents](https:\/\/stripe.com\/docs\/identity\/verify-identity-documents?platform=web&type=redirect) to learn how to redirect users to Stripe.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_outputs: The user’s verified data.
-    identity'verificationSessionVerifiedOutputs :: (GHC.Maybe.Maybe Identity'verificationSessionVerifiedOutputs')
+    identity'verificationSessionVerifiedOutputs :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionVerifiedOutputs'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -96,11 +98,11 @@ data Identity'verificationSession = Identity'verificationSession
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSession where
-  toJSON obj = Data.Aeson.Types.Internal.object ("client_secret" Data.Aeson.Types.ToJSON..= identity'verificationSessionClientSecret obj : "created" Data.Aeson.Types.ToJSON..= identity'verificationSessionCreated obj : "id" Data.Aeson.Types.ToJSON..= identity'verificationSessionId obj : "last_error" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastError obj : "last_verification_report" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastVerificationReport obj : "livemode" Data.Aeson.Types.ToJSON..= identity'verificationSessionLivemode obj : "metadata" Data.Aeson.Types.ToJSON..= identity'verificationSessionMetadata obj : "options" Data.Aeson.Types.ToJSON..= identity'verificationSessionOptions obj : "redaction" Data.Aeson.Types.ToJSON..= identity'verificationSessionRedaction obj : "status" Data.Aeson.Types.ToJSON..= identity'verificationSessionStatus obj : "type" Data.Aeson.Types.ToJSON..= identity'verificationSessionType obj : "url" Data.Aeson.Types.ToJSON..= identity'verificationSessionUrl obj : "verified_outputs" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_session" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("client_secret" Data.Aeson.Types.ToJSON..= identity'verificationSessionClientSecret obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= identity'verificationSessionCreated obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= identity'verificationSessionId obj) GHC.Base.<> (("last_error" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastError obj) GHC.Base.<> (("last_verification_report" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastVerificationReport obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= identity'verificationSessionLivemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= identity'verificationSessionMetadata obj) GHC.Base.<> (("options" Data.Aeson.Types.ToJSON..= identity'verificationSessionOptions obj) GHC.Base.<> (("redaction" Data.Aeson.Types.ToJSON..= identity'verificationSessionRedaction obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= identity'verificationSessionStatus obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= identity'verificationSessionType obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= identity'verificationSessionUrl obj) GHC.Base.<> (("verified_outputs" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_session"))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionClientSecret obj) : ["created" Data.Aeson.Types.ToJSON..= identity'verificationSessionCreated obj] : ["id" Data.Aeson.Types.ToJSON..= identity'verificationSessionId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_error" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastError obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_verification_report" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastVerificationReport obj) : ["livemode" Data.Aeson.Types.ToJSON..= identity'verificationSessionLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= identity'verificationSessionMetadata obj] : ["options" Data.Aeson.Types.ToJSON..= identity'verificationSessionOptions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redaction" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionRedaction obj) : ["status" Data.Aeson.Types.ToJSON..= identity'verificationSessionStatus obj] : ["type" Data.Aeson.Types.ToJSON..= identity'verificationSessionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_outputs" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_session"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionClientSecret obj) : ["created" Data.Aeson.Types.ToJSON..= identity'verificationSessionCreated obj] : ["id" Data.Aeson.Types.ToJSON..= identity'verificationSessionId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_error" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastError obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_verification_report" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastVerificationReport obj) : ["livemode" Data.Aeson.Types.ToJSON..= identity'verificationSessionLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= identity'verificationSessionMetadata obj] : ["options" Data.Aeson.Types.ToJSON..= identity'verificationSessionOptions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redaction" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionRedaction obj) : ["status" Data.Aeson.Types.ToJSON..= identity'verificationSessionStatus obj] : ["type" Data.Aeson.Types.ToJSON..= identity'verificationSessionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_outputs" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_session"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSession where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSession" (\obj -> ((((((((((((GHC.Base.pure Identity'verificationSession GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_verification_report")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_outputs"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSession" (\obj -> ((((((((((((GHC.Base.pure Identity'verificationSession GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_verification_report")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_outputs"))
 
 -- | Create a new 'Identity'verificationSession' with all required fields.
 mkIdentity'verificationSession ::
@@ -139,184 +141,184 @@ mkIdentity'verificationSession identity'verificationSessionCreated identity'veri
 -- | Defines the object schema located at @components.schemas.identity.verification_session.properties.last_error.anyOf@ in the specification.
 --
 -- If present, this property tells you the last error encountered when processing the verification.
-data Identity'verificationSessionLastError' = Identity'verificationSessionLastError'
+data Identity'verificationSessionLastError'NonNullable = Identity'verificationSessionLastError'NonNullable
   { -- | code: A short machine-readable string giving the reason for the verification or user-session failure.
-    identity'verificationSessionLastError'Code :: (GHC.Maybe.Maybe Identity'verificationSessionLastError'Code'),
+    identity'verificationSessionLastError'NonNullableCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionLastError'NonNullableCode'NonNullable)),
     -- | reason: A message that explains the reason for verification or user-session failure.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionLastError'Reason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    identity'verificationSessionLastError'NonNullableReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionLastError' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastError'Code obj : "reason" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastError'Reason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastError'Code obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= identity'verificationSessionLastError'Reason obj))
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionLastError'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastError'NonNullableCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastError'NonNullableReason obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastError'NonNullableCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionLastError'NonNullableReason obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionLastError' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionLastError'" (\obj -> (GHC.Base.pure Identity'verificationSessionLastError' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason"))
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionLastError'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionLastError'NonNullable" (\obj -> (GHC.Base.pure Identity'verificationSessionLastError'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason"))
 
--- | Create a new 'Identity'verificationSessionLastError'' with all required fields.
-mkIdentity'verificationSessionLastError' :: Identity'verificationSessionLastError'
-mkIdentity'verificationSessionLastError' =
-  Identity'verificationSessionLastError'
-    { identity'verificationSessionLastError'Code = GHC.Maybe.Nothing,
-      identity'verificationSessionLastError'Reason = GHC.Maybe.Nothing
+-- | Create a new 'Identity'verificationSessionLastError'NonNullable' with all required fields.
+mkIdentity'verificationSessionLastError'NonNullable :: Identity'verificationSessionLastError'NonNullable
+mkIdentity'verificationSessionLastError'NonNullable =
+  Identity'verificationSessionLastError'NonNullable
+    { identity'verificationSessionLastError'NonNullableCode = GHC.Maybe.Nothing,
+      identity'verificationSessionLastError'NonNullableReason = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.identity.verification_session.properties.last_error.anyOf.properties.code@ in the specification.
 --
 -- A short machine-readable string giving the reason for the verification or user-session failure.
-data Identity'verificationSessionLastError'Code'
+data Identity'verificationSessionLastError'NonNullableCode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    Identity'verificationSessionLastError'Code'Other Data.Aeson.Types.Internal.Value
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    Identity'verificationSessionLastError'Code'Typed Data.Text.Internal.Text
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"abandoned"@
-    Identity'verificationSessionLastError'Code'EnumAbandoned
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumAbandoned
   | -- | Represents the JSON value @"consent_declined"@
-    Identity'verificationSessionLastError'Code'EnumConsentDeclined
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumConsentDeclined
   | -- | Represents the JSON value @"country_not_supported"@
-    Identity'verificationSessionLastError'Code'EnumCountryNotSupported
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumCountryNotSupported
   | -- | Represents the JSON value @"device_not_supported"@
-    Identity'verificationSessionLastError'Code'EnumDeviceNotSupported
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDeviceNotSupported
   | -- | Represents the JSON value @"document_expired"@
-    Identity'verificationSessionLastError'Code'EnumDocumentExpired
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentExpired
   | -- | Represents the JSON value @"document_type_not_supported"@
-    Identity'verificationSessionLastError'Code'EnumDocumentTypeNotSupported
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentTypeNotSupported
   | -- | Represents the JSON value @"document_unverified_other"@
-    Identity'verificationSessionLastError'Code'EnumDocumentUnverifiedOther
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentUnverifiedOther
   | -- | Represents the JSON value @"id_number_insufficient_document_data"@
-    Identity'verificationSessionLastError'Code'EnumIdNumberInsufficientDocumentData
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberInsufficientDocumentData
   | -- | Represents the JSON value @"id_number_mismatch"@
-    Identity'verificationSessionLastError'Code'EnumIdNumberMismatch
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberMismatch
   | -- | Represents the JSON value @"id_number_unverified_other"@
-    Identity'verificationSessionLastError'Code'EnumIdNumberUnverifiedOther
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberUnverifiedOther
   | -- | Represents the JSON value @"selfie_document_missing_photo"@
-    Identity'verificationSessionLastError'Code'EnumSelfieDocumentMissingPhoto
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieDocumentMissingPhoto
   | -- | Represents the JSON value @"selfie_face_mismatch"@
-    Identity'verificationSessionLastError'Code'EnumSelfieFaceMismatch
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieFaceMismatch
   | -- | Represents the JSON value @"selfie_manipulated"@
-    Identity'verificationSessionLastError'Code'EnumSelfieManipulated
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieManipulated
   | -- | Represents the JSON value @"selfie_unverified_other"@
-    Identity'verificationSessionLastError'Code'EnumSelfieUnverifiedOther
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieUnverifiedOther
   | -- | Represents the JSON value @"under_supported_age"@
-    Identity'verificationSessionLastError'Code'EnumUnderSupportedAge
+    Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumUnderSupportedAge
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionLastError'Code' where
-  toJSON (Identity'verificationSessionLastError'Code'Other val) = val
-  toJSON (Identity'verificationSessionLastError'Code'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (Identity'verificationSessionLastError'Code'EnumAbandoned) = "abandoned"
-  toJSON (Identity'verificationSessionLastError'Code'EnumConsentDeclined) = "consent_declined"
-  toJSON (Identity'verificationSessionLastError'Code'EnumCountryNotSupported) = "country_not_supported"
-  toJSON (Identity'verificationSessionLastError'Code'EnumDeviceNotSupported) = "device_not_supported"
-  toJSON (Identity'verificationSessionLastError'Code'EnumDocumentExpired) = "document_expired"
-  toJSON (Identity'verificationSessionLastError'Code'EnumDocumentTypeNotSupported) = "document_type_not_supported"
-  toJSON (Identity'verificationSessionLastError'Code'EnumDocumentUnverifiedOther) = "document_unverified_other"
-  toJSON (Identity'verificationSessionLastError'Code'EnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
-  toJSON (Identity'verificationSessionLastError'Code'EnumIdNumberMismatch) = "id_number_mismatch"
-  toJSON (Identity'verificationSessionLastError'Code'EnumIdNumberUnverifiedOther) = "id_number_unverified_other"
-  toJSON (Identity'verificationSessionLastError'Code'EnumSelfieDocumentMissingPhoto) = "selfie_document_missing_photo"
-  toJSON (Identity'verificationSessionLastError'Code'EnumSelfieFaceMismatch) = "selfie_face_mismatch"
-  toJSON (Identity'verificationSessionLastError'Code'EnumSelfieManipulated) = "selfie_manipulated"
-  toJSON (Identity'verificationSessionLastError'Code'EnumSelfieUnverifiedOther) = "selfie_unverified_other"
-  toJSON (Identity'verificationSessionLastError'Code'EnumUnderSupportedAge) = "under_supported_age"
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionLastError'NonNullableCode'NonNullable where
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableOther val) = val
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumAbandoned) = "abandoned"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumConsentDeclined) = "consent_declined"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumCountryNotSupported) = "country_not_supported"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDeviceNotSupported) = "device_not_supported"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentExpired) = "document_expired"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentTypeNotSupported) = "document_type_not_supported"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentUnverifiedOther) = "document_unverified_other"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberMismatch) = "id_number_mismatch"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberUnverifiedOther) = "id_number_unverified_other"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieDocumentMissingPhoto) = "selfie_document_missing_photo"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieFaceMismatch) = "selfie_face_mismatch"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieManipulated) = "selfie_manipulated"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieUnverifiedOther) = "selfie_unverified_other"
+  toJSON (Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumUnderSupportedAge) = "under_supported_age"
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionLastError'Code' where
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionLastError'NonNullableCode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "abandoned" -> Identity'verificationSessionLastError'Code'EnumAbandoned
-            | val GHC.Classes.== "consent_declined" -> Identity'verificationSessionLastError'Code'EnumConsentDeclined
-            | val GHC.Classes.== "country_not_supported" -> Identity'verificationSessionLastError'Code'EnumCountryNotSupported
-            | val GHC.Classes.== "device_not_supported" -> Identity'verificationSessionLastError'Code'EnumDeviceNotSupported
-            | val GHC.Classes.== "document_expired" -> Identity'verificationSessionLastError'Code'EnumDocumentExpired
-            | val GHC.Classes.== "document_type_not_supported" -> Identity'verificationSessionLastError'Code'EnumDocumentTypeNotSupported
-            | val GHC.Classes.== "document_unverified_other" -> Identity'verificationSessionLastError'Code'EnumDocumentUnverifiedOther
-            | val GHC.Classes.== "id_number_insufficient_document_data" -> Identity'verificationSessionLastError'Code'EnumIdNumberInsufficientDocumentData
-            | val GHC.Classes.== "id_number_mismatch" -> Identity'verificationSessionLastError'Code'EnumIdNumberMismatch
-            | val GHC.Classes.== "id_number_unverified_other" -> Identity'verificationSessionLastError'Code'EnumIdNumberUnverifiedOther
-            | val GHC.Classes.== "selfie_document_missing_photo" -> Identity'verificationSessionLastError'Code'EnumSelfieDocumentMissingPhoto
-            | val GHC.Classes.== "selfie_face_mismatch" -> Identity'verificationSessionLastError'Code'EnumSelfieFaceMismatch
-            | val GHC.Classes.== "selfie_manipulated" -> Identity'verificationSessionLastError'Code'EnumSelfieManipulated
-            | val GHC.Classes.== "selfie_unverified_other" -> Identity'verificationSessionLastError'Code'EnumSelfieUnverifiedOther
-            | val GHC.Classes.== "under_supported_age" -> Identity'verificationSessionLastError'Code'EnumUnderSupportedAge
-            | GHC.Base.otherwise -> Identity'verificationSessionLastError'Code'Other val
+            | val GHC.Classes.== "abandoned" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumAbandoned
+            | val GHC.Classes.== "consent_declined" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumConsentDeclined
+            | val GHC.Classes.== "country_not_supported" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumCountryNotSupported
+            | val GHC.Classes.== "device_not_supported" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDeviceNotSupported
+            | val GHC.Classes.== "document_expired" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentExpired
+            | val GHC.Classes.== "document_type_not_supported" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentTypeNotSupported
+            | val GHC.Classes.== "document_unverified_other" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumDocumentUnverifiedOther
+            | val GHC.Classes.== "id_number_insufficient_document_data" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberInsufficientDocumentData
+            | val GHC.Classes.== "id_number_mismatch" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberMismatch
+            | val GHC.Classes.== "id_number_unverified_other" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumIdNumberUnverifiedOther
+            | val GHC.Classes.== "selfie_document_missing_photo" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieDocumentMissingPhoto
+            | val GHC.Classes.== "selfie_face_mismatch" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieFaceMismatch
+            | val GHC.Classes.== "selfie_manipulated" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieManipulated
+            | val GHC.Classes.== "selfie_unverified_other" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumSelfieUnverifiedOther
+            | val GHC.Classes.== "under_supported_age" -> Identity'verificationSessionLastError'NonNullableCode'NonNullableEnumUnderSupportedAge
+            | GHC.Base.otherwise -> Identity'verificationSessionLastError'NonNullableCode'NonNullableOther val
       )
 
 -- | Defines the oneOf schema located at @components.schemas.identity.verification_session.properties.last_verification_report.anyOf@ in the specification.
 --
 -- ID of the most recent VerificationReport. [Learn more about accessing detailed verification results.](https:\/\/stripe.com\/docs\/identity\/verification-sessions\#results)
-data Identity'verificationSessionLastVerificationReport'Variants
-  = Identity'verificationSessionLastVerificationReport'Text Data.Text.Internal.Text
-  | Identity'verificationSessionLastVerificationReport'Identity'verificationReport Identity'verificationReport
+data Identity'verificationSessionLastVerificationReport'NonNullableVariants
+  = Identity'verificationSessionLastVerificationReport'NonNullableText Data.Text.Internal.Text
+  | Identity'verificationSessionLastVerificationReport'NonNullableIdentity'verificationReport Identity'verificationReport
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionLastVerificationReport'Variants where
-  toJSON (Identity'verificationSessionLastVerificationReport'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (Identity'verificationSessionLastVerificationReport'Identity'verificationReport a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionLastVerificationReport'NonNullableVariants where
+  toJSON (Identity'verificationSessionLastVerificationReport'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (Identity'verificationSessionLastVerificationReport'NonNullableIdentity'verificationReport a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionLastVerificationReport'Variants where
-  parseJSON val = case (Identity'verificationSessionLastVerificationReport'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Identity'verificationSessionLastVerificationReport'Identity'verificationReport Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionLastVerificationReport'NonNullableVariants where
+  parseJSON val = case (Identity'verificationSessionLastVerificationReport'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Identity'verificationSessionLastVerificationReport'NonNullableIdentity'verificationReport Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @components.schemas.identity.verification_session.properties.redaction.anyOf@ in the specification.
 --
 -- Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
-data Identity'verificationSessionRedaction' = Identity'verificationSessionRedaction'
+data Identity'verificationSessionRedaction'NonNullable = Identity'verificationSessionRedaction'NonNullable
   { -- | status: Indicates whether this object and its related objects have been redacted or not.
-    identity'verificationSessionRedaction'Status :: (GHC.Maybe.Maybe Identity'verificationSessionRedaction'Status')
+    identity'verificationSessionRedaction'NonNullableStatus :: (GHC.Maybe.Maybe Identity'verificationSessionRedaction'NonNullableStatus')
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionRedaction' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("status" Data.Aeson.Types.ToJSON..= identity'verificationSessionRedaction'Status obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("status" Data.Aeson.Types.ToJSON..= identity'verificationSessionRedaction'Status obj)
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionRedaction'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionRedaction'NonNullableStatus obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionRedaction'NonNullableStatus obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionRedaction' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionRedaction'" (\obj -> GHC.Base.pure Identity'verificationSessionRedaction' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionRedaction'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionRedaction'NonNullable" (\obj -> GHC.Base.pure Identity'verificationSessionRedaction'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
 
--- | Create a new 'Identity'verificationSessionRedaction'' with all required fields.
-mkIdentity'verificationSessionRedaction' :: Identity'verificationSessionRedaction'
-mkIdentity'verificationSessionRedaction' = Identity'verificationSessionRedaction' {identity'verificationSessionRedaction'Status = GHC.Maybe.Nothing}
+-- | Create a new 'Identity'verificationSessionRedaction'NonNullable' with all required fields.
+mkIdentity'verificationSessionRedaction'NonNullable :: Identity'verificationSessionRedaction'NonNullable
+mkIdentity'verificationSessionRedaction'NonNullable = Identity'verificationSessionRedaction'NonNullable {identity'verificationSessionRedaction'NonNullableStatus = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @components.schemas.identity.verification_session.properties.redaction.anyOf.properties.status@ in the specification.
 --
 -- Indicates whether this object and its related objects have been redacted or not.
-data Identity'verificationSessionRedaction'Status'
+data Identity'verificationSessionRedaction'NonNullableStatus'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    Identity'verificationSessionRedaction'Status'Other Data.Aeson.Types.Internal.Value
+    Identity'verificationSessionRedaction'NonNullableStatus'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    Identity'verificationSessionRedaction'Status'Typed Data.Text.Internal.Text
+    Identity'verificationSessionRedaction'NonNullableStatus'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"processing"@
-    Identity'verificationSessionRedaction'Status'EnumProcessing
+    Identity'verificationSessionRedaction'NonNullableStatus'EnumProcessing
   | -- | Represents the JSON value @"redacted"@
-    Identity'verificationSessionRedaction'Status'EnumRedacted
+    Identity'verificationSessionRedaction'NonNullableStatus'EnumRedacted
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionRedaction'Status' where
-  toJSON (Identity'verificationSessionRedaction'Status'Other val) = val
-  toJSON (Identity'verificationSessionRedaction'Status'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (Identity'verificationSessionRedaction'Status'EnumProcessing) = "processing"
-  toJSON (Identity'verificationSessionRedaction'Status'EnumRedacted) = "redacted"
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionRedaction'NonNullableStatus' where
+  toJSON (Identity'verificationSessionRedaction'NonNullableStatus'Other val) = val
+  toJSON (Identity'verificationSessionRedaction'NonNullableStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Identity'verificationSessionRedaction'NonNullableStatus'EnumProcessing) = "processing"
+  toJSON (Identity'verificationSessionRedaction'NonNullableStatus'EnumRedacted) = "redacted"
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionRedaction'Status' where
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionRedaction'NonNullableStatus' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "processing" -> Identity'verificationSessionRedaction'Status'EnumProcessing
-            | val GHC.Classes.== "redacted" -> Identity'verificationSessionRedaction'Status'EnumRedacted
-            | GHC.Base.otherwise -> Identity'verificationSessionRedaction'Status'Other val
+            | val GHC.Classes.== "processing" -> Identity'verificationSessionRedaction'NonNullableStatus'EnumProcessing
+            | val GHC.Classes.== "redacted" -> Identity'verificationSessionRedaction'NonNullableStatus'EnumRedacted
+            | GHC.Base.otherwise -> Identity'verificationSessionRedaction'NonNullableStatus'Other val
       )
 
 -- | Defines the enum schema located at @components.schemas.identity.verification_session.properties.status@ in the specification.
@@ -388,182 +390,182 @@ instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionType' wh
 -- | Defines the object schema located at @components.schemas.identity.verification_session.properties.verified_outputs.anyOf@ in the specification.
 --
 -- The user’s verified data.
-data Identity'verificationSessionVerifiedOutputs' = Identity'verificationSessionVerifiedOutputs'
+data Identity'verificationSessionVerifiedOutputs'NonNullable = Identity'verificationSessionVerifiedOutputs'NonNullable
   { -- | address: The user\'s verified address.
-    identity'verificationSessionVerifiedOutputs'Address :: (GHC.Maybe.Maybe Identity'verificationSessionVerifiedOutputs'Address'),
+    identity'verificationSessionVerifiedOutputs'NonNullableAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable)),
     -- | dob: The user’s verified date of birth.
-    identity'verificationSessionVerifiedOutputs'Dob :: (GHC.Maybe.Maybe Identity'verificationSessionVerifiedOutputs'Dob'),
+    identity'verificationSessionVerifiedOutputs'NonNullableDob :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable)),
     -- | first_name: The user\'s verified first name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'FirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionVerifiedOutputs'NonNullableFirstName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id_number: The user\'s verified id number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'IdNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionVerifiedOutputs'NonNullableIdNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id_number_type: The user\'s verified id number type.
-    identity'verificationSessionVerifiedOutputs'IdNumberType :: (GHC.Maybe.Maybe Identity'verificationSessionVerifiedOutputs'IdNumberType'),
+    identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullable)),
     -- | last_name: The user\'s verified last name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'LastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    identity'verificationSessionVerifiedOutputs'NonNullableLastName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address obj : "dob" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob obj : "first_name" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'FirstName obj : "id_number" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'IdNumber obj : "id_number_type" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'IdNumberType obj : "last_name" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'LastName obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address obj) GHC.Base.<> (("dob" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'FirstName obj) GHC.Base.<> (("id_number" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'IdNumber obj) GHC.Base.<> (("id_number_type" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'IdNumberType obj) GHC.Base.<> ("last_name" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'LastName obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_type" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableLastName obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_type" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableLastName obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionVerifiedOutputs'" (\obj -> (((((GHC.Base.pure Identity'verificationSessionVerifiedOutputs' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id_number_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name"))
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionVerifiedOutputs'NonNullable" (\obj -> (((((GHC.Base.pure Identity'verificationSessionVerifiedOutputs'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name"))
 
--- | Create a new 'Identity'verificationSessionVerifiedOutputs'' with all required fields.
-mkIdentity'verificationSessionVerifiedOutputs' :: Identity'verificationSessionVerifiedOutputs'
-mkIdentity'verificationSessionVerifiedOutputs' =
-  Identity'verificationSessionVerifiedOutputs'
-    { identity'verificationSessionVerifiedOutputs'Address = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Dob = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'FirstName = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'IdNumber = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'IdNumberType = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'LastName = GHC.Maybe.Nothing
+-- | Create a new 'Identity'verificationSessionVerifiedOutputs'NonNullable' with all required fields.
+mkIdentity'verificationSessionVerifiedOutputs'NonNullable :: Identity'verificationSessionVerifiedOutputs'NonNullable
+mkIdentity'verificationSessionVerifiedOutputs'NonNullable =
+  Identity'verificationSessionVerifiedOutputs'NonNullable
+    { identity'verificationSessionVerifiedOutputs'NonNullableAddress = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableDob = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableFirstName = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableIdNumber = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableLastName = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.identity.verification_session.properties.verified_outputs.anyOf.properties.address.anyOf@ in the specification.
 --
 -- The user\\\'s verified address.
-data Identity'verificationSessionVerifiedOutputs'Address' = Identity'verificationSessionVerifiedOutputs'Address'
+data Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable = Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    identity'verificationSessionVerifiedOutputs'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs'Address' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'City obj : "country" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Address'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs'Address' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionVerifiedOutputs'Address'" (\obj -> (((((GHC.Base.pure Identity'verificationSessionVerifiedOutputs'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable" (\obj -> (((((GHC.Base.pure Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'Identity'verificationSessionVerifiedOutputs'Address'' with all required fields.
-mkIdentity'verificationSessionVerifiedOutputs'Address' :: Identity'verificationSessionVerifiedOutputs'Address'
-mkIdentity'verificationSessionVerifiedOutputs'Address' =
-  Identity'verificationSessionVerifiedOutputs'Address'
-    { identity'verificationSessionVerifiedOutputs'Address'City = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Address'Country = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Address'Line1 = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Address'Line2 = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Address'PostalCode = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Address'State = GHC.Maybe.Nothing
+-- | Create a new 'Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable' with all required fields.
+mkIdentity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable :: Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable
+mkIdentity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable =
+  Identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullable
+    { identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCity = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableAddress'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.identity.verification_session.properties.verified_outputs.anyOf.properties.dob.anyOf@ in the specification.
 --
 -- The user’s verified date of birth.
-data Identity'verificationSessionVerifiedOutputs'Dob' = Identity'verificationSessionVerifiedOutputs'Dob'
+data Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable = Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable
   { -- | day: Numerical day between 1 and 31.
-    identity'verificationSessionVerifiedOutputs'Dob'Day :: (GHC.Maybe.Maybe GHC.Types.Int),
+    identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    identity'verificationSessionVerifiedOutputs'Dob'Month :: (GHC.Maybe.Maybe GHC.Types.Int),
+    identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    identity'verificationSessionVerifiedOutputs'Dob'Year :: (GHC.Maybe.Maybe GHC.Types.Int)
+    identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs'Dob' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob'Day obj : "month" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob'Month obj : "year" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob'Year obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob'Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob'Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= identity'verificationSessionVerifiedOutputs'Dob'Year obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableYear obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs'Dob' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionVerifiedOutputs'Dob'" (\obj -> ((GHC.Base.pure Identity'verificationSessionVerifiedOutputs'Dob' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable" (\obj -> ((GHC.Base.pure Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
--- | Create a new 'Identity'verificationSessionVerifiedOutputs'Dob'' with all required fields.
-mkIdentity'verificationSessionVerifiedOutputs'Dob' :: Identity'verificationSessionVerifiedOutputs'Dob'
-mkIdentity'verificationSessionVerifiedOutputs'Dob' =
-  Identity'verificationSessionVerifiedOutputs'Dob'
-    { identity'verificationSessionVerifiedOutputs'Dob'Day = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Dob'Month = GHC.Maybe.Nothing,
-      identity'verificationSessionVerifiedOutputs'Dob'Year = GHC.Maybe.Nothing
+-- | Create a new 'Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable' with all required fields.
+mkIdentity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable :: Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable
+mkIdentity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable =
+  Identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullable
+    { identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableDay = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableMonth = GHC.Maybe.Nothing,
+      identity'verificationSessionVerifiedOutputs'NonNullableDob'NonNullableYear = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.identity.verification_session.properties.verified_outputs.anyOf.properties.id_number_type@ in the specification.
 --
 -- The user\'s verified id number type.
-data Identity'verificationSessionVerifiedOutputs'IdNumberType'
+data Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    Identity'verificationSessionVerifiedOutputs'IdNumberType'Other Data.Aeson.Types.Internal.Value
+    Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    Identity'verificationSessionVerifiedOutputs'IdNumberType'Typed Data.Text.Internal.Text
+    Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"br_cpf"@
-    Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumBrCpf
+    Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumBrCpf
   | -- | Represents the JSON value @"sg_nric"@
-    Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumSgNric
+    Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumSgNric
   | -- | Represents the JSON value @"us_ssn"@
-    Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumUsSsn
+    Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumUsSsn
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs'IdNumberType' where
-  toJSON (Identity'verificationSessionVerifiedOutputs'IdNumberType'Other val) = val
-  toJSON (Identity'verificationSessionVerifiedOutputs'IdNumberType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumBrCpf) = "br_cpf"
-  toJSON (Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumSgNric) = "sg_nric"
-  toJSON (Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumUsSsn) = "us_ssn"
+instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullable where
+  toJSON (Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableOther val) = val
+  toJSON (Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumBrCpf) = "br_cpf"
+  toJSON (Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumSgNric) = "sg_nric"
+  toJSON (Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumUsSsn) = "us_ssn"
 
-instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs'IdNumberType' where
+instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "br_cpf" -> Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumBrCpf
-            | val GHC.Classes.== "sg_nric" -> Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumSgNric
-            | val GHC.Classes.== "us_ssn" -> Identity'verificationSessionVerifiedOutputs'IdNumberType'EnumUsSsn
-            | GHC.Base.otherwise -> Identity'verificationSessionVerifiedOutputs'IdNumberType'Other val
+            | val GHC.Classes.== "br_cpf" -> Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumBrCpf
+            | val GHC.Classes.== "sg_nric" -> Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumSgNric
+            | val GHC.Classes.== "us_ssn" -> Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableEnumUsSsn
+            | GHC.Base.otherwise -> Identity'verificationSessionVerifiedOutputs'NonNullableIdNumberType'NonNullableOther val
       )

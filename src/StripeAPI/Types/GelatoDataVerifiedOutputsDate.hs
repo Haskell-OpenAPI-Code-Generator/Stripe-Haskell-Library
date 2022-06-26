@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,11 +37,11 @@ import qualified Prelude as GHC.Maybe
 -- Point in Time
 data GelatoDataVerifiedOutputsDate = GelatoDataVerifiedOutputsDate
   { -- | day: Numerical day between 1 and 31.
-    gelatoDataVerifiedOutputsDateDay :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDataVerifiedOutputsDateDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoDataVerifiedOutputsDateMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDataVerifiedOutputsDateMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoDataVerifiedOutputsDateYear :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoDataVerifiedOutputsDateYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data GelatoDataVerifiedOutputsDate = GelatoDataVerifiedOutputsDate
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoDataVerifiedOutputsDate where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoDataVerifiedOutputsDateDay obj : "month" Data.Aeson.Types.ToJSON..= gelatoDataVerifiedOutputsDateMonth obj : "year" Data.Aeson.Types.ToJSON..= gelatoDataVerifiedOutputsDateYear obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoDataVerifiedOutputsDateDay obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoDataVerifiedOutputsDateMonth obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoDataVerifiedOutputsDateYear obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDataVerifiedOutputsDateDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDataVerifiedOutputsDateMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDataVerifiedOutputsDateYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDataVerifiedOutputsDateDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDataVerifiedOutputsDateMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDataVerifiedOutputsDateYear obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoDataVerifiedOutputsDate where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDataVerifiedOutputsDate" (\obj -> ((GHC.Base.pure GelatoDataVerifiedOutputsDate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDataVerifiedOutputsDate" (\obj -> ((GHC.Base.pure GelatoDataVerifiedOutputsDate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
 -- | Create a new 'GelatoDataVerifiedOutputsDate' with all required fields.
 mkGelatoDataVerifiedOutputsDate :: GelatoDataVerifiedOutputsDate

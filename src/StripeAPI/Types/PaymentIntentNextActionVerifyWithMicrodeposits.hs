@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -39,7 +41,9 @@ data PaymentIntentNextActionVerifyWithMicrodeposits = PaymentIntentNextActionVer
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl :: Data.Text.Internal.Text
+    paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl :: Data.Text.Internal.Text,
+    -- | microdeposit_type: The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
+    paymentIntentNextActionVerifyWithMicrodepositsMicrodepositType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +51,11 @@ data PaymentIntentNextActionVerifyWithMicrodeposits = PaymentIntentNextActionVer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionVerifyWithMicrodeposits where
-  toJSON obj = Data.Aeson.Types.Internal.object ("arrival_date" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsArrivalDate obj : "hosted_verification_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("arrival_date" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsArrivalDate obj) GHC.Base.<> ("hosted_verification_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["arrival_date" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsArrivalDate obj] : ["hosted_verification_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("microdeposit_type" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionVerifyWithMicrodepositsMicrodepositType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["arrival_date" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsArrivalDate obj] : ["hosted_verification_url" Data.Aeson.Types.ToJSON..= paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("microdeposit_type" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionVerifyWithMicrodepositsMicrodepositType obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionVerifyWithMicrodeposits where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionVerifyWithMicrodeposits" (\obj -> (GHC.Base.pure PaymentIntentNextActionVerifyWithMicrodeposits GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "arrival_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "hosted_verification_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionVerifyWithMicrodeposits" (\obj -> ((GHC.Base.pure PaymentIntentNextActionVerifyWithMicrodeposits GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "arrival_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "hosted_verification_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "microdeposit_type"))
 
 -- | Create a new 'PaymentIntentNextActionVerifyWithMicrodeposits' with all required fields.
 mkPaymentIntentNextActionVerifyWithMicrodeposits ::
@@ -63,5 +67,35 @@ mkPaymentIntentNextActionVerifyWithMicrodeposits ::
 mkPaymentIntentNextActionVerifyWithMicrodeposits paymentIntentNextActionVerifyWithMicrodepositsArrivalDate paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl =
   PaymentIntentNextActionVerifyWithMicrodeposits
     { paymentIntentNextActionVerifyWithMicrodepositsArrivalDate = paymentIntentNextActionVerifyWithMicrodepositsArrivalDate,
-      paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl = paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl
+      paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl = paymentIntentNextActionVerifyWithMicrodepositsHostedVerificationUrl,
+      paymentIntentNextActionVerifyWithMicrodepositsMicrodepositType = GHC.Maybe.Nothing
     }
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_next_action_verify_with_microdeposits.properties.microdeposit_type@ in the specification.
+--
+-- The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
+data PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"amounts"@
+    PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableEnumAmounts
+  | -- | Represents the JSON value @"descriptor_code"@
+    PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableEnumDescriptorCode
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullable where
+  toJSON (PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableOther val) = val
+  toJSON (PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableEnumAmounts) = "amounts"
+  toJSON (PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableEnumDescriptorCode) = "descriptor_code"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "amounts" -> PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableEnumAmounts
+            | val GHC.Classes.== "descriptor_code" -> PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableEnumDescriptorCode
+            | GHC.Base.otherwise -> PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType'NonNullableOther val
+      )

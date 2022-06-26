@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetInvoiceitemsInvoiceitemParameters = GetInvoiceitemsInvoiceitemParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetInvoiceitemsInvoiceitemParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathInvoiceitem" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj : "queryExpand" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathInvoiceitem" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathInvoiceitem" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getInvoiceitemsInvoiceitemParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathInvoiceitem" Data.Aeson.Types.ToJSON..= getInvoiceitemsInvoiceitemParametersPathInvoiceitem obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getInvoiceitemsInvoiceitemParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoiceitemsInvoiceitemParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoiceitemsInvoiceitemParameters" (\obj -> (GHC.Base.pure GetInvoiceitemsInvoiceitemParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathInvoiceitem")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoiceitemsInvoiceitemParameters" (\obj -> (GHC.Base.pure GetInvoiceitemsInvoiceitemParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathInvoiceitem")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetInvoiceitemsInvoiceitemParameters' with all required fields.
 mkGetInvoiceitemsInvoiceitemParameters ::

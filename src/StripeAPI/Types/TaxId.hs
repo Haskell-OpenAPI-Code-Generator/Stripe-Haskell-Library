@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -44,11 +46,11 @@ data TaxId = TaxId
     -- Constraints:
     --
     -- * Maximum length of 5000
-    taxIdCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    taxIdCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     taxIdCreated :: GHC.Types.Int,
     -- | customer: ID of the customer.
-    taxIdCustomer :: (GHC.Maybe.Maybe TaxIdCustomer'Variants),
+    taxIdCustomer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TaxIdCustomer'NonNullableVariants)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -57,7 +59,7 @@ data TaxId = TaxId
     taxIdId :: Data.Text.Internal.Text,
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     taxIdLivemode :: GHC.Types.Bool,
-    -- | type: Type of the tax ID, one of \`ae_trn\`, \`au_abn\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`es_cif\`, \`eu_vat\`, \`gb_vat\`, \`hk_br\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`jp_cn\`, \`jp_rn\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`th_vat\`, \`tw_vat\`, \`us_ein\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
+    -- | type: Type of the tax ID, one of \`ae_trn\`, \`au_abn\`, \`au_arn\`, \`bg_uic\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`es_cif\`, \`eu_oss_vat\`, \`eu_vat\`, \`gb_vat\`, \`ge_vat\`, \`hk_br\`, \`hu_tin\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`is_vat\`, \`jp_cn\`, \`jp_rn\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`si_tin\`, \`th_vat\`, \`tw_vat\`, \`ua_vat\`, \`us_ein\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
     taxIdType :: TaxIdType',
     -- | value: Value of the tax ID.
     --
@@ -66,7 +68,7 @@ data TaxId = TaxId
     -- * Maximum length of 5000
     taxIdValue :: Data.Text.Internal.Text,
     -- | verification: Tax ID verification information.
-    taxIdVerification :: (GHC.Maybe.Maybe TaxIdVerification')
+    taxIdVerification :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TaxIdVerification'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -74,11 +76,11 @@ data TaxId = TaxId
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxId where
-  toJSON obj = Data.Aeson.Types.Internal.object ("country" Data.Aeson.Types.ToJSON..= taxIdCountry obj : "created" Data.Aeson.Types.ToJSON..= taxIdCreated obj : "customer" Data.Aeson.Types.ToJSON..= taxIdCustomer obj : "id" Data.Aeson.Types.ToJSON..= taxIdId obj : "livemode" Data.Aeson.Types.ToJSON..= taxIdLivemode obj : "type" Data.Aeson.Types.ToJSON..= taxIdType obj : "value" Data.Aeson.Types.ToJSON..= taxIdValue obj : "verification" Data.Aeson.Types.ToJSON..= taxIdVerification obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_id" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("country" Data.Aeson.Types.ToJSON..= taxIdCountry obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= taxIdCreated obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= taxIdCustomer obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= taxIdId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= taxIdLivemode obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= taxIdType obj) GHC.Base.<> (("value" Data.Aeson.Types.ToJSON..= taxIdValue obj) GHC.Base.<> (("verification" Data.Aeson.Types.ToJSON..= taxIdVerification obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_id")))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (taxIdCountry obj) : ["created" Data.Aeson.Types.ToJSON..= taxIdCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (taxIdCustomer obj) : ["id" Data.Aeson.Types.ToJSON..= taxIdId obj] : ["livemode" Data.Aeson.Types.ToJSON..= taxIdLivemode obj] : ["type" Data.Aeson.Types.ToJSON..= taxIdType obj] : ["value" Data.Aeson.Types.ToJSON..= taxIdValue obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (taxIdVerification obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_id"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (taxIdCountry obj) : ["created" Data.Aeson.Types.ToJSON..= taxIdCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (taxIdCustomer obj) : ["id" Data.Aeson.Types.ToJSON..= taxIdId obj] : ["livemode" Data.Aeson.Types.ToJSON..= taxIdLivemode obj] : ["type" Data.Aeson.Types.ToJSON..= taxIdType obj] : ["value" Data.Aeson.Types.ToJSON..= taxIdValue obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (taxIdVerification obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_id"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxId where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxId" (\obj -> (((((((GHC.Base.pure TaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxId" (\obj -> (((((((GHC.Base.pure TaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
 
 -- | Create a new 'TaxId' with all required fields.
 mkTaxId ::
@@ -108,23 +110,23 @@ mkTaxId taxIdCreated taxIdId taxIdLivemode taxIdType taxIdValue =
 -- | Defines the oneOf schema located at @components.schemas.tax_id.properties.customer.anyOf@ in the specification.
 --
 -- ID of the customer.
-data TaxIdCustomer'Variants
-  = TaxIdCustomer'Text Data.Text.Internal.Text
-  | TaxIdCustomer'Customer Customer
+data TaxIdCustomer'NonNullableVariants
+  = TaxIdCustomer'NonNullableText Data.Text.Internal.Text
+  | TaxIdCustomer'NonNullableCustomer Customer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON TaxIdCustomer'Variants where
-  toJSON (TaxIdCustomer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (TaxIdCustomer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON TaxIdCustomer'NonNullableVariants where
+  toJSON (TaxIdCustomer'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (TaxIdCustomer'NonNullableCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON TaxIdCustomer'Variants where
-  parseJSON val = case (TaxIdCustomer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TaxIdCustomer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON TaxIdCustomer'NonNullableVariants where
+  parseJSON val = case (TaxIdCustomer'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TaxIdCustomer'NonNullableCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @components.schemas.tax_id.properties.type@ in the specification.
 --
--- Type of the tax ID, one of \`ae_trn\`, \`au_abn\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`es_cif\`, \`eu_vat\`, \`gb_vat\`, \`hk_br\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`jp_cn\`, \`jp_rn\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`th_vat\`, \`tw_vat\`, \`us_ein\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
+-- Type of the tax ID, one of \`ae_trn\`, \`au_abn\`, \`au_arn\`, \`bg_uic\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`es_cif\`, \`eu_oss_vat\`, \`eu_vat\`, \`gb_vat\`, \`ge_vat\`, \`hk_br\`, \`hu_tin\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`is_vat\`, \`jp_cn\`, \`jp_rn\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`si_tin\`, \`th_vat\`, \`tw_vat\`, \`ua_vat\`, \`us_ein\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
 data TaxIdType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     TaxIdType'Other Data.Aeson.Types.Internal.Value
@@ -134,6 +136,10 @@ data TaxIdType'
     TaxIdType'EnumAeTrn
   | -- | Represents the JSON value @"au_abn"@
     TaxIdType'EnumAuAbn
+  | -- | Represents the JSON value @"au_arn"@
+    TaxIdType'EnumAuArn
+  | -- | Represents the JSON value @"bg_uic"@
+    TaxIdType'EnumBgUic
   | -- | Represents the JSON value @"br_cnpj"@
     TaxIdType'EnumBrCnpj
   | -- | Represents the JSON value @"br_cpf"@
@@ -156,18 +162,26 @@ data TaxIdType'
     TaxIdType'EnumClTin
   | -- | Represents the JSON value @"es_cif"@
     TaxIdType'EnumEsCif
+  | -- | Represents the JSON value @"eu_oss_vat"@
+    TaxIdType'EnumEuOssVat
   | -- | Represents the JSON value @"eu_vat"@
     TaxIdType'EnumEuVat
   | -- | Represents the JSON value @"gb_vat"@
     TaxIdType'EnumGbVat
+  | -- | Represents the JSON value @"ge_vat"@
+    TaxIdType'EnumGeVat
   | -- | Represents the JSON value @"hk_br"@
     TaxIdType'EnumHkBr
+  | -- | Represents the JSON value @"hu_tin"@
+    TaxIdType'EnumHuTin
   | -- | Represents the JSON value @"id_npwp"@
     TaxIdType'EnumIdNpwp
   | -- | Represents the JSON value @"il_vat"@
     TaxIdType'EnumIlVat
   | -- | Represents the JSON value @"in_gst"@
     TaxIdType'EnumInGst
+  | -- | Represents the JSON value @"is_vat"@
+    TaxIdType'EnumIsVat
   | -- | Represents the JSON value @"jp_cn"@
     TaxIdType'EnumJpCn
   | -- | Represents the JSON value @"jp_rn"@
@@ -198,10 +212,14 @@ data TaxIdType'
     TaxIdType'EnumSgGst
   | -- | Represents the JSON value @"sg_uen"@
     TaxIdType'EnumSgUen
+  | -- | Represents the JSON value @"si_tin"@
+    TaxIdType'EnumSiTin
   | -- | Represents the JSON value @"th_vat"@
     TaxIdType'EnumThVat
   | -- | Represents the JSON value @"tw_vat"@
     TaxIdType'EnumTwVat
+  | -- | Represents the JSON value @"ua_vat"@
+    TaxIdType'EnumUaVat
   | -- | Represents the JSON value @"unknown"@
     TaxIdType'EnumUnknown
   | -- | Represents the JSON value @"us_ein"@
@@ -215,6 +233,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON TaxIdType' where
   toJSON (TaxIdType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (TaxIdType'EnumAeTrn) = "ae_trn"
   toJSON (TaxIdType'EnumAuAbn) = "au_abn"
+  toJSON (TaxIdType'EnumAuArn) = "au_arn"
+  toJSON (TaxIdType'EnumBgUic) = "bg_uic"
   toJSON (TaxIdType'EnumBrCnpj) = "br_cnpj"
   toJSON (TaxIdType'EnumBrCpf) = "br_cpf"
   toJSON (TaxIdType'EnumCaBn) = "ca_bn"
@@ -226,12 +246,16 @@ instance Data.Aeson.Types.ToJSON.ToJSON TaxIdType' where
   toJSON (TaxIdType'EnumChVat) = "ch_vat"
   toJSON (TaxIdType'EnumClTin) = "cl_tin"
   toJSON (TaxIdType'EnumEsCif) = "es_cif"
+  toJSON (TaxIdType'EnumEuOssVat) = "eu_oss_vat"
   toJSON (TaxIdType'EnumEuVat) = "eu_vat"
   toJSON (TaxIdType'EnumGbVat) = "gb_vat"
+  toJSON (TaxIdType'EnumGeVat) = "ge_vat"
   toJSON (TaxIdType'EnumHkBr) = "hk_br"
+  toJSON (TaxIdType'EnumHuTin) = "hu_tin"
   toJSON (TaxIdType'EnumIdNpwp) = "id_npwp"
   toJSON (TaxIdType'EnumIlVat) = "il_vat"
   toJSON (TaxIdType'EnumInGst) = "in_gst"
+  toJSON (TaxIdType'EnumIsVat) = "is_vat"
   toJSON (TaxIdType'EnumJpCn) = "jp_cn"
   toJSON (TaxIdType'EnumJpRn) = "jp_rn"
   toJSON (TaxIdType'EnumKrBrn) = "kr_brn"
@@ -247,8 +271,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON TaxIdType' where
   toJSON (TaxIdType'EnumSaVat) = "sa_vat"
   toJSON (TaxIdType'EnumSgGst) = "sg_gst"
   toJSON (TaxIdType'EnumSgUen) = "sg_uen"
+  toJSON (TaxIdType'EnumSiTin) = "si_tin"
   toJSON (TaxIdType'EnumThVat) = "th_vat"
   toJSON (TaxIdType'EnumTwVat) = "tw_vat"
+  toJSON (TaxIdType'EnumUaVat) = "ua_vat"
   toJSON (TaxIdType'EnumUnknown) = "unknown"
   toJSON (TaxIdType'EnumUsEin) = "us_ein"
   toJSON (TaxIdType'EnumZaVat) = "za_vat"
@@ -259,6 +285,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
       ( if
             | val GHC.Classes.== "ae_trn" -> TaxIdType'EnumAeTrn
             | val GHC.Classes.== "au_abn" -> TaxIdType'EnumAuAbn
+            | val GHC.Classes.== "au_arn" -> TaxIdType'EnumAuArn
+            | val GHC.Classes.== "bg_uic" -> TaxIdType'EnumBgUic
             | val GHC.Classes.== "br_cnpj" -> TaxIdType'EnumBrCnpj
             | val GHC.Classes.== "br_cpf" -> TaxIdType'EnumBrCpf
             | val GHC.Classes.== "ca_bn" -> TaxIdType'EnumCaBn
@@ -270,12 +298,16 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
             | val GHC.Classes.== "ch_vat" -> TaxIdType'EnumChVat
             | val GHC.Classes.== "cl_tin" -> TaxIdType'EnumClTin
             | val GHC.Classes.== "es_cif" -> TaxIdType'EnumEsCif
+            | val GHC.Classes.== "eu_oss_vat" -> TaxIdType'EnumEuOssVat
             | val GHC.Classes.== "eu_vat" -> TaxIdType'EnumEuVat
             | val GHC.Classes.== "gb_vat" -> TaxIdType'EnumGbVat
+            | val GHC.Classes.== "ge_vat" -> TaxIdType'EnumGeVat
             | val GHC.Classes.== "hk_br" -> TaxIdType'EnumHkBr
+            | val GHC.Classes.== "hu_tin" -> TaxIdType'EnumHuTin
             | val GHC.Classes.== "id_npwp" -> TaxIdType'EnumIdNpwp
             | val GHC.Classes.== "il_vat" -> TaxIdType'EnumIlVat
             | val GHC.Classes.== "in_gst" -> TaxIdType'EnumInGst
+            | val GHC.Classes.== "is_vat" -> TaxIdType'EnumIsVat
             | val GHC.Classes.== "jp_cn" -> TaxIdType'EnumJpCn
             | val GHC.Classes.== "jp_rn" -> TaxIdType'EnumJpRn
             | val GHC.Classes.== "kr_brn" -> TaxIdType'EnumKrBrn
@@ -291,8 +323,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
             | val GHC.Classes.== "sa_vat" -> TaxIdType'EnumSaVat
             | val GHC.Classes.== "sg_gst" -> TaxIdType'EnumSgGst
             | val GHC.Classes.== "sg_uen" -> TaxIdType'EnumSgUen
+            | val GHC.Classes.== "si_tin" -> TaxIdType'EnumSiTin
             | val GHC.Classes.== "th_vat" -> TaxIdType'EnumThVat
             | val GHC.Classes.== "tw_vat" -> TaxIdType'EnumTwVat
+            | val GHC.Classes.== "ua_vat" -> TaxIdType'EnumUaVat
             | val GHC.Classes.== "unknown" -> TaxIdType'EnumUnknown
             | val GHC.Classes.== "us_ein" -> TaxIdType'EnumUsEin
             | val GHC.Classes.== "za_vat" -> TaxIdType'EnumZaVat
@@ -302,76 +336,76 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
 -- | Defines the object schema located at @components.schemas.tax_id.properties.verification.anyOf@ in the specification.
 --
 -- Tax ID verification information.
-data TaxIdVerification' = TaxIdVerification'
+data TaxIdVerification'NonNullable = TaxIdVerification'NonNullable
   { -- | status: Verification status, one of \`pending\`, \`verified\`, \`unverified\`, or \`unavailable\`.
-    taxIdVerification'Status :: (GHC.Maybe.Maybe TaxIdVerification'Status'),
+    taxIdVerification'NonNullableStatus :: (GHC.Maybe.Maybe TaxIdVerification'NonNullableStatus'),
     -- | verified_address: Verified address.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    taxIdVerification'VerifiedAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    taxIdVerification'NonNullableVerifiedAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_name: Verified name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    taxIdVerification'VerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    taxIdVerification'NonNullableVerifiedName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON TaxIdVerification' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("status" Data.Aeson.Types.ToJSON..= taxIdVerification'Status obj : "verified_address" Data.Aeson.Types.ToJSON..= taxIdVerification'VerifiedAddress obj : "verified_name" Data.Aeson.Types.ToJSON..= taxIdVerification'VerifiedName obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("status" Data.Aeson.Types.ToJSON..= taxIdVerification'Status obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= taxIdVerification'VerifiedAddress obj) GHC.Base.<> ("verified_name" Data.Aeson.Types.ToJSON..= taxIdVerification'VerifiedName obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON TaxIdVerification'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (taxIdVerification'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (taxIdVerification'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (taxIdVerification'NonNullableVerifiedName obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (taxIdVerification'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (taxIdVerification'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (taxIdVerification'NonNullableVerifiedName obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxIdVerification'" (\obj -> ((GHC.Base.pure TaxIdVerification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxIdVerification'NonNullable" (\obj -> ((GHC.Base.pure TaxIdVerification'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_name"))
 
--- | Create a new 'TaxIdVerification'' with all required fields.
-mkTaxIdVerification' :: TaxIdVerification'
-mkTaxIdVerification' =
-  TaxIdVerification'
-    { taxIdVerification'Status = GHC.Maybe.Nothing,
-      taxIdVerification'VerifiedAddress = GHC.Maybe.Nothing,
-      taxIdVerification'VerifiedName = GHC.Maybe.Nothing
+-- | Create a new 'TaxIdVerification'NonNullable' with all required fields.
+mkTaxIdVerification'NonNullable :: TaxIdVerification'NonNullable
+mkTaxIdVerification'NonNullable =
+  TaxIdVerification'NonNullable
+    { taxIdVerification'NonNullableStatus = GHC.Maybe.Nothing,
+      taxIdVerification'NonNullableVerifiedAddress = GHC.Maybe.Nothing,
+      taxIdVerification'NonNullableVerifiedName = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.tax_id.properties.verification.anyOf.properties.status@ in the specification.
 --
 -- Verification status, one of \`pending\`, \`verified\`, \`unverified\`, or \`unavailable\`.
-data TaxIdVerification'Status'
+data TaxIdVerification'NonNullableStatus'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    TaxIdVerification'Status'Other Data.Aeson.Types.Internal.Value
+    TaxIdVerification'NonNullableStatus'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    TaxIdVerification'Status'Typed Data.Text.Internal.Text
+    TaxIdVerification'NonNullableStatus'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"pending"@
-    TaxIdVerification'Status'EnumPending
+    TaxIdVerification'NonNullableStatus'EnumPending
   | -- | Represents the JSON value @"unavailable"@
-    TaxIdVerification'Status'EnumUnavailable
+    TaxIdVerification'NonNullableStatus'EnumUnavailable
   | -- | Represents the JSON value @"unverified"@
-    TaxIdVerification'Status'EnumUnverified
+    TaxIdVerification'NonNullableStatus'EnumUnverified
   | -- | Represents the JSON value @"verified"@
-    TaxIdVerification'Status'EnumVerified
+    TaxIdVerification'NonNullableStatus'EnumVerified
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON TaxIdVerification'Status' where
-  toJSON (TaxIdVerification'Status'Other val) = val
-  toJSON (TaxIdVerification'Status'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (TaxIdVerification'Status'EnumPending) = "pending"
-  toJSON (TaxIdVerification'Status'EnumUnavailable) = "unavailable"
-  toJSON (TaxIdVerification'Status'EnumUnverified) = "unverified"
-  toJSON (TaxIdVerification'Status'EnumVerified) = "verified"
+instance Data.Aeson.Types.ToJSON.ToJSON TaxIdVerification'NonNullableStatus' where
+  toJSON (TaxIdVerification'NonNullableStatus'Other val) = val
+  toJSON (TaxIdVerification'NonNullableStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TaxIdVerification'NonNullableStatus'EnumPending) = "pending"
+  toJSON (TaxIdVerification'NonNullableStatus'EnumUnavailable) = "unavailable"
+  toJSON (TaxIdVerification'NonNullableStatus'EnumUnverified) = "unverified"
+  toJSON (TaxIdVerification'NonNullableStatus'EnumVerified) = "verified"
 
-instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification'Status' where
+instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification'NonNullableStatus' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "pending" -> TaxIdVerification'Status'EnumPending
-            | val GHC.Classes.== "unavailable" -> TaxIdVerification'Status'EnumUnavailable
-            | val GHC.Classes.== "unverified" -> TaxIdVerification'Status'EnumUnverified
-            | val GHC.Classes.== "verified" -> TaxIdVerification'Status'EnumVerified
-            | GHC.Base.otherwise -> TaxIdVerification'Status'Other val
+            | val GHC.Classes.== "pending" -> TaxIdVerification'NonNullableStatus'EnumPending
+            | val GHC.Classes.== "unavailable" -> TaxIdVerification'NonNullableStatus'EnumUnavailable
+            | val GHC.Classes.== "unverified" -> TaxIdVerification'NonNullableStatus'EnumUnverified
+            | val GHC.Classes.== "verified" -> TaxIdVerification'NonNullableStatus'EnumVerified
+            | GHC.Base.otherwise -> TaxIdVerification'NonNullableStatus'Other val
       )

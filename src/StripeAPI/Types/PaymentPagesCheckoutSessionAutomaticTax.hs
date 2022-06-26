@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,7 +37,7 @@ data PaymentPagesCheckoutSessionAutomaticTax = PaymentPagesCheckoutSessionAutoma
   { -- | enabled: Indicates whether automatic tax is enabled for the session
     paymentPagesCheckoutSessionAutomaticTaxEnabled :: GHC.Types.Bool,
     -- | status: The status of the most recent automated tax calculation for this session.
-    paymentPagesCheckoutSessionAutomaticTaxStatus :: (GHC.Maybe.Maybe PaymentPagesCheckoutSessionAutomaticTaxStatus')
+    paymentPagesCheckoutSessionAutomaticTaxStatus :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -43,11 +45,11 @@ data PaymentPagesCheckoutSessionAutomaticTax = PaymentPagesCheckoutSessionAutoma
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionAutomaticTax where
-  toJSON obj = Data.Aeson.Types.Internal.object ("enabled" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionAutomaticTaxEnabled obj : "status" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionAutomaticTaxStatus obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("enabled" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionAutomaticTaxEnabled obj) GHC.Base.<> ("status" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionAutomaticTaxStatus obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionAutomaticTaxEnabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionAutomaticTaxStatus obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= paymentPagesCheckoutSessionAutomaticTaxEnabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionAutomaticTaxStatus obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionAutomaticTax where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionAutomaticTax" (\obj -> (GHC.Base.pure PaymentPagesCheckoutSessionAutomaticTax GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionAutomaticTax" (\obj -> (GHC.Base.pure PaymentPagesCheckoutSessionAutomaticTax GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
 
 -- | Create a new 'PaymentPagesCheckoutSessionAutomaticTax' with all required fields.
 mkPaymentPagesCheckoutSessionAutomaticTax ::
@@ -63,32 +65,32 @@ mkPaymentPagesCheckoutSessionAutomaticTax paymentPagesCheckoutSessionAutomaticTa
 -- | Defines the enum schema located at @components.schemas.payment_pages_checkout_session_automatic_tax.properties.status@ in the specification.
 --
 -- The status of the most recent automated tax calculation for this session.
-data PaymentPagesCheckoutSessionAutomaticTaxStatus'
+data PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PaymentPagesCheckoutSessionAutomaticTaxStatus'Other Data.Aeson.Types.Internal.Value
+    PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PaymentPagesCheckoutSessionAutomaticTaxStatus'Typed Data.Text.Internal.Text
+    PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"complete"@
-    PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumComplete
+    PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumComplete
   | -- | Represents the JSON value @"failed"@
-    PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumFailed
+    PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumFailed
   | -- | Represents the JSON value @"requires_location_inputs"@
-    PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumRequiresLocationInputs
+    PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumRequiresLocationInputs
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionAutomaticTaxStatus' where
-  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'Other val) = val
-  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumComplete) = "complete"
-  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumFailed) = "failed"
-  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumRequiresLocationInputs) = "requires_location_inputs"
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullable where
+  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableOther val) = val
+  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumComplete) = "complete"
+  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumFailed) = "failed"
+  toJSON (PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumRequiresLocationInputs) = "requires_location_inputs"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionAutomaticTaxStatus' where
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "complete" -> PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumComplete
-            | val GHC.Classes.== "failed" -> PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumFailed
-            | val GHC.Classes.== "requires_location_inputs" -> PaymentPagesCheckoutSessionAutomaticTaxStatus'EnumRequiresLocationInputs
-            | GHC.Base.otherwise -> PaymentPagesCheckoutSessionAutomaticTaxStatus'Other val
+            | val GHC.Classes.== "complete" -> PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumComplete
+            | val GHC.Classes.== "failed" -> PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumFailed
+            | val GHC.Classes.== "requires_location_inputs" -> PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableEnumRequiresLocationInputs
+            | GHC.Base.otherwise -> PaymentPagesCheckoutSessionAutomaticTaxStatus'NonNullableOther val
       )

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -47,8 +49,8 @@ data LoginLink = LoginLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LoginLink where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= loginLinkCreated obj : "url" Data.Aeson.Types.ToJSON..= loginLinkUrl obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "login_link" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= loginLinkCreated obj) GHC.Base.<> (("url" Data.Aeson.Types.ToJSON..= loginLinkUrl obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "login_link")))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= loginLinkCreated obj] : ["url" Data.Aeson.Types.ToJSON..= loginLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "login_link"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= loginLinkCreated obj] : ["url" Data.Aeson.Types.ToJSON..= loginLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "login_link"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LoginLink where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "LoginLink" (\obj -> (GHC.Base.pure LoginLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,9 +35,9 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing_transaction_lodging_data@ in the specification.
 data IssuingTransactionLodgingData = IssuingTransactionLodgingData
   { -- | check_in_at: The time of checking into the lodging.
-    issuingTransactionLodgingDataCheckInAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    issuingTransactionLodgingDataCheckInAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | nights: The number of nights stayed at the lodging.
-    issuingTransactionLodgingDataNights :: (GHC.Maybe.Maybe GHC.Types.Int)
+    issuingTransactionLodgingDataNights :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -43,11 +45,11 @@ data IssuingTransactionLodgingData = IssuingTransactionLodgingData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingTransactionLodgingData where
-  toJSON obj = Data.Aeson.Types.Internal.object ("check_in_at" Data.Aeson.Types.ToJSON..= issuingTransactionLodgingDataCheckInAt obj : "nights" Data.Aeson.Types.ToJSON..= issuingTransactionLodgingDataNights obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("check_in_at" Data.Aeson.Types.ToJSON..= issuingTransactionLodgingDataCheckInAt obj) GHC.Base.<> ("nights" Data.Aeson.Types.ToJSON..= issuingTransactionLodgingDataNights obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("check_in_at" Data.Aeson.Types.ToJSON..=)) (issuingTransactionLodgingDataCheckInAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nights" Data.Aeson.Types.ToJSON..=)) (issuingTransactionLodgingDataNights obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("check_in_at" Data.Aeson.Types.ToJSON..=)) (issuingTransactionLodgingDataCheckInAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nights" Data.Aeson.Types.ToJSON..=)) (issuingTransactionLodgingDataNights obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingTransactionLodgingData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionLodgingData" (\obj -> (GHC.Base.pure IssuingTransactionLodgingData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "check_in_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "nights"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingTransactionLodgingData" (\obj -> (GHC.Base.pure IssuingTransactionLodgingData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "check_in_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nights"))
 
 -- | Create a new 'IssuingTransactionLodgingData' with all required fields.
 mkIssuingTransactionLodgingData :: IssuingTransactionLodgingData

@@ -1,28 +1,34 @@
 module StripeAPI.Types.LegalEntityCompany where
 import Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
 data LegalEntityCompany
 instance Show LegalEntityCompany
 instance Eq LegalEntityCompany
 instance FromJSON LegalEntityCompany
 instance ToJSON LegalEntityCompany
-data LegalEntityCompanyAddressKana'
-instance Show LegalEntityCompanyAddressKana'
-instance Eq LegalEntityCompanyAddressKana'
-instance FromJSON LegalEntityCompanyAddressKana'
-instance ToJSON LegalEntityCompanyAddressKana'
-data LegalEntityCompanyAddressKanji'
-instance Show LegalEntityCompanyAddressKanji'
-instance Eq LegalEntityCompanyAddressKanji'
-instance FromJSON LegalEntityCompanyAddressKanji'
-instance ToJSON LegalEntityCompanyAddressKanji'
+data LegalEntityCompanyAddressKana'NonNullable
+instance Show LegalEntityCompanyAddressKana'NonNullable
+instance Eq LegalEntityCompanyAddressKana'NonNullable
+instance FromJSON LegalEntityCompanyAddressKana'NonNullable
+instance ToJSON LegalEntityCompanyAddressKana'NonNullable
+data LegalEntityCompanyAddressKanji'NonNullable
+instance Show LegalEntityCompanyAddressKanji'NonNullable
+instance Eq LegalEntityCompanyAddressKanji'NonNullable
+instance FromJSON LegalEntityCompanyAddressKanji'NonNullable
+instance ToJSON LegalEntityCompanyAddressKanji'NonNullable
+data LegalEntityCompanyOwnershipDeclaration'NonNullable
+instance Show LegalEntityCompanyOwnershipDeclaration'NonNullable
+instance Eq LegalEntityCompanyOwnershipDeclaration'NonNullable
+instance FromJSON LegalEntityCompanyOwnershipDeclaration'NonNullable
+instance ToJSON LegalEntityCompanyOwnershipDeclaration'NonNullable
 data LegalEntityCompanyStructure'
 instance Show LegalEntityCompanyStructure'
 instance Eq LegalEntityCompanyStructure'
 instance FromJSON LegalEntityCompanyStructure'
 instance ToJSON LegalEntityCompanyStructure'
-data LegalEntityCompanyVerification'
-instance Show LegalEntityCompanyVerification'
-instance Eq LegalEntityCompanyVerification'
-instance FromJSON LegalEntityCompanyVerification'
-instance ToJSON LegalEntityCompanyVerification'
+data LegalEntityCompanyVerification'NonNullable
+instance Show LegalEntityCompanyVerification'NonNullable
+instance Eq LegalEntityCompanyVerification'NonNullable
+instance FromJSON LegalEntityCompanyVerification'NonNullable
+instance ToJSON LegalEntityCompanyVerification'NonNullable

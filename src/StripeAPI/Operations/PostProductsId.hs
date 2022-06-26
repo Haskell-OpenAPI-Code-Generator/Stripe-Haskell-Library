@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -88,6 +90,12 @@ postProductsId
 data PostProductsIdRequestBody = PostProductsIdRequestBody
   { -- | active: Whether the product is available for purchase.
     postProductsIdRequestBodyActive :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | default_price: The ID of the [Price](https:\/\/stripe.com\/docs\/api\/prices) object that is the default price for this product.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postProductsIdRequestBodyDefaultPrice :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | description: The product\'s description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
     --
     -- Constraints:
@@ -100,7 +108,7 @@ data PostProductsIdRequestBody = PostProductsIdRequestBody
     postProductsIdRequestBodyImages :: (GHC.Maybe.Maybe PostProductsIdRequestBodyImages'Variants),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postProductsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostProductsIdRequestBodyMetadata'Variants),
-    -- | name: The product\'s name, meant to be displayable to the customer. Whenever this product is sold via a subscription, name will show up on associated invoice line item descriptions.
+    -- | name: The product\'s name, meant to be displayable to the customer.
     --
     -- Constraints:
     --
@@ -119,7 +127,7 @@ data PostProductsIdRequestBody = PostProductsIdRequestBody
     --
     -- * Maximum length of 22
     postProductsIdRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | tax_code: A [tax code](https:\/\/stripe.com\/docs\/tax\/tax-codes) ID.
+    -- | tax_code: A [tax code](https:\/\/stripe.com\/docs\/tax\/tax-categories) ID.
     postProductsIdRequestBodyTaxCode :: (GHC.Maybe.Maybe PostProductsIdRequestBodyTaxCode'Variants),
     -- | unit_label: A label that represents units of this product in Stripe and on customers’ receipts and invoices. When set, this will be included in associated invoice line item descriptions. May only be set if \`type=service\`.
     --
@@ -128,7 +136,7 @@ data PostProductsIdRequestBody = PostProductsIdRequestBody
     -- * Maximum length of 12
     postProductsIdRequestBodyUnitLabel :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | url: A URL of a publicly-accessible webpage for this product.
-    postProductsIdRequestBodyUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postProductsIdRequestBodyUrl :: (GHC.Maybe.Maybe PostProductsIdRequestBodyUrl'Variants)
   }
   deriving
     ( GHC.Show.Show,
@@ -136,17 +144,18 @@ data PostProductsIdRequestBody = PostProductsIdRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("active" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyActive obj : "description" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyDescription obj : "expand" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyExpand obj : "images" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyImages obj : "metadata" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyMetadata obj : "name" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyName obj : "package_dimensions" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions obj : "shippable" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyShippable obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyStatementDescriptor obj : "tax_code" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyTaxCode obj : "unit_label" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyUnitLabel obj : "url" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("active" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyActive obj) GHC.Base.<> (("description" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyDescription obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyExpand obj) GHC.Base.<> (("images" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyImages obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyMetadata obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyName obj) GHC.Base.<> (("package_dimensions" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions obj) GHC.Base.<> (("shippable" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyShippable obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyStatementDescriptor obj) GHC.Base.<> (("tax_code" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyTaxCode obj) GHC.Base.<> (("unit_label" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyUnitLabel obj) GHC.Base.<> ("url" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyUrl obj))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_price" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyDefaultPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("images" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyImages obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("package_dimensions" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyPackageDimensions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shippable" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyShippable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_code" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyTaxCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_label" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyUnitLabel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_price" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyDefaultPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("images" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyImages obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("package_dimensions" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyPackageDimensions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shippable" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyShippable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_code" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyTaxCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_label" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyUnitLabel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (postProductsIdRequestBodyUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostProductsIdRequestBody" (\obj -> (((((((((((GHC.Base.pure PostProductsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "images")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "shippable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostProductsIdRequestBody" (\obj -> ((((((((((((GHC.Base.pure PostProductsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "images")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shippable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))
 
 -- | Create a new 'PostProductsIdRequestBody' with all required fields.
 mkPostProductsIdRequestBody :: PostProductsIdRequestBody
 mkPostProductsIdRequestBody =
   PostProductsIdRequestBody
     { postProductsIdRequestBodyActive = GHC.Maybe.Nothing,
+      postProductsIdRequestBodyDefaultPrice = GHC.Maybe.Nothing,
       postProductsIdRequestBodyDescription = GHC.Maybe.Nothing,
       postProductsIdRequestBodyExpand = GHC.Maybe.Nothing,
       postProductsIdRequestBodyImages = GHC.Maybe.Nothing,
@@ -219,8 +228,8 @@ data PostProductsIdRequestBodyPackageDimensions'OneOf1 = PostProductsIdRequestBo
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyPackageDimensions'OneOf1 where
-  toJSON obj = Data.Aeson.Types.Internal.object ("height" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Height obj : "length" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Length obj : "weight" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Weight obj : "width" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Width obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("height" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Height obj) GHC.Base.<> (("length" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Length obj) GHC.Base.<> (("weight" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Weight obj) GHC.Base.<> ("width" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Width obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["height" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Height obj] : ["length" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Length obj] : ["weight" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Weight obj] : ["width" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Width obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["height" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Height obj] : ["length" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Length obj] : ["weight" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Weight obj] : ["width" Data.Aeson.Types.ToJSON..= postProductsIdRequestBodyPackageDimensions'OneOf1Width obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyPackageDimensions'OneOf1 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostProductsIdRequestBodyPackageDimensions'OneOf1" (\obj -> (((GHC.Base.pure PostProductsIdRequestBodyPackageDimensions'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "height")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "weight")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "width"))
@@ -267,7 +276,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyPackageDime
 
 -- | Defines the oneOf schema located at @paths.\/v1\/products\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_code.anyOf@ in the specification.
 --
--- A [tax code](https:\/\/stripe.com\/docs\/tax\/tax-codes) ID.
+-- A [tax code](https:\/\/stripe.com\/docs\/tax\/tax-categories) ID.
 data PostProductsIdRequestBodyTaxCode'Variants
   = -- | Represents the JSON value @""@
     PostProductsIdRequestBodyTaxCode'EmptyString
@@ -283,6 +292,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyTaxCode'Var
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostProductsIdRequestBodyTaxCode'EmptyString
         | GHC.Base.otherwise -> case (PostProductsIdRequestBodyTaxCode'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/products\/{id}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.url.anyOf@ in the specification.
+--
+-- A URL of a publicly-accessible webpage for this product.
+data PostProductsIdRequestBodyUrl'Variants
+  = -- | Represents the JSON value @""@
+    PostProductsIdRequestBodyUrl'EmptyString
+  | PostProductsIdRequestBodyUrl'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyUrl'Variants where
+  toJSON (PostProductsIdRequestBodyUrl'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostProductsIdRequestBodyUrl'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyUrl'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostProductsIdRequestBodyUrl'EmptyString
+        | GHC.Base.otherwise -> case (PostProductsIdRequestBodyUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
           Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
           Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

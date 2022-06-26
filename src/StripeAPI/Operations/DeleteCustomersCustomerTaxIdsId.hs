@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -97,8 +99,8 @@ data DeleteCustomersCustomerTaxIdsIdParameters = DeleteCustomersCustomerTaxIdsId
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerTaxIdsIdParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathCustomer obj : "pathId" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathId obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathCustomer obj) GHC.Base.<> ("pathId" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathId obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathId obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathCustomer" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathCustomer obj] : ["pathId" Data.Aeson.Types.ToJSON..= deleteCustomersCustomerTaxIdsIdParametersPathId obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerTaxIdsIdParameters where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerTaxIdsIdParameters" (\obj -> (GHC.Base.pure DeleteCustomersCustomerTaxIdsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))

@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -109,11 +111,11 @@ data Post3dSecureRequestBody = Post3dSecureRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Post3dSecureRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object ("amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj : "card" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCard obj : "currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj : "customer" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCustomer obj : "expand" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyExpand obj : "return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCard obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCustomer obj) GHC.Base.<> (("expand" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyExpand obj) GHC.Base.<> ("return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (post3dSecureRequestBodyCard obj) : ["currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (post3dSecureRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (post3dSecureRequestBodyExpand obj) : ["return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (post3dSecureRequestBodyCard obj) : ["currency" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (post3dSecureRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (post3dSecureRequestBodyExpand obj) : ["return_url" Data.Aeson.Types.ToJSON..= post3dSecureRequestBodyReturnUrl obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Post3dSecureRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Post3dSecureRequestBody" (\obj -> (((((GHC.Base.pure Post3dSecureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "return_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Post3dSecureRequestBody" (\obj -> (((((GHC.Base.pure Post3dSecureRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "return_url"))
 
 -- | Create a new 'Post3dSecureRequestBody' with all required fields.
 mkPost3dSecureRequestBody ::

@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -42,8 +44,8 @@ data BalanceDetail = BalanceDetail
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BalanceDetail where
-  toJSON obj = Data.Aeson.Types.Internal.object ("available" Data.Aeson.Types.ToJSON..= balanceDetailAvailable obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs ("available" Data.Aeson.Types.ToJSON..= balanceDetailAvailable obj)
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["available" Data.Aeson.Types.ToJSON..= balanceDetailAvailable obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["available" Data.Aeson.Types.ToJSON..= balanceDetailAvailable obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceDetail where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "BalanceDetail" (\obj -> GHC.Base.pure BalanceDetail GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "available"))

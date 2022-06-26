@@ -17,7 +17,9 @@ import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
 import qualified Data.Either
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -99,11 +101,11 @@ data GetSubscriptionSchedulesScheduleParameters = GetSubscriptionSchedulesSchedu
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesScheduleParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object ("pathSchedule" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersPathSchedule obj : "queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersQueryExpand obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("pathSchedule" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersPathSchedule obj) GHC.Base.<> ("queryExpand" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersQueryExpand obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathSchedule" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersPathSchedule obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSubscriptionSchedulesScheduleParametersQueryExpand obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["pathSchedule" Data.Aeson.Types.ToJSON..= getSubscriptionSchedulesScheduleParametersPathSchedule obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getSubscriptionSchedulesScheduleParametersQueryExpand obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesScheduleParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesScheduleParameters" (\obj -> (GHC.Base.pure GetSubscriptionSchedulesScheduleParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSchedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesScheduleParameters" (\obj -> (GHC.Base.pure GetSubscriptionSchedulesScheduleParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathSchedule")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand"))
 
 -- | Create a new 'GetSubscriptionSchedulesScheduleParameters' with all required fields.
 mkGetSubscriptionSchedulesScheduleParameters ::

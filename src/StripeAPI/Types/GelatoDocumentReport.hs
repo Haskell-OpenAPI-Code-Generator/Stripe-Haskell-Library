@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -40,45 +42,45 @@ import qualified Prelude as GHC.Maybe
 -- Result from a document check
 data GelatoDocumentReport = GelatoDocumentReport
   { -- | address: Address as it appears in the document.
-    gelatoDocumentReportAddress :: (GHC.Maybe.Maybe GelatoDocumentReportAddress'),
+    gelatoDocumentReportAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportAddress'NonNullable)),
     -- | dob: Date of birth as it appears in the document.
-    gelatoDocumentReportDob :: (GHC.Maybe.Maybe GelatoDocumentReportDob'),
+    gelatoDocumentReportDob :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportDob'NonNullable)),
     -- | error: Details on the verification error. Present when status is \`unverified\`.
-    gelatoDocumentReportError :: (GHC.Maybe.Maybe GelatoDocumentReportError'),
+    gelatoDocumentReportError :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportError'NonNullable)),
     -- | expiration_date: Expiration date of the document.
-    gelatoDocumentReportExpirationDate :: (GHC.Maybe.Maybe GelatoDocumentReportExpirationDate'),
+    gelatoDocumentReportExpirationDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportExpirationDate'NonNullable)),
     -- | files: Array of [File](https:\/\/stripe.com\/docs\/api\/files) ids containing images for this document.
-    gelatoDocumentReportFiles :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    gelatoDocumentReportFiles :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
     -- | first_name: First name as it appears in the document.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportFirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportFirstName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | issued_date: Issued date of the document.
-    gelatoDocumentReportIssuedDate :: (GHC.Maybe.Maybe GelatoDocumentReportIssuedDate'),
+    gelatoDocumentReportIssuedDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportIssuedDate'NonNullable)),
     -- | issuing_country: Issuing country of the document.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportIssuingCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportIssuingCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last_name: Last name as it appears in the document.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportLastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportLastName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | number: Document ID number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | status: Status of this \`document\` check.
     gelatoDocumentReportStatus :: GelatoDocumentReportStatus',
     -- | type: Type of the document.
-    gelatoDocumentReportType :: (GHC.Maybe.Maybe GelatoDocumentReportType')
+    gelatoDocumentReportType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportType'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -86,11 +88,11 @@ data GelatoDocumentReport = GelatoDocumentReport
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReport where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress obj : "dob" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob obj : "error" Data.Aeson.Types.ToJSON..= gelatoDocumentReportError obj : "expiration_date" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate obj : "files" Data.Aeson.Types.ToJSON..= gelatoDocumentReportFiles obj : "first_name" Data.Aeson.Types.ToJSON..= gelatoDocumentReportFirstName obj : "issued_date" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate obj : "issuing_country" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuingCountry obj : "last_name" Data.Aeson.Types.ToJSON..= gelatoDocumentReportLastName obj : "number" Data.Aeson.Types.ToJSON..= gelatoDocumentReportNumber obj : "status" Data.Aeson.Types.ToJSON..= gelatoDocumentReportStatus obj : "type" Data.Aeson.Types.ToJSON..= gelatoDocumentReportType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress obj) GHC.Base.<> (("dob" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob obj) GHC.Base.<> (("error" Data.Aeson.Types.ToJSON..= gelatoDocumentReportError obj) GHC.Base.<> (("expiration_date" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate obj) GHC.Base.<> (("files" Data.Aeson.Types.ToJSON..= gelatoDocumentReportFiles obj) GHC.Base.<> (("first_name" Data.Aeson.Types.ToJSON..= gelatoDocumentReportFirstName obj) GHC.Base.<> (("issued_date" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate obj) GHC.Base.<> (("issuing_country" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuingCountry obj) GHC.Base.<> (("last_name" Data.Aeson.Types.ToJSON..= gelatoDocumentReportLastName obj) GHC.Base.<> (("number" Data.Aeson.Types.ToJSON..= gelatoDocumentReportNumber obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= gelatoDocumentReportStatus obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= gelatoDocumentReportType obj))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("error" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportError obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expiration_date" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("files" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportFiles obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issued_date" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issuing_country" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuingCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportNumber obj) : ["status" Data.Aeson.Types.ToJSON..= gelatoDocumentReportStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("error" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportError obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expiration_date" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("files" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportFiles obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issued_date" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("issuing_country" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuingCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportNumber obj) : ["status" Data.Aeson.Types.ToJSON..= gelatoDocumentReportStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportType obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReport where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReport" (\obj -> (((((((((((GHC.Base.pure GelatoDocumentReport GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expiration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "files")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "issued_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "issuing_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReport" (\obj -> (((((((((((GHC.Base.pure GelatoDocumentReport GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expiration_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "files")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "issued_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "issuing_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
 
 -- | Create a new 'GelatoDocumentReport' with all required fields.
 mkGelatoDocumentReport ::
@@ -116,228 +118,228 @@ mkGelatoDocumentReport gelatoDocumentReportStatus =
 -- | Defines the object schema located at @components.schemas.gelato_document_report.properties.address.anyOf@ in the specification.
 --
 -- Address as it appears in the document.
-data GelatoDocumentReportAddress' = GelatoDocumentReportAddress'
+data GelatoDocumentReportAddress'NonNullable = GelatoDocumentReportAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportAddress'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    gelatoDocumentReportAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoDocumentReportAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportAddress' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'City obj : "country" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= gelatoDocumentReportAddress'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportAddress' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportAddress'" (\obj -> (((((GHC.Base.pure GelatoDocumentReportAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportAddress'NonNullable" (\obj -> (((((GHC.Base.pure GelatoDocumentReportAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'GelatoDocumentReportAddress'' with all required fields.
-mkGelatoDocumentReportAddress' :: GelatoDocumentReportAddress'
-mkGelatoDocumentReportAddress' =
-  GelatoDocumentReportAddress'
-    { gelatoDocumentReportAddress'City = GHC.Maybe.Nothing,
-      gelatoDocumentReportAddress'Country = GHC.Maybe.Nothing,
-      gelatoDocumentReportAddress'Line1 = GHC.Maybe.Nothing,
-      gelatoDocumentReportAddress'Line2 = GHC.Maybe.Nothing,
-      gelatoDocumentReportAddress'PostalCode = GHC.Maybe.Nothing,
-      gelatoDocumentReportAddress'State = GHC.Maybe.Nothing
+-- | Create a new 'GelatoDocumentReportAddress'NonNullable' with all required fields.
+mkGelatoDocumentReportAddress'NonNullable :: GelatoDocumentReportAddress'NonNullable
+mkGelatoDocumentReportAddress'NonNullable =
+  GelatoDocumentReportAddress'NonNullable
+    { gelatoDocumentReportAddress'NonNullableCity = GHC.Maybe.Nothing,
+      gelatoDocumentReportAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      gelatoDocumentReportAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      gelatoDocumentReportAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      gelatoDocumentReportAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      gelatoDocumentReportAddress'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.gelato_document_report.properties.dob.anyOf@ in the specification.
 --
 -- Date of birth as it appears in the document.
-data GelatoDocumentReportDob' = GelatoDocumentReportDob'
+data GelatoDocumentReportDob'NonNullable = GelatoDocumentReportDob'NonNullable
   { -- | day: Numerical day between 1 and 31.
-    gelatoDocumentReportDob'Day :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDocumentReportDob'NonNullableDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoDocumentReportDob'Month :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDocumentReportDob'NonNullableMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoDocumentReportDob'Year :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoDocumentReportDob'NonNullableYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportDob' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob'Day obj : "month" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob'Month obj : "year" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob'Year obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob'Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob'Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoDocumentReportDob'Year obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportDob'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob'NonNullableYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportDob'NonNullableYear obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportDob' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportDob'" (\obj -> ((GHC.Base.pure GelatoDocumentReportDob' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportDob'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportDob'NonNullable" (\obj -> ((GHC.Base.pure GelatoDocumentReportDob'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
--- | Create a new 'GelatoDocumentReportDob'' with all required fields.
-mkGelatoDocumentReportDob' :: GelatoDocumentReportDob'
-mkGelatoDocumentReportDob' =
-  GelatoDocumentReportDob'
-    { gelatoDocumentReportDob'Day = GHC.Maybe.Nothing,
-      gelatoDocumentReportDob'Month = GHC.Maybe.Nothing,
-      gelatoDocumentReportDob'Year = GHC.Maybe.Nothing
+-- | Create a new 'GelatoDocumentReportDob'NonNullable' with all required fields.
+mkGelatoDocumentReportDob'NonNullable :: GelatoDocumentReportDob'NonNullable
+mkGelatoDocumentReportDob'NonNullable =
+  GelatoDocumentReportDob'NonNullable
+    { gelatoDocumentReportDob'NonNullableDay = GHC.Maybe.Nothing,
+      gelatoDocumentReportDob'NonNullableMonth = GHC.Maybe.Nothing,
+      gelatoDocumentReportDob'NonNullableYear = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.gelato_document_report.properties.error.anyOf@ in the specification.
 --
 -- Details on the verification error. Present when status is \\\`unverified\\\`.
-data GelatoDocumentReportError' = GelatoDocumentReportError'
+data GelatoDocumentReportError'NonNullable = GelatoDocumentReportError'NonNullable
   { -- | code: A short machine-readable string giving the reason for the verification failure.
-    gelatoDocumentReportError'Code :: (GHC.Maybe.Maybe GelatoDocumentReportError'Code'),
+    gelatoDocumentReportError'NonNullableCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoDocumentReportError'NonNullableCode'NonNullable)),
     -- | reason: A human-readable message giving the reason for the failure. These messages can be shown to your users.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoDocumentReportError'Reason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoDocumentReportError'NonNullableReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportError' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= gelatoDocumentReportError'Code obj : "reason" Data.Aeson.Types.ToJSON..= gelatoDocumentReportError'Reason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= gelatoDocumentReportError'Code obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= gelatoDocumentReportError'Reason obj))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportError'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportError'NonNullableCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportError'NonNullableReason obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportError'NonNullableCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportError'NonNullableReason obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportError' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportError'" (\obj -> (GHC.Base.pure GelatoDocumentReportError' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportError'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportError'NonNullable" (\obj -> (GHC.Base.pure GelatoDocumentReportError'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason"))
 
--- | Create a new 'GelatoDocumentReportError'' with all required fields.
-mkGelatoDocumentReportError' :: GelatoDocumentReportError'
-mkGelatoDocumentReportError' =
-  GelatoDocumentReportError'
-    { gelatoDocumentReportError'Code = GHC.Maybe.Nothing,
-      gelatoDocumentReportError'Reason = GHC.Maybe.Nothing
+-- | Create a new 'GelatoDocumentReportError'NonNullable' with all required fields.
+mkGelatoDocumentReportError'NonNullable :: GelatoDocumentReportError'NonNullable
+mkGelatoDocumentReportError'NonNullable =
+  GelatoDocumentReportError'NonNullable
+    { gelatoDocumentReportError'NonNullableCode = GHC.Maybe.Nothing,
+      gelatoDocumentReportError'NonNullableReason = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.gelato_document_report.properties.error.anyOf.properties.code@ in the specification.
 --
 -- A short machine-readable string giving the reason for the verification failure.
-data GelatoDocumentReportError'Code'
+data GelatoDocumentReportError'NonNullableCode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoDocumentReportError'Code'Other Data.Aeson.Types.Internal.Value
+    GelatoDocumentReportError'NonNullableCode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoDocumentReportError'Code'Typed Data.Text.Internal.Text
+    GelatoDocumentReportError'NonNullableCode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"document_expired"@
-    GelatoDocumentReportError'Code'EnumDocumentExpired
+    GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentExpired
   | -- | Represents the JSON value @"document_type_not_supported"@
-    GelatoDocumentReportError'Code'EnumDocumentTypeNotSupported
+    GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentTypeNotSupported
   | -- | Represents the JSON value @"document_unverified_other"@
-    GelatoDocumentReportError'Code'EnumDocumentUnverifiedOther
+    GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentUnverifiedOther
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportError'Code' where
-  toJSON (GelatoDocumentReportError'Code'Other val) = val
-  toJSON (GelatoDocumentReportError'Code'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoDocumentReportError'Code'EnumDocumentExpired) = "document_expired"
-  toJSON (GelatoDocumentReportError'Code'EnumDocumentTypeNotSupported) = "document_type_not_supported"
-  toJSON (GelatoDocumentReportError'Code'EnumDocumentUnverifiedOther) = "document_unverified_other"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportError'NonNullableCode'NonNullable where
+  toJSON (GelatoDocumentReportError'NonNullableCode'NonNullableOther val) = val
+  toJSON (GelatoDocumentReportError'NonNullableCode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentExpired) = "document_expired"
+  toJSON (GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentTypeNotSupported) = "document_type_not_supported"
+  toJSON (GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentUnverifiedOther) = "document_unverified_other"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportError'Code' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportError'NonNullableCode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "document_expired" -> GelatoDocumentReportError'Code'EnumDocumentExpired
-            | val GHC.Classes.== "document_type_not_supported" -> GelatoDocumentReportError'Code'EnumDocumentTypeNotSupported
-            | val GHC.Classes.== "document_unverified_other" -> GelatoDocumentReportError'Code'EnumDocumentUnverifiedOther
-            | GHC.Base.otherwise -> GelatoDocumentReportError'Code'Other val
+            | val GHC.Classes.== "document_expired" -> GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentExpired
+            | val GHC.Classes.== "document_type_not_supported" -> GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentTypeNotSupported
+            | val GHC.Classes.== "document_unverified_other" -> GelatoDocumentReportError'NonNullableCode'NonNullableEnumDocumentUnverifiedOther
+            | GHC.Base.otherwise -> GelatoDocumentReportError'NonNullableCode'NonNullableOther val
       )
 
 -- | Defines the object schema located at @components.schemas.gelato_document_report.properties.expiration_date.anyOf@ in the specification.
 --
 -- Expiration date of the document.
-data GelatoDocumentReportExpirationDate' = GelatoDocumentReportExpirationDate'
+data GelatoDocumentReportExpirationDate'NonNullable = GelatoDocumentReportExpirationDate'NonNullable
   { -- | day: Numerical day between 1 and 31.
-    gelatoDocumentReportExpirationDate'Day :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDocumentReportExpirationDate'NonNullableDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoDocumentReportExpirationDate'Month :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDocumentReportExpirationDate'NonNullableMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoDocumentReportExpirationDate'Year :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoDocumentReportExpirationDate'NonNullableYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportExpirationDate' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate'Day obj : "month" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate'Month obj : "year" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate'Year obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate'Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate'Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoDocumentReportExpirationDate'Year obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportExpirationDate'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate'NonNullableYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportExpirationDate'NonNullableYear obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportExpirationDate' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportExpirationDate'" (\obj -> ((GHC.Base.pure GelatoDocumentReportExpirationDate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportExpirationDate'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportExpirationDate'NonNullable" (\obj -> ((GHC.Base.pure GelatoDocumentReportExpirationDate'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
--- | Create a new 'GelatoDocumentReportExpirationDate'' with all required fields.
-mkGelatoDocumentReportExpirationDate' :: GelatoDocumentReportExpirationDate'
-mkGelatoDocumentReportExpirationDate' =
-  GelatoDocumentReportExpirationDate'
-    { gelatoDocumentReportExpirationDate'Day = GHC.Maybe.Nothing,
-      gelatoDocumentReportExpirationDate'Month = GHC.Maybe.Nothing,
-      gelatoDocumentReportExpirationDate'Year = GHC.Maybe.Nothing
+-- | Create a new 'GelatoDocumentReportExpirationDate'NonNullable' with all required fields.
+mkGelatoDocumentReportExpirationDate'NonNullable :: GelatoDocumentReportExpirationDate'NonNullable
+mkGelatoDocumentReportExpirationDate'NonNullable =
+  GelatoDocumentReportExpirationDate'NonNullable
+    { gelatoDocumentReportExpirationDate'NonNullableDay = GHC.Maybe.Nothing,
+      gelatoDocumentReportExpirationDate'NonNullableMonth = GHC.Maybe.Nothing,
+      gelatoDocumentReportExpirationDate'NonNullableYear = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.gelato_document_report.properties.issued_date.anyOf@ in the specification.
 --
 -- Issued date of the document.
-data GelatoDocumentReportIssuedDate' = GelatoDocumentReportIssuedDate'
+data GelatoDocumentReportIssuedDate'NonNullable = GelatoDocumentReportIssuedDate'NonNullable
   { -- | day: Numerical day between 1 and 31.
-    gelatoDocumentReportIssuedDate'Day :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDocumentReportIssuedDate'NonNullableDay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | month: Numerical month between 1 and 12.
-    gelatoDocumentReportIssuedDate'Month :: (GHC.Maybe.Maybe GHC.Types.Int),
+    gelatoDocumentReportIssuedDate'NonNullableMonth :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | year: The four-digit year.
-    gelatoDocumentReportIssuedDate'Year :: (GHC.Maybe.Maybe GHC.Types.Int)
+    gelatoDocumentReportIssuedDate'NonNullableYear :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportIssuedDate' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("day" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate'Day obj : "month" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate'Month obj : "year" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate'Year obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("day" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate'Day obj) GHC.Base.<> (("month" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate'Month obj) GHC.Base.<> ("year" Data.Aeson.Types.ToJSON..= gelatoDocumentReportIssuedDate'Year obj)))
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportIssuedDate'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate'NonNullableYear obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("day" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate'NonNullableDay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("month" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate'NonNullableMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("year" Data.Aeson.Types.ToJSON..=)) (gelatoDocumentReportIssuedDate'NonNullableYear obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportIssuedDate' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportIssuedDate'" (\obj -> ((GHC.Base.pure GelatoDocumentReportIssuedDate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "year"))
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportIssuedDate'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoDocumentReportIssuedDate'NonNullable" (\obj -> ((GHC.Base.pure GelatoDocumentReportIssuedDate'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "year"))
 
--- | Create a new 'GelatoDocumentReportIssuedDate'' with all required fields.
-mkGelatoDocumentReportIssuedDate' :: GelatoDocumentReportIssuedDate'
-mkGelatoDocumentReportIssuedDate' =
-  GelatoDocumentReportIssuedDate'
-    { gelatoDocumentReportIssuedDate'Day = GHC.Maybe.Nothing,
-      gelatoDocumentReportIssuedDate'Month = GHC.Maybe.Nothing,
-      gelatoDocumentReportIssuedDate'Year = GHC.Maybe.Nothing
+-- | Create a new 'GelatoDocumentReportIssuedDate'NonNullable' with all required fields.
+mkGelatoDocumentReportIssuedDate'NonNullable :: GelatoDocumentReportIssuedDate'NonNullable
+mkGelatoDocumentReportIssuedDate'NonNullable =
+  GelatoDocumentReportIssuedDate'NonNullable
+    { gelatoDocumentReportIssuedDate'NonNullableDay = GHC.Maybe.Nothing,
+      gelatoDocumentReportIssuedDate'NonNullableMonth = GHC.Maybe.Nothing,
+      gelatoDocumentReportIssuedDate'NonNullableYear = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.gelato_document_report.properties.status@ in the specification.
@@ -372,32 +374,32 @@ instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportStatus' where
 -- | Defines the enum schema located at @components.schemas.gelato_document_report.properties.type@ in the specification.
 --
 -- Type of the document.
-data GelatoDocumentReportType'
+data GelatoDocumentReportType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoDocumentReportType'Other Data.Aeson.Types.Internal.Value
+    GelatoDocumentReportType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoDocumentReportType'Typed Data.Text.Internal.Text
+    GelatoDocumentReportType'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"driving_license"@
-    GelatoDocumentReportType'EnumDrivingLicense
+    GelatoDocumentReportType'NonNullableEnumDrivingLicense
   | -- | Represents the JSON value @"id_card"@
-    GelatoDocumentReportType'EnumIdCard
+    GelatoDocumentReportType'NonNullableEnumIdCard
   | -- | Represents the JSON value @"passport"@
-    GelatoDocumentReportType'EnumPassport
+    GelatoDocumentReportType'NonNullableEnumPassport
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportType' where
-  toJSON (GelatoDocumentReportType'Other val) = val
-  toJSON (GelatoDocumentReportType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoDocumentReportType'EnumDrivingLicense) = "driving_license"
-  toJSON (GelatoDocumentReportType'EnumIdCard) = "id_card"
-  toJSON (GelatoDocumentReportType'EnumPassport) = "passport"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoDocumentReportType'NonNullable where
+  toJSON (GelatoDocumentReportType'NonNullableOther val) = val
+  toJSON (GelatoDocumentReportType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoDocumentReportType'NonNullableEnumDrivingLicense) = "driving_license"
+  toJSON (GelatoDocumentReportType'NonNullableEnumIdCard) = "id_card"
+  toJSON (GelatoDocumentReportType'NonNullableEnumPassport) = "passport"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportType' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoDocumentReportType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "driving_license" -> GelatoDocumentReportType'EnumDrivingLicense
-            | val GHC.Classes.== "id_card" -> GelatoDocumentReportType'EnumIdCard
-            | val GHC.Classes.== "passport" -> GelatoDocumentReportType'EnumPassport
-            | GHC.Base.otherwise -> GelatoDocumentReportType'Other val
+            | val GHC.Classes.== "driving_license" -> GelatoDocumentReportType'NonNullableEnumDrivingLicense
+            | val GHC.Classes.== "id_card" -> GelatoDocumentReportType'NonNullableEnumIdCard
+            | val GHC.Classes.== "passport" -> GelatoDocumentReportType'NonNullableEnumPassport
+            | GHC.Base.otherwise -> GelatoDocumentReportType'NonNullableOther val
       )

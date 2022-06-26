@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -35,6 +37,7 @@ import {-# SOURCE #-} StripeAPI.Types.AccountDashboardSettings
 import {-# SOURCE #-} StripeAPI.Types.AccountPaymentsSettings
 import {-# SOURCE #-} StripeAPI.Types.AccountPayoutSettings
 import {-# SOURCE #-} StripeAPI.Types.AccountSepaDebitPaymentsSettings
+import {-# SOURCE #-} StripeAPI.Types.AccountTreasurySettings
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -55,7 +58,9 @@ data AccountSettings = AccountSettings
     -- | payouts:
     accountSettingsPayouts :: (GHC.Maybe.Maybe AccountPayoutSettings),
     -- | sepa_debit_payments:
-    accountSettingsSepaDebitPayments :: (GHC.Maybe.Maybe AccountSepaDebitPaymentsSettings)
+    accountSettingsSepaDebitPayments :: (GHC.Maybe.Maybe AccountSepaDebitPaymentsSettings),
+    -- | treasury:
+    accountSettingsTreasury :: (GHC.Maybe.Maybe AccountTreasurySettings)
   }
   deriving
     ( GHC.Show.Show,
@@ -63,11 +68,11 @@ data AccountSettings = AccountSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object ("bacs_debit_payments" Data.Aeson.Types.ToJSON..= accountSettingsBacsDebitPayments obj : "branding" Data.Aeson.Types.ToJSON..= accountSettingsBranding obj : "card_issuing" Data.Aeson.Types.ToJSON..= accountSettingsCardIssuing obj : "card_payments" Data.Aeson.Types.ToJSON..= accountSettingsCardPayments obj : "dashboard" Data.Aeson.Types.ToJSON..= accountSettingsDashboard obj : "payments" Data.Aeson.Types.ToJSON..= accountSettingsPayments obj : "payouts" Data.Aeson.Types.ToJSON..= accountSettingsPayouts obj : "sepa_debit_payments" Data.Aeson.Types.ToJSON..= accountSettingsSepaDebitPayments obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("bacs_debit_payments" Data.Aeson.Types.ToJSON..= accountSettingsBacsDebitPayments obj) GHC.Base.<> (("branding" Data.Aeson.Types.ToJSON..= accountSettingsBranding obj) GHC.Base.<> (("card_issuing" Data.Aeson.Types.ToJSON..= accountSettingsCardIssuing obj) GHC.Base.<> (("card_payments" Data.Aeson.Types.ToJSON..= accountSettingsCardPayments obj) GHC.Base.<> (("dashboard" Data.Aeson.Types.ToJSON..= accountSettingsDashboard obj) GHC.Base.<> (("payments" Data.Aeson.Types.ToJSON..= accountSettingsPayments obj) GHC.Base.<> (("payouts" Data.Aeson.Types.ToJSON..= accountSettingsPayouts obj) GHC.Base.<> ("sepa_debit_payments" Data.Aeson.Types.ToJSON..= accountSettingsSepaDebitPayments obj))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit_payments" Data.Aeson.Types.ToJSON..=)) (accountSettingsBacsDebitPayments obj) : ["branding" Data.Aeson.Types.ToJSON..= accountSettingsBranding obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_issuing" Data.Aeson.Types.ToJSON..=)) (accountSettingsCardIssuing obj) : ["card_payments" Data.Aeson.Types.ToJSON..= accountSettingsCardPayments obj] : ["dashboard" Data.Aeson.Types.ToJSON..= accountSettingsDashboard obj] : ["payments" Data.Aeson.Types.ToJSON..= accountSettingsPayments obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payouts" Data.Aeson.Types.ToJSON..=)) (accountSettingsPayouts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit_payments" Data.Aeson.Types.ToJSON..=)) (accountSettingsSepaDebitPayments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (accountSettingsTreasury obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit_payments" Data.Aeson.Types.ToJSON..=)) (accountSettingsBacsDebitPayments obj) : ["branding" Data.Aeson.Types.ToJSON..= accountSettingsBranding obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_issuing" Data.Aeson.Types.ToJSON..=)) (accountSettingsCardIssuing obj) : ["card_payments" Data.Aeson.Types.ToJSON..= accountSettingsCardPayments obj] : ["dashboard" Data.Aeson.Types.ToJSON..= accountSettingsDashboard obj] : ["payments" Data.Aeson.Types.ToJSON..= accountSettingsPayments obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payouts" Data.Aeson.Types.ToJSON..=)) (accountSettingsPayouts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit_payments" Data.Aeson.Types.ToJSON..=)) (accountSettingsSepaDebitPayments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (accountSettingsTreasury obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountSettings" (\obj -> (((((((GHC.Base.pure AccountSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bacs_debit_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "branding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dashboard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payouts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit_payments"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountSettings" (\obj -> ((((((((GHC.Base.pure AccountSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "branding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "dashboard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payouts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury"))
 
 -- | Create a new 'AccountSettings' with all required fields.
 mkAccountSettings ::
@@ -89,5 +94,6 @@ mkAccountSettings accountSettingsBranding accountSettingsCardPayments accountSet
       accountSettingsDashboard = accountSettingsDashboard,
       accountSettingsPayments = accountSettingsPayments,
       accountSettingsPayouts = GHC.Maybe.Nothing,
-      accountSettingsSepaDebitPayments = GHC.Maybe.Nothing
+      accountSettingsSepaDebitPayments = GHC.Maybe.Nothing,
+      accountSettingsTreasury = GHC.Maybe.Nothing
     }

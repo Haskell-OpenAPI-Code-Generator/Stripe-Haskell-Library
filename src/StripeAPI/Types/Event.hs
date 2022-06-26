@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -75,7 +77,7 @@ data Event = Event
     -- Constraints:
     --
     -- * Maximum length of 5000
-    eventApiVersion :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    eventApiVersion :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     eventCreated :: GHC.Types.Int,
     -- | data:
@@ -91,7 +93,7 @@ data Event = Event
     -- | pending_webhooks: Number of webhooks that have yet to be successfully delivered (i.e., to return a 20x response) to the URLs you\'ve specified.
     eventPendingWebhooks :: GHC.Types.Int,
     -- | request: Information on the API request that instigated the event.
-    eventRequest :: (GHC.Maybe.Maybe EventRequest'),
+    eventRequest :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable EventRequest'NonNullable)),
     -- | type: Description of the event (e.g., \`invoice.created\` or \`charge.refunded\`).
     --
     -- Constraints:
@@ -105,11 +107,11 @@ data Event = Event
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Event where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= eventAccount obj : "api_version" Data.Aeson.Types.ToJSON..= eventApiVersion obj : "created" Data.Aeson.Types.ToJSON..= eventCreated obj : "data" Data.Aeson.Types.ToJSON..= eventData obj : "id" Data.Aeson.Types.ToJSON..= eventId obj : "livemode" Data.Aeson.Types.ToJSON..= eventLivemode obj : "pending_webhooks" Data.Aeson.Types.ToJSON..= eventPendingWebhooks obj : "request" Data.Aeson.Types.ToJSON..= eventRequest obj : "type" Data.Aeson.Types.ToJSON..= eventType obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "event" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= eventAccount obj) GHC.Base.<> (("api_version" Data.Aeson.Types.ToJSON..= eventApiVersion obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= eventCreated obj) GHC.Base.<> (("data" Data.Aeson.Types.ToJSON..= eventData obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= eventId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= eventLivemode obj) GHC.Base.<> (("pending_webhooks" Data.Aeson.Types.ToJSON..= eventPendingWebhooks obj) GHC.Base.<> (("request" Data.Aeson.Types.ToJSON..= eventRequest obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= eventType obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "event"))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (eventAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("api_version" Data.Aeson.Types.ToJSON..=)) (eventApiVersion obj) : ["created" Data.Aeson.Types.ToJSON..= eventCreated obj] : ["data" Data.Aeson.Types.ToJSON..= eventData obj] : ["id" Data.Aeson.Types.ToJSON..= eventId obj] : ["livemode" Data.Aeson.Types.ToJSON..= eventLivemode obj] : ["pending_webhooks" Data.Aeson.Types.ToJSON..= eventPendingWebhooks obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request" Data.Aeson.Types.ToJSON..=)) (eventRequest obj) : ["type" Data.Aeson.Types.ToJSON..= eventType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "event"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (eventAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("api_version" Data.Aeson.Types.ToJSON..=)) (eventApiVersion obj) : ["created" Data.Aeson.Types.ToJSON..= eventCreated obj] : ["data" Data.Aeson.Types.ToJSON..= eventData obj] : ["id" Data.Aeson.Types.ToJSON..= eventId obj] : ["livemode" Data.Aeson.Types.ToJSON..= eventLivemode obj] : ["pending_webhooks" Data.Aeson.Types.ToJSON..= eventPendingWebhooks obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request" Data.Aeson.Types.ToJSON..=)) (eventRequest obj) : ["type" Data.Aeson.Types.ToJSON..= eventType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "event"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Event where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Event" (\obj -> ((((((((GHC.Base.pure Event GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "api_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_webhooks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "request")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Event" (\obj -> ((((((((GHC.Base.pure Event GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "api_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_webhooks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'Event' with all required fields.
 mkEvent ::
@@ -142,36 +144,36 @@ mkEvent eventCreated eventData eventId eventLivemode eventPendingWebhooks eventT
 -- | Defines the object schema located at @components.schemas.event.properties.request.anyOf@ in the specification.
 --
 -- Information on the API request that instigated the event.
-data EventRequest' = EventRequest'
+data EventRequest'NonNullable = EventRequest'NonNullable
   { -- | id: ID of the API request that caused the event. If null, the event was automatic (e.g., Stripe\'s automatic subscription handling). Request logs are available in the [dashboard](https:\/\/dashboard.stripe.com\/logs), but currently not in the API.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    eventRequest'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    eventRequest'NonNullableId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | idempotency_key: The idempotency key transmitted during the request, if any. *Note: This property is populated only for events on or after May 23, 2017*.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    eventRequest'IdempotencyKey :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    eventRequest'NonNullableIdempotencyKey :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON EventRequest' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("id" Data.Aeson.Types.ToJSON..= eventRequest'Id obj : "idempotency_key" Data.Aeson.Types.ToJSON..= eventRequest'IdempotencyKey obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("id" Data.Aeson.Types.ToJSON..= eventRequest'Id obj) GHC.Base.<> ("idempotency_key" Data.Aeson.Types.ToJSON..= eventRequest'IdempotencyKey obj))
+instance Data.Aeson.Types.ToJSON.ToJSON EventRequest'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (eventRequest'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("idempotency_key" Data.Aeson.Types.ToJSON..=)) (eventRequest'NonNullableIdempotencyKey obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (eventRequest'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("idempotency_key" Data.Aeson.Types.ToJSON..=)) (eventRequest'NonNullableIdempotencyKey obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON EventRequest' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "EventRequest'" (\obj -> (GHC.Base.pure EventRequest' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "idempotency_key"))
+instance Data.Aeson.Types.FromJSON.FromJSON EventRequest'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "EventRequest'NonNullable" (\obj -> (GHC.Base.pure EventRequest'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "idempotency_key"))
 
--- | Create a new 'EventRequest'' with all required fields.
-mkEventRequest' :: EventRequest'
-mkEventRequest' =
-  EventRequest'
-    { eventRequest'Id = GHC.Maybe.Nothing,
-      eventRequest'IdempotencyKey = GHC.Maybe.Nothing
+-- | Create a new 'EventRequest'NonNullable' with all required fields.
+mkEventRequest'NonNullable :: EventRequest'NonNullable
+mkEventRequest'NonNullable =
+  EventRequest'NonNullable
+    { eventRequest'NonNullableId = GHC.Maybe.Nothing,
+      eventRequest'NonNullableIdempotencyKey = GHC.Maybe.Nothing
     }

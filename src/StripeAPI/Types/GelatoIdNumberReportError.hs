@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -33,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.gelato_id_number_report_error@ in the specification.
 data GelatoIdNumberReportError = GelatoIdNumberReportError
   { -- | code: A short machine-readable string giving the reason for the verification failure.
-    gelatoIdNumberReportErrorCode :: (GHC.Maybe.Maybe GelatoIdNumberReportErrorCode'),
+    gelatoIdNumberReportErrorCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GelatoIdNumberReportErrorCode'NonNullable)),
     -- | reason: A human-readable message giving the reason for the failure. These messages can be shown to your users.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    gelatoIdNumberReportErrorReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    gelatoIdNumberReportErrorReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,11 +49,11 @@ data GelatoIdNumberReportError = GelatoIdNumberReportError
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportError where
-  toJSON obj = Data.Aeson.Types.Internal.object ("code" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportErrorCode obj : "reason" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportErrorReason obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("code" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportErrorCode obj) GHC.Base.<> ("reason" Data.Aeson.Types.ToJSON..= gelatoIdNumberReportErrorReason obj))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportErrorReason obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportErrorCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (gelatoIdNumberReportErrorReason obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportError where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReportError" (\obj -> (GHC.Base.pure GelatoIdNumberReportError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reason"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GelatoIdNumberReportError" (\obj -> (GHC.Base.pure GelatoIdNumberReportError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason"))
 
 -- | Create a new 'GelatoIdNumberReportError' with all required fields.
 mkGelatoIdNumberReportError :: GelatoIdNumberReportError
@@ -64,32 +66,32 @@ mkGelatoIdNumberReportError =
 -- | Defines the enum schema located at @components.schemas.gelato_id_number_report_error.properties.code@ in the specification.
 --
 -- A short machine-readable string giving the reason for the verification failure.
-data GelatoIdNumberReportErrorCode'
+data GelatoIdNumberReportErrorCode'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    GelatoIdNumberReportErrorCode'Other Data.Aeson.Types.Internal.Value
+    GelatoIdNumberReportErrorCode'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    GelatoIdNumberReportErrorCode'Typed Data.Text.Internal.Text
+    GelatoIdNumberReportErrorCode'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"id_number_insufficient_document_data"@
-    GelatoIdNumberReportErrorCode'EnumIdNumberInsufficientDocumentData
+    GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberInsufficientDocumentData
   | -- | Represents the JSON value @"id_number_mismatch"@
-    GelatoIdNumberReportErrorCode'EnumIdNumberMismatch
+    GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberMismatch
   | -- | Represents the JSON value @"id_number_unverified_other"@
-    GelatoIdNumberReportErrorCode'EnumIdNumberUnverifiedOther
+    GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberUnverifiedOther
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportErrorCode' where
-  toJSON (GelatoIdNumberReportErrorCode'Other val) = val
-  toJSON (GelatoIdNumberReportErrorCode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (GelatoIdNumberReportErrorCode'EnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
-  toJSON (GelatoIdNumberReportErrorCode'EnumIdNumberMismatch) = "id_number_mismatch"
-  toJSON (GelatoIdNumberReportErrorCode'EnumIdNumberUnverifiedOther) = "id_number_unverified_other"
+instance Data.Aeson.Types.ToJSON.ToJSON GelatoIdNumberReportErrorCode'NonNullable where
+  toJSON (GelatoIdNumberReportErrorCode'NonNullableOther val) = val
+  toJSON (GelatoIdNumberReportErrorCode'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberInsufficientDocumentData) = "id_number_insufficient_document_data"
+  toJSON (GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberMismatch) = "id_number_mismatch"
+  toJSON (GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberUnverifiedOther) = "id_number_unverified_other"
 
-instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportErrorCode' where
+instance Data.Aeson.Types.FromJSON.FromJSON GelatoIdNumberReportErrorCode'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "id_number_insufficient_document_data" -> GelatoIdNumberReportErrorCode'EnumIdNumberInsufficientDocumentData
-            | val GHC.Classes.== "id_number_mismatch" -> GelatoIdNumberReportErrorCode'EnumIdNumberMismatch
-            | val GHC.Classes.== "id_number_unverified_other" -> GelatoIdNumberReportErrorCode'EnumIdNumberUnverifiedOther
-            | GHC.Base.otherwise -> GelatoIdNumberReportErrorCode'Other val
+            | val GHC.Classes.== "id_number_insufficient_document_data" -> GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberInsufficientDocumentData
+            | val GHC.Classes.== "id_number_mismatch" -> GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberMismatch
+            | val GHC.Classes.== "id_number_unverified_other" -> GelatoIdNumberReportErrorCode'NonNullableEnumIdNumberUnverifiedOther
+            | GHC.Base.otherwise -> GelatoIdNumberReportErrorCode'NonNullableOther val
       )

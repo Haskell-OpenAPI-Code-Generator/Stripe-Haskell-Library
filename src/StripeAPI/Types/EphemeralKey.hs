@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -57,11 +59,11 @@ data EphemeralKey = EphemeralKey
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON EphemeralKey where
-  toJSON obj = Data.Aeson.Types.Internal.object ("created" Data.Aeson.Types.ToJSON..= ephemeralKeyCreated obj : "expires" Data.Aeson.Types.ToJSON..= ephemeralKeyExpires obj : "id" Data.Aeson.Types.ToJSON..= ephemeralKeyId obj : "livemode" Data.Aeson.Types.ToJSON..= ephemeralKeyLivemode obj : "secret" Data.Aeson.Types.ToJSON..= ephemeralKeySecret obj : "object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "ephemeral_key" : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("created" Data.Aeson.Types.ToJSON..= ephemeralKeyCreated obj) GHC.Base.<> (("expires" Data.Aeson.Types.ToJSON..= ephemeralKeyExpires obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= ephemeralKeyId obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= ephemeralKeyLivemode obj) GHC.Base.<> (("secret" Data.Aeson.Types.ToJSON..= ephemeralKeySecret obj) GHC.Base.<> ("object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "ephemeral_key"))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= ephemeralKeyCreated obj] : ["expires" Data.Aeson.Types.ToJSON..= ephemeralKeyExpires obj] : ["id" Data.Aeson.Types.ToJSON..= ephemeralKeyId obj] : ["livemode" Data.Aeson.Types.ToJSON..= ephemeralKeyLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("secret" Data.Aeson.Types.ToJSON..=)) (ephemeralKeySecret obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "ephemeral_key"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= ephemeralKeyCreated obj] : ["expires" Data.Aeson.Types.ToJSON..= ephemeralKeyExpires obj] : ["id" Data.Aeson.Types.ToJSON..= ephemeralKeyId obj] : ["livemode" Data.Aeson.Types.ToJSON..= ephemeralKeyLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("secret" Data.Aeson.Types.ToJSON..=)) (ephemeralKeySecret obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "ephemeral_key"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON EphemeralKey where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "EphemeralKey" (\obj -> ((((GHC.Base.pure EphemeralKey GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "secret"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "EphemeralKey" (\obj -> ((((GHC.Base.pure EphemeralKey GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "secret"))
 
 -- | Create a new 'EphemeralKey' with all required fields.
 mkEphemeralKey ::

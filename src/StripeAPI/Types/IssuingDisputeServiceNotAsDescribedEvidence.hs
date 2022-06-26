@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -34,23 +36,23 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing_dispute_service_not_as_described_evidence@ in the specification.
 data IssuingDisputeServiceNotAsDescribedEvidence = IssuingDisputeServiceNotAsDescribedEvidence
   { -- | additional_documentation: (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-    issuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'Variants),
+    issuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants)),
     -- | canceled_at: Date when order was canceled.
-    issuingDisputeServiceNotAsDescribedEvidenceCanceledAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    issuingDisputeServiceNotAsDescribedEvidenceCanceledAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | cancellation_reason: Reason for canceling the order.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeServiceNotAsDescribedEvidenceCancellationReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingDisputeServiceNotAsDescribedEvidenceCancellationReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | explanation: Explanation of why the cardholder is disputing this transaction.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingDisputeServiceNotAsDescribedEvidenceExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    issuingDisputeServiceNotAsDescribedEvidenceExplanation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | received_at: Date when the product was received.
-    issuingDisputeServiceNotAsDescribedEvidenceReceivedAt :: (GHC.Maybe.Maybe GHC.Types.Int)
+    issuingDisputeServiceNotAsDescribedEvidenceReceivedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -58,11 +60,11 @@ data IssuingDisputeServiceNotAsDescribedEvidence = IssuingDisputeServiceNotAsDes
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeServiceNotAsDescribedEvidence where
-  toJSON obj = Data.Aeson.Types.Internal.object ("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation obj : "canceled_at" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceCanceledAt obj : "cancellation_reason" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceCancellationReason obj : "explanation" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceExplanation obj : "received_at" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceReceivedAt obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("additional_documentation" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation obj) GHC.Base.<> (("canceled_at" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceCanceledAt obj) GHC.Base.<> (("cancellation_reason" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceCancellationReason obj) GHC.Base.<> (("explanation" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceExplanation obj) GHC.Base.<> ("received_at" Data.Aeson.Types.ToJSON..= issuingDisputeServiceNotAsDescribedEvidenceReceivedAt obj)))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("canceled_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceCanceledAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceExplanation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("received_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceReceivedAt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_documentation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("canceled_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceCanceledAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancellation_reason" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceCancellationReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("explanation" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceExplanation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("received_at" Data.Aeson.Types.ToJSON..=)) (issuingDisputeServiceNotAsDescribedEvidenceReceivedAt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeServiceNotAsDescribedEvidence where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeServiceNotAsDescribedEvidence" (\obj -> ((((GHC.Base.pure IssuingDisputeServiceNotAsDescribedEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "received_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingDisputeServiceNotAsDescribedEvidence" (\obj -> ((((GHC.Base.pure IssuingDisputeServiceNotAsDescribedEvidence GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "additional_documentation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "canceled_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancellation_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "explanation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "received_at"))
 
 -- | Create a new 'IssuingDisputeServiceNotAsDescribedEvidence' with all required fields.
 mkIssuingDisputeServiceNotAsDescribedEvidence :: IssuingDisputeServiceNotAsDescribedEvidence
@@ -78,16 +80,16 @@ mkIssuingDisputeServiceNotAsDescribedEvidence =
 -- | Defines the oneOf schema located at @components.schemas.issuing_dispute_service_not_as_described_evidence.properties.additional_documentation.anyOf@ in the specification.
 --
 -- (ID of a [file upload](https:\/\/stripe.com\/docs\/guides\/file-upload)) Additional documentation supporting the dispute.
-data IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'Variants
-  = IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'Text Data.Text.Internal.Text
-  | IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'File File
+data IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants
+  = IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableText Data.Text.Internal.Text
+  | IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableFile File
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'Variants where
-  toJSON (IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'File a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants where
+  toJSON (IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableFile a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'Variants where
-  parseJSON val = case (IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'File Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableVariants where
+  parseJSON val = case (IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((IssuingDisputeServiceNotAsDescribedEvidenceAdditionalDocumentation'NonNullableFile Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

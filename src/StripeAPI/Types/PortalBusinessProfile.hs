@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,19 +39,19 @@ data PortalBusinessProfile = PortalBusinessProfile
     -- Constraints:
     --
     -- * Maximum length of 5000
-    portalBusinessProfileHeadline :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    portalBusinessProfileHeadline :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | privacy_policy_url: A link to the business’s publicly available privacy policy.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    portalBusinessProfilePrivacyPolicyUrl :: Data.Text.Internal.Text,
+    portalBusinessProfilePrivacyPolicyUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | terms_of_service_url: A link to the business’s publicly available terms of service.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    portalBusinessProfileTermsOfServiceUrl :: Data.Text.Internal.Text
+    portalBusinessProfileTermsOfServiceUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -57,22 +59,17 @@ data PortalBusinessProfile = PortalBusinessProfile
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PortalBusinessProfile where
-  toJSON obj = Data.Aeson.Types.Internal.object ("headline" Data.Aeson.Types.ToJSON..= portalBusinessProfileHeadline obj : "privacy_policy_url" Data.Aeson.Types.ToJSON..= portalBusinessProfilePrivacyPolicyUrl obj : "terms_of_service_url" Data.Aeson.Types.ToJSON..= portalBusinessProfileTermsOfServiceUrl obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("headline" Data.Aeson.Types.ToJSON..= portalBusinessProfileHeadline obj) GHC.Base.<> (("privacy_policy_url" Data.Aeson.Types.ToJSON..= portalBusinessProfilePrivacyPolicyUrl obj) GHC.Base.<> ("terms_of_service_url" Data.Aeson.Types.ToJSON..= portalBusinessProfileTermsOfServiceUrl obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("headline" Data.Aeson.Types.ToJSON..=)) (portalBusinessProfileHeadline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("privacy_policy_url" Data.Aeson.Types.ToJSON..=)) (portalBusinessProfilePrivacyPolicyUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_url" Data.Aeson.Types.ToJSON..=)) (portalBusinessProfileTermsOfServiceUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("headline" Data.Aeson.Types.ToJSON..=)) (portalBusinessProfileHeadline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("privacy_policy_url" Data.Aeson.Types.ToJSON..=)) (portalBusinessProfilePrivacyPolicyUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_url" Data.Aeson.Types.ToJSON..=)) (portalBusinessProfileTermsOfServiceUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PortalBusinessProfile where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalBusinessProfile" (\obj -> ((GHC.Base.pure PortalBusinessProfile GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "headline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "privacy_policy_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "terms_of_service_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PortalBusinessProfile" (\obj -> ((GHC.Base.pure PortalBusinessProfile GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "headline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "privacy_policy_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service_url"))
 
 -- | Create a new 'PortalBusinessProfile' with all required fields.
-mkPortalBusinessProfile ::
-  -- | 'portalBusinessProfilePrivacyPolicyUrl'
-  Data.Text.Internal.Text ->
-  -- | 'portalBusinessProfileTermsOfServiceUrl'
-  Data.Text.Internal.Text ->
-  PortalBusinessProfile
-mkPortalBusinessProfile portalBusinessProfilePrivacyPolicyUrl portalBusinessProfileTermsOfServiceUrl =
+mkPortalBusinessProfile :: PortalBusinessProfile
+mkPortalBusinessProfile =
   PortalBusinessProfile
     { portalBusinessProfileHeadline = GHC.Maybe.Nothing,
-      portalBusinessProfilePrivacyPolicyUrl = portalBusinessProfilePrivacyPolicyUrl,
-      portalBusinessProfileTermsOfServiceUrl = portalBusinessProfileTermsOfServiceUrl
+      portalBusinessProfilePrivacyPolicyUrl = GHC.Maybe.Nothing,
+      portalBusinessProfileTermsOfServiceUrl = GHC.Maybe.Nothing
     }

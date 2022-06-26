@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -115,7 +117,7 @@ data ApiErrors = ApiErrors
     -- Related guide: [Payment Intents API](https:\/\/stripe.com\/docs\/payments\/payment-intents).
     apiErrorsPaymentIntent :: (GHC.Maybe.Maybe PaymentIntent),
     -- | payment_method: PaymentMethod objects represent your customer\'s payment instruments.
-    -- They can be used with [PaymentIntents](https:\/\/stripe.com\/docs\/payments\/payment-intents) to collect payments or saved to
+    -- You can use them with [PaymentIntents](https:\/\/stripe.com\/docs\/payments\/payment-intents) to collect payments or save them to
     -- Customer objects to store instrument details for future payments.
     --
     -- Related guides: [Payment Methods](https:\/\/stripe.com\/docs\/payments\/payment-methods) and [More Payment Scenarios](https:\/\/stripe.com\/docs\/payments\/more-payment-scenarios).
@@ -151,7 +153,7 @@ data ApiErrors = ApiErrors
     apiErrorsSetupIntent :: (GHC.Maybe.Maybe SetupIntent),
     -- | source: The source object for errors returned on a request involving a source.
     apiErrorsSource :: (GHC.Maybe.Maybe ApiErrorsSource'),
-    -- | type: The type of error returned. One of \`api_connection_error\`, \`api_error\`, \`authentication_error\`, \`card_error\`, \`idempotency_error\`, \`invalid_request_error\`, or \`rate_limit_error\`
+    -- | type: The type of error returned. One of \`api_error\`, \`card_error\`, \`idempotency_error\`, or \`invalid_request_error\`
     apiErrorsType :: ApiErrorsType'
   }
   deriving
@@ -160,11 +162,11 @@ data ApiErrors = ApiErrors
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ApiErrors where
-  toJSON obj = Data.Aeson.Types.Internal.object ("charge" Data.Aeson.Types.ToJSON..= apiErrorsCharge obj : "code" Data.Aeson.Types.ToJSON..= apiErrorsCode obj : "decline_code" Data.Aeson.Types.ToJSON..= apiErrorsDeclineCode obj : "doc_url" Data.Aeson.Types.ToJSON..= apiErrorsDocUrl obj : "message" Data.Aeson.Types.ToJSON..= apiErrorsMessage obj : "param" Data.Aeson.Types.ToJSON..= apiErrorsParam obj : "payment_intent" Data.Aeson.Types.ToJSON..= apiErrorsPaymentIntent obj : "payment_method" Data.Aeson.Types.ToJSON..= apiErrorsPaymentMethod obj : "payment_method_type" Data.Aeson.Types.ToJSON..= apiErrorsPaymentMethodType obj : "setup_intent" Data.Aeson.Types.ToJSON..= apiErrorsSetupIntent obj : "source" Data.Aeson.Types.ToJSON..= apiErrorsSource obj : "type" Data.Aeson.Types.ToJSON..= apiErrorsType obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("charge" Data.Aeson.Types.ToJSON..= apiErrorsCharge obj) GHC.Base.<> (("code" Data.Aeson.Types.ToJSON..= apiErrorsCode obj) GHC.Base.<> (("decline_code" Data.Aeson.Types.ToJSON..= apiErrorsDeclineCode obj) GHC.Base.<> (("doc_url" Data.Aeson.Types.ToJSON..= apiErrorsDocUrl obj) GHC.Base.<> (("message" Data.Aeson.Types.ToJSON..= apiErrorsMessage obj) GHC.Base.<> (("param" Data.Aeson.Types.ToJSON..= apiErrorsParam obj) GHC.Base.<> (("payment_intent" Data.Aeson.Types.ToJSON..= apiErrorsPaymentIntent obj) GHC.Base.<> (("payment_method" Data.Aeson.Types.ToJSON..= apiErrorsPaymentMethod obj) GHC.Base.<> (("payment_method_type" Data.Aeson.Types.ToJSON..= apiErrorsPaymentMethodType obj) GHC.Base.<> (("setup_intent" Data.Aeson.Types.ToJSON..= apiErrorsSetupIntent obj) GHC.Base.<> (("source" Data.Aeson.Types.ToJSON..= apiErrorsSource obj) GHC.Base.<> ("type" Data.Aeson.Types.ToJSON..= apiErrorsType obj))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (apiErrorsCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (apiErrorsCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("decline_code" Data.Aeson.Types.ToJSON..=)) (apiErrorsDeclineCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("doc_url" Data.Aeson.Types.ToJSON..=)) (apiErrorsDocUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("message" Data.Aeson.Types.ToJSON..=)) (apiErrorsMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("param" Data.Aeson.Types.ToJSON..=)) (apiErrorsParam obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (apiErrorsPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (apiErrorsPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_type" Data.Aeson.Types.ToJSON..=)) (apiErrorsPaymentMethodType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_intent" Data.Aeson.Types.ToJSON..=)) (apiErrorsSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource obj) : ["type" Data.Aeson.Types.ToJSON..= apiErrorsType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (apiErrorsCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code" Data.Aeson.Types.ToJSON..=)) (apiErrorsCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("decline_code" Data.Aeson.Types.ToJSON..=)) (apiErrorsDeclineCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("doc_url" Data.Aeson.Types.ToJSON..=)) (apiErrorsDocUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("message" Data.Aeson.Types.ToJSON..=)) (apiErrorsMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("param" Data.Aeson.Types.ToJSON..=)) (apiErrorsParam obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (apiErrorsPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (apiErrorsPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_type" Data.Aeson.Types.ToJSON..=)) (apiErrorsPaymentMethodType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_intent" Data.Aeson.Types.ToJSON..=)) (apiErrorsSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource obj) : ["type" Data.Aeson.Types.ToJSON..= apiErrorsType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ApiErrors where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrors" (\obj -> (((((((((((GHC.Base.pure ApiErrors GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "decline_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "doc_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "param")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment_method_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrors" (\obj -> (((((((((((GHC.Base.pure ApiErrors GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "decline_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "doc_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "param")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'ApiErrors' with all required fields.
 mkApiErrors ::
@@ -192,19 +194,25 @@ mkApiErrors apiErrorsType =
 -- The source object for errors returned on a request involving a source.
 data ApiErrorsSource' = ApiErrorsSource'
   { -- | account: The ID of the account that the bank account is associated with.
-    apiErrorsSource'Account :: (GHC.Maybe.Maybe ApiErrorsSource'Account'Variants),
+    apiErrorsSource'Account :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApiErrorsSource'Account'NonNullableVariants)),
     -- | account_holder_name: The name of the person or business that owns the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AccountHolderName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AccountHolderType :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AccountHolderType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | account_type: The bank account type. This can only be \`checking\` or \`savings\` in most countries. In Japan, this can only be \`futsu\` or \`toza\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    apiErrorsSource'AccountType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | ach_credit_transfer
     apiErrorsSource'AchCreditTransfer :: (GHC.Maybe.Maybe SourceTypeAchCreditTransfer),
     -- | ach_debit
@@ -216,57 +224,57 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_country: Billing address country, if provided when creating card.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_line1: Address line 1 (Street address\/PO Box\/Company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_line1_check: If \`address_line1\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressLine1Check :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_line2: Address line 2 (Apartment\/Suite\/Unit\/Building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_state: State\/County\/Province\/Region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_zip: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressZip :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | address_zip_check: If \`address_zip\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'AddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'AddressZipCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | alipay
     apiErrorsSource'Alipay :: (GHC.Maybe.Maybe SourceTypeAlipay),
     -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for \`single_use\` sources.
-    apiErrorsSource'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    apiErrorsSource'Amount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | au_becs_debit
     apiErrorsSource'AuBecsDebit :: (GHC.Maybe.Maybe SourceTypeAuBecsDebit),
     -- | available_payout_methods: A set of available payout methods for this bank account. Only values from this set should be passed as the \`method\` when creating a payout.
-    apiErrorsSource'AvailablePayoutMethods :: (GHC.Maybe.Maybe ([ApiErrorsSource'AvailablePayoutMethods'])),
+    apiErrorsSource'AvailablePayoutMethods :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([ApiErrorsSource'AvailablePayoutMethods'NonNullable]))),
     -- | bancontact
     apiErrorsSource'Bancontact :: (GHC.Maybe.Maybe SourceTypeBancontact),
     -- | bank_name: Name of the bank associated with the routing number (e.g., \`WELLS FARGO\`).
@@ -274,7 +282,7 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'BankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'BankName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | brand: Card brand. Can be \`American Express\`, \`Diners Club\`, \`Discover\`, \`JCB\`, \`MasterCard\`, \`UnionPay\`, \`Visa\`, or \`Unknown\`.
     --
     -- Constraints:
@@ -304,21 +312,21 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
     apiErrorsSource'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | customer: The ID of the customer that the bank account is associated with.
-    apiErrorsSource'Customer :: (GHC.Maybe.Maybe ApiErrorsSource'Customer'Variants),
+    apiErrorsSource'Customer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApiErrorsSource'Customer'NonNullableVariants)),
     -- | cvc_check: If a CVC was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`. A result of unchecked indicates that CVC was provided but hasn\'t been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https:\/\/support.stripe.com\/questions\/check-if-a-card-is-valid-without-a-charge).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'CvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'CvcCheck :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | default_for_currency: Whether this bank account is the default external account for its currency.
-    apiErrorsSource'DefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    apiErrorsSource'DefaultForCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
     -- | dynamic_last4: (For tokenized numbers only.) The last four digits of the device account number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'DynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'DynamicLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | eps
     apiErrorsSource'Eps :: (GHC.Maybe.Maybe SourceTypeEps),
     -- | exp_month: Two-digit number representing the card\'s expiration month.
@@ -330,7 +338,7 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Fingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Fingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | flow: The authentication \`flow\` of the source. \`flow\` is one of \`redirect\`, \`receiver\`, \`code_verification\`, \`none\`.
     --
     -- Constraints:
@@ -364,7 +372,7 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     apiErrorsSource'Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-    apiErrorsSource'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    apiErrorsSource'Metadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | multibanco
     apiErrorsSource'Multibanco :: (GHC.Maybe.Maybe SourceTypeMultibanco),
     -- | name: Cardholder name.
@@ -372,17 +380,17 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Name :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | object: String representing the object\'s type. Objects of the same type share the same value.
     apiErrorsSource'Object :: (GHC.Maybe.Maybe ApiErrorsSource'Object'),
     -- | owner: Information about the owner of the payment instrument that may be used or required by particular source types.
-    apiErrorsSource'Owner :: (GHC.Maybe.Maybe ApiErrorsSource'Owner'),
+    apiErrorsSource'Owner :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApiErrorsSource'Owner'NonNullable)),
     -- | p24
     apiErrorsSource'P24 :: (GHC.Maybe.Maybe SourceTypeP24),
     -- | receiver:
     apiErrorsSource'Receiver :: (GHC.Maybe.Maybe SourceReceiverFlow),
     -- | recipient: The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
-    apiErrorsSource'Recipient :: (GHC.Maybe.Maybe ApiErrorsSource'Recipient'Variants),
+    apiErrorsSource'Recipient :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApiErrorsSource'Recipient'NonNullableVariants)),
     -- | redirect:
     apiErrorsSource'Redirect :: (GHC.Maybe.Maybe SourceRedirectFlow),
     -- | routing_number: The routing transit number for the bank account.
@@ -390,7 +398,7 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'RoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | sepa_debit
     apiErrorsSource'SepaDebit :: (GHC.Maybe.Maybe SourceTypeSepaDebit),
     -- | sofort
@@ -402,7 +410,7 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'StatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'StatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a transfer sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send transfers until the bank details are updated.
     --
     -- For external accounts, possible values are \`new\` and \`errored\`. Validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
@@ -418,7 +426,7 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'TokenizationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'TokenizationMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | type: The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
     apiErrorsSource'Type :: (GHC.Maybe.Maybe ApiErrorsSource'Type'),
     -- | usage: Either \`reusable\` or \`single_use\`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
@@ -426,7 +434,7 @@ data ApiErrorsSource' = ApiErrorsSource'
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Usage :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Usage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | wechat
     apiErrorsSource'Wechat :: (GHC.Maybe.Maybe SourceTypeWechat)
   }
@@ -436,11 +444,11 @@ data ApiErrorsSource' = ApiErrorsSource'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("account" Data.Aeson.Types.ToJSON..= apiErrorsSource'Account obj : "account_holder_name" Data.Aeson.Types.ToJSON..= apiErrorsSource'AccountHolderName obj : "account_holder_type" Data.Aeson.Types.ToJSON..= apiErrorsSource'AccountHolderType obj : "ach_credit_transfer" Data.Aeson.Types.ToJSON..= apiErrorsSource'AchCreditTransfer obj : "ach_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'AchDebit obj : "acss_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'AcssDebit obj : "address_city" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressCity obj : "address_country" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressCountry obj : "address_line1" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressLine1 obj : "address_line1_check" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressLine1Check obj : "address_line2" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressLine2 obj : "address_state" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressState obj : "address_zip" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressZip obj : "address_zip_check" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressZipCheck obj : "alipay" Data.Aeson.Types.ToJSON..= apiErrorsSource'Alipay obj : "amount" Data.Aeson.Types.ToJSON..= apiErrorsSource'Amount obj : "au_becs_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'AuBecsDebit obj : "available_payout_methods" Data.Aeson.Types.ToJSON..= apiErrorsSource'AvailablePayoutMethods obj : "bancontact" Data.Aeson.Types.ToJSON..= apiErrorsSource'Bancontact obj : "bank_name" Data.Aeson.Types.ToJSON..= apiErrorsSource'BankName obj : "brand" Data.Aeson.Types.ToJSON..= apiErrorsSource'Brand obj : "card" Data.Aeson.Types.ToJSON..= apiErrorsSource'Card obj : "card_present" Data.Aeson.Types.ToJSON..= apiErrorsSource'CardPresent obj : "client_secret" Data.Aeson.Types.ToJSON..= apiErrorsSource'ClientSecret obj : "code_verification" Data.Aeson.Types.ToJSON..= apiErrorsSource'CodeVerification obj : "country" Data.Aeson.Types.ToJSON..= apiErrorsSource'Country obj : "created" Data.Aeson.Types.ToJSON..= apiErrorsSource'Created obj : "currency" Data.Aeson.Types.ToJSON..= apiErrorsSource'Currency obj : "customer" Data.Aeson.Types.ToJSON..= apiErrorsSource'Customer obj : "cvc_check" Data.Aeson.Types.ToJSON..= apiErrorsSource'CvcCheck obj : "default_for_currency" Data.Aeson.Types.ToJSON..= apiErrorsSource'DefaultForCurrency obj : "dynamic_last4" Data.Aeson.Types.ToJSON..= apiErrorsSource'DynamicLast4 obj : "eps" Data.Aeson.Types.ToJSON..= apiErrorsSource'Eps obj : "exp_month" Data.Aeson.Types.ToJSON..= apiErrorsSource'ExpMonth obj : "exp_year" Data.Aeson.Types.ToJSON..= apiErrorsSource'ExpYear obj : "fingerprint" Data.Aeson.Types.ToJSON..= apiErrorsSource'Fingerprint obj : "flow" Data.Aeson.Types.ToJSON..= apiErrorsSource'Flow obj : "funding" Data.Aeson.Types.ToJSON..= apiErrorsSource'Funding obj : "giropay" Data.Aeson.Types.ToJSON..= apiErrorsSource'Giropay obj : "id" Data.Aeson.Types.ToJSON..= apiErrorsSource'Id obj : "ideal" Data.Aeson.Types.ToJSON..= apiErrorsSource'Ideal obj : "klarna" Data.Aeson.Types.ToJSON..= apiErrorsSource'Klarna obj : "last4" Data.Aeson.Types.ToJSON..= apiErrorsSource'Last4 obj : "livemode" Data.Aeson.Types.ToJSON..= apiErrorsSource'Livemode obj : "metadata" Data.Aeson.Types.ToJSON..= apiErrorsSource'Metadata obj : "multibanco" Data.Aeson.Types.ToJSON..= apiErrorsSource'Multibanco obj : "name" Data.Aeson.Types.ToJSON..= apiErrorsSource'Name obj : "object" Data.Aeson.Types.ToJSON..= apiErrorsSource'Object obj : "owner" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner obj : "p24" Data.Aeson.Types.ToJSON..= apiErrorsSource'P24 obj : "receiver" Data.Aeson.Types.ToJSON..= apiErrorsSource'Receiver obj : "recipient" Data.Aeson.Types.ToJSON..= apiErrorsSource'Recipient obj : "redirect" Data.Aeson.Types.ToJSON..= apiErrorsSource'Redirect obj : "routing_number" Data.Aeson.Types.ToJSON..= apiErrorsSource'RoutingNumber obj : "sepa_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'SepaDebit obj : "sofort" Data.Aeson.Types.ToJSON..= apiErrorsSource'Sofort obj : "source_order" Data.Aeson.Types.ToJSON..= apiErrorsSource'SourceOrder obj : "statement_descriptor" Data.Aeson.Types.ToJSON..= apiErrorsSource'StatementDescriptor obj : "status" Data.Aeson.Types.ToJSON..= apiErrorsSource'Status obj : "three_d_secure" Data.Aeson.Types.ToJSON..= apiErrorsSource'ThreeDSecure obj : "tokenization_method" Data.Aeson.Types.ToJSON..= apiErrorsSource'TokenizationMethod obj : "type" Data.Aeson.Types.ToJSON..= apiErrorsSource'Type obj : "usage" Data.Aeson.Types.ToJSON..= apiErrorsSource'Usage obj : "wechat" Data.Aeson.Types.ToJSON..= apiErrorsSource'Wechat obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("account" Data.Aeson.Types.ToJSON..= apiErrorsSource'Account obj) GHC.Base.<> (("account_holder_name" Data.Aeson.Types.ToJSON..= apiErrorsSource'AccountHolderName obj) GHC.Base.<> (("account_holder_type" Data.Aeson.Types.ToJSON..= apiErrorsSource'AccountHolderType obj) GHC.Base.<> (("ach_credit_transfer" Data.Aeson.Types.ToJSON..= apiErrorsSource'AchCreditTransfer obj) GHC.Base.<> (("ach_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'AchDebit obj) GHC.Base.<> (("acss_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'AcssDebit obj) GHC.Base.<> (("address_city" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressCity obj) GHC.Base.<> (("address_country" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressCountry obj) GHC.Base.<> (("address_line1" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressLine1 obj) GHC.Base.<> (("address_line1_check" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressLine1Check obj) GHC.Base.<> (("address_line2" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressLine2 obj) GHC.Base.<> (("address_state" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressState obj) GHC.Base.<> (("address_zip" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressZip obj) GHC.Base.<> (("address_zip_check" Data.Aeson.Types.ToJSON..= apiErrorsSource'AddressZipCheck obj) GHC.Base.<> (("alipay" Data.Aeson.Types.ToJSON..= apiErrorsSource'Alipay obj) GHC.Base.<> (("amount" Data.Aeson.Types.ToJSON..= apiErrorsSource'Amount obj) GHC.Base.<> (("au_becs_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'AuBecsDebit obj) GHC.Base.<> (("available_payout_methods" Data.Aeson.Types.ToJSON..= apiErrorsSource'AvailablePayoutMethods obj) GHC.Base.<> (("bancontact" Data.Aeson.Types.ToJSON..= apiErrorsSource'Bancontact obj) GHC.Base.<> (("bank_name" Data.Aeson.Types.ToJSON..= apiErrorsSource'BankName obj) GHC.Base.<> (("brand" Data.Aeson.Types.ToJSON..= apiErrorsSource'Brand obj) GHC.Base.<> (("card" Data.Aeson.Types.ToJSON..= apiErrorsSource'Card obj) GHC.Base.<> (("card_present" Data.Aeson.Types.ToJSON..= apiErrorsSource'CardPresent obj) GHC.Base.<> (("client_secret" Data.Aeson.Types.ToJSON..= apiErrorsSource'ClientSecret obj) GHC.Base.<> (("code_verification" Data.Aeson.Types.ToJSON..= apiErrorsSource'CodeVerification obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= apiErrorsSource'Country obj) GHC.Base.<> (("created" Data.Aeson.Types.ToJSON..= apiErrorsSource'Created obj) GHC.Base.<> (("currency" Data.Aeson.Types.ToJSON..= apiErrorsSource'Currency obj) GHC.Base.<> (("customer" Data.Aeson.Types.ToJSON..= apiErrorsSource'Customer obj) GHC.Base.<> (("cvc_check" Data.Aeson.Types.ToJSON..= apiErrorsSource'CvcCheck obj) GHC.Base.<> (("default_for_currency" Data.Aeson.Types.ToJSON..= apiErrorsSource'DefaultForCurrency obj) GHC.Base.<> (("dynamic_last4" Data.Aeson.Types.ToJSON..= apiErrorsSource'DynamicLast4 obj) GHC.Base.<> (("eps" Data.Aeson.Types.ToJSON..= apiErrorsSource'Eps obj) GHC.Base.<> (("exp_month" Data.Aeson.Types.ToJSON..= apiErrorsSource'ExpMonth obj) GHC.Base.<> (("exp_year" Data.Aeson.Types.ToJSON..= apiErrorsSource'ExpYear obj) GHC.Base.<> (("fingerprint" Data.Aeson.Types.ToJSON..= apiErrorsSource'Fingerprint obj) GHC.Base.<> (("flow" Data.Aeson.Types.ToJSON..= apiErrorsSource'Flow obj) GHC.Base.<> (("funding" Data.Aeson.Types.ToJSON..= apiErrorsSource'Funding obj) GHC.Base.<> (("giropay" Data.Aeson.Types.ToJSON..= apiErrorsSource'Giropay obj) GHC.Base.<> (("id" Data.Aeson.Types.ToJSON..= apiErrorsSource'Id obj) GHC.Base.<> (("ideal" Data.Aeson.Types.ToJSON..= apiErrorsSource'Ideal obj) GHC.Base.<> (("klarna" Data.Aeson.Types.ToJSON..= apiErrorsSource'Klarna obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= apiErrorsSource'Last4 obj) GHC.Base.<> (("livemode" Data.Aeson.Types.ToJSON..= apiErrorsSource'Livemode obj) GHC.Base.<> (("metadata" Data.Aeson.Types.ToJSON..= apiErrorsSource'Metadata obj) GHC.Base.<> (("multibanco" Data.Aeson.Types.ToJSON..= apiErrorsSource'Multibanco obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= apiErrorsSource'Name obj) GHC.Base.<> (("object" Data.Aeson.Types.ToJSON..= apiErrorsSource'Object obj) GHC.Base.<> (("owner" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner obj) GHC.Base.<> (("p24" Data.Aeson.Types.ToJSON..= apiErrorsSource'P24 obj) GHC.Base.<> (("receiver" Data.Aeson.Types.ToJSON..= apiErrorsSource'Receiver obj) GHC.Base.<> (("recipient" Data.Aeson.Types.ToJSON..= apiErrorsSource'Recipient obj) GHC.Base.<> (("redirect" Data.Aeson.Types.ToJSON..= apiErrorsSource'Redirect obj) GHC.Base.<> (("routing_number" Data.Aeson.Types.ToJSON..= apiErrorsSource'RoutingNumber obj) GHC.Base.<> (("sepa_debit" Data.Aeson.Types.ToJSON..= apiErrorsSource'SepaDebit obj) GHC.Base.<> (("sofort" Data.Aeson.Types.ToJSON..= apiErrorsSource'Sofort obj) GHC.Base.<> (("source_order" Data.Aeson.Types.ToJSON..= apiErrorsSource'SourceOrder obj) GHC.Base.<> (("statement_descriptor" Data.Aeson.Types.ToJSON..= apiErrorsSource'StatementDescriptor obj) GHC.Base.<> (("status" Data.Aeson.Types.ToJSON..= apiErrorsSource'Status obj) GHC.Base.<> (("three_d_secure" Data.Aeson.Types.ToJSON..= apiErrorsSource'ThreeDSecure obj) GHC.Base.<> (("tokenization_method" Data.Aeson.Types.ToJSON..= apiErrorsSource'TokenizationMethod obj) GHC.Base.<> (("type" Data.Aeson.Types.ToJSON..= apiErrorsSource'Type obj) GHC.Base.<> (("usage" Data.Aeson.Types.ToJSON..= apiErrorsSource'Usage obj) GHC.Base.<> ("wechat" Data.Aeson.Types.ToJSON..= apiErrorsSource'Wechat obj))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Account obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_credit_transfer" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AchCreditTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AchDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_city" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line2" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_state" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressZip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip_check" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressZipCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Amount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'BankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Brand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'CardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code_verification" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'CodeVerification obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Created obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Customer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'CvcCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'DefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'DynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Fingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Flow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Funding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Last4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("multibanco" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Multibanco obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receiver" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Receiver obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recipient" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Recipient obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Redirect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'RoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_order" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'SourceOrder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Status obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tokenization_method" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'TokenizationMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Type obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Usage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Wechat obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Account obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_credit_transfer" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AchCreditTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AchDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_city" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line1_check" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressLine1Check obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_line2" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_state" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressZip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_zip_check" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AddressZipCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Amount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'AvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'BankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Brand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'CardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code_verification" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'CodeVerification obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Country obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Created obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Customer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cvc_check" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'CvcCheck obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'DefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dynamic_last4" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'DynamicLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_month" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ExpMonth obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("exp_year" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ExpYear obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Fingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Flow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Funding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Last4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("multibanco" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Multibanco obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Name obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receiver" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Receiver obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recipient" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Recipient obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Redirect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'RoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_order" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'SourceOrder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Status obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'ThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tokenization_method" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'TokenizationMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Type obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Usage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Wechat obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'" (\obj -> (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure ApiErrorsSource' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "wechat"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'" (\obj -> ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((GHC.Base.pure ApiErrorsSource' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cvc_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dynamic_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recipient")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tokenization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat"))
 
 -- | Create a new 'ApiErrorsSource'' with all required fields.
 mkApiErrorsSource' :: ApiErrorsSource'
@@ -449,6 +457,7 @@ mkApiErrorsSource' =
     { apiErrorsSource'Account = GHC.Maybe.Nothing,
       apiErrorsSource'AccountHolderName = GHC.Maybe.Nothing,
       apiErrorsSource'AccountHolderType = GHC.Maybe.Nothing,
+      apiErrorsSource'AccountType = GHC.Maybe.Nothing,
       apiErrorsSource'AchCreditTransfer = GHC.Maybe.Nothing,
       apiErrorsSource'AchDebit = GHC.Maybe.Nothing,
       apiErrorsSource'AcssDebit = GHC.Maybe.Nothing,
@@ -515,63 +524,63 @@ mkApiErrorsSource' =
 -- | Defines the oneOf schema located at @components.schemas.api_errors.properties.source.anyOf.properties.account.anyOf@ in the specification.
 --
 -- The ID of the account that the bank account is associated with.
-data ApiErrorsSource'Account'Variants
-  = ApiErrorsSource'Account'Text Data.Text.Internal.Text
-  | ApiErrorsSource'Account'Account Account
+data ApiErrorsSource'Account'NonNullableVariants
+  = ApiErrorsSource'Account'NonNullableText Data.Text.Internal.Text
+  | ApiErrorsSource'Account'NonNullableAccount Account
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Account'Variants where
-  toJSON (ApiErrorsSource'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ApiErrorsSource'Account'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Account'NonNullableVariants where
+  toJSON (ApiErrorsSource'Account'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (ApiErrorsSource'Account'NonNullableAccount a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Account'Variants where
-  parseJSON val = case (ApiErrorsSource'Account'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Account'Account Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Account'NonNullableVariants where
+  parseJSON val = case (ApiErrorsSource'Account'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Account'NonNullableAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @components.schemas.api_errors.properties.source.anyOf.properties.available_payout_methods.items@ in the specification.
-data ApiErrorsSource'AvailablePayoutMethods'
+data ApiErrorsSource'AvailablePayoutMethods'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    ApiErrorsSource'AvailablePayoutMethods'Other Data.Aeson.Types.Internal.Value
+    ApiErrorsSource'AvailablePayoutMethods'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    ApiErrorsSource'AvailablePayoutMethods'Typed Data.Text.Internal.Text
+    ApiErrorsSource'AvailablePayoutMethods'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"instant"@
-    ApiErrorsSource'AvailablePayoutMethods'EnumInstant
+    ApiErrorsSource'AvailablePayoutMethods'NonNullableEnumInstant
   | -- | Represents the JSON value @"standard"@
-    ApiErrorsSource'AvailablePayoutMethods'EnumStandard
+    ApiErrorsSource'AvailablePayoutMethods'NonNullableEnumStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'AvailablePayoutMethods' where
-  toJSON (ApiErrorsSource'AvailablePayoutMethods'Other val) = val
-  toJSON (ApiErrorsSource'AvailablePayoutMethods'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (ApiErrorsSource'AvailablePayoutMethods'EnumInstant) = "instant"
-  toJSON (ApiErrorsSource'AvailablePayoutMethods'EnumStandard) = "standard"
+instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'AvailablePayoutMethods'NonNullable where
+  toJSON (ApiErrorsSource'AvailablePayoutMethods'NonNullableOther val) = val
+  toJSON (ApiErrorsSource'AvailablePayoutMethods'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ApiErrorsSource'AvailablePayoutMethods'NonNullableEnumInstant) = "instant"
+  toJSON (ApiErrorsSource'AvailablePayoutMethods'NonNullableEnumStandard) = "standard"
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'AvailablePayoutMethods' where
+instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'AvailablePayoutMethods'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "instant" -> ApiErrorsSource'AvailablePayoutMethods'EnumInstant
-            | val GHC.Classes.== "standard" -> ApiErrorsSource'AvailablePayoutMethods'EnumStandard
-            | GHC.Base.otherwise -> ApiErrorsSource'AvailablePayoutMethods'Other val
+            | val GHC.Classes.== "instant" -> ApiErrorsSource'AvailablePayoutMethods'NonNullableEnumInstant
+            | val GHC.Classes.== "standard" -> ApiErrorsSource'AvailablePayoutMethods'NonNullableEnumStandard
+            | GHC.Base.otherwise -> ApiErrorsSource'AvailablePayoutMethods'NonNullableOther val
       )
 
 -- | Defines the oneOf schema located at @components.schemas.api_errors.properties.source.anyOf.properties.customer.anyOf@ in the specification.
 --
 -- The ID of the customer that the bank account is associated with.
-data ApiErrorsSource'Customer'Variants
-  = ApiErrorsSource'Customer'Text Data.Text.Internal.Text
-  | ApiErrorsSource'Customer'Customer Customer
-  | ApiErrorsSource'Customer'DeletedCustomer DeletedCustomer
+data ApiErrorsSource'Customer'NonNullableVariants
+  = ApiErrorsSource'Customer'NonNullableText Data.Text.Internal.Text
+  | ApiErrorsSource'Customer'NonNullableCustomer Customer
+  | ApiErrorsSource'Customer'NonNullableDeletedCustomer DeletedCustomer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Customer'Variants where
-  toJSON (ApiErrorsSource'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ApiErrorsSource'Customer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ApiErrorsSource'Customer'DeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Customer'NonNullableVariants where
+  toJSON (ApiErrorsSource'Customer'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (ApiErrorsSource'Customer'NonNullableCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (ApiErrorsSource'Customer'NonNullableDeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Customer'Variants where
-  parseJSON val = case (ApiErrorsSource'Customer'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Customer'Customer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Customer'DeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Customer'NonNullableVariants where
+  parseJSON val = case (ApiErrorsSource'Customer'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Customer'NonNullableCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Customer'NonNullableDeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
@@ -603,218 +612,218 @@ instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Object' where
 -- | Defines the object schema located at @components.schemas.api_errors.properties.source.anyOf.properties.owner.anyOf@ in the specification.
 --
 -- Information about the owner of the payment instrument that may be used or required by particular source types.
-data ApiErrorsSource'Owner' = ApiErrorsSource'Owner'
+data ApiErrorsSource'Owner'NonNullable = ApiErrorsSource'Owner'NonNullable
   { -- | address: Owner\'s address.
-    apiErrorsSource'Owner'Address :: (GHC.Maybe.Maybe ApiErrorsSource'Owner'Address'),
+    apiErrorsSource'Owner'NonNullableAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApiErrorsSource'Owner'NonNullableAddress'NonNullable)),
     -- | email: Owner\'s email address.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | name: Owner\'s full name.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | phone: Owner\'s phone number (including extension).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullablePhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_address: Verified owner\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
-    apiErrorsSource'Owner'VerifiedAddress :: (GHC.Maybe.Maybe ApiErrorsSource'Owner'VerifiedAddress'),
+    apiErrorsSource'Owner'NonNullableVerifiedAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable)),
     -- | verified_email: Verified owner\'s email address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableVerifiedEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_name: Verified owner\'s full name. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableVerifiedName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verified_phone: Verified owner\'s phone number (including extension). Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    apiErrorsSource'Owner'NonNullableVerifiedPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Owner' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("address" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address obj : "email" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Email obj : "name" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Name obj : "phone" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Phone obj : "verified_address" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress obj : "verified_email" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedEmail obj : "verified_name" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedName obj : "verified_phone" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedPhone obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("address" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address obj) GHC.Base.<> (("email" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Email obj) GHC.Base.<> (("name" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Name obj) GHC.Base.<> (("phone" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Phone obj) GHC.Base.<> (("verified_address" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress obj) GHC.Base.<> (("verified_email" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedEmail obj) GHC.Base.<> (("verified_name" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedName obj) GHC.Base.<> ("verified_phone" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedPhone obj))))))))
+instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Owner'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullablePhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_email" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_phone" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedPhone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullablePhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_email" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_phone" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedPhone obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Owner' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'Owner'" (\obj -> (((((((GHC.Base.pure ApiErrorsSource'Owner' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_phone"))
+instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Owner'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'Owner'NonNullable" (\obj -> (((((((GHC.Base.pure ApiErrorsSource'Owner'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_phone"))
 
--- | Create a new 'ApiErrorsSource'Owner'' with all required fields.
-mkApiErrorsSource'Owner' :: ApiErrorsSource'Owner'
-mkApiErrorsSource'Owner' =
-  ApiErrorsSource'Owner'
-    { apiErrorsSource'Owner'Address = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Email = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Name = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Phone = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedAddress = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedEmail = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedName = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedPhone = GHC.Maybe.Nothing
+-- | Create a new 'ApiErrorsSource'Owner'NonNullable' with all required fields.
+mkApiErrorsSource'Owner'NonNullable :: ApiErrorsSource'Owner'NonNullable
+mkApiErrorsSource'Owner'NonNullable =
+  ApiErrorsSource'Owner'NonNullable
+    { apiErrorsSource'Owner'NonNullableAddress = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableEmail = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableName = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullablePhone = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedAddress = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedEmail = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedName = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedPhone = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.api_errors.properties.source.anyOf.properties.owner.anyOf.properties.address.anyOf@ in the specification.
 --
 -- Owner\\\'s address.
-data ApiErrorsSource'Owner'Address' = ApiErrorsSource'Owner'Address'
+data ApiErrorsSource'Owner'NonNullableAddress'NonNullable = ApiErrorsSource'Owner'NonNullableAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    apiErrorsSource'Owner'NonNullableAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Owner'Address' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'City obj : "country" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'Country obj : "line1" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'Address'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Owner'NonNullableAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Owner'Address' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'Owner'Address'" (\obj -> (((((GHC.Base.pure ApiErrorsSource'Owner'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Owner'NonNullableAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'Owner'NonNullableAddress'NonNullable" (\obj -> (((((GHC.Base.pure ApiErrorsSource'Owner'NonNullableAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'ApiErrorsSource'Owner'Address'' with all required fields.
-mkApiErrorsSource'Owner'Address' :: ApiErrorsSource'Owner'Address'
-mkApiErrorsSource'Owner'Address' =
-  ApiErrorsSource'Owner'Address'
-    { apiErrorsSource'Owner'Address'City = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Address'Country = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Address'Line1 = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Address'Line2 = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Address'PostalCode = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'Address'State = GHC.Maybe.Nothing
+-- | Create a new 'ApiErrorsSource'Owner'NonNullableAddress'NonNullable' with all required fields.
+mkApiErrorsSource'Owner'NonNullableAddress'NonNullable :: ApiErrorsSource'Owner'NonNullableAddress'NonNullable
+mkApiErrorsSource'Owner'NonNullableAddress'NonNullable =
+  ApiErrorsSource'Owner'NonNullableAddress'NonNullable
+    { apiErrorsSource'Owner'NonNullableAddress'NonNullableCity = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableAddress'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.api_errors.properties.source.anyOf.properties.owner.anyOf.properties.verified_address.anyOf@ in the specification.
 --
 -- Verified owner\\\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
-data ApiErrorsSource'Owner'VerifiedAddress' = ApiErrorsSource'Owner'VerifiedAddress'
+data ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable = ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedAddress'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line1: Address line 1 (e.g., street, PO Box, or company name).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | postal_code: ZIP or postal code.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | state: State, county, province, or region.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    apiErrorsSource'Owner'VerifiedAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Owner'VerifiedAddress' where
-  toJSON obj = Data.Aeson.Types.Internal.object ("city" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'City obj : "country" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'Country obj : "line1" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'Line1 obj : "line2" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'Line2 obj : "postal_code" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'PostalCode obj : "state" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'State obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("city" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'City obj) GHC.Base.<> (("country" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'Country obj) GHC.Base.<> (("line1" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'Line1 obj) GHC.Base.<> (("line2" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'Line2 obj) GHC.Base.<> (("postal_code" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'PostalCode obj) GHC.Base.<> ("state" Data.Aeson.Types.ToJSON..= apiErrorsSource'Owner'VerifiedAddress'State obj))))))
+instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableState obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Owner'VerifiedAddress' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'Owner'VerifiedAddress'" (\obj -> (((((GHC.Base.pure ApiErrorsSource'Owner'VerifiedAddress' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable" (\obj -> (((((GHC.Base.pure ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
 
--- | Create a new 'ApiErrorsSource'Owner'VerifiedAddress'' with all required fields.
-mkApiErrorsSource'Owner'VerifiedAddress' :: ApiErrorsSource'Owner'VerifiedAddress'
-mkApiErrorsSource'Owner'VerifiedAddress' =
-  ApiErrorsSource'Owner'VerifiedAddress'
-    { apiErrorsSource'Owner'VerifiedAddress'City = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedAddress'Country = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedAddress'Line1 = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedAddress'Line2 = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedAddress'PostalCode = GHC.Maybe.Nothing,
-      apiErrorsSource'Owner'VerifiedAddress'State = GHC.Maybe.Nothing
+-- | Create a new 'ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable' with all required fields.
+mkApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable :: ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
+mkApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable =
+  ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
+    { apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCity = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      apiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullableState = GHC.Maybe.Nothing
     }
 
 -- | Defines the oneOf schema located at @components.schemas.api_errors.properties.source.anyOf.properties.recipient.anyOf@ in the specification.
 --
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
-data ApiErrorsSource'Recipient'Variants
-  = ApiErrorsSource'Recipient'Text Data.Text.Internal.Text
-  | ApiErrorsSource'Recipient'Recipient Recipient
+data ApiErrorsSource'Recipient'NonNullableVariants
+  = ApiErrorsSource'Recipient'NonNullableText Data.Text.Internal.Text
+  | ApiErrorsSource'Recipient'NonNullableRecipient Recipient
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Recipient'Variants where
-  toJSON (ApiErrorsSource'Recipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ApiErrorsSource'Recipient'Recipient a) = Data.Aeson.Types.ToJSON.toJSON a
+instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsSource'Recipient'NonNullableVariants where
+  toJSON (ApiErrorsSource'Recipient'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (ApiErrorsSource'Recipient'NonNullableRecipient a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Recipient'Variants where
-  parseJSON val = case (ApiErrorsSource'Recipient'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Recipient'Recipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Recipient'NonNullableVariants where
+  parseJSON val = case (ApiErrorsSource'Recipient'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ApiErrorsSource'Recipient'NonNullableRecipient Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
@@ -913,49 +922,37 @@ instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsSource'Type' where
 
 -- | Defines the enum schema located at @components.schemas.api_errors.properties.type@ in the specification.
 --
--- The type of error returned. One of \`api_connection_error\`, \`api_error\`, \`authentication_error\`, \`card_error\`, \`idempotency_error\`, \`invalid_request_error\`, or \`rate_limit_error\`
+-- The type of error returned. One of \`api_error\`, \`card_error\`, \`idempotency_error\`, or \`invalid_request_error\`
 data ApiErrorsType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     ApiErrorsType'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     ApiErrorsType'Typed Data.Text.Internal.Text
-  | -- | Represents the JSON value @"api_connection_error"@
-    ApiErrorsType'EnumApiConnectionError
   | -- | Represents the JSON value @"api_error"@
     ApiErrorsType'EnumApiError
-  | -- | Represents the JSON value @"authentication_error"@
-    ApiErrorsType'EnumAuthenticationError
   | -- | Represents the JSON value @"card_error"@
     ApiErrorsType'EnumCardError
   | -- | Represents the JSON value @"idempotency_error"@
     ApiErrorsType'EnumIdempotencyError
   | -- | Represents the JSON value @"invalid_request_error"@
     ApiErrorsType'EnumInvalidRequestError
-  | -- | Represents the JSON value @"rate_limit_error"@
-    ApiErrorsType'EnumRateLimitError
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON ApiErrorsType' where
   toJSON (ApiErrorsType'Other val) = val
   toJSON (ApiErrorsType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (ApiErrorsType'EnumApiConnectionError) = "api_connection_error"
   toJSON (ApiErrorsType'EnumApiError) = "api_error"
-  toJSON (ApiErrorsType'EnumAuthenticationError) = "authentication_error"
   toJSON (ApiErrorsType'EnumCardError) = "card_error"
   toJSON (ApiErrorsType'EnumIdempotencyError) = "idempotency_error"
   toJSON (ApiErrorsType'EnumInvalidRequestError) = "invalid_request_error"
-  toJSON (ApiErrorsType'EnumRateLimitError) = "rate_limit_error"
 
 instance Data.Aeson.Types.FromJSON.FromJSON ApiErrorsType' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "api_connection_error" -> ApiErrorsType'EnumApiConnectionError
             | val GHC.Classes.== "api_error" -> ApiErrorsType'EnumApiError
-            | val GHC.Classes.== "authentication_error" -> ApiErrorsType'EnumAuthenticationError
             | val GHC.Classes.== "card_error" -> ApiErrorsType'EnumCardError
             | val GHC.Classes.== "idempotency_error" -> ApiErrorsType'EnumIdempotencyError
             | val GHC.Classes.== "invalid_request_error" -> ApiErrorsType'EnumInvalidRequestError
-            | val GHC.Classes.== "rate_limit_error" -> ApiErrorsType'EnumRateLimitError
             | GHC.Base.otherwise -> ApiErrorsType'Other val
       )

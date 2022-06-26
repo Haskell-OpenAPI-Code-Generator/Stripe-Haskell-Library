@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -40,9 +42,9 @@ data SubscriptionScheduleAddInvoiceItem = SubscriptionScheduleAddInvoiceItem
   { -- | price: ID of the price used to generate the invoice item.
     subscriptionScheduleAddInvoiceItemPrice :: SubscriptionScheduleAddInvoiceItemPrice'Variants,
     -- | quantity: The quantity of the invoice item.
-    subscriptionScheduleAddInvoiceItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+    subscriptionScheduleAddInvoiceItemQuantity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | tax_rates: The tax rates which apply to the item. When set, the \`default_tax_rates\` do not apply to this item.
-    subscriptionScheduleAddInvoiceItemTaxRates :: (GHC.Maybe.Maybe ([TaxRate]))
+    subscriptionScheduleAddInvoiceItemTaxRates :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([TaxRate])))
   }
   deriving
     ( GHC.Show.Show,
@@ -50,11 +52,11 @@ data SubscriptionScheduleAddInvoiceItem = SubscriptionScheduleAddInvoiceItem
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleAddInvoiceItem where
-  toJSON obj = Data.Aeson.Types.Internal.object ("price" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemPrice obj : "quantity" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemQuantity obj : "tax_rates" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemTaxRates obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("price" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemPrice obj) GHC.Base.<> (("quantity" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemQuantity obj) GHC.Base.<> ("tax_rates" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemTaxRates obj)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleAddInvoiceItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleAddInvoiceItemTaxRates obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleAddInvoiceItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleAddInvoiceItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleAddInvoiceItemTaxRates obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleAddInvoiceItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleAddInvoiceItem" (\obj -> ((GHC.Base.pure SubscriptionScheduleAddInvoiceItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleAddInvoiceItem" (\obj -> ((GHC.Base.pure SubscriptionScheduleAddInvoiceItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
 
 -- | Create a new 'SubscriptionScheduleAddInvoiceItem' with all required fields.
 mkSubscriptionScheduleAddInvoiceItem ::

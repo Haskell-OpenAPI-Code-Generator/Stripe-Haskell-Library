@@ -14,7 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.Foldable
 import qualified Data.Functor
+import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text.Internal
@@ -37,25 +39,25 @@ data PaymentMethodDetailsBacsDebit = PaymentMethodDetailsBacsDebit
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsBacsDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsBacsDebitFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | last4: Last four digits of the bank account number.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsBacsDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsBacsDebitLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | mandate: ID of the mandate used to make this payment.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsBacsDebitMandate :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    paymentMethodDetailsBacsDebitMandate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | sort_code: Sort code of the bank account. (e.g., \`10-20-30\`)
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodDetailsBacsDebitSortCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodDetailsBacsDebitSortCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -63,11 +65,11 @@ data PaymentMethodDetailsBacsDebit = PaymentMethodDetailsBacsDebit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsBacsDebit where
-  toJSON obj = Data.Aeson.Types.Internal.object ("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitFingerprint obj : "last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitLast4 obj : "mandate" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitMandate obj : "sort_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitSortCode obj : GHC.Base.mempty)
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (("fingerprint" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitFingerprint obj) GHC.Base.<> (("last4" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitLast4 obj) GHC.Base.<> (("mandate" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitMandate obj) GHC.Base.<> ("sort_code" Data.Aeson.Types.ToJSON..= paymentMethodDetailsBacsDebitSortCode obj))))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitMandate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sort_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitSortCode obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitMandate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sort_code" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsBacsDebitSortCode obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsBacsDebit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsBacsDebit" (\obj -> (((GHC.Base.pure PaymentMethodDetailsBacsDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sort_code"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsBacsDebit" (\obj -> (((GHC.Base.pure PaymentMethodDetailsBacsDebit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sort_code"))
 
 -- | Create a new 'PaymentMethodDetailsBacsDebit' with all required fields.
 mkPaymentMethodDetailsBacsDebit :: PaymentMethodDetailsBacsDebit
