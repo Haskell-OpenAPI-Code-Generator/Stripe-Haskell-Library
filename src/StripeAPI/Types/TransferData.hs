@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,8 +37,8 @@ import qualified Prelude as GHC.Maybe
 data TransferData = TransferData
   { -- | amount: Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal) (e.g., 100 cents to charge \$1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is \$0.50 US or [equivalent in charge currency](https:\/\/stripe.com\/docs\/currencies\#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of \$999,999.99).
     transferDataAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | destination: The account (if any) the payment will be attributed to for tax
-    -- reporting, and where funds from the payment will be transferred to upon
+    -- | destination: The account (if any) that the payment is attributed to for tax
+    -- reporting, and where funds from the payment are transferred to after
     -- payment success.
     transferDataDestination :: TransferDataDestination'Variants
   }
@@ -67,8 +67,8 @@ mkTransferData transferDataDestination =
 
 -- | Defines the oneOf schema located at @components.schemas.transfer_data.properties.destination.anyOf@ in the specification.
 --
--- The account (if any) the payment will be attributed to for tax
--- reporting, and where funds from the payment will be transferred to upon
+-- The account (if any) that the payment is attributed to for tax
+-- reporting, and where funds from the payment are transferred to after
 -- payment success.
 data TransferDataDestination'Variants
   = TransferDataDestination'Text Data.Text.Internal.Text

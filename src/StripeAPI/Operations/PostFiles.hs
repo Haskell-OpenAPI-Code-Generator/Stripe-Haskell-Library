@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,9 +46,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/files
 --
--- \<p>To upload a file to Stripe, you’ll need to send a request of type \<code>multipart\/form-data\<\/code>. The request should contain the file you would like to upload, as well as the parameters for creating a file.\<\/p>
+-- \<p>To upload a file to Stripe, you need to send a request of type \<code>multipart\/form-data\<\/code>. Include the file you want to upload in the request, and the parameters for creating a file.\<\/p>
 --
--- \<p>All of Stripe’s officially supported Client libraries should have support for sending \<code>multipart\/form-data\<\/code>.\<\/p>
+-- \<p>All of Stripe’s officially supported Client libraries support sending \<code>multipart\/form-data\<\/code>.\<\/p>
 postFiles ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -61,26 +62,26 @@ postFiles =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostFilesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            File
-                                                      )
+                                     PostFilesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              File
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostFilesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostFilesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/files") GHC.Base.mempty)
+    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/files" GHC.Base.mempty)
 
 -- | Represents a response of the operation 'postFiles'.
 --

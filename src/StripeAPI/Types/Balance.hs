@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,6 +30,7 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.BalanceAmount
+import {-# SOURCE #-} StripeAPI.Types.BalanceAmountNet
 import {-# SOURCE #-} StripeAPI.Types.BalanceDetail
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -46,19 +47,19 @@ import qualified Prelude as GHC.Maybe
 -- The available and pending amounts for each currency are broken down further by
 -- payment source types.
 --
--- Related guide: [Understanding Connect Account Balances](https:\/\/stripe.com\/docs\/connect\/account-balances).
+-- Related guide: [Understanding Connect account balances](https:\/\/stripe.com\/docs\/connect\/account-balances)
 data Balance = Balance
-  { -- | available: Funds that are available to be transferred or paid out, whether automatically by Stripe or explicitly via the [Transfers API](https:\/\/stripe.com\/docs\/api\#transfers) or [Payouts API](https:\/\/stripe.com\/docs\/api\#payouts). The available balance for each currency and payment type can be found in the \`source_types\` property.
+  { -- | available: Available funds that you can transfer or pay out automatically by Stripe or explicitly through the [Transfers API](https:\/\/stripe.com\/docs\/api\#transfers) or [Payouts API](https:\/\/stripe.com\/docs\/api\#payouts). You can find the available balance for each currency and payment type in the \`source_types\` property.
     balanceAvailable :: ([BalanceAmount]),
-    -- | connect_reserved: Funds held due to negative balances on connected Custom accounts. The connect reserve balance for each currency and payment type can be found in the \`source_types\` property.
+    -- | connect_reserved: Funds held due to negative balances on connected Custom accounts. You can find the connect reserve balance for each currency and payment type in the \`source_types\` property.
     balanceConnectReserved :: (GHC.Maybe.Maybe ([BalanceAmount])),
-    -- | instant_available: Funds that can be paid out using Instant Payouts.
-    balanceInstantAvailable :: (GHC.Maybe.Maybe ([BalanceAmount])),
+    -- | instant_available: Funds that you can pay out using Instant Payouts.
+    balanceInstantAvailable :: (GHC.Maybe.Maybe ([BalanceAmountNet])),
     -- | issuing:
     balanceIssuing :: (GHC.Maybe.Maybe BalanceDetail),
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     balanceLivemode :: GHC.Types.Bool,
-    -- | pending: Funds that are not yet available in the balance, due to the 7-day rolling pay cycle. The pending balance for each currency, and for each payment type, can be found in the \`source_types\` property.
+    -- | pending: Funds that aren\'t available in the balance yet. You can find the pending balance for each currency and each payment type in the \`source_types\` property.
     balancePending :: ([BalanceAmount])
   }
   deriving

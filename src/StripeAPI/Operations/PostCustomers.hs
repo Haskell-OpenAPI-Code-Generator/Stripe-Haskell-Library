@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postCustomers body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostCustomersResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Customer
-                                                      )
+                                     PostCustomersResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Customer
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostCustomersResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostCustomersResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/customers") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/customers" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersRequestBody = PostCustomersRequestBody
@@ -290,8 +291,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyAddress'Vari
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersRequestBodyAddress'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersRequestBodyAddress'PostCustomersRequestBodyAddress'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.cash_balance@ in the specification.
 --
@@ -347,6 +348,8 @@ data PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'
     PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumAutomatic
   | -- | Represents the JSON value @"manual"@
     PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumManual
+  | -- | Represents the JSON value @"merchant_default"@
+    PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumMerchantDefault
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode' where
@@ -354,6 +357,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyCashBalance'Sett
   toJSON (PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumAutomatic) = "automatic"
   toJSON (PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumManual) = "manual"
+  toJSON (PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumMerchantDefault) = "merchant_default"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode' where
   parseJSON val =
@@ -361,6 +365,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyCashBalance'
       ( if
             | val GHC.Classes.== "automatic" -> PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumAutomatic
             | val GHC.Classes.== "manual" -> PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumManual
+            | val GHC.Classes.== "merchant_default" -> PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'EnumMerchantDefault
             | GHC.Base.otherwise -> PostCustomersRequestBodyCashBalance'Settings'ReconciliationMode'Other val
       )
 
@@ -463,8 +468,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyInvoiceSetti
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersRequestBodyInvoiceSettings'CustomFields'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersRequestBodyInvoiceSettings'CustomFields'ListTPostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_settings.properties.rendering_options.anyOf@ in the specification.
 data PostCustomersRequestBodyInvoiceSettings'RenderingOptions'OneOf1 = PostCustomersRequestBodyInvoiceSettings'RenderingOptions'OneOf1
@@ -534,8 +539,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyInvoiceSetti
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersRequestBodyInvoiceSettings'RenderingOptions'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersRequestBodyInvoiceSettings'RenderingOptions'PostCustomersRequestBodyInvoiceSettings'RenderingOptions'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
@@ -555,8 +560,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyMetadata'Var
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping.anyOf@ in the specification.
 data PostCustomersRequestBodyShipping'OneOf1 = PostCustomersRequestBodyShipping'OneOf1
@@ -682,15 +687,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyShipping'Var
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersRequestBodyShipping'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersRequestBodyShipping'PostCustomersRequestBodyShipping'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax@ in the specification.
 --
 -- Tax details about the customer.
 data PostCustomersRequestBodyTax' = PostCustomersRequestBodyTax'
   { -- | ip_address
-    postCustomersRequestBodyTax'IpAddress :: (GHC.Maybe.Maybe PostCustomersRequestBodyTax'IpAddress'Variants)
+    postCustomersRequestBodyTax'IpAddress :: (GHC.Maybe.Maybe PostCustomersRequestBodyTax'IpAddress'Variants),
+    -- | validate_location
+    postCustomersRequestBodyTax'ValidateLocation :: (GHC.Maybe.Maybe PostCustomersRequestBodyTax'ValidateLocation')
   }
   deriving
     ( GHC.Show.Show,
@@ -698,15 +705,19 @@ data PostCustomersRequestBodyTax' = PostCustomersRequestBodyTax'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyTax' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersRequestBodyTax'IpAddress obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersRequestBodyTax'IpAddress obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersRequestBodyTax'IpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("validate_location" Data.Aeson.Types.ToJSON..=)) (postCustomersRequestBodyTax'ValidateLocation obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersRequestBodyTax'IpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("validate_location" Data.Aeson.Types.ToJSON..=)) (postCustomersRequestBodyTax'ValidateLocation obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTax' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersRequestBodyTax'" (\obj -> GHC.Base.pure PostCustomersRequestBodyTax' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersRequestBodyTax'" (\obj -> (GHC.Base.pure PostCustomersRequestBodyTax' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "validate_location"))
 
 -- | Create a new 'PostCustomersRequestBodyTax'' with all required fields.
 mkPostCustomersRequestBodyTax' :: PostCustomersRequestBodyTax'
-mkPostCustomersRequestBodyTax' = PostCustomersRequestBodyTax' {postCustomersRequestBodyTax'IpAddress = GHC.Maybe.Nothing}
+mkPostCustomersRequestBodyTax' =
+  PostCustomersRequestBodyTax'
+    { postCustomersRequestBodyTax'IpAddress = GHC.Maybe.Nothing,
+      postCustomersRequestBodyTax'ValidateLocation = GHC.Maybe.Nothing
+    }
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax.properties.ip_address.anyOf@ in the specification.
 data PostCustomersRequestBodyTax'IpAddress'Variants
@@ -724,8 +735,35 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTax'IpAddres
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersRequestBodyTax'IpAddress'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersRequestBodyTax'IpAddress'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax.properties.validate_location@ in the specification.
+data PostCustomersRequestBodyTax'ValidateLocation'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersRequestBodyTax'ValidateLocation'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersRequestBodyTax'ValidateLocation'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"deferred"@
+    PostCustomersRequestBodyTax'ValidateLocation'EnumDeferred
+  | -- | Represents the JSON value @"immediately"@
+    PostCustomersRequestBodyTax'ValidateLocation'EnumImmediately
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyTax'ValidateLocation' where
+  toJSON (PostCustomersRequestBodyTax'ValidateLocation'Other val) = val
+  toJSON (PostCustomersRequestBodyTax'ValidateLocation'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersRequestBodyTax'ValidateLocation'EnumDeferred) = "deferred"
+  toJSON (PostCustomersRequestBodyTax'ValidateLocation'EnumImmediately) = "immediately"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTax'ValidateLocation' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "deferred" -> PostCustomersRequestBodyTax'ValidateLocation'EnumDeferred
+            | val GHC.Classes.== "immediately" -> PostCustomersRequestBodyTax'ValidateLocation'EnumImmediately
+            | GHC.Base.otherwise -> PostCustomersRequestBodyTax'ValidateLocation'Other val
+      )
 
 -- | Defines the enum schema located at @paths.\/v1\/customers.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_exempt@ in the specification.
 --
@@ -806,14 +844,20 @@ data PostCustomersRequestBodyTaxIdData'Type'
     PostCustomersRequestBodyTaxIdData'Type'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     PostCustomersRequestBodyTaxIdData'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ad_nrt"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumAdNrt
   | -- | Represents the JSON value @"ae_trn"@
     PostCustomersRequestBodyTaxIdData'Type'EnumAeTrn
+  | -- | Represents the JSON value @"ar_cuit"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumArCuit
   | -- | Represents the JSON value @"au_abn"@
     PostCustomersRequestBodyTaxIdData'Type'EnumAuAbn
   | -- | Represents the JSON value @"au_arn"@
     PostCustomersRequestBodyTaxIdData'Type'EnumAuArn
   | -- | Represents the JSON value @"bg_uic"@
     PostCustomersRequestBodyTaxIdData'Type'EnumBgUic
+  | -- | Represents the JSON value @"bo_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumBoTin
   | -- | Represents the JSON value @"br_cnpj"@
     PostCustomersRequestBodyTaxIdData'Type'EnumBrCnpj
   | -- | Represents the JSON value @"br_cpf"@
@@ -834,6 +878,18 @@ data PostCustomersRequestBodyTaxIdData'Type'
     PostCustomersRequestBodyTaxIdData'Type'EnumChVat
   | -- | Represents the JSON value @"cl_tin"@
     PostCustomersRequestBodyTaxIdData'Type'EnumClTin
+  | -- | Represents the JSON value @"cn_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumCnTin
+  | -- | Represents the JSON value @"co_nit"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumCoNit
+  | -- | Represents the JSON value @"cr_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumCrTin
+  | -- | Represents the JSON value @"do_rcn"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumDoRcn
+  | -- | Represents the JSON value @"ec_ruc"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumEcRuc
+  | -- | Represents the JSON value @"eg_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumEgTin
   | -- | Represents the JSON value @"es_cif"@
     PostCustomersRequestBodyTaxIdData'Type'EnumEsCif
   | -- | Represents the JSON value @"eu_oss_vat"@
@@ -860,6 +916,10 @@ data PostCustomersRequestBodyTaxIdData'Type'
     PostCustomersRequestBodyTaxIdData'Type'EnumJpCn
   | -- | Represents the JSON value @"jp_rn"@
     PostCustomersRequestBodyTaxIdData'Type'EnumJpRn
+  | -- | Represents the JSON value @"jp_trn"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumJpTrn
+  | -- | Represents the JSON value @"ke_pin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumKePin
   | -- | Represents the JSON value @"kr_brn"@
     PostCustomersRequestBodyTaxIdData'Type'EnumKrBrn
   | -- | Represents the JSON value @"li_uid"@
@@ -876,6 +936,14 @@ data PostCustomersRequestBodyTaxIdData'Type'
     PostCustomersRequestBodyTaxIdData'Type'EnumNoVat
   | -- | Represents the JSON value @"nz_gst"@
     PostCustomersRequestBodyTaxIdData'Type'EnumNzGst
+  | -- | Represents the JSON value @"pe_ruc"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumPeRuc
+  | -- | Represents the JSON value @"ph_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumPhTin
+  | -- | Represents the JSON value @"ro_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumRoTin
+  | -- | Represents the JSON value @"rs_pib"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumRsPib
   | -- | Represents the JSON value @"ru_inn"@
     PostCustomersRequestBodyTaxIdData'Type'EnumRuInn
   | -- | Represents the JSON value @"ru_kpp"@
@@ -888,14 +956,24 @@ data PostCustomersRequestBodyTaxIdData'Type'
     PostCustomersRequestBodyTaxIdData'Type'EnumSgUen
   | -- | Represents the JSON value @"si_tin"@
     PostCustomersRequestBodyTaxIdData'Type'EnumSiTin
+  | -- | Represents the JSON value @"sv_nit"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumSvNit
   | -- | Represents the JSON value @"th_vat"@
     PostCustomersRequestBodyTaxIdData'Type'EnumThVat
+  | -- | Represents the JSON value @"tr_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumTrTin
   | -- | Represents the JSON value @"tw_vat"@
     PostCustomersRequestBodyTaxIdData'Type'EnumTwVat
   | -- | Represents the JSON value @"ua_vat"@
     PostCustomersRequestBodyTaxIdData'Type'EnumUaVat
   | -- | Represents the JSON value @"us_ein"@
     PostCustomersRequestBodyTaxIdData'Type'EnumUsEin
+  | -- | Represents the JSON value @"uy_ruc"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumUyRuc
+  | -- | Represents the JSON value @"ve_rif"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumVeRif
+  | -- | Represents the JSON value @"vn_tin"@
+    PostCustomersRequestBodyTaxIdData'Type'EnumVnTin
   | -- | Represents the JSON value @"za_vat"@
     PostCustomersRequestBodyTaxIdData'Type'EnumZaVat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -903,10 +981,13 @@ data PostCustomersRequestBodyTaxIdData'Type'
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyTaxIdData'Type' where
   toJSON (PostCustomersRequestBodyTaxIdData'Type'Other val) = val
   toJSON (PostCustomersRequestBodyTaxIdData'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumAdNrt) = "ad_nrt"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumAeTrn) = "ae_trn"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumArCuit) = "ar_cuit"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumAuAbn) = "au_abn"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumAuArn) = "au_arn"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumBgUic) = "bg_uic"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumBoTin) = "bo_tin"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumBrCnpj) = "br_cnpj"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumBrCpf) = "br_cpf"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumCaBn) = "ca_bn"
@@ -917,6 +998,12 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyTaxIdData'Type' 
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumCaQst) = "ca_qst"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumChVat) = "ch_vat"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumClTin) = "cl_tin"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumCnTin) = "cn_tin"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumCoNit) = "co_nit"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumCrTin) = "cr_tin"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumDoRcn) = "do_rcn"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumEcRuc) = "ec_ruc"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumEgTin) = "eg_tin"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumEsCif) = "es_cif"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumEuOssVat) = "eu_oss_vat"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumEuVat) = "eu_vat"
@@ -930,6 +1017,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyTaxIdData'Type' 
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumIsVat) = "is_vat"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumJpCn) = "jp_cn"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumJpRn) = "jp_rn"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumJpTrn) = "jp_trn"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumKePin) = "ke_pin"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumKrBrn) = "kr_brn"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumLiUid) = "li_uid"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumMxRfc) = "mx_rfc"
@@ -938,26 +1027,38 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersRequestBodyTaxIdData'Type' 
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumMySst) = "my_sst"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumNoVat) = "no_vat"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumNzGst) = "nz_gst"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumPeRuc) = "pe_ruc"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumPhTin) = "ph_tin"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumRoTin) = "ro_tin"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumRsPib) = "rs_pib"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumRuInn) = "ru_inn"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumRuKpp) = "ru_kpp"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumSaVat) = "sa_vat"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumSgGst) = "sg_gst"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumSgUen) = "sg_uen"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumSiTin) = "si_tin"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumSvNit) = "sv_nit"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumThVat) = "th_vat"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumTrTin) = "tr_tin"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumTwVat) = "tw_vat"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumUaVat) = "ua_vat"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumUsEin) = "us_ein"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumUyRuc) = "uy_ruc"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumVeRif) = "ve_rif"
+  toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumVnTin) = "vn_tin"
   toJSON (PostCustomersRequestBodyTaxIdData'Type'EnumZaVat) = "za_vat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTaxIdData'Type' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "ad_nrt" -> PostCustomersRequestBodyTaxIdData'Type'EnumAdNrt
             | val GHC.Classes.== "ae_trn" -> PostCustomersRequestBodyTaxIdData'Type'EnumAeTrn
+            | val GHC.Classes.== "ar_cuit" -> PostCustomersRequestBodyTaxIdData'Type'EnumArCuit
             | val GHC.Classes.== "au_abn" -> PostCustomersRequestBodyTaxIdData'Type'EnumAuAbn
             | val GHC.Classes.== "au_arn" -> PostCustomersRequestBodyTaxIdData'Type'EnumAuArn
             | val GHC.Classes.== "bg_uic" -> PostCustomersRequestBodyTaxIdData'Type'EnumBgUic
+            | val GHC.Classes.== "bo_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumBoTin
             | val GHC.Classes.== "br_cnpj" -> PostCustomersRequestBodyTaxIdData'Type'EnumBrCnpj
             | val GHC.Classes.== "br_cpf" -> PostCustomersRequestBodyTaxIdData'Type'EnumBrCpf
             | val GHC.Classes.== "ca_bn" -> PostCustomersRequestBodyTaxIdData'Type'EnumCaBn
@@ -968,6 +1069,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTaxIdData'Ty
             | val GHC.Classes.== "ca_qst" -> PostCustomersRequestBodyTaxIdData'Type'EnumCaQst
             | val GHC.Classes.== "ch_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumChVat
             | val GHC.Classes.== "cl_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumClTin
+            | val GHC.Classes.== "cn_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumCnTin
+            | val GHC.Classes.== "co_nit" -> PostCustomersRequestBodyTaxIdData'Type'EnumCoNit
+            | val GHC.Classes.== "cr_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumCrTin
+            | val GHC.Classes.== "do_rcn" -> PostCustomersRequestBodyTaxIdData'Type'EnumDoRcn
+            | val GHC.Classes.== "ec_ruc" -> PostCustomersRequestBodyTaxIdData'Type'EnumEcRuc
+            | val GHC.Classes.== "eg_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumEgTin
             | val GHC.Classes.== "es_cif" -> PostCustomersRequestBodyTaxIdData'Type'EnumEsCif
             | val GHC.Classes.== "eu_oss_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumEuOssVat
             | val GHC.Classes.== "eu_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumEuVat
@@ -981,6 +1088,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTaxIdData'Ty
             | val GHC.Classes.== "is_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumIsVat
             | val GHC.Classes.== "jp_cn" -> PostCustomersRequestBodyTaxIdData'Type'EnumJpCn
             | val GHC.Classes.== "jp_rn" -> PostCustomersRequestBodyTaxIdData'Type'EnumJpRn
+            | val GHC.Classes.== "jp_trn" -> PostCustomersRequestBodyTaxIdData'Type'EnumJpTrn
+            | val GHC.Classes.== "ke_pin" -> PostCustomersRequestBodyTaxIdData'Type'EnumKePin
             | val GHC.Classes.== "kr_brn" -> PostCustomersRequestBodyTaxIdData'Type'EnumKrBrn
             | val GHC.Classes.== "li_uid" -> PostCustomersRequestBodyTaxIdData'Type'EnumLiUid
             | val GHC.Classes.== "mx_rfc" -> PostCustomersRequestBodyTaxIdData'Type'EnumMxRfc
@@ -989,16 +1098,25 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTaxIdData'Ty
             | val GHC.Classes.== "my_sst" -> PostCustomersRequestBodyTaxIdData'Type'EnumMySst
             | val GHC.Classes.== "no_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumNoVat
             | val GHC.Classes.== "nz_gst" -> PostCustomersRequestBodyTaxIdData'Type'EnumNzGst
+            | val GHC.Classes.== "pe_ruc" -> PostCustomersRequestBodyTaxIdData'Type'EnumPeRuc
+            | val GHC.Classes.== "ph_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumPhTin
+            | val GHC.Classes.== "ro_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumRoTin
+            | val GHC.Classes.== "rs_pib" -> PostCustomersRequestBodyTaxIdData'Type'EnumRsPib
             | val GHC.Classes.== "ru_inn" -> PostCustomersRequestBodyTaxIdData'Type'EnumRuInn
             | val GHC.Classes.== "ru_kpp" -> PostCustomersRequestBodyTaxIdData'Type'EnumRuKpp
             | val GHC.Classes.== "sa_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumSaVat
             | val GHC.Classes.== "sg_gst" -> PostCustomersRequestBodyTaxIdData'Type'EnumSgGst
             | val GHC.Classes.== "sg_uen" -> PostCustomersRequestBodyTaxIdData'Type'EnumSgUen
             | val GHC.Classes.== "si_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumSiTin
+            | val GHC.Classes.== "sv_nit" -> PostCustomersRequestBodyTaxIdData'Type'EnumSvNit
             | val GHC.Classes.== "th_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumThVat
+            | val GHC.Classes.== "tr_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumTrTin
             | val GHC.Classes.== "tw_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumTwVat
             | val GHC.Classes.== "ua_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumUaVat
             | val GHC.Classes.== "us_ein" -> PostCustomersRequestBodyTaxIdData'Type'EnumUsEin
+            | val GHC.Classes.== "uy_ruc" -> PostCustomersRequestBodyTaxIdData'Type'EnumUyRuc
+            | val GHC.Classes.== "ve_rif" -> PostCustomersRequestBodyTaxIdData'Type'EnumVeRif
+            | val GHC.Classes.== "vn_tin" -> PostCustomersRequestBodyTaxIdData'Type'EnumVnTin
             | val GHC.Classes.== "za_vat" -> PostCustomersRequestBodyTaxIdData'Type'EnumZaVat
             | GHC.Base.otherwise -> PostCustomersRequestBodyTaxIdData'Type'Other val
       )

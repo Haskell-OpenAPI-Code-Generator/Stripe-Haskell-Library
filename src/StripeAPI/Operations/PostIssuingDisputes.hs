@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,30 +62,32 @@ postIssuingDisputes body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostIssuingDisputesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Issuing'dispute
-                                                      )
+                                     PostIssuingDisputesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Issuing'dispute
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostIssuingDisputesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostIssuingDisputesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/disputes") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/issuing/disputes" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingDisputesRequestBody = PostIssuingDisputesRequestBody
-  { -- | evidence: Evidence provided for the dispute.
+  { -- | amount: The dispute amount in the card\'s currency and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal). If not set, defaults to the full transaction amount.
+    postIssuingDisputesRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | evidence: Evidence provided for the dispute.
     postIssuingDisputesRequestBodyEvidence :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'),
     -- | expand: Specifies which fields in the response should be expanded.
     postIssuingDisputesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
@@ -105,17 +108,18 @@ data PostIssuingDisputesRequestBody = PostIssuingDisputesRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("evidence" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyEvidence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTreasury obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("evidence" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyEvidence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTreasury obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("evidence" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyEvidence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTreasury obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("evidence" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyEvidence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (postIssuingDisputesRequestBodyTreasury obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBody" (\obj -> ((((GHC.Base.pure PostIssuingDisputesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingDisputesRequestBody" (\obj -> (((((GHC.Base.pure PostIssuingDisputesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury"))
 
 -- | Create a new 'PostIssuingDisputesRequestBody' with all required fields.
 mkPostIssuingDisputesRequestBody :: PostIssuingDisputesRequestBody
 mkPostIssuingDisputesRequestBody =
   PostIssuingDisputesRequestBody
-    { postIssuingDisputesRequestBodyEvidence = GHC.Maybe.Nothing,
+    { postIssuingDisputesRequestBodyAmount = GHC.Maybe.Nothing,
+      postIssuingDisputesRequestBodyEvidence = GHC.Maybe.Nothing,
       postIssuingDisputesRequestBodyExpand = GHC.Maybe.Nothing,
       postIssuingDisputesRequestBodyMetadata = GHC.Maybe.Nothing,
       postIssuingDisputesRequestBodyTransaction = GHC.Maybe.Nothing,
@@ -178,25 +182,13 @@ data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1 = PostIssuingDispute
     -- | cancellation_policy_provided
     postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationPolicyProvided :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationPolicyProvided'Variants),
     -- | cancellation_reason
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'Variants),
     -- | expected_at
     postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ExpectedAt :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ExpectedAt'Variants),
     -- | explanation
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'Variants),
     -- | product_description
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'Variants),
     -- | product_type
     postIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductType :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductType'),
     -- | return_status
@@ -248,8 +240,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1AdditionalDocumentation'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1AdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf.properties.canceled_at.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CanceledAt'Variants
@@ -267,8 +259,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CanceledAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CanceledAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf.properties.cancellation_policy_provided.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationPolicyProvided'Variants
@@ -286,8 +278,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationPolicyProvided'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationPolicyProvided'Bool Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf.properties.cancellation_reason.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1CancellationReason'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf.properties.expected_at.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ExpectedAt'Variants
@@ -305,8 +316,46 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ExpectedAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ExpectedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf.properties.explanation.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1Explanation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf.properties.product_description.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductDescription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf.properties.product_type@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ProductType'
@@ -386,8 +435,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ReturnedAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1ReturnedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.canceled.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Canceled'Variants
@@ -405,8 +454,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Canceled'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Canceled'PostIssuingDisputesRequestBodyEvidence'Canceled'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.duplicate.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1 = PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1
@@ -419,11 +468,7 @@ data PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1 = PostIssuingDisput
     -- | check_image
     postIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CheckImage :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CheckImage'Variants),
     -- | explanation
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'Variants),
     -- | original_transaction
     --
     -- Constraints:
@@ -471,8 +516,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1AdditionalDocumentation'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1AdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.duplicate.anyOf.properties.card_statement.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CardStatement'Variants
@@ -490,8 +535,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CardStatement'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CardStatement'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.duplicate.anyOf.properties.cash_receipt.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CashReceipt'Variants
@@ -509,8 +554,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CashReceipt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CashReceipt'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.duplicate.anyOf.properties.check_image.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CheckImage'Variants
@@ -528,8 +573,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CheckImage'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1CheckImage'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.duplicate.anyOf.properties.explanation.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1Explanation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.duplicate.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Duplicate'Variants
@@ -547,19 +611,15 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Duplicate'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Duplicate'PostIssuingDisputesRequestBodyEvidence'Duplicate'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.fraudulent.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1 = PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1
   { -- | additional_documentation
     postIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1AdditionalDocumentation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1AdditionalDocumentation'Variants),
     -- | explanation
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'Variants)
   }
   deriving
     ( GHC.Show.Show,
@@ -597,8 +657,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1AdditionalDocumentation'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1AdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.fraudulent.anyOf.properties.explanation.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1Explanation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.fraudulent.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Fraudulent'Variants
@@ -616,27 +695,19 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Fraudulent'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Fraudulent'PostIssuingDisputesRequestBodyEvidence'Fraudulent'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.merchandise_not_as_described.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1 = PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1
   { -- | additional_documentation
     postIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1AdditionalDocumentation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1AdditionalDocumentation'Variants),
     -- | explanation
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'Variants),
     -- | received_at
     postIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReceivedAt :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReceivedAt'Variants),
     -- | return_description
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'Variants),
     -- | return_status
     postIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnStatus :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnStatus'),
     -- | returned_at
@@ -682,8 +753,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1AdditionalDocumentation'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1AdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.merchandise_not_as_described.anyOf.properties.explanation.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1Explanation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.merchandise_not_as_described.anyOf.properties.received_at.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReceivedAt'Variants
@@ -701,8 +791,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReceivedAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReceivedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.merchandise_not_as_described.anyOf.properties.return_description.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnDescription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.merchandise_not_as_described.anyOf.properties.return_status@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnStatus'
@@ -751,8 +860,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnedAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1ReturnedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.merchandise_not_as_described.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'Variants
@@ -770,8 +879,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'PostIssuingDisputesRequestBodyEvidence'MerchandiseNotAsDescribed'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.not_received.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1 = PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1
@@ -780,17 +889,9 @@ data PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1 = PostIssuingDisp
     -- | expected_at
     postIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ExpectedAt :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ExpectedAt'Variants),
     -- | explanation
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'Variants),
     -- | product_description
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'Variants),
     -- | product_type
     postIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductType :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductType')
   }
@@ -833,8 +934,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1AdditionalDocumentation'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1AdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.not_received.anyOf.properties.expected_at.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ExpectedAt'Variants
@@ -852,8 +953,46 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ExpectedAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ExpectedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.not_received.anyOf.properties.explanation.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1Explanation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.not_received.anyOf.properties.product_description.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductDescription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.not_received.anyOf.properties.product_type@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1ProductType'
@@ -902,25 +1041,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'NotReceived'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'NotReceived'PostIssuingDisputesRequestBodyEvidence'NotReceived'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.other.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Other'OneOf1 = PostIssuingDisputesRequestBodyEvidence'Other'OneOf1
   { -- | additional_documentation
     postIssuingDisputesRequestBodyEvidence'Other'OneOf1AdditionalDocumentation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Other'OneOf1AdditionalDocumentation'Variants),
     -- | explanation
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'Variants),
     -- | product_description
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'Variants),
     -- | product_type
     postIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductType :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductType')
   }
@@ -962,8 +1093,46 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Other'OneOf1AdditionalDocumentation'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Other'OneOf1AdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.other.anyOf.properties.explanation.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Other'OneOf1Explanation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.other.anyOf.properties.product_description.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductDescription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.other.anyOf.properties.product_type@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Other'OneOf1ProductType'
@@ -1012,8 +1181,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'Other'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'Other'PostIssuingDisputesRequestBodyEvidence'Other'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.reason@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'Reason'
@@ -1069,17 +1238,9 @@ data PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1 = PostI
     -- | canceled_at
     postIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CanceledAt :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CanceledAt'Variants),
     -- | cancellation_reason
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'Variants),
     -- | explanation
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1500
-    postIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'Variants),
     -- | received_at
     postIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1ReceivedAt :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1ReceivedAt'Variants)
   }
@@ -1122,8 +1283,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1AdditionalDocumentation'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1AdditionalDocumentation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.service_not_as_described.anyOf.properties.canceled_at.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CanceledAt'Variants
@@ -1141,8 +1302,46 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CanceledAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CanceledAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.service_not_as_described.anyOf.properties.cancellation_reason.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1CancellationReason'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.service_not_as_described.anyOf.properties.explanation.anyOf@ in the specification.
+data PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'Variants
+  = -- | Represents the JSON value @""@
+    PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'EmptyString
+  | PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'Variants where
+  toJSON (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'EmptyString
+        | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1Explanation'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.service_not_as_described.anyOf.properties.received_at.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1ReceivedAt'Variants
@@ -1160,8 +1359,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1ReceivedAt'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1ReceivedAt'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.evidence.properties.service_not_as_described.anyOf@ in the specification.
 data PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'Variants
@@ -1179,8 +1378,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyEviden
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'PostIssuingDisputesRequestBodyEvidence'ServiceNotAsDescribed'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/disputes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.treasury@ in the specification.
 --

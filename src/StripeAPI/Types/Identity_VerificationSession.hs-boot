@@ -22,6 +22,11 @@ instance Show Identity'verificationSessionLastVerificationReport'NonNullableVari
 instance Eq Identity'verificationSessionLastVerificationReport'NonNullableVariants
 instance FromJSON Identity'verificationSessionLastVerificationReport'NonNullableVariants
 instance ToJSON Identity'verificationSessionLastVerificationReport'NonNullableVariants
+data Identity'verificationSessionOptions'NonNullable
+instance Show Identity'verificationSessionOptions'NonNullable
+instance Eq Identity'verificationSessionOptions'NonNullable
+instance FromJSON Identity'verificationSessionOptions'NonNullable
+instance ToJSON Identity'verificationSessionOptions'NonNullable
 data Identity'verificationSessionRedaction'NonNullable
 instance Show Identity'verificationSessionRedaction'NonNullable
 instance Eq Identity'verificationSessionRedaction'NonNullable
@@ -37,11 +42,11 @@ instance Show Identity'verificationSessionStatus'
 instance Eq Identity'verificationSessionStatus'
 instance FromJSON Identity'verificationSessionStatus'
 instance ToJSON Identity'verificationSessionStatus'
-data Identity'verificationSessionType'
-instance Show Identity'verificationSessionType'
-instance Eq Identity'verificationSessionType'
-instance FromJSON Identity'verificationSessionType'
-instance ToJSON Identity'verificationSessionType'
+data Identity'verificationSessionType'NonNullable
+instance Show Identity'verificationSessionType'NonNullable
+instance Eq Identity'verificationSessionType'NonNullable
+instance FromJSON Identity'verificationSessionType'NonNullable
+instance ToJSON Identity'verificationSessionType'NonNullable
 data Identity'verificationSessionVerifiedOutputs'NonNullable
 instance Show Identity'verificationSessionVerifiedOutputs'NonNullable
 instance Eq Identity'verificationSessionVerifiedOutputs'NonNullable

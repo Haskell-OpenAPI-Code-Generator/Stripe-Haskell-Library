@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -45,13 +45,13 @@ import qualified Prelude as GHC.Maybe
 -- Reversing a transfer that was made for a [destination
 -- charge](\/docs\/connect\/destination-charges) is allowed only up to the amount of
 -- the charge. It is possible to reverse a
--- [transfer_group](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-options)
+-- [transfer_group](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers\#transfer-options)
 -- transfer only if the destination account has enough balance to cover the
 -- reversal.
 --
--- Related guide: [Reversing Transfers](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#reversing-transfers).
+-- Related guide: [Reversing transfers](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers\#reversing-transfers)
 data TransferReversal = TransferReversal
-  { -- | amount: Amount, in %s.
+  { -- | amount: Amount, in cents (or local equivalent).
     transferReversalAmount :: GHC.Types.Int,
     -- | balance_transaction: Balance transaction that describes the impact on your account balance.
     transferReversalBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TransferReversalBalanceTransaction'NonNullableVariants)),

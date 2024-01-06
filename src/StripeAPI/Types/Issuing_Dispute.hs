@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -40,9 +40,9 @@ import qualified Prelude as GHC.Maybe
 --
 -- As a [card issuer](https:\/\/stripe.com\/docs\/issuing), you can dispute transactions that the cardholder does not recognize, suspects to be fraudulent, or has other issues with.
 --
--- Related guide: [Disputing Transactions](https:\/\/stripe.com\/docs\/issuing\/purchases\/disputes)
+-- Related guide: [Issuing disputes](https:\/\/stripe.com\/docs\/issuing\/purchases\/disputes)
 data Issuing'dispute = Issuing'dispute
-  { -- | amount: Disputed amount. Usually the amount of the \`transaction\`, but can differ (usually because of currency fluctuation).
+  { -- | amount: Disputed amount in the card\'s currency and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal). Usually the amount of the \`transaction\`, but can differ (usually because of currency fluctuation).
     issuing'disputeAmount :: GHC.Types.Int,
     -- | balance_transactions: List of balance transactions associated with the dispute.
     issuing'disputeBalanceTransactions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([BalanceTransaction]))),

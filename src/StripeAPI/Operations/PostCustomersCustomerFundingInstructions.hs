@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -67,26 +68,26 @@ postCustomersCustomerFundingInstructions
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerFundingInstructionsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              FundingInstructions
-                                                        )
+                                       PostCustomersCustomerFundingInstructionsResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                FundingInstructions
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerFundingInstructionsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostCustomersCustomerFundingInstructionsResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/funding_instructions"))) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/customers/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.<> "/funding_instructions")) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/funding_instructions.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerFundingInstructionsRequestBody = PostCustomersCustomerFundingInstructionsRequestBody
@@ -235,6 +236,8 @@ data PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'
     PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumJpBankTransfer
   | -- | Represents the JSON value @"mx_bank_transfer"@
     PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumMxBankTransfer
+  | -- | Represents the JSON value @"us_bank_transfer"@
+    PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumUsBankTransfer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type' where
@@ -244,6 +247,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerFundingInstructions
   toJSON (PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumGbBankTransfer) = "gb_bank_transfer"
   toJSON (PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumJpBankTransfer) = "jp_bank_transfer"
   toJSON (PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumMxBankTransfer) = "mx_bank_transfer"
+  toJSON (PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumUsBankTransfer) = "us_bank_transfer"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type' where
   parseJSON val =
@@ -253,6 +257,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerFundingInstruct
             | val GHC.Classes.== "gb_bank_transfer" -> PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumGbBankTransfer
             | val GHC.Classes.== "jp_bank_transfer" -> PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumJpBankTransfer
             | val GHC.Classes.== "mx_bank_transfer" -> PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumMxBankTransfer
+            | val GHC.Classes.== "us_bank_transfer" -> PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'EnumUsBankTransfer
             | GHC.Base.otherwise -> PostCustomersCustomerFundingInstructionsRequestBodyBankTransfer'Type'Other val
       )
 

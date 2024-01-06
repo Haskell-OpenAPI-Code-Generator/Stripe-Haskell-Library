@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,26 +66,26 @@ postInvoiceitemsInvoiceitem
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoiceitemsInvoiceitemResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Invoiceitem
-                                                        )
+                                       PostInvoiceitemsInvoiceitemResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Invoiceitem
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoiceitemsInvoiceitemResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostInvoiceitemsInvoiceitemResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoiceitems/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoiceitem)) GHC.Base.++ ""))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/invoiceitems/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel invoiceitem)) GHC.Base.<> "")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/invoiceitems\/{invoiceitem}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoiceitemsInvoiceitemRequestBody = PostInvoiceitemsInvoiceitemRequestBody
@@ -104,7 +105,7 @@ data PostInvoiceitemsInvoiceitemRequestBody = PostInvoiceitemsInvoiceitemRequest
     postInvoiceitemsInvoiceitemRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postInvoiceitemsInvoiceitemRequestBodyMetadata :: (GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBodyMetadata'Variants),
-    -- | period: The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+    -- | period: The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https:\/\/stripe.com\/docs\/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https:\/\/stripe.com\/docs\/revenue-recognition\/methodology\/subscriptions-and-invoicing) for details.
     postInvoiceitemsInvoiceitemRequestBodyPeriod :: (GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBodyPeriod'),
     -- | price: The ID of the price object.
     --
@@ -116,6 +117,10 @@ data PostInvoiceitemsInvoiceitemRequestBody = PostInvoiceitemsInvoiceitemRequest
     postInvoiceitemsInvoiceitemRequestBodyPriceData :: (GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBodyPriceData'),
     -- | quantity: Non-negative integer. The quantity of units for the invoice item.
     postInvoiceitemsInvoiceitemRequestBodyQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | tax_behavior: Only required if a [default tax behavior](https:\/\/stripe.com\/docs\/tax\/products-prices-tax-categories-tax-behavior\#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
+    postInvoiceitemsInvoiceitemRequestBodyTaxBehavior :: (GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'),
+    -- | tax_code: A [tax code](https:\/\/stripe.com\/docs\/tax\/tax-categories) ID.
+    postInvoiceitemsInvoiceitemRequestBodyTaxCode :: (GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBodyTaxCode'Variants),
     -- | tax_rates: The tax rates which apply to the invoice item. When set, the \`default_tax_rates\` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
     postInvoiceitemsInvoiceitemRequestBodyTaxRates :: (GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBodyTaxRates'Variants),
     -- | unit_amount: The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer\'s account, pass a negative unit_amount.
@@ -129,11 +134,11 @@ data PostInvoiceitemsInvoiceitemRequestBody = PostInvoiceitemsInvoiceitemRequest
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoiceitemsInvoiceitemRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discountable" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscountable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("period" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPeriod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discountable" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscountable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("period" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPeriod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discountable" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscountable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("period" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPeriod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_code" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discountable" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscountable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("period" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPeriod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyPriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_code" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postInvoiceitemsInvoiceitemRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoiceitemsInvoiceitemRequestBody" (\obj -> ((((((((((((GHC.Base.pure PostInvoiceitemsInvoiceitemRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discountable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoiceitemsInvoiceitemRequestBody" (\obj -> ((((((((((((((GHC.Base.pure PostInvoiceitemsInvoiceitemRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discountable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
 
 -- | Create a new 'PostInvoiceitemsInvoiceitemRequestBody' with all required fields.
 mkPostInvoiceitemsInvoiceitemRequestBody :: PostInvoiceitemsInvoiceitemRequestBody
@@ -149,6 +154,8 @@ mkPostInvoiceitemsInvoiceitemRequestBody =
       postInvoiceitemsInvoiceitemRequestBodyPrice = GHC.Maybe.Nothing,
       postInvoiceitemsInvoiceitemRequestBodyPriceData = GHC.Maybe.Nothing,
       postInvoiceitemsInvoiceitemRequestBodyQuantity = GHC.Maybe.Nothing,
+      postInvoiceitemsInvoiceitemRequestBodyTaxBehavior = GHC.Maybe.Nothing,
+      postInvoiceitemsInvoiceitemRequestBodyTaxCode = GHC.Maybe.Nothing,
       postInvoiceitemsInvoiceitemRequestBodyTaxRates = GHC.Maybe.Nothing,
       postInvoiceitemsInvoiceitemRequestBodyUnitAmount = GHC.Maybe.Nothing,
       postInvoiceitemsInvoiceitemRequestBodyUnitAmountDecimal = GHC.Maybe.Nothing
@@ -207,8 +214,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBo
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostInvoiceitemsInvoiceitemRequestBodyDiscounts'EmptyString
         | GHC.Base.otherwise -> case (PostInvoiceitemsInvoiceitemRequestBodyDiscounts'ListTPostInvoiceitemsInvoiceitemRequestBodyDiscounts'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/invoiceitems\/{invoiceitem}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
@@ -228,12 +235,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBo
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostInvoiceitemsInvoiceitemRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostInvoiceitemsInvoiceitemRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/invoiceitems\/{invoiceitem}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.period@ in the specification.
 --
--- The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+-- The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https:\/\/stripe.com\/docs\/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https:\/\/stripe.com\/docs\/revenue-recognition\/methodology\/subscriptions-and-invoicing) for details.
 data PostInvoiceitemsInvoiceitemRequestBodyPeriod' = PostInvoiceitemsInvoiceitemRequestBodyPeriod'
   { -- | end
     postInvoiceitemsInvoiceitemRequestBodyPeriod'End :: GHC.Types.Int,
@@ -343,6 +350,60 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBo
             | GHC.Base.otherwise -> PostInvoiceitemsInvoiceitemRequestBodyPriceData'TaxBehavior'Other val
       )
 
+-- | Defines the enum schema located at @paths.\/v1\/invoiceitems\/{invoiceitem}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_behavior@ in the specification.
+--
+-- Only required if a [default tax behavior](https:\/\/stripe.com\/docs\/tax\/products-prices-tax-categories-tax-behavior\#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
+data PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"exclusive"@
+    PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumExclusive
+  | -- | Represents the JSON value @"inclusive"@
+    PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumInclusive
+  | -- | Represents the JSON value @"unspecified"@
+    PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumUnspecified
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior' where
+  toJSON (PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'Other val) = val
+  toJSON (PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumExclusive) = "exclusive"
+  toJSON (PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumInclusive) = "inclusive"
+  toJSON (PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumUnspecified) = "unspecified"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "exclusive" -> PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumExclusive
+            | val GHC.Classes.== "inclusive" -> PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumInclusive
+            | val GHC.Classes.== "unspecified" -> PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'EnumUnspecified
+            | GHC.Base.otherwise -> PostInvoiceitemsInvoiceitemRequestBodyTaxBehavior'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoiceitems\/{invoiceitem}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_code.anyOf@ in the specification.
+--
+-- A [tax code](https:\/\/stripe.com\/docs\/tax\/tax-categories) ID.
+data PostInvoiceitemsInvoiceitemRequestBodyTaxCode'Variants
+  = -- | Represents the JSON value @""@
+    PostInvoiceitemsInvoiceitemRequestBodyTaxCode'EmptyString
+  | PostInvoiceitemsInvoiceitemRequestBodyTaxCode'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoiceitemsInvoiceitemRequestBodyTaxCode'Variants where
+  toJSON (PostInvoiceitemsInvoiceitemRequestBodyTaxCode'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostInvoiceitemsInvoiceitemRequestBodyTaxCode'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBodyTaxCode'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostInvoiceitemsInvoiceitemRequestBodyTaxCode'EmptyString
+        | GHC.Base.otherwise -> case (PostInvoiceitemsInvoiceitemRequestBodyTaxCode'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the oneOf schema located at @paths.\/v1\/invoiceitems\/{invoiceitem}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_rates.anyOf@ in the specification.
 --
 -- The tax rates which apply to the invoice item. When set, the \`default_tax_rates\` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
@@ -361,8 +422,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBo
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostInvoiceitemsInvoiceitemRequestBodyTaxRates'EmptyString
         | GHC.Base.otherwise -> case (PostInvoiceitemsInvoiceitemRequestBodyTaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postInvoiceitemsInvoiceitem'.
 --

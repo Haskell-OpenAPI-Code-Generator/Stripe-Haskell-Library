@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,13 +34,13 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.online_acceptance@ in the specification.
 data OnlineAcceptance = OnlineAcceptance
-  { -- | ip_address: The IP address from which the Mandate was accepted by the customer.
+  { -- | ip_address: The customer accepts the mandate from this IP address.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     onlineAcceptanceIpAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | user_agent: The user agent of the browser from which the Mandate was accepted by the customer.
+    -- | user_agent: The customer accepts the mandate using the user agent of the browser.
     --
     -- Constraints:
     --

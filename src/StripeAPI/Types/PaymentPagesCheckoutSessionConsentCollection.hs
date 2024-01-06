@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,15 +29,20 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.PaymentPagesCheckoutSessionPaymentMethodReuseAgreement
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_pages_checkout_session_consent_collection@ in the specification.
 data PaymentPagesCheckoutSessionConsentCollection = PaymentPagesCheckoutSessionConsentCollection
-  { -- | promotions: If set to \`auto\`, enables the collection of customer consent for promotional communications. The Checkout
+  { -- | payment_method_reuse_agreement: If set to \`hidden\`, it will hide legal text related to the reuse of a payment method.
+    paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable)),
+    -- | promotions: If set to \`auto\`, enables the collection of customer consent for promotional communications. The Checkout
     -- Session will determine whether to display an option to opt into promotional communication
     -- from the merchant depending on the customer\'s locale. Only available to US merchants.
-    paymentPagesCheckoutSessionConsentCollectionPromotions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullable))
+    paymentPagesCheckoutSessionConsentCollectionPromotions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullable)),
+    -- | terms_of_service: If set to \`required\`, it requires customers to accept the terms of service before being able to pay.
+    paymentPagesCheckoutSessionConsentCollectionTermsOfService :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,15 +50,76 @@ data PaymentPagesCheckoutSessionConsentCollection = PaymentPagesCheckoutSessionC
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionConsentCollection where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPromotions obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPromotions obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPromotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionTermsOfService obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPromotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionTermsOfService obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionConsentCollection where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionConsentCollection" (\obj -> GHC.Base.pure PaymentPagesCheckoutSessionConsentCollection GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionConsentCollection" (\obj -> ((GHC.Base.pure PaymentPagesCheckoutSessionConsentCollection GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_reuse_agreement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service"))
 
 -- | Create a new 'PaymentPagesCheckoutSessionConsentCollection' with all required fields.
 mkPaymentPagesCheckoutSessionConsentCollection :: PaymentPagesCheckoutSessionConsentCollection
-mkPaymentPagesCheckoutSessionConsentCollection = PaymentPagesCheckoutSessionConsentCollection {paymentPagesCheckoutSessionConsentCollectionPromotions = GHC.Maybe.Nothing}
+mkPaymentPagesCheckoutSessionConsentCollection =
+  PaymentPagesCheckoutSessionConsentCollection
+    { paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement = GHC.Maybe.Nothing,
+      paymentPagesCheckoutSessionConsentCollectionPromotions = GHC.Maybe.Nothing,
+      paymentPagesCheckoutSessionConsentCollectionTermsOfService = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_pages_checkout_session_consent_collection.properties.payment_method_reuse_agreement.anyOf@ in the specification.
+--
+-- If set to \\\`hidden\\\`, it will hide legal text related to the reuse of a payment method.
+data PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable = PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable
+  { -- | position: Determines the position and visibility of the payment method reuse agreement in the UI. When set to \`auto\`, Stripe\'s defaults will be used.
+    --
+    -- When set to \`hidden\`, the payment method reuse agreement text will always be hidden in the UI.
+    paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition :: (GHC.Maybe.Maybe PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("position" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("position" Data.Aeson.Types.ToJSON..=)) (paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable" (\obj -> GHC.Base.pure PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "position"))
+
+-- | Create a new 'PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable' with all required fields.
+mkPaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable :: PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable
+mkPaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable = PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullable {paymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @components.schemas.payment_pages_checkout_session_consent_collection.properties.payment_method_reuse_agreement.anyOf.properties.position@ in the specification.
+--
+-- Determines the position and visibility of the payment method reuse agreement in the UI. When set to \`auto\`, Stripe\'s defaults will be used.
+--
+-- When set to \`hidden\`, the payment method reuse agreement text will always be hidden in the UI.
+data PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"auto"@
+    PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumAuto
+  | -- | Represents the JSON value @"hidden"@
+    PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumHidden
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition' where
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Other val) = val
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumAuto) = "auto"
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumHidden) = "hidden"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "auto" -> PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumAuto
+            | val GHC.Classes.== "hidden" -> PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumHidden
+            | GHC.Base.otherwise -> PaymentPagesCheckoutSessionConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Other val
+      )
 
 -- | Defines the enum schema located at @components.schemas.payment_pages_checkout_session_consent_collection.properties.promotions@ in the specification.
 --
@@ -67,17 +133,50 @@ data PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullable
     PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"auto"@
     PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableEnumAuto
+  | -- | Represents the JSON value @"none"@
+    PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableEnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullable where
   toJSON (PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableOther val) = val
   toJSON (PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableEnumAuto) = "auto"
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableEnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "auto" -> PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableEnumAuto
+            | val GHC.Classes.== "none" -> PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableEnumNone
             | GHC.Base.otherwise -> PaymentPagesCheckoutSessionConsentCollectionPromotions'NonNullableOther val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_pages_checkout_session_consent_collection.properties.terms_of_service@ in the specification.
+--
+-- If set to \`required\`, it requires customers to accept the terms of service before being able to pay.
+data PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableEnumNone
+  | -- | Represents the JSON value @"required"@
+    PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableEnumRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullable where
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableOther val) = val
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableEnumNone) = "none"
+  toJSON (PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableEnumRequired) = "required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableEnumNone
+            | val GHC.Classes.== "required" -> PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableEnumRequired
+            | GHC.Base.otherwise -> PaymentPagesCheckoutSessionConsentCollectionTermsOfService'NonNullableOther val
       )

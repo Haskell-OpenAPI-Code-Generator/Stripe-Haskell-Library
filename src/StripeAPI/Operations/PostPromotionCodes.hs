@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postPromotionCodes body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPromotionCodesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            PromotionCode
-                                                      )
+                                     PostPromotionCodesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              PromotionCode
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPromotionCodesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostPromotionCodesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/promotion_codes") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/promotion_codes" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/promotion_codes.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPromotionCodesRequestBody = PostPromotionCodesRequestBody
@@ -149,7 +150,9 @@ mkPostPromotionCodesRequestBody postPromotionCodesRequestBodyCoupon =
 --
 -- Settings that restrict the redemption of the promotion code.
 data PostPromotionCodesRequestBodyRestrictions' = PostPromotionCodesRequestBodyRestrictions'
-  { -- | first_time_transaction
+  { -- | currency_options
+    postPromotionCodesRequestBodyRestrictions'CurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | first_time_transaction
     postPromotionCodesRequestBodyRestrictions'FirstTimeTransaction :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | minimum_amount
     postPromotionCodesRequestBodyRestrictions'MinimumAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
@@ -162,17 +165,18 @@ data PostPromotionCodesRequestBodyRestrictions' = PostPromotionCodesRequestBodyR
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPromotionCodesRequestBodyRestrictions' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_time_transaction" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'FirstTimeTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmountCurrency obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_time_transaction" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'FirstTimeTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmountCurrency obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'CurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_time_transaction" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'FirstTimeTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmountCurrency obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'CurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_time_transaction" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'FirstTimeTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesRequestBodyRestrictions'MinimumAmountCurrency obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPromotionCodesRequestBodyRestrictions' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPromotionCodesRequestBodyRestrictions'" (\obj -> ((GHC.Base.pure PostPromotionCodesRequestBodyRestrictions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_time_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount_currency"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPromotionCodesRequestBodyRestrictions'" (\obj -> (((GHC.Base.pure PostPromotionCodesRequestBodyRestrictions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_time_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount_currency"))
 
 -- | Create a new 'PostPromotionCodesRequestBodyRestrictions'' with all required fields.
 mkPostPromotionCodesRequestBodyRestrictions' :: PostPromotionCodesRequestBodyRestrictions'
 mkPostPromotionCodesRequestBodyRestrictions' =
   PostPromotionCodesRequestBodyRestrictions'
-    { postPromotionCodesRequestBodyRestrictions'FirstTimeTransaction = GHC.Maybe.Nothing,
+    { postPromotionCodesRequestBodyRestrictions'CurrencyOptions = GHC.Maybe.Nothing,
+      postPromotionCodesRequestBodyRestrictions'FirstTimeTransaction = GHC.Maybe.Nothing,
       postPromotionCodesRequestBodyRestrictions'MinimumAmount = GHC.Maybe.Nothing,
       postPromotionCodesRequestBodyRestrictions'MinimumAmountCurrency = GHC.Maybe.Nothing
     }

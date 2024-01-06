@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,30 +36,30 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_pages_checkout_session_customer_details@ in the specification.
 data PaymentPagesCheckoutSessionCustomerDetails = PaymentPagesCheckoutSessionCustomerDetails
-  { -- | address: The customer\'s address at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
+  { -- | address: The customer\'s address after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
     paymentPagesCheckoutSessionCustomerDetailsAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentPagesCheckoutSessionCustomerDetailsAddress'NonNullable)),
-    -- | email: The email associated with the Customer, if one exists, on the Checkout Session at the time of checkout or at time of session expiry.
+    -- | email: The email associated with the Customer, if one exists, on the Checkout Session after a completed Checkout Session or at time of session expiry.
     -- Otherwise, if the customer has consented to promotional content, this value is the most recent valid email provided by the customer on the Checkout form.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     paymentPagesCheckoutSessionCustomerDetailsEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | name: The customer\'s name at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
+    -- | name: The customer\'s name after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     paymentPagesCheckoutSessionCustomerDetailsName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | phone: The customer\'s phone number at the time of checkout
+    -- | phone: The customer\'s phone number after a completed Checkout Session.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     paymentPagesCheckoutSessionCustomerDetailsPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | tax_exempt: The customer’s tax exempt status at time of checkout.
+    -- | tax_exempt: The customer’s tax exempt status after a completed Checkout Session.
     paymentPagesCheckoutSessionCustomerDetailsTaxExempt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentPagesCheckoutSessionCustomerDetailsTaxExempt'NonNullable)),
-    -- | tax_ids: The customer’s tax IDs at time of checkout.
+    -- | tax_ids: The customer’s tax IDs after a completed Checkout Session.
     paymentPagesCheckoutSessionCustomerDetailsTaxIds :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PaymentPagesCheckoutSessionTaxId])))
   }
   deriving
@@ -88,7 +88,7 @@ mkPaymentPagesCheckoutSessionCustomerDetails =
 
 -- | Defines the object schema located at @components.schemas.payment_pages_checkout_session_customer_details.properties.address.anyOf@ in the specification.
 --
--- The customer\\\'s address at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
+-- The customer\\\'s address after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 data PaymentPagesCheckoutSessionCustomerDetailsAddress'NonNullable = PaymentPagesCheckoutSessionCustomerDetailsAddress'NonNullable
   { -- | city: City, district, suburb, town, or village.
     --
@@ -153,7 +153,7 @@ mkPaymentPagesCheckoutSessionCustomerDetailsAddress'NonNullable =
 
 -- | Defines the enum schema located at @components.schemas.payment_pages_checkout_session_customer_details.properties.tax_exempt@ in the specification.
 --
--- The customer’s tax exempt status at time of checkout.
+-- The customer’s tax exempt status after a completed Checkout Session.
 data PaymentPagesCheckoutSessionCustomerDetailsTaxExempt'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentPagesCheckoutSessionCustomerDetailsTaxExempt'NonNullableOther Data.Aeson.Types.Internal.Value

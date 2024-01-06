@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -52,7 +52,7 @@ data TreasuryTransactionsResourceFlowDetails = TreasuryTransactionsResourceFlowD
     -- object is created. [Authorizations](https:\/\/stripe.com\/docs\/issuing\/purchases\/authorizations) must be approved for the
     -- purchase to be completed successfully.
     --
-    -- Related guide: [Issued Card Authorizations](https:\/\/stripe.com\/docs\/issuing\/purchases\/authorizations).
+    -- Related guide: [Issued card authorizations](https:\/\/stripe.com\/docs\/issuing\/purchases\/authorizations)
     treasuryTransactionsResourceFlowDetailsIssuingAuthorization :: (GHC.Maybe.Maybe Issuing'authorization),
     -- | outbound_payment: Use OutboundPayments to send funds to another party\'s external bank account or [FinancialAccount](https:\/\/stripe.com\/docs\/api\#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https:\/\/stripe.com\/docs\/api\#outbound_transfers).
     --

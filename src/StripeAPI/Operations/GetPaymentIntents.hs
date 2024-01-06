@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,19 +62,19 @@ getPaymentIntents parameters =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetPaymentIntentsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            GetPaymentIntentsResponseBody200
-                                                      )
+                                     GetPaymentIntentsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              GetPaymentIntentsResponseBody200
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetPaymentIntentsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     GetPaymentIntentsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
@@ -81,14 +82,14 @@ getPaymentIntents parameters =
           response_0
     )
     ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/payment_intents")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "GET")
+        "/v1/payment_intents"
+        [ StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCreated parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCustomer parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryEndingBefore parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryExpand parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryLimit parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryStartingAfter parameters) (Data.Text.Internal.pack "form") GHC.Types.True
         ]
     )
 
@@ -96,11 +97,11 @@ getPaymentIntents parameters =
 data GetPaymentIntentsParameters = GetPaymentIntentsParameters
   { -- | queryCreated: Represents the parameter named \'created\'
     --
-    -- A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+    -- A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
     getPaymentIntentsParametersQueryCreated :: (GHC.Maybe.Maybe GetPaymentIntentsParametersQueryCreated'Variants),
     -- | queryCustomer: Represents the parameter named \'customer\'
     --
-    -- Only return PaymentIntents for the customer specified by this customer ID.
+    -- Only return PaymentIntents for the customer that this customer ID specifies.
     --
     -- Constraints:
     --
@@ -192,7 +193,7 @@ mkGetPaymentIntentsParametersQueryCreated'OneOf1 =
 --
 -- Represents the parameter named \'created\'
 --
--- A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+-- A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
 data GetPaymentIntentsParametersQueryCreated'Variants
   = GetPaymentIntentsParametersQueryCreated'GetPaymentIntentsParametersQueryCreated'OneOf1 GetPaymentIntentsParametersQueryCreated'OneOf1
   | GetPaymentIntentsParametersQueryCreated'Int GHC.Types.Int

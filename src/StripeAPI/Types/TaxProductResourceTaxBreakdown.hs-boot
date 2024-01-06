@@ -1,0 +1,14 @@
+module StripeAPI.Types.TaxProductResourceTaxBreakdown where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TaxProductResourceTaxBreakdown
+instance Show TaxProductResourceTaxBreakdown
+instance Eq TaxProductResourceTaxBreakdown
+instance FromJSON TaxProductResourceTaxBreakdown
+instance ToJSON TaxProductResourceTaxBreakdown
+data TaxProductResourceTaxBreakdownTaxabilityReason'
+instance Show TaxProductResourceTaxBreakdownTaxabilityReason'
+instance Eq TaxProductResourceTaxBreakdownTaxabilityReason'
+instance FromJSON TaxProductResourceTaxBreakdownTaxabilityReason'
+instance ToJSON TaxProductResourceTaxBreakdownTaxabilityReason'

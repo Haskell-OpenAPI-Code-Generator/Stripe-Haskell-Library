@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -52,21 +53,21 @@ import qualified Prelude as GHC.Maybe
 -- must be \<code>true\<\/code>.\<\/p>
 --
 -- \<p>Incremental authorizations attempt to increase the authorized amount on
--- your customer’s card to the new, higher \<code>amount\<\/code> provided. As with the
--- initial authorization, incremental authorizations may be declined. A
+-- your customer’s card to the new, higher \<code>amount\<\/code> provided. Similar to the
+-- initial authorization, incremental authorizations can be declined. A
 -- single PaymentIntent can call this endpoint multiple times to further
 -- increase the authorized amount.\<\/p>
 --
--- \<p>If the incremental authorization succeeds, the PaymentIntent object is
--- returned with the updated
+-- \<p>If the incremental authorization succeeds, the PaymentIntent object
+-- returns with the updated
 -- \<a href=\"\/docs\/api\/payment_intents\/object\#payment_intent_object-amount\">amount\<\/a>.
 -- If the incremental authorization fails, a
--- \<a href=\"\/docs\/error-codes\#card-declined\">card_declined\<\/a> error is returned, and no
--- fields on the PaymentIntent or Charge are updated. The PaymentIntent
+-- \<a href=\"\/docs\/error-codes\#card-declined\">card_declined\<\/a> error returns, and no other
+-- fields on the PaymentIntent or Charge update. The PaymentIntent
 -- object remains capturable for the previously authorized amount.\<\/p>
 --
 -- \<p>Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
--- Once captured, a PaymentIntent can no longer be incremented.\<\/p>
+-- After it’s captured, a PaymentIntent can no longer be incremented.\<\/p>
 --
 -- \<p>Learn more about \<a href=\"\/docs\/terminal\/features\/incremental-authorizations\">incremental authorizations\<\/a>.\<\/p>
 postPaymentIntentsIntentIncrementAuthorization ::
@@ -88,30 +89,30 @@ postPaymentIntentsIntentIncrementAuthorization
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentIntentsIntentIncrementAuthorizationResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              PaymentIntent
-                                                        )
+                                       PostPaymentIntentsIntentIncrementAuthorizationResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                PaymentIntent
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentIntentsIntentIncrementAuthorizationResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostPaymentIntentsIntentIncrementAuthorizationResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/increment_authorization"))) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/payment_intents/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.<> "/increment_authorization")) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}\/increment_authorization.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentIntentsIntentIncrementAuthorizationRequestBody = PostPaymentIntentsIntentIncrementAuthorizationRequestBody
-  { -- | amount: The updated total amount you intend to collect from the cardholder. This amount must be greater than the currently authorized amount.
+  { -- | amount: The updated total amount that you intend to collect from the cardholder. This amount must be greater than the currently authorized amount.
     postPaymentIntentsIntentIncrementAuthorizationRequestBodyAmount :: GHC.Types.Int,
     -- | application_fee_amount: The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner\'s Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
     postPaymentIntentsIntentIncrementAuthorizationRequestBodyApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
@@ -125,8 +126,14 @@ data PostPaymentIntentsIntentIncrementAuthorizationRequestBody = PostPaymentInte
     postPaymentIntentsIntentIncrementAuthorizationRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postPaymentIntentsIntentIncrementAuthorizationRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-    -- | transfer_data: The parameters used to automatically create a Transfer when the payment is captured.
-    -- For more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
+    -- | statement_descriptor: For card charges, use [statement_descriptor_suffix](https:\/\/stripe.com\/docs\/payments\/account\/statement-descriptors\#dynamic). Otherwise, you can use this value as the complete description of a charge on your customers\' statements. It must contain at least one letter and be 1–22 characters long.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 22
+    postPaymentIntentsIntentIncrementAuthorizationRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | transfer_data: The parameters used to automatically create a transfer after the payment is captured.
+    -- Learn more about the [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
     postPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData :: (GHC.Maybe.Maybe PostPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData')
   }
   deriving
@@ -135,11 +142,11 @@ data PostPaymentIntentsIntentIncrementAuthorizationRequestBody = PostPaymentInte
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentIntentsIntentIncrementAuthorizationRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentIncrementAuthorizationRequestBodyAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentIncrementAuthorizationRequestBodyAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentIncrementAuthorizationRequestBodyAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postPaymentIntentsIntentIncrementAuthorizationRequestBodyAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentIncrementAuthorizationRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentIncrementAuthorizationRequestBody" (\obj -> (((((GHC.Base.pure PostPaymentIntentsIntentIncrementAuthorizationRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsIntentIncrementAuthorizationRequestBody" (\obj -> ((((((GHC.Base.pure PostPaymentIntentsIntentIncrementAuthorizationRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
 
 -- | Create a new 'PostPaymentIntentsIntentIncrementAuthorizationRequestBody' with all required fields.
 mkPostPaymentIntentsIntentIncrementAuthorizationRequestBody ::
@@ -153,13 +160,14 @@ mkPostPaymentIntentsIntentIncrementAuthorizationRequestBody postPaymentIntentsIn
       postPaymentIntentsIntentIncrementAuthorizationRequestBodyDescription = GHC.Maybe.Nothing,
       postPaymentIntentsIntentIncrementAuthorizationRequestBodyExpand = GHC.Maybe.Nothing,
       postPaymentIntentsIntentIncrementAuthorizationRequestBodyMetadata = GHC.Maybe.Nothing,
+      postPaymentIntentsIntentIncrementAuthorizationRequestBodyStatementDescriptor = GHC.Maybe.Nothing,
       postPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}\/increment_authorization.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.transfer_data@ in the specification.
 --
--- The parameters used to automatically create a Transfer when the payment is captured.
--- For more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
+-- The parameters used to automatically create a transfer after the payment is captured.
+-- Learn more about the [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
 data PostPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData' = PostPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData'
   { -- | amount
     postPaymentIntentsIntentIncrementAuthorizationRequestBodyTransferData'Amount :: (GHC.Maybe.Maybe GHC.Types.Int)

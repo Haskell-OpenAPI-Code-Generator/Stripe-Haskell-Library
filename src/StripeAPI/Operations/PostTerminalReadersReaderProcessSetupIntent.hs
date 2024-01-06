@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,26 +66,26 @@ postTerminalReadersReaderProcessSetupIntent
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTerminalReadersReaderProcessSetupIntentResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Terminal'reader
-                                                        )
+                                       PostTerminalReadersReaderProcessSetupIntentResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Terminal'reader
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTerminalReadersReaderProcessSetupIntentResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostTerminalReadersReaderProcessSetupIntentResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/terminal/readers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reader)) GHC.Base.++ "/process_setup_intent"))) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/terminal/readers/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel reader)) GHC.Base.<> "/process_setup_intent")) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/terminal\/readers\/{reader}\/process_setup_intent.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalReadersReaderProcessSetupIntentRequestBody = PostTerminalReadersReaderProcessSetupIntentRequestBody
@@ -92,6 +93,8 @@ data PostTerminalReadersReaderProcessSetupIntentRequestBody = PostTerminalReader
     postTerminalReadersReaderProcessSetupIntentRequestBodyCustomerConsentCollected :: GHC.Types.Bool,
     -- | expand: Specifies which fields in the response should be expanded.
     postTerminalReadersReaderProcessSetupIntentRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | process_config: Configuration overrides
+    postTerminalReadersReaderProcessSetupIntentRequestBodyProcessConfig :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | setup_intent: SetupIntent ID
     --
     -- Constraints:
@@ -105,11 +108,11 @@ data PostTerminalReadersReaderProcessSetupIntentRequestBody = PostTerminalReader
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderProcessSetupIntentRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["customer_consent_collected" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodyCustomerConsentCollected obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessSetupIntentRequestBodyExpand obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodySetupIntent obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["customer_consent_collected" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodyCustomerConsentCollected obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessSetupIntentRequestBodyExpand obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodySetupIntent obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["customer_consent_collected" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodyCustomerConsentCollected obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessSetupIntentRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_config" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessSetupIntentRequestBodyProcessConfig obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodySetupIntent obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["customer_consent_collected" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodyCustomerConsentCollected obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessSetupIntentRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_config" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessSetupIntentRequestBodyProcessConfig obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= postTerminalReadersReaderProcessSetupIntentRequestBodySetupIntent obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderProcessSetupIntentRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderProcessSetupIntentRequestBody" (\obj -> ((GHC.Base.pure PostTerminalReadersReaderProcessSetupIntentRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer_consent_collected")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "setup_intent"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderProcessSetupIntentRequestBody" (\obj -> (((GHC.Base.pure PostTerminalReadersReaderProcessSetupIntentRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer_consent_collected")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_config")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "setup_intent"))
 
 -- | Create a new 'PostTerminalReadersReaderProcessSetupIntentRequestBody' with all required fields.
 mkPostTerminalReadersReaderProcessSetupIntentRequestBody ::
@@ -122,6 +125,7 @@ mkPostTerminalReadersReaderProcessSetupIntentRequestBody postTerminalReadersRead
   PostTerminalReadersReaderProcessSetupIntentRequestBody
     { postTerminalReadersReaderProcessSetupIntentRequestBodyCustomerConsentCollected = postTerminalReadersReaderProcessSetupIntentRequestBodyCustomerConsentCollected,
       postTerminalReadersReaderProcessSetupIntentRequestBodyExpand = GHC.Maybe.Nothing,
+      postTerminalReadersReaderProcessSetupIntentRequestBodyProcessConfig = GHC.Maybe.Nothing,
       postTerminalReadersReaderProcessSetupIntentRequestBodySetupIntent = postTerminalReadersReaderProcessSetupIntentRequestBodySetupIntent
     }
 

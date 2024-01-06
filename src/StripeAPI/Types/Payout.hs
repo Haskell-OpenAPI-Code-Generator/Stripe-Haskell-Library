@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -42,17 +42,17 @@ import qualified Prelude as GHC.Maybe
 -- A \`Payout\` object is created when you receive funds from Stripe, or when you
 -- initiate a payout to either a bank account or debit card of a [connected
 -- Stripe account](\/docs\/connect\/bank-debit-card-payouts). You can retrieve individual payouts,
--- as well as list all payouts. Payouts are made on [varying
+-- and list all payouts. Payouts are made on [varying
 -- schedules](\/docs\/connect\/manage-payout-schedule), depending on your country and
 -- industry.
 --
--- Related guide: [Receiving Payouts](https:\/\/stripe.com\/docs\/payouts).
+-- Related guide: [Receiving payouts](https:\/\/stripe.com\/docs\/payouts)
 data Payout = Payout
-  { -- | amount: Amount (in %s) to be transferred to your bank account or debit card.
+  { -- | amount: The amount (in cents (or local equivalent)) that transfers to your bank account or debit card.
     payoutAmount :: GHC.Types.Int,
-    -- | arrival_date: Date the payout is expected to arrive in the bank. This factors in delays like weekends or bank holidays.
+    -- | arrival_date: Date that you can expect the payout to arrive in the bank. This factors in delays to account for weekends or bank holidays.
     payoutArrivalDate :: GHC.Types.Int,
-    -- | automatic: Returns \`true\` if the payout was created by an [automated payout schedule](https:\/\/stripe.com\/docs\/payouts\#payout-schedule), and \`false\` if it was [requested manually](https:\/\/stripe.com\/docs\/payouts\#manual-payouts).
+    -- | automatic: Returns \`true\` if the payout is created by an [automated payout schedule](https:\/\/stripe.com\/docs\/payouts\#payout-schedule) and \`false\` if it\'s [requested manually](https:\/\/stripe.com\/docs\/payouts\#manual-payouts).
     payoutAutomatic :: GHC.Types.Bool,
     -- | balance_transaction: ID of the balance transaction that describes the impact of this payout on your account balance.
     payoutBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PayoutBalanceTransaction'NonNullableVariants)),
@@ -66,17 +66,17 @@ data Payout = Payout
     --
     -- * Maximum length of 5000
     payoutDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | destination: ID of the bank account or card the payout was sent to.
+    -- | destination: ID of the bank account or card the payout is sent to.
     payoutDestination :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PayoutDestination'NonNullableVariants)),
-    -- | failure_balance_transaction: If the payout failed or was canceled, this will be the ID of the balance transaction that reversed the initial balance transaction, and puts the funds from the failed payout back in your balance.
+    -- | failure_balance_transaction: If the payout fails or cancels, this is the ID of the balance transaction that reverses the initial balance transaction and returns the funds from the failed payout back in your balance.
     payoutFailureBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PayoutFailureBalanceTransaction'NonNullableVariants)),
-    -- | failure_code: Error code explaining reason for payout failure if available. See [Types of payout failures](https:\/\/stripe.com\/docs\/api\#payout_failures) for a list of failure codes.
+    -- | failure_code: Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https:\/\/stripe.com\/docs\/api\#payout_failures).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     payoutFailureCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | failure_message: Message to user further explaining reason for payout failure if available.
+    -- | failure_message: Message that provides the reason for a payout failure, if available.
     --
     -- Constraints:
     --
@@ -92,7 +92,7 @@ data Payout = Payout
     payoutLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     payoutMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
-    -- | method: The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces) for more information.)
+    -- | method: The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is supported for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https:\/\/stripe.com\/docs\/payouts\/instant-payouts-banks).
     --
     -- Constraints:
     --
@@ -100,21 +100,23 @@ data Payout = Payout
     payoutMethod :: Data.Text.Internal.Text,
     -- | original_payout: If the payout reverses another, this is the ID of the original payout.
     payoutOriginalPayout :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PayoutOriginalPayout'NonNullableVariants)),
-    -- | reversed_by: If the payout was reversed, this is the ID of the payout that reverses this payout.
+    -- | reconciliation_status: If \`completed\`, you can use the [Balance Transactions API](https:\/\/stripe.com\/docs\/api\/balance_transactions\/list\#balance_transaction_list-payout) to list all balance transactions that are paid out in this payout.
+    payoutReconciliationStatus :: PayoutReconciliationStatus',
+    -- | reversed_by: If the payout reverses, this is the ID of the payout that reverses this payout.
     payoutReversedBy :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PayoutReversedBy'NonNullableVariants)),
-    -- | source_type: The source balance this payout came from. One of \`card\`, \`fpx\`, or \`bank_account\`.
+    -- | source_type: The source balance this payout came from, which can be one of the following: \`card\`, \`fpx\`, or \`bank_account\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     payoutSourceType :: Data.Text.Internal.Text,
-    -- | statement_descriptor: Extra information about a payout to be displayed on the user\'s bank statement.
+    -- | statement_descriptor: Extra information about a payout that displays on the user\'s bank statement.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     payoutStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | status: Current status of the payout: \`paid\`, \`pending\`, \`in_transit\`, \`canceled\` or \`failed\`. A payout is \`pending\` until it is submitted to the bank, when it becomes \`in_transit\`. The status then changes to \`paid\` if the transaction goes through, or to \`failed\` or \`canceled\` (within 5 business days). Some failed payouts may initially show as \`paid\` but then change to \`failed\`.
+    -- | status: Current status of the payout: \`paid\`, \`pending\`, \`in_transit\`, \`canceled\` or \`failed\`. A payout is \`pending\` until it\'s submitted to the bank, when it becomes \`in_transit\`. The status changes to \`paid\` if the transaction succeeds, or to \`failed\` or \`canceled\` (within 5 business days). Some payouts that fail might initially show as \`paid\`, then change to \`failed\`.
     --
     -- Constraints:
     --
@@ -129,11 +131,11 @@ data Payout = Payout
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Payout where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= payoutAmount obj] : ["arrival_date" Data.Aeson.Types.ToJSON..= payoutArrivalDate obj] : ["automatic" Data.Aeson.Types.ToJSON..= payoutAutomatic obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= payoutCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= payoutCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (payoutDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination" Data.Aeson.Types.ToJSON..=)) (payoutDestination obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (payoutFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (payoutFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= payoutId obj] : ["livemode" Data.Aeson.Types.ToJSON..= payoutLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (payoutMetadata obj) : ["method" Data.Aeson.Types.ToJSON..= payoutMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("original_payout" Data.Aeson.Types.ToJSON..=)) (payoutOriginalPayout obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversed_by" Data.Aeson.Types.ToJSON..=)) (payoutReversedBy obj) : ["source_type" Data.Aeson.Types.ToJSON..= payoutSourceType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (payoutStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= payoutStatus obj] : ["type" Data.Aeson.Types.ToJSON..= payoutType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payout"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= payoutAmount obj] : ["arrival_date" Data.Aeson.Types.ToJSON..= payoutArrivalDate obj] : ["automatic" Data.Aeson.Types.ToJSON..= payoutAutomatic obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= payoutCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= payoutCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (payoutDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination" Data.Aeson.Types.ToJSON..=)) (payoutDestination obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (payoutFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (payoutFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= payoutId obj] : ["livemode" Data.Aeson.Types.ToJSON..= payoutLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (payoutMetadata obj) : ["method" Data.Aeson.Types.ToJSON..= payoutMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("original_payout" Data.Aeson.Types.ToJSON..=)) (payoutOriginalPayout obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversed_by" Data.Aeson.Types.ToJSON..=)) (payoutReversedBy obj) : ["source_type" Data.Aeson.Types.ToJSON..= payoutSourceType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (payoutStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= payoutStatus obj] : ["type" Data.Aeson.Types.ToJSON..= payoutType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payout"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= payoutAmount obj] : ["arrival_date" Data.Aeson.Types.ToJSON..= payoutArrivalDate obj] : ["automatic" Data.Aeson.Types.ToJSON..= payoutAutomatic obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= payoutCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= payoutCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (payoutDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination" Data.Aeson.Types.ToJSON..=)) (payoutDestination obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (payoutFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (payoutFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= payoutId obj] : ["livemode" Data.Aeson.Types.ToJSON..= payoutLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (payoutMetadata obj) : ["method" Data.Aeson.Types.ToJSON..= payoutMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("original_payout" Data.Aeson.Types.ToJSON..=)) (payoutOriginalPayout obj) : ["reconciliation_status" Data.Aeson.Types.ToJSON..= payoutReconciliationStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversed_by" Data.Aeson.Types.ToJSON..=)) (payoutReversedBy obj) : ["source_type" Data.Aeson.Types.ToJSON..= payoutSourceType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (payoutStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= payoutStatus obj] : ["type" Data.Aeson.Types.ToJSON..= payoutType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payout"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= payoutAmount obj] : ["arrival_date" Data.Aeson.Types.ToJSON..= payoutArrivalDate obj] : ["automatic" Data.Aeson.Types.ToJSON..= payoutAutomatic obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= payoutCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= payoutCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (payoutDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination" Data.Aeson.Types.ToJSON..=)) (payoutDestination obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (payoutFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (payoutFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (payoutFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= payoutId obj] : ["livemode" Data.Aeson.Types.ToJSON..= payoutLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (payoutMetadata obj) : ["method" Data.Aeson.Types.ToJSON..= payoutMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("original_payout" Data.Aeson.Types.ToJSON..=)) (payoutOriginalPayout obj) : ["reconciliation_status" Data.Aeson.Types.ToJSON..= payoutReconciliationStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversed_by" Data.Aeson.Types.ToJSON..=)) (payoutReversedBy obj) : ["source_type" Data.Aeson.Types.ToJSON..= payoutSourceType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (payoutStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= payoutStatus obj] : ["type" Data.Aeson.Types.ToJSON..= payoutType obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payout"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Payout where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Payout" (\obj -> ((((((((((((((((((((GHC.Base.pure Payout GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "arrival_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "original_payout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reversed_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Payout" (\obj -> (((((((((((((((((((((GHC.Base.pure Payout GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "arrival_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "destination")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "original_payout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reconciliation_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reversed_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'Payout' with all required fields.
 mkPayout ::
@@ -153,6 +155,8 @@ mkPayout ::
   GHC.Types.Bool ->
   -- | 'payoutMethod'
   Data.Text.Internal.Text ->
+  -- | 'payoutReconciliationStatus'
+  PayoutReconciliationStatus' ->
   -- | 'payoutSourceType'
   Data.Text.Internal.Text ->
   -- | 'payoutStatus'
@@ -160,7 +164,7 @@ mkPayout ::
   -- | 'payoutType'
   PayoutType' ->
   Payout
-mkPayout payoutAmount payoutArrivalDate payoutAutomatic payoutCreated payoutCurrency payoutId payoutLivemode payoutMethod payoutSourceType payoutStatus payoutType =
+mkPayout payoutAmount payoutArrivalDate payoutAutomatic payoutCreated payoutCurrency payoutId payoutLivemode payoutMethod payoutReconciliationStatus payoutSourceType payoutStatus payoutType =
   Payout
     { payoutAmount = payoutAmount,
       payoutArrivalDate = payoutArrivalDate,
@@ -178,6 +182,7 @@ mkPayout payoutAmount payoutArrivalDate payoutAutomatic payoutCreated payoutCurr
       payoutMetadata = GHC.Maybe.Nothing,
       payoutMethod = payoutMethod,
       payoutOriginalPayout = GHC.Maybe.Nothing,
+      payoutReconciliationStatus = payoutReconciliationStatus,
       payoutReversedBy = GHC.Maybe.Nothing,
       payoutSourceType = payoutSourceType,
       payoutStatementDescriptor = GHC.Maybe.Nothing,
@@ -204,7 +209,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PayoutBalanceTransaction'NonNullable
 
 -- | Defines the oneOf schema located at @components.schemas.payout.properties.destination.anyOf@ in the specification.
 --
--- ID of the bank account or card the payout was sent to.
+-- ID of the bank account or card the payout is sent to.
 data PayoutDestination'NonNullableVariants
   = PayoutDestination'NonNullableText Data.Text.Internal.Text
   | PayoutDestination'NonNullableBankAccount BankAccount
@@ -227,7 +232,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PayoutDestination'NonNullableVariant
 
 -- | Defines the oneOf schema located at @components.schemas.payout.properties.failure_balance_transaction.anyOf@ in the specification.
 --
--- If the payout failed or was canceled, this will be the ID of the balance transaction that reversed the initial balance transaction, and puts the funds from the failed payout back in your balance.
+-- If the payout fails or cancels, this is the ID of the balance transaction that reverses the initial balance transaction and returns the funds from the failed payout back in your balance.
 data PayoutFailureBalanceTransaction'NonNullableVariants
   = PayoutFailureBalanceTransaction'NonNullableText Data.Text.Internal.Text
   | PayoutFailureBalanceTransaction'NonNullableBalanceTransaction BalanceTransaction
@@ -259,9 +264,42 @@ instance Data.Aeson.Types.FromJSON.FromJSON PayoutOriginalPayout'NonNullableVari
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
+-- | Defines the enum schema located at @components.schemas.payout.properties.reconciliation_status@ in the specification.
+--
+-- If \`completed\`, you can use the [Balance Transactions API](https:\/\/stripe.com\/docs\/api\/balance_transactions\/list\#balance_transaction_list-payout) to list all balance transactions that are paid out in this payout.
+data PayoutReconciliationStatus'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PayoutReconciliationStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PayoutReconciliationStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"completed"@
+    PayoutReconciliationStatus'EnumCompleted
+  | -- | Represents the JSON value @"in_progress"@
+    PayoutReconciliationStatus'EnumInProgress
+  | -- | Represents the JSON value @"not_applicable"@
+    PayoutReconciliationStatus'EnumNotApplicable
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PayoutReconciliationStatus' where
+  toJSON (PayoutReconciliationStatus'Other val) = val
+  toJSON (PayoutReconciliationStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PayoutReconciliationStatus'EnumCompleted) = "completed"
+  toJSON (PayoutReconciliationStatus'EnumInProgress) = "in_progress"
+  toJSON (PayoutReconciliationStatus'EnumNotApplicable) = "not_applicable"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PayoutReconciliationStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "completed" -> PayoutReconciliationStatus'EnumCompleted
+            | val GHC.Classes.== "in_progress" -> PayoutReconciliationStatus'EnumInProgress
+            | val GHC.Classes.== "not_applicable" -> PayoutReconciliationStatus'EnumNotApplicable
+            | GHC.Base.otherwise -> PayoutReconciliationStatus'Other val
+      )
+
 -- | Defines the oneOf schema located at @components.schemas.payout.properties.reversed_by.anyOf@ in the specification.
 --
--- If the payout was reversed, this is the ID of the payout that reverses this payout.
+-- If the payout reverses, this is the ID of the payout that reverses this payout.
 data PayoutReversedBy'NonNullableVariants
   = PayoutReversedBy'NonNullableText Data.Text.Internal.Text
   | PayoutReversedBy'NonNullablePayout Payout

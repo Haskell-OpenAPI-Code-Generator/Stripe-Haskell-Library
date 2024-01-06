@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -39,7 +39,7 @@ data PortalSubscriptionUpdate = PortalSubscriptionUpdate
     portalSubscriptionUpdateDefaultAllowedUpdates :: ([PortalSubscriptionUpdateDefaultAllowedUpdates']),
     -- | enabled: Whether the feature is enabled.
     portalSubscriptionUpdateEnabled :: GHC.Types.Bool,
-    -- | products: The list of products that support subscription updates.
+    -- | products: The list of up to 10 products that support subscription updates.
     portalSubscriptionUpdateProducts :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PortalSubscriptionUpdateProduct]))),
     -- | proration_behavior: Determines how to handle prorations resulting from subscription updates. Valid values are \`none\`, \`create_prorations\`, and \`always_invoice\`.
     portalSubscriptionUpdateProrationBehavior :: PortalSubscriptionUpdateProrationBehavior'

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -63,26 +64,26 @@ postPaymentMethods body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPaymentMethodsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            PaymentMethod
-                                                      )
+                                     PostPaymentMethodsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              PaymentMethod
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPaymentMethodsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostPaymentMethodsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/payment_methods" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payment_methods.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentMethodsRequestBody = PostPaymentMethodsRequestBody
@@ -102,10 +103,14 @@ data PostPaymentMethodsRequestBody = PostPaymentMethodsRequestBody
     postPaymentMethodsRequestBodyBancontact :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | billing_details: Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
     postPaymentMethodsRequestBodyBillingDetails :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyBillingDetails'),
+    -- | blik: If this is a \`blik\` PaymentMethod, this hash contains details about the BLIK payment method.
+    postPaymentMethodsRequestBodyBlik :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | boleto: If this is a \`boleto\` PaymentMethod, this hash contains details about the Boleto payment method.
     postPaymentMethodsRequestBodyBoleto :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyBoleto'),
     -- | card: If this is a \`card\` PaymentMethod, this hash contains the user\'s card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format \`card: {token: \"tok_visa\"}\`. When providing a card number, you must meet the requirements for [PCI compliance](https:\/\/stripe.com\/docs\/security\#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
     postPaymentMethodsRequestBodyCard :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyCard'),
+    -- | cashapp: If this is a \`cashapp\` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+    postPaymentMethodsRequestBodyCashapp :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | customer: The \`Customer\` to whom the original PaymentMethod is attached.
     --
     -- Constraints:
@@ -148,10 +153,16 @@ data PostPaymentMethodsRequestBody = PostPaymentMethodsRequestBody
     postPaymentMethodsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | paynow: If this is a \`paynow\` PaymentMethod, this hash contains details about the PayNow payment method.
     postPaymentMethodsRequestBodyPaynow :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | paypal: If this is a \`paypal\` PaymentMethod, this hash contains details about the PayPal payment method.
+    postPaymentMethodsRequestBodyPaypal :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | pix: If this is a \`pix\` PaymentMethod, this hash contains details about the Pix payment method.
+    postPaymentMethodsRequestBodyPix :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | promptpay: If this is a \`promptpay\` PaymentMethod, this hash contains details about the PromptPay payment method.
     postPaymentMethodsRequestBodyPromptpay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | radar_options: Options to configure Radar. See [Radar Session](https:\/\/stripe.com\/docs\/radar\/radar-session) for more information.
     postPaymentMethodsRequestBodyRadarOptions :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyRadarOptions'),
+    -- | revolut_pay: If this is a \`Revolut Pay\` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+    postPaymentMethodsRequestBodyRevolutPay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | sepa_debit: If this is a \`sepa_debit\` PaymentMethod, this hash contains details about the SEPA debit bank account.
     postPaymentMethodsRequestBodySepaDebit :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodySepaDebit'),
     -- | sofort: If this is a \`sofort\` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -161,7 +172,9 @@ data PostPaymentMethodsRequestBody = PostPaymentMethodsRequestBody
     -- | us_bank_account: If this is an \`us_bank_account\` PaymentMethod, this hash contains details about the US bank account payment method.
     postPaymentMethodsRequestBodyUsBankAccount :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyUsBankAccount'),
     -- | wechat_pay: If this is an \`wechat_pay\` PaymentMethod, this hash contains details about the wechat_pay payment method.
-    postPaymentMethodsRequestBodyWechatPay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+    postPaymentMethodsRequestBodyWechatPay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | zip: If this is a \`zip\` PaymentMethod, this hash contains details about the Zip payment method.
+    postPaymentMethodsRequestBodyZip :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
   }
   deriving
     ( GHC.Show.Show,
@@ -169,11 +182,11 @@ data PostPaymentMethodsRequestBody = PostPaymentMethodsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAffirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAlipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBoleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyEps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyFpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGiropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGrabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyIdeal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyInteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKlarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKonbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyOxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyP24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPromptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyRadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyUsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyWechatPay obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAffirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAlipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBoleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyEps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyFpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGiropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGrabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyIdeal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyInteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKlarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKonbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyOxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyP24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPromptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyRadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyUsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyWechatPay obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAffirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAlipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blik" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBlik obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBoleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCashapp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyEps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyFpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGiropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGrabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyIdeal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyInteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKlarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKonbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyOxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyP24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pix" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPromptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyRadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("revolut_pay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyRevolutPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyUsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyWechatPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zip" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyZip obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAffirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAlipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blik" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBlik obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyBoleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCashapp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyCustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyEps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyFpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGiropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyGrabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyIdeal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyInteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKlarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyKonbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyOxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyP24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPaypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pix" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyPromptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyRadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("revolut_pay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyRevolutPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodySofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyUsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyWechatPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zip" Data.Aeson.Types.ToJSON..=)) (postPaymentMethodsRequestBodyZip obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentMethodsRequestBody" (\obj -> (((((((((((((((((((((((((((((((((GHC.Base.pure PostPaymentMethodsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "affirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "afterpay_clearpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "boleto")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "grabpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interac_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oxxo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paynow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promptpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "radar_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat_pay"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentMethodsRequestBody" (\obj -> (((((((((((((((((((((((((((((((((((((((GHC.Base.pure PostPaymentMethodsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "affirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "afterpay_clearpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "blik")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "boleto")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashapp")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "grabpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interac_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oxxo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paynow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paypal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promptpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "radar_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "revolut_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "zip"))
 
 -- | Create a new 'PostPaymentMethodsRequestBody' with all required fields.
 mkPostPaymentMethodsRequestBody :: PostPaymentMethodsRequestBody
@@ -187,8 +200,10 @@ mkPostPaymentMethodsRequestBody =
       postPaymentMethodsRequestBodyBacsDebit = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyBancontact = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyBillingDetails = GHC.Maybe.Nothing,
+      postPaymentMethodsRequestBodyBlik = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyBoleto = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyCard = GHC.Maybe.Nothing,
+      postPaymentMethodsRequestBodyCashapp = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyCustomer = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyCustomerBalance = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyEps = GHC.Maybe.Nothing,
@@ -206,13 +221,17 @@ mkPostPaymentMethodsRequestBody =
       postPaymentMethodsRequestBodyP24 = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyPaymentMethod = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyPaynow = GHC.Maybe.Nothing,
+      postPaymentMethodsRequestBodyPaypal = GHC.Maybe.Nothing,
+      postPaymentMethodsRequestBodyPix = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyPromptpay = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyRadarOptions = GHC.Maybe.Nothing,
+      postPaymentMethodsRequestBodyRevolutPay = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodySepaDebit = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodySofort = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyType = GHC.Maybe.Nothing,
       postPaymentMethodsRequestBodyUsBankAccount = GHC.Maybe.Nothing,
-      postPaymentMethodsRequestBodyWechatPay = GHC.Maybe.Nothing
+      postPaymentMethodsRequestBodyWechatPay = GHC.Maybe.Nothing,
+      postPaymentMethodsRequestBodyZip = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/payment_methods.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.acss_debit@ in the specification.
@@ -354,17 +373,9 @@ data PostPaymentMethodsRequestBodyBillingDetails' = PostPaymentMethodsRequestBod
     -- | email
     postPaymentMethodsRequestBodyBillingDetails'Email :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyBillingDetails'Email'Variants),
     -- | name
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postPaymentMethodsRequestBodyBillingDetails'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postPaymentMethodsRequestBodyBillingDetails'Name :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyBillingDetails'Name'Variants),
     -- | phone
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postPaymentMethodsRequestBodyBillingDetails'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postPaymentMethodsRequestBodyBillingDetails'Phone :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyBillingDetails'Phone'Variants)
   }
   deriving
     ( GHC.Show.Show,
@@ -467,8 +478,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyBilling
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentMethodsRequestBodyBillingDetails'Address'EmptyString
         | GHC.Base.otherwise -> case (PostPaymentMethodsRequestBodyBillingDetails'Address'PostPaymentMethodsRequestBodyBillingDetails'Address'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/payment_methods.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_details.properties.email.anyOf@ in the specification.
 data PostPaymentMethodsRequestBodyBillingDetails'Email'Variants
@@ -486,8 +497,46 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyBilling
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentMethodsRequestBodyBillingDetails'Email'EmptyString
         | GHC.Base.otherwise -> case (PostPaymentMethodsRequestBodyBillingDetails'Email'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_methods.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_details.properties.name.anyOf@ in the specification.
+data PostPaymentMethodsRequestBodyBillingDetails'Name'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentMethodsRequestBodyBillingDetails'Name'EmptyString
+  | PostPaymentMethodsRequestBodyBillingDetails'Name'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyBillingDetails'Name'Variants where
+  toJSON (PostPaymentMethodsRequestBodyBillingDetails'Name'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentMethodsRequestBodyBillingDetails'Name'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyBillingDetails'Name'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentMethodsRequestBodyBillingDetails'Name'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentMethodsRequestBodyBillingDetails'Name'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_methods.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.billing_details.properties.phone.anyOf@ in the specification.
+data PostPaymentMethodsRequestBodyBillingDetails'Phone'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentMethodsRequestBodyBillingDetails'Phone'EmptyString
+  | PostPaymentMethodsRequestBodyBillingDetails'Phone'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyBillingDetails'Phone'Variants where
+  toJSON (PostPaymentMethodsRequestBodyBillingDetails'Phone'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentMethodsRequestBodyBillingDetails'Phone'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyBillingDetails'Phone'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentMethodsRequestBodyBillingDetails'Phone'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentMethodsRequestBodyBillingDetails'Phone'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/payment_methods.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.boleto@ in the specification.
 --
@@ -622,6 +671,8 @@ data PostPaymentMethodsRequestBodyEps'Bank'
     PostPaymentMethodsRequestBodyEps'Bank'EnumBtvVierLanderBank
   | -- | Represents the JSON value @"capital_bank_grawe_gruppe_ag"@
     PostPaymentMethodsRequestBodyEps'Bank'EnumCapitalBankGraweGruppeAg
+  | -- | Represents the JSON value @"deutsche_bank_ag"@
+    PostPaymentMethodsRequestBodyEps'Bank'EnumDeutscheBankAg
   | -- | Represents the JSON value @"dolomitenbank"@
     PostPaymentMethodsRequestBodyEps'Bank'EnumDolomitenbank
   | -- | Represents the JSON value @"easybank_ag"@
@@ -671,6 +722,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyEps'Bank' w
   toJSON (PostPaymentMethodsRequestBodyEps'Bank'EnumBrullKallmusBankAg) = "brull_kallmus_bank_ag"
   toJSON (PostPaymentMethodsRequestBodyEps'Bank'EnumBtvVierLanderBank) = "btv_vier_lander_bank"
   toJSON (PostPaymentMethodsRequestBodyEps'Bank'EnumCapitalBankGraweGruppeAg) = "capital_bank_grawe_gruppe_ag"
+  toJSON (PostPaymentMethodsRequestBodyEps'Bank'EnumDeutscheBankAg) = "deutsche_bank_ag"
   toJSON (PostPaymentMethodsRequestBodyEps'Bank'EnumDolomitenbank) = "dolomitenbank"
   toJSON (PostPaymentMethodsRequestBodyEps'Bank'EnumEasybankAg) = "easybank_ag"
   toJSON (PostPaymentMethodsRequestBodyEps'Bank'EnumErsteBankUndSparkassen) = "erste_bank_und_sparkassen"
@@ -703,6 +755,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyEps'Ban
             | val GHC.Classes.== "brull_kallmus_bank_ag" -> PostPaymentMethodsRequestBodyEps'Bank'EnumBrullKallmusBankAg
             | val GHC.Classes.== "btv_vier_lander_bank" -> PostPaymentMethodsRequestBodyEps'Bank'EnumBtvVierLanderBank
             | val GHC.Classes.== "capital_bank_grawe_gruppe_ag" -> PostPaymentMethodsRequestBodyEps'Bank'EnumCapitalBankGraweGruppeAg
+            | val GHC.Classes.== "deutsche_bank_ag" -> PostPaymentMethodsRequestBodyEps'Bank'EnumDeutscheBankAg
             | val GHC.Classes.== "dolomitenbank" -> PostPaymentMethodsRequestBodyEps'Bank'EnumDolomitenbank
             | val GHC.Classes.== "easybank_ag" -> PostPaymentMethodsRequestBodyEps'Bank'EnumEasybankAg
             | val GHC.Classes.== "erste_bank_und_sparkassen" -> PostPaymentMethodsRequestBodyEps'Bank'EnumErsteBankUndSparkassen
@@ -771,6 +824,8 @@ data PostPaymentMethodsRequestBodyFpx'Bank'
     PostPaymentMethodsRequestBodyFpx'Bank'EnumBankIslam
   | -- | Represents the JSON value @"bank_muamalat"@
     PostPaymentMethodsRequestBodyFpx'Bank'EnumBankMuamalat
+  | -- | Represents the JSON value @"bank_of_china"@
+    PostPaymentMethodsRequestBodyFpx'Bank'EnumBankOfChina
   | -- | Represents the JSON value @"bank_rakyat"@
     PostPaymentMethodsRequestBodyFpx'Bank'EnumBankRakyat
   | -- | Represents the JSON value @"bsn"@
@@ -812,6 +867,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyFpx'Bank' w
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumAmbank) = "ambank"
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumBankIslam) = "bank_islam"
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumBankMuamalat) = "bank_muamalat"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumBankOfChina) = "bank_of_china"
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumBankRakyat) = "bank_rakyat"
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumBsn) = "bsn"
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumCimb) = "cimb"
@@ -838,6 +894,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyFpx'Ban
             | val GHC.Classes.== "ambank" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumAmbank
             | val GHC.Classes.== "bank_islam" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumBankIslam
             | val GHC.Classes.== "bank_muamalat" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumBankMuamalat
+            | val GHC.Classes.== "bank_of_china" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumBankOfChina
             | val GHC.Classes.== "bank_rakyat" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumBankRakyat
             | val GHC.Classes.== "bsn" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumBsn
             | val GHC.Classes.== "cimb" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumCimb
@@ -903,6 +960,8 @@ data PostPaymentMethodsRequestBodyIdeal'Bank'
     PostPaymentMethodsRequestBodyIdeal'Bank'EnumKnab
   | -- | Represents the JSON value @"moneyou"@
     PostPaymentMethodsRequestBodyIdeal'Bank'EnumMoneyou
+  | -- | Represents the JSON value @"n26"@
+    PostPaymentMethodsRequestBodyIdeal'Bank'EnumN26
   | -- | Represents the JSON value @"rabobank"@
     PostPaymentMethodsRequestBodyIdeal'Bank'EnumRabobank
   | -- | Represents the JSON value @"regiobank"@
@@ -915,6 +974,8 @@ data PostPaymentMethodsRequestBodyIdeal'Bank'
     PostPaymentMethodsRequestBodyIdeal'Bank'EnumTriodosBank
   | -- | Represents the JSON value @"van_lanschot"@
     PostPaymentMethodsRequestBodyIdeal'Bank'EnumVanLanschot
+  | -- | Represents the JSON value @"yoursafe"@
+    PostPaymentMethodsRequestBodyIdeal'Bank'EnumYoursafe
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyIdeal'Bank' where
@@ -927,12 +988,14 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyIdeal'Bank'
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumIng) = "ing"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumKnab) = "knab"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumMoneyou) = "moneyou"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumN26) = "n26"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumRabobank) = "rabobank"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumRegiobank) = "regiobank"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumRevolut) = "revolut"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumSnsBank) = "sns_bank"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumTriodosBank) = "triodos_bank"
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumVanLanschot) = "van_lanschot"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumYoursafe) = "yoursafe"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyIdeal'Bank' where
   parseJSON val =
@@ -945,12 +1008,14 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyIdeal'B
             | val GHC.Classes.== "ing" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumIng
             | val GHC.Classes.== "knab" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumKnab
             | val GHC.Classes.== "moneyou" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumMoneyou
+            | val GHC.Classes.== "n26" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumN26
             | val GHC.Classes.== "rabobank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumRabobank
             | val GHC.Classes.== "regiobank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumRegiobank
             | val GHC.Classes.== "revolut" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumRevolut
             | val GHC.Classes.== "sns_bank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumSnsBank
             | val GHC.Classes.== "triodos_bank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumTriodosBank
             | val GHC.Classes.== "van_lanschot" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumVanLanschot
+            | val GHC.Classes.== "yoursafe" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumYoursafe
             | GHC.Base.otherwise -> PostPaymentMethodsRequestBodyIdeal'Bank'Other val
       )
 
@@ -1304,10 +1369,14 @@ data PostPaymentMethodsRequestBodyType'
     PostPaymentMethodsRequestBodyType'EnumBacsDebit
   | -- | Represents the JSON value @"bancontact"@
     PostPaymentMethodsRequestBodyType'EnumBancontact
+  | -- | Represents the JSON value @"blik"@
+    PostPaymentMethodsRequestBodyType'EnumBlik
   | -- | Represents the JSON value @"boleto"@
     PostPaymentMethodsRequestBodyType'EnumBoleto
   | -- | Represents the JSON value @"card"@
     PostPaymentMethodsRequestBodyType'EnumCard
+  | -- | Represents the JSON value @"cashapp"@
+    PostPaymentMethodsRequestBodyType'EnumCashapp
   | -- | Represents the JSON value @"customer_balance"@
     PostPaymentMethodsRequestBodyType'EnumCustomerBalance
   | -- | Represents the JSON value @"eps"@
@@ -1332,8 +1401,14 @@ data PostPaymentMethodsRequestBodyType'
     PostPaymentMethodsRequestBodyType'EnumP24
   | -- | Represents the JSON value @"paynow"@
     PostPaymentMethodsRequestBodyType'EnumPaynow
+  | -- | Represents the JSON value @"paypal"@
+    PostPaymentMethodsRequestBodyType'EnumPaypal
+  | -- | Represents the JSON value @"pix"@
+    PostPaymentMethodsRequestBodyType'EnumPix
   | -- | Represents the JSON value @"promptpay"@
     PostPaymentMethodsRequestBodyType'EnumPromptpay
+  | -- | Represents the JSON value @"revolut_pay"@
+    PostPaymentMethodsRequestBodyType'EnumRevolutPay
   | -- | Represents the JSON value @"sepa_debit"@
     PostPaymentMethodsRequestBodyType'EnumSepaDebit
   | -- | Represents the JSON value @"sofort"@
@@ -1342,6 +1417,8 @@ data PostPaymentMethodsRequestBodyType'
     PostPaymentMethodsRequestBodyType'EnumUsBankAccount
   | -- | Represents the JSON value @"wechat_pay"@
     PostPaymentMethodsRequestBodyType'EnumWechatPay
+  | -- | Represents the JSON value @"zip"@
+    PostPaymentMethodsRequestBodyType'EnumZip
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyType' where
@@ -1354,8 +1431,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyType' where
   toJSON (PostPaymentMethodsRequestBodyType'EnumAuBecsDebit) = "au_becs_debit"
   toJSON (PostPaymentMethodsRequestBodyType'EnumBacsDebit) = "bacs_debit"
   toJSON (PostPaymentMethodsRequestBodyType'EnumBancontact) = "bancontact"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumBlik) = "blik"
   toJSON (PostPaymentMethodsRequestBodyType'EnumBoleto) = "boleto"
   toJSON (PostPaymentMethodsRequestBodyType'EnumCard) = "card"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumCashapp) = "cashapp"
   toJSON (PostPaymentMethodsRequestBodyType'EnumCustomerBalance) = "customer_balance"
   toJSON (PostPaymentMethodsRequestBodyType'EnumEps) = "eps"
   toJSON (PostPaymentMethodsRequestBodyType'EnumFpx) = "fpx"
@@ -1368,11 +1447,15 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyType' where
   toJSON (PostPaymentMethodsRequestBodyType'EnumOxxo) = "oxxo"
   toJSON (PostPaymentMethodsRequestBodyType'EnumP24) = "p24"
   toJSON (PostPaymentMethodsRequestBodyType'EnumPaynow) = "paynow"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumPaypal) = "paypal"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumPix) = "pix"
   toJSON (PostPaymentMethodsRequestBodyType'EnumPromptpay) = "promptpay"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumRevolutPay) = "revolut_pay"
   toJSON (PostPaymentMethodsRequestBodyType'EnumSepaDebit) = "sepa_debit"
   toJSON (PostPaymentMethodsRequestBodyType'EnumSofort) = "sofort"
   toJSON (PostPaymentMethodsRequestBodyType'EnumUsBankAccount) = "us_bank_account"
   toJSON (PostPaymentMethodsRequestBodyType'EnumWechatPay) = "wechat_pay"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumZip) = "zip"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyType' where
   parseJSON val =
@@ -1385,8 +1468,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyType' w
             | val GHC.Classes.== "au_becs_debit" -> PostPaymentMethodsRequestBodyType'EnumAuBecsDebit
             | val GHC.Classes.== "bacs_debit" -> PostPaymentMethodsRequestBodyType'EnumBacsDebit
             | val GHC.Classes.== "bancontact" -> PostPaymentMethodsRequestBodyType'EnumBancontact
+            | val GHC.Classes.== "blik" -> PostPaymentMethodsRequestBodyType'EnumBlik
             | val GHC.Classes.== "boleto" -> PostPaymentMethodsRequestBodyType'EnumBoleto
             | val GHC.Classes.== "card" -> PostPaymentMethodsRequestBodyType'EnumCard
+            | val GHC.Classes.== "cashapp" -> PostPaymentMethodsRequestBodyType'EnumCashapp
             | val GHC.Classes.== "customer_balance" -> PostPaymentMethodsRequestBodyType'EnumCustomerBalance
             | val GHC.Classes.== "eps" -> PostPaymentMethodsRequestBodyType'EnumEps
             | val GHC.Classes.== "fpx" -> PostPaymentMethodsRequestBodyType'EnumFpx
@@ -1399,11 +1484,15 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyType' w
             | val GHC.Classes.== "oxxo" -> PostPaymentMethodsRequestBodyType'EnumOxxo
             | val GHC.Classes.== "p24" -> PostPaymentMethodsRequestBodyType'EnumP24
             | val GHC.Classes.== "paynow" -> PostPaymentMethodsRequestBodyType'EnumPaynow
+            | val GHC.Classes.== "paypal" -> PostPaymentMethodsRequestBodyType'EnumPaypal
+            | val GHC.Classes.== "pix" -> PostPaymentMethodsRequestBodyType'EnumPix
             | val GHC.Classes.== "promptpay" -> PostPaymentMethodsRequestBodyType'EnumPromptpay
+            | val GHC.Classes.== "revolut_pay" -> PostPaymentMethodsRequestBodyType'EnumRevolutPay
             | val GHC.Classes.== "sepa_debit" -> PostPaymentMethodsRequestBodyType'EnumSepaDebit
             | val GHC.Classes.== "sofort" -> PostPaymentMethodsRequestBodyType'EnumSofort
             | val GHC.Classes.== "us_bank_account" -> PostPaymentMethodsRequestBodyType'EnumUsBankAccount
             | val GHC.Classes.== "wechat_pay" -> PostPaymentMethodsRequestBodyType'EnumWechatPay
+            | val GHC.Classes.== "zip" -> PostPaymentMethodsRequestBodyType'EnumZip
             | GHC.Base.otherwise -> PostPaymentMethodsRequestBodyType'Other val
       )
 

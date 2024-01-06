@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,7 +46,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/accounts/{account}/capabilities/{capability}
 --
--- \<p>Updates an existing Account Capability.\<\/p>
+-- \<p>Updates an existing Account Capability. Request or remove a capability by updating its \<code>requested\<\/code> parameter.\<\/p>
 postAccountsAccountCapabilitiesCapability ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -65,26 +66,26 @@ postAccountsAccountCapabilitiesCapability
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountsAccountCapabilitiesCapabilityResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Capability
-                                                        )
+                                       PostAccountsAccountCapabilitiesCapabilityResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Capability
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountsAccountCapabilitiesCapabilityResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostAccountsAccountCapabilitiesCapabilityResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postAccountsAccountCapabilitiesCapabilityParametersPathAccount parameters))) GHC.Base.++ ("/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postAccountsAccountCapabilitiesCapabilityParametersPathCapability parameters))) GHC.Base.++ ""))))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/accounts/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel (postAccountsAccountCapabilitiesCapabilityParametersPathAccount parameters))) GHC.Base.<> ("/capabilities/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel (postAccountsAccountCapabilitiesCapabilityParametersPathCapability parameters))) GHC.Base.<> "")))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/capabilities\/{capability}.POST.parameters@ in the specification.
 data PostAccountsAccountCapabilitiesCapabilityParameters = PostAccountsAccountCapabilitiesCapabilityParameters
@@ -126,7 +127,9 @@ mkPostAccountsAccountCapabilitiesCapabilityParameters postAccountsAccountCapabil
 data PostAccountsAccountCapabilitiesCapabilityRequestBody = PostAccountsAccountCapabilitiesCapabilityRequestBody
   { -- | expand: Specifies which fields in the response should be expanded.
     postAccountsAccountCapabilitiesCapabilityRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | requested: Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the \`requirements\` arrays.
+    -- | requested: To request a new capability for an account, pass true. There can be a delay before the requested capability becomes active. If the capability has any activation requirements, the response includes them in the \`requirements\` arrays.
+    --
+    -- If a capability isn\'t permanent, you can remove it from the account by passing false. Most capabilities are permanent after they\'ve been requested. Attempting to remove a permanent capability returns an error.
     postAccountsAccountCapabilitiesCapabilityRequestBodyRequested :: (GHC.Maybe.Maybe GHC.Types.Bool)
   }
   deriving

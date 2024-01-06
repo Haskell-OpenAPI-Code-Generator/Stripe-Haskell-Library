@@ -1,0 +1,9 @@
+module StripeAPI.Types.SetupAttemptPaymentMethodDetailsCardChecks where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data SetupAttemptPaymentMethodDetailsCardChecks
+instance Show SetupAttemptPaymentMethodDetailsCardChecks
+instance Eq SetupAttemptPaymentMethodDetailsCardChecks
+instance FromJSON SetupAttemptPaymentMethodDetailsCardChecks
+instance ToJSON SetupAttemptPaymentMethodDetailsCardChecks

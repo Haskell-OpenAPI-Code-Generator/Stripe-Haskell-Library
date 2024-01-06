@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ getTerminalConfigurationsConfiguration parameters =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetTerminalConfigurationsConfigurationResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            GetTerminalConfigurationsConfigurationResponseBody200
-                                                      )
+                                     GetTerminalConfigurationsConfigurationResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              GetTerminalConfigurationsConfigurationResponseBody200
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetTerminalConfigurationsConfigurationResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     GetTerminalConfigurationsConfigurationResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/terminal/configurations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getTerminalConfigurationsConfigurationParametersPathConfiguration parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalConfigurationsConfigurationParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "GET") ("/v1/terminal/configurations/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel (getTerminalConfigurationsConfigurationParametersPathConfiguration parameters))) GHC.Base.<> "")) [StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalConfigurationsConfigurationParametersQueryExpand parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True])
 
 -- | Defines the object schema located at @paths.\/v1\/terminal\/configurations\/{configuration}.GET.parameters@ in the specification.
 data GetTerminalConfigurationsConfigurationParameters = GetTerminalConfigurationsConfigurationParameters
@@ -148,6 +149,8 @@ data GetTerminalConfigurationsConfigurationResponseBody200 = GetTerminalConfigur
     getTerminalConfigurationsConfigurationResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | object: String representing the object\'s type. Objects of the same type share the same value.
     getTerminalConfigurationsConfigurationResponseBody200Object :: (GHC.Maybe.Maybe GetTerminalConfigurationsConfigurationResponseBody200Object'),
+    -- | offline:
+    getTerminalConfigurationsConfigurationResponseBody200Offline :: (GHC.Maybe.Maybe TerminalConfigurationConfigurationResourceOfflineConfig),
     -- | tipping:
     getTerminalConfigurationsConfigurationResponseBody200Tipping :: (GHC.Maybe.Maybe TerminalConfigurationConfigurationResourceTipping),
     -- | verifone_p400:
@@ -159,11 +162,11 @@ data GetTerminalConfigurationsConfigurationResponseBody200 = GetTerminalConfigur
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalConfigurationsConfigurationResponseBody200 where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200BbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_account_default" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200IsAccountDefault obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Tipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200VerifoneP400 obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200BbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_account_default" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200IsAccountDefault obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Tipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200VerifoneP400 obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200BbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_account_default" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200IsAccountDefault obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Offline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Tipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200VerifoneP400 obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200BbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Deleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Id obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_account_default" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200IsAccountDefault obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Livemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Object obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Offline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200Tipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (getTerminalConfigurationsConfigurationResponseBody200VerifoneP400 obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalConfigurationsConfigurationResponseBody200 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalConfigurationsConfigurationResponseBody200" (\obj -> (((((((GHC.Base.pure GetTerminalConfigurationsConfigurationResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bbpos_wisepos_e")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_account_default")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verifone_p400"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalConfigurationsConfigurationResponseBody200" (\obj -> ((((((((GHC.Base.pure GetTerminalConfigurationsConfigurationResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bbpos_wisepos_e")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_account_default")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verifone_p400"))
 
 -- | Create a new 'GetTerminalConfigurationsConfigurationResponseBody200' with all required fields.
 mkGetTerminalConfigurationsConfigurationResponseBody200 :: GetTerminalConfigurationsConfigurationResponseBody200
@@ -175,6 +178,7 @@ mkGetTerminalConfigurationsConfigurationResponseBody200 =
       getTerminalConfigurationsConfigurationResponseBody200IsAccountDefault = GHC.Maybe.Nothing,
       getTerminalConfigurationsConfigurationResponseBody200Livemode = GHC.Maybe.Nothing,
       getTerminalConfigurationsConfigurationResponseBody200Object = GHC.Maybe.Nothing,
+      getTerminalConfigurationsConfigurationResponseBody200Offline = GHC.Maybe.Nothing,
       getTerminalConfigurationsConfigurationResponseBody200Tipping = GHC.Maybe.Nothing,
       getTerminalConfigurationsConfigurationResponseBody200VerifoneP400 = GHC.Maybe.Nothing
     }

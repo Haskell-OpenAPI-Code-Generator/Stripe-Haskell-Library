@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.discounts_resource_discount_amount@ in the specification.
 data DiscountsResourceDiscountAmount = DiscountsResourceDiscountAmount
-  { -- | amount: The amount, in %s, of the discount.
+  { -- | amount: The amount, in cents (or local equivalent), of the discount.
     discountsResourceDiscountAmountAmount :: GHC.Types.Int,
     -- | discount: The discount that was applied to get this discount amount.
     discountsResourceDiscountAmountDiscount :: DiscountsResourceDiscountAmountDiscount'Variants

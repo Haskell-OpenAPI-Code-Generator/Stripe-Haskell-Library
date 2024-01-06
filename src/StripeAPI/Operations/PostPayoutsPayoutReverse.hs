@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,9 +46,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/payouts/{payout}/reverse
 --
--- \<p>Reverses a payout by debiting the destination bank account. Only payouts for connected accounts to US bank accounts may be reversed at this time. If the payout is in the \<code>pending\<\/code> status, \<code>\/v1\/payouts\/:id\/cancel\<\/code> should be used instead.\<\/p>
+-- \<p>Reverses a payout by debiting the destination bank account. At this time, you can only reverse payouts for connected accounts to US bank accounts. If the payout is in the \<code>pending\<\/code> status, use \<code>\/v1\/payouts\/:id\/cancel\<\/code> instead.\<\/p>
 --
--- \<p>By requesting a reversal via \<code>\/v1\/payouts\/:id\/reverse\<\/code>, you confirm that the authorized signatory of the selected bank account has authorized the debit on the bank account and that no other authorization is required.\<\/p>
+-- \<p>By requesting a reversal through \<code>\/v1\/payouts\/:id\/reverse\<\/code>, you confirm that the authorized signatory of the selected bank account authorizes the debit on the bank account and that no other authorization is required.\<\/p>
 postPayoutsPayoutReverse ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -67,26 +68,26 @@ postPayoutsPayoutReverse
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPayoutsPayoutReverseResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Payout
-                                                        )
+                                       PostPayoutsPayoutReverseResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Payout
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPayoutsPayoutReverseResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostPayoutsPayoutReverseResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payouts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel payout)) GHC.Base.++ "/reverse"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/payouts/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel payout)) GHC.Base.<> "/reverse")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payouts\/{payout}\/reverse.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPayoutsPayoutReverseRequestBody = PostPayoutsPayoutReverseRequestBody

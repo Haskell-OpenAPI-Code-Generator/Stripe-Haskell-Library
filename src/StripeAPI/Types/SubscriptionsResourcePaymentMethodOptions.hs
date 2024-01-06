@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -208,6 +208,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionsResourcePaymentMethodOp
 data SubscriptionsResourcePaymentMethodOptionsCard'NonNullable = SubscriptionsResourcePaymentMethodOptionsCard'NonNullable
   { -- | mandate_options:
     subscriptionsResourcePaymentMethodOptionsCard'NonNullableMandateOptions :: (GHC.Maybe.Maybe InvoiceMandateOptionsCard),
+    -- | network: Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
+    subscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullable)),
     -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
     subscriptionsResourcePaymentMethodOptionsCard'NonNullableRequestThreeDSecure :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionsResourcePaymentMethodOptionsCard'NonNullableRequestThreeDSecure'NonNullable))
   }
@@ -217,19 +219,85 @@ data SubscriptionsResourcePaymentMethodOptionsCard'NonNullable = SubscriptionsRe
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionsResourcePaymentMethodOptionsCard'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (subscriptionsResourcePaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionsResourcePaymentMethodOptionsCard'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionsResourcePaymentMethodOptionsCard'NonNullable" (\obj -> (GHC.Base.pure SubscriptionsResourcePaymentMethodOptionsCard'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionsResourcePaymentMethodOptionsCard'NonNullable" (\obj -> ((GHC.Base.pure SubscriptionsResourcePaymentMethodOptionsCard'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
 
 -- | Create a new 'SubscriptionsResourcePaymentMethodOptionsCard'NonNullable' with all required fields.
 mkSubscriptionsResourcePaymentMethodOptionsCard'NonNullable :: SubscriptionsResourcePaymentMethodOptionsCard'NonNullable
 mkSubscriptionsResourcePaymentMethodOptionsCard'NonNullable =
   SubscriptionsResourcePaymentMethodOptionsCard'NonNullable
     { subscriptionsResourcePaymentMethodOptionsCard'NonNullableMandateOptions = GHC.Maybe.Nothing,
+      subscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork = GHC.Maybe.Nothing,
       subscriptionsResourcePaymentMethodOptionsCard'NonNullableRequestThreeDSecure = GHC.Maybe.Nothing
     }
+
+-- | Defines the enum schema located at @components.schemas.subscriptions_resource_payment_method_options.properties.card.anyOf.properties.network@ in the specification.
+--
+-- Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
+data SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"amex"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumAmex
+  | -- | Represents the JSON value @"cartes_bancaires"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumCartesBancaires
+  | -- | Represents the JSON value @"diners"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumDiners
+  | -- | Represents the JSON value @"discover"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumDiscover
+  | -- | Represents the JSON value @"eftpos_au"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumEftposAu
+  | -- | Represents the JSON value @"interac"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumInterac
+  | -- | Represents the JSON value @"jcb"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumJcb
+  | -- | Represents the JSON value @"mastercard"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumMastercard
+  | -- | Represents the JSON value @"unionpay"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumUnionpay
+  | -- | Represents the JSON value @"unknown"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumUnknown
+  | -- | Represents the JSON value @"visa"@
+    SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumVisa
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullable where
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableOther val) = val
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumAmex) = "amex"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumCartesBancaires) = "cartes_bancaires"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumDiners) = "diners"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumDiscover) = "discover"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumEftposAu) = "eftpos_au"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumInterac) = "interac"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumJcb) = "jcb"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumMastercard) = "mastercard"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumUnionpay) = "unionpay"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumUnknown) = "unknown"
+  toJSON (SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumVisa) = "visa"
+
+instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "amex" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumAmex
+            | val GHC.Classes.== "cartes_bancaires" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumCartesBancaires
+            | val GHC.Classes.== "diners" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumDiners
+            | val GHC.Classes.== "discover" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumDiscover
+            | val GHC.Classes.== "eftpos_au" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumEftposAu
+            | val GHC.Classes.== "interac" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumInterac
+            | val GHC.Classes.== "jcb" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumJcb
+            | val GHC.Classes.== "mastercard" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumMastercard
+            | val GHC.Classes.== "unionpay" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumUnionpay
+            | val GHC.Classes.== "unknown" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumUnknown
+            | val GHC.Classes.== "visa" -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableEnumVisa
+            | GHC.Base.otherwise -> SubscriptionsResourcePaymentMethodOptionsCard'NonNullableNetwork'NonNullableOther val
+      )
 
 -- | Defines the enum schema located at @components.schemas.subscriptions_resource_payment_method_options.properties.card.anyOf.properties.request_three_d_secure@ in the specification.
 --

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_method_eps@ in the specification.
 data PaymentMethodEps = PaymentMethodEps
-  { -- | bank: The customer\'s bank. Should be one of \`arzte_und_apotheker_bank\`, \`austrian_anadi_bank_ag\`, \`bank_austria\`, \`bankhaus_carl_spangler\`, \`bankhaus_schelhammer_und_schattera_ag\`, \`bawag_psk_ag\`, \`bks_bank_ag\`, \`brull_kallmus_bank_ag\`, \`btv_vier_lander_bank\`, \`capital_bank_grawe_gruppe_ag\`, \`dolomitenbank\`, \`easybank_ag\`, \`erste_bank_und_sparkassen\`, \`hypo_alpeadriabank_international_ag\`, \`hypo_noe_lb_fur_niederosterreich_u_wien\`, \`hypo_oberosterreich_salzburg_steiermark\`, \`hypo_tirol_bank_ag\`, \`hypo_vorarlberg_bank_ag\`, \`hypo_bank_burgenland_aktiengesellschaft\`, \`marchfelder_bank\`, \`oberbank_ag\`, \`raiffeisen_bankengruppe_osterreich\`, \`schoellerbank_ag\`, \`sparda_bank_wien\`, \`volksbank_gruppe\`, \`volkskreditbank_ag\`, or \`vr_bank_braunau\`.
+  { -- | bank: The customer\'s bank. Should be one of \`arzte_und_apotheker_bank\`, \`austrian_anadi_bank_ag\`, \`bank_austria\`, \`bankhaus_carl_spangler\`, \`bankhaus_schelhammer_und_schattera_ag\`, \`bawag_psk_ag\`, \`bks_bank_ag\`, \`brull_kallmus_bank_ag\`, \`btv_vier_lander_bank\`, \`capital_bank_grawe_gruppe_ag\`, \`deutsche_bank_ag\`, \`dolomitenbank\`, \`easybank_ag\`, \`erste_bank_und_sparkassen\`, \`hypo_alpeadriabank_international_ag\`, \`hypo_noe_lb_fur_niederosterreich_u_wien\`, \`hypo_oberosterreich_salzburg_steiermark\`, \`hypo_tirol_bank_ag\`, \`hypo_vorarlberg_bank_ag\`, \`hypo_bank_burgenland_aktiengesellschaft\`, \`marchfelder_bank\`, \`oberbank_ag\`, \`raiffeisen_bankengruppe_osterreich\`, \`schoellerbank_ag\`, \`sparda_bank_wien\`, \`volksbank_gruppe\`, \`volkskreditbank_ag\`, or \`vr_bank_braunau\`.
     paymentMethodEpsBank :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodEpsBank'NonNullable))
   }
   deriving
@@ -55,7 +55,7 @@ mkPaymentMethodEps = PaymentMethodEps {paymentMethodEpsBank = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @components.schemas.payment_method_eps.properties.bank@ in the specification.
 --
--- The customer\'s bank. Should be one of \`arzte_und_apotheker_bank\`, \`austrian_anadi_bank_ag\`, \`bank_austria\`, \`bankhaus_carl_spangler\`, \`bankhaus_schelhammer_und_schattera_ag\`, \`bawag_psk_ag\`, \`bks_bank_ag\`, \`brull_kallmus_bank_ag\`, \`btv_vier_lander_bank\`, \`capital_bank_grawe_gruppe_ag\`, \`dolomitenbank\`, \`easybank_ag\`, \`erste_bank_und_sparkassen\`, \`hypo_alpeadriabank_international_ag\`, \`hypo_noe_lb_fur_niederosterreich_u_wien\`, \`hypo_oberosterreich_salzburg_steiermark\`, \`hypo_tirol_bank_ag\`, \`hypo_vorarlberg_bank_ag\`, \`hypo_bank_burgenland_aktiengesellschaft\`, \`marchfelder_bank\`, \`oberbank_ag\`, \`raiffeisen_bankengruppe_osterreich\`, \`schoellerbank_ag\`, \`sparda_bank_wien\`, \`volksbank_gruppe\`, \`volkskreditbank_ag\`, or \`vr_bank_braunau\`.
+-- The customer\'s bank. Should be one of \`arzte_und_apotheker_bank\`, \`austrian_anadi_bank_ag\`, \`bank_austria\`, \`bankhaus_carl_spangler\`, \`bankhaus_schelhammer_und_schattera_ag\`, \`bawag_psk_ag\`, \`bks_bank_ag\`, \`brull_kallmus_bank_ag\`, \`btv_vier_lander_bank\`, \`capital_bank_grawe_gruppe_ag\`, \`deutsche_bank_ag\`, \`dolomitenbank\`, \`easybank_ag\`, \`erste_bank_und_sparkassen\`, \`hypo_alpeadriabank_international_ag\`, \`hypo_noe_lb_fur_niederosterreich_u_wien\`, \`hypo_oberosterreich_salzburg_steiermark\`, \`hypo_tirol_bank_ag\`, \`hypo_vorarlberg_bank_ag\`, \`hypo_bank_burgenland_aktiengesellschaft\`, \`marchfelder_bank\`, \`oberbank_ag\`, \`raiffeisen_bankengruppe_osterreich\`, \`schoellerbank_ag\`, \`sparda_bank_wien\`, \`volksbank_gruppe\`, \`volkskreditbank_ag\`, or \`vr_bank_braunau\`.
 data PaymentMethodEpsBank'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentMethodEpsBank'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -81,6 +81,8 @@ data PaymentMethodEpsBank'NonNullable
     PaymentMethodEpsBank'NonNullableEnumBtvVierLanderBank
   | -- | Represents the JSON value @"capital_bank_grawe_gruppe_ag"@
     PaymentMethodEpsBank'NonNullableEnumCapitalBankGraweGruppeAg
+  | -- | Represents the JSON value @"deutsche_bank_ag"@
+    PaymentMethodEpsBank'NonNullableEnumDeutscheBankAg
   | -- | Represents the JSON value @"dolomitenbank"@
     PaymentMethodEpsBank'NonNullableEnumDolomitenbank
   | -- | Represents the JSON value @"easybank_ag"@
@@ -130,6 +132,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodEpsBank'NonNullable where
   toJSON (PaymentMethodEpsBank'NonNullableEnumBrullKallmusBankAg) = "brull_kallmus_bank_ag"
   toJSON (PaymentMethodEpsBank'NonNullableEnumBtvVierLanderBank) = "btv_vier_lander_bank"
   toJSON (PaymentMethodEpsBank'NonNullableEnumCapitalBankGraweGruppeAg) = "capital_bank_grawe_gruppe_ag"
+  toJSON (PaymentMethodEpsBank'NonNullableEnumDeutscheBankAg) = "deutsche_bank_ag"
   toJSON (PaymentMethodEpsBank'NonNullableEnumDolomitenbank) = "dolomitenbank"
   toJSON (PaymentMethodEpsBank'NonNullableEnumEasybankAg) = "easybank_ag"
   toJSON (PaymentMethodEpsBank'NonNullableEnumErsteBankUndSparkassen) = "erste_bank_und_sparkassen"
@@ -162,6 +165,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodEpsBank'NonNullable whe
             | val GHC.Classes.== "brull_kallmus_bank_ag" -> PaymentMethodEpsBank'NonNullableEnumBrullKallmusBankAg
             | val GHC.Classes.== "btv_vier_lander_bank" -> PaymentMethodEpsBank'NonNullableEnumBtvVierLanderBank
             | val GHC.Classes.== "capital_bank_grawe_gruppe_ag" -> PaymentMethodEpsBank'NonNullableEnumCapitalBankGraweGruppeAg
+            | val GHC.Classes.== "deutsche_bank_ag" -> PaymentMethodEpsBank'NonNullableEnumDeutscheBankAg
             | val GHC.Classes.== "dolomitenbank" -> PaymentMethodEpsBank'NonNullableEnumDolomitenbank
             | val GHC.Classes.== "easybank_ag" -> PaymentMethodEpsBank'NonNullableEnumEasybankAg
             | val GHC.Classes.== "erste_bank_und_sparkassen" -> PaymentMethodEpsBank'NonNullableEnumErsteBankUndSparkassen

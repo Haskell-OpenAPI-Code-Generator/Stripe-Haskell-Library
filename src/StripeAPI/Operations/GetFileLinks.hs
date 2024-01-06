@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,19 +62,19 @@ getFileLinks parameters =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetFileLinksResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            GetFileLinksResponseBody200
-                                                      )
+                                     GetFileLinksResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              GetFileLinksResponseBody200
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetFileLinksResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     GetFileLinksResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
@@ -81,15 +82,15 @@ getFileLinks parameters =
           response_0
     )
     ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/file_links")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expired") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryExpired parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "file") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryFile parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "GET")
+        "/v1/file_links"
+        [ StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryCreated parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryEndingBefore parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryExpand parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "expired") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryExpired parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "file") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryFile parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryLimit parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFileLinksParametersQueryStartingAfter parameters) (Data.Text.Internal.pack "form") GHC.Types.True
         ]
     )
 
@@ -107,7 +108,7 @@ data GetFileLinksParameters = GetFileLinksParameters
     getFileLinksParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | queryExpired: Represents the parameter named \'expired\'
     --
-    -- Filter links by their expiration status. By default, all links are returned.
+    -- Filter links by their expiration status. By default, Stripe returns all links.
     getFileLinksParametersQueryExpired :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | queryFile: Represents the parameter named \'file\'
     --

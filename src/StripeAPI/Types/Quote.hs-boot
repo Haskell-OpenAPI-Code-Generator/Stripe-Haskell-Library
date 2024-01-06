@@ -47,11 +47,6 @@ instance Show QuoteInvoice'NonNullableVariants
 instance Eq QuoteInvoice'NonNullableVariants
 instance FromJSON QuoteInvoice'NonNullableVariants
 instance ToJSON QuoteInvoice'NonNullableVariants
-data QuoteInvoiceSettings'NonNullable
-instance Show QuoteInvoiceSettings'NonNullable
-instance Eq QuoteInvoiceSettings'NonNullable
-instance FromJSON QuoteInvoiceSettings'NonNullable
-instance ToJSON QuoteInvoiceSettings'NonNullable
 data QuoteLineItems'
 instance Show QuoteLineItems'
 instance Eq QuoteLineItems'

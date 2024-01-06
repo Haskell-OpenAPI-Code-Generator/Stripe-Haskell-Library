@@ -1,9 +1,0 @@
-module StripeAPI.Types.AccountServiceResourceAbaRecord where
-import Data.Aeson
-import qualified Data.Aeson as Data.Aeson.Types.Internal
-import qualified StripeAPI.Common
-data AccountServiceResourceAbaRecord
-instance Show AccountServiceResourceAbaRecord
-instance Eq AccountServiceResourceAbaRecord
-instance FromJSON AccountServiceResourceAbaRecord
-instance ToJSON AccountServiceResourceAbaRecord

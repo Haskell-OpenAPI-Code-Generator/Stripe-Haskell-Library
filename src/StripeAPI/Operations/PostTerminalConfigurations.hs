@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postTerminalConfigurations body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostTerminalConfigurationsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Terminal'configuration
-                                                      )
+                                     PostTerminalConfigurationsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Terminal'configuration
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostTerminalConfigurationsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostTerminalConfigurationsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/configurations") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/terminal/configurations" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/terminal\/configurations.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalConfigurationsRequestBody = PostTerminalConfigurationsRequestBody
@@ -88,6 +89,8 @@ data PostTerminalConfigurationsRequestBody = PostTerminalConfigurationsRequestBo
     postTerminalConfigurationsRequestBodyBbposWiseposE :: (GHC.Maybe.Maybe PostTerminalConfigurationsRequestBodyBbposWiseposE'),
     -- | expand: Specifies which fields in the response should be expanded.
     postTerminalConfigurationsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | offline: Configurations for collecting transactions offline.
+    postTerminalConfigurationsRequestBodyOffline :: (GHC.Maybe.Maybe PostTerminalConfigurationsRequestBodyOffline'Variants),
     -- | tipping: Tipping configurations for readers supporting on-reader tips
     postTerminalConfigurationsRequestBodyTipping :: (GHC.Maybe.Maybe PostTerminalConfigurationsRequestBodyTipping'Variants),
     -- | verifone_p400: An object containing device type specific settings for Verifone P400 readers
@@ -99,11 +102,11 @@ data PostTerminalConfigurationsRequestBody = PostTerminalConfigurationsRequestBo
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalConfigurationsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyBbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyTipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyVerifoneP400 obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyBbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyTipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyVerifoneP400 obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyBbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyOffline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyTipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyVerifoneP400 obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bbpos_wisepos_e" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyBbposWiseposE obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyOffline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyTipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verifone_p400" Data.Aeson.Types.ToJSON..=)) (postTerminalConfigurationsRequestBodyVerifoneP400 obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConfigurationsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalConfigurationsRequestBody" (\obj -> (((GHC.Base.pure PostTerminalConfigurationsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bbpos_wisepos_e")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verifone_p400"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalConfigurationsRequestBody" (\obj -> ((((GHC.Base.pure PostTerminalConfigurationsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bbpos_wisepos_e")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verifone_p400"))
 
 -- | Create a new 'PostTerminalConfigurationsRequestBody' with all required fields.
 mkPostTerminalConfigurationsRequestBody :: PostTerminalConfigurationsRequestBody
@@ -111,6 +114,7 @@ mkPostTerminalConfigurationsRequestBody =
   PostTerminalConfigurationsRequestBody
     { postTerminalConfigurationsRequestBodyBbposWiseposE = GHC.Maybe.Nothing,
       postTerminalConfigurationsRequestBodyExpand = GHC.Maybe.Nothing,
+      postTerminalConfigurationsRequestBodyOffline = GHC.Maybe.Nothing,
       postTerminalConfigurationsRequestBodyTipping = GHC.Maybe.Nothing,
       postTerminalConfigurationsRequestBodyVerifoneP400 = GHC.Maybe.Nothing
     }
@@ -154,8 +158,53 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConfigurationsRequestBod
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostTerminalConfigurationsRequestBodyBbposWiseposE'Splashscreen'EmptyString
         | GHC.Base.otherwise -> case (PostTerminalConfigurationsRequestBodyBbposWiseposE'Splashscreen'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/terminal\/configurations.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.offline.anyOf@ in the specification.
+data PostTerminalConfigurationsRequestBodyOffline'OneOf1 = PostTerminalConfigurationsRequestBodyOffline'OneOf1
+  { -- | enabled
+    postTerminalConfigurationsRequestBodyOffline'OneOf1Enabled :: GHC.Types.Bool
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalConfigurationsRequestBodyOffline'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postTerminalConfigurationsRequestBodyOffline'OneOf1Enabled obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postTerminalConfigurationsRequestBodyOffline'OneOf1Enabled obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConfigurationsRequestBodyOffline'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalConfigurationsRequestBodyOffline'OneOf1" (\obj -> GHC.Base.pure PostTerminalConfigurationsRequestBodyOffline'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled"))
+
+-- | Create a new 'PostTerminalConfigurationsRequestBodyOffline'OneOf1' with all required fields.
+mkPostTerminalConfigurationsRequestBodyOffline'OneOf1 ::
+  -- | 'postTerminalConfigurationsRequestBodyOffline'OneOf1Enabled'
+  GHC.Types.Bool ->
+  PostTerminalConfigurationsRequestBodyOffline'OneOf1
+mkPostTerminalConfigurationsRequestBodyOffline'OneOf1 postTerminalConfigurationsRequestBodyOffline'OneOf1Enabled = PostTerminalConfigurationsRequestBodyOffline'OneOf1 {postTerminalConfigurationsRequestBodyOffline'OneOf1Enabled = postTerminalConfigurationsRequestBodyOffline'OneOf1Enabled}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/terminal\/configurations.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.offline.anyOf@ in the specification.
+--
+-- Configurations for collecting transactions offline.
+data PostTerminalConfigurationsRequestBodyOffline'Variants
+  = -- | Represents the JSON value @""@
+    PostTerminalConfigurationsRequestBodyOffline'EmptyString
+  | PostTerminalConfigurationsRequestBodyOffline'PostTerminalConfigurationsRequestBodyOffline'OneOf1 PostTerminalConfigurationsRequestBodyOffline'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalConfigurationsRequestBodyOffline'Variants where
+  toJSON (PostTerminalConfigurationsRequestBodyOffline'PostTerminalConfigurationsRequestBodyOffline'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostTerminalConfigurationsRequestBodyOffline'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConfigurationsRequestBodyOffline'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostTerminalConfigurationsRequestBodyOffline'EmptyString
+        | GHC.Base.otherwise -> case (PostTerminalConfigurationsRequestBodyOffline'PostTerminalConfigurationsRequestBodyOffline'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/terminal\/configurations.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tipping.anyOf@ in the specification.
 data PostTerminalConfigurationsRequestBodyTipping'OneOf1 = PostTerminalConfigurationsRequestBodyTipping'OneOf1
@@ -658,8 +707,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConfigurationsRequestBod
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostTerminalConfigurationsRequestBodyTipping'EmptyString
         | GHC.Base.otherwise -> case (PostTerminalConfigurationsRequestBodyTipping'PostTerminalConfigurationsRequestBodyTipping'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/terminal\/configurations.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.verifone_p400@ in the specification.
 --
@@ -700,8 +749,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalConfigurationsRequestBod
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostTerminalConfigurationsRequestBodyVerifoneP400'Splashscreen'EmptyString
         | GHC.Base.otherwise -> case (PostTerminalConfigurationsRequestBodyVerifoneP400'Splashscreen'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postTerminalConfigurations'.
 --

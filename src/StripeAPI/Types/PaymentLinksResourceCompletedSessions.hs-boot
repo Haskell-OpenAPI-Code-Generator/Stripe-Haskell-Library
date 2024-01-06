@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentLinksResourceCompletedSessions where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentLinksResourceCompletedSessions
+instance Show PaymentLinksResourceCompletedSessions
+instance Eq PaymentLinksResourceCompletedSessions
+instance FromJSON PaymentLinksResourceCompletedSessions
+instance ToJSON PaymentLinksResourceCompletedSessions

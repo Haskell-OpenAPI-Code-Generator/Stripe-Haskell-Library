@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -47,11 +47,11 @@ import qualified Prelude as GHC.Maybe
 -- information, read about the
 -- [transfer\/payout split](https:\/\/stripe.com\/docs\/transfer-payout-split).
 --
--- Related guide: [Creating Separate Charges and Transfers](https:\/\/stripe.com\/docs\/connect\/charges-transfers).
+-- Related guide: [Creating separate charges and transfers](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers)
 data Transfer = Transfer
-  { -- | amount: Amount in %s to be transferred.
+  { -- | amount: Amount in cents (or local equivalent) to be transferred.
     transferAmount :: GHC.Types.Int,
-    -- | amount_reversed: Amount in %s reversed (can be less than the amount attribute on the transfer if a partial reversal was issued).
+    -- | amount_reversed: Amount in cents (or local equivalent) reversed (can be less than the amount attribute on the transfer if a partial reversal was issued).
     transferAmountReversed :: GHC.Types.Int,
     -- | balance_transaction: Balance transaction that describes the impact of this transfer on your account balance.
     transferBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TransferBalanceTransaction'NonNullableVariants)),
@@ -90,8 +90,8 @@ data Transfer = Transfer
     -- Constraints:
     --
     -- * Maximum length of 5000
-    transferSourceType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | transfer_group: A string that identifies this transaction as part of a group. See the [Connect documentation](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-options) for details.
+    transferSourceType :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | transfer_group: A string that identifies this transaction as part of a group. See the [Connect documentation](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers\#transfer-options) for details.
     --
     -- Constraints:
     --

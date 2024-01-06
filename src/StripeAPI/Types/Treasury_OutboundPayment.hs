@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -32,9 +32,9 @@ import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.OutboundPaymentsPaymentMethodDetails
 import {-# SOURCE #-} StripeAPI.Types.OutboundPaymentsPaymentMethodDetailsFinancialAccount
 import {-# SOURCE #-} StripeAPI.Types.OutboundPaymentsPaymentMethodDetailsUsBankAccount
-import {-# SOURCE #-} StripeAPI.Types.OutboundPaymentsResourceTreasuryOutboundPaymentResourceEndUserDetails
-import {-# SOURCE #-} StripeAPI.Types.OutboundPaymentsResourceTreasuryOutboundPaymentResourceStatusTransitions
-import {-# SOURCE #-} StripeAPI.Types.OutboundPaymentsResourceTreasuryReturnedStatus
+import {-# SOURCE #-} StripeAPI.Types.TreasuryOutboundPaymentsResourceOutboundPaymentResourceEndUserDetails
+import {-# SOURCE #-} StripeAPI.Types.TreasuryOutboundPaymentsResourceOutboundPaymentResourceStatusTransitions
+import {-# SOURCE #-} StripeAPI.Types.TreasuryOutboundPaymentsResourceReturnedStatus
 import {-# SOURCE #-} StripeAPI.Types.TreasurySharedResourceBillingDetails
 import {-# SOURCE #-} StripeAPI.Types.Treasury_Transaction
 import qualified Prelude as GHC.Integer.Type
@@ -111,7 +111,7 @@ data Treasury'outboundPayment = Treasury'outboundPayment
     -- | status: Current status of the OutboundPayment: \`processing\`, \`failed\`, \`posted\`, \`returned\`, \`canceled\`. An OutboundPayment is \`processing\` if it has been created and is pending. The status changes to \`posted\` once the OutboundPayment has been \"confirmed\" and funds have left the account, or to \`failed\` or \`canceled\`. If an OutboundPayment fails to arrive at its destination, its status will change to \`returned\`.
     treasury'outboundPaymentStatus :: Treasury'outboundPaymentStatus',
     -- | status_transitions:
-    treasury'outboundPaymentStatusTransitions :: OutboundPaymentsResourceTreasuryOutboundPaymentResourceStatusTransitions,
+    treasury'outboundPaymentStatusTransitions :: TreasuryOutboundPaymentsResourceOutboundPaymentResourceStatusTransitions,
     -- | transaction: The Transaction associated with this object.
     treasury'outboundPaymentTransaction :: Treasury'outboundPaymentTransaction'Variants
   }
@@ -152,7 +152,7 @@ mkTreasury'outboundPayment ::
   -- | 'treasury'outboundPaymentStatus'
   Treasury'outboundPaymentStatus' ->
   -- | 'treasury'outboundPaymentStatusTransitions'
-  OutboundPaymentsResourceTreasuryOutboundPaymentResourceStatusTransitions ->
+  TreasuryOutboundPaymentsResourceOutboundPaymentResourceStatusTransitions ->
   -- | 'treasury'outboundPaymentTransaction'
   Treasury'outboundPaymentTransaction'Variants ->
   Treasury'outboundPayment
@@ -254,7 +254,7 @@ data Treasury'outboundPaymentEndUserDetails'NonNullable = Treasury'outboundPayme
     --
     -- * Maximum length of 5000
     treasury'outboundPaymentEndUserDetails'NonNullableIpAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | present: \`true\`\` if the OutboundPayment creation request is being made on behalf of an end user by a platform. Otherwise, \`false\`.
+    -- | present: \`true\` if the OutboundPayment creation request is being made on behalf of an end user by a platform. Otherwise, \`false\`.
     treasury'outboundPaymentEndUserDetails'NonNullablePresent :: (GHC.Maybe.Maybe GHC.Types.Bool)
   }
   deriving

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,26 +66,26 @@ postPromotionCodesPromotionCode
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPromotionCodesPromotionCodeResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              PromotionCode
-                                                        )
+                                       PostPromotionCodesPromotionCodeResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                PromotionCode
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPromotionCodesPromotionCodeResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostPromotionCodesPromotionCodeResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/promotion_codes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel promotionCode)) GHC.Base.++ ""))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/promotion_codes/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel promotionCode)) GHC.Base.<> "")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/promotion_codes\/{promotion_code}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPromotionCodesPromotionCodeRequestBody = PostPromotionCodesPromotionCodeRequestBody
@@ -93,7 +94,9 @@ data PostPromotionCodesPromotionCodeRequestBody = PostPromotionCodesPromotionCod
     -- | expand: Specifies which fields in the response should be expanded.
     postPromotionCodesPromotionCodeRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-    postPromotionCodesPromotionCodeRequestBodyMetadata :: (GHC.Maybe.Maybe PostPromotionCodesPromotionCodeRequestBodyMetadata'Variants)
+    postPromotionCodesPromotionCodeRequestBodyMetadata :: (GHC.Maybe.Maybe PostPromotionCodesPromotionCodeRequestBodyMetadata'Variants),
+    -- | restrictions: Settings that restrict the redemption of the promotion code.
+    postPromotionCodesPromotionCodeRequestBodyRestrictions :: (GHC.Maybe.Maybe PostPromotionCodesPromotionCodeRequestBodyRestrictions')
   }
   deriving
     ( GHC.Show.Show,
@@ -101,11 +104,11 @@ data PostPromotionCodesPromotionCodeRequestBody = PostPromotionCodesPromotionCod
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPromotionCodesPromotionCodeRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyMetadata obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyMetadata obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restrictions" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyRestrictions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restrictions" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyRestrictions obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPromotionCodesPromotionCodeRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPromotionCodesPromotionCodeRequestBody" (\obj -> ((GHC.Base.pure PostPromotionCodesPromotionCodeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPromotionCodesPromotionCodeRequestBody" (\obj -> (((GHC.Base.pure PostPromotionCodesPromotionCodeRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "restrictions"))
 
 -- | Create a new 'PostPromotionCodesPromotionCodeRequestBody' with all required fields.
 mkPostPromotionCodesPromotionCodeRequestBody :: PostPromotionCodesPromotionCodeRequestBody
@@ -113,7 +116,8 @@ mkPostPromotionCodesPromotionCodeRequestBody =
   PostPromotionCodesPromotionCodeRequestBody
     { postPromotionCodesPromotionCodeRequestBodyActive = GHC.Maybe.Nothing,
       postPromotionCodesPromotionCodeRequestBodyExpand = GHC.Maybe.Nothing,
-      postPromotionCodesPromotionCodeRequestBodyMetadata = GHC.Maybe.Nothing
+      postPromotionCodesPromotionCodeRequestBodyMetadata = GHC.Maybe.Nothing,
+      postPromotionCodesPromotionCodeRequestBodyRestrictions = GHC.Maybe.Nothing
     }
 
 -- | Defines the oneOf schema located at @paths.\/v1\/promotion_codes\/{promotion_code}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
@@ -134,8 +138,31 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPromotionCodesPromotionCodeReque
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostPromotionCodesPromotionCodeRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostPromotionCodesPromotionCodeRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/promotion_codes\/{promotion_code}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.restrictions@ in the specification.
+--
+-- Settings that restrict the redemption of the promotion code.
+data PostPromotionCodesPromotionCodeRequestBodyRestrictions' = PostPromotionCodesPromotionCodeRequestBodyRestrictions'
+  { -- | currency_options
+    postPromotionCodesPromotionCodeRequestBodyRestrictions'CurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPromotionCodesPromotionCodeRequestBodyRestrictions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyRestrictions'CurrencyOptions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postPromotionCodesPromotionCodeRequestBodyRestrictions'CurrencyOptions obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPromotionCodesPromotionCodeRequestBodyRestrictions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPromotionCodesPromotionCodeRequestBodyRestrictions'" (\obj -> GHC.Base.pure PostPromotionCodesPromotionCodeRequestBodyRestrictions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options"))
+
+-- | Create a new 'PostPromotionCodesPromotionCodeRequestBodyRestrictions'' with all required fields.
+mkPostPromotionCodesPromotionCodeRequestBodyRestrictions' :: PostPromotionCodesPromotionCodeRequestBodyRestrictions'
+mkPostPromotionCodesPromotionCodeRequestBodyRestrictions' = PostPromotionCodesPromotionCodeRequestBodyRestrictions' {postPromotionCodesPromotionCodeRequestBodyRestrictions'CurrencyOptions = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postPromotionCodesPromotionCode'.
 --

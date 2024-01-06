@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -47,8 +48,8 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a SetupIntent object.\<\/p>
 --
--- \<p>After the SetupIntent is created, attach a payment method and \<a href=\"\/docs\/api\/setup_intents\/confirm\">confirm\<\/a>
--- to collect any required permissions to charge the payment method later.\<\/p>
+-- \<p>After you create the SetupIntent, attach a payment method and \<a href=\"\/docs\/api\/setup_intents\/confirm\">confirm\<\/a>
+-- it to collect any required permissions to charge the payment method later.\<\/p>
 postSetupIntents ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -64,26 +65,26 @@ postSetupIntents body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostSetupIntentsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            SetupIntent
-                                                      )
+                                     PostSetupIntentsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              SetupIntent
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostSetupIntentsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostSetupIntentsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/setup_intents" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSetupIntentsRequestBody = PostSetupIntentsRequestBody
@@ -91,7 +92,9 @@ data PostSetupIntentsRequestBody = PostSetupIntentsRequestBody
     --
     -- It can only be used for this Stripe Account’s own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
     postSetupIntentsRequestBodyAttachToSelf :: (GHC.Maybe.Maybe GHC.Types.Bool),
-    -- | confirm: Set to \`true\` to attempt to confirm this SetupIntent immediately. This parameter defaults to \`false\`. If the payment method attached is a card, a return_url may be provided in case additional authentication is required.
+    -- | automatic_payment_methods: When you enable this parameter, this SetupIntent accepts payment methods that you enable in the Dashboard and that are compatible with its other parameters.
+    postSetupIntentsRequestBodyAutomaticPaymentMethods :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyAutomaticPaymentMethods'),
+    -- | confirm: Set to \`true\` to attempt to confirm this SetupIntent immediately. This parameter defaults to \`false\`. If a card is the attached payment method, you can provide a \`return_url\` in case further authentication is necessary.
     postSetupIntentsRequestBodyConfirm :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | customer: ID of the Customer this SetupIntent belongs to, if one exists.
     --
@@ -113,11 +116,11 @@ data PostSetupIntentsRequestBody = PostSetupIntentsRequestBody
     --
     -- Include \`inbound\` if you intend to use the payment method as the origin to pull funds from. Include \`outbound\` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
     postSetupIntentsRequestBodyFlowDirections :: (GHC.Maybe.Maybe ([PostSetupIntentsRequestBodyFlowDirections'])),
-    -- | mandate_data: This hash contains details about the Mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
-    postSetupIntentsRequestBodyMandateData :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData'),
+    -- | mandate_data: This hash contains details about the mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
+    postSetupIntentsRequestBodyMandateData :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData'Variants),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postSetupIntentsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-    -- | on_behalf_of: The Stripe account ID for which this SetupIntent is created.
+    -- | on_behalf_of: The Stripe account ID created for this SetupIntent.
     postSetupIntentsRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | payment_method: ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
     --
@@ -125,19 +128,27 @@ data PostSetupIntentsRequestBody = PostSetupIntentsRequestBody
     --
     -- * Maximum length of 5000
     postSetupIntentsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | payment_method_configuration: The ID of the payment method configuration to use with this SetupIntent.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 100
+    postSetupIntentsRequestBodyPaymentMethodConfiguration :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | payment_method_data: When included, this hash creates a PaymentMethod that is set as the [\`payment_method\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/object\#setup_intent_object-payment_method)
     -- value in the SetupIntent.
     postSetupIntentsRequestBodyPaymentMethodData :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'),
-    -- | payment_method_options: Payment-method-specific configuration for this SetupIntent.
+    -- | payment_method_options: Payment method-specific configuration for this SetupIntent.
     postSetupIntentsRequestBodyPaymentMethodOptions :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'),
-    -- | payment_method_types: The list of payment method types (e.g. card) that this SetupIntent is allowed to use. If this is not provided, defaults to [\"card\"].
+    -- | payment_method_types: The list of payment method types (for example, card) that this SetupIntent can use. If you don\'t provide this, it defaults to [\"card\"].
     postSetupIntentsRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | return_url: The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method\'s app or site. If you\'d prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
+    -- | return_url: The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method\'s app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
     postSetupIntentsRequestBodyReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | single_use: If this hash is populated, this SetupIntent will generate a single_use Mandate on success.
+    -- | single_use: If you populate this hash, this SetupIntent generates a \`single_use\` mandate after successful completion.
     postSetupIntentsRequestBodySingleUse :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodySingleUse'),
     -- | usage: Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to \`off_session\`.
-    postSetupIntentsRequestBodyUsage :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyUsage')
+    postSetupIntentsRequestBodyUsage :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyUsage'),
+    -- | use_stripe_sdk: Set to \`true\` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
+    postSetupIntentsRequestBodyUseStripeSdk :: (GHC.Maybe.Maybe GHC.Types.Bool)
   }
   deriving
     ( GHC.Show.Show,
@@ -145,17 +156,18 @@ data PostSetupIntentsRequestBody = PostSetupIntentsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("attach_to_self" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAttachToSelf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("confirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyConfirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow_directions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyFlowDirections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("single_use" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodySingleUse obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyUsage obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("attach_to_self" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAttachToSelf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("confirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyConfirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow_directions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyFlowDirections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("single_use" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodySingleUse obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyUsage obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("attach_to_self" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAttachToSelf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_payment_methods" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAutomaticPaymentMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("confirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyConfirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow_directions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyFlowDirections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_configuration" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodConfiguration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("single_use" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodySingleUse obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyUseStripeSdk obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("attach_to_self" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAttachToSelf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_payment_methods" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAutomaticPaymentMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("confirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyConfirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow_directions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyFlowDirections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_configuration" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodConfiguration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_data" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("single_use" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodySingleUse obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyUseStripeSdk obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBody" (\obj -> (((((((((((((((GHC.Base.pure PostSetupIntentsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "attach_to_self")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "confirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flow_directions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "single_use")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBody" (\obj -> ((((((((((((((((((GHC.Base.pure PostSetupIntentsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "attach_to_self")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_payment_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "confirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flow_directions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_configuration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "single_use")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "use_stripe_sdk"))
 
 -- | Create a new 'PostSetupIntentsRequestBody' with all required fields.
 mkPostSetupIntentsRequestBody :: PostSetupIntentsRequestBody
 mkPostSetupIntentsRequestBody =
   PostSetupIntentsRequestBody
     { postSetupIntentsRequestBodyAttachToSelf = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyAutomaticPaymentMethods = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyConfirm = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyCustomer = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyDescription = GHC.Maybe.Nothing,
@@ -165,13 +177,74 @@ mkPostSetupIntentsRequestBody =
       postSetupIntentsRequestBodyMetadata = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyOnBehalfOf = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethod = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodConfiguration = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodTypes = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyReturnUrl = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodySingleUse = GHC.Maybe.Nothing,
-      postSetupIntentsRequestBodyUsage = GHC.Maybe.Nothing
+      postSetupIntentsRequestBodyUsage = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyUseStripeSdk = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.automatic_payment_methods@ in the specification.
+--
+-- When you enable this parameter, this SetupIntent accepts payment methods that you enable in the Dashboard and that are compatible with its other parameters.
+data PostSetupIntentsRequestBodyAutomaticPaymentMethods' = PostSetupIntentsRequestBodyAutomaticPaymentMethods'
+  { -- | allow_redirects
+    postSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'),
+    -- | enabled
+    postSetupIntentsRequestBodyAutomaticPaymentMethods'Enabled :: GHC.Types.Bool
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyAutomaticPaymentMethods' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_redirects" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects obj) : ["enabled" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyAutomaticPaymentMethods'Enabled obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_redirects" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects obj) : ["enabled" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyAutomaticPaymentMethods'Enabled obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyAutomaticPaymentMethods' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyAutomaticPaymentMethods'" (\obj -> (GHC.Base.pure PostSetupIntentsRequestBodyAutomaticPaymentMethods' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allow_redirects")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled"))
+
+-- | Create a new 'PostSetupIntentsRequestBodyAutomaticPaymentMethods'' with all required fields.
+mkPostSetupIntentsRequestBodyAutomaticPaymentMethods' ::
+  -- | 'postSetupIntentsRequestBodyAutomaticPaymentMethods'Enabled'
+  GHC.Types.Bool ->
+  PostSetupIntentsRequestBodyAutomaticPaymentMethods'
+mkPostSetupIntentsRequestBodyAutomaticPaymentMethods' postSetupIntentsRequestBodyAutomaticPaymentMethods'Enabled =
+  PostSetupIntentsRequestBodyAutomaticPaymentMethods'
+    { postSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyAutomaticPaymentMethods'Enabled = postSetupIntentsRequestBodyAutomaticPaymentMethods'Enabled
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.automatic_payment_methods.properties.allow_redirects@ in the specification.
+data PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always"@
+    PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'EnumAlways
+  | -- | Represents the JSON value @"never"@
+    PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'EnumNever
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects' where
+  toJSON (PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'EnumAlways) = "always"
+  toJSON (PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'EnumNever) = "never"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "always" -> PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'EnumAlways
+            | val GHC.Classes.== "never" -> PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'EnumNever
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyAutomaticPaymentMethods'AllowRedirects'Other val
+      )
 
 -- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_directions.items@ in the specification.
 data PostSetupIntentsRequestBodyFlowDirections'
@@ -200,134 +273,153 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyFlowDirec
             | GHC.Base.otherwise -> PostSetupIntentsRequestBodyFlowDirections'Other val
       )
 
--- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data@ in the specification.
---
--- This hash contains details about the Mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
-data PostSetupIntentsRequestBodyMandateData' = PostSetupIntentsRequestBodyMandateData'
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.anyOf@ in the specification.
+data PostSetupIntentsRequestBodyMandateData'OneOf1 = PostSetupIntentsRequestBodyMandateData'OneOf1
   { -- | customer_acceptance
-    postSetupIntentsRequestBodyMandateData'CustomerAcceptance :: PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'
+    postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance :: PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["customer_acceptance" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["customer_acceptance" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance obj] : GHC.Base.mempty)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["customer_acceptance" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["customer_acceptance" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance obj] : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyMandateData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer_acceptance"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'OneOf1" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyMandateData'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer_acceptance"))
 
--- | Create a new 'PostSetupIntentsRequestBodyMandateData'' with all required fields.
-mkPostSetupIntentsRequestBodyMandateData' ::
-  -- | 'postSetupIntentsRequestBodyMandateData'CustomerAcceptance'
-  PostSetupIntentsRequestBodyMandateData'CustomerAcceptance' ->
-  PostSetupIntentsRequestBodyMandateData'
-mkPostSetupIntentsRequestBodyMandateData' postSetupIntentsRequestBodyMandateData'CustomerAcceptance = PostSetupIntentsRequestBodyMandateData' {postSetupIntentsRequestBodyMandateData'CustomerAcceptance = postSetupIntentsRequestBodyMandateData'CustomerAcceptance}
+-- | Create a new 'PostSetupIntentsRequestBodyMandateData'OneOf1' with all required fields.
+mkPostSetupIntentsRequestBodyMandateData'OneOf1 ::
+  -- | 'postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'
+  PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance' ->
+  PostSetupIntentsRequestBodyMandateData'OneOf1
+mkPostSetupIntentsRequestBodyMandateData'OneOf1 postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance = PostSetupIntentsRequestBodyMandateData'OneOf1 {postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance = postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance}
 
--- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.properties.customer_acceptance@ in the specification.
-data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance' = PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.anyOf.properties.customer_acceptance@ in the specification.
+data PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance' = PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'
   { -- | accepted_at
-    postSetupIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'AcceptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | offline
-    postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Offline :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | online
-    postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'),
+    postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'),
     -- | type
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type :: PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'
+    postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type :: PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("accepted_at" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("online" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("accepted_at" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("online" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type obj] : GHC.Base.mempty)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("accepted_at" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'AcceptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Offline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("online" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("accepted_at" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'AcceptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Offline obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("online" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type obj] : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'" (\obj -> (((GHC.Base.pure PostSetupIntentsRequestBodyMandateData'CustomerAcceptance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "accepted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'" (\obj -> (((GHC.Base.pure PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "accepted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
--- | Create a new 'PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'' with all required fields.
-mkPostSetupIntentsRequestBodyMandateData'CustomerAcceptance' ::
-  -- | 'postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'
-  PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type' ->
-  PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'
-mkPostSetupIntentsRequestBodyMandateData'CustomerAcceptance' postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type =
-  PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'
-    { postSetupIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt = GHC.Maybe.Nothing,
-      postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline = GHC.Maybe.Nothing,
-      postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online = GHC.Maybe.Nothing,
-      postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type = postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type
+-- | Create a new 'PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'' with all required fields.
+mkPostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance' ::
+  -- | 'postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'
+  PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type' ->
+  PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'
+mkPostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance' postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type =
+  PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'
+    { postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'AcceptedAt = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Offline = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type = postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type
     }
 
--- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.properties.customer_acceptance.properties.online@ in the specification.
-data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online' = PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.anyOf.properties.customer_acceptance.properties.online@ in the specification.
+data PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online' = PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'
   { -- | ip_address
-    postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress :: Data.Text.Internal.Text,
+    postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'IpAddress :: Data.Text.Internal.Text,
     -- | user_agent
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent :: Data.Text.Internal.Text
+    postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'UserAgent :: Data.Text.Internal.Text
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["ip_address" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress obj] : ["user_agent" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["ip_address" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress obj] : ["user_agent" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent obj] : GHC.Base.mempty)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["ip_address" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'IpAddress obj] : ["user_agent" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'UserAgent obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["ip_address" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'IpAddress obj] : ["user_agent" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'UserAgent obj] : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'" (\obj -> (GHC.Base.pure PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "user_agent"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'" (\obj -> (GHC.Base.pure PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "user_agent"))
 
--- | Create a new 'PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'' with all required fields.
-mkPostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online' ::
-  -- | 'postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress'
+-- | Create a new 'PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'' with all required fields.
+mkPostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online' ::
+  -- | 'postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'IpAddress'
   Data.Text.Internal.Text ->
-  -- | 'postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent'
+  -- | 'postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'UserAgent'
   Data.Text.Internal.Text ->
-  PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'
-mkPostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online' postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent =
-  PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'
-    { postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress = postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress,
-      postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent = postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent
+  PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'
+mkPostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online' postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'IpAddress postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'UserAgent =
+  PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'
+    { postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'IpAddress = postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'IpAddress,
+      postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'UserAgent = postSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Online'UserAgent
     }
 
--- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.properties.customer_acceptance.properties.type@ in the specification.
-data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.anyOf.properties.customer_acceptance.properties.type@ in the specification.
+data PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
-    PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'Other Data.Aeson.Types.Internal.Value
+    PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
-    PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'Typed Data.Text.Internal.Text
+    PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"offline"@
-    PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOffline
+    PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'EnumOffline
   | -- | Represents the JSON value @"online"@
-    PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOnline
+    PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'EnumOnline
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type' where
-  toJSON (PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'Other val) = val
-  toJSON (PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOffline) = "offline"
-  toJSON (PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOnline) = "online"
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type' where
+  toJSON (PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'EnumOffline) = "offline"
+  toJSON (PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'EnumOnline) = "online"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "offline" -> PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOffline
-            | val GHC.Classes.== "online" -> PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOnline
-            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'Other val
+            | val GHC.Classes.== "offline" -> PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'EnumOffline
+            | val GHC.Classes.== "online" -> PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'EnumOnline
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyMandateData'OneOf1CustomerAcceptance'Type'Other val
       )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate_data.anyOf@ in the specification.
+--
+-- This hash contains details about the mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
+data PostSetupIntentsRequestBodyMandateData'Variants
+  = -- | Represents the JSON value @""@
+    PostSetupIntentsRequestBodyMandateData'EmptyString
+  | PostSetupIntentsRequestBodyMandateData'PostSetupIntentsRequestBodyMandateData'OneOf1 PostSetupIntentsRequestBodyMandateData'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyMandateData'Variants where
+  toJSON (PostSetupIntentsRequestBodyMandateData'PostSetupIntentsRequestBodyMandateData'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSetupIntentsRequestBodyMandateData'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostSetupIntentsRequestBodyMandateData'EmptyString
+        | GHC.Base.otherwise -> case (PostSetupIntentsRequestBodyMandateData'PostSetupIntentsRequestBodyMandateData'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_data@ in the specification.
 --
@@ -350,8 +442,12 @@ data PostSetupIntentsRequestBodyPaymentMethodData' = PostSetupIntentsRequestBody
     postSetupIntentsRequestBodyPaymentMethodData'Bancontact :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | billing_details
     postSetupIntentsRequestBodyPaymentMethodData'BillingDetails :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'),
+    -- | blik
+    postSetupIntentsRequestBodyPaymentMethodData'Blik :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | boleto
     postSetupIntentsRequestBodyPaymentMethodData'Boleto :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'Boleto'),
+    -- | cashapp
+    postSetupIntentsRequestBodyPaymentMethodData'Cashapp :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | customer_balance
     postSetupIntentsRequestBodyPaymentMethodData'CustomerBalance :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | eps
@@ -380,10 +476,16 @@ data PostSetupIntentsRequestBodyPaymentMethodData' = PostSetupIntentsRequestBody
     postSetupIntentsRequestBodyPaymentMethodData'P24 :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'P24'),
     -- | paynow
     postSetupIntentsRequestBodyPaymentMethodData'Paynow :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | paypal
+    postSetupIntentsRequestBodyPaymentMethodData'Paypal :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | pix
+    postSetupIntentsRequestBodyPaymentMethodData'Pix :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | promptpay
     postSetupIntentsRequestBodyPaymentMethodData'Promptpay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | radar_options
     postSetupIntentsRequestBodyPaymentMethodData'RadarOptions :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'RadarOptions'),
+    -- | revolut_pay
+    postSetupIntentsRequestBodyPaymentMethodData'RevolutPay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | sepa_debit
     postSetupIntentsRequestBodyPaymentMethodData'SepaDebit :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'SepaDebit'),
     -- | sofort
@@ -393,7 +495,9 @@ data PostSetupIntentsRequestBodyPaymentMethodData' = PostSetupIntentsRequestBody
     -- | us_bank_account
     postSetupIntentsRequestBodyPaymentMethodData'UsBankAccount :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'UsBankAccount'),
     -- | wechat_pay
-    postSetupIntentsRequestBodyPaymentMethodData'WechatPay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+    postSetupIntentsRequestBodyPaymentMethodData'WechatPay :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | zip
+    postSetupIntentsRequestBodyPaymentMethodData'Zip :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
   }
   deriving
     ( GHC.Show.Show,
@@ -401,11 +505,11 @@ data PostSetupIntentsRequestBodyPaymentMethodData' = PostSetupIntentsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodData' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'InteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Promptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'RadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Sofort obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyPaymentMethodData'Type obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'WechatPay obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'InteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Promptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'RadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Sofort obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyPaymentMethodData'Type obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'WechatPay obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blik" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Blik obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Cashapp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'InteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Paypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pix" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Pix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Promptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'RadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("revolut_pay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'RevolutPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Sofort obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyPaymentMethodData'Type obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'WechatPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zip" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Zip obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_details" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'BillingDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blik" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Blik obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Cashapp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'InteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Paypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pix" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Pix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promptpay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Promptpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("radar_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'RadarOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("revolut_pay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'RevolutPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Sofort obj) : ["type" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyPaymentMethodData'Type obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'WechatPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zip" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodData'Zip obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodData'" (\obj -> (((((((((((((((((((((((((((((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "affirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "afterpay_clearpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "boleto")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "grabpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interac_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oxxo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paynow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promptpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "radar_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat_pay"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodData'" (\obj -> (((((((((((((((((((((((((((((((((((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "affirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "afterpay_clearpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "blik")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "boleto")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashapp")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "grabpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interac_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oxxo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paynow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paypal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promptpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "radar_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "revolut_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "zip"))
 
 -- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodData'' with all required fields.
 mkPostSetupIntentsRequestBodyPaymentMethodData' ::
@@ -422,7 +526,9 @@ mkPostSetupIntentsRequestBodyPaymentMethodData' postSetupIntentsRequestBodyPayme
       postSetupIntentsRequestBodyPaymentMethodData'BacsDebit = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Bancontact = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'BillingDetails = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodData'Blik = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Boleto = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodData'Cashapp = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'CustomerBalance = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Eps = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Fpx = GHC.Maybe.Nothing,
@@ -437,13 +543,17 @@ mkPostSetupIntentsRequestBodyPaymentMethodData' postSetupIntentsRequestBodyPayme
       postSetupIntentsRequestBodyPaymentMethodData'Oxxo = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'P24 = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Paynow = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodData'Paypal = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodData'Pix = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Promptpay = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'RadarOptions = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodData'RevolutPay = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'SepaDebit = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Sofort = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodData'Type = postSetupIntentsRequestBodyPaymentMethodData'Type,
       postSetupIntentsRequestBodyPaymentMethodData'UsBankAccount = GHC.Maybe.Nothing,
-      postSetupIntentsRequestBodyPaymentMethodData'WechatPay = GHC.Maybe.Nothing
+      postSetupIntentsRequestBodyPaymentMethodData'WechatPay = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodData'Zip = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_data.properties.acss_debit@ in the specification.
@@ -577,17 +687,9 @@ data PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails' = PostSetupInt
     -- | email
     postSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Email :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Email'Variants),
     -- | name
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'Variants),
     -- | phone
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'Variants)
   }
   deriving
     ( GHC.Show.Show,
@@ -690,8 +792,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Address'EmptyString
         | GHC.Base.otherwise -> case (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Address'PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Address'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_data.properties.billing_details.properties.email.anyOf@ in the specification.
 data PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Email'Variants
@@ -709,8 +811,46 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Email'EmptyString
         | GHC.Base.otherwise -> case (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Email'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_data.properties.billing_details.properties.name.anyOf@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'Variants
+  = -- | Represents the JSON value @""@
+    PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'EmptyString
+  | PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'Variants where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'EmptyString
+        | GHC.Base.otherwise -> case (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Name'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_data.properties.billing_details.properties.phone.anyOf@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'Variants
+  = -- | Represents the JSON value @""@
+    PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'EmptyString
+  | PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'Variants where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'EmptyString
+        | GHC.Base.otherwise -> case (PostSetupIntentsRequestBodyPaymentMethodData'BillingDetails'Phone'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_data.properties.boleto@ in the specification.
 data PostSetupIntentsRequestBodyPaymentMethodData'Boleto' = PostSetupIntentsRequestBodyPaymentMethodData'Boleto'
@@ -791,6 +931,8 @@ data PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'
     PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumBtvVierLanderBank
   | -- | Represents the JSON value @"capital_bank_grawe_gruppe_ag"@
     PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumCapitalBankGraweGruppeAg
+  | -- | Represents the JSON value @"deutsche_bank_ag"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumDeutscheBankAg
   | -- | Represents the JSON value @"dolomitenbank"@
     PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumDolomitenbank
   | -- | Represents the JSON value @"easybank_ag"@
@@ -840,6 +982,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethod
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumBrullKallmusBankAg) = "brull_kallmus_bank_ag"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumBtvVierLanderBank) = "btv_vier_lander_bank"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumCapitalBankGraweGruppeAg) = "capital_bank_grawe_gruppe_ag"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumDeutscheBankAg) = "deutsche_bank_ag"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumDolomitenbank) = "dolomitenbank"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumEasybankAg) = "easybank_ag"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumErsteBankUndSparkassen) = "erste_bank_und_sparkassen"
@@ -872,6 +1015,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
             | val GHC.Classes.== "brull_kallmus_bank_ag" -> PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumBrullKallmusBankAg
             | val GHC.Classes.== "btv_vier_lander_bank" -> PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumBtvVierLanderBank
             | val GHC.Classes.== "capital_bank_grawe_gruppe_ag" -> PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumCapitalBankGraweGruppeAg
+            | val GHC.Classes.== "deutsche_bank_ag" -> PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumDeutscheBankAg
             | val GHC.Classes.== "dolomitenbank" -> PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumDolomitenbank
             | val GHC.Classes.== "easybank_ag" -> PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumEasybankAg
             | val GHC.Classes.== "erste_bank_und_sparkassen" -> PostSetupIntentsRequestBodyPaymentMethodData'Eps'Bank'EnumErsteBankUndSparkassen
@@ -938,6 +1082,8 @@ data PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'
     PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankIslam
   | -- | Represents the JSON value @"bank_muamalat"@
     PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankMuamalat
+  | -- | Represents the JSON value @"bank_of_china"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankOfChina
   | -- | Represents the JSON value @"bank_rakyat"@
     PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankRakyat
   | -- | Represents the JSON value @"bsn"@
@@ -979,6 +1125,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethod
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumAmbank) = "ambank"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankIslam) = "bank_islam"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankMuamalat) = "bank_muamalat"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankOfChina) = "bank_of_china"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankRakyat) = "bank_rakyat"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBsn) = "bsn"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumCimb) = "cimb"
@@ -1005,6 +1152,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
             | val GHC.Classes.== "ambank" -> PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumAmbank
             | val GHC.Classes.== "bank_islam" -> PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankIslam
             | val GHC.Classes.== "bank_muamalat" -> PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankMuamalat
+            | val GHC.Classes.== "bank_of_china" -> PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankOfChina
             | val GHC.Classes.== "bank_rakyat" -> PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBankRakyat
             | val GHC.Classes.== "bsn" -> PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumBsn
             | val GHC.Classes.== "cimb" -> PostSetupIntentsRequestBodyPaymentMethodData'Fpx'Bank'EnumCimb
@@ -1068,6 +1216,8 @@ data PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'
     PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumKnab
   | -- | Represents the JSON value @"moneyou"@
     PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumMoneyou
+  | -- | Represents the JSON value @"n26"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumN26
   | -- | Represents the JSON value @"rabobank"@
     PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumRabobank
   | -- | Represents the JSON value @"regiobank"@
@@ -1080,6 +1230,8 @@ data PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'
     PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumTriodosBank
   | -- | Represents the JSON value @"van_lanschot"@
     PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumVanLanschot
+  | -- | Represents the JSON value @"yoursafe"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumYoursafe
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank' where
@@ -1092,12 +1244,14 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethod
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumIng) = "ing"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumKnab) = "knab"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumMoneyou) = "moneyou"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumN26) = "n26"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumRabobank) = "rabobank"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumRegiobank) = "regiobank"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumRevolut) = "revolut"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumSnsBank) = "sns_bank"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumTriodosBank) = "triodos_bank"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumVanLanschot) = "van_lanschot"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumYoursafe) = "yoursafe"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank' where
   parseJSON val =
@@ -1110,12 +1264,14 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
             | val GHC.Classes.== "ing" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumIng
             | val GHC.Classes.== "knab" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumKnab
             | val GHC.Classes.== "moneyou" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumMoneyou
+            | val GHC.Classes.== "n26" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumN26
             | val GHC.Classes.== "rabobank" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumRabobank
             | val GHC.Classes.== "regiobank" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumRegiobank
             | val GHC.Classes.== "revolut" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumRevolut
             | val GHC.Classes.== "sns_bank" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumSnsBank
             | val GHC.Classes.== "triodos_bank" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumTriodosBank
             | val GHC.Classes.== "van_lanschot" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumVanLanschot
+            | val GHC.Classes.== "yoursafe" -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'EnumYoursafe
             | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodData'Ideal'Bank'Other val
       )
 
@@ -1457,8 +1613,12 @@ data PostSetupIntentsRequestBodyPaymentMethodData'Type'
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBacsDebit
   | -- | Represents the JSON value @"bancontact"@
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBancontact
+  | -- | Represents the JSON value @"blik"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBlik
   | -- | Represents the JSON value @"boleto"@
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBoleto
+  | -- | Represents the JSON value @"cashapp"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumCashapp
   | -- | Represents the JSON value @"customer_balance"@
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumCustomerBalance
   | -- | Represents the JSON value @"eps"@
@@ -1483,8 +1643,14 @@ data PostSetupIntentsRequestBodyPaymentMethodData'Type'
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumP24
   | -- | Represents the JSON value @"paynow"@
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPaynow
+  | -- | Represents the JSON value @"paypal"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPaypal
+  | -- | Represents the JSON value @"pix"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPix
   | -- | Represents the JSON value @"promptpay"@
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPromptpay
+  | -- | Represents the JSON value @"revolut_pay"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumRevolutPay
   | -- | Represents the JSON value @"sepa_debit"@
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumSepaDebit
   | -- | Represents the JSON value @"sofort"@
@@ -1493,6 +1659,8 @@ data PostSetupIntentsRequestBodyPaymentMethodData'Type'
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumUsBankAccount
   | -- | Represents the JSON value @"wechat_pay"@
     PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumWechatPay
+  | -- | Represents the JSON value @"zip"@
+    PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumZip
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodData'Type' where
@@ -1505,7 +1673,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethod
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumAuBecsDebit) = "au_becs_debit"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBacsDebit) = "bacs_debit"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBancontact) = "bancontact"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBlik) = "blik"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBoleto) = "boleto"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumCashapp) = "cashapp"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumCustomerBalance) = "customer_balance"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumEps) = "eps"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumFpx) = "fpx"
@@ -1518,11 +1688,15 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethod
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumOxxo) = "oxxo"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumP24) = "p24"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPaynow) = "paynow"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPaypal) = "paypal"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPix) = "pix"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPromptpay) = "promptpay"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumRevolutPay) = "revolut_pay"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumSepaDebit) = "sepa_debit"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumSofort) = "sofort"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumUsBankAccount) = "us_bank_account"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumWechatPay) = "wechat_pay"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumZip) = "zip"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodData'Type' where
   parseJSON val =
@@ -1535,7 +1709,9 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
             | val GHC.Classes.== "au_becs_debit" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumAuBecsDebit
             | val GHC.Classes.== "bacs_debit" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBacsDebit
             | val GHC.Classes.== "bancontact" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBancontact
+            | val GHC.Classes.== "blik" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBlik
             | val GHC.Classes.== "boleto" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumBoleto
+            | val GHC.Classes.== "cashapp" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumCashapp
             | val GHC.Classes.== "customer_balance" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumCustomerBalance
             | val GHC.Classes.== "eps" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumEps
             | val GHC.Classes.== "fpx" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumFpx
@@ -1548,11 +1724,15 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
             | val GHC.Classes.== "oxxo" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumOxxo
             | val GHC.Classes.== "p24" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumP24
             | val GHC.Classes.== "paynow" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPaynow
+            | val GHC.Classes.== "paypal" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPaypal
+            | val GHC.Classes.== "pix" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPix
             | val GHC.Classes.== "promptpay" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumPromptpay
+            | val GHC.Classes.== "revolut_pay" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumRevolutPay
             | val GHC.Classes.== "sepa_debit" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumSepaDebit
             | val GHC.Classes.== "sofort" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumSofort
             | val GHC.Classes.== "us_bank_account" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumUsBankAccount
             | val GHC.Classes.== "wechat_pay" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumWechatPay
+            | val GHC.Classes.== "zip" -> PostSetupIntentsRequestBodyPaymentMethodData'Type'EnumZip
             | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodData'Type'Other val
       )
 
@@ -1660,14 +1840,16 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options@ in the specification.
 --
--- Payment-method-specific configuration for this SetupIntent.
+-- Payment method-specific configuration for this SetupIntent.
 data PostSetupIntentsRequestBodyPaymentMethodOptions' = PostSetupIntentsRequestBodyPaymentMethodOptions'
   { -- | acss_debit
     postSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit'),
     -- | card
     postSetupIntentsRequestBodyPaymentMethodOptions'Card :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'),
     -- | link
-    postSetupIntentsRequestBodyPaymentMethodOptions'Link :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Link'),
+    postSetupIntentsRequestBodyPaymentMethodOptions'Link :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | paypal
+    postSetupIntentsRequestBodyPaymentMethodOptions'Paypal :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal'),
     -- | sepa_debit
     postSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit'),
     -- | us_bank_account
@@ -1679,11 +1861,11 @@ data PostSetupIntentsRequestBodyPaymentMethodOptions' = PostSetupIntentsRequestB
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Paypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Paypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'" (\obj -> ((((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'" (\obj -> (((((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paypal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account"))
 
 -- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'' with all required fields.
 mkPostSetupIntentsRequestBodyPaymentMethodOptions' :: PostSetupIntentsRequestBodyPaymentMethodOptions'
@@ -1692,6 +1874,7 @@ mkPostSetupIntentsRequestBodyPaymentMethodOptions' =
     { postSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions'Card = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions'Link = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Paypal = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount = GHC.Maybe.Nothing
     }
@@ -1809,8 +1992,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'EmptyString
         | GHC.Base.otherwise -> case (PostSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.acss_debit.properties.mandate_options.properties.default_for.items@ in the specification.
 data PostSetupIntentsRequestBodyPaymentMethodOptions'AcssDebit'MandateOptions'DefaultFor'
@@ -1932,12 +2115,16 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
 data PostSetupIntentsRequestBodyPaymentMethodOptions'Card' = PostSetupIntentsRequestBodyPaymentMethodOptions'Card'
   { -- | mandate_options
     postSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions'),
-    -- | request_three_d_secure
+    -- | network
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure')
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'Network :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'),
+    -- | request_three_d_secure
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'),
+    -- | three_d_secure
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure')
   }
   deriving
     ( GHC.Show.Show,
@@ -1945,18 +2132,20 @@ data PostSetupIntentsRequestBodyPaymentMethodOptions'Card' = PostSetupIntentsReq
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'Network obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'Network obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'Card'" (\obj -> (GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'Card' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'Card'" (\obj -> (((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'Card' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "three_d_secure"))
 
 -- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'Card'' with all required fields.
 mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card' :: PostSetupIntentsRequestBodyPaymentMethodOptions'Card'
 mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card' =
   PostSetupIntentsRequestBodyPaymentMethodOptions'Card'
     { postSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions = GHC.Maybe.Nothing,
-      postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure = GHC.Maybe.Nothing
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'Network = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.mandate_options@ in the specification.
@@ -2120,6 +2309,69 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
             | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'MandateOptions'SupportedTypes'Other val
       )
 
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.network@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"amex"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumAmex
+  | -- | Represents the JSON value @"cartes_bancaires"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumCartesBancaires
+  | -- | Represents the JSON value @"diners"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumDiners
+  | -- | Represents the JSON value @"discover"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumDiscover
+  | -- | Represents the JSON value @"eftpos_au"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumEftposAu
+  | -- | Represents the JSON value @"interac"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumInterac
+  | -- | Represents the JSON value @"jcb"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumJcb
+  | -- | Represents the JSON value @"mastercard"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumMastercard
+  | -- | Represents the JSON value @"unionpay"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumUnionpay
+  | -- | Represents the JSON value @"unknown"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumUnknown
+  | -- | Represents the JSON value @"visa"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumVisa
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network' where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumAmex) = "amex"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumCartesBancaires) = "cartes_bancaires"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumDiners) = "diners"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumDiscover) = "discover"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumEftposAu) = "eftpos_au"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumInterac) = "interac"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumJcb) = "jcb"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumMastercard) = "mastercard"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumUnionpay) = "unionpay"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumUnknown) = "unknown"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumVisa) = "visa"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "amex" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumAmex
+            | val GHC.Classes.== "cartes_bancaires" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumCartesBancaires
+            | val GHC.Classes.== "diners" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumDiners
+            | val GHC.Classes.== "discover" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumDiscover
+            | val GHC.Classes.== "eftpos_au" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumEftposAu
+            | val GHC.Classes.== "interac" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumInterac
+            | val GHC.Classes.== "jcb" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumJcb
+            | val GHC.Classes.== "mastercard" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumMastercard
+            | val GHC.Classes.== "unionpay" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumUnionpay
+            | val GHC.Classes.== "unknown" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumUnknown
+            | val GHC.Classes.== "visa" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'EnumVisa
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'Network'Other val
+      )
+
 -- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.request_three_d_secure@ in the specification.
 data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
@@ -2130,6 +2382,8 @@ data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'
     PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumAny
   | -- | Represents the JSON value @"automatic"@
     PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumAutomatic
+  | -- | Represents the JSON value @"challenge"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumChallenge
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure' where
@@ -2137,6 +2391,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethod
   toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumAny) = "any"
   toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumAutomatic) = "automatic"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumChallenge) = "challenge"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure' where
   parseJSON val =
@@ -2144,33 +2399,306 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
       ( if
             | val GHC.Classes.== "any" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumAny
             | val GHC.Classes.== "automatic" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumAutomatic
+            | val GHC.Classes.== "challenge" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumChallenge
             | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'Other val
       )
 
--- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.link@ in the specification.
-data PostSetupIntentsRequestBodyPaymentMethodOptions'Link' = PostSetupIntentsRequestBodyPaymentMethodOptions'Link'
-  { -- | persistent_token
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.three_d_secure@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure' = PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'
+  { -- | ares_trans_status
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'),
+    -- | cryptogram
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postSetupIntentsRequestBodyPaymentMethodOptions'Link'PersistentToken :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Cryptogram :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | electronic_commerce_indicator
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'),
+    -- | network_options
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'),
+    -- | requestor_challenge_indicator
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 2
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'RequestorChallengeIndicator :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | transaction_id
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'TransactionId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | version
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version')
   }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Link' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Link'PersistentToken obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Link'PersistentToken obj) : GHC.Base.mempty)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ares_trans_status" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cryptogram" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Cryptogram obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("electronic_commerce_indicator" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requestor_challenge_indicator" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'RequestorChallengeIndicator obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'TransactionId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ares_trans_status" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cryptogram" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Cryptogram obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("electronic_commerce_indicator" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requestor_challenge_indicator" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'RequestorChallengeIndicator obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'TransactionId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version obj) : GHC.Base.mempty)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Link' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'Link'" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'Link' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "persistent_token"))
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'" (\obj -> ((((((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ares_trans_status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cryptogram")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "electronic_commerce_indicator")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "requestor_challenge_indicator")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "version"))
 
--- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'Link'' with all required fields.
-mkPostSetupIntentsRequestBodyPaymentMethodOptions'Link' :: PostSetupIntentsRequestBodyPaymentMethodOptions'Link'
-mkPostSetupIntentsRequestBodyPaymentMethodOptions'Link' = PostSetupIntentsRequestBodyPaymentMethodOptions'Link' {postSetupIntentsRequestBodyPaymentMethodOptions'Link'PersistentToken = GHC.Maybe.Nothing}
+-- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'' with all required fields.
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure' :: PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure' =
+  PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'
+    { postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Cryptogram = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'RequestorChallengeIndicator = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'TransactionId = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.three_d_secure.properties.ares_trans_status@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"A"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumA
+  | -- | Represents the JSON value @"C"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumC
+  | -- | Represents the JSON value @"I"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumI
+  | -- | Represents the JSON value @"N"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumN
+  | -- | Represents the JSON value @"R"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumR
+  | -- | Represents the JSON value @"U"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumU
+  | -- | Represents the JSON value @"Y"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumY
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus' where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumA) = "A"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumC) = "C"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumI) = "I"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumN) = "N"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumR) = "R"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumU) = "U"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumY) = "Y"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "A" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumA
+            | val GHC.Classes.== "C" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumC
+            | val GHC.Classes.== "I" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumI
+            | val GHC.Classes.== "N" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumN
+            | val GHC.Classes.== "R" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumR
+            | val GHC.Classes.== "U" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumU
+            | val GHC.Classes.== "Y" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'EnumY
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'AresTransStatus'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.three_d_secure.properties.electronic_commerce_indicator@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"01"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum01
+  | -- | Represents the JSON value @"02"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum02
+  | -- | Represents the JSON value @"05"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum05
+  | -- | Represents the JSON value @"06"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum06
+  | -- | Represents the JSON value @"07"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum07
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator' where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum01) = "01"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum02) = "02"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum05) = "05"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum06) = "06"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum07) = "07"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "01" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum01
+            | val GHC.Classes.== "02" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum02
+            | val GHC.Classes.== "05" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum05
+            | val GHC.Classes.== "06" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum06
+            | val GHC.Classes.== "07" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Enum07
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'ElectronicCommerceIndicator'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.three_d_secure.properties.network_options@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions' = PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'
+  { -- | cartes_bancaires
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cartes_bancaires" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cartes_bancaires" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cartes_bancaires"))
+
+-- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'' with all required fields.
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions' :: PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions' = PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions' {postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.three_d_secure.properties.network_options.properties.cartes_bancaires@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires' = PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'
+  { -- | cb_avalgo
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo :: PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo',
+    -- | cb_exemption
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 4
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbExemption :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | cb_score
+    postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbScore :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["cb_avalgo" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cb_exemption" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbExemption obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cb_score" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbScore obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["cb_avalgo" Data.Aeson.Types.ToJSON..= postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cb_exemption" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbExemption obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cb_score" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbScore obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'" (\obj -> ((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cb_avalgo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cb_exemption")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cb_score"))
+
+-- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'' with all required fields.
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires' ::
+  -- | 'postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'
+  PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo' ->
+  PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires' postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo =
+  PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'
+    { postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo = postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbExemption = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbScore = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.three_d_secure.properties.network_options.properties.cartes_bancaires.properties.cb_avalgo@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"0"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum0
+  | -- | Represents the JSON value @"1"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum1
+  | -- | Represents the JSON value @"2"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum2
+  | -- | Represents the JSON value @"3"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum3
+  | -- | Represents the JSON value @"4"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum4
+  | -- | Represents the JSON value @"A"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'EnumA
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo' where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum0) = "0"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum1) = "1"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum2) = "2"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum3) = "3"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum4) = "4"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'EnumA) = "A"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "0" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum0
+            | val GHC.Classes.== "1" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum1
+            | val GHC.Classes.== "2" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum2
+            | val GHC.Classes.== "3" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum3
+            | val GHC.Classes.== "4" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Enum4
+            | val GHC.Classes.== "A" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'EnumA
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'NetworkOptions'CartesBancaires'CbAvalgo'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.three_d_secure.properties.version@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"1.0.2"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum1'0'2
+  | -- | Represents the JSON value @"2.1.0"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum2'1'0
+  | -- | Represents the JSON value @"2.2.0"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum2'2'0
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version' where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum1'0'2) = "1.0.2"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum2'1'0) = "2.1.0"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum2'2'0) = "2.2.0"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "1.0.2" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum1'0'2
+            | val GHC.Classes.== "2.1.0" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum2'1'0
+            | val GHC.Classes.== "2.2.0" -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Enum2'2'0
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'Card'ThreeDSecure'Version'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.paypal@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal' = PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal'
+  { -- | billing_agreement_id
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postSetupIntentsRequestBodyPaymentMethodOptions'Paypal'BillingAgreementId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_agreement_id" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Paypal'BillingAgreementId obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_agreement_id" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'Paypal'BillingAgreementId obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal'" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_agreement_id"))
+
+-- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal'' with all required fields.
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Paypal' :: PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal'
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'Paypal' = PostSetupIntentsRequestBodyPaymentMethodOptions'Paypal' {postSetupIntentsRequestBodyPaymentMethodOptions'Paypal'BillingAgreementId = GHC.Maybe.Nothing}
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.sepa_debit@ in the specification.
 data PostSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit' = PostSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit'
@@ -2197,6 +2725,8 @@ mkPostSetupIntentsRequestBodyPaymentMethodOptions'SepaDebit' = PostSetupIntentsR
 data PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' = PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'
   { -- | financial_connections
     postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'),
+    -- | mandate_options
+    postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'),
     -- | networks
     postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'Networks :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'Networks'),
     -- | verification_method
@@ -2208,17 +2738,18 @@ data PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' = PostSetupI
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'Networks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'VerificationMethod obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'Networks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'VerificationMethod obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'Networks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'VerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'Networks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'VerificationMethod obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'" (\obj -> ((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "networks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'" (\obj -> (((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "networks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
 
 -- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'' with all required fields.
 mkPostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' :: PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'
 mkPostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' =
   PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'
     { postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'Networks = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'VerificationMethod = GHC.Maybe.Nothing
     }
@@ -2227,6 +2758,8 @@ mkPostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount' =
 data PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' = PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'
   { -- | permissions
     postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions :: (GHC.Maybe.Maybe ([PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'])),
+    -- | prefetch
+    postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch :: (GHC.Maybe.Maybe ([PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'])),
     -- | return_url
     --
     -- Constraints:
@@ -2240,17 +2773,18 @@ data PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConn
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'ReturnUrl obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'ReturnUrl obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'ReturnUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'ReturnUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'" (\obj -> (GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'" (\obj -> ((GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prefetch")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
 
 -- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'' with all required fields.
 mkPostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' :: PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'
 mkPostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' =
   PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'
     { postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions = GHC.Maybe.Nothing,
+      postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch = GHC.Maybe.Nothing,
       postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'ReturnUrl = GHC.Maybe.Nothing
     }
 
@@ -2287,6 +2821,81 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
             | val GHC.Classes.== "payment_method" -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'EnumPaymentMethod
             | val GHC.Classes.== "transactions" -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'EnumTransactions
             | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.financial_connections.properties.prefetch.items@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"balances"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumBalances
+  | -- | Represents the JSON value @"transactions"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch' where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumBalances) = "balances"
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "balances" -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumBalances
+            | val GHC.Classes.== "transactions" -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumTransactions
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.mandate_options@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions' = PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'
+  { -- | collection_method
+    postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method"))
+
+-- | Create a new 'PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'' with all required fields.
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions' :: PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'
+mkPostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions' = PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions' {postSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.mandate_options.properties.collection_method@ in the specification.
+data PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'EnumEmptyString
+  | -- | Represents the JSON value @"paper"@
+    PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'EnumPaper
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod' where
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'Other val) = val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'EnumEmptyString) = ""
+  toJSON (PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'EnumPaper) = "paper"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'EnumEmptyString
+            | val GHC.Classes.== "paper" -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'EnumPaper
+            | GHC.Base.otherwise -> PostSetupIntentsRequestBodyPaymentMethodOptions'UsBankAccount'MandateOptions'CollectionMethod'Other val
       )
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.networks@ in the specification.
@@ -2370,7 +2979,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.single_use@ in the specification.
 --
--- If this hash is populated, this SetupIntent will generate a single_use Mandate on success.
+-- If you populate this hash, this SetupIntent generates a \`single_use\` mandate after successful completion.
 data PostSetupIntentsRequestBodySingleUse' = PostSetupIntentsRequestBodySingleUse'
   { -- | amount
     postSetupIntentsRequestBodySingleUse'Amount :: GHC.Types.Int,

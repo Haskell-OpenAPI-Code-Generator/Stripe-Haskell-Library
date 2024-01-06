@@ -1,9 +1,0 @@
-module StripeAPI.Types.AccountServiceResourceFinancialAddressesFeatures where
-import Data.Aeson
-import qualified Data.Aeson as Data.Aeson.Types.Internal
-import qualified StripeAPI.Common
-data AccountServiceResourceFinancialAddressesFeatures
-instance Show AccountServiceResourceFinancialAddressesFeatures
-instance Eq AccountServiceResourceFinancialAddressesFeatures
-instance FromJSON AccountServiceResourceFinancialAddressesFeatures
-instance ToJSON AccountServiceResourceFinancialAddressesFeatures

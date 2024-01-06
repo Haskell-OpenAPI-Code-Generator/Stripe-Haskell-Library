@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -39,7 +39,7 @@ data SetupIntentPaymentMethodOptionsCard = SetupIntentPaymentMethodOptionsCard
     setupIntentPaymentMethodOptionsCardMandateOptions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SetupIntentPaymentMethodOptionsCardMandateOptions'NonNullable)),
     -- | network: Selected network to process this SetupIntent on. Depends on the available networks of the card attached to the setup intent. Can be only set confirm-time.
     setupIntentPaymentMethodOptionsCardNetwork :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SetupIntentPaymentMethodOptionsCardNetwork'NonNullable)),
-    -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+    -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
     setupIntentPaymentMethodOptionsCardRequestThreeDSecure :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable))
   }
   deriving
@@ -233,6 +233,8 @@ data SetupIntentPaymentMethodOptionsCardNetwork'NonNullable
     SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners
   | -- | Represents the JSON value @"discover"@
     SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover
+  | -- | Represents the JSON value @"eftpos_au"@
+    SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumEftposAu
   | -- | Represents the JSON value @"interac"@
     SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac
   | -- | Represents the JSON value @"jcb"@
@@ -254,6 +256,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsCardNetwo
   toJSON (SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumCartesBancaires) = "cartes_bancaires"
   toJSON (SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners) = "diners"
   toJSON (SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover) = "discover"
+  toJSON (SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumEftposAu) = "eftpos_au"
   toJSON (SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac) = "interac"
   toJSON (SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumJcb) = "jcb"
   toJSON (SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumMastercard) = "mastercard"
@@ -269,6 +272,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsCardN
             | val GHC.Classes.== "cartes_bancaires" -> SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumCartesBancaires
             | val GHC.Classes.== "diners" -> SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners
             | val GHC.Classes.== "discover" -> SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover
+            | val GHC.Classes.== "eftpos_au" -> SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumEftposAu
             | val GHC.Classes.== "interac" -> SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac
             | val GHC.Classes.== "jcb" -> SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumJcb
             | val GHC.Classes.== "mastercard" -> SetupIntentPaymentMethodOptionsCardNetwork'NonNullableEnumMastercard
@@ -280,7 +284,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsCardN
 
 -- | Defines the enum schema located at @components.schemas.setup_intent_payment_method_options_card.properties.request_three_d_secure@ in the specification.
 --
--- We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+-- We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 data SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -290,8 +294,8 @@ data SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable
     SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny
   | -- | Represents the JSON value @"automatic"@
     SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic
-  | -- | Represents the JSON value @"challenge_only"@
-    SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly
+  | -- | Represents the JSON value @"challenge"@
+    SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallenge
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable where
@@ -299,7 +303,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsCardReque
   toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny) = "any"
   toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic) = "automatic"
-  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly) = "challenge_only"
+  toJSON (SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallenge) = "challenge"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable where
   parseJSON val =
@@ -307,6 +311,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsCardR
       ( if
             | val GHC.Classes.== "any" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny
             | val GHC.Classes.== "automatic" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic
-            | val GHC.Classes.== "challenge_only" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly
+            | val GHC.Classes.== "challenge" -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallenge
             | GHC.Base.otherwise -> SetupIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableOther val
       )

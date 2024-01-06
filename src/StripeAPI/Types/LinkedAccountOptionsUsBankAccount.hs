@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,6 +36,8 @@ import qualified Prelude as GHC.Maybe
 data LinkedAccountOptionsUsBankAccount = LinkedAccountOptionsUsBankAccount
   { -- | permissions: The list of permissions to request. The \`payment_method\` permission must be included.
     linkedAccountOptionsUsBankAccountPermissions :: (GHC.Maybe.Maybe ([LinkedAccountOptionsUsBankAccountPermissions'])),
+    -- | prefetch: Data features requested to be retrieved upon account creation.
+    linkedAccountOptionsUsBankAccountPrefetch :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([LinkedAccountOptionsUsBankAccountPrefetch'NonNullable]))),
     -- | return_url: For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
     --
     -- Constraints:
@@ -49,17 +51,18 @@ data LinkedAccountOptionsUsBankAccount = LinkedAccountOptionsUsBankAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LinkedAccountOptionsUsBankAccount where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountPermissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountReturnUrl obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountPermissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountReturnUrl obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountPermissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountReturnUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountPermissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (linkedAccountOptionsUsBankAccountReturnUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LinkedAccountOptionsUsBankAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LinkedAccountOptionsUsBankAccount" (\obj -> (GHC.Base.pure LinkedAccountOptionsUsBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LinkedAccountOptionsUsBankAccount" (\obj -> ((GHC.Base.pure LinkedAccountOptionsUsBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prefetch")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
 
 -- | Create a new 'LinkedAccountOptionsUsBankAccount' with all required fields.
 mkLinkedAccountOptionsUsBankAccount :: LinkedAccountOptionsUsBankAccount
 mkLinkedAccountOptionsUsBankAccount =
   LinkedAccountOptionsUsBankAccount
     { linkedAccountOptionsUsBankAccountPermissions = GHC.Maybe.Nothing,
+      linkedAccountOptionsUsBankAccountPrefetch = GHC.Maybe.Nothing,
       linkedAccountOptionsUsBankAccountReturnUrl = GHC.Maybe.Nothing
     }
 
@@ -96,4 +99,31 @@ instance Data.Aeson.Types.FromJSON.FromJSON LinkedAccountOptionsUsBankAccountPer
             | val GHC.Classes.== "payment_method" -> LinkedAccountOptionsUsBankAccountPermissions'EnumPaymentMethod
             | val GHC.Classes.== "transactions" -> LinkedAccountOptionsUsBankAccountPermissions'EnumTransactions
             | GHC.Base.otherwise -> LinkedAccountOptionsUsBankAccountPermissions'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.linked_account_options_us_bank_account.properties.prefetch.items@ in the specification.
+data LinkedAccountOptionsUsBankAccountPrefetch'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    LinkedAccountOptionsUsBankAccountPrefetch'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    LinkedAccountOptionsUsBankAccountPrefetch'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"balances"@
+    LinkedAccountOptionsUsBankAccountPrefetch'NonNullableEnumBalances
+  | -- | Represents the JSON value @"transactions"@
+    LinkedAccountOptionsUsBankAccountPrefetch'NonNullableEnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON LinkedAccountOptionsUsBankAccountPrefetch'NonNullable where
+  toJSON (LinkedAccountOptionsUsBankAccountPrefetch'NonNullableOther val) = val
+  toJSON (LinkedAccountOptionsUsBankAccountPrefetch'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (LinkedAccountOptionsUsBankAccountPrefetch'NonNullableEnumBalances) = "balances"
+  toJSON (LinkedAccountOptionsUsBankAccountPrefetch'NonNullableEnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON LinkedAccountOptionsUsBankAccountPrefetch'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "balances" -> LinkedAccountOptionsUsBankAccountPrefetch'NonNullableEnumBalances
+            | val GHC.Classes.== "transactions" -> LinkedAccountOptionsUsBankAccountPrefetch'NonNullableEnumTransactions
+            | GHC.Base.otherwise -> LinkedAccountOptionsUsBankAccountPrefetch'NonNullableOther val
       )

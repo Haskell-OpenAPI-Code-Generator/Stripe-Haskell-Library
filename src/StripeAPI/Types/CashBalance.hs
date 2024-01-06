@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,7 +37,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- A customer\'s \`Cash balance\` represents real funds. Customers can add funds to their cash balance by sending a bank transfer. These funds can be used for payment and can eventually be paid out to your bank account.
 data CashBalance = CashBalance
-  { -- | available: A hash of all cash balances available to this customer. You cannot delete a customer with any cash balances, even if the balance is 0.
+  { -- | available: A hash of all cash balances available to this customer. You cannot delete a customer with any cash balances, even if the balance is 0. Amounts are represented in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal).
     cashBalanceAvailable :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | customer: The ID of the customer whose cash balance this object represents.
     --

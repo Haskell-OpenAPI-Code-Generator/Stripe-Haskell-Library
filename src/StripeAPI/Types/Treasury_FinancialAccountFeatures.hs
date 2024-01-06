@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,11 +29,11 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceFinancialAddressesFeatures
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceInboundTransfers
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceOutboundPayments
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceOutboundTransfers
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceToggleSettings
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceFinancialAddressesFeatures
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceInboundTransfers
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceOutboundPayments
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceOutboundTransfers
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceToggleSettings
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -43,19 +43,19 @@ import qualified Prelude as GHC.Maybe
 -- Stripe or the platform can control Features via the requested field.
 data Treasury'financialAccountFeatures = Treasury'financialAccountFeatures
   { -- | card_issuing: Toggle settings for enabling\/disabling a feature
-    treasury'financialAccountFeaturesCardIssuing :: (GHC.Maybe.Maybe AccountServiceResourceToggleSettings),
+    treasury'financialAccountFeaturesCardIssuing :: (GHC.Maybe.Maybe TreasuryFinancialAccountsResourceToggleSettings),
     -- | deposit_insurance: Toggle settings for enabling\/disabling a feature
-    treasury'financialAccountFeaturesDepositInsurance :: (GHC.Maybe.Maybe AccountServiceResourceToggleSettings),
+    treasury'financialAccountFeaturesDepositInsurance :: (GHC.Maybe.Maybe TreasuryFinancialAccountsResourceToggleSettings),
     -- | financial_addresses: Settings related to Financial Addresses features on a Financial Account
-    treasury'financialAccountFeaturesFinancialAddresses :: (GHC.Maybe.Maybe AccountServiceResourceFinancialAddressesFeatures),
+    treasury'financialAccountFeaturesFinancialAddresses :: (GHC.Maybe.Maybe TreasuryFinancialAccountsResourceFinancialAddressesFeatures),
     -- | inbound_transfers: InboundTransfers contains inbound transfers features for a FinancialAccount.
-    treasury'financialAccountFeaturesInboundTransfers :: (GHC.Maybe.Maybe AccountServiceResourceInboundTransfers),
+    treasury'financialAccountFeaturesInboundTransfers :: (GHC.Maybe.Maybe TreasuryFinancialAccountsResourceInboundTransfers),
     -- | intra_stripe_flows: Toggle settings for enabling\/disabling a feature
-    treasury'financialAccountFeaturesIntraStripeFlows :: (GHC.Maybe.Maybe AccountServiceResourceToggleSettings),
+    treasury'financialAccountFeaturesIntraStripeFlows :: (GHC.Maybe.Maybe TreasuryFinancialAccountsResourceToggleSettings),
     -- | outbound_payments: Settings related to Outbound Payments features on a Financial Account
-    treasury'financialAccountFeaturesOutboundPayments :: (GHC.Maybe.Maybe AccountServiceResourceOutboundPayments),
+    treasury'financialAccountFeaturesOutboundPayments :: (GHC.Maybe.Maybe TreasuryFinancialAccountsResourceOutboundPayments),
     -- | outbound_transfers: OutboundTransfers contains outbound transfers features for a FinancialAccount.
-    treasury'financialAccountFeaturesOutboundTransfers :: (GHC.Maybe.Maybe AccountServiceResourceOutboundTransfers)
+    treasury'financialAccountFeaturesOutboundTransfers :: (GHC.Maybe.Maybe TreasuryFinancialAccountsResourceOutboundTransfers)
   }
   deriving
     ( GHC.Show.Show,

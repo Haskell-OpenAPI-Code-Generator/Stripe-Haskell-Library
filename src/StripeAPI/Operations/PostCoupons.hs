@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -63,26 +64,26 @@ postCoupons body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostCouponsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Coupon
-                                                      )
+                                     PostCouponsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Coupon
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostCouponsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostCouponsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/coupons") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/coupons" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/coupons.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCouponsRequestBody = PostCouponsRequestBody
@@ -92,7 +93,9 @@ data PostCouponsRequestBody = PostCouponsRequestBody
     postCouponsRequestBodyAppliesTo :: (GHC.Maybe.Maybe PostCouponsRequestBodyAppliesTo'),
     -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) of the \`amount_off\` parameter (required if \`amount_off\` is passed).
     postCouponsRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | duration: Specifies how long the discount will be in effect if used on a subscription. Can be \`forever\`, \`once\`, or \`repeating\`. Defaults to \`once\`.
+    -- | currency_options: Coupons defined in each available currency option (only supported if \`amount_off\` is passed). Each key must be a three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html) and a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    postCouponsRequestBodyCurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | duration: Specifies how long the discount will be in effect if used on a subscription. Defaults to \`once\`.
     postCouponsRequestBodyDuration :: (GHC.Maybe.Maybe PostCouponsRequestBodyDuration'),
     -- | duration_in_months: Required only if \`duration\` is \`repeating\`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
     postCouponsRequestBodyDurationInMonths :: (GHC.Maybe.Maybe GHC.Types.Int),
@@ -125,11 +128,11 @@ data PostCouponsRequestBody = PostCouponsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCouponsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAmountOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("applies_to" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAppliesTo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDuration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration_in_months" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDurationInMonths obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("max_redemptions" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMaxRedemptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyPercentOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redeem_by" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyRedeemBy obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAmountOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("applies_to" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAppliesTo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDuration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration_in_months" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDurationInMonths obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("max_redemptions" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMaxRedemptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyPercentOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redeem_by" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyRedeemBy obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAmountOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("applies_to" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAppliesTo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyCurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDuration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration_in_months" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDurationInMonths obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("max_redemptions" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMaxRedemptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyPercentOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redeem_by" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyRedeemBy obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAmountOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("applies_to" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyAppliesTo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyCurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDuration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("duration_in_months" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyDurationInMonths obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("max_redemptions" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMaxRedemptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_off" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyPercentOff obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redeem_by" Data.Aeson.Types.ToJSON..=)) (postCouponsRequestBodyRedeemBy obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCouponsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCouponsRequestBody" (\obj -> (((((((((((GHC.Base.pure PostCouponsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "applies_to")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "duration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "duration_in_months")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "max_redemptions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "percent_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redeem_by"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCouponsRequestBody" (\obj -> ((((((((((((GHC.Base.pure PostCouponsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "applies_to")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "duration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "duration_in_months")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "max_redemptions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "percent_off")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redeem_by"))
 
 -- | Create a new 'PostCouponsRequestBody' with all required fields.
 mkPostCouponsRequestBody :: PostCouponsRequestBody
@@ -138,6 +141,7 @@ mkPostCouponsRequestBody =
     { postCouponsRequestBodyAmountOff = GHC.Maybe.Nothing,
       postCouponsRequestBodyAppliesTo = GHC.Maybe.Nothing,
       postCouponsRequestBodyCurrency = GHC.Maybe.Nothing,
+      postCouponsRequestBodyCurrencyOptions = GHC.Maybe.Nothing,
       postCouponsRequestBodyDuration = GHC.Maybe.Nothing,
       postCouponsRequestBodyDurationInMonths = GHC.Maybe.Nothing,
       postCouponsRequestBodyExpand = GHC.Maybe.Nothing,
@@ -174,7 +178,7 @@ mkPostCouponsRequestBodyAppliesTo' = PostCouponsRequestBodyAppliesTo' {postCoupo
 
 -- | Defines the enum schema located at @paths.\/v1\/coupons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.duration@ in the specification.
 --
--- Specifies how long the discount will be in effect if used on a subscription. Can be \`forever\`, \`once\`, or \`repeating\`. Defaults to \`once\`.
+-- Specifies how long the discount will be in effect if used on a subscription. Defaults to \`once\`.
 data PostCouponsRequestBodyDuration'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostCouponsRequestBodyDuration'Other Data.Aeson.Types.Internal.Value
@@ -223,8 +227,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCouponsRequestBodyMetadata'Varia
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCouponsRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostCouponsRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postCoupons'.
 --

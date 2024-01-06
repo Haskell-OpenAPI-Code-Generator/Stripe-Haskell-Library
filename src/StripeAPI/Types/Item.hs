@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -46,11 +46,11 @@ import qualified Prelude as GHC.Maybe
 -- A line item.
 data Item = Item
   { -- | amount_discount: Total discount amount applied. If no discounts were applied, defaults to 0.
-    itemAmountDiscount :: (GHC.Maybe.Maybe GHC.Types.Int),
+    itemAmountDiscount :: GHC.Types.Int,
     -- | amount_subtotal: Total before any discounts or taxes are applied.
     itemAmountSubtotal :: GHC.Types.Int,
     -- | amount_tax: Total tax amount applied. If no tax was applied, defaults to 0.
-    itemAmountTax :: (GHC.Maybe.Maybe GHC.Types.Int),
+    itemAmountTax :: GHC.Types.Int,
     -- | amount_total: Total after discounts and taxes.
     itemAmountTotal :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
@@ -71,10 +71,6 @@ data Item = Item
     itemId :: Data.Text.Internal.Text,
     -- | price: The price used to generate the line item.
     itemPrice :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ItemPrice'NonNullable)),
-    -- | product: The ID of the product for this line item.
-    --
-    -- This will always be the same as \`price.product\`.
-    itemProduct :: (GHC.Maybe.Maybe ItemProduct'Variants),
     -- | quantity: The quantity of products being purchased.
     itemQuantity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | taxes: The taxes applied to the line item.
@@ -86,15 +82,19 @@ data Item = Item
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Item where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_discount" Data.Aeson.Types.ToJSON..=)) (itemAmountDiscount obj) : ["amount_subtotal" Data.Aeson.Types.ToJSON..= itemAmountSubtotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax" Data.Aeson.Types.ToJSON..=)) (itemAmountTax obj) : ["amount_total" Data.Aeson.Types.ToJSON..= itemAmountTotal obj] : ["currency" Data.Aeson.Types.ToJSON..= itemCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= itemDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (itemDiscounts obj) : ["id" Data.Aeson.Types.ToJSON..= itemId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (itemPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (itemProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (itemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxes" Data.Aeson.Types.ToJSON..=)) (itemTaxes obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "item"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_discount" Data.Aeson.Types.ToJSON..=)) (itemAmountDiscount obj) : ["amount_subtotal" Data.Aeson.Types.ToJSON..= itemAmountSubtotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax" Data.Aeson.Types.ToJSON..=)) (itemAmountTax obj) : ["amount_total" Data.Aeson.Types.ToJSON..= itemAmountTotal obj] : ["currency" Data.Aeson.Types.ToJSON..= itemCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= itemDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (itemDiscounts obj) : ["id" Data.Aeson.Types.ToJSON..= itemId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (itemPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (itemProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (itemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxes" Data.Aeson.Types.ToJSON..=)) (itemTaxes obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "item"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount_discount" Data.Aeson.Types.ToJSON..= itemAmountDiscount obj] : ["amount_subtotal" Data.Aeson.Types.ToJSON..= itemAmountSubtotal obj] : ["amount_tax" Data.Aeson.Types.ToJSON..= itemAmountTax obj] : ["amount_total" Data.Aeson.Types.ToJSON..= itemAmountTotal obj] : ["currency" Data.Aeson.Types.ToJSON..= itemCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= itemDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (itemDiscounts obj) : ["id" Data.Aeson.Types.ToJSON..= itemId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (itemPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (itemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxes" Data.Aeson.Types.ToJSON..=)) (itemTaxes obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "item"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount_discount" Data.Aeson.Types.ToJSON..= itemAmountDiscount obj] : ["amount_subtotal" Data.Aeson.Types.ToJSON..= itemAmountSubtotal obj] : ["amount_tax" Data.Aeson.Types.ToJSON..= itemAmountTax obj] : ["amount_total" Data.Aeson.Types.ToJSON..= itemAmountTotal obj] : ["currency" Data.Aeson.Types.ToJSON..= itemCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= itemDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (itemDiscounts obj) : ["id" Data.Aeson.Types.ToJSON..= itemId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (itemPrice obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (itemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxes" Data.Aeson.Types.ToJSON..=)) (itemTaxes obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "item"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Item where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Item" (\obj -> (((((((((((GHC.Base.pure Item GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_subtotal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "taxes"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Item" (\obj -> ((((((((((GHC.Base.pure Item GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_discount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_subtotal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "taxes"))
 
 -- | Create a new 'Item' with all required fields.
 mkItem ::
+  -- | 'itemAmountDiscount'
+  GHC.Types.Int ->
   -- | 'itemAmountSubtotal'
+  GHC.Types.Int ->
+  -- | 'itemAmountTax'
   GHC.Types.Int ->
   -- | 'itemAmountTotal'
   GHC.Types.Int ->
@@ -105,18 +105,17 @@ mkItem ::
   -- | 'itemId'
   Data.Text.Internal.Text ->
   Item
-mkItem itemAmountSubtotal itemAmountTotal itemCurrency itemDescription itemId =
+mkItem itemAmountDiscount itemAmountSubtotal itemAmountTax itemAmountTotal itemCurrency itemDescription itemId =
   Item
-    { itemAmountDiscount = GHC.Maybe.Nothing,
+    { itemAmountDiscount = itemAmountDiscount,
       itemAmountSubtotal = itemAmountSubtotal,
-      itemAmountTax = GHC.Maybe.Nothing,
+      itemAmountTax = itemAmountTax,
       itemAmountTotal = itemAmountTotal,
       itemCurrency = itemCurrency,
       itemDescription = itemDescription,
       itemDiscounts = GHC.Maybe.Nothing,
       itemId = itemId,
       itemPrice = GHC.Maybe.Nothing,
-      itemProduct = GHC.Maybe.Nothing,
       itemQuantity = GHC.Maybe.Nothing,
       itemTaxes = GHC.Maybe.Nothing
     }
@@ -133,6 +132,8 @@ data ItemPrice'NonNullable = ItemPrice'NonNullable
     itemPrice'NonNullableCreated :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     itemPrice'NonNullableCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | currency_options: Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html) and a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    itemPrice'NonNullableCurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | custom_unit_amount: When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
     itemPrice'NonNullableCustomUnitAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ItemPrice'NonNullableCustomUnitAmount'NonNullable)),
     -- | id: Unique identifier for the object.
@@ -163,7 +164,7 @@ data ItemPrice'NonNullable = ItemPrice'NonNullable
     itemPrice'NonNullableProduct :: (GHC.Maybe.Maybe ItemPrice'NonNullableProduct'Variants),
     -- | recurring: The recurring components of a price such as \`interval\` and \`usage_type\`.
     itemPrice'NonNullableRecurring :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ItemPrice'NonNullableRecurring'NonNullable)),
-    -- | tax_behavior: Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
+    -- | tax_behavior: Only required if a [default tax behavior](https:\/\/stripe.com\/docs\/tax\/products-prices-tax-categories-tax-behavior\#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
     itemPrice'NonNullableTaxBehavior :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ItemPrice'NonNullableTaxBehavior'NonNullable)),
     -- | tiers: Each element represents a pricing tier. This parameter requires \`billing_scheme\` to be set to \`tiered\`. See also the documentation for \`billing_scheme\`.
     itemPrice'NonNullableTiers :: (GHC.Maybe.Maybe ([PriceTier])),
@@ -173,9 +174,9 @@ data ItemPrice'NonNullable = ItemPrice'NonNullable
     itemPrice'NonNullableTransformQuantity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ItemPrice'NonNullableTransformQuantity'NonNullable)),
     -- | type: One of \`one_time\` or \`recurring\` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
     itemPrice'NonNullableType :: (GHC.Maybe.Maybe ItemPrice'NonNullableType'),
-    -- | unit_amount: The unit amount in %s to be charged, represented as a whole integer if possible. Only set if \`billing_scheme=per_unit\`.
+    -- | unit_amount: The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if \`billing_scheme=per_unit\`.
     itemPrice'NonNullableUnitAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
-    -- | unit_amount_decimal: The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if \`billing_scheme=per_unit\`.
+    -- | unit_amount_decimal: The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if \`billing_scheme=per_unit\`.
     itemPrice'NonNullableUnitAmountDecimal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
@@ -184,11 +185,11 @@ data ItemPrice'NonNullable = ItemPrice'NonNullable
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ItemPrice'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableBillingScheme obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLivemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmountDecimal obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableBillingScheme obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLivemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmountDecimal obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableBillingScheme obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLivemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmountDecimal obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableBillingScheme obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLivemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (itemPrice'NonNullableUnitAmountDecimal obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ItemPrice'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ItemPrice'NonNullable" (\obj -> (((((((((((((((((((GHC.Base.pure ItemPrice'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transform_quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ItemPrice'NonNullable" (\obj -> ((((((((((((((((((((GHC.Base.pure ItemPrice'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transform_quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
 
 -- | Create a new 'ItemPrice'NonNullable' with all required fields.
 mkItemPrice'NonNullable :: ItemPrice'NonNullable
@@ -198,6 +199,7 @@ mkItemPrice'NonNullable =
       itemPrice'NonNullableBillingScheme = GHC.Maybe.Nothing,
       itemPrice'NonNullableCreated = GHC.Maybe.Nothing,
       itemPrice'NonNullableCurrency = GHC.Maybe.Nothing,
+      itemPrice'NonNullableCurrencyOptions = GHC.Maybe.Nothing,
       itemPrice'NonNullableCustomUnitAmount = GHC.Maybe.Nothing,
       itemPrice'NonNullableId = GHC.Maybe.Nothing,
       itemPrice'NonNullableLivemode = GHC.Maybe.Nothing,
@@ -325,7 +327,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON ItemPrice'NonNullableProduct'Variant
 --
 -- The recurring components of a price such as \\\`interval\\\` and \\\`usage_type\\\`.
 data ItemPrice'NonNullableRecurring'NonNullable = ItemPrice'NonNullableRecurring'NonNullable
-  { -- | aggregate_usage: Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
+  { -- | aggregate_usage: Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Defaults to \`sum\`.
     itemPrice'NonNullableRecurring'NonNullableAggregateUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable)),
     -- | interval: The frequency at which a subscription is billed. One of \`day\`, \`week\`, \`month\` or \`year\`.
     itemPrice'NonNullableRecurring'NonNullableInterval :: (GHC.Maybe.Maybe ItemPrice'NonNullableRecurring'NonNullableInterval'),
@@ -358,7 +360,7 @@ mkItemPrice'NonNullableRecurring'NonNullable =
 
 -- | Defines the enum schema located at @components.schemas.item.properties.price.anyOf.properties.recurring.anyOf.properties.aggregate_usage@ in the specification.
 --
--- Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
+-- Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Defaults to \`sum\`.
 data ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     ItemPrice'NonNullableRecurring'NonNullableAggregateUsage'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -461,7 +463,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON ItemPrice'NonNullableRecurring'NonNu
 
 -- | Defines the enum schema located at @components.schemas.item.properties.price.anyOf.properties.tax_behavior@ in the specification.
 --
--- Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
+-- Only required if a [default tax behavior](https:\/\/stripe.com\/docs\/tax\/products-prices-tax-categories-tax-behavior\#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
 data ItemPrice'NonNullableTaxBehavior'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     ItemPrice'NonNullableTaxBehavior'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -607,24 +609,3 @@ instance Data.Aeson.Types.FromJSON.FromJSON ItemPrice'NonNullableType' where
             | val GHC.Classes.== "recurring" -> ItemPrice'NonNullableType'EnumRecurring
             | GHC.Base.otherwise -> ItemPrice'NonNullableType'Other val
       )
-
--- | Defines the oneOf schema located at @components.schemas.item.properties.product.anyOf@ in the specification.
---
--- The ID of the product for this line item.
---
--- This will always be the same as \`price.product\`.
-data ItemProduct'Variants
-  = ItemProduct'Text Data.Text.Internal.Text
-  | ItemProduct'Product Product
-  | ItemProduct'DeletedProduct DeletedProduct
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON ItemProduct'Variants where
-  toJSON (ItemProduct'Text a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ItemProduct'Product a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (ItemProduct'DeletedProduct a) = Data.Aeson.Types.ToJSON.toJSON a
-
-instance Data.Aeson.Types.FromJSON.FromJSON ItemProduct'Variants where
-  parseJSON val = case (ItemProduct'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ItemProduct'Product Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((ItemProduct'DeletedProduct Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
-    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

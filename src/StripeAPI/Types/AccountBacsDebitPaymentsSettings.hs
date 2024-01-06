@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,12 +34,18 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.account_bacs_debit_payments_settings@ in the specification.
 data AccountBacsDebitPaymentsSettings = AccountBacsDebitPaymentsSettings
-  { -- | display_name: The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this will appear on the mandate, and as the statement descriptor.
+  { -- | display_name: The Bacs Direct Debit display name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. The fee appears 5 business days after requesting Bacs. If you don\'t set the display name before requesting Bacs capability, it\'s automatically set as \"Stripe\" and the account is onboarded to Stripe branding, which is free.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    accountBacsDebitPaymentsSettingsDisplayName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    accountBacsDebitPaymentsSettingsDisplayName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | service_user_number: The Bacs Direct Debit Service user number for this account. For payments made with Bacs Direct Debit, this number is a unique identifier of the account with our banking partners.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    accountBacsDebitPaymentsSettingsServiceUserNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -47,12 +53,16 @@ data AccountBacsDebitPaymentsSettings = AccountBacsDebitPaymentsSettings
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON AccountBacsDebitPaymentsSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (accountBacsDebitPaymentsSettingsDisplayName obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (accountBacsDebitPaymentsSettingsDisplayName obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (accountBacsDebitPaymentsSettingsDisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service_user_number" Data.Aeson.Types.ToJSON..=)) (accountBacsDebitPaymentsSettingsServiceUserNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (accountBacsDebitPaymentsSettingsDisplayName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service_user_number" Data.Aeson.Types.ToJSON..=)) (accountBacsDebitPaymentsSettingsServiceUserNumber obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON AccountBacsDebitPaymentsSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountBacsDebitPaymentsSettings" (\obj -> GHC.Base.pure AccountBacsDebitPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "display_name"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountBacsDebitPaymentsSettings" (\obj -> (GHC.Base.pure AccountBacsDebitPaymentsSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "service_user_number"))
 
 -- | Create a new 'AccountBacsDebitPaymentsSettings' with all required fields.
 mkAccountBacsDebitPaymentsSettings :: AccountBacsDebitPaymentsSettings
-mkAccountBacsDebitPaymentsSettings = AccountBacsDebitPaymentsSettings {accountBacsDebitPaymentsSettingsDisplayName = GHC.Maybe.Nothing}
+mkAccountBacsDebitPaymentsSettings =
+  AccountBacsDebitPaymentsSettings
+    { accountBacsDebitPaymentsSettingsDisplayName = GHC.Maybe.Nothing,
+      accountBacsDebitPaymentsSettingsServiceUserNumber = GHC.Maybe.Nothing
+    }

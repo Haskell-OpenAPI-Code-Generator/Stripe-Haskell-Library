@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,10 +29,10 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceBalance
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceFinancialAddress
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourcePlatformRestrictions
-import {-# SOURCE #-} StripeAPI.Types.AccountServiceResourceTreasuryStatusDetails
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceBalance
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceFinancialAddress
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourcePlatformRestrictions
+import {-# SOURCE #-} StripeAPI.Types.TreasuryFinancialAccountsResourceStatusDetails
 import {-# SOURCE #-} StripeAPI.Types.Treasury_FinancialAccountFeatures
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -43,9 +43,9 @@ import qualified Prelude as GHC.Maybe
 -- FinancialAccounts serve as the source and destination of Treasury’s money movement APIs.
 data Treasury'financialAccount = Treasury'financialAccount
   { -- | active_features: The array of paths to active Features in the Features hash.
-    treasury'financialAccountActiveFeatures :: ([Treasury'financialAccountActiveFeatures']),
+    treasury'financialAccountActiveFeatures :: (GHC.Maybe.Maybe ([Treasury'financialAccountActiveFeatures'])),
     -- | balance: Balance information for the FinancialAccount
-    treasury'financialAccountBalance :: AccountServiceResourceBalance,
+    treasury'financialAccountBalance :: TreasuryFinancialAccountsResourceBalance,
     -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
     --
     -- Constraints:
@@ -58,7 +58,7 @@ data Treasury'financialAccount = Treasury'financialAccount
     -- Stripe or the platform can control Features via the requested field.
     treasury'financialAccountFeatures :: (GHC.Maybe.Maybe Treasury'financialAccountFeatures),
     -- | financial_addresses: The set of credentials that resolve to a FinancialAccount.
-    treasury'financialAccountFinancialAddresses :: ([AccountServiceResourceFinancialAddress]),
+    treasury'financialAccountFinancialAddresses :: ([TreasuryFinancialAccountsResourceFinancialAddress]),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -70,15 +70,15 @@ data Treasury'financialAccount = Treasury'financialAccount
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     treasury'financialAccountMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | pending_features: The array of paths to pending Features in the Features hash.
-    treasury'financialAccountPendingFeatures :: ([Treasury'financialAccountPendingFeatures']),
+    treasury'financialAccountPendingFeatures :: (GHC.Maybe.Maybe ([Treasury'financialAccountPendingFeatures'])),
     -- | platform_restrictions: The set of functionalities that the platform can restrict on the FinancialAccount.
     treasury'financialAccountPlatformRestrictions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Treasury'financialAccountPlatformRestrictions'NonNullable)),
     -- | restricted_features: The array of paths to restricted Features in the Features hash.
-    treasury'financialAccountRestrictedFeatures :: ([Treasury'financialAccountRestrictedFeatures']),
+    treasury'financialAccountRestrictedFeatures :: (GHC.Maybe.Maybe ([Treasury'financialAccountRestrictedFeatures'])),
     -- | status: The enum specifying what state the account is in.
     treasury'financialAccountStatus :: Treasury'financialAccountStatus',
     -- | status_details:
-    treasury'financialAccountStatusDetails :: AccountServiceResourceTreasuryStatusDetails,
+    treasury'financialAccountStatusDetails :: TreasuryFinancialAccountsResourceStatusDetails,
     -- | supported_currencies: The currencies the FinancialAccount can hold a balance in. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase.
     treasury'financialAccountSupportedCurrencies :: ([Data.Text.Internal.Text])
   }
@@ -88,42 +88,36 @@ data Treasury'financialAccount = Treasury'financialAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Treasury'financialAccount where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active_features" Data.Aeson.Types.ToJSON..= treasury'financialAccountActiveFeatures obj] : ["balance" Data.Aeson.Types.ToJSON..= treasury'financialAccountBalance obj] : ["country" Data.Aeson.Types.ToJSON..= treasury'financialAccountCountry obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'financialAccountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountFeatures obj) : ["financial_addresses" Data.Aeson.Types.ToJSON..= treasury'financialAccountFinancialAddresses obj] : ["id" Data.Aeson.Types.ToJSON..= treasury'financialAccountId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'financialAccountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountMetadata obj) : ["pending_features" Data.Aeson.Types.ToJSON..= treasury'financialAccountPendingFeatures obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("platform_restrictions" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountPlatformRestrictions obj) : ["restricted_features" Data.Aeson.Types.ToJSON..= treasury'financialAccountRestrictedFeatures obj] : ["status" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatus obj] : ["status_details" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatusDetails obj] : ["supported_currencies" Data.Aeson.Types.ToJSON..= treasury'financialAccountSupportedCurrencies obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.financial_account"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active_features" Data.Aeson.Types.ToJSON..= treasury'financialAccountActiveFeatures obj] : ["balance" Data.Aeson.Types.ToJSON..= treasury'financialAccountBalance obj] : ["country" Data.Aeson.Types.ToJSON..= treasury'financialAccountCountry obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'financialAccountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountFeatures obj) : ["financial_addresses" Data.Aeson.Types.ToJSON..= treasury'financialAccountFinancialAddresses obj] : ["id" Data.Aeson.Types.ToJSON..= treasury'financialAccountId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'financialAccountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountMetadata obj) : ["pending_features" Data.Aeson.Types.ToJSON..= treasury'financialAccountPendingFeatures obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("platform_restrictions" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountPlatformRestrictions obj) : ["restricted_features" Data.Aeson.Types.ToJSON..= treasury'financialAccountRestrictedFeatures obj] : ["status" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatus obj] : ["status_details" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatusDetails obj] : ["supported_currencies" Data.Aeson.Types.ToJSON..= treasury'financialAccountSupportedCurrencies obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.financial_account"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active_features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountActiveFeatures obj) : ["balance" Data.Aeson.Types.ToJSON..= treasury'financialAccountBalance obj] : ["country" Data.Aeson.Types.ToJSON..= treasury'financialAccountCountry obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'financialAccountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountFeatures obj) : ["financial_addresses" Data.Aeson.Types.ToJSON..= treasury'financialAccountFinancialAddresses obj] : ["id" Data.Aeson.Types.ToJSON..= treasury'financialAccountId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'financialAccountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountPendingFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("platform_restrictions" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountPlatformRestrictions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restricted_features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountRestrictedFeatures obj) : ["status" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatus obj] : ["status_details" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatusDetails obj] : ["supported_currencies" Data.Aeson.Types.ToJSON..= treasury'financialAccountSupportedCurrencies obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.financial_account"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active_features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountActiveFeatures obj) : ["balance" Data.Aeson.Types.ToJSON..= treasury'financialAccountBalance obj] : ["country" Data.Aeson.Types.ToJSON..= treasury'financialAccountCountry obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'financialAccountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountFeatures obj) : ["financial_addresses" Data.Aeson.Types.ToJSON..= treasury'financialAccountFinancialAddresses obj] : ["id" Data.Aeson.Types.ToJSON..= treasury'financialAccountId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'financialAccountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountPendingFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("platform_restrictions" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountPlatformRestrictions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restricted_features" Data.Aeson.Types.ToJSON..=)) (treasury'financialAccountRestrictedFeatures obj) : ["status" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatus obj] : ["status_details" Data.Aeson.Types.ToJSON..= treasury'financialAccountStatusDetails obj] : ["supported_currencies" Data.Aeson.Types.ToJSON..= treasury'financialAccountSupportedCurrencies obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.financial_account"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Treasury'financialAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Treasury'financialAccount" (\obj -> ((((((((((((((GHC.Base.pure Treasury'financialAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active_features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "financial_addresses")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pending_features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "platform_restrictions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "restricted_features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_currencies"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Treasury'financialAccount" (\obj -> ((((((((((((((GHC.Base.pure Treasury'financialAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active_features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "financial_addresses")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "platform_restrictions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "restricted_features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_currencies"))
 
 -- | Create a new 'Treasury'financialAccount' with all required fields.
 mkTreasury'financialAccount ::
-  -- | 'treasury'financialAccountActiveFeatures'
-  [Treasury'financialAccountActiveFeatures'] ->
   -- | 'treasury'financialAccountBalance'
-  AccountServiceResourceBalance ->
+  TreasuryFinancialAccountsResourceBalance ->
   -- | 'treasury'financialAccountCountry'
   Data.Text.Internal.Text ->
   -- | 'treasury'financialAccountCreated'
   GHC.Types.Int ->
   -- | 'treasury'financialAccountFinancialAddresses'
-  [AccountServiceResourceFinancialAddress] ->
+  [TreasuryFinancialAccountsResourceFinancialAddress] ->
   -- | 'treasury'financialAccountId'
   Data.Text.Internal.Text ->
   -- | 'treasury'financialAccountLivemode'
   GHC.Types.Bool ->
-  -- | 'treasury'financialAccountPendingFeatures'
-  [Treasury'financialAccountPendingFeatures'] ->
-  -- | 'treasury'financialAccountRestrictedFeatures'
-  [Treasury'financialAccountRestrictedFeatures'] ->
   -- | 'treasury'financialAccountStatus'
   Treasury'financialAccountStatus' ->
   -- | 'treasury'financialAccountStatusDetails'
-  AccountServiceResourceTreasuryStatusDetails ->
+  TreasuryFinancialAccountsResourceStatusDetails ->
   -- | 'treasury'financialAccountSupportedCurrencies'
   [Data.Text.Internal.Text] ->
   Treasury'financialAccount
-mkTreasury'financialAccount treasury'financialAccountActiveFeatures treasury'financialAccountBalance treasury'financialAccountCountry treasury'financialAccountCreated treasury'financialAccountFinancialAddresses treasury'financialAccountId treasury'financialAccountLivemode treasury'financialAccountPendingFeatures treasury'financialAccountRestrictedFeatures treasury'financialAccountStatus treasury'financialAccountStatusDetails treasury'financialAccountSupportedCurrencies =
+mkTreasury'financialAccount treasury'financialAccountBalance treasury'financialAccountCountry treasury'financialAccountCreated treasury'financialAccountFinancialAddresses treasury'financialAccountId treasury'financialAccountLivemode treasury'financialAccountStatus treasury'financialAccountStatusDetails treasury'financialAccountSupportedCurrencies =
   Treasury'financialAccount
-    { treasury'financialAccountActiveFeatures = treasury'financialAccountActiveFeatures,
+    { treasury'financialAccountActiveFeatures = GHC.Maybe.Nothing,
       treasury'financialAccountBalance = treasury'financialAccountBalance,
       treasury'financialAccountCountry = treasury'financialAccountCountry,
       treasury'financialAccountCreated = treasury'financialAccountCreated,
@@ -132,9 +126,9 @@ mkTreasury'financialAccount treasury'financialAccountActiveFeatures treasury'fin
       treasury'financialAccountId = treasury'financialAccountId,
       treasury'financialAccountLivemode = treasury'financialAccountLivemode,
       treasury'financialAccountMetadata = GHC.Maybe.Nothing,
-      treasury'financialAccountPendingFeatures = treasury'financialAccountPendingFeatures,
+      treasury'financialAccountPendingFeatures = GHC.Maybe.Nothing,
       treasury'financialAccountPlatformRestrictions = GHC.Maybe.Nothing,
-      treasury'financialAccountRestrictedFeatures = treasury'financialAccountRestrictedFeatures,
+      treasury'financialAccountRestrictedFeatures = GHC.Maybe.Nothing,
       treasury'financialAccountStatus = treasury'financialAccountStatus,
       treasury'financialAccountStatusDetails = treasury'financialAccountStatusDetails,
       treasury'financialAccountSupportedCurrencies = treasury'financialAccountSupportedCurrencies

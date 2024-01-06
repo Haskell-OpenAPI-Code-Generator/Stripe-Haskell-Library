@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postPrices body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPricesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Price
-                                                      )
+                                     PostPricesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Price
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPricesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostPricesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/prices") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/prices" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/prices.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPricesRequestBody = PostPricesRequestBody
@@ -90,6 +91,8 @@ data PostPricesRequestBody = PostPricesRequestBody
     postPricesRequestBodyBillingScheme :: (GHC.Maybe.Maybe PostPricesRequestBodyBillingScheme'),
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     postPricesRequestBodyCurrency :: Data.Text.Internal.Text,
+    -- | currency_options: Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html) and a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    postPricesRequestBodyCurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | custom_unit_amount: When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
     postPricesRequestBodyCustomUnitAmount :: (GHC.Maybe.Maybe PostPricesRequestBodyCustomUnitAmount'),
     -- | expand: Specifies which fields in the response should be expanded.
@@ -118,7 +121,7 @@ data PostPricesRequestBody = PostPricesRequestBody
     postPricesRequestBodyProductData :: (GHC.Maybe.Maybe PostPricesRequestBodyProductData'),
     -- | recurring: The recurring components of a price such as \`interval\` and \`usage_type\`.
     postPricesRequestBodyRecurring :: (GHC.Maybe.Maybe PostPricesRequestBodyRecurring'),
-    -- | tax_behavior: Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
+    -- | tax_behavior: Only required if a [default tax behavior](https:\/\/stripe.com\/docs\/tax\/products-prices-tax-categories-tax-behavior\#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
     postPricesRequestBodyTaxBehavior :: (GHC.Maybe.Maybe PostPricesRequestBodyTaxBehavior'),
     -- | tiers: Each element represents a pricing tier. This parameter requires \`billing_scheme\` to be set to \`tiered\`. See also the documentation for \`billing_scheme\`.
     postPricesRequestBodyTiers :: (GHC.Maybe.Maybe ([PostPricesRequestBodyTiers'])),
@@ -128,7 +131,7 @@ data PostPricesRequestBody = PostPricesRequestBody
     postPricesRequestBodyTransferLookupKey :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | transform_quantity: Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with \`tiers\`.
     postPricesRequestBodyTransformQuantity :: (GHC.Maybe.Maybe PostPricesRequestBodyTransformQuantity'),
-    -- | unit_amount: A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+    -- | unit_amount: A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of \`unit_amount\` or \`custom_unit_amount\` is required, unless \`billing_scheme=tiered\`.
     postPricesRequestBodyUnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | unit_amount_decimal: Same as \`unit_amount\`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of \`unit_amount\` and \`unit_amount_decimal\` can be set.
     postPricesRequestBodyUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
@@ -139,11 +142,11 @@ data PostPricesRequestBody = PostPricesRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPricesRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyBillingScheme obj) : ["currency" Data.Aeson.Types.ToJSON..= postPricesRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_data" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProductData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransferLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyBillingScheme obj) : ["currency" Data.Aeson.Types.ToJSON..= postPricesRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_data" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProductData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransferLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyBillingScheme obj) : ["currency" Data.Aeson.Types.ToJSON..= postPricesRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyCurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_data" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProductData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransferLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_scheme" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyBillingScheme obj) : ["currency" Data.Aeson.Types.ToJSON..= postPricesRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyCurrencyOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyCustomUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nickname" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyNickname obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProduct obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("product_data" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyProductData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("recurring" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyRecurring obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_behavior" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTaxBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiers obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tiers_mode" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTiersMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_lookup_key" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransferLookupKey obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transform_quantity" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyTransformQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("unit_amount_decimal" Data.Aeson.Types.ToJSON..=)) (postPricesRequestBodyUnitAmountDecimal obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPricesRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPricesRequestBody" (\obj -> (((((((((((((((((GHC.Base.pure PostPricesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transform_quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPricesRequestBody" (\obj -> ((((((((((((((((((GHC.Base.pure PostPricesRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_scheme")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nickname")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recurring")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tiers_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_lookup_key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transform_quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "unit_amount_decimal"))
 
 -- | Create a new 'PostPricesRequestBody' with all required fields.
 mkPostPricesRequestBody ::
@@ -155,6 +158,7 @@ mkPostPricesRequestBody postPricesRequestBodyCurrency =
     { postPricesRequestBodyActive = GHC.Maybe.Nothing,
       postPricesRequestBodyBillingScheme = GHC.Maybe.Nothing,
       postPricesRequestBodyCurrency = postPricesRequestBodyCurrency,
+      postPricesRequestBodyCurrencyOptions = GHC.Maybe.Nothing,
       postPricesRequestBodyCustomUnitAmount = GHC.Maybe.Nothing,
       postPricesRequestBodyExpand = GHC.Maybe.Nothing,
       postPricesRequestBodyLookupKey = GHC.Maybe.Nothing,
@@ -443,7 +447,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPricesRequestBodyRecurring'Usage
 
 -- | Defines the enum schema located at @paths.\/v1\/prices.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_behavior@ in the specification.
 --
--- Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
+-- Only required if a [default tax behavior](https:\/\/stripe.com\/docs\/tax\/products-prices-tax-categories-tax-behavior\#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of \`inclusive\`, \`exclusive\`, or \`unspecified\`. Once specified as either \`inclusive\` or \`exclusive\`, it cannot be changed.
 data PostPricesRequestBodyTaxBehavior'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostPricesRequestBodyTaxBehavior'Other Data.Aeson.Types.Internal.Value
@@ -529,8 +533,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPricesRequestBodyTiers'UpTo'Vari
     if
         | val GHC.Classes.== "inf" -> GHC.Base.pure PostPricesRequestBodyTiers'UpTo'Inf
         | GHC.Base.otherwise -> case (PostPricesRequestBodyTiers'UpTo'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/prices.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tiers_mode@ in the specification.
 --

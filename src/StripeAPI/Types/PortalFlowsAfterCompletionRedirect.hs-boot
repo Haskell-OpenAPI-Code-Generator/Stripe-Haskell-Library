@@ -1,0 +1,9 @@
+module StripeAPI.Types.PortalFlowsAfterCompletionRedirect where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PortalFlowsAfterCompletionRedirect
+instance Show PortalFlowsAfterCompletionRedirect
+instance Eq PortalFlowsAfterCompletionRedirect
+instance FromJSON PortalFlowsAfterCompletionRedirect
+instance ToJSON PortalFlowsAfterCompletionRedirect

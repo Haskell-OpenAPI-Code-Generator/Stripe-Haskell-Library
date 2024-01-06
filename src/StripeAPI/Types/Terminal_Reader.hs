@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -32,6 +32,7 @@ import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceProcessPaymentIntentAction
 import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceProcessSetupIntentAction
 import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceReaderAction
+import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceRefundPaymentAction
 import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceSetReaderDisplayAction
 import {-# SOURCE #-} StripeAPI.Types.Terminal_Location
 import qualified Prelude as GHC.Integer.Type
@@ -41,7 +42,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- A Reader represents a physical device for accepting payment details.
 --
--- Related guide: [Connecting to a Reader](https:\/\/stripe.com\/docs\/terminal\/payments\/connect-reader).
+-- Related guide: [Connecting to a reader](https:\/\/stripe.com\/docs\/terminal\/payments\/connect-reader)
 data Terminal'reader = Terminal'reader
   { -- | action: The most recent action performed by the reader.
     terminal'readerAction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Terminal'readerAction'NonNullable)),
@@ -152,6 +153,8 @@ data Terminal'readerAction'NonNullable = Terminal'readerAction'NonNullable
     terminal'readerAction'NonNullableProcessPaymentIntent :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessPaymentIntentAction),
     -- | process_setup_intent: Represents a reader action to process a setup intent
     terminal'readerAction'NonNullableProcessSetupIntent :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessSetupIntentAction),
+    -- | refund_payment: Represents a reader action to refund a payment
+    terminal'readerAction'NonNullableRefundPayment :: (GHC.Maybe.Maybe TerminalReaderReaderResourceRefundPaymentAction),
     -- | set_reader_display: Represents a reader action to set the reader display
     terminal'readerAction'NonNullableSetReaderDisplay :: (GHC.Maybe.Maybe TerminalReaderReaderResourceSetReaderDisplayAction),
     -- | status: Status of the action performed by the reader.
@@ -165,11 +168,11 @@ data Terminal'readerAction'NonNullable = Terminal'readerAction'NonNullable
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerAction'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableType obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableType obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_payment" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableRefundPayment obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableFailureMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_payment_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_setup_intent" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableProcessSetupIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund_payment" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableRefundPayment obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("set_reader_display" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableSetReaderDisplay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (terminal'readerAction'NonNullableType obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerAction'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'readerAction'NonNullable" (\obj -> ((((((GHC.Base.pure Terminal'readerAction'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "set_reader_display")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'readerAction'NonNullable" (\obj -> (((((((GHC.Base.pure Terminal'readerAction'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_setup_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refund_payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "set_reader_display")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
 
 -- | Create a new 'Terminal'readerAction'NonNullable' with all required fields.
 mkTerminal'readerAction'NonNullable :: Terminal'readerAction'NonNullable
@@ -179,6 +182,7 @@ mkTerminal'readerAction'NonNullable =
       terminal'readerAction'NonNullableFailureMessage = GHC.Maybe.Nothing,
       terminal'readerAction'NonNullableProcessPaymentIntent = GHC.Maybe.Nothing,
       terminal'readerAction'NonNullableProcessSetupIntent = GHC.Maybe.Nothing,
+      terminal'readerAction'NonNullableRefundPayment = GHC.Maybe.Nothing,
       terminal'readerAction'NonNullableSetReaderDisplay = GHC.Maybe.Nothing,
       terminal'readerAction'NonNullableStatus = GHC.Maybe.Nothing,
       terminal'readerAction'NonNullableType = GHC.Maybe.Nothing
@@ -229,6 +233,8 @@ data Terminal'readerAction'NonNullableType'
     Terminal'readerAction'NonNullableType'EnumProcessPaymentIntent
   | -- | Represents the JSON value @"process_setup_intent"@
     Terminal'readerAction'NonNullableType'EnumProcessSetupIntent
+  | -- | Represents the JSON value @"refund_payment"@
+    Terminal'readerAction'NonNullableType'EnumRefundPayment
   | -- | Represents the JSON value @"set_reader_display"@
     Terminal'readerAction'NonNullableType'EnumSetReaderDisplay
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -238,6 +244,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON Terminal'readerAction'NonNullableType' w
   toJSON (Terminal'readerAction'NonNullableType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (Terminal'readerAction'NonNullableType'EnumProcessPaymentIntent) = "process_payment_intent"
   toJSON (Terminal'readerAction'NonNullableType'EnumProcessSetupIntent) = "process_setup_intent"
+  toJSON (Terminal'readerAction'NonNullableType'EnumRefundPayment) = "refund_payment"
   toJSON (Terminal'readerAction'NonNullableType'EnumSetReaderDisplay) = "set_reader_display"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerAction'NonNullableType' where
@@ -246,6 +253,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerAction'NonNullableTyp
       ( if
             | val GHC.Classes.== "process_payment_intent" -> Terminal'readerAction'NonNullableType'EnumProcessPaymentIntent
             | val GHC.Classes.== "process_setup_intent" -> Terminal'readerAction'NonNullableType'EnumProcessSetupIntent
+            | val GHC.Classes.== "refund_payment" -> Terminal'readerAction'NonNullableType'EnumRefundPayment
             | val GHC.Classes.== "set_reader_display" -> Terminal'readerAction'NonNullableType'EnumSetReaderDisplay
             | GHC.Base.otherwise -> Terminal'readerAction'NonNullableType'Other val
       )

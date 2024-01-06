@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postPaymentLinks body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPaymentLinksResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            PaymentLink
-                                                      )
+                                     PostPaymentLinksResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              PaymentLink
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPaymentLinksResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostPaymentLinksResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_links") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/payment_links" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentLinksRequestBody = PostPaymentLinksRequestBody
@@ -90,7 +91,7 @@ data PostPaymentLinksRequestBody = PostPaymentLinksRequestBody
     postPaymentLinksRequestBodyAllowPromotionCodes :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | application_fee_amount: The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner\'s Stripe account. Can only be applied when there are no line items with recurring prices.
     postPaymentLinksRequestBodyApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account. There must be at least 1 line item with a recurring price to use this field.
+    -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner\'s Stripe account. There must be at least 1 line item with a recurring price to use this field.
     postPaymentLinksRequestBodyApplicationFeePercent :: (GHC.Maybe.Maybe GHC.Types.Double),
     -- | automatic_tax: Configuration for automatic tax collection.
     postPaymentLinksRequestBodyAutomaticTax :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyAutomaticTax'),
@@ -98,10 +99,24 @@ data PostPaymentLinksRequestBody = PostPaymentLinksRequestBody
     postPaymentLinksRequestBodyBillingAddressCollection :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyBillingAddressCollection'),
     -- | consent_collection: Configure fields to gather active consent from customers.
     postPaymentLinksRequestBodyConsentCollection :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyConsentCollection'),
+    -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies) and supported by each line item\'s price.
+    postPaymentLinksRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | custom_fields: Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+    postPaymentLinksRequestBodyCustomFields :: (GHC.Maybe.Maybe ([PostPaymentLinksRequestBodyCustomFields'])),
+    -- | custom_text: Display additional text for your customers using custom text.
+    postPaymentLinksRequestBodyCustomText :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomText'),
     -- | customer_creation: Configures whether [checkout sessions](https:\/\/stripe.com\/docs\/api\/checkout\/sessions) created by this payment link create a [Customer](https:\/\/stripe.com\/docs\/api\/customers).
     postPaymentLinksRequestBodyCustomerCreation :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomerCreation'),
     -- | expand: Specifies which fields in the response should be expanded.
     postPaymentLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | inactive_message: The custom message to be displayed to a customer when a payment link is no longer active.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 500
+    postPaymentLinksRequestBodyInactiveMessage :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | invoice_creation: Generate a post-purchase Invoice for one-time payments.
+    postPaymentLinksRequestBodyInvoiceCreation :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyInvoiceCreation'),
     -- | line_items: The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
     postPaymentLinksRequestBodyLineItems :: ([PostPaymentLinksRequestBodyLineItems']),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https:\/\/stripe.com\/docs\/api\/checkout\/sessions) created by this payment link.
@@ -110,17 +125,25 @@ data PostPaymentLinksRequestBody = PostPaymentLinksRequestBody
     postPaymentLinksRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | payment_intent_data: A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in \`payment\` mode.
     postPaymentLinksRequestBodyPaymentIntentData :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyPaymentIntentData'),
+    -- | payment_method_collection: Specify whether Checkout should collect a payment method. When set to \`if_required\`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
+    --
+    -- Can only be set in \`subscription\` mode.
+    --
+    -- If you\'d like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https:\/\/stripe.com\/docs\/payments\/checkout\/free-trials).
+    postPaymentLinksRequestBodyPaymentMethodCollection :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyPaymentMethodCollection'),
     -- | payment_method_types: The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https:\/\/dashboard.stripe.com\/settings\/payment_methods) (20+ payment methods [supported](https:\/\/stripe.com\/docs\/payments\/payment-methods\/integration-options\#payment-method-product-support)).
     postPaymentLinksRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([PostPaymentLinksRequestBodyPaymentMethodTypes'])),
     -- | phone_number_collection: Controls phone number collection settings during checkout.
     --
     -- We recommend that you review your privacy policy and check with your legal contacts.
     postPaymentLinksRequestBodyPhoneNumberCollection :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyPhoneNumberCollection'),
+    -- | restrictions: Settings that restrict the usage of a payment link.
+    postPaymentLinksRequestBodyRestrictions :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyRestrictions'),
     -- | shipping_address_collection: Configuration for collecting the customer\'s shipping address.
     postPaymentLinksRequestBodyShippingAddressCollection :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyShippingAddressCollection'),
     -- | shipping_options: The shipping rate options to apply to [checkout sessions](https:\/\/stripe.com\/docs\/api\/checkout\/sessions) created by this payment link.
     postPaymentLinksRequestBodyShippingOptions :: (GHC.Maybe.Maybe ([PostPaymentLinksRequestBodyShippingOptions'])),
-    -- | submit_type: Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button.
+    -- | submit_type: Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https:\/\/stripe.com\/docs\/api\/payment_links\/payment_links\/object\#url) property (example: \`donate.stripe.com\`).
     postPaymentLinksRequestBodySubmitType :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodySubmitType'),
     -- | subscription_data: When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use \`subscription_data\`.
     postPaymentLinksRequestBodySubscriptionData :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodySubscriptionData'),
@@ -135,11 +158,11 @@ data PostPaymentLinksRequestBody = PostPaymentLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyBillingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyExpand obj) : ["line_items" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyLineItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTaxIdCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTransferData obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyBillingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyExpand obj) : ["line_items" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyLineItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTaxIdCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTransferData obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyBillingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_text" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("inactive_message" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInactiveMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_creation" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation obj) : ["line_items" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyLineItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentMethodCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restrictions" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyRestrictions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTaxIdCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTransferData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyBillingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_text" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("inactive_message" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInactiveMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_creation" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation obj) : ["line_items" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyLineItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentMethodCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restrictions" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyRestrictions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTaxIdCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyTransferData obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBody" (\obj -> ((((((((((((((((((((GHC.Base.pure PostPaymentLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_completion")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allow_promotion_codes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "consent_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone_number_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBody" (\obj -> (((((((((((((((((((((((((((GHC.Base.pure PostPaymentLinksRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_completion")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allow_promotion_codes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "consent_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_text")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "inactive_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone_number_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "restrictions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
 
 -- | Create a new 'PostPaymentLinksRequestBody' with all required fields.
 mkPostPaymentLinksRequestBody ::
@@ -155,14 +178,21 @@ mkPostPaymentLinksRequestBody postPaymentLinksRequestBodyLineItems =
       postPaymentLinksRequestBodyAutomaticTax = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyBillingAddressCollection = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyConsentCollection = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCurrency = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomFields = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomText = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyCustomerCreation = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyExpand = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyInactiveMessage = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyInvoiceCreation = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyLineItems = postPaymentLinksRequestBodyLineItems,
       postPaymentLinksRequestBodyMetadata = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyOnBehalfOf = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyPaymentIntentData = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyPaymentMethodCollection = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyPaymentMethodTypes = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyPhoneNumberCollection = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyRestrictions = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyShippingAddressCollection = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodyShippingOptions = GHC.Maybe.Nothing,
       postPaymentLinksRequestBodySubmitType = GHC.Maybe.Nothing,
@@ -345,8 +375,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyBillingAd
 --
 -- Configure fields to gather active consent from customers.
 data PostPaymentLinksRequestBodyConsentCollection' = PostPaymentLinksRequestBodyConsentCollection'
-  { -- | promotions
-    postPaymentLinksRequestBodyConsentCollection'Promotions :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyConsentCollection'Promotions')
+  { -- | payment_method_reuse_agreement
+    postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'),
+    -- | promotions
+    postPaymentLinksRequestBodyConsentCollection'Promotions :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyConsentCollection'Promotions'),
+    -- | terms_of_service
+    postPaymentLinksRequestBodyConsentCollection'TermsOfService :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyConsentCollection'TermsOfService')
   }
   deriving
     ( GHC.Show.Show,
@@ -354,15 +388,71 @@ data PostPaymentLinksRequestBodyConsentCollection' = PostPaymentLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyConsentCollection' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'Promotions obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'Promotions obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'Promotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'TermsOfService obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'Promotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyConsentCollection'TermsOfService obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyConsentCollection' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyConsentCollection'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyConsentCollection' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyConsentCollection'" (\obj -> ((GHC.Base.pure PostPaymentLinksRequestBodyConsentCollection' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_reuse_agreement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service"))
 
 -- | Create a new 'PostPaymentLinksRequestBodyConsentCollection'' with all required fields.
 mkPostPaymentLinksRequestBodyConsentCollection' :: PostPaymentLinksRequestBodyConsentCollection'
-mkPostPaymentLinksRequestBodyConsentCollection' = PostPaymentLinksRequestBodyConsentCollection' {postPaymentLinksRequestBodyConsentCollection'Promotions = GHC.Maybe.Nothing}
+mkPostPaymentLinksRequestBodyConsentCollection' =
+  PostPaymentLinksRequestBodyConsentCollection'
+    { postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyConsentCollection'Promotions = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyConsentCollection'TermsOfService = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.payment_method_reuse_agreement@ in the specification.
+data PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement' = PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'
+  { -- | position
+    postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position :: PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["position" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["position" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "position"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'' with all required fields.
+mkPostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement' ::
+  -- | 'postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'
+  PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position' ->
+  PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'
+mkPostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement' postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position = PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement' {postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position = postPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position}
+
+-- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.payment_method_reuse_agreement.properties.position@ in the specification.
+data PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"auto"@
+    PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumAuto
+  | -- | Represents the JSON value @"hidden"@
+    PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumHidden
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position' where
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Other val) = val
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumAuto) = "auto"
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumHidden) = "hidden"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "auto" -> PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumAuto
+            | val GHC.Classes.== "hidden" -> PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumHidden
+            | GHC.Base.otherwise -> PostPaymentLinksRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Other val
+      )
 
 -- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.promotions@ in the specification.
 data PostPaymentLinksRequestBodyConsentCollection'Promotions'
@@ -372,20 +462,504 @@ data PostPaymentLinksRequestBodyConsentCollection'Promotions'
     PostPaymentLinksRequestBodyConsentCollection'Promotions'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"auto"@
     PostPaymentLinksRequestBodyConsentCollection'Promotions'EnumAuto
+  | -- | Represents the JSON value @"none"@
+    PostPaymentLinksRequestBodyConsentCollection'Promotions'EnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyConsentCollection'Promotions' where
   toJSON (PostPaymentLinksRequestBodyConsentCollection'Promotions'Other val) = val
   toJSON (PostPaymentLinksRequestBodyConsentCollection'Promotions'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostPaymentLinksRequestBodyConsentCollection'Promotions'EnumAuto) = "auto"
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'Promotions'EnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyConsentCollection'Promotions' where
   parseJSON val =
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "auto" -> PostPaymentLinksRequestBodyConsentCollection'Promotions'EnumAuto
+            | val GHC.Classes.== "none" -> PostPaymentLinksRequestBodyConsentCollection'Promotions'EnumNone
             | GHC.Base.otherwise -> PostPaymentLinksRequestBodyConsentCollection'Promotions'Other val
       )
+
+-- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.terms_of_service@ in the specification.
+data PostPaymentLinksRequestBodyConsentCollection'TermsOfService'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPaymentLinksRequestBodyConsentCollection'TermsOfService'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPaymentLinksRequestBodyConsentCollection'TermsOfService'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostPaymentLinksRequestBodyConsentCollection'TermsOfService'EnumNone
+  | -- | Represents the JSON value @"required"@
+    PostPaymentLinksRequestBodyConsentCollection'TermsOfService'EnumRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyConsentCollection'TermsOfService' where
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'TermsOfService'Other val) = val
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'TermsOfService'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'TermsOfService'EnumNone) = "none"
+  toJSON (PostPaymentLinksRequestBodyConsentCollection'TermsOfService'EnumRequired) = "required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyConsentCollection'TermsOfService' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostPaymentLinksRequestBodyConsentCollection'TermsOfService'EnumNone
+            | val GHC.Classes.== "required" -> PostPaymentLinksRequestBodyConsentCollection'TermsOfService'EnumRequired
+            | GHC.Base.otherwise -> PostPaymentLinksRequestBodyConsentCollection'TermsOfService'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items@ in the specification.
+data PostPaymentLinksRequestBodyCustomFields' = PostPaymentLinksRequestBodyCustomFields'
+  { -- | dropdown
+    postPaymentLinksRequestBodyCustomFields'Dropdown :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomFields'Dropdown'),
+    -- | key
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 200
+    postPaymentLinksRequestBodyCustomFields'Key :: Data.Text.Internal.Text,
+    -- | label
+    postPaymentLinksRequestBodyCustomFields'Label :: PostPaymentLinksRequestBodyCustomFields'Label',
+    -- | numeric
+    postPaymentLinksRequestBodyCustomFields'Numeric :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomFields'Numeric'),
+    -- | optional
+    postPaymentLinksRequestBodyCustomFields'Optional :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | text
+    postPaymentLinksRequestBodyCustomFields'Text :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomFields'Text'),
+    -- | type
+    postPaymentLinksRequestBodyCustomFields'Type :: PostPaymentLinksRequestBodyCustomFields'Type'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomFields' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dropdown" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Dropdown obj) : ["key" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Key obj] : ["label" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Label obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("numeric" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Numeric obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("optional" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Optional obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("text" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Text obj) : ["type" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Type obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dropdown" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Dropdown obj) : ["key" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Key obj] : ["label" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Label obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("numeric" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Numeric obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("optional" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Optional obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("text" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Text obj) : ["type" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Type obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomFields' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomFields'" (\obj -> ((((((GHC.Base.pure PostPaymentLinksRequestBodyCustomFields' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dropdown")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "numeric")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "optional")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "text")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomFields'' with all required fields.
+mkPostPaymentLinksRequestBodyCustomFields' ::
+  -- | 'postPaymentLinksRequestBodyCustomFields'Key'
+  Data.Text.Internal.Text ->
+  -- | 'postPaymentLinksRequestBodyCustomFields'Label'
+  PostPaymentLinksRequestBodyCustomFields'Label' ->
+  -- | 'postPaymentLinksRequestBodyCustomFields'Type'
+  PostPaymentLinksRequestBodyCustomFields'Type' ->
+  PostPaymentLinksRequestBodyCustomFields'
+mkPostPaymentLinksRequestBodyCustomFields' postPaymentLinksRequestBodyCustomFields'Key postPaymentLinksRequestBodyCustomFields'Label postPaymentLinksRequestBodyCustomFields'Type =
+  PostPaymentLinksRequestBodyCustomFields'
+    { postPaymentLinksRequestBodyCustomFields'Dropdown = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomFields'Key = postPaymentLinksRequestBodyCustomFields'Key,
+      postPaymentLinksRequestBodyCustomFields'Label = postPaymentLinksRequestBodyCustomFields'Label,
+      postPaymentLinksRequestBodyCustomFields'Numeric = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomFields'Optional = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomFields'Text = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomFields'Type = postPaymentLinksRequestBodyCustomFields'Type
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.dropdown@ in the specification.
+data PostPaymentLinksRequestBodyCustomFields'Dropdown' = PostPaymentLinksRequestBodyCustomFields'Dropdown'
+  { -- | options
+    postPaymentLinksRequestBodyCustomFields'Dropdown'Options :: ([PostPaymentLinksRequestBodyCustomFields'Dropdown'Options'])
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomFields'Dropdown' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["options" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Dropdown'Options obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["options" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Dropdown'Options obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomFields'Dropdown' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomFields'Dropdown'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyCustomFields'Dropdown' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "options"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomFields'Dropdown'' with all required fields.
+mkPostPaymentLinksRequestBodyCustomFields'Dropdown' ::
+  -- | 'postPaymentLinksRequestBodyCustomFields'Dropdown'Options'
+  [PostPaymentLinksRequestBodyCustomFields'Dropdown'Options'] ->
+  PostPaymentLinksRequestBodyCustomFields'Dropdown'
+mkPostPaymentLinksRequestBodyCustomFields'Dropdown' postPaymentLinksRequestBodyCustomFields'Dropdown'Options = PostPaymentLinksRequestBodyCustomFields'Dropdown' {postPaymentLinksRequestBodyCustomFields'Dropdown'Options = postPaymentLinksRequestBodyCustomFields'Dropdown'Options}
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.dropdown.properties.options.items@ in the specification.
+data PostPaymentLinksRequestBodyCustomFields'Dropdown'Options' = PostPaymentLinksRequestBodyCustomFields'Dropdown'Options'
+  { -- | label
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 100
+    postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Label :: Data.Text.Internal.Text,
+    -- | value
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 100
+    postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Value :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomFields'Dropdown'Options' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["label" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Label obj] : ["value" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Value obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["label" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Label obj] : ["value" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Value obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomFields'Dropdown'Options' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomFields'Dropdown'Options'" (\obj -> (GHC.Base.pure PostPaymentLinksRequestBodyCustomFields'Dropdown'Options' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomFields'Dropdown'Options'' with all required fields.
+mkPostPaymentLinksRequestBodyCustomFields'Dropdown'Options' ::
+  -- | 'postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Label'
+  Data.Text.Internal.Text ->
+  -- | 'postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Value'
+  Data.Text.Internal.Text ->
+  PostPaymentLinksRequestBodyCustomFields'Dropdown'Options'
+mkPostPaymentLinksRequestBodyCustomFields'Dropdown'Options' postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Label postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Value =
+  PostPaymentLinksRequestBodyCustomFields'Dropdown'Options'
+    { postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Label = postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Label,
+      postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Value = postPaymentLinksRequestBodyCustomFields'Dropdown'Options'Value
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.label@ in the specification.
+data PostPaymentLinksRequestBodyCustomFields'Label' = PostPaymentLinksRequestBodyCustomFields'Label'
+  { -- | custom
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 50
+    postPaymentLinksRequestBodyCustomFields'Label'Custom :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomFields'Label' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["custom" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Label'Custom obj] : ["type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "custom"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["custom" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomFields'Label'Custom obj] : ["type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "custom"] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomFields'Label' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomFields'Label'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyCustomFields'Label' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "custom"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomFields'Label'' with all required fields.
+mkPostPaymentLinksRequestBodyCustomFields'Label' ::
+  -- | 'postPaymentLinksRequestBodyCustomFields'Label'Custom'
+  Data.Text.Internal.Text ->
+  PostPaymentLinksRequestBodyCustomFields'Label'
+mkPostPaymentLinksRequestBodyCustomFields'Label' postPaymentLinksRequestBodyCustomFields'Label'Custom = PostPaymentLinksRequestBodyCustomFields'Label' {postPaymentLinksRequestBodyCustomFields'Label'Custom = postPaymentLinksRequestBodyCustomFields'Label'Custom}
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.numeric@ in the specification.
+data PostPaymentLinksRequestBodyCustomFields'Numeric' = PostPaymentLinksRequestBodyCustomFields'Numeric'
+  { -- | maximum_length
+    postPaymentLinksRequestBodyCustomFields'Numeric'MaximumLength :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | minimum_length
+    postPaymentLinksRequestBodyCustomFields'Numeric'MinimumLength :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomFields'Numeric' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Numeric'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Numeric'MinimumLength obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Numeric'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Numeric'MinimumLength obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomFields'Numeric' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomFields'Numeric'" (\obj -> (GHC.Base.pure PostPaymentLinksRequestBodyCustomFields'Numeric' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maximum_length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_length"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomFields'Numeric'' with all required fields.
+mkPostPaymentLinksRequestBodyCustomFields'Numeric' :: PostPaymentLinksRequestBodyCustomFields'Numeric'
+mkPostPaymentLinksRequestBodyCustomFields'Numeric' =
+  PostPaymentLinksRequestBodyCustomFields'Numeric'
+    { postPaymentLinksRequestBodyCustomFields'Numeric'MaximumLength = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomFields'Numeric'MinimumLength = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.text@ in the specification.
+data PostPaymentLinksRequestBodyCustomFields'Text' = PostPaymentLinksRequestBodyCustomFields'Text'
+  { -- | maximum_length
+    postPaymentLinksRequestBodyCustomFields'Text'MaximumLength :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | minimum_length
+    postPaymentLinksRequestBodyCustomFields'Text'MinimumLength :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomFields'Text' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Text'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Text'MinimumLength obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Text'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomFields'Text'MinimumLength obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomFields'Text' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomFields'Text'" (\obj -> (GHC.Base.pure PostPaymentLinksRequestBodyCustomFields'Text' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maximum_length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_length"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomFields'Text'' with all required fields.
+mkPostPaymentLinksRequestBodyCustomFields'Text' :: PostPaymentLinksRequestBodyCustomFields'Text'
+mkPostPaymentLinksRequestBodyCustomFields'Text' =
+  PostPaymentLinksRequestBodyCustomFields'Text'
+    { postPaymentLinksRequestBodyCustomFields'Text'MaximumLength = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomFields'Text'MinimumLength = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.type@ in the specification.
+data PostPaymentLinksRequestBodyCustomFields'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPaymentLinksRequestBodyCustomFields'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPaymentLinksRequestBodyCustomFields'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"dropdown"@
+    PostPaymentLinksRequestBodyCustomFields'Type'EnumDropdown
+  | -- | Represents the JSON value @"numeric"@
+    PostPaymentLinksRequestBodyCustomFields'Type'EnumNumeric
+  | -- | Represents the JSON value @"text"@
+    PostPaymentLinksRequestBodyCustomFields'Type'EnumText
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomFields'Type' where
+  toJSON (PostPaymentLinksRequestBodyCustomFields'Type'Other val) = val
+  toJSON (PostPaymentLinksRequestBodyCustomFields'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentLinksRequestBodyCustomFields'Type'EnumDropdown) = "dropdown"
+  toJSON (PostPaymentLinksRequestBodyCustomFields'Type'EnumNumeric) = "numeric"
+  toJSON (PostPaymentLinksRequestBodyCustomFields'Type'EnumText) = "text"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomFields'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "dropdown" -> PostPaymentLinksRequestBodyCustomFields'Type'EnumDropdown
+            | val GHC.Classes.== "numeric" -> PostPaymentLinksRequestBodyCustomFields'Type'EnumNumeric
+            | val GHC.Classes.== "text" -> PostPaymentLinksRequestBodyCustomFields'Type'EnumText
+            | GHC.Base.otherwise -> PostPaymentLinksRequestBodyCustomFields'Type'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text@ in the specification.
+--
+-- Display additional text for your customers using custom text.
+data PostPaymentLinksRequestBodyCustomText' = PostPaymentLinksRequestBodyCustomText'
+  { -- | after_submit
+    postPaymentLinksRequestBodyCustomText'AfterSubmit :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomText'AfterSubmit'Variants),
+    -- | shipping_address
+    postPaymentLinksRequestBodyCustomText'ShippingAddress :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomText'ShippingAddress'Variants),
+    -- | submit
+    postPaymentLinksRequestBodyCustomText'Submit :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomText'Submit'Variants),
+    -- | terms_of_service_acceptance
+    postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_submit" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'AfterSubmit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'ShippingAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'Submit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_acceptance" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_submit" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'AfterSubmit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'ShippingAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'Submit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_acceptance" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomText'" (\obj -> (((GHC.Base.pure PostPaymentLinksRequestBodyCustomText' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_submit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "submit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service_acceptance"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomText'' with all required fields.
+mkPostPaymentLinksRequestBodyCustomText' :: PostPaymentLinksRequestBodyCustomText'
+mkPostPaymentLinksRequestBodyCustomText' =
+  PostPaymentLinksRequestBodyCustomText'
+    { postPaymentLinksRequestBodyCustomText'AfterSubmit = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomText'ShippingAddress = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomText'Submit = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.after_submit.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 = PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1' with all required fields.
+mkPostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 ::
+  -- | 'postPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1
+mkPostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 postPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1Message = PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 {postPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1Message = postPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.after_submit.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'AfterSubmit'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyCustomText'AfterSubmit'EmptyString
+  | PostPaymentLinksRequestBodyCustomText'AfterSubmit'PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'AfterSubmit'Variants where
+  toJSON (PostPaymentLinksRequestBodyCustomText'AfterSubmit'PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyCustomText'AfterSubmit'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'AfterSubmit'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'AfterSubmit'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyCustomText'AfterSubmit'PostPaymentLinksRequestBodyCustomText'AfterSubmit'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.shipping_address.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 = PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1' with all required fields.
+mkPostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 ::
+  -- | 'postPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1
+mkPostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 postPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1Message = PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 {postPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1Message = postPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.shipping_address.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'ShippingAddress'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyCustomText'ShippingAddress'EmptyString
+  | PostPaymentLinksRequestBodyCustomText'ShippingAddress'PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'ShippingAddress'Variants where
+  toJSON (PostPaymentLinksRequestBodyCustomText'ShippingAddress'PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyCustomText'ShippingAddress'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'ShippingAddress'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'ShippingAddress'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyCustomText'ShippingAddress'PostPaymentLinksRequestBodyCustomText'ShippingAddress'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.submit.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 = PostPaymentLinksRequestBodyCustomText'Submit'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postPaymentLinksRequestBodyCustomText'Submit'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'Submit'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'Submit'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomText'Submit'OneOf1" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomText'Submit'OneOf1' with all required fields.
+mkPostPaymentLinksRequestBodyCustomText'Submit'OneOf1 ::
+  -- | 'postPaymentLinksRequestBodyCustomText'Submit'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostPaymentLinksRequestBodyCustomText'Submit'OneOf1
+mkPostPaymentLinksRequestBodyCustomText'Submit'OneOf1 postPaymentLinksRequestBodyCustomText'Submit'OneOf1Message = PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 {postPaymentLinksRequestBodyCustomText'Submit'OneOf1Message = postPaymentLinksRequestBodyCustomText'Submit'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.submit.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'Submit'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyCustomText'Submit'EmptyString
+  | PostPaymentLinksRequestBodyCustomText'Submit'PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 PostPaymentLinksRequestBodyCustomText'Submit'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'Submit'Variants where
+  toJSON (PostPaymentLinksRequestBodyCustomText'Submit'PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyCustomText'Submit'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'Submit'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'Submit'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyCustomText'Submit'PostPaymentLinksRequestBodyCustomText'Submit'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.terms_of_service_acceptance.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 = PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1' with all required fields.
+mkPostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 ::
+  -- | 'postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1
+mkPostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message = PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 {postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message = postPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.terms_of_service_acceptance.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'EmptyString
+  | PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'Variants where
+  toJSON (PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'PostPaymentLinksRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.customer_creation@ in the specification.
 --
@@ -415,6 +989,253 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyCustomerC
             | val GHC.Classes.== "if_required" -> PostPaymentLinksRequestBodyCustomerCreation'EnumIfRequired
             | GHC.Base.otherwise -> PostPaymentLinksRequestBodyCustomerCreation'Other val
       )
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation@ in the specification.
+--
+-- Generate a post-purchase Invoice for one-time payments.
+data PostPaymentLinksRequestBodyInvoiceCreation' = PostPaymentLinksRequestBodyInvoiceCreation'
+  { -- | enabled
+    postPaymentLinksRequestBodyInvoiceCreation'Enabled :: GHC.Types.Bool,
+    -- | invoice_data
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyInvoiceCreation'Enabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyInvoiceCreation'Enabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_data" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyInvoiceCreation'" (\obj -> (GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_data"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyInvoiceCreation'' with all required fields.
+mkPostPaymentLinksRequestBodyInvoiceCreation' ::
+  -- | 'postPaymentLinksRequestBodyInvoiceCreation'Enabled'
+  GHC.Types.Bool ->
+  PostPaymentLinksRequestBodyInvoiceCreation'
+mkPostPaymentLinksRequestBodyInvoiceCreation' postPaymentLinksRequestBodyInvoiceCreation'Enabled =
+  PostPaymentLinksRequestBodyInvoiceCreation'
+    { postPaymentLinksRequestBodyInvoiceCreation'Enabled = postPaymentLinksRequestBodyInvoiceCreation'Enabled,
+      postPaymentLinksRequestBodyInvoiceCreation'InvoiceData = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData' = PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'
+  { -- | account_tax_ids
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants),
+    -- | custom_fields
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants),
+    -- | description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1500
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | footer
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Footer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | metadata
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'Variants),
+    -- | rendering_options
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_tax_ids" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("footer" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Footer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rendering_options" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_tax_ids" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("footer" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Footer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rendering_options" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'" (\obj -> (((((GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_tax_ids")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "footer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rendering_options"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'' with all required fields.
+mkPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData' :: PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'
+mkPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData' =
+  PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'
+    { postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Description = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Footer = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.account_tax_ids.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'EmptyString
+  | PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants where
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.custom_fields.anyOf.items@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 = PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1
+  { -- | name
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 30
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name :: Data.Text.Internal.Text,
+    -- | value
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 30
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["name" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name obj] : ["value" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["name" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name obj] : ["value" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1" (\obj -> (GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1' with all required fields.
+mkPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 ::
+  -- | 'postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name'
+  Data.Text.Internal.Text ->
+  -- | 'postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value'
+  Data.Text.Internal.Text ->
+  PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1
+mkPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value =
+  PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1
+    { postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name = postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name,
+      postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value = postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.custom_fields.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'EmptyString
+  | PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'ListTPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 ([PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants where
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'ListTPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'ListTPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.metadata.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'EmptyString
+  | PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'Object Data.Aeson.Types.Internal.Object
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'Variants where
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'Object a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'Metadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.rendering_options.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 = PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1
+  { -- | amount_tax_display
+    postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax_display" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax_display" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_tax_display"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1' with all required fields.
+mkPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 :: PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1
+mkPostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 = PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 {postPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.rendering_options.anyOf.properties.amount_tax_display@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumEmptyString
+  | -- | Represents the JSON value @"exclude_tax"@
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumExcludeTax
+  | -- | Represents the JSON value @"include_inclusive_tax"@
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumIncludeInclusiveTax
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay' where
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Other val) = val
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumEmptyString) = ""
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumExcludeTax) = "exclude_tax"
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumIncludeInclusiveTax) = "include_inclusive_tax"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumEmptyString
+            | val GHC.Classes.== "exclude_tax" -> PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumExcludeTax
+            | val GHC.Classes.== "include_inclusive_tax" -> PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumIncludeInclusiveTax
+            | GHC.Base.otherwise -> PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.rendering_options.anyOf@ in the specification.
+data PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants
+  = -- | Represents the JSON value @""@
+    PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'EmptyString
+  | PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants where
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'EmptyString
+        | GHC.Base.otherwise -> case (PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'PostPaymentLinksRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items@ in the specification.
 data PostPaymentLinksRequestBodyLineItems' = PostPaymentLinksRequestBodyLineItems'
@@ -494,8 +1315,34 @@ mkPostPaymentLinksRequestBodyLineItems'AdjustableQuantity' postPaymentLinksReque
 data PostPaymentLinksRequestBodyPaymentIntentData' = PostPaymentLinksRequestBodyPaymentIntentData'
   { -- | capture_method
     postPaymentLinksRequestBodyPaymentIntentData'CaptureMethod :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'),
+    -- | description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1000
+    postPaymentLinksRequestBodyPaymentIntentData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | metadata
+    postPaymentLinksRequestBodyPaymentIntentData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | setup_future_usage
-    postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage')
+    postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage'),
+    -- | statement_descriptor
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 22
+    postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | statement_descriptor_suffix
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 22
+    postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | transfer_group
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postPaymentLinksRequestBodyPaymentIntentData'TransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
   deriving
     ( GHC.Show.Show,
@@ -503,18 +1350,23 @@ data PostPaymentLinksRequestBodyPaymentIntentData' = PostPaymentLinksRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyPaymentIntentData' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'TransferGroup obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodyPaymentIntentData'TransferGroup obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyPaymentIntentData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyPaymentIntentData'" (\obj -> (GHC.Base.pure PostPaymentLinksRequestBodyPaymentIntentData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyPaymentIntentData'" (\obj -> ((((((GHC.Base.pure PostPaymentLinksRequestBodyPaymentIntentData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_group"))
 
 -- | Create a new 'PostPaymentLinksRequestBodyPaymentIntentData'' with all required fields.
 mkPostPaymentLinksRequestBodyPaymentIntentData' :: PostPaymentLinksRequestBodyPaymentIntentData'
 mkPostPaymentLinksRequestBodyPaymentIntentData' =
   PostPaymentLinksRequestBodyPaymentIntentData'
     { postPaymentLinksRequestBodyPaymentIntentData'CaptureMethod = GHC.Maybe.Nothing,
-      postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage = GHC.Maybe.Nothing
+      postPaymentLinksRequestBodyPaymentIntentData'Description = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyPaymentIntentData'Metadata = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptor = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyPaymentIntentData'StatementDescriptorSuffix = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodyPaymentIntentData'TransferGroup = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_intent_data.properties.capture_method@ in the specification.
@@ -525,6 +1377,8 @@ data PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'
     PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"automatic"@
     PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumAutomatic
+  | -- | Represents the JSON value @"automatic_async"@
+    PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumAutomaticAsync
   | -- | Represents the JSON value @"manual"@
     PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumManual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -533,6 +1387,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyPaymentIntent
   toJSON (PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'Other val) = val
   toJSON (PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumAutomatic) = "automatic"
+  toJSON (PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumAutomaticAsync) = "automatic_async"
   toJSON (PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumManual) = "manual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod' where
@@ -540,6 +1395,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyPaymentIn
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "automatic" -> PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumAutomatic
+            | val GHC.Classes.== "automatic_async" -> PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumAutomaticAsync
             | val GHC.Classes.== "manual" -> PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'EnumManual
             | GHC.Base.otherwise -> PostPaymentLinksRequestBodyPaymentIntentData'CaptureMethod'Other val
       )
@@ -571,26 +1427,167 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyPaymentIn
             | GHC.Base.otherwise -> PostPaymentLinksRequestBodyPaymentIntentData'SetupFutureUsage'Other val
       )
 
+-- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_collection@ in the specification.
+--
+-- Specify whether Checkout should collect a payment method. When set to \`if_required\`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
+--
+-- Can only be set in \`subscription\` mode.
+--
+-- If you\'d like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https:\/\/stripe.com\/docs\/payments\/checkout\/free-trials).
+data PostPaymentLinksRequestBodyPaymentMethodCollection'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPaymentLinksRequestBodyPaymentMethodCollection'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPaymentLinksRequestBodyPaymentMethodCollection'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always"@
+    PostPaymentLinksRequestBodyPaymentMethodCollection'EnumAlways
+  | -- | Represents the JSON value @"if_required"@
+    PostPaymentLinksRequestBodyPaymentMethodCollection'EnumIfRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyPaymentMethodCollection' where
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodCollection'Other val) = val
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodCollection'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodCollection'EnumAlways) = "always"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodCollection'EnumIfRequired) = "if_required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyPaymentMethodCollection' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "always" -> PostPaymentLinksRequestBodyPaymentMethodCollection'EnumAlways
+            | val GHC.Classes.== "if_required" -> PostPaymentLinksRequestBodyPaymentMethodCollection'EnumIfRequired
+            | GHC.Base.otherwise -> PostPaymentLinksRequestBodyPaymentMethodCollection'Other val
+      )
+
 -- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_types.items@ in the specification.
 data PostPaymentLinksRequestBodyPaymentMethodTypes'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostPaymentLinksRequestBodyPaymentMethodTypes'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     PostPaymentLinksRequestBodyPaymentMethodTypes'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"affirm"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAffirm
+  | -- | Represents the JSON value @"afterpay_clearpay"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAfterpayClearpay
+  | -- | Represents the JSON value @"alipay"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAlipay
+  | -- | Represents the JSON value @"au_becs_debit"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAuBecsDebit
+  | -- | Represents the JSON value @"bacs_debit"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBacsDebit
+  | -- | Represents the JSON value @"bancontact"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBancontact
+  | -- | Represents the JSON value @"blik"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBlik
+  | -- | Represents the JSON value @"boleto"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBoleto
   | -- | Represents the JSON value @"card"@
     PostPaymentLinksRequestBodyPaymentMethodTypes'EnumCard
+  | -- | Represents the JSON value @"cashapp"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumCashapp
+  | -- | Represents the JSON value @"eps"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumEps
+  | -- | Represents the JSON value @"fpx"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumFpx
+  | -- | Represents the JSON value @"giropay"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumGiropay
+  | -- | Represents the JSON value @"grabpay"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumGrabpay
+  | -- | Represents the JSON value @"ideal"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumIdeal
+  | -- | Represents the JSON value @"klarna"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumKlarna
+  | -- | Represents the JSON value @"konbini"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumKonbini
+  | -- | Represents the JSON value @"link"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumLink
+  | -- | Represents the JSON value @"oxxo"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumOxxo
+  | -- | Represents the JSON value @"p24"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumP24
+  | -- | Represents the JSON value @"paynow"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPaynow
+  | -- | Represents the JSON value @"paypal"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPaypal
+  | -- | Represents the JSON value @"pix"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPix
+  | -- | Represents the JSON value @"promptpay"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPromptpay
+  | -- | Represents the JSON value @"sepa_debit"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumSofort
+  | -- | Represents the JSON value @"us_bank_account"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumUsBankAccount
+  | -- | Represents the JSON value @"wechat_pay"@
+    PostPaymentLinksRequestBodyPaymentMethodTypes'EnumWechatPay
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyPaymentMethodTypes' where
   toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'Other val) = val
   toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAffirm) = "affirm"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAfterpayClearpay) = "afterpay_clearpay"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAlipay) = "alipay"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAuBecsDebit) = "au_becs_debit"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBacsDebit) = "bacs_debit"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBancontact) = "bancontact"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBlik) = "blik"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBoleto) = "boleto"
   toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumCard) = "card"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumCashapp) = "cashapp"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumEps) = "eps"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumFpx) = "fpx"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumGiropay) = "giropay"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumGrabpay) = "grabpay"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumIdeal) = "ideal"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumKlarna) = "klarna"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumKonbini) = "konbini"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumLink) = "link"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumOxxo) = "oxxo"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumP24) = "p24"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPaynow) = "paynow"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPaypal) = "paypal"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPix) = "pix"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPromptpay) = "promptpay"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumSepaDebit) = "sepa_debit"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumSofort) = "sofort"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumUsBankAccount) = "us_bank_account"
+  toJSON (PostPaymentLinksRequestBodyPaymentMethodTypes'EnumWechatPay) = "wechat_pay"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyPaymentMethodTypes' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "affirm" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAffirm
+            | val GHC.Classes.== "afterpay_clearpay" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAfterpayClearpay
+            | val GHC.Classes.== "alipay" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAlipay
+            | val GHC.Classes.== "au_becs_debit" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumAuBecsDebit
+            | val GHC.Classes.== "bacs_debit" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBacsDebit
+            | val GHC.Classes.== "bancontact" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBancontact
+            | val GHC.Classes.== "blik" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBlik
+            | val GHC.Classes.== "boleto" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumBoleto
             | val GHC.Classes.== "card" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumCard
+            | val GHC.Classes.== "cashapp" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumCashapp
+            | val GHC.Classes.== "eps" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumEps
+            | val GHC.Classes.== "fpx" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumFpx
+            | val GHC.Classes.== "giropay" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumGiropay
+            | val GHC.Classes.== "grabpay" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumGrabpay
+            | val GHC.Classes.== "ideal" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumIdeal
+            | val GHC.Classes.== "klarna" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumKlarna
+            | val GHC.Classes.== "konbini" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumKonbini
+            | val GHC.Classes.== "link" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumLink
+            | val GHC.Classes.== "oxxo" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumOxxo
+            | val GHC.Classes.== "p24" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumP24
+            | val GHC.Classes.== "paynow" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPaynow
+            | val GHC.Classes.== "paypal" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPaypal
+            | val GHC.Classes.== "pix" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPix
+            | val GHC.Classes.== "promptpay" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumPromptpay
+            | val GHC.Classes.== "sepa_debit" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumSepaDebit
+            | val GHC.Classes.== "sofort" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumSofort
+            | val GHC.Classes.== "us_bank_account" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumUsBankAccount
+            | val GHC.Classes.== "wechat_pay" -> PostPaymentLinksRequestBodyPaymentMethodTypes'EnumWechatPay
             | GHC.Base.otherwise -> PostPaymentLinksRequestBodyPaymentMethodTypes'Other val
       )
 
@@ -621,6 +1618,56 @@ mkPostPaymentLinksRequestBodyPhoneNumberCollection' ::
   GHC.Types.Bool ->
   PostPaymentLinksRequestBodyPhoneNumberCollection'
 mkPostPaymentLinksRequestBodyPhoneNumberCollection' postPaymentLinksRequestBodyPhoneNumberCollection'Enabled = PostPaymentLinksRequestBodyPhoneNumberCollection' {postPaymentLinksRequestBodyPhoneNumberCollection'Enabled = postPaymentLinksRequestBodyPhoneNumberCollection'Enabled}
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.restrictions@ in the specification.
+--
+-- Settings that restrict the usage of a payment link.
+data PostPaymentLinksRequestBodyRestrictions' = PostPaymentLinksRequestBodyRestrictions'
+  { -- | completed_sessions
+    postPaymentLinksRequestBodyRestrictions'CompletedSessions :: PostPaymentLinksRequestBodyRestrictions'CompletedSessions'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyRestrictions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["completed_sessions" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyRestrictions'CompletedSessions obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["completed_sessions" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyRestrictions'CompletedSessions obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyRestrictions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyRestrictions'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyRestrictions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "completed_sessions"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyRestrictions'' with all required fields.
+mkPostPaymentLinksRequestBodyRestrictions' ::
+  -- | 'postPaymentLinksRequestBodyRestrictions'CompletedSessions'
+  PostPaymentLinksRequestBodyRestrictions'CompletedSessions' ->
+  PostPaymentLinksRequestBodyRestrictions'
+mkPostPaymentLinksRequestBodyRestrictions' postPaymentLinksRequestBodyRestrictions'CompletedSessions = PostPaymentLinksRequestBodyRestrictions' {postPaymentLinksRequestBodyRestrictions'CompletedSessions = postPaymentLinksRequestBodyRestrictions'CompletedSessions}
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.restrictions.properties.completed_sessions@ in the specification.
+data PostPaymentLinksRequestBodyRestrictions'CompletedSessions' = PostPaymentLinksRequestBodyRestrictions'CompletedSessions'
+  { -- | limit
+    postPaymentLinksRequestBodyRestrictions'CompletedSessions'Limit :: GHC.Types.Int
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodyRestrictions'CompletedSessions' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["limit" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyRestrictions'CompletedSessions'Limit obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["limit" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodyRestrictions'CompletedSessions'Limit obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodyRestrictions'CompletedSessions' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodyRestrictions'CompletedSessions'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodyRestrictions'CompletedSessions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "limit"))
+
+-- | Create a new 'PostPaymentLinksRequestBodyRestrictions'CompletedSessions'' with all required fields.
+mkPostPaymentLinksRequestBodyRestrictions'CompletedSessions' ::
+  -- | 'postPaymentLinksRequestBodyRestrictions'CompletedSessions'Limit'
+  GHC.Types.Int ->
+  PostPaymentLinksRequestBodyRestrictions'CompletedSessions'
+mkPostPaymentLinksRequestBodyRestrictions'CompletedSessions' postPaymentLinksRequestBodyRestrictions'CompletedSessions'Limit = PostPaymentLinksRequestBodyRestrictions'CompletedSessions' {postPaymentLinksRequestBodyRestrictions'CompletedSessions'Limit = postPaymentLinksRequestBodyRestrictions'CompletedSessions'Limit}
 
 -- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_address_collection@ in the specification.
 --
@@ -1642,7 +2689,7 @@ mkPostPaymentLinksRequestBodyShippingOptions' = PostPaymentLinksRequestBodyShipp
 
 -- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.submit_type@ in the specification.
 --
--- Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button.
+-- Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https:\/\/stripe.com\/docs\/api\/payment_links\/payment_links\/object\#url) property (example: \`donate.stripe.com\`).
 data PostPaymentLinksRequestBodySubmitType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostPaymentLinksRequestBodySubmitType'Other Data.Aeson.Types.Internal.Value
@@ -1681,8 +2728,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodySubmitTyp
 --
 -- When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use \`subscription_data\`.
 data PostPaymentLinksRequestBodySubscriptionData' = PostPaymentLinksRequestBodySubscriptionData'
-  { -- | trial_period_days
-    postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int)
+  { -- | description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 500
+    postPaymentLinksRequestBodySubscriptionData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | metadata
+    postPaymentLinksRequestBodySubscriptionData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | trial_period_days
+    postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | trial_settings
+    postPaymentLinksRequestBodySubscriptionData'TrialSettings :: (GHC.Maybe.Maybe PostPaymentLinksRequestBodySubscriptionData'TrialSettings')
   }
   deriving
     ( GHC.Show.Show,
@@ -1690,15 +2747,100 @@ data PostPaymentLinksRequestBodySubscriptionData' = PostPaymentLinksRequestBodyS
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodySubscriptionData' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'TrialSettings obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (postPaymentLinksRequestBodySubscriptionData'TrialSettings obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodySubscriptionData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodySubscriptionData'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodySubscriptionData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodySubscriptionData'" (\obj -> (((GHC.Base.pure PostPaymentLinksRequestBodySubscriptionData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_settings"))
 
 -- | Create a new 'PostPaymentLinksRequestBodySubscriptionData'' with all required fields.
 mkPostPaymentLinksRequestBodySubscriptionData' :: PostPaymentLinksRequestBodySubscriptionData'
-mkPostPaymentLinksRequestBodySubscriptionData' = PostPaymentLinksRequestBodySubscriptionData' {postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays = GHC.Maybe.Nothing}
+mkPostPaymentLinksRequestBodySubscriptionData' =
+  PostPaymentLinksRequestBodySubscriptionData'
+    { postPaymentLinksRequestBodySubscriptionData'Description = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodySubscriptionData'Metadata = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodySubscriptionData'TrialPeriodDays = GHC.Maybe.Nothing,
+      postPaymentLinksRequestBodySubscriptionData'TrialSettings = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.trial_settings@ in the specification.
+data PostPaymentLinksRequestBodySubscriptionData'TrialSettings' = PostPaymentLinksRequestBodySubscriptionData'TrialSettings'
+  { -- | end_behavior
+    postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior :: PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodySubscriptionData'TrialSettings' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["end_behavior" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["end_behavior" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodySubscriptionData'TrialSettings' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodySubscriptionData'TrialSettings'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodySubscriptionData'TrialSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end_behavior"))
+
+-- | Create a new 'PostPaymentLinksRequestBodySubscriptionData'TrialSettings'' with all required fields.
+mkPostPaymentLinksRequestBodySubscriptionData'TrialSettings' ::
+  -- | 'postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'
+  PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' ->
+  PostPaymentLinksRequestBodySubscriptionData'TrialSettings'
+mkPostPaymentLinksRequestBodySubscriptionData'TrialSettings' postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior = PostPaymentLinksRequestBodySubscriptionData'TrialSettings' {postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior = postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior}
+
+-- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.trial_settings.properties.end_behavior@ in the specification.
+data PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' = PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'
+  { -- | missing_payment_method
+    postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod :: PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["missing_payment_method" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["missing_payment_method" Data.Aeson.Types.ToJSON..= postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'" (\obj -> GHC.Base.pure PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "missing_payment_method"))
+
+-- | Create a new 'PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'' with all required fields.
+mkPostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' ::
+  -- | 'postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'
+  PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod' ->
+  PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'
+mkPostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod = PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior' {postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod = postPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod}
+
+-- | Defines the enum schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.trial_settings.properties.end_behavior.properties.missing_payment_method@ in the specification.
+data PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"cancel"@
+    PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCancel
+  | -- | Represents the JSON value @"create_invoice"@
+    PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCreateInvoice
+  | -- | Represents the JSON value @"pause"@
+    PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumPause
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod' where
+  toJSON (PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Other val) = val
+  toJSON (PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCancel) = "cancel"
+  toJSON (PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCreateInvoice) = "create_invoice"
+  toJSON (PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumPause) = "pause"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "cancel" -> PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCancel
+            | val GHC.Classes.== "create_invoice" -> PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCreateInvoice
+            | val GHC.Classes.== "pause" -> PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumPause
+            | GHC.Base.otherwise -> PostPaymentLinksRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Other val
+      )
 
 -- | Defines the object schema located at @paths.\/v1\/payment_links.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_id_collection@ in the specification.
 --

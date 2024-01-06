@@ -1,0 +1,14 @@
+module StripeAPI.Types.InvoicesFromInvoice where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data InvoicesFromInvoice
+instance Show InvoicesFromInvoice
+instance Eq InvoicesFromInvoice
+instance FromJSON InvoicesFromInvoice
+instance ToJSON InvoicesFromInvoice
+data InvoicesFromInvoiceInvoice'Variants
+instance Show InvoicesFromInvoiceInvoice'Variants
+instance Eq InvoicesFromInvoiceInvoice'Variants
+instance FromJSON InvoicesFromInvoiceInvoice'Variants
+instance ToJSON InvoicesFromInvoiceInvoice'Variants

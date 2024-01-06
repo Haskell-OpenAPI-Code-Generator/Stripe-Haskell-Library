@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -87,10 +87,84 @@ data AccountRequirementsErrorCode'
     AccountRequirementsErrorCode'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"invalid_address_city_state_postal_code"@
     AccountRequirementsErrorCode'EnumInvalidAddressCityStatePostalCode
+  | -- | Represents the JSON value @"invalid_address_highway_contract_box"@
+    AccountRequirementsErrorCode'EnumInvalidAddressHighwayContractBox
+  | -- | Represents the JSON value @"invalid_address_private_mailbox"@
+    AccountRequirementsErrorCode'EnumInvalidAddressPrivateMailbox
+  | -- | Represents the JSON value @"invalid_business_profile_name"@
+    AccountRequirementsErrorCode'EnumInvalidBusinessProfileName
+  | -- | Represents the JSON value @"invalid_business_profile_name_denylisted"@
+    AccountRequirementsErrorCode'EnumInvalidBusinessProfileNameDenylisted
+  | -- | Represents the JSON value @"invalid_company_name_denylisted"@
+    AccountRequirementsErrorCode'EnumInvalidCompanyNameDenylisted
+  | -- | Represents the JSON value @"invalid_dob_age_over_maximum"@
+    AccountRequirementsErrorCode'EnumInvalidDobAgeOverMaximum
+  | -- | Represents the JSON value @"invalid_dob_age_under_18"@
+    AccountRequirementsErrorCode'EnumInvalidDobAgeUnder_18
+  | -- | Represents the JSON value @"invalid_dob_age_under_minimum"@
+    AccountRequirementsErrorCode'EnumInvalidDobAgeUnderMinimum
+  | -- | Represents the JSON value @"invalid_product_description_length"@
+    AccountRequirementsErrorCode'EnumInvalidProductDescriptionLength
+  | -- | Represents the JSON value @"invalid_product_description_url_match"@
+    AccountRequirementsErrorCode'EnumInvalidProductDescriptionUrlMatch
+  | -- | Represents the JSON value @"invalid_representative_country"@
+    AccountRequirementsErrorCode'EnumInvalidRepresentativeCountry
+  | -- | Represents the JSON value @"invalid_statement_descriptor_business_mismatch"@
+    AccountRequirementsErrorCode'EnumInvalidStatementDescriptorBusinessMismatch
+  | -- | Represents the JSON value @"invalid_statement_descriptor_denylisted"@
+    AccountRequirementsErrorCode'EnumInvalidStatementDescriptorDenylisted
+  | -- | Represents the JSON value @"invalid_statement_descriptor_length"@
+    AccountRequirementsErrorCode'EnumInvalidStatementDescriptorLength
+  | -- | Represents the JSON value @"invalid_statement_descriptor_prefix_denylisted"@
+    AccountRequirementsErrorCode'EnumInvalidStatementDescriptorPrefixDenylisted
+  | -- | Represents the JSON value @"invalid_statement_descriptor_prefix_mismatch"@
+    AccountRequirementsErrorCode'EnumInvalidStatementDescriptorPrefixMismatch
   | -- | Represents the JSON value @"invalid_street_address"@
     AccountRequirementsErrorCode'EnumInvalidStreetAddress
+  | -- | Represents the JSON value @"invalid_tax_id"@
+    AccountRequirementsErrorCode'EnumInvalidTaxId
+  | -- | Represents the JSON value @"invalid_tax_id_format"@
+    AccountRequirementsErrorCode'EnumInvalidTaxIdFormat
+  | -- | Represents the JSON value @"invalid_tos_acceptance"@
+    AccountRequirementsErrorCode'EnumInvalidTosAcceptance
+  | -- | Represents the JSON value @"invalid_url_denylisted"@
+    AccountRequirementsErrorCode'EnumInvalidUrlDenylisted
+  | -- | Represents the JSON value @"invalid_url_format"@
+    AccountRequirementsErrorCode'EnumInvalidUrlFormat
+  | -- | Represents the JSON value @"invalid_url_web_presence_detected"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebPresenceDetected
+  | -- | Represents the JSON value @"invalid_url_website_business_information_mismatch"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteBusinessInformationMismatch
+  | -- | Represents the JSON value @"invalid_url_website_empty"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteEmpty
+  | -- | Represents the JSON value @"invalid_url_website_inaccessible"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessible
+  | -- | Represents the JSON value @"invalid_url_website_inaccessible_geoblocked"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessibleGeoblocked
+  | -- | Represents the JSON value @"invalid_url_website_inaccessible_password_protected"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessiblePasswordProtected
+  | -- | Represents the JSON value @"invalid_url_website_incomplete"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncomplete
+  | -- | Represents the JSON value @"invalid_url_website_incomplete_cancellation_policy"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteCancellationPolicy
+  | -- | Represents the JSON value @"invalid_url_website_incomplete_customer_service_details"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteCustomerServiceDetails
+  | -- | Represents the JSON value @"invalid_url_website_incomplete_legal_restrictions"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteLegalRestrictions
+  | -- | Represents the JSON value @"invalid_url_website_incomplete_refund_policy"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteRefundPolicy
+  | -- | Represents the JSON value @"invalid_url_website_incomplete_return_policy"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteReturnPolicy
+  | -- | Represents the JSON value @"invalid_url_website_incomplete_terms_and_conditions"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteTermsAndConditions
+  | -- | Represents the JSON value @"invalid_url_website_incomplete_under_construction"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteUnderConstruction
+  | -- | Represents the JSON value @"invalid_url_website_other"@
+    AccountRequirementsErrorCode'EnumInvalidUrlWebsiteOther
   | -- | Represents the JSON value @"invalid_value_other"@
     AccountRequirementsErrorCode'EnumInvalidValueOther
+  | -- | Represents the JSON value @"verification_directors_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDirectorsMismatch
   | -- | Represents the JSON value @"verification_document_address_mismatch"@
     AccountRequirementsErrorCode'EnumVerificationDocumentAddressMismatch
   | -- | Represents the JSON value @"verification_document_address_missing"@
@@ -99,6 +173,8 @@ data AccountRequirementsErrorCode'
     AccountRequirementsErrorCode'EnumVerificationDocumentCorrupt
   | -- | Represents the JSON value @"verification_document_country_not_supported"@
     AccountRequirementsErrorCode'EnumVerificationDocumentCountryNotSupported
+  | -- | Represents the JSON value @"verification_document_directors_mismatch"@
+    AccountRequirementsErrorCode'EnumVerificationDocumentDirectorsMismatch
   | -- | Represents the JSON value @"verification_document_dob_mismatch"@
     AccountRequirementsErrorCode'EnumVerificationDocumentDobMismatch
   | -- | Represents the JSON value @"verification_document_duplicate_type"@
@@ -149,6 +225,8 @@ data AccountRequirementsErrorCode'
     AccountRequirementsErrorCode'EnumVerificationDocumentTooLarge
   | -- | Represents the JSON value @"verification_document_type_not_supported"@
     AccountRequirementsErrorCode'EnumVerificationDocumentTypeNotSupported
+  | -- | Represents the JSON value @"verification_extraneous_directors"@
+    AccountRequirementsErrorCode'EnumVerificationExtraneousDirectors
   | -- | Represents the JSON value @"verification_failed_address_match"@
     AccountRequirementsErrorCode'EnumVerificationFailedAddressMatch
   | -- | Represents the JSON value @"verification_failed_business_iec_number"@
@@ -165,10 +243,14 @@ data AccountRequirementsErrorCode'
     AccountRequirementsErrorCode'EnumVerificationFailedNameMatch
   | -- | Represents the JSON value @"verification_failed_other"@
     AccountRequirementsErrorCode'EnumVerificationFailedOther
+  | -- | Represents the JSON value @"verification_failed_residential_address"@
+    AccountRequirementsErrorCode'EnumVerificationFailedResidentialAddress
   | -- | Represents the JSON value @"verification_failed_tax_id_match"@
     AccountRequirementsErrorCode'EnumVerificationFailedTaxIdMatch
   | -- | Represents the JSON value @"verification_failed_tax_id_not_issued"@
     AccountRequirementsErrorCode'EnumVerificationFailedTaxIdNotIssued
+  | -- | Represents the JSON value @"verification_missing_directors"@
+    AccountRequirementsErrorCode'EnumVerificationMissingDirectors
   | -- | Represents the JSON value @"verification_missing_executives"@
     AccountRequirementsErrorCode'EnumVerificationMissingExecutives
   | -- | Represents the JSON value @"verification_missing_owners"@
@@ -181,12 +263,50 @@ instance Data.Aeson.Types.ToJSON.ToJSON AccountRequirementsErrorCode' where
   toJSON (AccountRequirementsErrorCode'Other val) = val
   toJSON (AccountRequirementsErrorCode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (AccountRequirementsErrorCode'EnumInvalidAddressCityStatePostalCode) = "invalid_address_city_state_postal_code"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidAddressHighwayContractBox) = "invalid_address_highway_contract_box"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidAddressPrivateMailbox) = "invalid_address_private_mailbox"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidBusinessProfileName) = "invalid_business_profile_name"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidBusinessProfileNameDenylisted) = "invalid_business_profile_name_denylisted"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidCompanyNameDenylisted) = "invalid_company_name_denylisted"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidDobAgeOverMaximum) = "invalid_dob_age_over_maximum"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidDobAgeUnder_18) = "invalid_dob_age_under_18"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidDobAgeUnderMinimum) = "invalid_dob_age_under_minimum"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidProductDescriptionLength) = "invalid_product_description_length"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidProductDescriptionUrlMatch) = "invalid_product_description_url_match"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidRepresentativeCountry) = "invalid_representative_country"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidStatementDescriptorBusinessMismatch) = "invalid_statement_descriptor_business_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidStatementDescriptorDenylisted) = "invalid_statement_descriptor_denylisted"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidStatementDescriptorLength) = "invalid_statement_descriptor_length"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidStatementDescriptorPrefixDenylisted) = "invalid_statement_descriptor_prefix_denylisted"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidStatementDescriptorPrefixMismatch) = "invalid_statement_descriptor_prefix_mismatch"
   toJSON (AccountRequirementsErrorCode'EnumInvalidStreetAddress) = "invalid_street_address"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidTaxId) = "invalid_tax_id"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidTaxIdFormat) = "invalid_tax_id_format"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidTosAcceptance) = "invalid_tos_acceptance"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlDenylisted) = "invalid_url_denylisted"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlFormat) = "invalid_url_format"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebPresenceDetected) = "invalid_url_web_presence_detected"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteBusinessInformationMismatch) = "invalid_url_website_business_information_mismatch"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteEmpty) = "invalid_url_website_empty"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessible) = "invalid_url_website_inaccessible"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessibleGeoblocked) = "invalid_url_website_inaccessible_geoblocked"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessiblePasswordProtected) = "invalid_url_website_inaccessible_password_protected"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncomplete) = "invalid_url_website_incomplete"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteCancellationPolicy) = "invalid_url_website_incomplete_cancellation_policy"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteCustomerServiceDetails) = "invalid_url_website_incomplete_customer_service_details"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteLegalRestrictions) = "invalid_url_website_incomplete_legal_restrictions"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteRefundPolicy) = "invalid_url_website_incomplete_refund_policy"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteReturnPolicy) = "invalid_url_website_incomplete_return_policy"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteTermsAndConditions) = "invalid_url_website_incomplete_terms_and_conditions"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteUnderConstruction) = "invalid_url_website_incomplete_under_construction"
+  toJSON (AccountRequirementsErrorCode'EnumInvalidUrlWebsiteOther) = "invalid_url_website_other"
   toJSON (AccountRequirementsErrorCode'EnumInvalidValueOther) = "invalid_value_other"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDirectorsMismatch) = "verification_directors_mismatch"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentAddressMismatch) = "verification_document_address_mismatch"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentAddressMissing) = "verification_document_address_missing"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentCorrupt) = "verification_document_corrupt"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentCountryNotSupported) = "verification_document_country_not_supported"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentDirectorsMismatch) = "verification_document_directors_mismatch"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentDobMismatch) = "verification_document_dob_mismatch"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentDuplicateType) = "verification_document_duplicate_type"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentExpired) = "verification_document_expired"
@@ -212,6 +332,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON AccountRequirementsErrorCode' where
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentPhotoMismatch) = "verification_document_photo_mismatch"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentTooLarge) = "verification_document_too_large"
   toJSON (AccountRequirementsErrorCode'EnumVerificationDocumentTypeNotSupported) = "verification_document_type_not_supported"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationExtraneousDirectors) = "verification_extraneous_directors"
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedAddressMatch) = "verification_failed_address_match"
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedBusinessIecNumber) = "verification_failed_business_iec_number"
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedDocumentMatch) = "verification_failed_document_match"
@@ -220,8 +341,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON AccountRequirementsErrorCode' where
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedKeyedMatch) = "verification_failed_keyed_match"
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedNameMatch) = "verification_failed_name_match"
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedOther) = "verification_failed_other"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationFailedResidentialAddress) = "verification_failed_residential_address"
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedTaxIdMatch) = "verification_failed_tax_id_match"
   toJSON (AccountRequirementsErrorCode'EnumVerificationFailedTaxIdNotIssued) = "verification_failed_tax_id_not_issued"
+  toJSON (AccountRequirementsErrorCode'EnumVerificationMissingDirectors) = "verification_missing_directors"
   toJSON (AccountRequirementsErrorCode'EnumVerificationMissingExecutives) = "verification_missing_executives"
   toJSON (AccountRequirementsErrorCode'EnumVerificationMissingOwners) = "verification_missing_owners"
   toJSON (AccountRequirementsErrorCode'EnumVerificationRequiresAdditionalMemorandumOfAssociations) = "verification_requires_additional_memorandum_of_associations"
@@ -231,12 +354,50 @@ instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsErrorCode' where
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "invalid_address_city_state_postal_code" -> AccountRequirementsErrorCode'EnumInvalidAddressCityStatePostalCode
+            | val GHC.Classes.== "invalid_address_highway_contract_box" -> AccountRequirementsErrorCode'EnumInvalidAddressHighwayContractBox
+            | val GHC.Classes.== "invalid_address_private_mailbox" -> AccountRequirementsErrorCode'EnumInvalidAddressPrivateMailbox
+            | val GHC.Classes.== "invalid_business_profile_name" -> AccountRequirementsErrorCode'EnumInvalidBusinessProfileName
+            | val GHC.Classes.== "invalid_business_profile_name_denylisted" -> AccountRequirementsErrorCode'EnumInvalidBusinessProfileNameDenylisted
+            | val GHC.Classes.== "invalid_company_name_denylisted" -> AccountRequirementsErrorCode'EnumInvalidCompanyNameDenylisted
+            | val GHC.Classes.== "invalid_dob_age_over_maximum" -> AccountRequirementsErrorCode'EnumInvalidDobAgeOverMaximum
+            | val GHC.Classes.== "invalid_dob_age_under_18" -> AccountRequirementsErrorCode'EnumInvalidDobAgeUnder_18
+            | val GHC.Classes.== "invalid_dob_age_under_minimum" -> AccountRequirementsErrorCode'EnumInvalidDobAgeUnderMinimum
+            | val GHC.Classes.== "invalid_product_description_length" -> AccountRequirementsErrorCode'EnumInvalidProductDescriptionLength
+            | val GHC.Classes.== "invalid_product_description_url_match" -> AccountRequirementsErrorCode'EnumInvalidProductDescriptionUrlMatch
+            | val GHC.Classes.== "invalid_representative_country" -> AccountRequirementsErrorCode'EnumInvalidRepresentativeCountry
+            | val GHC.Classes.== "invalid_statement_descriptor_business_mismatch" -> AccountRequirementsErrorCode'EnumInvalidStatementDescriptorBusinessMismatch
+            | val GHC.Classes.== "invalid_statement_descriptor_denylisted" -> AccountRequirementsErrorCode'EnumInvalidStatementDescriptorDenylisted
+            | val GHC.Classes.== "invalid_statement_descriptor_length" -> AccountRequirementsErrorCode'EnumInvalidStatementDescriptorLength
+            | val GHC.Classes.== "invalid_statement_descriptor_prefix_denylisted" -> AccountRequirementsErrorCode'EnumInvalidStatementDescriptorPrefixDenylisted
+            | val GHC.Classes.== "invalid_statement_descriptor_prefix_mismatch" -> AccountRequirementsErrorCode'EnumInvalidStatementDescriptorPrefixMismatch
             | val GHC.Classes.== "invalid_street_address" -> AccountRequirementsErrorCode'EnumInvalidStreetAddress
+            | val GHC.Classes.== "invalid_tax_id" -> AccountRequirementsErrorCode'EnumInvalidTaxId
+            | val GHC.Classes.== "invalid_tax_id_format" -> AccountRequirementsErrorCode'EnumInvalidTaxIdFormat
+            | val GHC.Classes.== "invalid_tos_acceptance" -> AccountRequirementsErrorCode'EnumInvalidTosAcceptance
+            | val GHC.Classes.== "invalid_url_denylisted" -> AccountRequirementsErrorCode'EnumInvalidUrlDenylisted
+            | val GHC.Classes.== "invalid_url_format" -> AccountRequirementsErrorCode'EnumInvalidUrlFormat
+            | val GHC.Classes.== "invalid_url_web_presence_detected" -> AccountRequirementsErrorCode'EnumInvalidUrlWebPresenceDetected
+            | val GHC.Classes.== "invalid_url_website_business_information_mismatch" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteBusinessInformationMismatch
+            | val GHC.Classes.== "invalid_url_website_empty" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteEmpty
+            | val GHC.Classes.== "invalid_url_website_inaccessible" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessible
+            | val GHC.Classes.== "invalid_url_website_inaccessible_geoblocked" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessibleGeoblocked
+            | val GHC.Classes.== "invalid_url_website_inaccessible_password_protected" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteInaccessiblePasswordProtected
+            | val GHC.Classes.== "invalid_url_website_incomplete" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncomplete
+            | val GHC.Classes.== "invalid_url_website_incomplete_cancellation_policy" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteCancellationPolicy
+            | val GHC.Classes.== "invalid_url_website_incomplete_customer_service_details" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteCustomerServiceDetails
+            | val GHC.Classes.== "invalid_url_website_incomplete_legal_restrictions" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteLegalRestrictions
+            | val GHC.Classes.== "invalid_url_website_incomplete_refund_policy" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteRefundPolicy
+            | val GHC.Classes.== "invalid_url_website_incomplete_return_policy" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteReturnPolicy
+            | val GHC.Classes.== "invalid_url_website_incomplete_terms_and_conditions" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteTermsAndConditions
+            | val GHC.Classes.== "invalid_url_website_incomplete_under_construction" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteIncompleteUnderConstruction
+            | val GHC.Classes.== "invalid_url_website_other" -> AccountRequirementsErrorCode'EnumInvalidUrlWebsiteOther
             | val GHC.Classes.== "invalid_value_other" -> AccountRequirementsErrorCode'EnumInvalidValueOther
+            | val GHC.Classes.== "verification_directors_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDirectorsMismatch
             | val GHC.Classes.== "verification_document_address_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentAddressMismatch
             | val GHC.Classes.== "verification_document_address_missing" -> AccountRequirementsErrorCode'EnumVerificationDocumentAddressMissing
             | val GHC.Classes.== "verification_document_corrupt" -> AccountRequirementsErrorCode'EnumVerificationDocumentCorrupt
             | val GHC.Classes.== "verification_document_country_not_supported" -> AccountRequirementsErrorCode'EnumVerificationDocumentCountryNotSupported
+            | val GHC.Classes.== "verification_document_directors_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentDirectorsMismatch
             | val GHC.Classes.== "verification_document_dob_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentDobMismatch
             | val GHC.Classes.== "verification_document_duplicate_type" -> AccountRequirementsErrorCode'EnumVerificationDocumentDuplicateType
             | val GHC.Classes.== "verification_document_expired" -> AccountRequirementsErrorCode'EnumVerificationDocumentExpired
@@ -262,6 +423,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsErrorCode' where
             | val GHC.Classes.== "verification_document_photo_mismatch" -> AccountRequirementsErrorCode'EnumVerificationDocumentPhotoMismatch
             | val GHC.Classes.== "verification_document_too_large" -> AccountRequirementsErrorCode'EnumVerificationDocumentTooLarge
             | val GHC.Classes.== "verification_document_type_not_supported" -> AccountRequirementsErrorCode'EnumVerificationDocumentTypeNotSupported
+            | val GHC.Classes.== "verification_extraneous_directors" -> AccountRequirementsErrorCode'EnumVerificationExtraneousDirectors
             | val GHC.Classes.== "verification_failed_address_match" -> AccountRequirementsErrorCode'EnumVerificationFailedAddressMatch
             | val GHC.Classes.== "verification_failed_business_iec_number" -> AccountRequirementsErrorCode'EnumVerificationFailedBusinessIecNumber
             | val GHC.Classes.== "verification_failed_document_match" -> AccountRequirementsErrorCode'EnumVerificationFailedDocumentMatch
@@ -270,8 +432,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsErrorCode' where
             | val GHC.Classes.== "verification_failed_keyed_match" -> AccountRequirementsErrorCode'EnumVerificationFailedKeyedMatch
             | val GHC.Classes.== "verification_failed_name_match" -> AccountRequirementsErrorCode'EnumVerificationFailedNameMatch
             | val GHC.Classes.== "verification_failed_other" -> AccountRequirementsErrorCode'EnumVerificationFailedOther
+            | val GHC.Classes.== "verification_failed_residential_address" -> AccountRequirementsErrorCode'EnumVerificationFailedResidentialAddress
             | val GHC.Classes.== "verification_failed_tax_id_match" -> AccountRequirementsErrorCode'EnumVerificationFailedTaxIdMatch
             | val GHC.Classes.== "verification_failed_tax_id_not_issued" -> AccountRequirementsErrorCode'EnumVerificationFailedTaxIdNotIssued
+            | val GHC.Classes.== "verification_missing_directors" -> AccountRequirementsErrorCode'EnumVerificationMissingDirectors
             | val GHC.Classes.== "verification_missing_executives" -> AccountRequirementsErrorCode'EnumVerificationMissingExecutives
             | val GHC.Classes.== "verification_missing_owners" -> AccountRequirementsErrorCode'EnumVerificationMissingOwners
             | val GHC.Classes.== "verification_requires_additional_memorandum_of_associations" -> AccountRequirementsErrorCode'EnumVerificationRequiresAdditionalMemorandumOfAssociations

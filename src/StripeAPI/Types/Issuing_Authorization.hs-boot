@@ -22,6 +22,11 @@ instance Show Issuing'authorizationCardholder'NonNullableVariants
 instance Eq Issuing'authorizationCardholder'NonNullableVariants
 instance FromJSON Issuing'authorizationCardholder'NonNullableVariants
 instance ToJSON Issuing'authorizationCardholder'NonNullableVariants
+data Issuing'authorizationNetworkData'NonNullable
+instance Show Issuing'authorizationNetworkData'NonNullable
+instance Eq Issuing'authorizationNetworkData'NonNullable
+instance FromJSON Issuing'authorizationNetworkData'NonNullable
+instance ToJSON Issuing'authorizationNetworkData'NonNullable
 data Issuing'authorizationPendingRequest'NonNullable
 instance Show Issuing'authorizationPendingRequest'NonNullable
 instance Eq Issuing'authorizationPendingRequest'NonNullable
@@ -37,6 +42,11 @@ instance Show Issuing'authorizationStatus'
 instance Eq Issuing'authorizationStatus'
 instance FromJSON Issuing'authorizationStatus'
 instance ToJSON Issuing'authorizationStatus'
+data Issuing'authorizationToken'NonNullableVariants
+instance Show Issuing'authorizationToken'NonNullableVariants
+instance Eq Issuing'authorizationToken'NonNullableVariants
+instance FromJSON Issuing'authorizationToken'NonNullableVariants
+instance ToJSON Issuing'authorizationToken'NonNullableVariants
 data Issuing'authorizationTreasury'NonNullable
 instance Show Issuing'authorizationTreasury'NonNullable
 instance Eq Issuing'authorizationTreasury'NonNullable

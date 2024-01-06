@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -31,8 +31,19 @@ import qualified StripeAPI.Common
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
+-- | Defines an alias for the schema located at @components.schemas.terminal_reader_reader_resource_process_setup_config@ in the specification.
+--
+-- Represents a per-setup override of a reader configuration
+type TerminalReaderReaderResourceProcessSetupConfig = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.tax_product_resource_tax_settings_status_details_resource_active@ in the specification.
+type TaxProductResourceTaxSettingsStatusDetailsResourceActive = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.setup_intent_payment_method_options_mandate_options_sepa_debit@ in the specification.
 type SetupIntentPaymentMethodOptionsMandateOptionsSepaDebit = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.setup_intent_payment_method_options_link@ in the specification.
+type SetupIntentPaymentMethodOptionsLink = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_us_bank_account@ in the specification.
 type SetupAttemptPaymentMethodDetailsUsBankAccount = Data.Aeson.Types.Internal.Object
@@ -40,8 +51,17 @@ type SetupAttemptPaymentMethodDetailsUsBankAccount = Data.Aeson.Types.Internal.O
 -- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_sepa_debit@ in the specification.
 type SetupAttemptPaymentMethodDetailsSepaDebit = Data.Aeson.Types.Internal.Object
 
+-- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_paypal@ in the specification.
+type SetupAttemptPaymentMethodDetailsPaypal = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_link@ in the specification.
 type SetupAttemptPaymentMethodDetailsLink = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_klarna@ in the specification.
+type SetupAttemptPaymentMethodDetailsKlarna = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_cashapp@ in the specification.
+type SetupAttemptPaymentMethodDetailsCashapp = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_boleto@ in the specification.
 type SetupAttemptPaymentMethodDetailsBoleto = Data.Aeson.Types.Internal.Object
@@ -55,11 +75,20 @@ type SetupAttemptPaymentMethodDetailsAuBecsDebit = Data.Aeson.Types.Internal.Obj
 -- | Defines an alias for the schema located at @components.schemas.setup_attempt_payment_method_details_acss_debit@ in the specification.
 type SetupAttemptPaymentMethodDetailsAcssDebit = Data.Aeson.Types.Internal.Object
 
+-- | Defines an alias for the schema located at @components.schemas.payment_method_zip@ in the specification.
+type PaymentMethodZip = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.payment_method_wechat_pay@ in the specification.
 type PaymentMethodWechatPay = Data.Aeson.Types.Internal.Object
 
+-- | Defines an alias for the schema located at @components.schemas.payment_method_revolut_pay@ in the specification.
+type PaymentMethodRevolutPay = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.payment_method_promptpay@ in the specification.
 type PaymentMethodPromptpay = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.payment_method_pix@ in the specification.
+type PaymentMethodPix = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_paynow@ in the specification.
 type PaymentMethodPaynow = Data.Aeson.Types.Internal.Object
@@ -67,14 +96,14 @@ type PaymentMethodPaynow = Data.Aeson.Types.Internal.Object
 -- | Defines an alias for the schema located at @components.schemas.payment_method_oxxo@ in the specification.
 type PaymentMethodOxxo = Data.Aeson.Types.Internal.Object
 
+-- | Defines an alias for the schema located at @components.schemas.payment_method_options_revolut_pay@ in the specification.
+type PaymentMethodOptionsRevolutPay = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.payment_method_options_interac_present@ in the specification.
 type PaymentMethodOptionsInteracPresent = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_konbini@ in the specification.
 type PaymentMethodKonbini = Data.Aeson.Types.Internal.Object
-
--- | Defines an alias for the schema located at @components.schemas.payment_method_interac_present@ in the specification.
-type PaymentMethodInteracPresent = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_grabpay@ in the specification.
 type PaymentMethodGrabpay = Data.Aeson.Types.Internal.Object
@@ -82,20 +111,26 @@ type PaymentMethodGrabpay = Data.Aeson.Types.Internal.Object
 -- | Defines an alias for the schema located at @components.schemas.payment_method_giropay@ in the specification.
 type PaymentMethodGiropay = Data.Aeson.Types.Internal.Object
 
+-- | Defines an alias for the schema located at @components.schemas.payment_method_details_zip@ in the specification.
+type PaymentMethodDetailsZip = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.payment_method_details_wechat@ in the specification.
 type PaymentMethodDetailsWechat = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_details_stripe_account@ in the specification.
 type PaymentMethodDetailsStripeAccount = Data.Aeson.Types.Internal.Object
 
--- | Defines an alias for the schema located at @components.schemas.payment_method_details_link@ in the specification.
-type PaymentMethodDetailsLink = Data.Aeson.Types.Internal.Object
+-- | Defines an alias for the schema located at @components.schemas.payment_method_details_revolut_pay@ in the specification.
+type PaymentMethodDetailsRevolutPay = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_details_customer_balance@ in the specification.
 type PaymentMethodDetailsCustomerBalance = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_details_card_wallet_samsung_pay@ in the specification.
 type PaymentMethodDetailsCardWalletSamsungPay = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.payment_method_details_card_wallet_link@ in the specification.
+type PaymentMethodDetailsCardWalletLink = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_details_card_wallet_google_pay@ in the specification.
 type PaymentMethodDetailsCardWalletGooglePay = Data.Aeson.Types.Internal.Object
@@ -106,6 +141,9 @@ type PaymentMethodDetailsCardWalletApplePay = Data.Aeson.Types.Internal.Object
 -- | Defines an alias for the schema located at @components.schemas.payment_method_details_card_wallet_amex_express_checkout@ in the specification.
 type PaymentMethodDetailsCardWalletAmexExpressCheckout = Data.Aeson.Types.Internal.Object
 
+-- | Defines an alias for the schema located at @components.schemas.payment_method_details_blik@ in the specification.
+type PaymentMethodDetailsBlik = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.payment_method_details_affirm@ in the specification.
 type PaymentMethodDetailsAffirm = Data.Aeson.Types.Internal.Object
 
@@ -114,6 +152,9 @@ type PaymentMethodCustomerBalance = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_card_wallet_samsung_pay@ in the specification.
 type PaymentMethodCardWalletSamsungPay = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.payment_method_card_wallet_link@ in the specification.
+type PaymentMethodCardWalletLink = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_card_wallet_google_pay@ in the specification.
 type PaymentMethodCardWalletGooglePay = Data.Aeson.Types.Internal.Object
@@ -124,8 +165,8 @@ type PaymentMethodCardWalletApplePay = Data.Aeson.Types.Internal.Object
 -- | Defines an alias for the schema located at @components.schemas.payment_method_card_wallet_amex_express_checkout@ in the specification.
 type PaymentMethodCardWalletAmexExpressCheckout = Data.Aeson.Types.Internal.Object
 
--- | Defines an alias for the schema located at @components.schemas.payment_method_card_present@ in the specification.
-type PaymentMethodCardPresent = Data.Aeson.Types.Internal.Object
+-- | Defines an alias for the schema located at @components.schemas.payment_method_blik@ in the specification.
+type PaymentMethodBlik = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.payment_method_bancontact@ in the specification.
 type PaymentMethodBancontact = Data.Aeson.Types.Internal.Object
@@ -139,20 +180,23 @@ type PaymentMethodAffirm = Data.Aeson.Types.Internal.Object
 -- | Defines an alias for the schema located at @components.schemas.payment_intent_payment_method_options_mandate_options_sepa_debit@ in the specification.
 type PaymentIntentPaymentMethodOptionsMandateOptionsSepaDebit = Data.Aeson.Types.Internal.Object
 
+-- | Defines an alias for the schema located at @components.schemas.payment_intent_payment_method_options_blik@ in the specification.
+type PaymentIntentPaymentMethodOptionsBlik = Data.Aeson.Types.Internal.Object
+
 -- | Defines an alias for the schema located at @components.schemas.payment_flows_private_payment_methods_alipay@ in the specification.
 type PaymentFlowsPrivatePaymentMethodsAlipay = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.offline_acceptance@ in the specification.
 type OfflineAcceptance = Data.Aeson.Types.Internal.Object
 
--- | Defines an alias for the schema located at @components.schemas.mandate_us_bank_account@ in the specification.
-type MandateUsBankAccount = Data.Aeson.Types.Internal.Object
-
 -- | Defines an alias for the schema located at @components.schemas.mandate_multi_use@ in the specification.
 type MandateMultiUse = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.mandate_link@ in the specification.
 type MandateLink = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.mandate_cashapp@ in the specification.
+type MandateCashapp = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.invoice_payment_method_options_konbini@ in the specification.
 type InvoicePaymentMethodOptionsKonbini = Data.Aeson.Types.Internal.Object
@@ -162,6 +206,15 @@ type GelatoSessionIdNumberOptions = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.gelato_report_id_number_options@ in the specification.
 type GelatoReportIdNumberOptions = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.destination_details_unimplemented@ in the specification.
+type DestinationDetailsUnimplemented = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.connect_embedded_base_features@ in the specification.
+type ConnectEmbeddedBaseFeatures = Data.Aeson.Types.Internal.Object
+
+-- | Defines an alias for the schema located at @components.schemas.checkout_revolut_pay_payment_method_options@ in the specification.
+type CheckoutRevolutPayPaymentMethodOptions = Data.Aeson.Types.Internal.Object
 
 -- | Defines an alias for the schema located at @components.schemas.card_mandate_payment_method_details@ in the specification.
 type CardMandatePaymentMethodDetails = Data.Aeson.Types.Internal.Object

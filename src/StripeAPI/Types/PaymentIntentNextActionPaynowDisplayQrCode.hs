@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -40,6 +40,12 @@ data PaymentIntentNextActionPaynowDisplayQrCode = PaymentIntentNextActionPaynowD
     --
     -- * Maximum length of 5000
     paymentIntentNextActionPaynowDisplayQrCodeData :: Data.Text.Internal.Text,
+    -- | hosted_instructions_url: The URL to the hosted PayNow instructions page, which allows customers to view the PayNow QR code.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentIntentNextActionPaynowDisplayQrCodeHostedInstructionsUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | image_url_png: The image_url_png string used to render QR code
     --
     -- Constraints:
@@ -59,11 +65,11 @@ data PaymentIntentNextActionPaynowDisplayQrCode = PaymentIntentNextActionPaynowD
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionPaynowDisplayQrCode where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeData obj] : ["image_url_png" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlPng obj] : ["image_url_svg" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlSvg obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeData obj] : ["image_url_png" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlPng obj] : ["image_url_svg" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlSvg obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeData obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_instructions_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionPaynowDisplayQrCodeHostedInstructionsUrl obj) : ["image_url_png" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlPng obj] : ["image_url_svg" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlSvg obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["data" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeData obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_instructions_url" Data.Aeson.Types.ToJSON..=)) (paymentIntentNextActionPaynowDisplayQrCodeHostedInstructionsUrl obj) : ["image_url_png" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlPng obj] : ["image_url_svg" Data.Aeson.Types.ToJSON..= paymentIntentNextActionPaynowDisplayQrCodeImageUrlSvg obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionPaynowDisplayQrCode where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionPaynowDisplayQrCode" (\obj -> ((GHC.Base.pure PaymentIntentNextActionPaynowDisplayQrCode GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "image_url_png")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "image_url_svg"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionPaynowDisplayQrCode" (\obj -> (((GHC.Base.pure PaymentIntentNextActionPaynowDisplayQrCode GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "hosted_instructions_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "image_url_png")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "image_url_svg"))
 
 -- | Create a new 'PaymentIntentNextActionPaynowDisplayQrCode' with all required fields.
 mkPaymentIntentNextActionPaynowDisplayQrCode ::
@@ -77,6 +83,7 @@ mkPaymentIntentNextActionPaynowDisplayQrCode ::
 mkPaymentIntentNextActionPaynowDisplayQrCode paymentIntentNextActionPaynowDisplayQrCodeData paymentIntentNextActionPaynowDisplayQrCodeImageUrlPng paymentIntentNextActionPaynowDisplayQrCodeImageUrlSvg =
   PaymentIntentNextActionPaynowDisplayQrCode
     { paymentIntentNextActionPaynowDisplayQrCodeData = paymentIntentNextActionPaynowDisplayQrCodeData,
+      paymentIntentNextActionPaynowDisplayQrCodeHostedInstructionsUrl = GHC.Maybe.Nothing,
       paymentIntentNextActionPaynowDisplayQrCodeImageUrlPng = paymentIntentNextActionPaynowDisplayQrCodeImageUrlPng,
       paymentIntentNextActionPaynowDisplayQrCodeImageUrlSvg = paymentIntentNextActionPaynowDisplayQrCodeImageUrlSvg
     }

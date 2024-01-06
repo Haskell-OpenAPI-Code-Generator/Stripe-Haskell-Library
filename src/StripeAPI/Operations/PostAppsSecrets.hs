@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,31 +62,33 @@ postAppsSecrets body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostAppsSecretsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Apps'secret
-                                                      )
+                                     PostAppsSecretsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Apps'secret
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostAppsSecretsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostAppsSecretsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/apps/secrets") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/apps/secrets" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/apps\/secrets.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAppsSecretsRequestBody = PostAppsSecretsRequestBody
   { -- | expand: Specifies which fields in the response should be expanded.
     postAppsSecretsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
+    -- | expires_at: The Unix timestamp for the expiry time of the secret, after which the secret deletes.
+    postAppsSecretsRequestBodyExpiresAt :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | name: A name for the secret that\'s unique within the scope.
     --
     -- Constraints:
@@ -107,11 +110,11 @@ data PostAppsSecretsRequestBody = PostAppsSecretsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAppsSecretsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAppsSecretsRequestBodyExpand obj) : ["name" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyName obj] : ["payload" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyPayload obj] : ["scope" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyScope obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAppsSecretsRequestBodyExpand obj) : ["name" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyName obj] : ["payload" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyPayload obj] : ["scope" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyScope obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAppsSecretsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postAppsSecretsRequestBodyExpiresAt obj) : ["name" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyName obj] : ["payload" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyPayload obj] : ["scope" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyScope obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAppsSecretsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postAppsSecretsRequestBodyExpiresAt obj) : ["name" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyName obj] : ["payload" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyPayload obj] : ["scope" Data.Aeson.Types.ToJSON..= postAppsSecretsRequestBodyScope obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAppsSecretsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAppsSecretsRequestBody" (\obj -> (((GHC.Base.pure PostAppsSecretsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payload")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "scope"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAppsSecretsRequestBody" (\obj -> ((((GHC.Base.pure PostAppsSecretsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payload")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "scope"))
 
 -- | Create a new 'PostAppsSecretsRequestBody' with all required fields.
 mkPostAppsSecretsRequestBody ::
@@ -125,6 +128,7 @@ mkPostAppsSecretsRequestBody ::
 mkPostAppsSecretsRequestBody postAppsSecretsRequestBodyName postAppsSecretsRequestBodyPayload postAppsSecretsRequestBodyScope =
   PostAppsSecretsRequestBody
     { postAppsSecretsRequestBodyExpand = GHC.Maybe.Nothing,
+      postAppsSecretsRequestBodyExpiresAt = GHC.Maybe.Nothing,
       postAppsSecretsRequestBodyName = postAppsSecretsRequestBodyName,
       postAppsSecretsRequestBodyPayload = postAppsSecretsRequestBodyPayload,
       postAppsSecretsRequestBodyScope = postAppsSecretsRequestBodyScope

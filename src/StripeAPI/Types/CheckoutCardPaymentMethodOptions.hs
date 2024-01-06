@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,12 +29,15 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.CheckoutCardInstallmentsOptions
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.checkout_card_payment_method_options@ in the specification.
 data CheckoutCardPaymentMethodOptions = CheckoutCardPaymentMethodOptions
-  { -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+  { -- | installments:
+    checkoutCardPaymentMethodOptionsInstallments :: (GHC.Maybe.Maybe CheckoutCardInstallmentsOptions),
+    -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
     --
     -- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
     --
@@ -59,17 +62,18 @@ data CheckoutCardPaymentMethodOptions = CheckoutCardPaymentMethodOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CheckoutCardPaymentMethodOptions where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKanji obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKanji obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKanji obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKanji obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CheckoutCardPaymentMethodOptions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CheckoutCardPaymentMethodOptions" (\obj -> ((GHC.Base.pure CheckoutCardPaymentMethodOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kanji"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CheckoutCardPaymentMethodOptions" (\obj -> (((GHC.Base.pure CheckoutCardPaymentMethodOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kanji"))
 
 -- | Create a new 'CheckoutCardPaymentMethodOptions' with all required fields.
 mkCheckoutCardPaymentMethodOptions :: CheckoutCardPaymentMethodOptions
 mkCheckoutCardPaymentMethodOptions =
   CheckoutCardPaymentMethodOptions
-    { checkoutCardPaymentMethodOptionsSetupFutureUsage = GHC.Maybe.Nothing,
+    { checkoutCardPaymentMethodOptionsInstallments = GHC.Maybe.Nothing,
+      checkoutCardPaymentMethodOptionsSetupFutureUsage = GHC.Maybe.Nothing,
       checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKana = GHC.Maybe.Nothing,
       checkoutCardPaymentMethodOptionsStatementDescriptorSuffixKanji = GHC.Maybe.Nothing
     }

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,12 +29,15 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.InvoiceInstallmentsCard
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.invoice_payment_method_options_card@ in the specification.
 data InvoicePaymentMethodOptionsCard = InvoicePaymentMethodOptionsCard
-  { -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+  { -- | installments:
+    invoicePaymentMethodOptionsCardInstallments :: (GHC.Maybe.Maybe InvoiceInstallmentsCard),
+    -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
     invoicePaymentMethodOptionsCardRequestThreeDSecure :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicePaymentMethodOptionsCardRequestThreeDSecure'NonNullable))
   }
   deriving
@@ -43,15 +46,19 @@ data InvoicePaymentMethodOptionsCard = InvoicePaymentMethodOptionsCard
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoicePaymentMethodOptionsCard where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicePaymentMethodOptionsCardRequestThreeDSecure obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicePaymentMethodOptionsCardRequestThreeDSecure obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (invoicePaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicePaymentMethodOptionsCardRequestThreeDSecure obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (invoicePaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicePaymentMethodOptionsCardRequestThreeDSecure obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoicePaymentMethodOptionsCard where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicePaymentMethodOptionsCard" (\obj -> GHC.Base.pure InvoicePaymentMethodOptionsCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicePaymentMethodOptionsCard" (\obj -> (GHC.Base.pure InvoicePaymentMethodOptionsCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
 
 -- | Create a new 'InvoicePaymentMethodOptionsCard' with all required fields.
 mkInvoicePaymentMethodOptionsCard :: InvoicePaymentMethodOptionsCard
-mkInvoicePaymentMethodOptionsCard = InvoicePaymentMethodOptionsCard {invoicePaymentMethodOptionsCardRequestThreeDSecure = GHC.Maybe.Nothing}
+mkInvoicePaymentMethodOptionsCard =
+  InvoicePaymentMethodOptionsCard
+    { invoicePaymentMethodOptionsCardInstallments = GHC.Maybe.Nothing,
+      invoicePaymentMethodOptionsCardRequestThreeDSecure = GHC.Maybe.Nothing
+    }
 
 -- | Defines the enum schema located at @components.schemas.invoice_payment_method_options_card.properties.request_three_d_secure@ in the specification.
 --

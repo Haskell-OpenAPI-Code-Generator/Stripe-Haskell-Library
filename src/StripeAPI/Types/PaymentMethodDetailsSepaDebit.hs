@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -64,7 +64,7 @@ data PaymentMethodDetailsSepaDebit = PaymentMethodDetailsSepaDebit
     --
     -- * Maximum length of 5000
     paymentMethodDetailsSepaDebitLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | mandate: ID of the mandate used to make this payment.
+    -- | mandate: Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https:\/\/stripe.com\/docs\/api\/charges\/object\#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https:\/\/stripe.com\/docs\/api\/mandates\/retrieve).
     --
     -- Constraints:
     --

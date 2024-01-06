@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,8 +29,32 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.Address
 import {-# SOURCE #-} StripeAPI.Types.BalanceTransaction
 import {-# SOURCE #-} StripeAPI.Types.Source
+import {-# SOURCE #-} StripeAPI.Types.SourceCodeVerificationFlow
+import {-# SOURCE #-} StripeAPI.Types.SourceOrder
+import {-# SOURCE #-} StripeAPI.Types.SourceOwner
+import {-# SOURCE #-} StripeAPI.Types.SourceReceiverFlow
+import {-# SOURCE #-} StripeAPI.Types.SourceRedirectFlow
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeAchCreditTransfer
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeAchDebit
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeAcssDebit
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeAlipay
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeAuBecsDebit
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeBancontact
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeCard
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeCardPresent
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeEps
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeGiropay
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeIdeal
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeKlarna
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeMultibanco
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeP24
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeSepaDebit
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeSofort
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeThreeDSecure
+import {-# SOURCE #-} StripeAPI.Types.SourceTypeWechat
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -40,7 +64,7 @@ import qualified Prelude as GHC.Maybe
 -- individual top-ups, as well as list all top-ups. Top-ups are identified by a
 -- unique, random ID.
 --
--- Related guide: [Topping Up your Platform Account](https:\/\/stripe.com\/docs\/connect\/top-ups).
+-- Related guide: [Topping up your platform account](https:\/\/stripe.com\/docs\/connect\/top-ups)
 data Topup = Topup
   { -- | amount: Amount transferred.
     topupAmount :: GHC.Types.Int,
@@ -84,13 +108,8 @@ data Topup = Topup
     topupLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     topupMetadata :: Data.Aeson.Types.Internal.Object,
-    -- | source: \`Source\` objects allow you to accept a variety of payment methods. They
-    -- represent a customer\'s payment instrument, and can be used with the Stripe API
-    -- just like a \`Card\` object: once chargeable, they can be charged, or can be
-    -- attached to customers.
-    --
-    -- Related guides: [Sources API](https:\/\/stripe.com\/docs\/sources) and [Sources & Customers](https:\/\/stripe.com\/docs\/sources\/customers).
-    topupSource :: Source,
+    -- | source: The source field is deprecated. It might not always be present in the API response.
+    topupSource :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TopupSource'NonNullable)),
     -- | statement_descriptor: Extra information about a top-up. This will appear on your source\'s bank statement. It must contain at least one letter.
     --
     -- Constraints:
@@ -112,11 +131,11 @@ data Topup = Topup
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Topup where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= topupAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (topupBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= topupCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= topupCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (topupDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_availability_date" Data.Aeson.Types.ToJSON..=)) (topupExpectedAvailabilityDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (topupFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (topupFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= topupId obj] : ["livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj] : ["source" Data.Aeson.Types.ToJSON..= topupSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= topupStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (topupTransferGroup obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= topupAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (topupBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= topupCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= topupCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (topupDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_availability_date" Data.Aeson.Types.ToJSON..=)) (topupExpectedAvailabilityDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (topupFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (topupFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= topupId obj] : ["livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj] : ["source" Data.Aeson.Types.ToJSON..= topupSource obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= topupStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (topupTransferGroup obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= topupAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (topupBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= topupCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= topupCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (topupDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_availability_date" Data.Aeson.Types.ToJSON..=)) (topupExpectedAvailabilityDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (topupFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (topupFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= topupId obj] : ["livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (topupSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= topupStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (topupTransferGroup obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= topupAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (topupBalanceTransaction obj) : ["created" Data.Aeson.Types.ToJSON..= topupCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= topupCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (topupDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expected_availability_date" Data.Aeson.Types.ToJSON..=)) (topupExpectedAvailabilityDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (topupFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_message" Data.Aeson.Types.ToJSON..=)) (topupFailureMessage obj) : ["id" Data.Aeson.Types.ToJSON..= topupId obj] : ["livemode" Data.Aeson.Types.ToJSON..= topupLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= topupMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (topupSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupStatementDescriptor obj) : ["status" Data.Aeson.Types.ToJSON..= topupStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (topupTransferGroup obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "topup"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Topup where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Topup" (\obj -> ((((((((((((((GHC.Base.pure Topup GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expected_availability_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_group"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Topup" (\obj -> ((((((((((((((GHC.Base.pure Topup GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expected_availability_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_group"))
 
 -- | Create a new 'Topup' with all required fields.
 mkTopup ::
@@ -132,12 +151,10 @@ mkTopup ::
   GHC.Types.Bool ->
   -- | 'topupMetadata'
   Data.Aeson.Types.Internal.Object ->
-  -- | 'topupSource'
-  Source ->
   -- | 'topupStatus'
   TopupStatus' ->
   Topup
-mkTopup topupAmount topupCreated topupCurrency topupId topupLivemode topupMetadata topupSource topupStatus =
+mkTopup topupAmount topupCreated topupCurrency topupId topupLivemode topupMetadata topupStatus =
   Topup
     { topupAmount = topupAmount,
       topupBalanceTransaction = GHC.Maybe.Nothing,
@@ -150,7 +167,7 @@ mkTopup topupAmount topupCreated topupCurrency topupId topupLivemode topupMetada
       topupId = topupId,
       topupLivemode = topupLivemode,
       topupMetadata = topupMetadata,
-      topupSource = topupSource,
+      topupSource = GHC.Maybe.Nothing,
       topupStatementDescriptor = GHC.Maybe.Nothing,
       topupStatus = topupStatus,
       topupTransferGroup = GHC.Maybe.Nothing
@@ -172,6 +189,487 @@ instance Data.Aeson.Types.FromJSON.FromJSON TopupBalanceTransaction'NonNullableV
   parseJSON val = case (TopupBalanceTransaction'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((TopupBalanceTransaction'NonNullableBalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @components.schemas.topup.properties.source.anyOf@ in the specification.
+--
+-- The source field is deprecated. It might not always be present in the API response.
+data TopupSource'NonNullable = TopupSource'NonNullable
+  { -- | ach_credit_transfer
+    topupSource'NonNullableAchCreditTransfer :: (GHC.Maybe.Maybe SourceTypeAchCreditTransfer),
+    -- | ach_debit
+    topupSource'NonNullableAchDebit :: (GHC.Maybe.Maybe SourceTypeAchDebit),
+    -- | acss_debit
+    topupSource'NonNullableAcssDebit :: (GHC.Maybe.Maybe SourceTypeAcssDebit),
+    -- | alipay
+    topupSource'NonNullableAlipay :: (GHC.Maybe.Maybe SourceTypeAlipay),
+    -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for \`single_use\` sources.
+    topupSource'NonNullableAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | au_becs_debit
+    topupSource'NonNullableAuBecsDebit :: (GHC.Maybe.Maybe SourceTypeAuBecsDebit),
+    -- | bancontact
+    topupSource'NonNullableBancontact :: (GHC.Maybe.Maybe SourceTypeBancontact),
+    -- | card
+    topupSource'NonNullableCard :: (GHC.Maybe.Maybe SourceTypeCard),
+    -- | card_present
+    topupSource'NonNullableCardPresent :: (GHC.Maybe.Maybe SourceTypeCardPresent),
+    -- | client_secret: The client secret of the source. Used for client-side retrieval using a publishable key.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableClientSecret :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | code_verification:
+    topupSource'NonNullableCodeVerification :: (GHC.Maybe.Maybe SourceCodeVerificationFlow),
+    -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
+    topupSource'NonNullableCreated :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) associated with the source. This is the currency for which the source will be chargeable once ready. Required for \`single_use\` sources.
+    topupSource'NonNullableCurrency :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | customer: The ID of the customer to which this source is attached. This will not be present when the source has not been attached to a customer.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | eps
+    topupSource'NonNullableEps :: (GHC.Maybe.Maybe SourceTypeEps),
+    -- | flow: The authentication \`flow\` of the source. \`flow\` is one of \`redirect\`, \`receiver\`, \`code_verification\`, \`none\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableFlow :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | giropay
+    topupSource'NonNullableGiropay :: (GHC.Maybe.Maybe SourceTypeGiropay),
+    -- | id: Unique identifier for the object.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | ideal
+    topupSource'NonNullableIdeal :: (GHC.Maybe.Maybe SourceTypeIdeal),
+    -- | klarna
+    topupSource'NonNullableKlarna :: (GHC.Maybe.Maybe SourceTypeKlarna),
+    -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
+    topupSource'NonNullableLivemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+    topupSource'NonNullableMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
+    -- | multibanco
+    topupSource'NonNullableMultibanco :: (GHC.Maybe.Maybe SourceTypeMultibanco),
+    -- | object: String representing the object\'s type. Objects of the same type share the same value.
+    topupSource'NonNullableObject :: (GHC.Maybe.Maybe TopupSource'NonNullableObject'),
+    -- | owner: Information about the owner of the payment instrument that may be used or required by particular source types.
+    topupSource'NonNullableOwner :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TopupSource'NonNullableOwner'NonNullable)),
+    -- | p24
+    topupSource'NonNullableP24 :: (GHC.Maybe.Maybe SourceTypeP24),
+    -- | receiver:
+    topupSource'NonNullableReceiver :: (GHC.Maybe.Maybe SourceReceiverFlow),
+    -- | redirect:
+    topupSource'NonNullableRedirect :: (GHC.Maybe.Maybe SourceRedirectFlow),
+    -- | sepa_debit
+    topupSource'NonNullableSepaDebit :: (GHC.Maybe.Maybe SourceTypeSepaDebit),
+    -- | sofort
+    topupSource'NonNullableSofort :: (GHC.Maybe.Maybe SourceTypeSofort),
+    -- | source_order:
+    topupSource'NonNullableSourceOrder :: (GHC.Maybe.Maybe SourceOrder),
+    -- | statement_descriptor: Extra information about a source. This will appear on your customer\'s statement every time you charge the source.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | status: The status of the source, one of \`canceled\`, \`chargeable\`, \`consumed\`, \`failed\`, or \`pending\`. Only \`chargeable\` sources can be used to create a charge.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableStatus :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | three_d_secure
+    topupSource'NonNullableThreeDSecure :: (GHC.Maybe.Maybe SourceTypeThreeDSecure),
+    -- | type: The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
+    topupSource'NonNullableType :: (GHC.Maybe.Maybe TopupSource'NonNullableType'),
+    -- | usage: Either \`reusable\` or \`single_use\`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | wechat
+    topupSource'NonNullableWechat :: (GHC.Maybe.Maybe SourceTypeWechat)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON TopupSource'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_credit_transfer" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAchCreditTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAchDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAlipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code_verification" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCodeVerification obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableEps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableGiropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableIdeal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableKlarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableLivemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("multibanco" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableMultibanco obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableP24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receiver" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableReceiver obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableRedirect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableSepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableSofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_order" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableSourceOrder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableWechat obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_credit_transfer" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAchCreditTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ach_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAchDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAlipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableAuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableBancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_secret" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableClientSecret obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("code_verification" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCodeVerification obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("created" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableEps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableGiropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableIdeal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableKlarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("livemode" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableLivemode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("multibanco" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableMultibanco obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("object" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableObject obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableP24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receiver" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableReceiver obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableRedirect obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableSepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableSofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_order" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableSourceOrder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("three_d_secure" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("usage" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableWechat obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON TopupSource'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TopupSource'NonNullable" (\obj -> ((((((((((((((((((((((((((((((((((((GHC.Base.pure TopupSource'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ach_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "code_verification")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "multibanco")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receiver")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source_order")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat"))
+
+-- | Create a new 'TopupSource'NonNullable' with all required fields.
+mkTopupSource'NonNullable :: TopupSource'NonNullable
+mkTopupSource'NonNullable =
+  TopupSource'NonNullable
+    { topupSource'NonNullableAchCreditTransfer = GHC.Maybe.Nothing,
+      topupSource'NonNullableAchDebit = GHC.Maybe.Nothing,
+      topupSource'NonNullableAcssDebit = GHC.Maybe.Nothing,
+      topupSource'NonNullableAlipay = GHC.Maybe.Nothing,
+      topupSource'NonNullableAmount = GHC.Maybe.Nothing,
+      topupSource'NonNullableAuBecsDebit = GHC.Maybe.Nothing,
+      topupSource'NonNullableBancontact = GHC.Maybe.Nothing,
+      topupSource'NonNullableCard = GHC.Maybe.Nothing,
+      topupSource'NonNullableCardPresent = GHC.Maybe.Nothing,
+      topupSource'NonNullableClientSecret = GHC.Maybe.Nothing,
+      topupSource'NonNullableCodeVerification = GHC.Maybe.Nothing,
+      topupSource'NonNullableCreated = GHC.Maybe.Nothing,
+      topupSource'NonNullableCurrency = GHC.Maybe.Nothing,
+      topupSource'NonNullableCustomer = GHC.Maybe.Nothing,
+      topupSource'NonNullableEps = GHC.Maybe.Nothing,
+      topupSource'NonNullableFlow = GHC.Maybe.Nothing,
+      topupSource'NonNullableGiropay = GHC.Maybe.Nothing,
+      topupSource'NonNullableId = GHC.Maybe.Nothing,
+      topupSource'NonNullableIdeal = GHC.Maybe.Nothing,
+      topupSource'NonNullableKlarna = GHC.Maybe.Nothing,
+      topupSource'NonNullableLivemode = GHC.Maybe.Nothing,
+      topupSource'NonNullableMetadata = GHC.Maybe.Nothing,
+      topupSource'NonNullableMultibanco = GHC.Maybe.Nothing,
+      topupSource'NonNullableObject = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner = GHC.Maybe.Nothing,
+      topupSource'NonNullableP24 = GHC.Maybe.Nothing,
+      topupSource'NonNullableReceiver = GHC.Maybe.Nothing,
+      topupSource'NonNullableRedirect = GHC.Maybe.Nothing,
+      topupSource'NonNullableSepaDebit = GHC.Maybe.Nothing,
+      topupSource'NonNullableSofort = GHC.Maybe.Nothing,
+      topupSource'NonNullableSourceOrder = GHC.Maybe.Nothing,
+      topupSource'NonNullableStatementDescriptor = GHC.Maybe.Nothing,
+      topupSource'NonNullableStatus = GHC.Maybe.Nothing,
+      topupSource'NonNullableThreeDSecure = GHC.Maybe.Nothing,
+      topupSource'NonNullableType = GHC.Maybe.Nothing,
+      topupSource'NonNullableUsage = GHC.Maybe.Nothing,
+      topupSource'NonNullableWechat = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.topup.properties.source.anyOf.properties.object@ in the specification.
+--
+-- String representing the object\'s type. Objects of the same type share the same value.
+data TopupSource'NonNullableObject'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    TopupSource'NonNullableObject'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    TopupSource'NonNullableObject'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"source"@
+    TopupSource'NonNullableObject'EnumSource
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON TopupSource'NonNullableObject' where
+  toJSON (TopupSource'NonNullableObject'Other val) = val
+  toJSON (TopupSource'NonNullableObject'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TopupSource'NonNullableObject'EnumSource) = "source"
+
+instance Data.Aeson.Types.FromJSON.FromJSON TopupSource'NonNullableObject' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "source" -> TopupSource'NonNullableObject'EnumSource
+            | GHC.Base.otherwise -> TopupSource'NonNullableObject'Other val
+      )
+
+-- | Defines the object schema located at @components.schemas.topup.properties.source.anyOf.properties.owner.anyOf@ in the specification.
+--
+-- Information about the owner of the payment instrument that may be used or required by particular source types.
+data TopupSource'NonNullableOwner'NonNullable = TopupSource'NonNullableOwner'NonNullable
+  { -- | address: Owner\'s address.
+    topupSource'NonNullableOwner'NonNullableAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TopupSource'NonNullableOwner'NonNullableAddress'NonNullable)),
+    -- | email: Owner\'s email address.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | name: Owner\'s full name.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | phone: Owner\'s phone number (including extension).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullablePhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | verified_address: Verified owner\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
+    topupSource'NonNullableOwner'NonNullableVerifiedAddress :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable)),
+    -- | verified_email: Verified owner\'s email address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | verified_name: Verified owner\'s full name. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | verified_phone: Verified owner\'s phone number (including extension). Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedPhone :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON TopupSource'NonNullableOwner'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullablePhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_email" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_phone" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedPhone obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullablePhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_address" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_email" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_name" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verified_phone" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedPhone obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON TopupSource'NonNullableOwner'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TopupSource'NonNullableOwner'NonNullable" (\obj -> (((((((GHC.Base.pure TopupSource'NonNullableOwner'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verified_phone"))
+
+-- | Create a new 'TopupSource'NonNullableOwner'NonNullable' with all required fields.
+mkTopupSource'NonNullableOwner'NonNullable :: TopupSource'NonNullableOwner'NonNullable
+mkTopupSource'NonNullableOwner'NonNullable =
+  TopupSource'NonNullableOwner'NonNullable
+    { topupSource'NonNullableOwner'NonNullableAddress = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableEmail = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableName = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullablePhone = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedAddress = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedEmail = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedName = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedPhone = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.topup.properties.source.anyOf.properties.owner.anyOf.properties.address.anyOf@ in the specification.
+--
+-- Owner\\\'s address.
+data TopupSource'NonNullableOwner'NonNullableAddress'NonNullable = TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+  { -- | city: City, district, suburb, town, or village.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | line1: Address line 1 (e.g., street, PO Box, or company name).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | postal_code: ZIP or postal code.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | state: State, county, province, or region.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON TopupSource'NonNullableOwner'NonNullableAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableAddress'NonNullableState obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON TopupSource'NonNullableOwner'NonNullableAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TopupSource'NonNullableOwner'NonNullableAddress'NonNullable" (\obj -> (((((GHC.Base.pure TopupSource'NonNullableOwner'NonNullableAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
+
+-- | Create a new 'TopupSource'NonNullableOwner'NonNullableAddress'NonNullable' with all required fields.
+mkTopupSource'NonNullableOwner'NonNullableAddress'NonNullable :: TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+mkTopupSource'NonNullableOwner'NonNullableAddress'NonNullable =
+  TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+    { topupSource'NonNullableOwner'NonNullableAddress'NonNullableCity = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableAddress'NonNullableState = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.topup.properties.source.anyOf.properties.owner.anyOf.properties.verified_address.anyOf@ in the specification.
+--
+-- Verified owner\\\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
+data TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable = TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+  { -- | city: City, district, suburb, town, or village.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCity :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCountry :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | line1: Address line 1 (e.g., street, PO Box, or company name).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine1 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine2 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | postal_code: ZIP or postal code.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullablePostalCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | state: State, county, province, or region.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableState :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableState obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("city" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line1" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine1 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line2" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine2 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("postal_code" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullablePostalCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableState obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable" (\obj -> (((((GHC.Base.pure TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state"))
+
+-- | Create a new 'TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable' with all required fields.
+mkTopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable :: TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+mkTopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable =
+  TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+    { topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCity = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableCountry = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine1 = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableLine2 = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullablePostalCode = GHC.Maybe.Nothing,
+      topupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullableState = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.topup.properties.source.anyOf.properties.type@ in the specification.
+--
+-- The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
+data TopupSource'NonNullableType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    TopupSource'NonNullableType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    TopupSource'NonNullableType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ach_credit_transfer"@
+    TopupSource'NonNullableType'EnumAchCreditTransfer
+  | -- | Represents the JSON value @"ach_debit"@
+    TopupSource'NonNullableType'EnumAchDebit
+  | -- | Represents the JSON value @"acss_debit"@
+    TopupSource'NonNullableType'EnumAcssDebit
+  | -- | Represents the JSON value @"alipay"@
+    TopupSource'NonNullableType'EnumAlipay
+  | -- | Represents the JSON value @"au_becs_debit"@
+    TopupSource'NonNullableType'EnumAuBecsDebit
+  | -- | Represents the JSON value @"bancontact"@
+    TopupSource'NonNullableType'EnumBancontact
+  | -- | Represents the JSON value @"card"@
+    TopupSource'NonNullableType'EnumCard
+  | -- | Represents the JSON value @"card_present"@
+    TopupSource'NonNullableType'EnumCardPresent
+  | -- | Represents the JSON value @"eps"@
+    TopupSource'NonNullableType'EnumEps
+  | -- | Represents the JSON value @"giropay"@
+    TopupSource'NonNullableType'EnumGiropay
+  | -- | Represents the JSON value @"ideal"@
+    TopupSource'NonNullableType'EnumIdeal
+  | -- | Represents the JSON value @"klarna"@
+    TopupSource'NonNullableType'EnumKlarna
+  | -- | Represents the JSON value @"multibanco"@
+    TopupSource'NonNullableType'EnumMultibanco
+  | -- | Represents the JSON value @"p24"@
+    TopupSource'NonNullableType'EnumP24
+  | -- | Represents the JSON value @"sepa_debit"@
+    TopupSource'NonNullableType'EnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    TopupSource'NonNullableType'EnumSofort
+  | -- | Represents the JSON value @"three_d_secure"@
+    TopupSource'NonNullableType'EnumThreeDSecure
+  | -- | Represents the JSON value @"wechat"@
+    TopupSource'NonNullableType'EnumWechat
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON TopupSource'NonNullableType' where
+  toJSON (TopupSource'NonNullableType'Other val) = val
+  toJSON (TopupSource'NonNullableType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TopupSource'NonNullableType'EnumAchCreditTransfer) = "ach_credit_transfer"
+  toJSON (TopupSource'NonNullableType'EnumAchDebit) = "ach_debit"
+  toJSON (TopupSource'NonNullableType'EnumAcssDebit) = "acss_debit"
+  toJSON (TopupSource'NonNullableType'EnumAlipay) = "alipay"
+  toJSON (TopupSource'NonNullableType'EnumAuBecsDebit) = "au_becs_debit"
+  toJSON (TopupSource'NonNullableType'EnumBancontact) = "bancontact"
+  toJSON (TopupSource'NonNullableType'EnumCard) = "card"
+  toJSON (TopupSource'NonNullableType'EnumCardPresent) = "card_present"
+  toJSON (TopupSource'NonNullableType'EnumEps) = "eps"
+  toJSON (TopupSource'NonNullableType'EnumGiropay) = "giropay"
+  toJSON (TopupSource'NonNullableType'EnumIdeal) = "ideal"
+  toJSON (TopupSource'NonNullableType'EnumKlarna) = "klarna"
+  toJSON (TopupSource'NonNullableType'EnumMultibanco) = "multibanco"
+  toJSON (TopupSource'NonNullableType'EnumP24) = "p24"
+  toJSON (TopupSource'NonNullableType'EnumSepaDebit) = "sepa_debit"
+  toJSON (TopupSource'NonNullableType'EnumSofort) = "sofort"
+  toJSON (TopupSource'NonNullableType'EnumThreeDSecure) = "three_d_secure"
+  toJSON (TopupSource'NonNullableType'EnumWechat) = "wechat"
+
+instance Data.Aeson.Types.FromJSON.FromJSON TopupSource'NonNullableType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "ach_credit_transfer" -> TopupSource'NonNullableType'EnumAchCreditTransfer
+            | val GHC.Classes.== "ach_debit" -> TopupSource'NonNullableType'EnumAchDebit
+            | val GHC.Classes.== "acss_debit" -> TopupSource'NonNullableType'EnumAcssDebit
+            | val GHC.Classes.== "alipay" -> TopupSource'NonNullableType'EnumAlipay
+            | val GHC.Classes.== "au_becs_debit" -> TopupSource'NonNullableType'EnumAuBecsDebit
+            | val GHC.Classes.== "bancontact" -> TopupSource'NonNullableType'EnumBancontact
+            | val GHC.Classes.== "card" -> TopupSource'NonNullableType'EnumCard
+            | val GHC.Classes.== "card_present" -> TopupSource'NonNullableType'EnumCardPresent
+            | val GHC.Classes.== "eps" -> TopupSource'NonNullableType'EnumEps
+            | val GHC.Classes.== "giropay" -> TopupSource'NonNullableType'EnumGiropay
+            | val GHC.Classes.== "ideal" -> TopupSource'NonNullableType'EnumIdeal
+            | val GHC.Classes.== "klarna" -> TopupSource'NonNullableType'EnumKlarna
+            | val GHC.Classes.== "multibanco" -> TopupSource'NonNullableType'EnumMultibanco
+            | val GHC.Classes.== "p24" -> TopupSource'NonNullableType'EnumP24
+            | val GHC.Classes.== "sepa_debit" -> TopupSource'NonNullableType'EnumSepaDebit
+            | val GHC.Classes.== "sofort" -> TopupSource'NonNullableType'EnumSofort
+            | val GHC.Classes.== "three_d_secure" -> TopupSource'NonNullableType'EnumThreeDSecure
+            | val GHC.Classes.== "wechat" -> TopupSource'NonNullableType'EnumWechat
+            | GHC.Base.otherwise -> TopupSource'NonNullableType'Other val
+      )
 
 -- | Defines the enum schema located at @components.schemas.topup.properties.status@ in the specification.
 --

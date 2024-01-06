@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -32,7 +32,7 @@ import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.Account
 import {-# SOURCE #-} StripeAPI.Types.Coupon
 import {-# SOURCE #-} StripeAPI.Types.DeletedCoupon
-import {-# SOURCE #-} StripeAPI.Types.InvoiceSettingSubscriptionScheduleSetting
+import {-# SOURCE #-} StripeAPI.Types.InvoiceSettingSubscriptionSchedulePhaseSetting
 import {-# SOURCE #-} StripeAPI.Types.PaymentMethod
 import {-# SOURCE #-} StripeAPI.Types.SchedulesPhaseAutomaticTax
 import {-# SOURCE #-} StripeAPI.Types.SubscriptionBillingThresholds
@@ -47,9 +47,9 @@ import qualified Prelude as GHC.Maybe
 --
 -- A phase describes the plans, coupon, and trialing status of a subscription for a predefined time period.
 data SubscriptionSchedulePhaseConfiguration = SubscriptionSchedulePhaseConfiguration
-  { -- | add_invoice_items: A list of prices and quantities that will generate invoice items appended to the first invoice for this phase.
+  { -- | add_invoice_items: A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
     subscriptionSchedulePhaseConfigurationAddInvoiceItems :: ([SubscriptionScheduleAddInvoiceItem]),
-    -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account during this phase of the schedule.
+    -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner\'s Stripe account during this phase of the schedule.
     subscriptionSchedulePhaseConfigurationApplicationFeePercent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | automatic_tax:
     subscriptionSchedulePhaseConfigurationAutomaticTax :: (GHC.Maybe.Maybe SchedulesPhaseAutomaticTax),
@@ -57,14 +57,22 @@ data SubscriptionSchedulePhaseConfiguration = SubscriptionSchedulePhaseConfigura
     subscriptionSchedulePhaseConfigurationBillingCycleAnchor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulePhaseConfigurationBillingCycleAnchor'NonNullable)),
     -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
     subscriptionSchedulePhaseConfigurationBillingThresholds :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulePhaseConfigurationBillingThresholds'NonNullable)),
-    -- | collection_method: Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+    -- | collection_method: Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as \`active\`.
     subscriptionSchedulePhaseConfigurationCollectionMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulePhaseConfigurationCollectionMethod'NonNullable)),
     -- | coupon: ID of the coupon to use during this phase of the subscription schedule.
     subscriptionSchedulePhaseConfigurationCoupon :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulePhaseConfigurationCoupon'NonNullableVariants)),
+    -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    subscriptionSchedulePhaseConfigurationCurrency :: Data.Text.Internal.Text,
     -- | default_payment_method: ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer\'s invoice settings.
     subscriptionSchedulePhaseConfigurationDefaultPaymentMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulePhaseConfigurationDefaultPaymentMethod'NonNullableVariants)),
     -- | default_tax_rates: The default tax rates to apply to the subscription during this phase of the subscription schedule.
     subscriptionSchedulePhaseConfigurationDefaultTaxRates :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([TaxRate]))),
+    -- | description: Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    subscriptionSchedulePhaseConfigurationDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | end_date: The end of this phase of the subscription schedule.
     subscriptionSchedulePhaseConfigurationEndDate :: GHC.Types.Int,
     -- | invoice_settings: The invoice settings applicable during this phase.
@@ -73,6 +81,8 @@ data SubscriptionSchedulePhaseConfiguration = SubscriptionSchedulePhaseConfigura
     subscriptionSchedulePhaseConfigurationItems :: ([SubscriptionScheduleConfigurationItem]),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to a phase. Metadata on a schedule\'s phase will update the underlying subscription\'s \`metadata\` when the phase is entered. Updating the underlying subscription\'s \`metadata\` directly will not affect the current phase\'s \`metadata\`.
     subscriptionSchedulePhaseConfigurationMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
+    -- | on_behalf_of: The account (if any) the charge was made on behalf of for charges associated with the schedule\'s subscription. See the Connect documentation for details.
+    subscriptionSchedulePhaseConfigurationOnBehalfOf :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableVariants)),
     -- | proration_behavior: If the subscription schedule will prorate when transitioning to this phase. Possible values are \`create_prorations\` and \`none\`.
     subscriptionSchedulePhaseConfigurationProrationBehavior :: SubscriptionSchedulePhaseConfigurationProrationBehavior',
     -- | start_date: The start of this phase of the subscription schedule.
@@ -88,16 +98,18 @@ data SubscriptionSchedulePhaseConfiguration = SubscriptionSchedulePhaseConfigura
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulePhaseConfiguration where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["add_invoice_items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationAddInvoiceItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultTaxRates obj) : ["end_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationEndDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationInvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationMetadata obj) : ["proration_behavior" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationProrationBehavior obj] : ["start_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationStartDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTrialEnd obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["add_invoice_items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationAddInvoiceItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultTaxRates obj) : ["end_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationEndDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationInvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationMetadata obj) : ["proration_behavior" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationProrationBehavior obj] : ["start_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationStartDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTrialEnd obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["add_invoice_items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationAddInvoiceItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCoupon obj) : ["currency" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDescription obj) : ["end_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationEndDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationInvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationOnBehalfOf obj) : ["proration_behavior" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationProrationBehavior obj] : ["start_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationStartDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTrialEnd obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["add_invoice_items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationAddInvoiceItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationCoupon obj) : ["currency" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationDescription obj) : ["end_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationEndDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationInvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationItems obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationOnBehalfOf obj) : ["proration_behavior" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationProrationBehavior obj] : ["start_date" Data.Aeson.Types.ToJSON..= subscriptionSchedulePhaseConfigurationStartDate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulePhaseConfigurationTrialEnd obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulePhaseConfiguration where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulePhaseConfiguration" (\obj -> ((((((((((((((((GHC.Base.pure SubscriptionSchedulePhaseConfiguration GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "add_invoice_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulePhaseConfiguration" (\obj -> (((((((((((((((((((GHC.Base.pure SubscriptionSchedulePhaseConfiguration GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "add_invoice_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "start_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end"))
 
 -- | Create a new 'SubscriptionSchedulePhaseConfiguration' with all required fields.
 mkSubscriptionSchedulePhaseConfiguration ::
   -- | 'subscriptionSchedulePhaseConfigurationAddInvoiceItems'
   [SubscriptionScheduleAddInvoiceItem] ->
+  -- | 'subscriptionSchedulePhaseConfigurationCurrency'
+  Data.Text.Internal.Text ->
   -- | 'subscriptionSchedulePhaseConfigurationEndDate'
   GHC.Types.Int ->
   -- | 'subscriptionSchedulePhaseConfigurationItems'
@@ -107,7 +119,7 @@ mkSubscriptionSchedulePhaseConfiguration ::
   -- | 'subscriptionSchedulePhaseConfigurationStartDate'
   GHC.Types.Int ->
   SubscriptionSchedulePhaseConfiguration
-mkSubscriptionSchedulePhaseConfiguration subscriptionSchedulePhaseConfigurationAddInvoiceItems subscriptionSchedulePhaseConfigurationEndDate subscriptionSchedulePhaseConfigurationItems subscriptionSchedulePhaseConfigurationProrationBehavior subscriptionSchedulePhaseConfigurationStartDate =
+mkSubscriptionSchedulePhaseConfiguration subscriptionSchedulePhaseConfigurationAddInvoiceItems subscriptionSchedulePhaseConfigurationCurrency subscriptionSchedulePhaseConfigurationEndDate subscriptionSchedulePhaseConfigurationItems subscriptionSchedulePhaseConfigurationProrationBehavior subscriptionSchedulePhaseConfigurationStartDate =
   SubscriptionSchedulePhaseConfiguration
     { subscriptionSchedulePhaseConfigurationAddInvoiceItems = subscriptionSchedulePhaseConfigurationAddInvoiceItems,
       subscriptionSchedulePhaseConfigurationApplicationFeePercent = GHC.Maybe.Nothing,
@@ -116,12 +128,15 @@ mkSubscriptionSchedulePhaseConfiguration subscriptionSchedulePhaseConfigurationA
       subscriptionSchedulePhaseConfigurationBillingThresholds = GHC.Maybe.Nothing,
       subscriptionSchedulePhaseConfigurationCollectionMethod = GHC.Maybe.Nothing,
       subscriptionSchedulePhaseConfigurationCoupon = GHC.Maybe.Nothing,
+      subscriptionSchedulePhaseConfigurationCurrency = subscriptionSchedulePhaseConfigurationCurrency,
       subscriptionSchedulePhaseConfigurationDefaultPaymentMethod = GHC.Maybe.Nothing,
       subscriptionSchedulePhaseConfigurationDefaultTaxRates = GHC.Maybe.Nothing,
+      subscriptionSchedulePhaseConfigurationDescription = GHC.Maybe.Nothing,
       subscriptionSchedulePhaseConfigurationEndDate = subscriptionSchedulePhaseConfigurationEndDate,
       subscriptionSchedulePhaseConfigurationInvoiceSettings = GHC.Maybe.Nothing,
       subscriptionSchedulePhaseConfigurationItems = subscriptionSchedulePhaseConfigurationItems,
       subscriptionSchedulePhaseConfigurationMetadata = GHC.Maybe.Nothing,
+      subscriptionSchedulePhaseConfigurationOnBehalfOf = GHC.Maybe.Nothing,
       subscriptionSchedulePhaseConfigurationProrationBehavior = subscriptionSchedulePhaseConfigurationProrationBehavior,
       subscriptionSchedulePhaseConfigurationStartDate = subscriptionSchedulePhaseConfigurationStartDate,
       subscriptionSchedulePhaseConfigurationTransferData = GHC.Maybe.Nothing,
@@ -188,7 +203,7 @@ mkSubscriptionSchedulePhaseConfigurationBillingThresholds'NonNullable =
 
 -- | Defines the enum schema located at @components.schemas.subscription_schedule_phase_configuration.properties.collection_method@ in the specification.
 --
--- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+-- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as \`active\`.
 data SubscriptionSchedulePhaseConfigurationCollectionMethod'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     SubscriptionSchedulePhaseConfigurationCollectionMethod'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -274,6 +289,23 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulePhaseConfigurati
 mkSubscriptionSchedulePhaseConfigurationInvoiceSettings'NonNullable :: SubscriptionSchedulePhaseConfigurationInvoiceSettings'NonNullable
 mkSubscriptionSchedulePhaseConfigurationInvoiceSettings'NonNullable = SubscriptionSchedulePhaseConfigurationInvoiceSettings'NonNullable {subscriptionSchedulePhaseConfigurationInvoiceSettings'NonNullableDaysUntilDue = GHC.Maybe.Nothing}
 
+-- | Defines the oneOf schema located at @components.schemas.subscription_schedule_phase_configuration.properties.on_behalf_of.anyOf@ in the specification.
+--
+-- The account (if any) the charge was made on behalf of for charges associated with the schedule\'s subscription. See the Connect documentation for details.
+data SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableVariants
+  = SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableText Data.Text.Internal.Text
+  | SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableAccount Account
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableVariants where
+  toJSON (SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableAccount a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableVariants where
+  parseJSON val = case (SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionSchedulePhaseConfigurationOnBehalfOf'NonNullableAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the enum schema located at @components.schemas.subscription_schedule_phase_configuration.properties.proration_behavior@ in the specification.
 --
 -- If the subscription schedule will prorate when transitioning to this phase. Possible values are \`create_prorations\` and \`none\`.
@@ -311,7 +343,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulePhaseConfigurati
 --
 -- The account (if any) the associated subscription\\\'s payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription\\\'s invoices.
 data SubscriptionSchedulePhaseConfigurationTransferData'NonNullable = SubscriptionSchedulePhaseConfigurationTransferData'NonNullable
-  { -- | amount_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+  { -- | amount_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
     subscriptionSchedulePhaseConfigurationTransferData'NonNullableAmountPercent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | destination: The account where funds from the payment will be transferred to upon payment success.
     subscriptionSchedulePhaseConfigurationTransferData'NonNullableDestination :: (GHC.Maybe.Maybe SubscriptionSchedulePhaseConfigurationTransferData'NonNullableDestination'Variants)

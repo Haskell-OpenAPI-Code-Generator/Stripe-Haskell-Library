@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,6 +36,7 @@ import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionFlightData
 import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionFlightDataLeg
 import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionFuelData
 import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionLodgingData
+import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionNetworkData
 import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionPurchaseDetails
 import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionReceiptData
 import {-# SOURCE #-} StripeAPI.Types.IssuingTransactionTreasury
@@ -43,6 +44,7 @@ import {-# SOURCE #-} StripeAPI.Types.Issuing_Authorization
 import {-# SOURCE #-} StripeAPI.Types.Issuing_Card
 import {-# SOURCE #-} StripeAPI.Types.Issuing_Cardholder
 import {-# SOURCE #-} StripeAPI.Types.Issuing_Dispute
+import {-# SOURCE #-} StripeAPI.Types.Issuing_Token
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -52,7 +54,7 @@ import qualified Prelude as GHC.Maybe
 -- your Stripe account, such as a completed purchase or refund, is represented by an Issuing
 -- \`Transaction\` object.
 --
--- Related guide: [Issued Card Transactions](https:\/\/stripe.com\/docs\/issuing\/purchases\/transactions).
+-- Related guide: [Issued card transactions](https:\/\/stripe.com\/docs\/issuing\/purchases\/transactions)
 data Issuing'transaction = Issuing'transaction
   { -- | amount: The transaction amount, which will be reflected in your balance. This amount is in your currency and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal).
     issuing'transactionAmount :: GHC.Types.Int,
@@ -88,8 +90,12 @@ data Issuing'transaction = Issuing'transaction
     issuing'transactionMerchantData :: IssuingAuthorizationMerchantData,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     issuing'transactionMetadata :: Data.Aeson.Types.Internal.Object,
+    -- | network_data: Details about the transaction, such as processing dates, set by the card network.
+    issuing'transactionNetworkData :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'transactionNetworkData'NonNullable)),
     -- | purchase_details: Additional purchase information that is optionally provided by the merchant.
     issuing'transactionPurchaseDetails :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'transactionPurchaseDetails'NonNullable)),
+    -- | token: [Token](https:\/\/stripe.com\/docs\/api\/issuing\/tokens\/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.
+    issuing'transactionToken :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'transactionToken'NonNullableVariants)),
     -- | treasury: [Treasury](https:\/\/stripe.com\/docs\/api\/treasury) details related to this transaction if it was created on a [FinancialAccount](\/docs\/api\/treasury\/financial_accounts
     issuing'transactionTreasury :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'transactionTreasury'NonNullable)),
     -- | type: The nature of the transaction.
@@ -103,11 +109,11 @@ data Issuing'transaction = Issuing'transaction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transaction where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'transactionAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (issuing'transactionBalanceTransaction obj) : ["card" Data.Aeson.Types.ToJSON..= issuing'transactionCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'transactionCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'transactionCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'transactionCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dispute" Data.Aeson.Types.ToJSON..=)) (issuing'transactionDispute obj) : ["id" Data.Aeson.Types.ToJSON..= issuing'transactionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'transactionLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'transactionMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("purchase_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionPurchaseDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'transactionTreasury obj) : ["type" Data.Aeson.Types.ToJSON..= issuing'transactionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'transactionWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.transaction"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'transactionAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (issuing'transactionBalanceTransaction obj) : ["card" Data.Aeson.Types.ToJSON..= issuing'transactionCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'transactionCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'transactionCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'transactionCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dispute" Data.Aeson.Types.ToJSON..=)) (issuing'transactionDispute obj) : ["id" Data.Aeson.Types.ToJSON..= issuing'transactionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'transactionLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'transactionMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("purchase_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionPurchaseDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'transactionTreasury obj) : ["type" Data.Aeson.Types.ToJSON..= issuing'transactionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'transactionWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.transaction"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'transactionAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (issuing'transactionBalanceTransaction obj) : ["card" Data.Aeson.Types.ToJSON..= issuing'transactionCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'transactionCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'transactionCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'transactionCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dispute" Data.Aeson.Types.ToJSON..=)) (issuing'transactionDispute obj) : ["id" Data.Aeson.Types.ToJSON..= issuing'transactionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'transactionLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'transactionMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_data" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("purchase_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionPurchaseDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("token" Data.Aeson.Types.ToJSON..=)) (issuing'transactionToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'transactionTreasury obj) : ["type" Data.Aeson.Types.ToJSON..= issuing'transactionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'transactionWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.transaction"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'transactionAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (issuing'transactionBalanceTransaction obj) : ["card" Data.Aeson.Types.ToJSON..= issuing'transactionCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'transactionCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'transactionCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'transactionCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dispute" Data.Aeson.Types.ToJSON..=)) (issuing'transactionDispute obj) : ["id" Data.Aeson.Types.ToJSON..= issuing'transactionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'transactionLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'transactionMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'transactionMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_data" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("purchase_details" Data.Aeson.Types.ToJSON..=)) (issuing'transactionPurchaseDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("token" Data.Aeson.Types.ToJSON..=)) (issuing'transactionToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'transactionTreasury obj) : ["type" Data.Aeson.Types.ToJSON..= issuing'transactionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'transactionWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.transaction"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transaction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'transaction" (\obj -> ((((((((((((((((((GHC.Base.pure Issuing'transaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "purchase_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wallet"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'transaction" (\obj -> ((((((((((((((((((((GHC.Base.pure Issuing'transaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dispute")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "purchase_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wallet"))
 
 -- | Create a new 'Issuing'transaction' with all required fields.
 mkIssuing'transaction ::
@@ -151,7 +157,9 @@ mkIssuing'transaction issuing'transactionAmount issuing'transactionCard issuing'
       issuing'transactionMerchantCurrency = issuing'transactionMerchantCurrency,
       issuing'transactionMerchantData = issuing'transactionMerchantData,
       issuing'transactionMetadata = issuing'transactionMetadata,
+      issuing'transactionNetworkData = GHC.Maybe.Nothing,
       issuing'transactionPurchaseDetails = GHC.Maybe.Nothing,
+      issuing'transactionToken = GHC.Maybe.Nothing,
       issuing'transactionTreasury = GHC.Maybe.Nothing,
       issuing'transactionType = issuing'transactionType,
       issuing'transactionWallet = GHC.Maybe.Nothing
@@ -162,7 +170,9 @@ mkIssuing'transaction issuing'transactionAmount issuing'transactionCard issuing'
 -- Detailed breakdown of amount components. These amounts are denominated in \\\`currency\\\` and in the [smallest currency unit](https:\\\/\\\/stripe.com\\\/docs\\\/currencies\\\#zero-decimal).
 data Issuing'transactionAmountDetails'NonNullable = Issuing'transactionAmountDetails'NonNullable
   { -- | atm_fee: The fee charged by the ATM for the cash withdrawal.
-    issuing'transactionAmountDetails'NonNullableAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
+    issuing'transactionAmountDetails'NonNullableAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | cashback_amount: The amount of cash requested by the cardholder.
+    issuing'transactionAmountDetails'NonNullableCashbackAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -170,15 +180,19 @@ data Issuing'transactionAmountDetails'NonNullable = Issuing'transactionAmountDet
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionAmountDetails'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails'NonNullableAtmFee obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails'NonNullableAtmFee obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails'NonNullableAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails'NonNullableCashbackAmount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails'NonNullableAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuing'transactionAmountDetails'NonNullableCashbackAmount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionAmountDetails'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'transactionAmountDetails'NonNullable" (\obj -> GHC.Base.pure Issuing'transactionAmountDetails'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'transactionAmountDetails'NonNullable" (\obj -> (GHC.Base.pure Issuing'transactionAmountDetails'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashback_amount"))
 
 -- | Create a new 'Issuing'transactionAmountDetails'NonNullable' with all required fields.
 mkIssuing'transactionAmountDetails'NonNullable :: Issuing'transactionAmountDetails'NonNullable
-mkIssuing'transactionAmountDetails'NonNullable = Issuing'transactionAmountDetails'NonNullable {issuing'transactionAmountDetails'NonNullableAtmFee = GHC.Maybe.Nothing}
+mkIssuing'transactionAmountDetails'NonNullable =
+  Issuing'transactionAmountDetails'NonNullable
+    { issuing'transactionAmountDetails'NonNullableAtmFee = GHC.Maybe.Nothing,
+      issuing'transactionAmountDetails'NonNullableCashbackAmount = GHC.Maybe.Nothing
+    }
 
 -- | Defines the oneOf schema located at @components.schemas.issuing.transaction.properties.authorization.anyOf@ in the specification.
 --
@@ -264,6 +278,50 @@ instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionDispute'NonNullab
   parseJSON val = case (Issuing'transactionDispute'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'transactionDispute'NonNullableIssuing'dispute Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @components.schemas.issuing.transaction.properties.network_data.anyOf@ in the specification.
+--
+-- Details about the transaction, such as processing dates, set by the card network.
+data Issuing'transactionNetworkData'NonNullable = Issuing'transactionNetworkData'NonNullable
+  { -- | authorization_code: A code created by Stripe which is shared with the merchant to validate the authorization. This field will be populated if the authorization message was approved. The code typically starts with the letter \"S\", followed by a six-digit number. For example, \"S498162\". Please note that the code is not guaranteed to be unique across authorizations.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'transactionNetworkData'NonNullableAuthorizationCode :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | processing_date: The date the transaction was processed by the card network. This can be different from the date the seller recorded the transaction depending on when the acquirer submits the transaction to the network.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'transactionNetworkData'NonNullableProcessingDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | transaction_id: Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'transactionNetworkData'NonNullableTransactionId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionNetworkData'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization_code" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData'NonNullableAuthorizationCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("processing_date" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData'NonNullableProcessingDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData'NonNullableTransactionId obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authorization_code" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData'NonNullableAuthorizationCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("processing_date" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData'NonNullableProcessingDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (issuing'transactionNetworkData'NonNullableTransactionId obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionNetworkData'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'transactionNetworkData'NonNullable" (\obj -> ((GHC.Base.pure Issuing'transactionNetworkData'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authorization_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "processing_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id"))
+
+-- | Create a new 'Issuing'transactionNetworkData'NonNullable' with all required fields.
+mkIssuing'transactionNetworkData'NonNullable :: Issuing'transactionNetworkData'NonNullable
+mkIssuing'transactionNetworkData'NonNullable =
+  Issuing'transactionNetworkData'NonNullable
+    { issuing'transactionNetworkData'NonNullableAuthorizationCode = GHC.Maybe.Nothing,
+      issuing'transactionNetworkData'NonNullableProcessingDate = GHC.Maybe.Nothing,
+      issuing'transactionNetworkData'NonNullableTransactionId = GHC.Maybe.Nothing
+    }
 
 -- | Defines the object schema located at @components.schemas.issuing.transaction.properties.purchase_details.anyOf@ in the specification.
 --
@@ -425,17 +483,34 @@ mkIssuing'transactionPurchaseDetails'NonNullableLodging'NonNullable =
       issuing'transactionPurchaseDetails'NonNullableLodging'NonNullableNights = GHC.Maybe.Nothing
     }
 
+-- | Defines the oneOf schema located at @components.schemas.issuing.transaction.properties.token.anyOf@ in the specification.
+--
+-- [Token](https:\/\/stripe.com\/docs\/api\/issuing\/tokens\/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.
+data Issuing'transactionToken'NonNullableVariants
+  = Issuing'transactionToken'NonNullableText Data.Text.Internal.Text
+  | Issuing'transactionToken'NonNullableIssuing'token Issuing'token
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON Issuing'transactionToken'NonNullableVariants where
+  toJSON (Issuing'transactionToken'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (Issuing'transactionToken'NonNullableIssuing'token a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON Issuing'transactionToken'NonNullableVariants where
+  parseJSON val = case (Issuing'transactionToken'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'transactionToken'NonNullableIssuing'token Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the object schema located at @components.schemas.issuing.transaction.properties.treasury.anyOf@ in the specification.
 --
 -- [Treasury](https:\\\/\\\/stripe.com\\\/docs\\\/api\\\/treasury) details related to this transaction if it was created on a [FinancialAccount](\\\/docs\\\/api\\\/treasury\\\/financial_accounts
 data Issuing'transactionTreasury'NonNullable = Issuing'transactionTreasury'NonNullable
-  { -- | received_credit: The Treasury [ReceivedCredit](https:\/\/stripe.com\/docs\/api\/treasury\/received_debits) representing this Issuing transaction if it is a refund
+  { -- | received_credit: The Treasury [ReceivedCredit](https:\/\/stripe.com\/docs\/api\/treasury\/received_credits) representing this Issuing transaction if it is a refund
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     issuing'transactionTreasury'NonNullableReceivedCredit :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | received_debit: The Treasury [ReceivedDebit](https:\/\/stripe.com\/docs\/api\/treasury\/received_credits) representing this Issuing transaction if it is a capture
+    -- | received_debit: The Treasury [ReceivedDebit](https:\/\/stripe.com\/docs\/api\/treasury\/received_debits) representing this Issuing transaction if it is a capture
     --
     -- Constraints:
     --

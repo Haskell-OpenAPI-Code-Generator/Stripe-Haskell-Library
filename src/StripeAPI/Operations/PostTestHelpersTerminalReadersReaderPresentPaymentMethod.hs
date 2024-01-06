@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,34 +66,38 @@ postTestHelpersTerminalReadersReaderPresentPaymentMethod
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTestHelpersTerminalReadersReaderPresentPaymentMethodResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Terminal'reader
-                                                        )
+                                       PostTestHelpersTerminalReadersReaderPresentPaymentMethodResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Terminal'reader
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTestHelpersTerminalReadersReaderPresentPaymentMethodResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostTestHelpersTerminalReadersReaderPresentPaymentMethodResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/test_helpers/terminal/readers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reader)) GHC.Base.++ "/present_payment_method"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/test_helpers/terminal/readers/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel reader)) GHC.Base.<> "/present_payment_method")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/test_helpers\/terminal\/readers\/{reader}\/present_payment_method.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody = PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody
-  { -- | card_present: Simulated card present data
+  { -- | amount_tip: Simulated on-reader tip amount.
+    postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyAmountTip :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | card_present: Simulated data for the card_present payment method.
     postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent :: (GHC.Maybe.Maybe PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent'),
     -- | expand: Specifies which fields in the response should be expanded.
     postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | type: Simulated payment type
+    -- | interac_present: Simulated data for the interac_present payment method.
+    postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent :: (GHC.Maybe.Maybe PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'),
+    -- | type: Simulated payment type.
     postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType :: (GHC.Maybe.Maybe PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType')
   }
   deriving
@@ -101,24 +106,26 @@ data PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody = PostT
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tip" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyAmountTip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tip" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyAmountTip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_present" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("interac_present" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody" (\obj -> ((GHC.Base.pure PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody" (\obj -> ((((GHC.Base.pure PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_tip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "interac_present")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
 
 -- | Create a new 'PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody' with all required fields.
 mkPostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody :: PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody
 mkPostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody =
   PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBody
-    { postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent = GHC.Maybe.Nothing,
+    { postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyAmountTip = GHC.Maybe.Nothing,
+      postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent = GHC.Maybe.Nothing,
       postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyExpand = GHC.Maybe.Nothing,
+      postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent = GHC.Maybe.Nothing,
       postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/test_helpers\/terminal\/readers\/{reader}\/present_payment_method.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.card_present@ in the specification.
 --
--- Simulated card present data
+-- Simulated data for the card_present payment method.
 data PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent' = PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent'
   { -- | number
     --
@@ -143,9 +150,36 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTestHelpersTerminalReadersReader
 mkPostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent' :: PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent'
 mkPostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent' = PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent' {postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyCardPresent'Number = GHC.Maybe.Nothing}
 
+-- | Defines the object schema located at @paths.\/v1\/test_helpers\/terminal\/readers\/{reader}\/present_payment_method.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.interac_present@ in the specification.
+--
+-- Simulated data for the interac_present payment method.
+data PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent' = PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'
+  { -- | number
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'Number :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'Number obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("number" Data.Aeson.Types.ToJSON..=)) (postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'Number obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'" (\obj -> GHC.Base.pure PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "number"))
+
+-- | Create a new 'PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'' with all required fields.
+mkPostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent' :: PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'
+mkPostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent' = PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent' {postTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyInteracPresent'Number = GHC.Maybe.Nothing}
+
 -- | Defines the enum schema located at @paths.\/v1\/test_helpers\/terminal\/readers\/{reader}\/present_payment_method.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.type@ in the specification.
 --
--- Simulated payment type
+-- Simulated payment type.
 data PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'Other Data.Aeson.Types.Internal.Value
@@ -153,18 +187,22 @@ data PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'
     PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"card_present"@
     PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'EnumCardPresent
+  | -- | Represents the JSON value @"interac_present"@
+    PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'EnumInteracPresent
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType' where
   toJSON (PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'Other val) = val
   toJSON (PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'EnumCardPresent) = "card_present"
+  toJSON (PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'EnumInteracPresent) = "interac_present"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType' where
   parseJSON val =
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "card_present" -> PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'EnumCardPresent
+            | val GHC.Classes.== "interac_present" -> PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'EnumInteracPresent
             | GHC.Base.otherwise -> PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequestBodyType'Other val
       )
 

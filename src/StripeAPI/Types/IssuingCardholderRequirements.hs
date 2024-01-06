@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -71,6 +71,8 @@ data IssuingCardholderRequirementsDisabledReason'NonNullable
     IssuingCardholderRequirementsDisabledReason'NonNullableEnumListed
   | -- | Represents the JSON value @"rejected.listed"@
     IssuingCardholderRequirementsDisabledReason'NonNullableEnumRejected'listed
+  | -- | Represents the JSON value @"requirements.past_due"@
+    IssuingCardholderRequirementsDisabledReason'NonNullableEnumRequirements'pastDue
   | -- | Represents the JSON value @"under_review"@
     IssuingCardholderRequirementsDisabledReason'NonNullableEnumUnderReview
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -80,6 +82,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderRequirementsDisabledRea
   toJSON (IssuingCardholderRequirementsDisabledReason'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (IssuingCardholderRequirementsDisabledReason'NonNullableEnumListed) = "listed"
   toJSON (IssuingCardholderRequirementsDisabledReason'NonNullableEnumRejected'listed) = "rejected.listed"
+  toJSON (IssuingCardholderRequirementsDisabledReason'NonNullableEnumRequirements'pastDue) = "requirements.past_due"
   toJSON (IssuingCardholderRequirementsDisabledReason'NonNullableEnumUnderReview) = "under_review"
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderRequirementsDisabledReason'NonNullable where
@@ -88,6 +91,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderRequirementsDisable
       ( if
             | val GHC.Classes.== "listed" -> IssuingCardholderRequirementsDisabledReason'NonNullableEnumListed
             | val GHC.Classes.== "rejected.listed" -> IssuingCardholderRequirementsDisabledReason'NonNullableEnumRejected'listed
+            | val GHC.Classes.== "requirements.past_due" -> IssuingCardholderRequirementsDisabledReason'NonNullableEnumRequirements'pastDue
             | val GHC.Classes.== "under_review" -> IssuingCardholderRequirementsDisabledReason'NonNullableEnumUnderReview
             | GHC.Base.otherwise -> IssuingCardholderRequirementsDisabledReason'NonNullableOther val
       )
@@ -100,6 +104,10 @@ data IssuingCardholderRequirementsPastDue'NonNullable
     IssuingCardholderRequirementsPastDue'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"company.tax_id"@
     IssuingCardholderRequirementsPastDue'NonNullableEnumCompany'taxId
+  | -- | Represents the JSON value @"individual.card_issuing.user_terms_acceptance.date"@
+    IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'cardIssuing'userTermsAcceptance'date
+  | -- | Represents the JSON value @"individual.card_issuing.user_terms_acceptance.ip"@
+    IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'cardIssuing'userTermsAcceptance'ip
   | -- | Represents the JSON value @"individual.dob.day"@
     IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'dob'day
   | -- | Represents the JSON value @"individual.dob.month"@
@@ -118,6 +126,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderRequirementsPastDue'Non
   toJSON (IssuingCardholderRequirementsPastDue'NonNullableOther val) = val
   toJSON (IssuingCardholderRequirementsPastDue'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (IssuingCardholderRequirementsPastDue'NonNullableEnumCompany'taxId) = "company.tax_id"
+  toJSON (IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'cardIssuing'userTermsAcceptance'date) = "individual.card_issuing.user_terms_acceptance.date"
+  toJSON (IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'cardIssuing'userTermsAcceptance'ip) = "individual.card_issuing.user_terms_acceptance.ip"
   toJSON (IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'dob'day) = "individual.dob.day"
   toJSON (IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'dob'month) = "individual.dob.month"
   toJSON (IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'dob'year) = "individual.dob.year"
@@ -130,6 +140,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderRequirementsPastDue
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "company.tax_id" -> IssuingCardholderRequirementsPastDue'NonNullableEnumCompany'taxId
+            | val GHC.Classes.== "individual.card_issuing.user_terms_acceptance.date" -> IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'cardIssuing'userTermsAcceptance'date
+            | val GHC.Classes.== "individual.card_issuing.user_terms_acceptance.ip" -> IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'cardIssuing'userTermsAcceptance'ip
             | val GHC.Classes.== "individual.dob.day" -> IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'dob'day
             | val GHC.Classes.== "individual.dob.month" -> IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'dob'month
             | val GHC.Classes.== "individual.dob.year" -> IssuingCardholderRequirementsPastDue'NonNullableEnumIndividual'dob'year

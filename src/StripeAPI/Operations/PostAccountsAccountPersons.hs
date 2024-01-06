@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,30 +66,32 @@ postAccountsAccountPersons
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountsAccountPersonsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Person
-                                                        )
+                                       PostAccountsAccountPersonsResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Person
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountsAccountPersonsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostAccountsAccountPersonsResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ "/persons"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/accounts/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.<> "/persons")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostAccountsAccountPersonsRequestBody = PostAccountsAccountPersonsRequestBody
-  { -- | address: The person\'s address.
+  { -- | additional_tos_acceptances: Details on the legal guardian\'s acceptance of the required Stripe agreements.
+    postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'),
+    -- | address: The person\'s address.
     postAccountsAccountPersonsRequestBodyAddress :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyAddress'),
     -- | address_kana: The Kana variation of the person\'s address (Japan only).
     postAccountsAccountPersonsRequestBodyAddressKana :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyAddressKana'),
@@ -124,13 +127,13 @@ data PostAccountsAccountPersonsRequestBody = PostAccountsAccountPersonsRequestBo
     postAccountsAccountPersonsRequestBodyFullNameAliases :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyFullNameAliases'Variants),
     -- | gender: The person\'s gender (International regulations require either \"male\" or \"female\").
     postAccountsAccountPersonsRequestBodyGender :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | id_number: The person\'s ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https:\/\/stripe.com\/docs\/js\/tokens_sources\/create_token?type=pii).
+    -- | id_number: The person\'s ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https:\/\/stripe.com\/docs\/js\/tokens\/create_token?type=pii).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postAccountsAccountPersonsRequestBodyIdNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | id_number_secondary: The person\'s secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https:\/\/stripe.com\/docs\/js\/tokens_sources\/create_token?type=pii).
+    -- | id_number_secondary: The person\'s secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https:\/\/stripe.com\/docs\/js\/tokens\/create_token?type=pii).
     --
     -- Constraints:
     --
@@ -197,17 +200,18 @@ data PostAccountsAccountPersonsRequestBody = PostAccountsAccountPersonsRequestBo
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("documents" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDocuments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("full_name_aliases" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFullNameAliases obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gender" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyGender obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_secondary" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumberSecondary obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maiden_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMaidenName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nationality" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyNationality obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("person_token" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPersonToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("political_exposure" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPoliticalExposure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("registered_address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRegisteredAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("relationship" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ssn_last_4" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodySsnLast_4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyVerification obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("documents" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDocuments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("full_name_aliases" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFullNameAliases obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gender" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyGender obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_secondary" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumberSecondary obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maiden_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMaidenName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nationality" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyNationality obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("person_token" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPersonToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("political_exposure" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPoliticalExposure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("registered_address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRegisteredAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("relationship" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ssn_last_4" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodySsnLast_4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyVerification obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_tos_acceptances" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("documents" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDocuments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("full_name_aliases" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFullNameAliases obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gender" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyGender obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_secondary" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumberSecondary obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maiden_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMaidenName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nationality" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyNationality obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("person_token" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPersonToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("political_exposure" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPoliticalExposure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("registered_address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRegisteredAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("relationship" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ssn_last_4" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodySsnLast_4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("additional_tos_acceptances" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("documents" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyDocuments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFirstNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("full_name_aliases" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyFullNameAliases obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gender" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyGender obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number_secondary" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyIdNumberSecondary obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kana" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name_kanji" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyLastNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maiden_name" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMaidenName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("nationality" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyNationality obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("person_token" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPersonToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("political_exposure" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyPoliticalExposure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("registered_address" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRegisteredAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("relationship" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ssn_last_4" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodySsnLast_4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyVerification obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountPersonsRequestBody" (\obj -> ((((((((((((((((((((((((((GHC.Base.pure PostAccountsAccountPersonsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "documents")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "full_name_aliases")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gender")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number_secondary")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maiden_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nationality")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "person_token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "political_exposure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "registered_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "relationship")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ssn_last_4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountPersonsRequestBody" (\obj -> (((((((((((((((((((((((((((GHC.Base.pure PostAccountsAccountPersonsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "additional_tos_acceptances")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "documents")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "full_name_aliases")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gender")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number_secondary")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maiden_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "nationality")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "person_token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "political_exposure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "registered_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "relationship")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ssn_last_4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
 
 -- | Create a new 'PostAccountsAccountPersonsRequestBody' with all required fields.
 mkPostAccountsAccountPersonsRequestBody :: PostAccountsAccountPersonsRequestBody
 mkPostAccountsAccountPersonsRequestBody =
   PostAccountsAccountPersonsRequestBody
-    { postAccountsAccountPersonsRequestBodyAddress = GHC.Maybe.Nothing,
+    { postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances = GHC.Maybe.Nothing,
+      postAccountsAccountPersonsRequestBodyAddress = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyAddressKana = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyAddressKanji = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyDob = GHC.Maybe.Nothing,
@@ -235,6 +239,78 @@ mkPostAccountsAccountPersonsRequestBody =
       postAccountsAccountPersonsRequestBodySsnLast_4 = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyVerification = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.additional_tos_acceptances@ in the specification.
+--
+-- Details on the legal guardian\'s acceptance of the required Stripe agreements.
+data PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances' = PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'
+  { -- | account
+    postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'" (\obj -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account"))
+
+-- | Create a new 'PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'' with all required fields.
+mkPostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances' :: PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'
+mkPostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances' = PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances' {postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.additional_tos_acceptances.properties.account@ in the specification.
+data PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account' = PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'
+  { -- | date
+    postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Date :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | ip
+    postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Ip :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | user_agent
+    postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Date obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Ip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Date obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Ip obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'" (\obj -> ((GHC.Base.pure PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "user_agent"))
+
+-- | Create a new 'PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'' with all required fields.
+mkPostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account' :: PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'
+mkPostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account' =
+  PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'
+    { postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Date = GHC.Maybe.Nothing,
+      postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'Ip = GHC.Maybe.Nothing,
+      postAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.additional_tos_acceptances.properties.account.properties.user_agent.anyOf@ in the specification.
+data PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'Variants
+  = -- | Represents the JSON value @""@
+    PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'EmptyString
+  | PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'Variants where
+  toJSON (PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'EmptyString
+        | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyAdditionalTosAcceptances'Account'UserAgent'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.address@ in the specification.
 --
@@ -500,8 +576,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyDob'EmptyString
         | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyDob'PostAccountsAccountPersonsRequestBodyDob'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.documents@ in the specification.
 --
@@ -538,7 +614,7 @@ mkPostAccountsAccountPersonsRequestBodyDocuments' =
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.documents.properties.company_authorization@ in the specification.
 data PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization' = PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'
   { -- | files
-    postAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
+    postAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files :: (GHC.Maybe.Maybe ([PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'Variants]))
   }
   deriving
     ( GHC.Show.Show,
@@ -556,10 +632,29 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
 mkPostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization' :: PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'
 mkPostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization' = PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization' {postAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files = GHC.Maybe.Nothing}
 
+-- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.documents.properties.company_authorization.properties.files.items.anyOf@ in the specification.
+data PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'Variants
+  = -- | Represents the JSON value @""@
+    PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'EmptyString
+  | PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'Variants where
+  toJSON (PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'EmptyString
+        | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyDocuments'CompanyAuthorization'Files'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.documents.properties.passport@ in the specification.
 data PostAccountsAccountPersonsRequestBodyDocuments'Passport' = PostAccountsAccountPersonsRequestBodyDocuments'Passport'
   { -- | files
-    postAccountsAccountPersonsRequestBodyDocuments'Passport'Files :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
+    postAccountsAccountPersonsRequestBodyDocuments'Passport'Files :: (GHC.Maybe.Maybe ([PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'Variants]))
   }
   deriving
     ( GHC.Show.Show,
@@ -577,10 +672,29 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
 mkPostAccountsAccountPersonsRequestBodyDocuments'Passport' :: PostAccountsAccountPersonsRequestBodyDocuments'Passport'
 mkPostAccountsAccountPersonsRequestBodyDocuments'Passport' = PostAccountsAccountPersonsRequestBodyDocuments'Passport' {postAccountsAccountPersonsRequestBodyDocuments'Passport'Files = GHC.Maybe.Nothing}
 
+-- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.documents.properties.passport.properties.files.items.anyOf@ in the specification.
+data PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'Variants
+  = -- | Represents the JSON value @""@
+    PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'EmptyString
+  | PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'Variants where
+  toJSON (PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'EmptyString
+        | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyDocuments'Passport'Files'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.documents.properties.visa@ in the specification.
 data PostAccountsAccountPersonsRequestBodyDocuments'Visa' = PostAccountsAccountPersonsRequestBodyDocuments'Visa'
   { -- | files
-    postAccountsAccountPersonsRequestBodyDocuments'Visa'Files :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
+    postAccountsAccountPersonsRequestBodyDocuments'Visa'Files :: (GHC.Maybe.Maybe ([PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'Variants]))
   }
   deriving
     ( GHC.Show.Show,
@@ -597,6 +711,25 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
 -- | Create a new 'PostAccountsAccountPersonsRequestBodyDocuments'Visa'' with all required fields.
 mkPostAccountsAccountPersonsRequestBodyDocuments'Visa' :: PostAccountsAccountPersonsRequestBodyDocuments'Visa'
 mkPostAccountsAccountPersonsRequestBodyDocuments'Visa' = PostAccountsAccountPersonsRequestBodyDocuments'Visa' {postAccountsAccountPersonsRequestBodyDocuments'Visa'Files = GHC.Maybe.Nothing}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.documents.properties.visa.properties.files.items.anyOf@ in the specification.
+data PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'Variants
+  = -- | Represents the JSON value @""@
+    PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'EmptyString
+  | PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'Variants where
+  toJSON (PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'EmptyString
+        | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyDocuments'Visa'Files'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.full_name_aliases.anyOf@ in the specification.
 --
@@ -616,8 +749,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyFullNameAliases'EmptyString
         | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyFullNameAliases'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
@@ -637,8 +770,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.registered_address@ in the specification.
 --
@@ -713,6 +846,8 @@ data PostAccountsAccountPersonsRequestBodyRelationship' = PostAccountsAccountPer
     postAccountsAccountPersonsRequestBodyRelationship'Director :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | executive
     postAccountsAccountPersonsRequestBodyRelationship'Executive :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | legal_guardian
+    postAccountsAccountPersonsRequestBodyRelationship'LegalGuardian :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | owner
     postAccountsAccountPersonsRequestBodyRelationship'Owner :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | percent_ownership
@@ -732,11 +867,11 @@ data PostAccountsAccountPersonsRequestBodyRelationship' = PostAccountsAccountPer
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostAccountsAccountPersonsRequestBodyRelationship' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("director" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Director obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executive" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Executive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_ownership" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'PercentOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("representative" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Representative obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Title obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("director" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Director obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executive" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Executive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_ownership" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'PercentOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("representative" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Representative obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Title obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("director" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Director obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executive" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Executive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("legal_guardian" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'LegalGuardian obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_ownership" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'PercentOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("representative" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Representative obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Title obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("director" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Director obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executive" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Executive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("legal_guardian" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'LegalGuardian obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owner" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Owner obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("percent_ownership" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'PercentOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("representative" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Representative obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("title" Data.Aeson.Types.ToJSON..=)) (postAccountsAccountPersonsRequestBodyRelationship'Title obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBodyRelationship' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountPersonsRequestBodyRelationship'" (\obj -> (((((GHC.Base.pure PostAccountsAccountPersonsRequestBodyRelationship' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "director")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "executive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "percent_ownership")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "representative")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "title"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountPersonsRequestBodyRelationship'" (\obj -> ((((((GHC.Base.pure PostAccountsAccountPersonsRequestBodyRelationship' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "director")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "executive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "legal_guardian")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owner")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "percent_ownership")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "representative")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "title"))
 
 -- | Create a new 'PostAccountsAccountPersonsRequestBodyRelationship'' with all required fields.
 mkPostAccountsAccountPersonsRequestBodyRelationship' :: PostAccountsAccountPersonsRequestBodyRelationship'
@@ -744,6 +879,7 @@ mkPostAccountsAccountPersonsRequestBodyRelationship' =
   PostAccountsAccountPersonsRequestBodyRelationship'
     { postAccountsAccountPersonsRequestBodyRelationship'Director = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyRelationship'Executive = GHC.Maybe.Nothing,
+      postAccountsAccountPersonsRequestBodyRelationship'LegalGuardian = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyRelationship'Owner = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyRelationship'PercentOwnership = GHC.Maybe.Nothing,
       postAccountsAccountPersonsRequestBodyRelationship'Representative = GHC.Maybe.Nothing,
@@ -766,8 +902,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'EmptyString
         | GHC.Base.otherwise -> case (PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'Double Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/accounts\/{account}\/persons.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.verification@ in the specification.
 --

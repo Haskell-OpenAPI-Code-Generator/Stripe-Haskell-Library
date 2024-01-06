@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -40,9 +40,9 @@ import qualified Prelude as GHC.Maybe
 -- has previously been created but not yet refunded. Funds will be refunded to
 -- the Stripe account from which the fee was originally collected.
 --
--- Related guide: [Refunding Application Fees](https:\/\/stripe.com\/docs\/connect\/destination-charges\#refunding-app-fee).
+-- Related guide: [Refunding application fees](https:\/\/stripe.com\/docs\/connect\/destination-charges\#refunding-app-fee)
 data FeeRefund = FeeRefund
-  { -- | amount: Amount, in %s.
+  { -- | amount: Amount, in cents (or local equivalent).
     feeRefundAmount :: GHC.Types.Int,
     -- | balance_transaction: Balance transaction that describes the impact on your account balance.
     feeRefundBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable FeeRefundBalanceTransaction'NonNullableVariants)),

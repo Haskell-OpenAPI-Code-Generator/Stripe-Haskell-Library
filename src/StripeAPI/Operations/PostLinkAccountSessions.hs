@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postLinkAccountSessions body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostLinkAccountSessionsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            FinancialConnections'session
-                                                      )
+                                     PostLinkAccountSessionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              FinancialConnections'session
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostLinkAccountSessionsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostLinkAccountSessionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/link_account_sessions") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/link_account_sessions" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/link_account_sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostLinkAccountSessionsRequestBody = PostLinkAccountSessionsRequestBody
@@ -94,6 +95,8 @@ data PostLinkAccountSessionsRequestBody = PostLinkAccountSessionsRequestBody
     --
     -- Possible values are \`balances\`, \`transactions\`, \`ownership\`, and \`payment_method\`.
     postLinkAccountSessionsRequestBodyPermissions :: ([PostLinkAccountSessionsRequestBodyPermissions']),
+    -- | prefetch: List of data features that you would like to retrieve upon account creation.
+    postLinkAccountSessionsRequestBodyPrefetch :: (GHC.Maybe.Maybe ([PostLinkAccountSessionsRequestBodyPrefetch'])),
     -- | return_url: For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
     --
     -- Constraints:
@@ -107,11 +110,11 @@ data PostLinkAccountSessionsRequestBody = PostLinkAccountSessionsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostLinkAccountSessionsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postLinkAccountSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postLinkAccountSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostLinkAccountSessionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostLinkAccountSessionsRequestBody" (\obj -> ((((GHC.Base.pure PostLinkAccountSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostLinkAccountSessionsRequestBody" (\obj -> (((((GHC.Base.pure PostLinkAccountSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prefetch")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
 
 -- | Create a new 'PostLinkAccountSessionsRequestBody' with all required fields.
 mkPostLinkAccountSessionsRequestBody ::
@@ -126,6 +129,7 @@ mkPostLinkAccountSessionsRequestBody postLinkAccountSessionsRequestBodyAccountHo
       postLinkAccountSessionsRequestBodyExpand = GHC.Maybe.Nothing,
       postLinkAccountSessionsRequestBodyFilters = GHC.Maybe.Nothing,
       postLinkAccountSessionsRequestBodyPermissions = postLinkAccountSessionsRequestBodyPermissions,
+      postLinkAccountSessionsRequestBodyPrefetch = GHC.Maybe.Nothing,
       postLinkAccountSessionsRequestBodyReturnUrl = GHC.Maybe.Nothing
     }
 
@@ -258,6 +262,37 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostLinkAccountSessionsRequestBodyPe
             | val GHC.Classes.== "payment_method" -> PostLinkAccountSessionsRequestBodyPermissions'EnumPaymentMethod
             | val GHC.Classes.== "transactions" -> PostLinkAccountSessionsRequestBodyPermissions'EnumTransactions
             | GHC.Base.otherwise -> PostLinkAccountSessionsRequestBodyPermissions'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/link_account_sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.prefetch.items@ in the specification.
+data PostLinkAccountSessionsRequestBodyPrefetch'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostLinkAccountSessionsRequestBodyPrefetch'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostLinkAccountSessionsRequestBodyPrefetch'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"balances"@
+    PostLinkAccountSessionsRequestBodyPrefetch'EnumBalances
+  | -- | Represents the JSON value @"ownership"@
+    PostLinkAccountSessionsRequestBodyPrefetch'EnumOwnership
+  | -- | Represents the JSON value @"transactions"@
+    PostLinkAccountSessionsRequestBodyPrefetch'EnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostLinkAccountSessionsRequestBodyPrefetch' where
+  toJSON (PostLinkAccountSessionsRequestBodyPrefetch'Other val) = val
+  toJSON (PostLinkAccountSessionsRequestBodyPrefetch'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostLinkAccountSessionsRequestBodyPrefetch'EnumBalances) = "balances"
+  toJSON (PostLinkAccountSessionsRequestBodyPrefetch'EnumOwnership) = "ownership"
+  toJSON (PostLinkAccountSessionsRequestBodyPrefetch'EnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostLinkAccountSessionsRequestBodyPrefetch' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "balances" -> PostLinkAccountSessionsRequestBodyPrefetch'EnumBalances
+            | val GHC.Classes.== "ownership" -> PostLinkAccountSessionsRequestBodyPrefetch'EnumOwnership
+            | val GHC.Classes.== "transactions" -> PostLinkAccountSessionsRequestBodyPrefetch'EnumTransactions
+            | GHC.Base.otherwise -> PostLinkAccountSessionsRequestBodyPrefetch'Other val
       )
 
 -- | Represents a response of the operation 'postLinkAccountSessions'.

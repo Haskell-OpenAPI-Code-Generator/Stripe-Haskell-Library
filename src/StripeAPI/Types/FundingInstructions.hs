@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -39,7 +39,7 @@ import qualified Prelude as GHC.Maybe
 -- automatically applied to future invoices and payments using the \`customer_balance\` payment method.
 -- Customers can fund this balance by initiating a bank transfer to any account in the
 -- \`financial_addresses\` field.
--- Related guide: [Customer Balance - Funding Instructions](https:\/\/stripe.com\/docs\/payments\/customer-balance\/funding-instructions) to learn more
+-- Related guide: [Customer balance funding instructions](https:\/\/stripe.com\/docs\/payments\/customer-balance\/funding-instructions)
 data FundingInstructions = FundingInstructions
   { -- | bank_transfer:
     fundingInstructionsBankTransfer :: FundingInstructionsBankTransfer,

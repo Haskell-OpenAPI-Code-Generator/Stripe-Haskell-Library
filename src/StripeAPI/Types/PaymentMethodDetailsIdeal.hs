@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_method_details_ideal@ in the specification.
 data PaymentMethodDetailsIdeal = PaymentMethodDetailsIdeal
-  { -- | bank: The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
+  { -- | bank: The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`n26\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, \`van_lanschot\`, or \`yoursafe\`.
     paymentMethodDetailsIdealBank :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodDetailsIdealBank'NonNullable)),
     -- | bic: The Bank Identifier Code of the customer\'s bank.
     paymentMethodDetailsIdealBic :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodDetailsIdealBic'NonNullable)),
@@ -84,7 +84,7 @@ mkPaymentMethodDetailsIdeal =
 
 -- | Defines the enum schema located at @components.schemas.payment_method_details_ideal.properties.bank@ in the specification.
 --
--- The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
+-- The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`n26\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, \`van_lanschot\`, or \`yoursafe\`.
 data PaymentMethodDetailsIdealBank'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentMethodDetailsIdealBank'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -104,6 +104,8 @@ data PaymentMethodDetailsIdealBank'NonNullable
     PaymentMethodDetailsIdealBank'NonNullableEnumKnab
   | -- | Represents the JSON value @"moneyou"@
     PaymentMethodDetailsIdealBank'NonNullableEnumMoneyou
+  | -- | Represents the JSON value @"n26"@
+    PaymentMethodDetailsIdealBank'NonNullableEnumN26
   | -- | Represents the JSON value @"rabobank"@
     PaymentMethodDetailsIdealBank'NonNullableEnumRabobank
   | -- | Represents the JSON value @"regiobank"@
@@ -116,6 +118,8 @@ data PaymentMethodDetailsIdealBank'NonNullable
     PaymentMethodDetailsIdealBank'NonNullableEnumTriodosBank
   | -- | Represents the JSON value @"van_lanschot"@
     PaymentMethodDetailsIdealBank'NonNullableEnumVanLanschot
+  | -- | Represents the JSON value @"yoursafe"@
+    PaymentMethodDetailsIdealBank'NonNullableEnumYoursafe
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsIdealBank'NonNullable where
@@ -128,12 +132,14 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsIdealBank'NonNullabl
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumIng) = "ing"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumKnab) = "knab"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumMoneyou) = "moneyou"
+  toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumN26) = "n26"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumRabobank) = "rabobank"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumRegiobank) = "regiobank"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumRevolut) = "revolut"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumSnsBank) = "sns_bank"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumTriodosBank) = "triodos_bank"
   toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumVanLanschot) = "van_lanschot"
+  toJSON (PaymentMethodDetailsIdealBank'NonNullableEnumYoursafe) = "yoursafe"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsIdealBank'NonNullable where
   parseJSON val =
@@ -146,12 +152,14 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsIdealBank'NonNul
             | val GHC.Classes.== "ing" -> PaymentMethodDetailsIdealBank'NonNullableEnumIng
             | val GHC.Classes.== "knab" -> PaymentMethodDetailsIdealBank'NonNullableEnumKnab
             | val GHC.Classes.== "moneyou" -> PaymentMethodDetailsIdealBank'NonNullableEnumMoneyou
+            | val GHC.Classes.== "n26" -> PaymentMethodDetailsIdealBank'NonNullableEnumN26
             | val GHC.Classes.== "rabobank" -> PaymentMethodDetailsIdealBank'NonNullableEnumRabobank
             | val GHC.Classes.== "regiobank" -> PaymentMethodDetailsIdealBank'NonNullableEnumRegiobank
             | val GHC.Classes.== "revolut" -> PaymentMethodDetailsIdealBank'NonNullableEnumRevolut
             | val GHC.Classes.== "sns_bank" -> PaymentMethodDetailsIdealBank'NonNullableEnumSnsBank
             | val GHC.Classes.== "triodos_bank" -> PaymentMethodDetailsIdealBank'NonNullableEnumTriodosBank
             | val GHC.Classes.== "van_lanschot" -> PaymentMethodDetailsIdealBank'NonNullableEnumVanLanschot
+            | val GHC.Classes.== "yoursafe" -> PaymentMethodDetailsIdealBank'NonNullableEnumYoursafe
             | GHC.Base.otherwise -> PaymentMethodDetailsIdealBank'NonNullableOther val
       )
 
@@ -167,6 +175,8 @@ data PaymentMethodDetailsIdealBic'NonNullable
     PaymentMethodDetailsIdealBic'NonNullableEnumABNANL2A
   | -- | Represents the JSON value @"ASNBNL21"@
     PaymentMethodDetailsIdealBic'NonNullableEnumASNBNL21
+  | -- | Represents the JSON value @"BITSNL2A"@
+    PaymentMethodDetailsIdealBic'NonNullableEnumBITSNL2A
   | -- | Represents the JSON value @"BUNQNL2A"@
     PaymentMethodDetailsIdealBic'NonNullableEnumBUNQNL2A
   | -- | Represents the JSON value @"FVLBNL22"@
@@ -179,10 +189,14 @@ data PaymentMethodDetailsIdealBic'NonNullable
     PaymentMethodDetailsIdealBic'NonNullableEnumKNABNL2H
   | -- | Represents the JSON value @"MOYONL21"@
     PaymentMethodDetailsIdealBic'NonNullableEnumMOYONL21
+  | -- | Represents the JSON value @"NTSBDEB1"@
+    PaymentMethodDetailsIdealBic'NonNullableEnumNTSBDEB1
   | -- | Represents the JSON value @"RABONL2U"@
     PaymentMethodDetailsIdealBic'NonNullableEnumRABONL2U
   | -- | Represents the JSON value @"RBRBNL21"@
     PaymentMethodDetailsIdealBic'NonNullableEnumRBRBNL21
+  | -- | Represents the JSON value @"REVOIE23"@
+    PaymentMethodDetailsIdealBic'NonNullableEnumREVOIE23
   | -- | Represents the JSON value @"REVOLT21"@
     PaymentMethodDetailsIdealBic'NonNullableEnumREVOLT21
   | -- | Represents the JSON value @"SNSBNL2A"@
@@ -196,14 +210,17 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsIdealBic'NonNullable
   toJSON (PaymentMethodDetailsIdealBic'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumABNANL2A) = "ABNANL2A"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumASNBNL21) = "ASNBNL21"
+  toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumBITSNL2A) = "BITSNL2A"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumBUNQNL2A) = "BUNQNL2A"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumFVLBNL22) = "FVLBNL22"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumHANDNL2A) = "HANDNL2A"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumINGBNL2A) = "INGBNL2A"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumKNABNL2H) = "KNABNL2H"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumMOYONL21) = "MOYONL21"
+  toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumNTSBDEB1) = "NTSBDEB1"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumRABONL2U) = "RABONL2U"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumRBRBNL21) = "RBRBNL21"
+  toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumREVOIE23) = "REVOIE23"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumREVOLT21) = "REVOLT21"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumSNSBNL2A) = "SNSBNL2A"
   toJSON (PaymentMethodDetailsIdealBic'NonNullableEnumTRIONL2U) = "TRIONL2U"
@@ -214,14 +231,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsIdealBic'NonNull
       ( if
             | val GHC.Classes.== "ABNANL2A" -> PaymentMethodDetailsIdealBic'NonNullableEnumABNANL2A
             | val GHC.Classes.== "ASNBNL21" -> PaymentMethodDetailsIdealBic'NonNullableEnumASNBNL21
+            | val GHC.Classes.== "BITSNL2A" -> PaymentMethodDetailsIdealBic'NonNullableEnumBITSNL2A
             | val GHC.Classes.== "BUNQNL2A" -> PaymentMethodDetailsIdealBic'NonNullableEnumBUNQNL2A
             | val GHC.Classes.== "FVLBNL22" -> PaymentMethodDetailsIdealBic'NonNullableEnumFVLBNL22
             | val GHC.Classes.== "HANDNL2A" -> PaymentMethodDetailsIdealBic'NonNullableEnumHANDNL2A
             | val GHC.Classes.== "INGBNL2A" -> PaymentMethodDetailsIdealBic'NonNullableEnumINGBNL2A
             | val GHC.Classes.== "KNABNL2H" -> PaymentMethodDetailsIdealBic'NonNullableEnumKNABNL2H
             | val GHC.Classes.== "MOYONL21" -> PaymentMethodDetailsIdealBic'NonNullableEnumMOYONL21
+            | val GHC.Classes.== "NTSBDEB1" -> PaymentMethodDetailsIdealBic'NonNullableEnumNTSBDEB1
             | val GHC.Classes.== "RABONL2U" -> PaymentMethodDetailsIdealBic'NonNullableEnumRABONL2U
             | val GHC.Classes.== "RBRBNL21" -> PaymentMethodDetailsIdealBic'NonNullableEnumRBRBNL21
+            | val GHC.Classes.== "REVOIE23" -> PaymentMethodDetailsIdealBic'NonNullableEnumREVOIE23
             | val GHC.Classes.== "REVOLT21" -> PaymentMethodDetailsIdealBic'NonNullableEnumREVOLT21
             | val GHC.Classes.== "SNSBNL2A" -> PaymentMethodDetailsIdealBic'NonNullableEnumSNSBNL2A
             | val GHC.Classes.== "TRIONL2U" -> PaymentMethodDetailsIdealBic'NonNullableEnumTRIONL2U

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,37 +66,33 @@ postTerminalLocationsLocation
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTerminalLocationsLocationResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              PostTerminalLocationsLocationResponseBody200
-                                                        )
+                                       PostTerminalLocationsLocationResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                PostTerminalLocationsLocationResponseBody200
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTerminalLocationsLocationResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostTerminalLocationsLocationResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/terminal/locations/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.<> "")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/terminal\/locations\/{location}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalLocationsLocationRequestBody = PostTerminalLocationsLocationRequestBody
   { -- | address: The full address of the location.
     postTerminalLocationsLocationRequestBodyAddress :: (GHC.Maybe.Maybe PostTerminalLocationsLocationRequestBodyAddress'),
     -- | configuration_overrides: The ID of a configuration that will be used to customize all readers in this location.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 1000
-    postTerminalLocationsLocationRequestBodyConfigurationOverrides :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postTerminalLocationsLocationRequestBodyConfigurationOverrides :: (GHC.Maybe.Maybe PostTerminalLocationsLocationRequestBodyConfigurationOverrides'Variants),
     -- | display_name: A name for the location.
     --
     -- Constraints:
@@ -195,6 +192,27 @@ mkPostTerminalLocationsLocationRequestBodyAddress' =
       postTerminalLocationsLocationRequestBodyAddress'State = GHC.Maybe.Nothing
     }
 
+-- | Defines the oneOf schema located at @paths.\/v1\/terminal\/locations\/{location}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.configuration_overrides.anyOf@ in the specification.
+--
+-- The ID of a configuration that will be used to customize all readers in this location.
+data PostTerminalLocationsLocationRequestBodyConfigurationOverrides'Variants
+  = -- | Represents the JSON value @""@
+    PostTerminalLocationsLocationRequestBodyConfigurationOverrides'EmptyString
+  | PostTerminalLocationsLocationRequestBodyConfigurationOverrides'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalLocationsLocationRequestBodyConfigurationOverrides'Variants where
+  toJSON (PostTerminalLocationsLocationRequestBodyConfigurationOverrides'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostTerminalLocationsLocationRequestBodyConfigurationOverrides'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsLocationRequestBodyConfigurationOverrides'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostTerminalLocationsLocationRequestBodyConfigurationOverrides'EmptyString
+        | GHC.Base.otherwise -> case (PostTerminalLocationsLocationRequestBodyConfigurationOverrides'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the oneOf schema located at @paths.\/v1\/terminal\/locations\/{location}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
 -- Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -213,8 +231,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalLocationsLocationRequest
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostTerminalLocationsLocationRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostTerminalLocationsLocationRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postTerminalLocationsLocation'.
 --

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,9 +34,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.mandate_single_use@ in the specification.
 data MandateSingleUse = MandateSingleUse
-  { -- | amount: On a single use mandate, the amount of the payment.
+  { -- | amount: The amount of the payment on a single use mandate.
     mandateSingleUseAmount :: GHC.Types.Int,
-    -- | currency: On a single use mandate, the currency of the payment.
+    -- | currency: The currency of the payment on a single use mandate.
     mandateSingleUseCurrency :: Data.Text.Internal.Text
   }
   deriving

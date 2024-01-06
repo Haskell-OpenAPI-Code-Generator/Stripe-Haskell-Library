@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,36 +66,36 @@ postTestHelpersCustomersCustomerFundCashBalance
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTestHelpersCustomersCustomerFundCashBalanceResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              CustomerBalanceTransaction
-                                                        )
+                                       PostTestHelpersCustomersCustomerFundCashBalanceResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                CustomerCashBalanceTransaction
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTestHelpersCustomersCustomerFundCashBalanceResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostTestHelpersCustomersCustomerFundCashBalanceResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/test_helpers/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/fund_cash_balance"))) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/test_helpers/customers/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.<> "/fund_cash_balance")) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/test_helpers\/customers\/{customer}\/fund_cash_balance.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTestHelpersCustomersCustomerFundCashBalanceRequestBody = PostTestHelpersCustomersCustomerFundCashBalanceRequestBody
-  { -- | amount: Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal) (e.g., 100 cents to charge \$1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is \$0.50 US or [equivalent in charge currency](https:\/\/stripe.com\/docs\/currencies\#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of \$999,999.99).
+  { -- | amount: Amount to be used for this test cash balance transaction. A positive integer representing how much to fund in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal) (e.g., 100 cents to fund \$1.00 or 100 to fund ¥100, a zero-decimal currency).
     postTestHelpersCustomersCustomerFundCashBalanceRequestBodyAmount :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     postTestHelpersCustomersCustomerFundCashBalanceRequestBodyCurrency :: Data.Text.Internal.Text,
     -- | expand: Specifies which fields in the response should be expanded.
     postTestHelpersCustomersCustomerFundCashBalanceRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | reference
+    -- | reference: A description of the test funding. This simulates free-text references supplied by customers when making bank transfers to their cash balance. You can use this to test how Stripe\'s [reconciliation algorithm](https:\/\/stripe.com\/docs\/payments\/customer-balance\/reconciliation) applies to different user inputs.
     --
     -- Constraints:
     --
@@ -135,7 +136,7 @@ data PostTestHelpersCustomersCustomerFundCashBalanceResponse
   = -- | Means either no matching case available or a parse error
     PostTestHelpersCustomersCustomerFundCashBalanceResponseError GHC.Base.String
   | -- | Successful response.
-    PostTestHelpersCustomersCustomerFundCashBalanceResponse200 CustomerBalanceTransaction
+    PostTestHelpersCustomersCustomerFundCashBalanceResponse200 CustomerCashBalanceTransaction
   | -- | Error response.
     PostTestHelpersCustomersCustomerFundCashBalanceResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -63,6 +63,8 @@ data FinancialConnections'session = FinancialConnections'session
     financialConnections'sessionLivemode :: GHC.Types.Bool,
     -- | permissions: Permissions requested for accounts collected during this session.
     financialConnections'sessionPermissions :: ([FinancialConnections'sessionPermissions']),
+    -- | prefetch: Data features requested to be retrieved upon account creation.
+    financialConnections'sessionPrefetch :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([FinancialConnections'sessionPrefetch'NonNullable]))),
     -- | return_url: For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
     --
     -- Constraints:
@@ -76,11 +78,11 @@ data FinancialConnections'session = FinancialConnections'session
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FinancialConnections'session where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionAccountHolder obj) : ["accounts" Data.Aeson.Types.ToJSON..= financialConnections'sessionAccounts obj] : ["client_secret" Data.Aeson.Types.ToJSON..= financialConnections'sessionClientSecret obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionFilters obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'sessionLivemode obj] : ["permissions" Data.Aeson.Types.ToJSON..= financialConnections'sessionPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionReturnUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.session"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionAccountHolder obj) : ["accounts" Data.Aeson.Types.ToJSON..= financialConnections'sessionAccounts obj] : ["client_secret" Data.Aeson.Types.ToJSON..= financialConnections'sessionClientSecret obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionFilters obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'sessionLivemode obj] : ["permissions" Data.Aeson.Types.ToJSON..= financialConnections'sessionPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionReturnUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.session"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionAccountHolder obj) : ["accounts" Data.Aeson.Types.ToJSON..= financialConnections'sessionAccounts obj] : ["client_secret" Data.Aeson.Types.ToJSON..= financialConnections'sessionClientSecret obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionFilters obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'sessionLivemode obj] : ["permissions" Data.Aeson.Types.ToJSON..= financialConnections'sessionPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionReturnUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.session"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionAccountHolder obj) : ["accounts" Data.Aeson.Types.ToJSON..= financialConnections'sessionAccounts obj] : ["client_secret" Data.Aeson.Types.ToJSON..= financialConnections'sessionClientSecret obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionFilters obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'sessionLivemode obj] : ["permissions" Data.Aeson.Types.ToJSON..= financialConnections'sessionPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (financialConnections'sessionReturnUrl obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.session"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'session where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FinancialConnections'session" (\obj -> (((((((GHC.Base.pure FinancialConnections'session GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "accounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FinancialConnections'session" (\obj -> ((((((((GHC.Base.pure FinancialConnections'session GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "accounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "client_secret")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prefetch")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
 
 -- | Create a new 'FinancialConnections'session' with all required fields.
 mkFinancialConnections'session ::
@@ -104,6 +106,7 @@ mkFinancialConnections'session financialConnections'sessionAccounts financialCon
       financialConnections'sessionId = financialConnections'sessionId,
       financialConnections'sessionLivemode = financialConnections'sessionLivemode,
       financialConnections'sessionPermissions = financialConnections'sessionPermissions,
+      financialConnections'sessionPrefetch = GHC.Maybe.Nothing,
       financialConnections'sessionReturnUrl = GHC.Maybe.Nothing
     }
 
@@ -279,4 +282,35 @@ instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'sessionPermissi
             | val GHC.Classes.== "payment_method" -> FinancialConnections'sessionPermissions'EnumPaymentMethod
             | val GHC.Classes.== "transactions" -> FinancialConnections'sessionPermissions'EnumTransactions
             | GHC.Base.otherwise -> FinancialConnections'sessionPermissions'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.financial_connections.session.properties.prefetch.items@ in the specification.
+data FinancialConnections'sessionPrefetch'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    FinancialConnections'sessionPrefetch'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    FinancialConnections'sessionPrefetch'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"balances"@
+    FinancialConnections'sessionPrefetch'NonNullableEnumBalances
+  | -- | Represents the JSON value @"ownership"@
+    FinancialConnections'sessionPrefetch'NonNullableEnumOwnership
+  | -- | Represents the JSON value @"transactions"@
+    FinancialConnections'sessionPrefetch'NonNullableEnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON FinancialConnections'sessionPrefetch'NonNullable where
+  toJSON (FinancialConnections'sessionPrefetch'NonNullableOther val) = val
+  toJSON (FinancialConnections'sessionPrefetch'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (FinancialConnections'sessionPrefetch'NonNullableEnumBalances) = "balances"
+  toJSON (FinancialConnections'sessionPrefetch'NonNullableEnumOwnership) = "ownership"
+  toJSON (FinancialConnections'sessionPrefetch'NonNullableEnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'sessionPrefetch'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "balances" -> FinancialConnections'sessionPrefetch'NonNullableEnumBalances
+            | val GHC.Classes.== "ownership" -> FinancialConnections'sessionPrefetch'NonNullableEnumOwnership
+            | val GHC.Classes.== "transactions" -> FinancialConnections'sessionPrefetch'NonNullableEnumTransactions
+            | GHC.Base.otherwise -> FinancialConnections'sessionPrefetch'NonNullableOther val
       )

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_pages_checkout_session_tax_id@ in the specification.
 data PaymentPagesCheckoutSessionTaxId = PaymentPagesCheckoutSessionTaxId
-  { -- | type: The type of the tax ID, one of \`eu_vat\`, \`br_cnpj\`, \`br_cpf\`, \`eu_oss_vat\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`au_arn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, \`ge_vat\`, \`ua_vat\`, \`is_vat\`, \`bg_uic\`, \`hu_tin\`, \`si_tin\`, or \`unknown\`
+  { -- | type: The type of the tax ID, one of \`ad_nrt\`, \`ar_cuit\`, \`eu_vat\`, \`bo_tin\`, \`br_cnpj\`, \`br_cpf\`, \`cn_tin\`, \`co_nit\`, \`cr_tin\`, \`do_rcn\`, \`ec_ruc\`, \`eu_oss_vat\`, \`pe_ruc\`, \`ro_tin\`, \`rs_pib\`, \`sv_nit\`, \`uy_ruc\`, \`ve_rif\`, \`vn_tin\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`au_arn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`jp_trn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, \`ge_vat\`, \`ua_vat\`, \`is_vat\`, \`bg_uic\`, \`hu_tin\`, \`si_tin\`, \`ke_pin\`, \`tr_tin\`, \`eg_tin\`, \`ph_tin\`, or \`unknown\`
     paymentPagesCheckoutSessionTaxIdType :: PaymentPagesCheckoutSessionTaxIdType',
     -- | value: The value of the tax ID.
     --
@@ -68,20 +68,26 @@ mkPaymentPagesCheckoutSessionTaxId paymentPagesCheckoutSessionTaxIdType =
 
 -- | Defines the enum schema located at @components.schemas.payment_pages_checkout_session_tax_id.properties.type@ in the specification.
 --
--- The type of the tax ID, one of \`eu_vat\`, \`br_cnpj\`, \`br_cpf\`, \`eu_oss_vat\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`au_arn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, \`ge_vat\`, \`ua_vat\`, \`is_vat\`, \`bg_uic\`, \`hu_tin\`, \`si_tin\`, or \`unknown\`
+-- The type of the tax ID, one of \`ad_nrt\`, \`ar_cuit\`, \`eu_vat\`, \`bo_tin\`, \`br_cnpj\`, \`br_cpf\`, \`cn_tin\`, \`co_nit\`, \`cr_tin\`, \`do_rcn\`, \`ec_ruc\`, \`eu_oss_vat\`, \`pe_ruc\`, \`ro_tin\`, \`rs_pib\`, \`sv_nit\`, \`uy_ruc\`, \`ve_rif\`, \`vn_tin\`, \`gb_vat\`, \`nz_gst\`, \`au_abn\`, \`au_arn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ru_kpp\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`jp_rn\`, \`jp_trn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`my_sst\`, \`sg_gst\`, \`ae_trn\`, \`cl_tin\`, \`sa_vat\`, \`id_npwp\`, \`my_frp\`, \`il_vat\`, \`ge_vat\`, \`ua_vat\`, \`is_vat\`, \`bg_uic\`, \`hu_tin\`, \`si_tin\`, \`ke_pin\`, \`tr_tin\`, \`eg_tin\`, \`ph_tin\`, or \`unknown\`
 data PaymentPagesCheckoutSessionTaxIdType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentPagesCheckoutSessionTaxIdType'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     PaymentPagesCheckoutSessionTaxIdType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ad_nrt"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumAdNrt
   | -- | Represents the JSON value @"ae_trn"@
     PaymentPagesCheckoutSessionTaxIdType'EnumAeTrn
+  | -- | Represents the JSON value @"ar_cuit"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumArCuit
   | -- | Represents the JSON value @"au_abn"@
     PaymentPagesCheckoutSessionTaxIdType'EnumAuAbn
   | -- | Represents the JSON value @"au_arn"@
     PaymentPagesCheckoutSessionTaxIdType'EnumAuArn
   | -- | Represents the JSON value @"bg_uic"@
     PaymentPagesCheckoutSessionTaxIdType'EnumBgUic
+  | -- | Represents the JSON value @"bo_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumBoTin
   | -- | Represents the JSON value @"br_cnpj"@
     PaymentPagesCheckoutSessionTaxIdType'EnumBrCnpj
   | -- | Represents the JSON value @"br_cpf"@
@@ -102,6 +108,18 @@ data PaymentPagesCheckoutSessionTaxIdType'
     PaymentPagesCheckoutSessionTaxIdType'EnumChVat
   | -- | Represents the JSON value @"cl_tin"@
     PaymentPagesCheckoutSessionTaxIdType'EnumClTin
+  | -- | Represents the JSON value @"cn_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumCnTin
+  | -- | Represents the JSON value @"co_nit"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumCoNit
+  | -- | Represents the JSON value @"cr_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumCrTin
+  | -- | Represents the JSON value @"do_rcn"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumDoRcn
+  | -- | Represents the JSON value @"ec_ruc"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumEcRuc
+  | -- | Represents the JSON value @"eg_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumEgTin
   | -- | Represents the JSON value @"es_cif"@
     PaymentPagesCheckoutSessionTaxIdType'EnumEsCif
   | -- | Represents the JSON value @"eu_oss_vat"@
@@ -128,6 +146,10 @@ data PaymentPagesCheckoutSessionTaxIdType'
     PaymentPagesCheckoutSessionTaxIdType'EnumJpCn
   | -- | Represents the JSON value @"jp_rn"@
     PaymentPagesCheckoutSessionTaxIdType'EnumJpRn
+  | -- | Represents the JSON value @"jp_trn"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumJpTrn
+  | -- | Represents the JSON value @"ke_pin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumKePin
   | -- | Represents the JSON value @"kr_brn"@
     PaymentPagesCheckoutSessionTaxIdType'EnumKrBrn
   | -- | Represents the JSON value @"li_uid"@
@@ -144,6 +166,14 @@ data PaymentPagesCheckoutSessionTaxIdType'
     PaymentPagesCheckoutSessionTaxIdType'EnumNoVat
   | -- | Represents the JSON value @"nz_gst"@
     PaymentPagesCheckoutSessionTaxIdType'EnumNzGst
+  | -- | Represents the JSON value @"pe_ruc"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumPeRuc
+  | -- | Represents the JSON value @"ph_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumPhTin
+  | -- | Represents the JSON value @"ro_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumRoTin
+  | -- | Represents the JSON value @"rs_pib"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumRsPib
   | -- | Represents the JSON value @"ru_inn"@
     PaymentPagesCheckoutSessionTaxIdType'EnumRuInn
   | -- | Represents the JSON value @"ru_kpp"@
@@ -156,8 +186,12 @@ data PaymentPagesCheckoutSessionTaxIdType'
     PaymentPagesCheckoutSessionTaxIdType'EnumSgUen
   | -- | Represents the JSON value @"si_tin"@
     PaymentPagesCheckoutSessionTaxIdType'EnumSiTin
+  | -- | Represents the JSON value @"sv_nit"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumSvNit
   | -- | Represents the JSON value @"th_vat"@
     PaymentPagesCheckoutSessionTaxIdType'EnumThVat
+  | -- | Represents the JSON value @"tr_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumTrTin
   | -- | Represents the JSON value @"tw_vat"@
     PaymentPagesCheckoutSessionTaxIdType'EnumTwVat
   | -- | Represents the JSON value @"ua_vat"@
@@ -166,6 +200,12 @@ data PaymentPagesCheckoutSessionTaxIdType'
     PaymentPagesCheckoutSessionTaxIdType'EnumUnknown
   | -- | Represents the JSON value @"us_ein"@
     PaymentPagesCheckoutSessionTaxIdType'EnumUsEin
+  | -- | Represents the JSON value @"uy_ruc"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumUyRuc
+  | -- | Represents the JSON value @"ve_rif"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumVeRif
+  | -- | Represents the JSON value @"vn_tin"@
+    PaymentPagesCheckoutSessionTaxIdType'EnumVnTin
   | -- | Represents the JSON value @"za_vat"@
     PaymentPagesCheckoutSessionTaxIdType'EnumZaVat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -173,10 +213,13 @@ data PaymentPagesCheckoutSessionTaxIdType'
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionTaxIdType' where
   toJSON (PaymentPagesCheckoutSessionTaxIdType'Other val) = val
   toJSON (PaymentPagesCheckoutSessionTaxIdType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumAdNrt) = "ad_nrt"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumAeTrn) = "ae_trn"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumArCuit) = "ar_cuit"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumAuAbn) = "au_abn"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumAuArn) = "au_arn"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumBgUic) = "bg_uic"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumBoTin) = "bo_tin"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumBrCnpj) = "br_cnpj"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumBrCpf) = "br_cpf"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumCaBn) = "ca_bn"
@@ -187,6 +230,12 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionTaxIdType' wh
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumCaQst) = "ca_qst"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumChVat) = "ch_vat"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumClTin) = "cl_tin"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumCnTin) = "cn_tin"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumCoNit) = "co_nit"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumCrTin) = "cr_tin"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumDoRcn) = "do_rcn"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumEcRuc) = "ec_ruc"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumEgTin) = "eg_tin"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumEsCif) = "es_cif"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumEuOssVat) = "eu_oss_vat"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumEuVat) = "eu_vat"
@@ -200,6 +249,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionTaxIdType' wh
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumIsVat) = "is_vat"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumJpCn) = "jp_cn"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumJpRn) = "jp_rn"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumJpTrn) = "jp_trn"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumKePin) = "ke_pin"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumKrBrn) = "kr_brn"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumLiUid) = "li_uid"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumMxRfc) = "mx_rfc"
@@ -208,27 +259,39 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentPagesCheckoutSessionTaxIdType' wh
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumMySst) = "my_sst"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumNoVat) = "no_vat"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumNzGst) = "nz_gst"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumPeRuc) = "pe_ruc"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumPhTin) = "ph_tin"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumRoTin) = "ro_tin"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumRsPib) = "rs_pib"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumRuInn) = "ru_inn"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumRuKpp) = "ru_kpp"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumSaVat) = "sa_vat"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumSgGst) = "sg_gst"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumSgUen) = "sg_uen"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumSiTin) = "si_tin"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumSvNit) = "sv_nit"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumThVat) = "th_vat"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumTrTin) = "tr_tin"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumTwVat) = "tw_vat"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumUaVat) = "ua_vat"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumUnknown) = "unknown"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumUsEin) = "us_ein"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumUyRuc) = "uy_ruc"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumVeRif) = "ve_rif"
+  toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumVnTin) = "vn_tin"
   toJSON (PaymentPagesCheckoutSessionTaxIdType'EnumZaVat) = "za_vat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionTaxIdType' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "ad_nrt" -> PaymentPagesCheckoutSessionTaxIdType'EnumAdNrt
             | val GHC.Classes.== "ae_trn" -> PaymentPagesCheckoutSessionTaxIdType'EnumAeTrn
+            | val GHC.Classes.== "ar_cuit" -> PaymentPagesCheckoutSessionTaxIdType'EnumArCuit
             | val GHC.Classes.== "au_abn" -> PaymentPagesCheckoutSessionTaxIdType'EnumAuAbn
             | val GHC.Classes.== "au_arn" -> PaymentPagesCheckoutSessionTaxIdType'EnumAuArn
             | val GHC.Classes.== "bg_uic" -> PaymentPagesCheckoutSessionTaxIdType'EnumBgUic
+            | val GHC.Classes.== "bo_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumBoTin
             | val GHC.Classes.== "br_cnpj" -> PaymentPagesCheckoutSessionTaxIdType'EnumBrCnpj
             | val GHC.Classes.== "br_cpf" -> PaymentPagesCheckoutSessionTaxIdType'EnumBrCpf
             | val GHC.Classes.== "ca_bn" -> PaymentPagesCheckoutSessionTaxIdType'EnumCaBn
@@ -239,6 +302,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionTaxIdType
             | val GHC.Classes.== "ca_qst" -> PaymentPagesCheckoutSessionTaxIdType'EnumCaQst
             | val GHC.Classes.== "ch_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumChVat
             | val GHC.Classes.== "cl_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumClTin
+            | val GHC.Classes.== "cn_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumCnTin
+            | val GHC.Classes.== "co_nit" -> PaymentPagesCheckoutSessionTaxIdType'EnumCoNit
+            | val GHC.Classes.== "cr_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumCrTin
+            | val GHC.Classes.== "do_rcn" -> PaymentPagesCheckoutSessionTaxIdType'EnumDoRcn
+            | val GHC.Classes.== "ec_ruc" -> PaymentPagesCheckoutSessionTaxIdType'EnumEcRuc
+            | val GHC.Classes.== "eg_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumEgTin
             | val GHC.Classes.== "es_cif" -> PaymentPagesCheckoutSessionTaxIdType'EnumEsCif
             | val GHC.Classes.== "eu_oss_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumEuOssVat
             | val GHC.Classes.== "eu_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumEuVat
@@ -252,6 +321,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionTaxIdType
             | val GHC.Classes.== "is_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumIsVat
             | val GHC.Classes.== "jp_cn" -> PaymentPagesCheckoutSessionTaxIdType'EnumJpCn
             | val GHC.Classes.== "jp_rn" -> PaymentPagesCheckoutSessionTaxIdType'EnumJpRn
+            | val GHC.Classes.== "jp_trn" -> PaymentPagesCheckoutSessionTaxIdType'EnumJpTrn
+            | val GHC.Classes.== "ke_pin" -> PaymentPagesCheckoutSessionTaxIdType'EnumKePin
             | val GHC.Classes.== "kr_brn" -> PaymentPagesCheckoutSessionTaxIdType'EnumKrBrn
             | val GHC.Classes.== "li_uid" -> PaymentPagesCheckoutSessionTaxIdType'EnumLiUid
             | val GHC.Classes.== "mx_rfc" -> PaymentPagesCheckoutSessionTaxIdType'EnumMxRfc
@@ -260,17 +331,26 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentPagesCheckoutSessionTaxIdType
             | val GHC.Classes.== "my_sst" -> PaymentPagesCheckoutSessionTaxIdType'EnumMySst
             | val GHC.Classes.== "no_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumNoVat
             | val GHC.Classes.== "nz_gst" -> PaymentPagesCheckoutSessionTaxIdType'EnumNzGst
+            | val GHC.Classes.== "pe_ruc" -> PaymentPagesCheckoutSessionTaxIdType'EnumPeRuc
+            | val GHC.Classes.== "ph_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumPhTin
+            | val GHC.Classes.== "ro_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumRoTin
+            | val GHC.Classes.== "rs_pib" -> PaymentPagesCheckoutSessionTaxIdType'EnumRsPib
             | val GHC.Classes.== "ru_inn" -> PaymentPagesCheckoutSessionTaxIdType'EnumRuInn
             | val GHC.Classes.== "ru_kpp" -> PaymentPagesCheckoutSessionTaxIdType'EnumRuKpp
             | val GHC.Classes.== "sa_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumSaVat
             | val GHC.Classes.== "sg_gst" -> PaymentPagesCheckoutSessionTaxIdType'EnumSgGst
             | val GHC.Classes.== "sg_uen" -> PaymentPagesCheckoutSessionTaxIdType'EnumSgUen
             | val GHC.Classes.== "si_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumSiTin
+            | val GHC.Classes.== "sv_nit" -> PaymentPagesCheckoutSessionTaxIdType'EnumSvNit
             | val GHC.Classes.== "th_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumThVat
+            | val GHC.Classes.== "tr_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumTrTin
             | val GHC.Classes.== "tw_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumTwVat
             | val GHC.Classes.== "ua_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumUaVat
             | val GHC.Classes.== "unknown" -> PaymentPagesCheckoutSessionTaxIdType'EnumUnknown
             | val GHC.Classes.== "us_ein" -> PaymentPagesCheckoutSessionTaxIdType'EnumUsEin
+            | val GHC.Classes.== "uy_ruc" -> PaymentPagesCheckoutSessionTaxIdType'EnumUyRuc
+            | val GHC.Classes.== "ve_rif" -> PaymentPagesCheckoutSessionTaxIdType'EnumVeRif
+            | val GHC.Classes.== "vn_tin" -> PaymentPagesCheckoutSessionTaxIdType'EnumVnTin
             | val GHC.Classes.== "za_vat" -> PaymentPagesCheckoutSessionTaxIdType'EnumZaVat
             | GHC.Base.otherwise -> PaymentPagesCheckoutSessionTaxIdType'Other val
       )

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,8 +36,34 @@ import qualified Prelude as GHC.Maybe
 data PaymentLinksResourcePaymentIntentData = PaymentLinksResourcePaymentIntentData
   { -- | capture_method: Indicates when the funds will be captured from the customer\'s account.
     paymentLinksResourcePaymentIntentDataCaptureMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullable)),
+    -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinksResourcePaymentIntentDataDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that will set metadata on [Payment Intents](https:\/\/stripe.com\/docs\/api\/payment_intents) generated from this payment link.
+    paymentLinksResourcePaymentIntentDataMetadata :: Data.Aeson.Types.Internal.Object,
     -- | setup_future_usage: Indicates that you intend to make future payments with the payment method collected during checkout.
-    paymentLinksResourcePaymentIntentDataSetupFutureUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourcePaymentIntentDataSetupFutureUsage'NonNullable))
+    paymentLinksResourcePaymentIntentDataSetupFutureUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourcePaymentIntentDataSetupFutureUsage'NonNullable)),
+    -- | statement_descriptor: Extra information about the payment. This will appear on your customer\'s statement when this payment succeeds in creating a charge.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinksResourcePaymentIntentDataStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | statement_descriptor_suffix: Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that\'s set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinksResourcePaymentIntentDataStatementDescriptorSuffix :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | transfer_group: A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers) for details.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinksResourcePaymentIntentDataTransferGroup :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -45,18 +71,26 @@ data PaymentLinksResourcePaymentIntentData = PaymentLinksResourcePaymentIntentDa
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourcePaymentIntentData where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataSetupFutureUsage obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataSetupFutureUsage obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataDescription obj) : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinksResourcePaymentIntentDataMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataStatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataTransferGroup obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataDescription obj) : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinksResourcePaymentIntentDataMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataStatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourcePaymentIntentDataTransferGroup obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourcePaymentIntentData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourcePaymentIntentData" (\obj -> (GHC.Base.pure PaymentLinksResourcePaymentIntentData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourcePaymentIntentData" (\obj -> ((((((GHC.Base.pure PaymentLinksResourcePaymentIntentData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_group"))
 
 -- | Create a new 'PaymentLinksResourcePaymentIntentData' with all required fields.
-mkPaymentLinksResourcePaymentIntentData :: PaymentLinksResourcePaymentIntentData
-mkPaymentLinksResourcePaymentIntentData =
+mkPaymentLinksResourcePaymentIntentData ::
+  -- | 'paymentLinksResourcePaymentIntentDataMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  PaymentLinksResourcePaymentIntentData
+mkPaymentLinksResourcePaymentIntentData paymentLinksResourcePaymentIntentDataMetadata =
   PaymentLinksResourcePaymentIntentData
     { paymentLinksResourcePaymentIntentDataCaptureMethod = GHC.Maybe.Nothing,
-      paymentLinksResourcePaymentIntentDataSetupFutureUsage = GHC.Maybe.Nothing
+      paymentLinksResourcePaymentIntentDataDescription = GHC.Maybe.Nothing,
+      paymentLinksResourcePaymentIntentDataMetadata = paymentLinksResourcePaymentIntentDataMetadata,
+      paymentLinksResourcePaymentIntentDataSetupFutureUsage = GHC.Maybe.Nothing,
+      paymentLinksResourcePaymentIntentDataStatementDescriptor = GHC.Maybe.Nothing,
+      paymentLinksResourcePaymentIntentDataStatementDescriptorSuffix = GHC.Maybe.Nothing,
+      paymentLinksResourcePaymentIntentDataTransferGroup = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.payment_links_resource_payment_intent_data.properties.capture_method@ in the specification.
@@ -69,6 +103,8 @@ data PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullable
     PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"automatic"@
     PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumAutomatic
+  | -- | Represents the JSON value @"automatic_async"@
+    PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumAutomaticAsync
   | -- | Represents the JSON value @"manual"@
     PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumManual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -77,6 +113,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourcePaymentIntentDataCap
   toJSON (PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableOther val) = val
   toJSON (PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumAutomatic) = "automatic"
+  toJSON (PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumAutomaticAsync) = "automatic_async"
   toJSON (PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumManual) = "manual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullable where
@@ -84,6 +121,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourcePaymentIntentDat
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "automatic" -> PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumAutomatic
+            | val GHC.Classes.== "automatic_async" -> PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumAutomaticAsync
             | val GHC.Classes.== "manual" -> PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableEnumManual
             | GHC.Base.otherwise -> PaymentLinksResourcePaymentIntentDataCaptureMethod'NonNullableOther val
       )

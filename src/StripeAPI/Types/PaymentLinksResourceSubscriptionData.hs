@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,13 +29,25 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.SubscriptionsTrialsResourceEndBehavior
+import {-# SOURCE #-} StripeAPI.Types.SubscriptionsTrialsResourceTrialSettings
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_links_resource_subscription_data@ in the specification.
 data PaymentLinksResourceSubscriptionData = PaymentLinksResourceSubscriptionData
-  { -- | trial_period_days: Integer representing the number of trial period days before the customer is charged for the first time.
-    paymentLinksResourceSubscriptionDataTrialPeriodDays :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
+  { -- | description: The subscription\'s description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinksResourceSubscriptionDataDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that will set metadata on [Subscriptions](https:\/\/stripe.com\/docs\/api\/subscriptions) generated from this payment link.
+    paymentLinksResourceSubscriptionDataMetadata :: Data.Aeson.Types.Internal.Object,
+    -- | trial_period_days: Integer representing the number of trial period days before the customer is charged for the first time.
+    paymentLinksResourceSubscriptionDataTrialPeriodDays :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | trial_settings: Settings related to subscription trials.
+    paymentLinksResourceSubscriptionDataTrialSettings :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -43,12 +55,44 @@ data PaymentLinksResourceSubscriptionData = PaymentLinksResourceSubscriptionData
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourceSubscriptionData where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialPeriodDays obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialPeriodDays obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataDescription obj) : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinksResourceSubscriptionDataMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialSettings obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataDescription obj) : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinksResourceSubscriptionDataMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialSettings obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourceSubscriptionData where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourceSubscriptionData" (\obj -> GHC.Base.pure PaymentLinksResourceSubscriptionData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourceSubscriptionData" (\obj -> (((GHC.Base.pure PaymentLinksResourceSubscriptionData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_settings"))
 
 -- | Create a new 'PaymentLinksResourceSubscriptionData' with all required fields.
-mkPaymentLinksResourceSubscriptionData :: PaymentLinksResourceSubscriptionData
-mkPaymentLinksResourceSubscriptionData = PaymentLinksResourceSubscriptionData {paymentLinksResourceSubscriptionDataTrialPeriodDays = GHC.Maybe.Nothing}
+mkPaymentLinksResourceSubscriptionData ::
+  -- | 'paymentLinksResourceSubscriptionDataMetadata'
+  Data.Aeson.Types.Internal.Object ->
+  PaymentLinksResourceSubscriptionData
+mkPaymentLinksResourceSubscriptionData paymentLinksResourceSubscriptionDataMetadata =
+  PaymentLinksResourceSubscriptionData
+    { paymentLinksResourceSubscriptionDataDescription = GHC.Maybe.Nothing,
+      paymentLinksResourceSubscriptionDataMetadata = paymentLinksResourceSubscriptionDataMetadata,
+      paymentLinksResourceSubscriptionDataTrialPeriodDays = GHC.Maybe.Nothing,
+      paymentLinksResourceSubscriptionDataTrialSettings = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_links_resource_subscription_data.properties.trial_settings.anyOf@ in the specification.
+--
+-- Settings related to subscription trials.
+data PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable = PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable
+  { -- | end_behavior: Defines how a subscription behaves when a free trial ends.
+    paymentLinksResourceSubscriptionDataTrialSettings'NonNullableEndBehavior :: (GHC.Maybe.Maybe SubscriptionsTrialsResourceEndBehavior)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_behavior" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialSettings'NonNullableEndBehavior obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_behavior" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceSubscriptionDataTrialSettings'NonNullableEndBehavior obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable" (\obj -> GHC.Base.pure PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "end_behavior"))
+
+-- | Create a new 'PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable' with all required fields.
+mkPaymentLinksResourceSubscriptionDataTrialSettings'NonNullable :: PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable
+mkPaymentLinksResourceSubscriptionDataTrialSettings'NonNullable = PaymentLinksResourceSubscriptionDataTrialSettings'NonNullable {paymentLinksResourceSubscriptionDataTrialSettings'NonNullableEndBehavior = GHC.Maybe.Nothing}

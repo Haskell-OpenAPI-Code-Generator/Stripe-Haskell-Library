@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postTaxRates body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostTaxRatesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            TaxRate
-                                                      )
+                                     PostTaxRatesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              TaxRate
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostTaxRatesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostTaxRatesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tax_rates") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/tax_rates" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/tax_rates.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTaxRatesRequestBody = PostTaxRatesRequestBody
@@ -171,12 +172,20 @@ data PostTaxRatesRequestBodyTaxType'
     PostTaxRatesRequestBodyTaxType'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     PostTaxRatesRequestBodyTaxType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"amusement_tax"@
+    PostTaxRatesRequestBodyTaxType'EnumAmusementTax
+  | -- | Represents the JSON value @"communications_tax"@
+    PostTaxRatesRequestBodyTaxType'EnumCommunicationsTax
   | -- | Represents the JSON value @"gst"@
     PostTaxRatesRequestBodyTaxType'EnumGst
   | -- | Represents the JSON value @"hst"@
     PostTaxRatesRequestBodyTaxType'EnumHst
+  | -- | Represents the JSON value @"igst"@
+    PostTaxRatesRequestBodyTaxType'EnumIgst
   | -- | Represents the JSON value @"jct"@
     PostTaxRatesRequestBodyTaxType'EnumJct
+  | -- | Represents the JSON value @"lease_tax"@
+    PostTaxRatesRequestBodyTaxType'EnumLeaseTax
   | -- | Represents the JSON value @"pst"@
     PostTaxRatesRequestBodyTaxType'EnumPst
   | -- | Represents the JSON value @"qst"@
@@ -185,6 +194,8 @@ data PostTaxRatesRequestBodyTaxType'
     PostTaxRatesRequestBodyTaxType'EnumRst
   | -- | Represents the JSON value @"sales_tax"@
     PostTaxRatesRequestBodyTaxType'EnumSalesTax
+  | -- | Represents the JSON value @"service_tax"@
+    PostTaxRatesRequestBodyTaxType'EnumServiceTax
   | -- | Represents the JSON value @"vat"@
     PostTaxRatesRequestBodyTaxType'EnumVat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -192,26 +203,36 @@ data PostTaxRatesRequestBodyTaxType'
 instance Data.Aeson.Types.ToJSON.ToJSON PostTaxRatesRequestBodyTaxType' where
   toJSON (PostTaxRatesRequestBodyTaxType'Other val) = val
   toJSON (PostTaxRatesRequestBodyTaxType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostTaxRatesRequestBodyTaxType'EnumAmusementTax) = "amusement_tax"
+  toJSON (PostTaxRatesRequestBodyTaxType'EnumCommunicationsTax) = "communications_tax"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumGst) = "gst"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumHst) = "hst"
+  toJSON (PostTaxRatesRequestBodyTaxType'EnumIgst) = "igst"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumJct) = "jct"
+  toJSON (PostTaxRatesRequestBodyTaxType'EnumLeaseTax) = "lease_tax"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumPst) = "pst"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumQst) = "qst"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumRst) = "rst"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumSalesTax) = "sales_tax"
+  toJSON (PostTaxRatesRequestBodyTaxType'EnumServiceTax) = "service_tax"
   toJSON (PostTaxRatesRequestBodyTaxType'EnumVat) = "vat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTaxRatesRequestBodyTaxType' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "amusement_tax" -> PostTaxRatesRequestBodyTaxType'EnumAmusementTax
+            | val GHC.Classes.== "communications_tax" -> PostTaxRatesRequestBodyTaxType'EnumCommunicationsTax
             | val GHC.Classes.== "gst" -> PostTaxRatesRequestBodyTaxType'EnumGst
             | val GHC.Classes.== "hst" -> PostTaxRatesRequestBodyTaxType'EnumHst
+            | val GHC.Classes.== "igst" -> PostTaxRatesRequestBodyTaxType'EnumIgst
             | val GHC.Classes.== "jct" -> PostTaxRatesRequestBodyTaxType'EnumJct
+            | val GHC.Classes.== "lease_tax" -> PostTaxRatesRequestBodyTaxType'EnumLeaseTax
             | val GHC.Classes.== "pst" -> PostTaxRatesRequestBodyTaxType'EnumPst
             | val GHC.Classes.== "qst" -> PostTaxRatesRequestBodyTaxType'EnumQst
             | val GHC.Classes.== "rst" -> PostTaxRatesRequestBodyTaxType'EnumRst
             | val GHC.Classes.== "sales_tax" -> PostTaxRatesRequestBodyTaxType'EnumSalesTax
+            | val GHC.Classes.== "service_tax" -> PostTaxRatesRequestBodyTaxType'EnumServiceTax
             | val GHC.Classes.== "vat" -> PostTaxRatesRequestBodyTaxType'EnumVat
             | GHC.Base.otherwise -> PostTaxRatesRequestBodyTaxType'Other val
       )

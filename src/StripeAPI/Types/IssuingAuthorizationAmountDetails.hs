@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -35,7 +35,9 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.issuing_authorization_amount_details@ in the specification.
 data IssuingAuthorizationAmountDetails = IssuingAuthorizationAmountDetails
   { -- | atm_fee: The fee charged by the ATM for the cash withdrawal.
-    issuingAuthorizationAmountDetailsAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
+    issuingAuthorizationAmountDetailsAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | cashback_amount: The amount of cash requested by the cardholder.
+    issuingAuthorizationAmountDetailsCashbackAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -43,12 +45,16 @@ data IssuingAuthorizationAmountDetails = IssuingAuthorizationAmountDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingAuthorizationAmountDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationAmountDetailsAtmFee obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationAmountDetailsAtmFee obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationAmountDetailsAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationAmountDetailsCashbackAmount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationAmountDetailsAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuingAuthorizationAmountDetailsCashbackAmount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationAmountDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationAmountDetails" (\obj -> GHC.Base.pure IssuingAuthorizationAmountDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationAmountDetails" (\obj -> (GHC.Base.pure IssuingAuthorizationAmountDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashback_amount"))
 
 -- | Create a new 'IssuingAuthorizationAmountDetails' with all required fields.
 mkIssuingAuthorizationAmountDetails :: IssuingAuthorizationAmountDetails
-mkIssuingAuthorizationAmountDetails = IssuingAuthorizationAmountDetails {issuingAuthorizationAmountDetailsAtmFee = GHC.Maybe.Nothing}
+mkIssuingAuthorizationAmountDetails =
+  IssuingAuthorizationAmountDetails
+    { issuingAuthorizationAmountDetailsAtmFee = GHC.Maybe.Nothing,
+      issuingAuthorizationAmountDetailsCashbackAmount = GHC.Maybe.Nothing
+    }

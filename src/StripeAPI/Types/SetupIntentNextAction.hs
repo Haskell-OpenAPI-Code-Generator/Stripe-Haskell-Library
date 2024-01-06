@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,6 +29,7 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.PaymentIntentNextActionCashappHandleRedirectOrDisplayQrCode
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentNextActionRedirectToUrl
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentNextActionVerifyWithMicrodeposits
 import qualified Prelude as GHC.Integer.Type
@@ -36,7 +37,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.setup_intent_next_action@ in the specification.
 data SetupIntentNextAction = SetupIntentNextAction
-  { -- | redirect_to_url:
+  { -- | cashapp_handle_redirect_or_display_qr_code:
+    setupIntentNextActionCashappHandleRedirectOrDisplayQrCode :: (GHC.Maybe.Maybe PaymentIntentNextActionCashappHandleRedirectOrDisplayQrCode),
+    -- | redirect_to_url:
     setupIntentNextActionRedirectToUrl :: (GHC.Maybe.Maybe SetupIntentNextActionRedirectToUrl),
     -- | type: Type of the next action to perform, one of \`redirect_to_url\`, \`use_stripe_sdk\`, \`alipay_handle_redirect\`, \`oxxo_display_details\`, or \`verify_with_microdeposits\`.
     --
@@ -55,11 +58,11 @@ data SetupIntentNextAction = SetupIntentNextAction
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentNextAction where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_to_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrl obj) : ["type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionUseStripeSdk obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verify_with_microdeposits" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionVerifyWithMicrodeposits obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_to_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrl obj) : ["type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionUseStripeSdk obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verify_with_microdeposits" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionVerifyWithMicrodeposits obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp_handle_redirect_or_display_qr_code" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionCashappHandleRedirectOrDisplayQrCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_to_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrl obj) : ["type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionUseStripeSdk obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verify_with_microdeposits" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionVerifyWithMicrodeposits obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp_handle_redirect_or_display_qr_code" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionCashappHandleRedirectOrDisplayQrCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_to_url" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionRedirectToUrl obj) : ["type" Data.Aeson.Types.ToJSON..= setupIntentNextActionType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("use_stripe_sdk" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionUseStripeSdk obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verify_with_microdeposits" Data.Aeson.Types.ToJSON..=)) (setupIntentNextActionVerifyWithMicrodeposits obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentNextAction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextAction" (\obj -> (((GHC.Base.pure SetupIntentNextAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "use_stripe_sdk")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verify_with_microdeposits"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentNextAction" (\obj -> ((((GHC.Base.pure SetupIntentNextAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashapp_handle_redirect_or_display_qr_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "use_stripe_sdk")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verify_with_microdeposits"))
 
 -- | Create a new 'SetupIntentNextAction' with all required fields.
 mkSetupIntentNextAction ::
@@ -68,7 +71,8 @@ mkSetupIntentNextAction ::
   SetupIntentNextAction
 mkSetupIntentNextAction setupIntentNextActionType =
   SetupIntentNextAction
-    { setupIntentNextActionRedirectToUrl = GHC.Maybe.Nothing,
+    { setupIntentNextActionCashappHandleRedirectOrDisplayQrCode = GHC.Maybe.Nothing,
+      setupIntentNextActionRedirectToUrl = GHC.Maybe.Nothing,
       setupIntentNextActionType = setupIntentNextActionType,
       setupIntentNextActionUseStripeSdk = GHC.Maybe.Nothing,
       setupIntentNextActionVerifyWithMicrodeposits = GHC.Maybe.Nothing

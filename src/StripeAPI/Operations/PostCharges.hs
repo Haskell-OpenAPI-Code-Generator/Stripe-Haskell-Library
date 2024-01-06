@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,7 +46,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/charges
 --
--- \<p>To charge a credit card or other payment source, you create a \<code>Charge\<\/code> object. If your API key is in test mode, the supplied payment source (e.g., card) won’t actually be charged, although everything else will occur as if in live mode. (Stripe assumes that the charge would have completed successfully).\<\/p>
+-- \<p>Use the \<a href=\"\/docs\/api\/payment_intents\">Payment Intents API\<\/a> to initiate a new payment instead
+-- of using this method. Confirmation of the PaymentIntent creates the \<code>Charge\<\/code>
+-- object used to request payment, so this method is limited to legacy integrations.\<\/p>
 postCharges ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -61,26 +64,26 @@ postCharges body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostChargesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Charge
-                                                      )
+                                     PostChargesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Charge
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostChargesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostChargesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/charges") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/charges" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/charges.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostChargesRequestBody = PostChargesRequestBody
@@ -114,7 +117,7 @@ data PostChargesRequestBody = PostChargesRequestBody
     postChargesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postChargesRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesRequestBodyMetadata'Variants),
-    -- | on_behalf_of: The Stripe account ID for which these funds are intended. Automatically set if you use the \`destination\` parameter. For details, see [Creating Separate Charges and Transfers](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#on-behalf-of).
+    -- | on_behalf_of: The Stripe account ID for which these funds are intended. Automatically set if you use the \`destination\` parameter. For details, see [Creating Separate Charges and Transfers](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers\#on-behalf-of).
     --
     -- Constraints:
     --
@@ -146,7 +149,7 @@ data PostChargesRequestBody = PostChargesRequestBody
     postChargesRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | transfer_data: An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https:\/\/stripe.com\/docs\/connect\/destination-charges) for details.
     postChargesRequestBodyTransferData :: (GHC.Maybe.Maybe PostChargesRequestBodyTransferData'),
-    -- | transfer_group: A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-options).
+    -- | transfer_group: A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers\#transfer-options).
     postChargesRequestBodyTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   }
   deriving
@@ -401,8 +404,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostChargesRequestBodyMetadata'Varia
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostChargesRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostChargesRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/charges.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.radar_options@ in the specification.
 --

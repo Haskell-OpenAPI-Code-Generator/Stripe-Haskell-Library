@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,6 +36,7 @@ import {-# SOURCE #-} StripeAPI.Types.BankConnectionsResourceBalanceApiResourceC
 import {-# SOURCE #-} StripeAPI.Types.BankConnectionsResourceBalanceApiResourceCreditBalance
 import {-# SOURCE #-} StripeAPI.Types.BankConnectionsResourceBalanceRefresh
 import {-# SOURCE #-} StripeAPI.Types.BankConnectionsResourceOwnershipRefresh
+import {-# SOURCE #-} StripeAPI.Types.BankConnectionsResourceTransactionRefresh
 import {-# SOURCE #-} StripeAPI.Types.Customer
 import {-# SOURCE #-} StripeAPI.Types.FinancialConnections_AccountOwnership
 import qualified Prelude as GHC.Integer.Type
@@ -104,8 +105,12 @@ data FinancialConnections'account = FinancialConnections'account
     --
     -- If \`category\` is \`investment\` or \`other\`, this will be \`other\`.
     financialConnections'accountSubcategory :: FinancialConnections'accountSubcategory',
+    -- | subscriptions: The list of data refresh subscriptions requested on this account.
+    financialConnections'accountSubscriptions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([FinancialConnections'accountSubscriptions'NonNullable]))),
     -- | supported_payment_method_types: The [PaymentMethod type](https:\/\/stripe.com\/docs\/api\/payment_methods\/object\#payment_method_object-type)(s) that can be created from this account.
-    financialConnections'accountSupportedPaymentMethodTypes :: ([FinancialConnections'accountSupportedPaymentMethodTypes'])
+    financialConnections'accountSupportedPaymentMethodTypes :: ([FinancialConnections'accountSupportedPaymentMethodTypes']),
+    -- | transaction_refresh: The state of the most recent attempt to refresh the account transactions.
+    financialConnections'accountTransactionRefresh :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable FinancialConnections'accountTransactionRefresh'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -113,11 +118,11 @@ data FinancialConnections'account = FinancialConnections'account
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FinancialConnections'account where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountAccountHolder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh obj) : ["category" Data.Aeson.Types.ToJSON..= financialConnections'accountCategory obj] : ["created" Data.Aeson.Types.ToJSON..= financialConnections'accountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountDisplayName obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'accountId obj] : ["institution_name" Data.Aeson.Types.ToJSON..= financialConnections'accountInstitutionName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountLast4 obj) : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'accountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnershipRefresh obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountPermissions obj) : ["status" Data.Aeson.Types.ToJSON..= financialConnections'accountStatus obj] : ["subcategory" Data.Aeson.Types.ToJSON..= financialConnections'accountSubcategory obj] : ["supported_payment_method_types" Data.Aeson.Types.ToJSON..= financialConnections'accountSupportedPaymentMethodTypes obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.account"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountAccountHolder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh obj) : ["category" Data.Aeson.Types.ToJSON..= financialConnections'accountCategory obj] : ["created" Data.Aeson.Types.ToJSON..= financialConnections'accountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountDisplayName obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'accountId obj] : ["institution_name" Data.Aeson.Types.ToJSON..= financialConnections'accountInstitutionName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountLast4 obj) : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'accountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnershipRefresh obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountPermissions obj) : ["status" Data.Aeson.Types.ToJSON..= financialConnections'accountStatus obj] : ["subcategory" Data.Aeson.Types.ToJSON..= financialConnections'accountSubcategory obj] : ["supported_payment_method_types" Data.Aeson.Types.ToJSON..= financialConnections'accountSupportedPaymentMethodTypes obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.account"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountAccountHolder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh obj) : ["category" Data.Aeson.Types.ToJSON..= financialConnections'accountCategory obj] : ["created" Data.Aeson.Types.ToJSON..= financialConnections'accountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountDisplayName obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'accountId obj] : ["institution_name" Data.Aeson.Types.ToJSON..= financialConnections'accountInstitutionName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountLast4 obj) : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'accountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnershipRefresh obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountPermissions obj) : ["status" Data.Aeson.Types.ToJSON..= financialConnections'accountStatus obj] : ["subcategory" Data.Aeson.Types.ToJSON..= financialConnections'accountSubcategory obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscriptions" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountSubscriptions obj) : ["supported_payment_method_types" Data.Aeson.Types.ToJSON..= financialConnections'accountSupportedPaymentMethodTypes obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.account"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountAccountHolder obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh obj) : ["category" Data.Aeson.Types.ToJSON..= financialConnections'accountCategory obj] : ["created" Data.Aeson.Types.ToJSON..= financialConnections'accountCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("display_name" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountDisplayName obj) : ["id" Data.Aeson.Types.ToJSON..= financialConnections'accountId obj] : ["institution_name" Data.Aeson.Types.ToJSON..= financialConnections'accountInstitutionName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountLast4 obj) : ["livemode" Data.Aeson.Types.ToJSON..= financialConnections'accountLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnership obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountOwnershipRefresh obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountPermissions obj) : ["status" Data.Aeson.Types.ToJSON..= financialConnections'accountStatus obj] : ["subcategory" Data.Aeson.Types.ToJSON..= financialConnections'accountSubcategory obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscriptions" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountSubscriptions obj) : ["supported_payment_method_types" Data.Aeson.Types.ToJSON..= financialConnections'accountSupportedPaymentMethodTypes obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_refresh" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "financial_connections.account"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'account where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FinancialConnections'account" (\obj -> (((((((((((((((GHC.Base.pure FinancialConnections'account GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_refresh")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "institution_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ownership")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ownership_refresh")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subcategory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_payment_method_types"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FinancialConnections'account" (\obj -> (((((((((((((((((GHC.Base.pure FinancialConnections'account GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_refresh")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "institution_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ownership")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ownership_refresh")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subcategory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscriptions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "supported_payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_refresh"))
 
 -- | Create a new 'FinancialConnections'account' with all required fields.
 mkFinancialConnections'account ::
@@ -155,7 +160,9 @@ mkFinancialConnections'account financialConnections'accountCategory financialCon
       financialConnections'accountPermissions = GHC.Maybe.Nothing,
       financialConnections'accountStatus = financialConnections'accountStatus,
       financialConnections'accountSubcategory = financialConnections'accountSubcategory,
-      financialConnections'accountSupportedPaymentMethodTypes = financialConnections'accountSupportedPaymentMethodTypes
+      financialConnections'accountSubscriptions = GHC.Maybe.Nothing,
+      financialConnections'accountSupportedPaymentMethodTypes = financialConnections'accountSupportedPaymentMethodTypes,
+      financialConnections'accountTransactionRefresh = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.financial_connections.account.properties.account_holder.anyOf@ in the specification.
@@ -330,6 +337,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'accountBalance'
 data FinancialConnections'accountBalanceRefresh'NonNullable = FinancialConnections'accountBalanceRefresh'NonNullable
   { -- | last_attempted_at: The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
     financialConnections'accountBalanceRefresh'NonNullableLastAttemptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | next_refresh_available_at: Time at which the next balance refresh can be initiated. This value will be \`null\` when \`status\` is \`pending\`. Measured in seconds since the Unix epoch.
+    financialConnections'accountBalanceRefresh'NonNullableNextRefreshAvailableAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | status: The status of the last refresh attempt.
     financialConnections'accountBalanceRefresh'NonNullableStatus :: (GHC.Maybe.Maybe FinancialConnections'accountBalanceRefresh'NonNullableStatus')
   }
@@ -339,17 +348,18 @@ data FinancialConnections'accountBalanceRefresh'NonNullable = FinancialConnectio
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FinancialConnections'accountBalanceRefresh'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_attempted_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableLastAttemptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableStatus obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_attempted_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableLastAttemptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableStatus obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_attempted_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableLastAttemptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_refresh_available_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableNextRefreshAvailableAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableStatus obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_attempted_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableLastAttemptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_refresh_available_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableNextRefreshAvailableAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountBalanceRefresh'NonNullableStatus obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'accountBalanceRefresh'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FinancialConnections'accountBalanceRefresh'NonNullable" (\obj -> (GHC.Base.pure FinancialConnections'accountBalanceRefresh'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_attempted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FinancialConnections'accountBalanceRefresh'NonNullable" (\obj -> ((GHC.Base.pure FinancialConnections'accountBalanceRefresh'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_attempted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_refresh_available_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
 
 -- | Create a new 'FinancialConnections'accountBalanceRefresh'NonNullable' with all required fields.
 mkFinancialConnections'accountBalanceRefresh'NonNullable :: FinancialConnections'accountBalanceRefresh'NonNullable
 mkFinancialConnections'accountBalanceRefresh'NonNullable =
   FinancialConnections'accountBalanceRefresh'NonNullable
     { financialConnections'accountBalanceRefresh'NonNullableLastAttemptedAt = GHC.Maybe.Nothing,
+      financialConnections'accountBalanceRefresh'NonNullableNextRefreshAvailableAt = GHC.Maybe.Nothing,
       financialConnections'accountBalanceRefresh'NonNullableStatus = GHC.Maybe.Nothing
     }
 
@@ -628,6 +638,29 @@ instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'accountSubcateg
             | GHC.Base.otherwise -> FinancialConnections'accountSubcategory'Other val
       )
 
+-- | Defines the enum schema located at @components.schemas.financial_connections.account.properties.subscriptions.items@ in the specification.
+data FinancialConnections'accountSubscriptions'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    FinancialConnections'accountSubscriptions'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    FinancialConnections'accountSubscriptions'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"transactions"@
+    FinancialConnections'accountSubscriptions'NonNullableEnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON FinancialConnections'accountSubscriptions'NonNullable where
+  toJSON (FinancialConnections'accountSubscriptions'NonNullableOther val) = val
+  toJSON (FinancialConnections'accountSubscriptions'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (FinancialConnections'accountSubscriptions'NonNullableEnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'accountSubscriptions'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "transactions" -> FinancialConnections'accountSubscriptions'NonNullableEnumTransactions
+            | GHC.Base.otherwise -> FinancialConnections'accountSubscriptions'NonNullableOther val
+      )
+
 -- | Defines the enum schema located at @components.schemas.financial_connections.account.properties.supported_payment_method_types.items@ in the specification.
 data FinancialConnections'accountSupportedPaymentMethodTypes'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
@@ -653,4 +686,76 @@ instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'accountSupporte
             | val GHC.Classes.== "link" -> FinancialConnections'accountSupportedPaymentMethodTypes'EnumLink
             | val GHC.Classes.== "us_bank_account" -> FinancialConnections'accountSupportedPaymentMethodTypes'EnumUsBankAccount
             | GHC.Base.otherwise -> FinancialConnections'accountSupportedPaymentMethodTypes'Other val
+      )
+
+-- | Defines the object schema located at @components.schemas.financial_connections.account.properties.transaction_refresh.anyOf@ in the specification.
+--
+-- The state of the most recent attempt to refresh the account transactions.
+data FinancialConnections'accountTransactionRefresh'NonNullable = FinancialConnections'accountTransactionRefresh'NonNullable
+  { -- | id: Unique identifier for the object.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    financialConnections'accountTransactionRefresh'NonNullableId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | last_attempted_at: The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
+    financialConnections'accountTransactionRefresh'NonNullableLastAttemptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | next_refresh_available_at: Time at which the next transaction refresh can be initiated. This value will be \`null\` when \`status\` is \`pending\`. Measured in seconds since the Unix epoch.
+    financialConnections'accountTransactionRefresh'NonNullableNextRefreshAvailableAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | status: The status of the last refresh attempt.
+    financialConnections'accountTransactionRefresh'NonNullableStatus :: (GHC.Maybe.Maybe FinancialConnections'accountTransactionRefresh'NonNullableStatus')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON FinancialConnections'accountTransactionRefresh'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_attempted_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableLastAttemptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_refresh_available_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableNextRefreshAvailableAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableStatus obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_attempted_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableLastAttemptedAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_refresh_available_at" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableNextRefreshAvailableAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (financialConnections'accountTransactionRefresh'NonNullableStatus obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'accountTransactionRefresh'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FinancialConnections'accountTransactionRefresh'NonNullable" (\obj -> (((GHC.Base.pure FinancialConnections'accountTransactionRefresh'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_attempted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_refresh_available_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status"))
+
+-- | Create a new 'FinancialConnections'accountTransactionRefresh'NonNullable' with all required fields.
+mkFinancialConnections'accountTransactionRefresh'NonNullable :: FinancialConnections'accountTransactionRefresh'NonNullable
+mkFinancialConnections'accountTransactionRefresh'NonNullable =
+  FinancialConnections'accountTransactionRefresh'NonNullable
+    { financialConnections'accountTransactionRefresh'NonNullableId = GHC.Maybe.Nothing,
+      financialConnections'accountTransactionRefresh'NonNullableLastAttemptedAt = GHC.Maybe.Nothing,
+      financialConnections'accountTransactionRefresh'NonNullableNextRefreshAvailableAt = GHC.Maybe.Nothing,
+      financialConnections'accountTransactionRefresh'NonNullableStatus = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.financial_connections.account.properties.transaction_refresh.anyOf.properties.status@ in the specification.
+--
+-- The status of the last refresh attempt.
+data FinancialConnections'accountTransactionRefresh'NonNullableStatus'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    FinancialConnections'accountTransactionRefresh'NonNullableStatus'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    FinancialConnections'accountTransactionRefresh'NonNullableStatus'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"failed"@
+    FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumFailed
+  | -- | Represents the JSON value @"pending"@
+    FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumPending
+  | -- | Represents the JSON value @"succeeded"@
+    FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumSucceeded
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON FinancialConnections'accountTransactionRefresh'NonNullableStatus' where
+  toJSON (FinancialConnections'accountTransactionRefresh'NonNullableStatus'Other val) = val
+  toJSON (FinancialConnections'accountTransactionRefresh'NonNullableStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumFailed) = "failed"
+  toJSON (FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumPending) = "pending"
+  toJSON (FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumSucceeded) = "succeeded"
+
+instance Data.Aeson.Types.FromJSON.FromJSON FinancialConnections'accountTransactionRefresh'NonNullableStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "failed" -> FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumFailed
+            | val GHC.Classes.== "pending" -> FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumPending
+            | val GHC.Classes.== "succeeded" -> FinancialConnections'accountTransactionRefresh'NonNullableStatus'EnumSucceeded
+            | GHC.Base.otherwise -> FinancialConnections'accountTransactionRefresh'NonNullableStatus'Other val
       )

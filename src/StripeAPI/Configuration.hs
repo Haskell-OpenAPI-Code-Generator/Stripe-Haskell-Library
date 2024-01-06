@@ -5,18 +5,19 @@
 module StripeAPI.Configuration where
 
 import qualified Data.Text
+import qualified Data.Text.Internal
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
 -- | The default url specified by the OpenAPI specification
 --
 -- @https://api.stripe.com/@
-defaultURL = Data.Text.pack "https://api.stripe.com/"
+defaultURL = Data.Text.Internal.pack "https://api.stripe.com/"
 
 -- | The default application name used in the @User-Agent@ header which is based on the @info.title@ field of the specification
 --
 -- @Stripe API@
-defaultApplicationName = Data.Text.pack "Stripe-Haskell-Library"
+defaultApplicationName = Data.Text.Internal.pack "Stripe API"
 
 -- | The default configuration containing the 'defaultURL' and no authorization
 defaultConfiguration = StripeAPI.Common.Configuration defaultURL StripeAPI.Common.anonymousSecurityScheme GHC.Types.True defaultApplicationName

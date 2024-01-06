@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.automatic_tax@ in the specification.
 data AutomaticTax = AutomaticTax
-  { -- | enabled: Whether Stripe automatically computes tax on this invoice.
+  { -- | enabled: Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https:\/\/stripe.com\/docs\/api\/tax_rates), negative amounts, or \`tax_behavior=unspecified\`) cannot be added to automatic tax invoices.
     automaticTaxEnabled :: GHC.Types.Bool,
     -- | status: The status of the most recent automated tax calculation for this invoice.
     automaticTaxStatus :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable AutomaticTaxStatus'NonNullable))

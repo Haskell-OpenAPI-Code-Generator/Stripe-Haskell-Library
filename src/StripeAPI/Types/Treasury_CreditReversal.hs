@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,7 +29,7 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
-import {-# SOURCE #-} StripeAPI.Types.ReceivedCreditsResourceStatusTransitions
+import {-# SOURCE #-} StripeAPI.Types.TreasuryReceivedCreditsResourceStatusTransitions
 import {-# SOURCE #-} StripeAPI.Types.Treasury_Transaction
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -40,6 +40,8 @@ import qualified Prelude as GHC.Maybe
 data Treasury'creditReversal = Treasury'creditReversal
   { -- | amount: Amount (in cents) transferred.
     treasury'creditReversalAmount :: GHC.Types.Int,
+    -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
+    treasury'creditReversalCreated :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     treasury'creditReversalCurrency :: Data.Text.Internal.Text,
     -- | financial_account: The FinancialAccount to reverse funds from.
@@ -75,7 +77,7 @@ data Treasury'creditReversal = Treasury'creditReversal
     -- | status: Status of the CreditReversal
     treasury'creditReversalStatus :: Treasury'creditReversalStatus',
     -- | status_transitions:
-    treasury'creditReversalStatusTransitions :: ReceivedCreditsResourceStatusTransitions,
+    treasury'creditReversalStatusTransitions :: TreasuryReceivedCreditsResourceStatusTransitions,
     -- | transaction: The Transaction associated with this object.
     treasury'creditReversalTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Treasury'creditReversalTransaction'NonNullableVariants))
   }
@@ -85,15 +87,17 @@ data Treasury'creditReversal = Treasury'creditReversal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Treasury'creditReversal where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'creditReversalAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'creditReversalCurrency obj] : ["financial_account" Data.Aeson.Types.ToJSON..= treasury'creditReversalFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_regulatory_receipt_url" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalHostedRegulatoryReceiptUrl obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'creditReversalId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'creditReversalLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= treasury'creditReversalMetadata obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'creditReversalNetwork obj] : ["received_credit" Data.Aeson.Types.ToJSON..= treasury'creditReversalReceivedCredit obj] : ["status" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatus obj] : ["status_transitions" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatusTransitions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.credit_reversal"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'creditReversalAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'creditReversalCurrency obj] : ["financial_account" Data.Aeson.Types.ToJSON..= treasury'creditReversalFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_regulatory_receipt_url" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalHostedRegulatoryReceiptUrl obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'creditReversalId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'creditReversalLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= treasury'creditReversalMetadata obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'creditReversalNetwork obj] : ["received_credit" Data.Aeson.Types.ToJSON..= treasury'creditReversalReceivedCredit obj] : ["status" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatus obj] : ["status_transitions" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatusTransitions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.credit_reversal"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'creditReversalAmount obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'creditReversalCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'creditReversalCurrency obj] : ["financial_account" Data.Aeson.Types.ToJSON..= treasury'creditReversalFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_regulatory_receipt_url" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalHostedRegulatoryReceiptUrl obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'creditReversalId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'creditReversalLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= treasury'creditReversalMetadata obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'creditReversalNetwork obj] : ["received_credit" Data.Aeson.Types.ToJSON..= treasury'creditReversalReceivedCredit obj] : ["status" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatus obj] : ["status_transitions" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatusTransitions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.credit_reversal"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'creditReversalAmount obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'creditReversalCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'creditReversalCurrency obj] : ["financial_account" Data.Aeson.Types.ToJSON..= treasury'creditReversalFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_regulatory_receipt_url" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalHostedRegulatoryReceiptUrl obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'creditReversalId obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'creditReversalLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= treasury'creditReversalMetadata obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'creditReversalNetwork obj] : ["received_credit" Data.Aeson.Types.ToJSON..= treasury'creditReversalReceivedCredit obj] : ["status" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatus obj] : ["status_transitions" Data.Aeson.Types.ToJSON..= treasury'creditReversalStatusTransitions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'creditReversalTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.credit_reversal"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Treasury'creditReversal where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Treasury'creditReversal" (\obj -> (((((((((((GHC.Base.pure Treasury'creditReversal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "financial_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "hosted_regulatory_receipt_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "received_credit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status_transitions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Treasury'creditReversal" (\obj -> ((((((((((((GHC.Base.pure Treasury'creditReversal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "financial_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "hosted_regulatory_receipt_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "received_credit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status_transitions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction"))
 
 -- | Create a new 'Treasury'creditReversal' with all required fields.
 mkTreasury'creditReversal ::
   -- | 'treasury'creditReversalAmount'
+  GHC.Types.Int ->
+  -- | 'treasury'creditReversalCreated'
   GHC.Types.Int ->
   -- | 'treasury'creditReversalCurrency'
   Data.Text.Internal.Text ->
@@ -112,11 +116,12 @@ mkTreasury'creditReversal ::
   -- | 'treasury'creditReversalStatus'
   Treasury'creditReversalStatus' ->
   -- | 'treasury'creditReversalStatusTransitions'
-  ReceivedCreditsResourceStatusTransitions ->
+  TreasuryReceivedCreditsResourceStatusTransitions ->
   Treasury'creditReversal
-mkTreasury'creditReversal treasury'creditReversalAmount treasury'creditReversalCurrency treasury'creditReversalFinancialAccount treasury'creditReversalId treasury'creditReversalLivemode treasury'creditReversalMetadata treasury'creditReversalNetwork treasury'creditReversalReceivedCredit treasury'creditReversalStatus treasury'creditReversalStatusTransitions =
+mkTreasury'creditReversal treasury'creditReversalAmount treasury'creditReversalCreated treasury'creditReversalCurrency treasury'creditReversalFinancialAccount treasury'creditReversalId treasury'creditReversalLivemode treasury'creditReversalMetadata treasury'creditReversalNetwork treasury'creditReversalReceivedCredit treasury'creditReversalStatus treasury'creditReversalStatusTransitions =
   Treasury'creditReversal
     { treasury'creditReversalAmount = treasury'creditReversalAmount,
+      treasury'creditReversalCreated = treasury'creditReversalCreated,
       treasury'creditReversalCurrency = treasury'creditReversalCurrency,
       treasury'creditReversalFinancialAccount = treasury'creditReversalFinancialAccount,
       treasury'creditReversalHostedRegulatoryReceiptUrl = GHC.Maybe.Nothing,

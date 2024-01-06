@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,7 +37,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- A Location represents a grouping of readers.
 --
--- Related guide: [Fleet Management](https:\/\/stripe.com\/docs\/terminal\/fleet\/locations).
+-- Related guide: [Fleet management](https:\/\/stripe.com\/docs\/terminal\/fleet\/locations)
 data Terminal'location = Terminal'location
   { -- | address:
     terminal'locationAddress :: Address,

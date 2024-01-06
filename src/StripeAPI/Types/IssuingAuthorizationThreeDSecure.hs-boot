@@ -1,0 +1,14 @@
+module StripeAPI.Types.IssuingAuthorizationThreeDSecure where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data IssuingAuthorizationThreeDSecure
+instance Show IssuingAuthorizationThreeDSecure
+instance Eq IssuingAuthorizationThreeDSecure
+instance FromJSON IssuingAuthorizationThreeDSecure
+instance ToJSON IssuingAuthorizationThreeDSecure
+data IssuingAuthorizationThreeDSecureResult'
+instance Show IssuingAuthorizationThreeDSecureResult'
+instance Eq IssuingAuthorizationThreeDSecureResult'
+instance FromJSON IssuingAuthorizationThreeDSecureResult'
+instance ToJSON IssuingAuthorizationThreeDSecureResult'

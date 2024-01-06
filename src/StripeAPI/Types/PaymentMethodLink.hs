@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -39,13 +39,7 @@ data PaymentMethodLink = PaymentMethodLink
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodLinkEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | persistent_token: Token used for persistent Link logins.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    paymentMethodLinkPersistentToken :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    paymentMethodLinkEmail :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -53,16 +47,12 @@ data PaymentMethodLink = PaymentMethodLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodLink where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (paymentMethodLinkEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (paymentMethodLinkPersistentToken obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (paymentMethodLinkEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (paymentMethodLinkPersistentToken obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (paymentMethodLinkEmail obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (paymentMethodLinkEmail obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodLink where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodLink" (\obj -> (GHC.Base.pure PaymentMethodLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "persistent_token"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodLink" (\obj -> GHC.Base.pure PaymentMethodLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email"))
 
 -- | Create a new 'PaymentMethodLink' with all required fields.
 mkPaymentMethodLink :: PaymentMethodLink
-mkPaymentMethodLink =
-  PaymentMethodLink
-    { paymentMethodLinkEmail = GHC.Maybe.Nothing,
-      paymentMethodLinkPersistentToken = GHC.Maybe.Nothing
-    }
+mkPaymentMethodLink = PaymentMethodLink {paymentMethodLinkEmail = GHC.Maybe.Nothing}

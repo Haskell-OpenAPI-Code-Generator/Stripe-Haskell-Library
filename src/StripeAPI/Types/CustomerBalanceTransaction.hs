@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,12 +37,12 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.customer_balance_transaction@ in the specification.
 --
--- Each customer has a [\`balance\`](https:\/\/stripe.com\/docs\/api\/customers\/object\#customer_object-balance) value,
+-- Each customer has a [Balance](https:\/\/stripe.com\/docs\/api\/customers\/object\#customer_object-balance) value,
 -- which denotes a debit or credit that\'s automatically applied to their next invoice upon finalization.
 -- You may modify the value directly by using the [update customer API](https:\/\/stripe.com\/docs\/api\/customers\/update),
 -- or by creating a Customer Balance Transaction, which increments or decrements the customer\'s \`balance\` by the specified \`amount\`.
 --
--- Related guide: [Customer Balance](https:\/\/stripe.com\/docs\/billing\/customer\/balance) to learn more.
+-- Related guide: [Customer balance](https:\/\/stripe.com\/docs\/billing\/customer\/balance)
 data CustomerBalanceTransaction = CustomerBalanceTransaction
   { -- | amount: The amount of the transaction. A negative value is a credit for the customer\'s balance, and a positive value is a debit to the customer\'s \`balance\`.
     customerBalanceTransactionAmount :: GHC.Types.Int,
@@ -74,7 +74,7 @@ data CustomerBalanceTransaction = CustomerBalanceTransaction
     customerBalanceTransactionLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     customerBalanceTransactionMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
-    -- | type: Transaction type: \`adjustment\`, \`applied_to_invoice\`, \`credit_note\`, \`initial\`, \`invoice_too_large\`, \`invoice_too_small\`, \`unspent_receiver_credit\`, or \`unapplied_from_invoice\`. See the [Customer Balance page](https:\/\/stripe.com\/docs\/billing\/customer\/balance\#types) to learn more about transaction types.
+    -- | type: Transaction type: \`adjustment\`, \`applied_to_invoice\`, \`credit_note\`, \`initial\`, \`invoice_overpaid\`, \`invoice_too_large\`, \`invoice_too_small\`, \`unspent_receiver_credit\`, or \`unapplied_from_invoice\`. See the [Customer Balance page](https:\/\/stripe.com\/docs\/billing\/customer\/balance\#types) to learn more about transaction types.
     customerBalanceTransactionType :: CustomerBalanceTransactionType'
   }
   deriving
@@ -177,7 +177,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransactionInvoice'No
 
 -- | Defines the enum schema located at @components.schemas.customer_balance_transaction.properties.type@ in the specification.
 --
--- Transaction type: \`adjustment\`, \`applied_to_invoice\`, \`credit_note\`, \`initial\`, \`invoice_too_large\`, \`invoice_too_small\`, \`unspent_receiver_credit\`, or \`unapplied_from_invoice\`. See the [Customer Balance page](https:\/\/stripe.com\/docs\/billing\/customer\/balance\#types) to learn more about transaction types.
+-- Transaction type: \`adjustment\`, \`applied_to_invoice\`, \`credit_note\`, \`initial\`, \`invoice_overpaid\`, \`invoice_too_large\`, \`invoice_too_small\`, \`unspent_receiver_credit\`, or \`unapplied_from_invoice\`. See the [Customer Balance page](https:\/\/stripe.com\/docs\/billing\/customer\/balance\#types) to learn more about transaction types.
 data CustomerBalanceTransactionType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     CustomerBalanceTransactionType'Other Data.Aeson.Types.Internal.Value
@@ -191,6 +191,8 @@ data CustomerBalanceTransactionType'
     CustomerBalanceTransactionType'EnumCreditNote
   | -- | Represents the JSON value @"initial"@
     CustomerBalanceTransactionType'EnumInitial
+  | -- | Represents the JSON value @"invoice_overpaid"@
+    CustomerBalanceTransactionType'EnumInvoiceOverpaid
   | -- | Represents the JSON value @"invoice_too_large"@
     CustomerBalanceTransactionType'EnumInvoiceTooLarge
   | -- | Represents the JSON value @"invoice_too_small"@
@@ -210,6 +212,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON CustomerBalanceTransactionType' where
   toJSON (CustomerBalanceTransactionType'EnumAppliedToInvoice) = "applied_to_invoice"
   toJSON (CustomerBalanceTransactionType'EnumCreditNote) = "credit_note"
   toJSON (CustomerBalanceTransactionType'EnumInitial) = "initial"
+  toJSON (CustomerBalanceTransactionType'EnumInvoiceOverpaid) = "invoice_overpaid"
   toJSON (CustomerBalanceTransactionType'EnumInvoiceTooLarge) = "invoice_too_large"
   toJSON (CustomerBalanceTransactionType'EnumInvoiceTooSmall) = "invoice_too_small"
   toJSON (CustomerBalanceTransactionType'EnumMigration) = "migration"
@@ -224,6 +227,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceTransactionType' wher
             | val GHC.Classes.== "applied_to_invoice" -> CustomerBalanceTransactionType'EnumAppliedToInvoice
             | val GHC.Classes.== "credit_note" -> CustomerBalanceTransactionType'EnumCreditNote
             | val GHC.Classes.== "initial" -> CustomerBalanceTransactionType'EnumInitial
+            | val GHC.Classes.== "invoice_overpaid" -> CustomerBalanceTransactionType'EnumInvoiceOverpaid
             | val GHC.Classes.== "invoice_too_large" -> CustomerBalanceTransactionType'EnumInvoiceTooLarge
             | val GHC.Classes.== "invoice_too_small" -> CustomerBalanceTransactionType'EnumInvoiceTooSmall
             | val GHC.Classes.== "migration" -> CustomerBalanceTransactionType'EnumMigration

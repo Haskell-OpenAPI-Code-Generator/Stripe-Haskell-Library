@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -41,7 +41,7 @@ data PaymentMethodOptionsCustomerBalanceBankTransfer = PaymentMethodOptionsCusto
     --
     -- Permitted values include: \`sort_code\`, \`zengin\`, \`iban\`, or \`spei\`.
     paymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes :: (GHC.Maybe.Maybe ([PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'])),
-    -- | type: The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: \`eu_bank_transfer\`, \`gb_bank_transfer\`, \`jp_bank_transfer\`, or \`mx_bank_transfer\`.
+    -- | type: The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: \`eu_bank_transfer\`, \`gb_bank_transfer\`, \`jp_bank_transfer\`, \`mx_bank_transfer\`, or \`us_bank_transfer\`.
     paymentMethodOptionsCustomerBalanceBankTransferType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullable))
   }
   deriving
@@ -71,6 +71,8 @@ data PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'
     PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"aba"@
+    PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumAba
   | -- | Represents the JSON value @"iban"@
     PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumIban
   | -- | Represents the JSON value @"sepa"@
@@ -79,6 +81,8 @@ data PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'
     PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSortCode
   | -- | Represents the JSON value @"spei"@
     PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSpei
+  | -- | Represents the JSON value @"swift"@
+    PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSwift
   | -- | Represents the JSON value @"zengin"@
     PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumZengin
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -86,27 +90,31 @@ data PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes' where
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'Other val) = val
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumAba) = "aba"
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumIban) = "iban"
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSepa) = "sepa"
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSortCode) = "sort_code"
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSpei) = "spei"
+  toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSwift) = "swift"
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumZengin) = "zengin"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "aba" -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumAba
             | val GHC.Classes.== "iban" -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumIban
             | val GHC.Classes.== "sepa" -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSepa
             | val GHC.Classes.== "sort_code" -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSortCode
             | val GHC.Classes.== "spei" -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSpei
+            | val GHC.Classes.== "swift" -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumSwift
             | val GHC.Classes.== "zengin" -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'EnumZengin
             | GHC.Base.otherwise -> PaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes'Other val
       )
 
 -- | Defines the enum schema located at @components.schemas.payment_method_options_customer_balance_bank_transfer.properties.type@ in the specification.
 --
--- The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: \`eu_bank_transfer\`, \`gb_bank_transfer\`, \`jp_bank_transfer\`, or \`mx_bank_transfer\`.
+-- The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: \`eu_bank_transfer\`, \`gb_bank_transfer\`, \`jp_bank_transfer\`, \`mx_bank_transfer\`, or \`us_bank_transfer\`.
 data PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -120,6 +128,8 @@ data PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullable
     PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumJpBankTransfer
   | -- | Represents the JSON value @"mx_bank_transfer"@
     PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumMxBankTransfer
+  | -- | Represents the JSON value @"us_bank_transfer"@
+    PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumUsBankTransfer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullable where
@@ -129,6 +139,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsCustomerBalanceBankT
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumGbBankTransfer) = "gb_bank_transfer"
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumJpBankTransfer) = "jp_bank_transfer"
   toJSON (PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumMxBankTransfer) = "mx_bank_transfer"
+  toJSON (PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumUsBankTransfer) = "us_bank_transfer"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullable where
   parseJSON val =
@@ -138,5 +149,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsCustomerBalanceB
             | val GHC.Classes.== "gb_bank_transfer" -> PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumGbBankTransfer
             | val GHC.Classes.== "jp_bank_transfer" -> PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumJpBankTransfer
             | val GHC.Classes.== "mx_bank_transfer" -> PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumMxBankTransfer
+            | val GHC.Classes.== "us_bank_transfer" -> PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableEnumUsBankTransfer
             | GHC.Base.otherwise -> PaymentMethodOptionsCustomerBalanceBankTransferType'NonNullableOther val
       )

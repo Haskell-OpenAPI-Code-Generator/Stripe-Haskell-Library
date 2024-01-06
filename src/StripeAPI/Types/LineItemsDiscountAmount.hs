@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -40,7 +40,7 @@ data LineItemsDiscountAmount = LineItemsDiscountAmount
     -- | discount: A discount represents the actual application of a [coupon](https:\/\/stripe.com\/docs\/api\#coupons) or [promotion code](https:\/\/stripe.com\/docs\/api\#promotion_codes).
     -- It contains information about when the discount began, when it will end, and what it is applied to.
     --
-    -- Related guide: [Applying Discounts to Subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/discounts).
+    -- Related guide: [Applying discounts to subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/discounts)
     lineItemsDiscountAmountDiscount :: Discount
   }
   deriving

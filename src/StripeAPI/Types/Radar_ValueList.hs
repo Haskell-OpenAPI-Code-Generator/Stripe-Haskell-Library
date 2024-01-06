@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,7 +37,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- Value lists allow you to group values together which can then be referenced in rules.
 --
--- Related guide: [Default Stripe Lists](https:\/\/stripe.com\/docs\/radar\/lists\#managing-list-items).
+-- Related guide: [Default Stripe lists](https:\/\/stripe.com\/docs\/radar\/lists\#managing-list-items)
 data Radar'valueList = Radar'valueList
   { -- | alias: The name of the value list for use in rules.
     --
@@ -59,7 +59,7 @@ data Radar'valueList = Radar'valueList
     --
     -- * Maximum length of 5000
     radar'valueListId :: Data.Text.Internal.Text,
-    -- | item_type: The type of items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, \`case_sensitive_string\`, or \`customer_id\`.
+    -- | item_type: The type of items in the value list. One of \`card_fingerprint\`, \`us_bank_account_fingerprint\`, \`sepa_debit_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, \`case_sensitive_string\`, or \`customer_id\`.
     radar'valueListItemType :: Radar'valueListItemType',
     -- | list_items: List of items contained within this value list.
     radar'valueListListItems :: Radar'valueListListItems',
@@ -122,7 +122,7 @@ mkRadar'valueList radar'valueListAlias radar'valueListCreated radar'valueListCre
 
 -- | Defines the enum schema located at @components.schemas.radar.value_list.properties.item_type@ in the specification.
 --
--- The type of items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, \`case_sensitive_string\`, or \`customer_id\`.
+-- The type of items in the value list. One of \`card_fingerprint\`, \`us_bank_account_fingerprint\`, \`sepa_debit_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, \`case_sensitive_string\`, or \`customer_id\`.
 data Radar'valueListItemType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     Radar'valueListItemType'Other Data.Aeson.Types.Internal.Value
@@ -142,8 +142,12 @@ data Radar'valueListItemType'
     Radar'valueListItemType'EnumEmail
   | -- | Represents the JSON value @"ip_address"@
     Radar'valueListItemType'EnumIpAddress
+  | -- | Represents the JSON value @"sepa_debit_fingerprint"@
+    Radar'valueListItemType'EnumSepaDebitFingerprint
   | -- | Represents the JSON value @"string"@
     Radar'valueListItemType'EnumString
+  | -- | Represents the JSON value @"us_bank_account_fingerprint"@
+    Radar'valueListItemType'EnumUsBankAccountFingerprint
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Radar'valueListItemType' where
@@ -156,7 +160,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON Radar'valueListItemType' where
   toJSON (Radar'valueListItemType'EnumCustomerId) = "customer_id"
   toJSON (Radar'valueListItemType'EnumEmail) = "email"
   toJSON (Radar'valueListItemType'EnumIpAddress) = "ip_address"
+  toJSON (Radar'valueListItemType'EnumSepaDebitFingerprint) = "sepa_debit_fingerprint"
   toJSON (Radar'valueListItemType'EnumString) = "string"
+  toJSON (Radar'valueListItemType'EnumUsBankAccountFingerprint) = "us_bank_account_fingerprint"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListItemType' where
   parseJSON val =
@@ -169,7 +175,9 @@ instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListItemType' where
             | val GHC.Classes.== "customer_id" -> Radar'valueListItemType'EnumCustomerId
             | val GHC.Classes.== "email" -> Radar'valueListItemType'EnumEmail
             | val GHC.Classes.== "ip_address" -> Radar'valueListItemType'EnumIpAddress
+            | val GHC.Classes.== "sepa_debit_fingerprint" -> Radar'valueListItemType'EnumSepaDebitFingerprint
             | val GHC.Classes.== "string" -> Radar'valueListItemType'EnumString
+            | val GHC.Classes.== "us_bank_account_fingerprint" -> Radar'valueListItemType'EnumUsBankAccountFingerprint
             | GHC.Base.otherwise -> Radar'valueListItemType'Other val
       )
 

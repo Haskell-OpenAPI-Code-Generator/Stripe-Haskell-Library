@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,6 +29,7 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.PaymentMethodDetailsCardPresentOffline
 import {-# SOURCE #-} StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -37,7 +38,7 @@ import qualified Prelude as GHC.Maybe
 data PaymentMethodDetailsCardPresent = PaymentMethodDetailsCardPresent
   { -- | amount_authorized: The authorized amount
     paymentMethodDetailsCardPresentAmountAuthorized :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
-    -- | brand: Card brand. Can be \`amex\`, \`diners\`, \`discover\`, \`jcb\`, \`mastercard\`, \`unionpay\`, \`visa\`, or \`unknown\`.
+    -- | brand: Card brand. Can be \`amex\`, \`diners\`, \`discover\`, \`eftpos_au\`, \`jcb\`, \`mastercard\`, \`unionpay\`, \`visa\`, or \`unknown\`.
     --
     -- Constraints:
     --
@@ -69,7 +70,7 @@ data PaymentMethodDetailsCardPresent = PaymentMethodDetailsCardPresent
     paymentMethodDetailsCardPresentExpYear :: GHC.Types.Int,
     -- | fingerprint: Uniquely identifies this particular card number. You can use this attribute to check whether two customers who’ve signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
     --
-    -- *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
+    -- *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
     --
     -- Constraints:
     --
@@ -88,21 +89,23 @@ data PaymentMethodDetailsCardPresent = PaymentMethodDetailsCardPresent
     -- * Maximum length of 5000
     paymentMethodDetailsCardPresentGeneratedCard :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | incremental_authorization_supported: Whether this [PaymentIntent](https:\/\/stripe.com\/docs\/api\/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
-    paymentMethodDetailsCardPresentIncrementalAuthorizationSupported :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
+    paymentMethodDetailsCardPresentIncrementalAuthorizationSupported :: GHC.Types.Bool,
     -- | last4: The last four digits of the card.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     paymentMethodDetailsCardPresentLast4 :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | network: Identifies which network this charge was processed on. Can be \`amex\`, \`cartes_bancaires\`, \`diners\`, \`discover\`, \`interac\`, \`jcb\`, \`mastercard\`, \`unionpay\`, \`visa\`, or \`unknown\`.
+    -- | network: Identifies which network this charge was processed on. Can be \`amex\`, \`cartes_bancaires\`, \`diners\`, \`discover\`, \`eftpos_au\`, \`interac\`, \`jcb\`, \`mastercard\`, \`unionpay\`, \`visa\`, or \`unknown\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     paymentMethodDetailsCardPresentNetwork :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | offline: Details about payments collected offline.
+    paymentMethodDetailsCardPresentOffline :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodDetailsCardPresentOffline'NonNullable)),
     -- | overcapture_supported: Defines whether the authorized amount can be over-captured or not
-    paymentMethodDetailsCardPresentOvercaptureSupported :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
+    paymentMethodDetailsCardPresentOvercaptureSupported :: GHC.Types.Bool,
     -- | read_method: How card details were read in this transaction.
     paymentMethodDetailsCardPresentReadMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodDetailsCardPresentReadMethod'NonNullable)),
     -- | receipt: A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -114,11 +117,11 @@ data PaymentMethodDetailsCardPresent = PaymentMethodDetailsCardPresent
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardPresent where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_authorized" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentAmountAuthorized obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentBrand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_before" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCaptureBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCardholderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("emv_auth_data" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentEmvAuthData obj) : ["exp_month" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpMonth obj] : ["exp_year" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpYear obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFunding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentGeneratedCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("incremental_authorization_supported" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentIncrementalAuthorizationSupported obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("overcapture_supported" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentOvercaptureSupported obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("read_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReadMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReceipt obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_authorized" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentAmountAuthorized obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentBrand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_before" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCaptureBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCardholderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("emv_auth_data" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentEmvAuthData obj) : ["exp_month" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpMonth obj] : ["exp_year" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpYear obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFunding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentGeneratedCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("incremental_authorization_supported" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentIncrementalAuthorizationSupported obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("overcapture_supported" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentOvercaptureSupported obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("read_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReadMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReceipt obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_authorized" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentAmountAuthorized obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentBrand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_before" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCaptureBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCardholderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("emv_auth_data" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentEmvAuthData obj) : ["exp_month" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpMonth obj] : ["exp_year" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpYear obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFunding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentGeneratedCard obj) : ["incremental_authorization_supported" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentIncrementalAuthorizationSupported obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentOffline obj) : ["overcapture_supported" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentOvercaptureSupported obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("read_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReadMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReceipt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_authorized" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentAmountAuthorized obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("brand" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentBrand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_before" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCaptureBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCardholderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentCountry obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("emv_auth_data" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentEmvAuthData obj) : ["exp_month" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpMonth obj] : ["exp_year" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentExpYear obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentFunding obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentGeneratedCard obj) : ["incremental_authorization_supported" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentIncrementalAuthorizationSupported obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("offline" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentOffline obj) : ["overcapture_supported" Data.Aeson.Types.ToJSON..= paymentMethodDetailsCardPresentOvercaptureSupported obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("read_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReadMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentReceipt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardPresent where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardPresent" (\obj -> ((((((((((((((((GHC.Base.pure PaymentMethodDetailsCardPresent GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_authorized")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cardholder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "emv_auth_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "generated_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "incremental_authorization_supported")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "overcapture_supported")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "read_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receipt"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardPresent" (\obj -> (((((((((((((((((GHC.Base.pure PaymentMethodDetailsCardPresent GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_authorized")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "brand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cardholder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "emv_auth_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "generated_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "incremental_authorization_supported")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "overcapture_supported")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "read_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receipt"))
 
 -- | Create a new 'PaymentMethodDetailsCardPresent' with all required fields.
 mkPaymentMethodDetailsCardPresent ::
@@ -126,8 +129,12 @@ mkPaymentMethodDetailsCardPresent ::
   GHC.Types.Int ->
   -- | 'paymentMethodDetailsCardPresentExpYear'
   GHC.Types.Int ->
+  -- | 'paymentMethodDetailsCardPresentIncrementalAuthorizationSupported'
+  GHC.Types.Bool ->
+  -- | 'paymentMethodDetailsCardPresentOvercaptureSupported'
+  GHC.Types.Bool ->
   PaymentMethodDetailsCardPresent
-mkPaymentMethodDetailsCardPresent paymentMethodDetailsCardPresentExpMonth paymentMethodDetailsCardPresentExpYear =
+mkPaymentMethodDetailsCardPresent paymentMethodDetailsCardPresentExpMonth paymentMethodDetailsCardPresentExpYear paymentMethodDetailsCardPresentIncrementalAuthorizationSupported paymentMethodDetailsCardPresentOvercaptureSupported =
   PaymentMethodDetailsCardPresent
     { paymentMethodDetailsCardPresentAmountAuthorized = GHC.Maybe.Nothing,
       paymentMethodDetailsCardPresentBrand = GHC.Maybe.Nothing,
@@ -140,13 +147,37 @@ mkPaymentMethodDetailsCardPresent paymentMethodDetailsCardPresentExpMonth paymen
       paymentMethodDetailsCardPresentFingerprint = GHC.Maybe.Nothing,
       paymentMethodDetailsCardPresentFunding = GHC.Maybe.Nothing,
       paymentMethodDetailsCardPresentGeneratedCard = GHC.Maybe.Nothing,
-      paymentMethodDetailsCardPresentIncrementalAuthorizationSupported = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentIncrementalAuthorizationSupported = paymentMethodDetailsCardPresentIncrementalAuthorizationSupported,
       paymentMethodDetailsCardPresentLast4 = GHC.Maybe.Nothing,
       paymentMethodDetailsCardPresentNetwork = GHC.Maybe.Nothing,
-      paymentMethodDetailsCardPresentOvercaptureSupported = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentOffline = GHC.Maybe.Nothing,
+      paymentMethodDetailsCardPresentOvercaptureSupported = paymentMethodDetailsCardPresentOvercaptureSupported,
       paymentMethodDetailsCardPresentReadMethod = GHC.Maybe.Nothing,
       paymentMethodDetailsCardPresentReceipt = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @components.schemas.payment_method_details_card_present.properties.offline.anyOf@ in the specification.
+--
+-- Details about payments collected offline.
+data PaymentMethodDetailsCardPresentOffline'NonNullable = PaymentMethodDetailsCardPresentOffline'NonNullable
+  { -- | stored_at: Time at which the payment was collected while offline
+    paymentMethodDetailsCardPresentOffline'NonNullableStoredAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsCardPresentOffline'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("stored_at" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentOffline'NonNullableStoredAt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("stored_at" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsCardPresentOffline'NonNullableStoredAt obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardPresentOffline'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardPresentOffline'NonNullable" (\obj -> GHC.Base.pure PaymentMethodDetailsCardPresentOffline'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stored_at"))
+
+-- | Create a new 'PaymentMethodDetailsCardPresentOffline'NonNullable' with all required fields.
+mkPaymentMethodDetailsCardPresentOffline'NonNullable :: PaymentMethodDetailsCardPresentOffline'NonNullable
+mkPaymentMethodDetailsCardPresentOffline'NonNullable = PaymentMethodDetailsCardPresentOffline'NonNullable {paymentMethodDetailsCardPresentOffline'NonNullableStoredAt = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @components.schemas.payment_method_details_card_present.properties.read_method@ in the specification.
 --

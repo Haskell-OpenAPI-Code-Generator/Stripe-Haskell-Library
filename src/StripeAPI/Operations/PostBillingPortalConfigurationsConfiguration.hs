@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,26 +66,26 @@ postBillingPortalConfigurationsConfiguration
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostBillingPortalConfigurationsConfigurationResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              BillingPortal'configuration
-                                                        )
+                                       PostBillingPortalConfigurationsConfigurationResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                BillingPortal'configuration
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostBillingPortalConfigurationsConfigurationResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostBillingPortalConfigurationsConfigurationResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/billing_portal/configurations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel configuration)) GHC.Base.++ ""))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/billing_portal/configurations/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel configuration)) GHC.Base.<> "")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBody = PostBillingPortalConfigurationsConfigurationRequestBody
@@ -98,6 +99,8 @@ data PostBillingPortalConfigurationsConfigurationRequestBody = PostBillingPortal
     postBillingPortalConfigurationsConfigurationRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | features: Information about the features available in the portal.
     postBillingPortalConfigurationsConfigurationRequestBodyFeatures :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'),
+    -- | login_page: The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https:\/\/stripe.com\/docs\/billing\/subscriptions\/integrating-customer-portal\#share).
+    postBillingPortalConfigurationsConfigurationRequestBodyLoginPage :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage'),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postBillingPortalConfigurationsConfigurationRequestBodyMetadata :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Variants)
   }
@@ -107,11 +110,11 @@ data PostBillingPortalConfigurationsConfigurationRequestBody = PostBillingPortal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("business_profile" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyMetadata obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("business_profile" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyMetadata obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("business_profile" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("login_page" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyLoginPage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyMetadata obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("active" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyActive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("business_profile" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("features" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyFeatures obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("login_page" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyLoginPage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postBillingPortalConfigurationsConfigurationRequestBodyMetadata obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBody" (\obj -> (((((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBody" (\obj -> ((((((GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "business_profile")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "features")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "login_page")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata"))
 
 -- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBody' with all required fields.
 mkPostBillingPortalConfigurationsConfigurationRequestBody :: PostBillingPortalConfigurationsConfigurationRequestBody
@@ -122,6 +125,7 @@ mkPostBillingPortalConfigurationsConfigurationRequestBody =
       postBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyExpand = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyFeatures = GHC.Maybe.Nothing,
+      postBillingPortalConfigurationsConfigurationRequestBodyLoginPage = GHC.Maybe.Nothing,
       postBillingPortalConfigurationsConfigurationRequestBodyMetadata = GHC.Maybe.Nothing
     }
 
@@ -130,11 +134,7 @@ mkPostBillingPortalConfigurationsConfigurationRequestBody =
 -- The business information shown to customers in the portal.
 data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' = PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'
   { -- | headline
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 60
-    postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'Variants),
     -- | privacy_policy_url
     postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl :: (GHC.Maybe.Maybe PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Variants),
     -- | terms_of_service_url
@@ -161,6 +161,25 @@ mkPostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile' =
       postBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl = GHC.Maybe.Nothing
     }
 
+-- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_profile.properties.headline.anyOf@ in the specification.
+data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'Variants
+  = -- | Represents the JSON value @""@
+    PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'EmptyString
+  | PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'Variants where
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'EmptyString
+        | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'Headline'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_profile.properties.privacy_policy_url.anyOf@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Variants
   = -- | Represents the JSON value @""@
@@ -177,8 +196,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'PrivacyPolicyUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.business_profile.properties.terms_of_service_url.anyOf@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Variants
@@ -196,8 +215,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyBusinessProfile'TermsOfServiceUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_return_url.anyOf@ in the specification.
 --
@@ -217,8 +236,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyDefaultReturnUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features@ in the specification.
 --
@@ -298,6 +317,8 @@ data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpd
     PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumAddress
   | -- | Represents the JSON value @"email"@
     PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumEmail
+  | -- | Represents the JSON value @"name"@
+    PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumName
   | -- | Represents the JSON value @"phone"@
     PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumPhone
   | -- | Represents the JSON value @"shipping"@
@@ -311,6 +332,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigura
   toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumAddress) = "address"
   toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumEmail) = "email"
+  toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumName) = "name"
   toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumPhone) = "phone"
   toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumShipping) = "shipping"
   toJSON (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumTaxId) = "tax_id"
@@ -321,6 +343,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
       ( if
             | val GHC.Classes.== "address" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumAddress
             | val GHC.Classes.== "email" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumEmail
+            | val GHC.Classes.== "name" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumName
             | val GHC.Classes.== "phone" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumPhone
             | val GHC.Classes.== "shipping" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumShipping
             | val GHC.Classes.== "tax_id" -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1EnumTaxId
@@ -343,8 +366,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'ListTPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'CustomerUpdate'AllowedUpdates'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.invoice_history@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory' = PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'InvoiceHistory'
@@ -524,8 +547,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'ListTPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'CancellationReason'Options'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_cancel.properties.mode@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionCancel'Mode'
@@ -686,8 +709,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'DefaultAllowedUpdates'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'DefaultAllowedUpdates'ListTPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'DefaultAllowedUpdates'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_update.properties.products.anyOf.items@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1 = PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1
@@ -741,8 +764,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'ListTPostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'Products'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.features.properties.subscription_update.properties.proration_behavior@ in the specification.
 data PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior'
@@ -775,6 +798,32 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
             | GHC.Base.otherwise -> PostBillingPortalConfigurationsConfigurationRequestBodyFeatures'SubscriptionUpdate'ProrationBehavior'Other val
       )
 
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.login_page@ in the specification.
+--
+-- The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https:\/\/stripe.com\/docs\/billing\/subscriptions\/integrating-customer-portal\#share).
+data PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage' = PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage'
+  { -- | enabled
+    postBillingPortalConfigurationsConfigurationRequestBodyLoginPage'Enabled :: GHC.Types.Bool
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyLoginPage'Enabled obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postBillingPortalConfigurationsConfigurationRequestBodyLoginPage'Enabled obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage'" (\obj -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled"))
+
+-- | Create a new 'PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage'' with all required fields.
+mkPostBillingPortalConfigurationsConfigurationRequestBodyLoginPage' ::
+  -- | 'postBillingPortalConfigurationsConfigurationRequestBodyLoginPage'Enabled'
+  GHC.Types.Bool ->
+  PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage'
+mkPostBillingPortalConfigurationsConfigurationRequestBodyLoginPage' postBillingPortalConfigurationsConfigurationRequestBodyLoginPage'Enabled = PostBillingPortalConfigurationsConfigurationRequestBodyLoginPage' {postBillingPortalConfigurationsConfigurationRequestBodyLoginPage'Enabled = postBillingPortalConfigurationsConfigurationRequestBodyLoginPage'Enabled}
+
 -- | Defines the oneOf schema located at @paths.\/v1\/billing_portal\/configurations\/{configuration}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
 -- Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -793,8 +842,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalConfigurationsConfi
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostBillingPortalConfigurationsConfigurationRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postBillingPortalConfigurationsConfiguration'.
 --

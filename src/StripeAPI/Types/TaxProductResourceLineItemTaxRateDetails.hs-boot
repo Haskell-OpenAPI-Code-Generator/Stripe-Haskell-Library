@@ -1,0 +1,14 @@
+module StripeAPI.Types.TaxProductResourceLineItemTaxRateDetails where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TaxProductResourceLineItemTaxRateDetails
+instance Show TaxProductResourceLineItemTaxRateDetails
+instance Eq TaxProductResourceLineItemTaxRateDetails
+instance FromJSON TaxProductResourceLineItemTaxRateDetails
+instance ToJSON TaxProductResourceLineItemTaxRateDetails
+data TaxProductResourceLineItemTaxRateDetailsTaxType'
+instance Show TaxProductResourceLineItemTaxRateDetailsTaxType'
+instance Eq TaxProductResourceLineItemTaxRateDetailsTaxType'
+instance FromJSON TaxProductResourceLineItemTaxRateDetailsTaxType'
+instance ToJSON TaxProductResourceLineItemTaxRateDetailsTaxType'
