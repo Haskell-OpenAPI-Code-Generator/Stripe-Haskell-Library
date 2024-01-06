@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,9 +46,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/setup_intents/{intent}/cancel
 --
--- \<p>A SetupIntent object can be canceled when it is in one of these statuses: \<code>requires_payment_method\<\/code>, \<code>requires_confirmation\<\/code>, or \<code>requires_action\<\/code>. \<\/p>
+-- \<p>You can cancel a SetupIntent object when it’s in one of these statuses: \<code>requires_payment_method\<\/code>, \<code>requires_confirmation\<\/code>, or \<code>requires_action\<\/code>. \<\/p>
 --
--- \<p>Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.\<\/p>
+-- \<p>After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error.\<\/p>
 postSetupIntentsIntentCancel ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -67,30 +68,30 @@ postSetupIntentsIntentCancel
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSetupIntentsIntentCancelResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              SetupIntent
-                                                        )
+                                       PostSetupIntentsIntentCancelResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                SetupIntent
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSetupIntentsIntentCancelResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostSetupIntentsIntentCancelResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/setup_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/cancel"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/setup_intents/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.<> "/cancel")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/setup_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSetupIntentsIntentCancelRequestBody = PostSetupIntentsIntentCancelRequestBody
-  { -- | cancellation_reason: Reason for canceling this SetupIntent. Possible values are \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`
+  { -- | cancellation_reason: Reason for canceling this SetupIntent. Possible values are: \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`
     --
     -- Constraints:
     --
@@ -121,7 +122,7 @@ mkPostSetupIntentsIntentCancelRequestBody =
 
 -- | Defines the enum schema located at @paths.\/v1\/setup_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.cancellation_reason@ in the specification.
 --
--- Reason for canceling this SetupIntent. Possible values are \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`
+-- Reason for canceling this SetupIntent. Possible values are: \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`
 data PostSetupIntentsIntentCancelRequestBodyCancellationReason'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostSetupIntentsIntentCancelRequestBodyCancellationReason'Other Data.Aeson.Types.Internal.Value

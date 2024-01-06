@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,10 +36,12 @@ import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.credit_note_line_item@ in the specification.
+--
+-- The credit note line item object
 data CreditNoteLineItem = CreditNoteLineItem
-  { -- | amount: The integer amount in %s representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
+  { -- | amount: The integer amount in cents (or local equivalent) representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
     creditNoteLineItemAmount :: GHC.Types.Int,
-    -- | amount_excluding_tax: The integer amount in %s representing the amount being credited for this line item, excluding all tax and discounts.
+    -- | amount_excluding_tax: The integer amount in cents (or local equivalent) representing the amount being credited for this line item, excluding all tax and discounts.
     creditNoteLineItemAmountExcludingTax :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | description: Description of the item being credited.
     --
@@ -47,7 +49,7 @@ data CreditNoteLineItem = CreditNoteLineItem
     --
     -- * Maximum length of 5000
     creditNoteLineItemDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | discount_amount: The integer amount in %s representing the discount being credited for this line item.
+    -- | discount_amount: The integer amount in cents (or local equivalent) representing the discount being credited for this line item.
     creditNoteLineItemDiscountAmount :: GHC.Types.Int,
     -- | discount_amounts: The amount of discount calculated per discount for this line item
     creditNoteLineItemDiscountAmounts :: ([DiscountsResourceDiscountAmount]),
@@ -77,7 +79,7 @@ data CreditNoteLineItem = CreditNoteLineItem
     creditNoteLineItemUnitAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | unit_amount_decimal: Same as \`unit_amount\`, but contains a decimal value with at most 12 decimal places.
     creditNoteLineItemUnitAmountDecimal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | unit_amount_excluding_tax: The amount in %s representing the unit amount being credited for this line item, excluding all tax and discounts.
+    -- | unit_amount_excluding_tax: The amount in cents (or local equivalent) representing the unit amount being credited for this line item, excluding all tax and discounts.
     creditNoteLineItemUnitAmountExcludingTax :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving

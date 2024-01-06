@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -99,6 +99,8 @@ data PaymentIntentNextActionDisplayBankTransferInstructionsType'
     PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumJpBankTransfer
   | -- | Represents the JSON value @"mx_bank_transfer"@
     PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumMxBankTransfer
+  | -- | Represents the JSON value @"us_bank_transfer"@
+    PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumUsBankTransfer
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionDisplayBankTransferInstructionsType' where
@@ -108,6 +110,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentNextActionDisplayBankTransf
   toJSON (PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumGbBankTransfer) = "gb_bank_transfer"
   toJSON (PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumJpBankTransfer) = "jp_bank_transfer"
   toJSON (PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumMxBankTransfer) = "mx_bank_transfer"
+  toJSON (PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumUsBankTransfer) = "us_bank_transfer"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionDisplayBankTransferInstructionsType' where
   parseJSON val =
@@ -117,5 +120,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionDisplayBankTr
             | val GHC.Classes.== "gb_bank_transfer" -> PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumGbBankTransfer
             | val GHC.Classes.== "jp_bank_transfer" -> PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumJpBankTransfer
             | val GHC.Classes.== "mx_bank_transfer" -> PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumMxBankTransfer
+            | val GHC.Classes.== "us_bank_transfer" -> PaymentIntentNextActionDisplayBankTransferInstructionsType'EnumUsBankTransfer
             | GHC.Base.otherwise -> PaymentIntentNextActionDisplayBankTransferInstructionsType'Other val
       )

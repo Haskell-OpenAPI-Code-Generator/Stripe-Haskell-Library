@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,9 +29,7 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
-import {-# SOURCE #-} StripeAPI.Types.DeletedAlipayAccount
 import {-# SOURCE #-} StripeAPI.Types.DeletedBankAccount
-import {-# SOURCE #-} StripeAPI.Types.DeletedBitcoinReceiver
 import {-# SOURCE #-} StripeAPI.Types.DeletedCard
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -110,19 +108,19 @@ data DeletedPaymentSourceObject'
     DeletedPaymentSourceObject'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     DeletedPaymentSourceObject'Typed Data.Text.Internal.Text
-  | -- | Represents the JSON value @"alipay_account"@
-    DeletedPaymentSourceObject'EnumAlipayAccount
+  | -- | Represents the JSON value @"bank_account"@
+    DeletedPaymentSourceObject'EnumBankAccount
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON DeletedPaymentSourceObject' where
   toJSON (DeletedPaymentSourceObject'Other val) = val
   toJSON (DeletedPaymentSourceObject'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (DeletedPaymentSourceObject'EnumAlipayAccount) = "alipay_account"
+  toJSON (DeletedPaymentSourceObject'EnumBankAccount) = "bank_account"
 
 instance Data.Aeson.Types.FromJSON.FromJSON DeletedPaymentSourceObject' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "alipay_account" -> DeletedPaymentSourceObject'EnumAlipayAccount
+            | val GHC.Classes.== "bank_account" -> DeletedPaymentSourceObject'EnumBankAccount
             | GHC.Base.otherwise -> DeletedPaymentSourceObject'Other val
       )

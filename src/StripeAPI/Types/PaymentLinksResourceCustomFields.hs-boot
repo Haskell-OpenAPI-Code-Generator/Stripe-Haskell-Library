@@ -1,0 +1,14 @@
+module StripeAPI.Types.PaymentLinksResourceCustomFields where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentLinksResourceCustomFields
+instance Show PaymentLinksResourceCustomFields
+instance Eq PaymentLinksResourceCustomFields
+instance FromJSON PaymentLinksResourceCustomFields
+instance ToJSON PaymentLinksResourceCustomFields
+data PaymentLinksResourceCustomFieldsType'
+instance Show PaymentLinksResourceCustomFieldsType'
+instance Eq PaymentLinksResourceCustomFieldsType'
+instance FromJSON PaymentLinksResourceCustomFieldsType'
+instance ToJSON PaymentLinksResourceCustomFieldsType'

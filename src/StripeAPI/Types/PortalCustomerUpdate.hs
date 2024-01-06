@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -74,6 +74,8 @@ data PortalCustomerUpdateAllowedUpdates'
     PortalCustomerUpdateAllowedUpdates'EnumAddress
   | -- | Represents the JSON value @"email"@
     PortalCustomerUpdateAllowedUpdates'EnumEmail
+  | -- | Represents the JSON value @"name"@
+    PortalCustomerUpdateAllowedUpdates'EnumName
   | -- | Represents the JSON value @"phone"@
     PortalCustomerUpdateAllowedUpdates'EnumPhone
   | -- | Represents the JSON value @"shipping"@
@@ -87,6 +89,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PortalCustomerUpdateAllowedUpdates' wher
   toJSON (PortalCustomerUpdateAllowedUpdates'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PortalCustomerUpdateAllowedUpdates'EnumAddress) = "address"
   toJSON (PortalCustomerUpdateAllowedUpdates'EnumEmail) = "email"
+  toJSON (PortalCustomerUpdateAllowedUpdates'EnumName) = "name"
   toJSON (PortalCustomerUpdateAllowedUpdates'EnumPhone) = "phone"
   toJSON (PortalCustomerUpdateAllowedUpdates'EnumShipping) = "shipping"
   toJSON (PortalCustomerUpdateAllowedUpdates'EnumTaxId) = "tax_id"
@@ -97,6 +100,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PortalCustomerUpdateAllowedUpdates' 
       ( if
             | val GHC.Classes.== "address" -> PortalCustomerUpdateAllowedUpdates'EnumAddress
             | val GHC.Classes.== "email" -> PortalCustomerUpdateAllowedUpdates'EnumEmail
+            | val GHC.Classes.== "name" -> PortalCustomerUpdateAllowedUpdates'EnumName
             | val GHC.Classes.== "phone" -> PortalCustomerUpdateAllowedUpdates'EnumPhone
             | val GHC.Classes.== "shipping" -> PortalCustomerUpdateAllowedUpdates'EnumShipping
             | val GHC.Classes.== "tax_id" -> PortalCustomerUpdateAllowedUpdates'EnumTaxId

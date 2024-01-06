@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -41,7 +41,7 @@ import qualified Prelude as GHC.Maybe
 -- A discount represents the actual application of a [coupon](https:\/\/stripe.com\/docs\/api\#coupons) or [promotion code](https:\/\/stripe.com\/docs\/api\#promotion_codes).
 -- It contains information about when the discount began, when it will end, and what it is applied to.
 --
--- Related guide: [Applying Discounts to Subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/discounts).
+-- Related guide: [Applying discounts to subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/discounts)
 data Discount = Discount
   { -- | checkout_session: The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode.
     --

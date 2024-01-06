@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -50,7 +51,7 @@ postCheckoutSessions ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
-  PostCheckoutSessionsRequestBody ->
+  GHC.Maybe.Maybe PostCheckoutSessionsRequestBody ->
   -- | Monadic computation which returns the result of the operation
   StripeAPI.Common.ClientT m (Network.HTTP.Client.Types.Response PostCheckoutSessionsResponse)
 postCheckoutSessions body =
@@ -61,26 +62,26 @@ postCheckoutSessions body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostCheckoutSessionsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Checkout'session
-                                                      )
+                                     PostCheckoutSessionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Checkout'session
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostCheckoutSessionsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostCheckoutSessionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/checkout/sessions" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody
@@ -92,12 +93,12 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody
     postCheckoutSessionsRequestBodyAutomaticTax :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyAutomaticTax'),
     -- | billing_address_collection: Specify whether Checkout should collect the customer\'s billing address.
     postCheckoutSessionsRequestBodyBillingAddressCollection :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyBillingAddressCollection'),
-    -- | cancel_url: The URL the customer will be directed to if they decide to cancel payment and return to your website.
+    -- | cancel_url: If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCheckoutSessionsRequestBodyCancelUrl :: Data.Text.Internal.Text,
+    postCheckoutSessionsRequestBodyCancelUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | client_reference_id: A unique string to reference the Checkout Session. This can be a
     -- customer ID, a cart ID, or similar, and can be used to reconcile the
     -- session with your internal systems.
@@ -108,15 +109,21 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody
     postCheckoutSessionsRequestBodyClientReferenceId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | consent_collection: Configure fields for the Checkout Session to gather active consent from customers.
     postCheckoutSessionsRequestBodyConsentCollection :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyConsentCollection'),
-    -- | customer: ID of an existing Customer, if one exists. In \`payment\` mode, the customer’s most recent card
+    -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies). Required in \`setup\` mode when \`payment_method_types\` is not set.
+    postCheckoutSessionsRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | custom_fields: Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+    postCheckoutSessionsRequestBodyCustomFields :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyCustomFields'])),
+    -- | custom_text: Display additional text for your customers using custom text.
+    postCheckoutSessionsRequestBodyCustomText :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomText'),
+    -- | customer: ID of an existing Customer, if one exists. In \`payment\` mode, the customer’s most recently saved card
     -- payment method will be used to prefill the email, name, card details, and billing address
     -- on the Checkout page. In \`subscription\` mode, the customer’s [default payment method](https:\/\/stripe.com\/docs\/api\/customers\/update\#update_customer-invoice_settings-default_payment_method)
-    -- will be used if it’s a card, and otherwise the most recent card will be used. A valid billing address, billing name and billing email are required on the payment method for Checkout to prefill the customer\'s card details.
+    -- will be used if it’s a card, otherwise the most recently saved card will be used. A valid billing address, billing name and billing email are required on the payment method for Checkout to prefill the customer\'s card details.
     --
     -- If the Customer already has a valid [email](https:\/\/stripe.com\/docs\/api\/customers\/object\#customer_object-email) set, the email will be prefilled and not editable in Checkout.
     -- If the Customer does not have a valid \`email\`, Checkout will set the email entered during the session on the Customer.
     --
-    -- If blank for Checkout Sessions in \`payment\` or \`subscription\` mode, Checkout will create a new Customer object based on information provided during the payment flow.
+    -- If blank for Checkout Sessions in \`subscription\` mode or with \`customer_creation\` set as \`always\` in \`payment\` mode, Checkout will create a new Customer object based on information provided during the payment flow.
     --
     -- You can set [\`payment_intent_data.setup_future_usage\`](https:\/\/stripe.com\/docs\/api\/checkout\/sessions\/create\#create_checkout_session-payment_intent_data-setup_future_usage) to have Checkout automatically attach the payment method to the Customer you pass in for future reuse.
     --
@@ -129,7 +136,7 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody
     -- When a Customer is not created, you can still retrieve email, address, and other customer data entered in Checkout
     -- with [customer_details](https:\/\/stripe.com\/docs\/api\/checkout\/sessions\/object\#checkout_session_object-customer_details).
     --
-    -- Sessions that don\'t create Customers instead create [Guest Customers](https:\/\/support.stripe.com\/questions\/guest-customer-faq)
+    -- Sessions that don\'t create Customers instead are grouped by [guest customers](https:\/\/stripe.com\/docs\/payments\/checkout\/guest-customers)
     -- in the Dashboard. Promotion codes limited to first time customers will return invalid for these Sessions.
     --
     -- Can only be set in \`payment\` and \`setup\` mode.
@@ -146,27 +153,43 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody
     postCheckoutSessionsRequestBodyDiscounts :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyDiscounts'])),
     -- | expand: Specifies which fields in the response should be expanded.
     postCheckoutSessionsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | expires_at: The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 1 to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
+    -- | expires_at: The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
     postCheckoutSessionsRequestBodyExpiresAt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | invoice_creation: Generate a post-purchase Invoice for one-time payments.
+    postCheckoutSessionsRequestBodyInvoiceCreation :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyInvoiceCreation'),
     -- | line_items: A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https:\/\/stripe.com\/docs\/api\/prices).
     --
     -- For \`payment\` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
     --
-    -- For \`subscription\` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices in will be on the initial invoice only.
+    -- For \`subscription\` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
     postCheckoutSessionsRequestBodyLineItems :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyLineItems'])),
     -- | locale: The IETF language tag of the locale Checkout is displayed in. If blank or \`auto\`, the browser\'s locale is used.
     postCheckoutSessionsRequestBodyLocale :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyLocale'),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postCheckoutSessionsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-    -- | mode: The mode of the Checkout Session. Required when using prices or \`setup\` mode. Pass \`subscription\` if the Checkout Session includes at least one recurring item.
+    -- | mode: The mode of the Checkout Session. Pass \`subscription\` if the Checkout Session includes at least one recurring item.
     postCheckoutSessionsRequestBodyMode :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyMode'),
     -- | payment_intent_data: A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in \`payment\` mode.
     postCheckoutSessionsRequestBodyPaymentIntentData :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentIntentData'),
+    -- | payment_method_collection: Specify whether Checkout should collect a payment method. When set to \`if_required\`, Checkout will not collect a payment method when the total due for the session is 0.
+    -- This may occur if the Checkout Session includes a free trial or a discount.
+    --
+    -- Can only be set in \`subscription\` mode.
+    --
+    -- If you\'d like information on how to collect a payment method outside of Checkout, read the guide on configuring [subscriptions with a free trial](https:\/\/stripe.com\/docs\/payments\/checkout\/free-trials).
+    postCheckoutSessionsRequestBodyPaymentMethodCollection :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodCollection'),
+    -- | payment_method_configuration: The ID of the payment method configuration to use with this Checkout session.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 100
+    postCheckoutSessionsRequestBodyPaymentMethodConfiguration :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | payment_method_options: Payment-method-specific configuration.
     postCheckoutSessionsRequestBodyPaymentMethodOptions :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'),
     -- | payment_method_types: A list of the types of payment methods (e.g., \`card\`) this Checkout Session can accept.
     --
-    -- Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https:\/\/dashboard.stripe.com\/settings\/payment_methods).
+    -- You can omit this attribute to manage your payment methods from the [Stripe Dashboard](https:\/\/dashboard.stripe.com\/settings\/payment_methods).
+    -- See [Dynamic Payment Methods](https:\/\/stripe.com\/docs\/payments\/payment-methods\/integration-options\#using-dynamic-payment-methods) for more details.
     --
     -- Read more about the supported payment methods and their requirements in our [payment
     -- method details guide](\/docs\/payments\/checkout\/payment-methods).
@@ -180,30 +203,43 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody
     -- We recommend that you review your privacy policy and check with your legal contacts
     -- before using this feature. Learn more about [collecting phone numbers with Checkout](https:\/\/stripe.com\/docs\/payments\/checkout\/phone-numbers).
     postCheckoutSessionsRequestBodyPhoneNumberCollection :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPhoneNumberCollection'),
+    -- | redirect_on_completion: This parameter applies to \`ui_mode: embedded\`. By default, Stripe will always redirect to your return_url after a successful confirmation. If you set \`redirect_on_completion: \'if_required\'\`, then we will only redirect if your user chooses a redirect-based payment method.
+    postCheckoutSessionsRequestBodyRedirectOnCompletion :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyRedirectOnCompletion'),
+    -- | return_url: The URL to redirect your customer back to after they authenticate or cancel their payment on the
+    -- payment method\'s app or site. This parameter is required if ui_mode is \`embedded\`
+    -- and redirect-based payment methods are enabled on the session.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postCheckoutSessionsRequestBodyReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | setup_intent_data: A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in \`setup\` mode.
     postCheckoutSessionsRequestBodySetupIntentData :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySetupIntentData'),
     -- | shipping_address_collection: When set, provides configuration for Checkout to collect a shipping address from a customer.
     postCheckoutSessionsRequestBodyShippingAddressCollection :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyShippingAddressCollection'),
-    -- | shipping_options: The shipping rate options to apply to this Session.
+    -- | shipping_options: The shipping rate options to apply to this Session. Up to a maximum of 5.
     postCheckoutSessionsRequestBodyShippingOptions :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyShippingOptions'])),
     -- | submit_type: Describes the type of transaction being performed by Checkout in order to customize
     -- relevant text on the page, such as the submit button. \`submit_type\` can only be
     -- specified on Checkout Sessions in \`payment\` mode, but not Checkout Sessions
-    -- in \`subscription\` or \`setup\` mode.
+    -- in \`subscription\` or \`setup\` mode. Possible values are \`auto\`, \`pay\`, \`book\`, \`donate\`. If blank or \`auto\`, \`pay\` is used.
     postCheckoutSessionsRequestBodySubmitType :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySubmitType'),
     -- | subscription_data: A subset of parameters to be passed to subscription creation for Checkout Sessions in \`subscription\` mode.
     postCheckoutSessionsRequestBodySubscriptionData :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySubscriptionData'),
     -- | success_url: The URL to which Stripe should send customers when payment or setup
     -- is complete.
-    -- If you’d like to use information from the successful Checkout Session on your page,
-    -- read the guide on [customizing your success page](https:\/\/stripe.com\/docs\/payments\/checkout\/custom-success-page).
+    -- This parameter is not allowed if ui_mode is \`embedded\`. If you’d like to use
+    -- information from the successful Checkout Session on your page, read the
+    -- guide on [customizing your success page](https:\/\/stripe.com\/docs\/payments\/checkout\/custom-success-page).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postCheckoutSessionsRequestBodySuccessUrl :: Data.Text.Internal.Text,
+    postCheckoutSessionsRequestBodySuccessUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | tax_id_collection: Controls tax ID collection settings for the session.
-    postCheckoutSessionsRequestBodyTaxIdCollection :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyTaxIdCollection')
+    postCheckoutSessionsRequestBodyTaxIdCollection :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyTaxIdCollection'),
+    -- | ui_mode: \`ui_mode\` can be \`hosted\` or \`embedded\`. The default is \`hosted\`.
+    postCheckoutSessionsRequestBodyUiMode :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyUiMode')
   }
   deriving
     ( GHC.Show.Show,
@@ -211,28 +247,26 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_expiration" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAfterExpiration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyBillingAddressCollection obj) : ["cancel_url" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCancelUrl obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_reference_id" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyClientReferenceId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_email" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_update" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLineItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mode" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySetupIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData obj) : ["success_url" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySuccessUrl obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyTaxIdCollection obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_expiration" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAfterExpiration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyBillingAddressCollection obj) : ["cancel_url" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCancelUrl obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_reference_id" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyClientReferenceId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_email" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_update" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLineItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mode" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySetupIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData obj) : ["success_url" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySuccessUrl obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyTaxIdCollection obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_expiration" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAfterExpiration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyBillingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancel_url" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCancelUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_reference_id" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyClientReferenceId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_text" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_email" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_update" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_creation" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLineItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mode" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_configuration" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodConfiguration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_on_completion" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyRedirectOnCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySetupIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("success_url" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySuccessUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyTaxIdCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ui_mode" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyUiMode obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_expiration" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAfterExpiration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("allow_promotion_codes" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAllowPromotionCodes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyAutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyBillingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cancel_url" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCancelUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("client_reference_id" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyClientReferenceId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_text" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_creation" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_email" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_update" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomerUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyExpiresAt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_creation" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLineItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mode" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyMode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_configuration" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodConfiguration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodTypes obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPhoneNumberCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect_on_completion" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyRedirectOnCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyReturnUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_intent_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySetupIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingAddressCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit_type" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubmitType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("success_url" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySuccessUrl obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_collection" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyTaxIdCollection obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ui_mode" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyUiMode obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBody" (\obj -> ((((((((((((((((((((((((((((GHC.Base.pure PostCheckoutSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_expiration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allow_promotion_codes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cancel_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "client_reference_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "consent_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone_number_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "success_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_collection"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBody" (\obj -> (((((((((((((((((((((((((((((((((((((GHC.Base.pure PostCheckoutSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_expiration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "allow_promotion_codes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cancel_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "client_reference_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "consent_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_text")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_configuration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone_number_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect_on_completion")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "success_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ui_mode"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBody' with all required fields.
-mkPostCheckoutSessionsRequestBody ::
-  -- | 'postCheckoutSessionsRequestBodyCancelUrl'
-  Data.Text.Internal.Text ->
-  -- | 'postCheckoutSessionsRequestBodySuccessUrl'
-  Data.Text.Internal.Text ->
-  PostCheckoutSessionsRequestBody
-mkPostCheckoutSessionsRequestBody postCheckoutSessionsRequestBodyCancelUrl postCheckoutSessionsRequestBodySuccessUrl =
+mkPostCheckoutSessionsRequestBody :: PostCheckoutSessionsRequestBody
+mkPostCheckoutSessionsRequestBody =
   PostCheckoutSessionsRequestBody
     { postCheckoutSessionsRequestBodyAfterExpiration = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyAllowPromotionCodes = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyAutomaticTax = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyBillingAddressCollection = GHC.Maybe.Nothing,
-      postCheckoutSessionsRequestBodyCancelUrl = postCheckoutSessionsRequestBodyCancelUrl,
+      postCheckoutSessionsRequestBodyCancelUrl = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyClientReferenceId = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyConsentCollection = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCurrency = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomFields = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomText = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyCustomer = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyCustomerCreation = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyCustomerEmail = GHC.Maybe.Nothing,
@@ -240,21 +274,27 @@ mkPostCheckoutSessionsRequestBody postCheckoutSessionsRequestBodyCancelUrl postC
       postCheckoutSessionsRequestBodyDiscounts = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyExpand = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyExpiresAt = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyInvoiceCreation = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyLineItems = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyLocale = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyMetadata = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyMode = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentIntentData = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodCollection = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodConfiguration = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodTypes = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPhoneNumberCollection = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyRedirectOnCompletion = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyReturnUrl = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySetupIntentData = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyShippingAddressCollection = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyShippingOptions = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySubmitType = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySubscriptionData = GHC.Maybe.Nothing,
-      postCheckoutSessionsRequestBodySuccessUrl = postCheckoutSessionsRequestBodySuccessUrl,
-      postCheckoutSessionsRequestBodyTaxIdCollection = GHC.Maybe.Nothing
+      postCheckoutSessionsRequestBodySuccessUrl = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyTaxIdCollection = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyUiMode = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.after_expiration@ in the specification.
@@ -369,8 +409,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyBilli
 --
 -- Configure fields for the Checkout Session to gather active consent from customers.
 data PostCheckoutSessionsRequestBodyConsentCollection' = PostCheckoutSessionsRequestBodyConsentCollection'
-  { -- | promotions
-    postCheckoutSessionsRequestBodyConsentCollection'Promotions :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyConsentCollection'Promotions')
+  { -- | payment_method_reuse_agreement
+    postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'),
+    -- | promotions
+    postCheckoutSessionsRequestBodyConsentCollection'Promotions :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyConsentCollection'Promotions'),
+    -- | terms_of_service
+    postCheckoutSessionsRequestBodyConsentCollection'TermsOfService :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService')
   }
   deriving
     ( GHC.Show.Show,
@@ -378,15 +422,71 @@ data PostCheckoutSessionsRequestBodyConsentCollection' = PostCheckoutSessionsReq
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyConsentCollection' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'Promotions obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'Promotions obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'Promotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'TermsOfService obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'Promotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyConsentCollection'TermsOfService obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyConsentCollection' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyConsentCollection'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyConsentCollection' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyConsentCollection'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodyConsentCollection' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_reuse_agreement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBodyConsentCollection'' with all required fields.
 mkPostCheckoutSessionsRequestBodyConsentCollection' :: PostCheckoutSessionsRequestBodyConsentCollection'
-mkPostCheckoutSessionsRequestBodyConsentCollection' = PostCheckoutSessionsRequestBodyConsentCollection' {postCheckoutSessionsRequestBodyConsentCollection'Promotions = GHC.Maybe.Nothing}
+mkPostCheckoutSessionsRequestBodyConsentCollection' =
+  PostCheckoutSessionsRequestBodyConsentCollection'
+    { postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyConsentCollection'Promotions = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyConsentCollection'TermsOfService = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.payment_method_reuse_agreement@ in the specification.
+data PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement' = PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'
+  { -- | position
+    postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position :: PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["position" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["position" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "position"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'' with all required fields.
+mkPostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement' ::
+  -- | 'postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'
+  PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position' ->
+  PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'
+mkPostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement' postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position = PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement' {postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position = postCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.payment_method_reuse_agreement.properties.position@ in the specification.
+data PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"auto"@
+    PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumAuto
+  | -- | Represents the JSON value @"hidden"@
+    PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumHidden
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position' where
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumAuto) = "auto"
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumHidden) = "hidden"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "auto" -> PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumAuto
+            | val GHC.Classes.== "hidden" -> PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'EnumHidden
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyConsentCollection'PaymentMethodReuseAgreement'Position'Other val
+      )
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.promotions@ in the specification.
 data PostCheckoutSessionsRequestBodyConsentCollection'Promotions'
@@ -396,20 +496,504 @@ data PostCheckoutSessionsRequestBodyConsentCollection'Promotions'
     PostCheckoutSessionsRequestBodyConsentCollection'Promotions'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"auto"@
     PostCheckoutSessionsRequestBodyConsentCollection'Promotions'EnumAuto
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodyConsentCollection'Promotions'EnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyConsentCollection'Promotions' where
   toJSON (PostCheckoutSessionsRequestBodyConsentCollection'Promotions'Other val) = val
   toJSON (PostCheckoutSessionsRequestBodyConsentCollection'Promotions'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostCheckoutSessionsRequestBodyConsentCollection'Promotions'EnumAuto) = "auto"
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'Promotions'EnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyConsentCollection'Promotions' where
   parseJSON val =
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "auto" -> PostCheckoutSessionsRequestBodyConsentCollection'Promotions'EnumAuto
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyConsentCollection'Promotions'EnumNone
             | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyConsentCollection'Promotions'Other val
       )
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.consent_collection.properties.terms_of_service@ in the specification.
+data PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'EnumNone
+  | -- | Represents the JSON value @"required"@
+    PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'EnumRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService' where
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'EnumNone) = "none"
+  toJSON (PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'EnumRequired) = "required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'EnumNone
+            | val GHC.Classes.== "required" -> PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'EnumRequired
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyConsentCollection'TermsOfService'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomFields' = PostCheckoutSessionsRequestBodyCustomFields'
+  { -- | dropdown
+    postCheckoutSessionsRequestBodyCustomFields'Dropdown :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomFields'Dropdown'),
+    -- | key
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 200
+    postCheckoutSessionsRequestBodyCustomFields'Key :: Data.Text.Internal.Text,
+    -- | label
+    postCheckoutSessionsRequestBodyCustomFields'Label :: PostCheckoutSessionsRequestBodyCustomFields'Label',
+    -- | numeric
+    postCheckoutSessionsRequestBodyCustomFields'Numeric :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomFields'Numeric'),
+    -- | optional
+    postCheckoutSessionsRequestBodyCustomFields'Optional :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | text
+    postCheckoutSessionsRequestBodyCustomFields'Text :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomFields'Text'),
+    -- | type
+    postCheckoutSessionsRequestBodyCustomFields'Type :: PostCheckoutSessionsRequestBodyCustomFields'Type'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomFields' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dropdown" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Dropdown obj) : ["key" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Key obj] : ["label" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Label obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("numeric" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Numeric obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("optional" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Optional obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("text" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Text obj) : ["type" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Type obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dropdown" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Dropdown obj) : ["key" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Key obj] : ["label" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Label obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("numeric" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Numeric obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("optional" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Optional obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("text" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Text obj) : ["type" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Type obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomFields' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomFields'" (\obj -> ((((((GHC.Base.pure PostCheckoutSessionsRequestBodyCustomFields' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dropdown")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "key")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "numeric")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "optional")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "text")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomFields'' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomFields' ::
+  -- | 'postCheckoutSessionsRequestBodyCustomFields'Key'
+  Data.Text.Internal.Text ->
+  -- | 'postCheckoutSessionsRequestBodyCustomFields'Label'
+  PostCheckoutSessionsRequestBodyCustomFields'Label' ->
+  -- | 'postCheckoutSessionsRequestBodyCustomFields'Type'
+  PostCheckoutSessionsRequestBodyCustomFields'Type' ->
+  PostCheckoutSessionsRequestBodyCustomFields'
+mkPostCheckoutSessionsRequestBodyCustomFields' postCheckoutSessionsRequestBodyCustomFields'Key postCheckoutSessionsRequestBodyCustomFields'Label postCheckoutSessionsRequestBodyCustomFields'Type =
+  PostCheckoutSessionsRequestBodyCustomFields'
+    { postCheckoutSessionsRequestBodyCustomFields'Dropdown = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomFields'Key = postCheckoutSessionsRequestBodyCustomFields'Key,
+      postCheckoutSessionsRequestBodyCustomFields'Label = postCheckoutSessionsRequestBodyCustomFields'Label,
+      postCheckoutSessionsRequestBodyCustomFields'Numeric = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomFields'Optional = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomFields'Text = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomFields'Type = postCheckoutSessionsRequestBodyCustomFields'Type
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.dropdown@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomFields'Dropdown' = PostCheckoutSessionsRequestBodyCustomFields'Dropdown'
+  { -- | options
+    postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options :: ([PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'])
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomFields'Dropdown' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["options" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["options" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomFields'Dropdown' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomFields'Dropdown'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomFields'Dropdown' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "options"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomFields'Dropdown'' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomFields'Dropdown' ::
+  -- | 'postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'
+  [PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'] ->
+  PostCheckoutSessionsRequestBodyCustomFields'Dropdown'
+mkPostCheckoutSessionsRequestBodyCustomFields'Dropdown' postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options = PostCheckoutSessionsRequestBodyCustomFields'Dropdown' {postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options = postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options}
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.dropdown.properties.options.items@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options' = PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'
+  { -- | label
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 100
+    postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Label :: Data.Text.Internal.Text,
+    -- | value
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 100
+    postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Value :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["label" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Label obj] : ["value" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Value obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["label" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Label obj] : ["value" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Value obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options' ::
+  -- | 'postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Label'
+  Data.Text.Internal.Text ->
+  -- | 'postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Value'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'
+mkPostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options' postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Label postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Value =
+  PostCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'
+    { postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Label = postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Label,
+      postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Value = postCheckoutSessionsRequestBodyCustomFields'Dropdown'Options'Value
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.label@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomFields'Label' = PostCheckoutSessionsRequestBodyCustomFields'Label'
+  { -- | custom
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 50
+    postCheckoutSessionsRequestBodyCustomFields'Label'Custom :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomFields'Label' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["custom" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Label'Custom obj] : ["type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "custom"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["custom" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomFields'Label'Custom obj] : ["type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "custom"] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomFields'Label' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomFields'Label'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomFields'Label' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "custom"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomFields'Label'' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomFields'Label' ::
+  -- | 'postCheckoutSessionsRequestBodyCustomFields'Label'Custom'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyCustomFields'Label'
+mkPostCheckoutSessionsRequestBodyCustomFields'Label' postCheckoutSessionsRequestBodyCustomFields'Label'Custom = PostCheckoutSessionsRequestBodyCustomFields'Label' {postCheckoutSessionsRequestBodyCustomFields'Label'Custom = postCheckoutSessionsRequestBodyCustomFields'Label'Custom}
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.numeric@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomFields'Numeric' = PostCheckoutSessionsRequestBodyCustomFields'Numeric'
+  { -- | maximum_length
+    postCheckoutSessionsRequestBodyCustomFields'Numeric'MaximumLength :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | minimum_length
+    postCheckoutSessionsRequestBodyCustomFields'Numeric'MinimumLength :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomFields'Numeric' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Numeric'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Numeric'MinimumLength obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Numeric'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Numeric'MinimumLength obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomFields'Numeric' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomFields'Numeric'" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyCustomFields'Numeric' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maximum_length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_length"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomFields'Numeric'' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomFields'Numeric' :: PostCheckoutSessionsRequestBodyCustomFields'Numeric'
+mkPostCheckoutSessionsRequestBodyCustomFields'Numeric' =
+  PostCheckoutSessionsRequestBodyCustomFields'Numeric'
+    { postCheckoutSessionsRequestBodyCustomFields'Numeric'MaximumLength = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomFields'Numeric'MinimumLength = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.text@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomFields'Text' = PostCheckoutSessionsRequestBodyCustomFields'Text'
+  { -- | maximum_length
+    postCheckoutSessionsRequestBodyCustomFields'Text'MaximumLength :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | minimum_length
+    postCheckoutSessionsRequestBodyCustomFields'Text'MinimumLength :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomFields'Text' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Text'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Text'MinimumLength obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("maximum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Text'MaximumLength obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_length" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomFields'Text'MinimumLength obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomFields'Text' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomFields'Text'" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyCustomFields'Text' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "maximum_length")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_length"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomFields'Text'' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomFields'Text' :: PostCheckoutSessionsRequestBodyCustomFields'Text'
+mkPostCheckoutSessionsRequestBodyCustomFields'Text' =
+  PostCheckoutSessionsRequestBodyCustomFields'Text'
+    { postCheckoutSessionsRequestBodyCustomFields'Text'MaximumLength = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomFields'Text'MinimumLength = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_fields.items.properties.type@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomFields'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyCustomFields'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyCustomFields'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"dropdown"@
+    PostCheckoutSessionsRequestBodyCustomFields'Type'EnumDropdown
+  | -- | Represents the JSON value @"numeric"@
+    PostCheckoutSessionsRequestBodyCustomFields'Type'EnumNumeric
+  | -- | Represents the JSON value @"text"@
+    PostCheckoutSessionsRequestBodyCustomFields'Type'EnumText
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomFields'Type' where
+  toJSON (PostCheckoutSessionsRequestBodyCustomFields'Type'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyCustomFields'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyCustomFields'Type'EnumDropdown) = "dropdown"
+  toJSON (PostCheckoutSessionsRequestBodyCustomFields'Type'EnumNumeric) = "numeric"
+  toJSON (PostCheckoutSessionsRequestBodyCustomFields'Type'EnumText) = "text"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomFields'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "dropdown" -> PostCheckoutSessionsRequestBodyCustomFields'Type'EnumDropdown
+            | val GHC.Classes.== "numeric" -> PostCheckoutSessionsRequestBodyCustomFields'Type'EnumNumeric
+            | val GHC.Classes.== "text" -> PostCheckoutSessionsRequestBodyCustomFields'Type'EnumText
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyCustomFields'Type'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text@ in the specification.
+--
+-- Display additional text for your customers using custom text.
+data PostCheckoutSessionsRequestBodyCustomText' = PostCheckoutSessionsRequestBodyCustomText'
+  { -- | after_submit
+    postCheckoutSessionsRequestBodyCustomText'AfterSubmit :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'Variants),
+    -- | shipping_address
+    postCheckoutSessionsRequestBodyCustomText'ShippingAddress :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'Variants),
+    -- | submit
+    postCheckoutSessionsRequestBodyCustomText'Submit :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomText'Submit'Variants),
+    -- | terms_of_service_acceptance
+    postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_submit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'AfterSubmit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'ShippingAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'Submit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_acceptance" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_submit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'AfterSubmit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'ShippingAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("submit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'Submit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service_acceptance" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomText'" (\obj -> (((GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_submit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "submit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service_acceptance"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomText'' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomText' :: PostCheckoutSessionsRequestBodyCustomText'
+mkPostCheckoutSessionsRequestBodyCustomText' =
+  PostCheckoutSessionsRequestBodyCustomText'
+    { postCheckoutSessionsRequestBodyCustomText'AfterSubmit = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomText'ShippingAddress = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomText'Submit = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.after_submit.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 = PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 ::
+  -- | 'postCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1
+mkPostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 postCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1Message = PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 {postCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1Message = postCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.after_submit.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'Variants
+  = -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'EmptyString
+  | PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'Variants where
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'EmptyString
+        | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'PostCheckoutSessionsRequestBodyCustomText'AfterSubmit'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.shipping_address.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 = PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 ::
+  -- | 'postCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1
+mkPostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 postCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1Message = PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 {postCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1Message = postCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.shipping_address.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'Variants
+  = -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'EmptyString
+  | PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'Variants where
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'EmptyString
+        | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'PostCheckoutSessionsRequestBodyCustomText'ShippingAddress'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.submit.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 = PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postCheckoutSessionsRequestBodyCustomText'Submit'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'Submit'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'Submit'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 ::
+  -- | 'postCheckoutSessionsRequestBodyCustomText'Submit'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1
+mkPostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 postCheckoutSessionsRequestBodyCustomText'Submit'OneOf1Message = PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 {postCheckoutSessionsRequestBodyCustomText'Submit'OneOf1Message = postCheckoutSessionsRequestBodyCustomText'Submit'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.submit.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'Submit'Variants
+  = -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyCustomText'Submit'EmptyString
+  | PostCheckoutSessionsRequestBodyCustomText'Submit'PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'Submit'Variants where
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'Submit'PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'Submit'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'Submit'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'Submit'EmptyString
+        | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyCustomText'Submit'PostCheckoutSessionsRequestBodyCustomText'Submit'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.terms_of_service_acceptance.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 = PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1
+  { -- | message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1200
+    postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["message" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "message"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1' with all required fields.
+mkPostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 ::
+  -- | 'postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1
+mkPostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message = PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 {postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message = postCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1Message}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.custom_text.properties.terms_of_service_acceptance.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'Variants
+  = -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'EmptyString
+  | PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'Variants where
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'EmptyString
+        | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'PostCheckoutSessionsRequestBodyCustomText'TermsOfServiceAcceptance'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.customer_creation@ in the specification.
 --
@@ -418,7 +1002,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyConse
 -- When a Customer is not created, you can still retrieve email, address, and other customer data entered in Checkout
 -- with [customer_details](https:\/\/stripe.com\/docs\/api\/checkout\/sessions\/object\#checkout_session_object-customer_details).
 --
--- Sessions that don\'t create Customers instead create [Guest Customers](https:\/\/support.stripe.com\/questions\/guest-customer-faq)
+-- Sessions that don\'t create Customers instead are grouped by [guest customers](https:\/\/stripe.com\/docs\/payments\/checkout\/guest-customers)
 -- in the Dashboard. Promotion codes limited to first time customers will return invalid for these Sessions.
 --
 -- Can only be set in \`payment\` and \`setup\` mode.
@@ -595,6 +1179,234 @@ mkPostCheckoutSessionsRequestBodyDiscounts' =
     { postCheckoutSessionsRequestBodyDiscounts'Coupon = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyDiscounts'PromotionCode = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation@ in the specification.
+--
+-- Generate a post-purchase Invoice for one-time payments.
+data PostCheckoutSessionsRequestBodyInvoiceCreation' = PostCheckoutSessionsRequestBodyInvoiceCreation'
+  { -- | enabled
+    postCheckoutSessionsRequestBodyInvoiceCreation'Enabled :: GHC.Types.Bool,
+    -- | invoice_data
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyInvoiceCreation'Enabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["enabled" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyInvoiceCreation'Enabled obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyInvoiceCreation'" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyInvoiceCreation' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_data"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyInvoiceCreation'' with all required fields.
+mkPostCheckoutSessionsRequestBodyInvoiceCreation' ::
+  -- | 'postCheckoutSessionsRequestBodyInvoiceCreation'Enabled'
+  GHC.Types.Bool ->
+  PostCheckoutSessionsRequestBodyInvoiceCreation'
+mkPostCheckoutSessionsRequestBodyInvoiceCreation' postCheckoutSessionsRequestBodyInvoiceCreation'Enabled =
+  PostCheckoutSessionsRequestBodyInvoiceCreation'
+    { postCheckoutSessionsRequestBodyInvoiceCreation'Enabled = postCheckoutSessionsRequestBodyInvoiceCreation'Enabled,
+      postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data@ in the specification.
+data PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData' = PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'
+  { -- | account_tax_ids
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants),
+    -- | custom_fields
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants),
+    -- | description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 1500
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | footer
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Footer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | metadata
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | rendering_options
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_tax_ids" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("footer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Footer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rendering_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_tax_ids" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("footer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Footer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rendering_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'" (\obj -> (((((GHC.Base.pure PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_tax_ids")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "footer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rendering_options"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'' with all required fields.
+mkPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData' :: PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'
+mkPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData' =
+  PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'
+    { postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Description = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Footer = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'Metadata = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.account_tax_ids.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants
+  = -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'EmptyString
+  | PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants where
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'EmptyString
+        | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'AccountTaxIds'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.custom_fields.anyOf.items@ in the specification.
+data PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 = PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1
+  { -- | name
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 30
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name :: Data.Text.Internal.Text,
+    -- | value
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 30
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["name" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name obj] : ["value" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["name" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name obj] : ["value" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1' with all required fields.
+mkPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 ::
+  -- | 'postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name'
+  Data.Text.Internal.Text ->
+  -- | 'postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1
+mkPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value =
+  PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1
+    { postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name = postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Name,
+      postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value = postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1Value
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.custom_fields.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants
+  = -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'EmptyString
+  | PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'ListTPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 ([PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants where
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'ListTPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'EmptyString
+        | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'ListTPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'CustomFields'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.rendering_options.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 = PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1
+  { -- | amount_tax_display
+    postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax_display" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax_display" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_tax_display"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1' with all required fields.
+mkPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 :: PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1
+mkPostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 = PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 {postCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.rendering_options.anyOf.properties.amount_tax_display@ in the specification.
+data PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumEmptyString
+  | -- | Represents the JSON value @"exclude_tax"@
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumExcludeTax
+  | -- | Represents the JSON value @"include_inclusive_tax"@
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumIncludeInclusiveTax
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay' where
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumEmptyString) = ""
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumExcludeTax) = "exclude_tax"
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumIncludeInclusiveTax) = "include_inclusive_tax"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumEmptyString
+            | val GHC.Classes.== "exclude_tax" -> PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumExcludeTax
+            | val GHC.Classes.== "include_inclusive_tax" -> PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'EnumIncludeInclusiveTax
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1AmountTaxDisplay'Other val
+      )
+
+-- | Defines the oneOf schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_creation.properties.invoice_data.properties.rendering_options.anyOf@ in the specification.
+data PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants
+  = -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'EmptyString
+  | PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants where
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'EmptyString
+        | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'PostCheckoutSessionsRequestBodyInvoiceCreation'InvoiceData'RenderingOptions'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.line_items.items@ in the specification.
 data PostCheckoutSessionsRequestBodyLineItems' = PostCheckoutSessionsRequestBodyLineItems'
@@ -1055,7 +1867,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyLocal
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mode@ in the specification.
 --
--- The mode of the Checkout Session. Required when using prices or \`setup\` mode. Pass \`subscription\` if the Checkout Session includes at least one recurring item.
+-- The mode of the Checkout Session. Pass \`subscription\` if the Checkout Session includes at least one recurring item.
 data PostCheckoutSessionsRequestBodyMode'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostCheckoutSessionsRequestBodyMode'Other Data.Aeson.Types.Internal.Value
@@ -1165,6 +1977,8 @@ data PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'
     PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'Typed Data.Text.Internal.Text
   | -- | Represents the JSON value @"automatic"@
     PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumAutomatic
+  | -- | Represents the JSON value @"automatic_async"@
+    PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumAutomaticAsync
   | -- | Represents the JSON value @"manual"@
     PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumManual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -1173,6 +1987,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentIn
   toJSON (PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'Other val) = val
   toJSON (PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumAutomatic) = "automatic"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumAutomaticAsync) = "automatic_async"
   toJSON (PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumManual) = "manual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod' where
@@ -1180,6 +1995,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "automatic" -> PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumAutomatic
+            | val GHC.Classes.== "automatic_async" -> PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumAutomaticAsync
             | val GHC.Classes.== "manual" -> PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumManual
             | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'Other val
       )
@@ -1364,6 +2180,40 @@ mkPostCheckoutSessionsRequestBodyPaymentIntentData'TransferData' postCheckoutSes
       postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Destination = postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Destination
     }
 
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_collection@ in the specification.
+--
+-- Specify whether Checkout should collect a payment method. When set to \`if_required\`, Checkout will not collect a payment method when the total due for the session is 0.
+-- This may occur if the Checkout Session includes a free trial or a discount.
+--
+-- Can only be set in \`subscription\` mode.
+--
+-- If you\'d like information on how to collect a payment method outside of Checkout, read the guide on configuring [subscriptions with a free trial](https:\/\/stripe.com\/docs\/payments\/checkout\/free-trials).
+data PostCheckoutSessionsRequestBodyPaymentMethodCollection'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodCollection'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodCollection'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always"@
+    PostCheckoutSessionsRequestBodyPaymentMethodCollection'EnumAlways
+  | -- | Represents the JSON value @"if_required"@
+    PostCheckoutSessionsRequestBodyPaymentMethodCollection'EnumIfRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodCollection' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodCollection'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodCollection'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodCollection'EnumAlways) = "always"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodCollection'EnumIfRequired) = "if_required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodCollection' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "always" -> PostCheckoutSessionsRequestBodyPaymentMethodCollection'EnumAlways
+            | val GHC.Classes.== "if_required" -> PostCheckoutSessionsRequestBodyPaymentMethodCollection'EnumIfRequired
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodCollection'Other val
+      )
+
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options@ in the specification.
 --
 -- Payment-method-specific configuration.
@@ -1386,6 +2236,10 @@ data PostCheckoutSessionsRequestBodyPaymentMethodOptions' = PostCheckoutSessions
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Boleto :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Boleto'),
     -- | card
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Card :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'),
+    -- | cashapp
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'),
+    -- | customer_balance
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'),
     -- | eps
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Eps :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Eps'),
     -- | fpx
@@ -1400,12 +2254,20 @@ data PostCheckoutSessionsRequestBodyPaymentMethodOptions' = PostCheckoutSessions
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Klarna :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Klarna'),
     -- | konbini
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini'),
+    -- | link
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Link :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'),
     -- | oxxo
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo'),
     -- | p24
     postCheckoutSessionsRequestBodyPaymentMethodOptions'P24 :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'P24'),
     -- | paynow
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'),
+    -- | paypal
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'),
+    -- | pix
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'),
+    -- | revolut_pay
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'),
     -- | sepa_debit
     postCheckoutSessionsRequestBodyPaymentMethodOptions'SepaDebit :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'SepaDebit'),
     -- | sofort
@@ -1421,11 +2283,11 @@ data PostCheckoutSessionsRequestBodyPaymentMethodOptions' = PostCheckoutSessions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'WechatPay obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'WechatPay obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pix" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("revolut_pay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'WechatPay obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("affirm" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Affirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("afterpay_clearpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AfterpayClearpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("alipay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Alipay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("au_becs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'AuBecsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bacs_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'BacsDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bancontact" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Bancontact obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("boleto" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Boleto obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashapp" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eps" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Eps obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fpx" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Fpx obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("giropay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Giropay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("grabpay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Grabpay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ideal" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Ideal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("klarna" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Klarna obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("konbini" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Link obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("oxxo" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("p24" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'P24 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paynow" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pix" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("revolut_pay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'SepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sofort" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Sofort obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wechat_pay" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'WechatPay obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'" (\obj -> ((((((((((((((((((((((GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "affirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "afterpay_clearpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "boleto")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "grabpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oxxo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paynow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat_pay"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'" (\obj -> ((((((((((((((((((((((((((((GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "affirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "afterpay_clearpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "alipay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "au_becs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bacs_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bancontact")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "boleto")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashapp")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eps")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fpx")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "giropay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "grabpay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ideal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "klarna")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "konbini")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oxxo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "p24")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paynow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paypal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "revolut_pay")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sofort")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wechat_pay"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'' with all required fields.
 mkPostCheckoutSessionsRequestBodyPaymentMethodOptions' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'
@@ -1440,6 +2302,8 @@ mkPostCheckoutSessionsRequestBodyPaymentMethodOptions' =
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Bancontact = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Boleto = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Card = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Eps = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Fpx = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Giropay = GHC.Maybe.Nothing,
@@ -1447,9 +2311,13 @@ mkPostCheckoutSessionsRequestBodyPaymentMethodOptions' =
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Ideal = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Klarna = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Link = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'P24 = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'SepaDebit = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Sofort = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount = GHC.Maybe.Nothing,
@@ -1572,8 +2440,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'EmptyString
         | GHC.Base.otherwise -> case (PostCheckoutSessionsRequestBodyPaymentMethodOptions'AcssDebit'MandateOptions'CustomMandateUrl'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.acss_debit.properties.mandate_options.properties.default_for.items@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'AcssDebit'MandateOptions'DefaultFor'
@@ -2054,7 +2922,9 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'
-  { -- | setup_future_usage
+  { -- | installments
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'),
+    -- | setup_future_usage
     postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage'),
     -- | statement_descriptor_suffix_kana
     --
@@ -2075,20 +2945,42 @@ data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' = PostCheckoutSes
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKanji obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKanji obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKanji obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKanji obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kanji"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'" (\obj -> (((GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kanji"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'' with all required fields.
 mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'
 mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Card' =
   PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'
-    { postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage = GHC.Maybe.Nothing,
+    { postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKana = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'StatementDescriptorSuffixKanji = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.installments@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'
+  { -- | enabled
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'Enabled :: (GHC.Maybe.Maybe GHC.Types.Bool)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'Enabled obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'Enabled obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enabled"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments' {postCheckoutSessionsRequestBodyPaymentMethodOptions'Card'Installments'Enabled = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.card.properties.setup_future_usage@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage'
@@ -2115,6 +3007,281 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
             | val GHC.Classes.== "off_session" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage'EnumOffSession
             | val GHC.Classes.== "on_session" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage'EnumOnSession
             | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Card'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.cashapp@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'
+  { -- | setup_future_usage
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp' {postCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.cashapp.properties.setup_future_usage@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumOffSession
+  | -- | Represents the JSON value @"on_session"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumOnSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumOffSession) = "off_session"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumOnSession) = "on_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumOffSession
+            | val GHC.Classes.== "on_session" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'EnumOnSession
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Cashapp'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.customer_balance@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'
+  { -- | bank_transfer
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'),
+    -- | funding_type
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'),
+    -- | setup_future_usage
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("funding_type" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "funding_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance' =
+  PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'
+    { postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.customer_balance.properties.bank_transfer@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'
+  { -- | eu_bank_transfer
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'),
+    -- | requested_address_types
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'])),
+    -- | type
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eu_bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requested_address_types" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes obj) : ["type" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eu_bank_transfer" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requested_address_types" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes obj) : ["type" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eu_bank_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "requested_address_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer' ::
+  -- | 'postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'
+  PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type' ->
+  PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer' postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type =
+  PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'
+    { postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type = postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.customer_balance.properties.bank_transfer.properties.eu_bank_transfer@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'
+  { -- | country
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["country" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' ::
+  -- | 'postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country'
+  Data.Text.Internal.Text ->
+  PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country = PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer' {postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country = postCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'EuBankTransfer'Country}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.customer_balance.properties.bank_transfer.properties.requested_address_types.items@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"aba"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumAba
+  | -- | Represents the JSON value @"iban"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumIban
+  | -- | Represents the JSON value @"sepa"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSepa
+  | -- | Represents the JSON value @"sort_code"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSortCode
+  | -- | Represents the JSON value @"spei"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSpei
+  | -- | Represents the JSON value @"swift"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSwift
+  | -- | Represents the JSON value @"zengin"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumZengin
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumAba) = "aba"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumIban) = "iban"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSepa) = "sepa"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSortCode) = "sort_code"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSpei) = "spei"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSwift) = "swift"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumZengin) = "zengin"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "aba" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumAba
+            | val GHC.Classes.== "iban" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumIban
+            | val GHC.Classes.== "sepa" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSepa
+            | val GHC.Classes.== "sort_code" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSortCode
+            | val GHC.Classes.== "spei" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSpei
+            | val GHC.Classes.== "swift" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumSwift
+            | val GHC.Classes.== "zengin" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'EnumZengin
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'RequestedAddressTypes'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.customer_balance.properties.bank_transfer.properties.type@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"eu_bank_transfer"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumEuBankTransfer
+  | -- | Represents the JSON value @"gb_bank_transfer"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumGbBankTransfer
+  | -- | Represents the JSON value @"jp_bank_transfer"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumJpBankTransfer
+  | -- | Represents the JSON value @"mx_bank_transfer"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumMxBankTransfer
+  | -- | Represents the JSON value @"us_bank_transfer"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumUsBankTransfer
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumEuBankTransfer) = "eu_bank_transfer"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumGbBankTransfer) = "gb_bank_transfer"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumJpBankTransfer) = "jp_bank_transfer"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumMxBankTransfer) = "mx_bank_transfer"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumUsBankTransfer) = "us_bank_transfer"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "eu_bank_transfer" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumEuBankTransfer
+            | val GHC.Classes.== "gb_bank_transfer" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumGbBankTransfer
+            | val GHC.Classes.== "jp_bank_transfer" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumJpBankTransfer
+            | val GHC.Classes.== "mx_bank_transfer" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumMxBankTransfer
+            | val GHC.Classes.== "us_bank_transfer" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'EnumUsBankTransfer
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'BankTransfer'Type'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.customer_balance.properties.funding_type@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"bank_transfer"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'EnumBankTransfer
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'EnumBankTransfer) = "bank_transfer"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "bank_transfer" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'EnumBankTransfer
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'FundingType'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.customer_balance.properties.setup_future_usage@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'EnumNone) = "none"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'EnumNone
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'CustomerBalance'SetupFutureUsage'Other val
       )
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.eps@ in the specification.
@@ -2431,6 +3598,54 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
             | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Konbini'SetupFutureUsage'Other val
       )
 
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.link@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'
+  { -- | setup_future_usage
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Link' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Link' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link' {postCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.link.properties.setup_future_usage@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Link'SetupFutureUsage'Other val
+      )
+
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.oxxo@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Oxxo'
   { -- | expires_after_days
@@ -2534,9 +3749,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.paynow@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'
   { -- | setup_future_usage
-    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage'),
-    -- | tos_shown_and_accepted
-    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'TosShownAndAccepted :: (GHC.Maybe.Maybe GHC.Types.Bool)
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage')
   }
   deriving
     ( GHC.Show.Show,
@@ -2544,19 +3757,15 @@ data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' = PostCheckoutS
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tos_shown_and_accepted" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'TosShownAndAccepted obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tos_shown_and_accepted" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'TosShownAndAccepted obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tos_shown_and_accepted"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'' with all required fields.
 mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'
-mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' =
-  PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'
-    { postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage = GHC.Maybe.Nothing,
-      postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'TosShownAndAccepted = GHC.Maybe.Nothing
-    }
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow' {postCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.paynow.properties.setup_future_usage@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage'
@@ -2579,6 +3788,280 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
       ( if
             | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage'EnumNone
             | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paynow'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.paypal@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'
+  { -- | capture_method
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'),
+    -- | preferred_locale
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'),
+    -- | reference
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 127
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'Reference :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | risk_correlation_id
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 32
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'RiskCorrelationId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | setup_future_usage
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'Reference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("risk_correlation_id" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'RiskCorrelationId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'Reference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("risk_correlation_id" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'RiskCorrelationId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'" (\obj -> ((((GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "risk_correlation_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal' =
+  PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'
+    { postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'Reference = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'RiskCorrelationId = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.paypal.properties.capture_method@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'EnumEmptyString
+  | -- | Represents the JSON value @"manual"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'EnumManual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'EnumEmptyString) = ""
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'EnumManual) = "manual"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'EnumEmptyString
+            | val GHC.Classes.== "manual" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'EnumManual
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'CaptureMethod'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.paypal.properties.preferred_locale@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"cs-CZ"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumCsCZ
+  | -- | Represents the JSON value @"da-DK"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDaDK
+  | -- | Represents the JSON value @"de-AT"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeAT
+  | -- | Represents the JSON value @"de-DE"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeDE
+  | -- | Represents the JSON value @"de-LU"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeLU
+  | -- | Represents the JSON value @"el-GR"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumElGR
+  | -- | Represents the JSON value @"en-GB"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEnGB
+  | -- | Represents the JSON value @"en-US"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEnUS
+  | -- | Represents the JSON value @"es-ES"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEsES
+  | -- | Represents the JSON value @"fi-FI"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFiFI
+  | -- | Represents the JSON value @"fr-BE"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrBE
+  | -- | Represents the JSON value @"fr-FR"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrFR
+  | -- | Represents the JSON value @"fr-LU"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrLU
+  | -- | Represents the JSON value @"hu-HU"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumHuHU
+  | -- | Represents the JSON value @"it-IT"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumItIT
+  | -- | Represents the JSON value @"nl-BE"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumNlBE
+  | -- | Represents the JSON value @"nl-NL"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumNlNL
+  | -- | Represents the JSON value @"pl-PL"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumPlPL
+  | -- | Represents the JSON value @"pt-PT"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumPtPT
+  | -- | Represents the JSON value @"sk-SK"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumSkSK
+  | -- | Represents the JSON value @"sv-SE"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumSvSE
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumCsCZ) = "cs-CZ"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDaDK) = "da-DK"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeAT) = "de-AT"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeDE) = "de-DE"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeLU) = "de-LU"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumElGR) = "el-GR"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEnGB) = "en-GB"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEnUS) = "en-US"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEsES) = "es-ES"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFiFI) = "fi-FI"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrBE) = "fr-BE"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrFR) = "fr-FR"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrLU) = "fr-LU"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumHuHU) = "hu-HU"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumItIT) = "it-IT"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumNlBE) = "nl-BE"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumNlNL) = "nl-NL"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumPlPL) = "pl-PL"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumPtPT) = "pt-PT"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumSkSK) = "sk-SK"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumSvSE) = "sv-SE"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "cs-CZ" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumCsCZ
+            | val GHC.Classes.== "da-DK" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDaDK
+            | val GHC.Classes.== "de-AT" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeAT
+            | val GHC.Classes.== "de-DE" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeDE
+            | val GHC.Classes.== "de-LU" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumDeLU
+            | val GHC.Classes.== "el-GR" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumElGR
+            | val GHC.Classes.== "en-GB" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEnGB
+            | val GHC.Classes.== "en-US" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEnUS
+            | val GHC.Classes.== "es-ES" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumEsES
+            | val GHC.Classes.== "fi-FI" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFiFI
+            | val GHC.Classes.== "fr-BE" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrBE
+            | val GHC.Classes.== "fr-FR" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrFR
+            | val GHC.Classes.== "fr-LU" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumFrLU
+            | val GHC.Classes.== "hu-HU" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumHuHU
+            | val GHC.Classes.== "it-IT" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumItIT
+            | val GHC.Classes.== "nl-BE" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumNlBE
+            | val GHC.Classes.== "nl-NL" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumNlNL
+            | val GHC.Classes.== "pl-PL" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumPlPL
+            | val GHC.Classes.== "pt-PT" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumPtPT
+            | val GHC.Classes.== "sk-SK" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumSkSK
+            | val GHC.Classes.== "sv-SE" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'EnumSvSE
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'PreferredLocale'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.paypal.properties.setup_future_usage@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @""@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumEmptyString
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumEmptyString) = ""
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumEmptyString
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'Paypal'SetupFutureUsage'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.pix@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'
+  { -- | expires_after_seconds
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'ExpiresAfterSeconds :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_after_seconds" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'ExpiresAfterSeconds obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_after_seconds" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'ExpiresAfterSeconds obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_after_seconds"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'Pix' {postCheckoutSessionsRequestBodyPaymentMethodOptions'Pix'ExpiresAfterSeconds = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.revolut_pay@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'
+  { -- | setup_future_usage
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'' with all required fields.
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay' {postCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.revolut_pay.properties.setup_future_usage@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'EnumNone) = "none"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'RevolutPay'SetupFutureUsage'Other val
       )
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.sepa_debit@ in the specification.
@@ -2710,7 +4193,9 @@ mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount' =
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.financial_connections@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'
   { -- | permissions
-    postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions']))
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'])),
+    -- | prefetch
+    postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch']))
   }
   deriving
     ( GHC.Show.Show,
@@ -2718,15 +4203,19 @@ data PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'Financial
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prefetch"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'' with all required fields.
 mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' :: PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'
-mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' = PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' {postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions = GHC.Maybe.Nothing}
+mkPostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections' =
+  PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'
+    { postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch = GHC.Maybe.Nothing
+    }
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.financial_connections.properties.permissions.items@ in the specification.
 data PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'
@@ -2761,6 +4250,33 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
             | val GHC.Classes.== "payment_method" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'EnumPaymentMethod
             | val GHC.Classes.== "transactions" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'EnumTransactions
             | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Permissions'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.financial_connections.properties.prefetch.items@ in the specification.
+data PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"balances"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumBalances
+  | -- | Represents the JSON value @"transactions"@
+    PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch' where
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumBalances) = "balances"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "balances" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumBalances
+            | val GHC.Classes.== "transactions" -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'EnumTransactions
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodOptions'UsBankAccount'FinancialConnections'Prefetch'Other val
       )
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.payment_method_options.properties.us_bank_account.properties.setup_future_usage@ in the specification.
@@ -2932,10 +4448,16 @@ data PostCheckoutSessionsRequestBodyPaymentMethodTypes'
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBacsDebit
   | -- | Represents the JSON value @"bancontact"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBancontact
+  | -- | Represents the JSON value @"blik"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBlik
   | -- | Represents the JSON value @"boleto"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBoleto
   | -- | Represents the JSON value @"card"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCard
+  | -- | Represents the JSON value @"cashapp"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCashapp
+  | -- | Represents the JSON value @"customer_balance"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCustomerBalance
   | -- | Represents the JSON value @"eps"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumEps
   | -- | Represents the JSON value @"fpx"@
@@ -2950,14 +4472,22 @@ data PostCheckoutSessionsRequestBodyPaymentMethodTypes'
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumKlarna
   | -- | Represents the JSON value @"konbini"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumKonbini
+  | -- | Represents the JSON value @"link"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumLink
   | -- | Represents the JSON value @"oxxo"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumOxxo
   | -- | Represents the JSON value @"p24"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumP24
   | -- | Represents the JSON value @"paynow"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPaynow
+  | -- | Represents the JSON value @"paypal"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPaypal
+  | -- | Represents the JSON value @"pix"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPix
   | -- | Represents the JSON value @"promptpay"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPromptpay
+  | -- | Represents the JSON value @"revolut_pay"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumRevolutPay
   | -- | Represents the JSON value @"sepa_debit"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumSepaDebit
   | -- | Represents the JSON value @"sofort"@
@@ -2966,6 +4496,8 @@ data PostCheckoutSessionsRequestBodyPaymentMethodTypes'
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumUsBankAccount
   | -- | Represents the JSON value @"wechat_pay"@
     PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumWechatPay
+  | -- | Represents the JSON value @"zip"@
+    PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumZip
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMethodTypes' where
@@ -2978,8 +4510,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMe
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumAuBecsDebit) = "au_becs_debit"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBacsDebit) = "bacs_debit"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBancontact) = "bancontact"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBlik) = "blik"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBoleto) = "boleto"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCard) = "card"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCashapp) = "cashapp"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCustomerBalance) = "customer_balance"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumEps) = "eps"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumFpx) = "fpx"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumGiropay) = "giropay"
@@ -2987,14 +4522,19 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyPaymentMe
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumIdeal) = "ideal"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumKlarna) = "klarna"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumKonbini) = "konbini"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumLink) = "link"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumOxxo) = "oxxo"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumP24) = "p24"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPaynow) = "paynow"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPaypal) = "paypal"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPix) = "pix"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPromptpay) = "promptpay"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumRevolutPay) = "revolut_pay"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumSepaDebit) = "sepa_debit"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumSofort) = "sofort"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumUsBankAccount) = "us_bank_account"
   toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumWechatPay) = "wechat_pay"
+  toJSON (PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumZip) = "zip"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentMethodTypes' where
   parseJSON val =
@@ -3007,8 +4547,11 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
             | val GHC.Classes.== "au_becs_debit" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumAuBecsDebit
             | val GHC.Classes.== "bacs_debit" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBacsDebit
             | val GHC.Classes.== "bancontact" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBancontact
+            | val GHC.Classes.== "blik" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBlik
             | val GHC.Classes.== "boleto" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumBoleto
             | val GHC.Classes.== "card" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCard
+            | val GHC.Classes.== "cashapp" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCashapp
+            | val GHC.Classes.== "customer_balance" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCustomerBalance
             | val GHC.Classes.== "eps" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumEps
             | val GHC.Classes.== "fpx" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumFpx
             | val GHC.Classes.== "giropay" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumGiropay
@@ -3016,14 +4559,19 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
             | val GHC.Classes.== "ideal" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumIdeal
             | val GHC.Classes.== "klarna" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumKlarna
             | val GHC.Classes.== "konbini" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumKonbini
+            | val GHC.Classes.== "link" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumLink
             | val GHC.Classes.== "oxxo" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumOxxo
             | val GHC.Classes.== "p24" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumP24
             | val GHC.Classes.== "paynow" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPaynow
+            | val GHC.Classes.== "paypal" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPaypal
+            | val GHC.Classes.== "pix" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPix
             | val GHC.Classes.== "promptpay" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumPromptpay
+            | val GHC.Classes.== "revolut_pay" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumRevolutPay
             | val GHC.Classes.== "sepa_debit" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumSepaDebit
             | val GHC.Classes.== "sofort" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumSofort
             | val GHC.Classes.== "us_bank_account" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumUsBankAccount
             | val GHC.Classes.== "wechat_pay" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumWechatPay
+            | val GHC.Classes.== "zip" -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumZip
             | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyPaymentMethodTypes'Other val
       )
 
@@ -3055,6 +4603,39 @@ mkPostCheckoutSessionsRequestBodyPhoneNumberCollection' ::
   GHC.Types.Bool ->
   PostCheckoutSessionsRequestBodyPhoneNumberCollection'
 mkPostCheckoutSessionsRequestBodyPhoneNumberCollection' postCheckoutSessionsRequestBodyPhoneNumberCollection'Enabled = PostCheckoutSessionsRequestBodyPhoneNumberCollection' {postCheckoutSessionsRequestBodyPhoneNumberCollection'Enabled = postCheckoutSessionsRequestBodyPhoneNumberCollection'Enabled}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.redirect_on_completion@ in the specification.
+--
+-- This parameter applies to \`ui_mode: embedded\`. By default, Stripe will always redirect to your return_url after a successful confirmation. If you set \`redirect_on_completion: \'if_required\'\`, then we will only redirect if your user chooses a redirect-based payment method.
+data PostCheckoutSessionsRequestBodyRedirectOnCompletion'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyRedirectOnCompletion'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyRedirectOnCompletion'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always"@
+    PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumAlways
+  | -- | Represents the JSON value @"if_required"@
+    PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumIfRequired
+  | -- | Represents the JSON value @"never"@
+    PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumNever
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyRedirectOnCompletion' where
+  toJSON (PostCheckoutSessionsRequestBodyRedirectOnCompletion'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyRedirectOnCompletion'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumAlways) = "always"
+  toJSON (PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumIfRequired) = "if_required"
+  toJSON (PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumNever) = "never"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyRedirectOnCompletion' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "always" -> PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumAlways
+            | val GHC.Classes.== "if_required" -> PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumIfRequired
+            | val GHC.Classes.== "never" -> PostCheckoutSessionsRequestBodyRedirectOnCompletion'EnumNever
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyRedirectOnCompletion'Other val
+      )
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.setup_intent_data@ in the specification.
 --
@@ -4339,7 +5920,9 @@ data PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount
   { -- | amount
     postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount :: GHC.Types.Int,
     -- | currency
-    postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency :: Data.Text.Internal.Text
+    postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency :: Data.Text.Internal.Text,
+    -- | currency_options
+    postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'CurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
   }
   deriving
     ( GHC.Show.Show,
@@ -4347,11 +5930,11 @@ data PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount obj] : ["currency" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount obj] : ["currency" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount obj] : ["currency" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'CurrencyOptions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount obj] : ["currency" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'CurrencyOptions obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'" (\obj -> (GHC.Base.pure PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'' with all required fields.
 mkPostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount' ::
@@ -4363,7 +5946,8 @@ mkPostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount' :
 mkPostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount' postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency =
   PostCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'
     { postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount = postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Amount,
-      postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency = postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency
+      postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency = postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'Currency,
+      postCheckoutSessionsRequestBodyShippingOptions'ShippingRateData'FixedAmount'CurrencyOptions = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping_options.items.properties.shipping_rate_data.properties.tax_behavior@ in the specification.
@@ -4425,7 +6009,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyShipp
 -- Describes the type of transaction being performed by Checkout in order to customize
 -- relevant text on the page, such as the submit button. \`submit_type\` can only be
 -- specified on Checkout Sessions in \`payment\` mode, but not Checkout Sessions
--- in \`subscription\` or \`setup\` mode.
+-- in \`subscription\` or \`setup\` mode. Possible values are \`auto\`, \`pay\`, \`book\`, \`donate\`. If blank or \`auto\`, \`pay\` is used.
 data PostCheckoutSessionsRequestBodySubmitType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostCheckoutSessionsRequestBodySubmitType'Other Data.Aeson.Types.Internal.Value
@@ -4466,6 +6050,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubmi
 data PostCheckoutSessionsRequestBodySubscriptionData' = PostCheckoutSessionsRequestBodySubscriptionData'
   { -- | application_fee_percent
     postCheckoutSessionsRequestBodySubscriptionData'ApplicationFeePercent :: (GHC.Maybe.Maybe GHC.Types.Double),
+    -- | billing_cycle_anchor
+    postCheckoutSessionsRequestBodySubscriptionData'BillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | default_tax_rates
     postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | description
@@ -4474,16 +6060,20 @@ data PostCheckoutSessionsRequestBodySubscriptionData' = PostCheckoutSessionsRequ
     --
     -- * Maximum length of 500
     postCheckoutSessionsRequestBodySubscriptionData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | items
-    postCheckoutSessionsRequestBodySubscriptionData'Items :: (GHC.Maybe.Maybe ([PostCheckoutSessionsRequestBodySubscriptionData'Items'])),
     -- | metadata
     postCheckoutSessionsRequestBodySubscriptionData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | on_behalf_of
+    postCheckoutSessionsRequestBodySubscriptionData'OnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | proration_behavior
+    postCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'),
     -- | transfer_data
     postCheckoutSessionsRequestBodySubscriptionData'TransferData :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySubscriptionData'TransferData'),
     -- | trial_end
     postCheckoutSessionsRequestBodySubscriptionData'TrialEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | trial_period_days
-    postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int)
+    postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | trial_settings
+    postCheckoutSessionsRequestBodySubscriptionData'TrialSettings :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings')
   }
   deriving
     ( GHC.Show.Show,
@@ -4491,62 +6081,55 @@ data PostCheckoutSessionsRequestBodySubscriptionData' = PostCheckoutSessionsRequ
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodySubscriptionData' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Items obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Items obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'OnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialSettings obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'OnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialEnd obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'TrialSettings obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySubscriptionData'" (\obj -> (((((((GHC.Base.pure PostCheckoutSessionsRequestBodySubscriptionData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySubscriptionData'" (\obj -> ((((((((((GHC.Base.pure PostCheckoutSessionsRequestBodySubscriptionData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_settings"))
 
 -- | Create a new 'PostCheckoutSessionsRequestBodySubscriptionData'' with all required fields.
 mkPostCheckoutSessionsRequestBodySubscriptionData' :: PostCheckoutSessionsRequestBodySubscriptionData'
 mkPostCheckoutSessionsRequestBodySubscriptionData' =
   PostCheckoutSessionsRequestBodySubscriptionData'
     { postCheckoutSessionsRequestBodySubscriptionData'ApplicationFeePercent = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodySubscriptionData'BillingCycleAnchor = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySubscriptionData'Description = GHC.Maybe.Nothing,
-      postCheckoutSessionsRequestBodySubscriptionData'Items = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySubscriptionData'Metadata = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodySubscriptionData'OnBehalfOf = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySubscriptionData'TransferData = GHC.Maybe.Nothing,
       postCheckoutSessionsRequestBodySubscriptionData'TrialEnd = GHC.Maybe.Nothing,
-      postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays = GHC.Maybe.Nothing
+      postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays = GHC.Maybe.Nothing,
+      postCheckoutSessionsRequestBodySubscriptionData'TrialSettings = GHC.Maybe.Nothing
     }
 
--- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.items.items@ in the specification.
-data PostCheckoutSessionsRequestBodySubscriptionData'Items' = PostCheckoutSessionsRequestBodySubscriptionData'Items'
-  { -- | plan
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    postCheckoutSessionsRequestBodySubscriptionData'Items'Plan :: Data.Text.Internal.Text,
-    -- | quantity
-    postCheckoutSessionsRequestBodySubscriptionData'Items'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | tax_rates
-    postCheckoutSessionsRequestBodySubscriptionData'Items'TaxRates :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
-  }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.proration_behavior@ in the specification.
+data PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"create_prorations"@
+    PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'EnumCreateProrations
+  | -- | Represents the JSON value @"none"@
+    PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'EnumNone
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'Items' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["plan" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySubscriptionData'Items'Plan obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Items'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Items'TaxRates obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["plan" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySubscriptionData'Items'Plan obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Items'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postCheckoutSessionsRequestBodySubscriptionData'Items'TaxRates obj) : GHC.Base.mempty)))
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior' where
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'EnumCreateProrations) = "create_prorations"
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'EnumNone) = "none"
 
-instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData'Items' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySubscriptionData'Items'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodySubscriptionData'Items' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
-
--- | Create a new 'PostCheckoutSessionsRequestBodySubscriptionData'Items'' with all required fields.
-mkPostCheckoutSessionsRequestBodySubscriptionData'Items' ::
-  -- | 'postCheckoutSessionsRequestBodySubscriptionData'Items'Plan'
-  Data.Text.Internal.Text ->
-  PostCheckoutSessionsRequestBodySubscriptionData'Items'
-mkPostCheckoutSessionsRequestBodySubscriptionData'Items' postCheckoutSessionsRequestBodySubscriptionData'Items'Plan =
-  PostCheckoutSessionsRequestBodySubscriptionData'Items'
-    { postCheckoutSessionsRequestBodySubscriptionData'Items'Plan = postCheckoutSessionsRequestBodySubscriptionData'Items'Plan,
-      postCheckoutSessionsRequestBodySubscriptionData'Items'Quantity = GHC.Maybe.Nothing,
-      postCheckoutSessionsRequestBodySubscriptionData'Items'TaxRates = GHC.Maybe.Nothing
-    }
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "create_prorations" -> PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'EnumCreateProrations
+            | val GHC.Classes.== "none" -> PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'EnumNone
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodySubscriptionData'ProrationBehavior'Other val
+      )
 
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.transfer_data@ in the specification.
 data PostCheckoutSessionsRequestBodySubscriptionData'TransferData' = PostCheckoutSessionsRequestBodySubscriptionData'TransferData'
@@ -4578,6 +6161,85 @@ mkPostCheckoutSessionsRequestBodySubscriptionData'TransferData' postCheckoutSess
       postCheckoutSessionsRequestBodySubscriptionData'TransferData'Destination = postCheckoutSessionsRequestBodySubscriptionData'TransferData'Destination
     }
 
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.trial_settings@ in the specification.
+data PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings' = PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'
+  { -- | end_behavior
+    postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior :: PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["end_behavior" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["end_behavior" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "end_behavior"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'' with all required fields.
+mkPostCheckoutSessionsRequestBodySubscriptionData'TrialSettings' ::
+  -- | 'postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'
+  PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' ->
+  PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'
+mkPostCheckoutSessionsRequestBodySubscriptionData'TrialSettings' postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior = PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings' {postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior = postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior}
+
+-- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.trial_settings.properties.end_behavior@ in the specification.
+data PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' = PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'
+  { -- | missing_payment_method
+    postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod :: PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["missing_payment_method" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["missing_payment_method" Data.Aeson.Types.ToJSON..= postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "missing_payment_method"))
+
+-- | Create a new 'PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'' with all required fields.
+mkPostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' ::
+  -- | 'postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'
+  PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod' ->
+  PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'
+mkPostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod = PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior' {postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod = postCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.trial_settings.properties.end_behavior.properties.missing_payment_method@ in the specification.
+data PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"cancel"@
+    PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCancel
+  | -- | Represents the JSON value @"create_invoice"@
+    PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCreateInvoice
+  | -- | Represents the JSON value @"pause"@
+    PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumPause
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod' where
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCancel) = "cancel"
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCreateInvoice) = "create_invoice"
+  toJSON (PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumPause) = "pause"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "cancel" -> PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCancel
+            | val GHC.Classes.== "create_invoice" -> PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumCreateInvoice
+            | val GHC.Classes.== "pause" -> PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'EnumPause
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodySubscriptionData'TrialSettings'EndBehavior'MissingPaymentMethod'Other val
+      )
+
 -- | Defines the object schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_id_collection@ in the specification.
 --
 -- Controls tax ID collection settings for the session.
@@ -4603,6 +6265,35 @@ mkPostCheckoutSessionsRequestBodyTaxIdCollection' ::
   GHC.Types.Bool ->
   PostCheckoutSessionsRequestBodyTaxIdCollection'
 mkPostCheckoutSessionsRequestBodyTaxIdCollection' postCheckoutSessionsRequestBodyTaxIdCollection'Enabled = PostCheckoutSessionsRequestBodyTaxIdCollection' {postCheckoutSessionsRequestBodyTaxIdCollection'Enabled = postCheckoutSessionsRequestBodyTaxIdCollection'Enabled}
+
+-- | Defines the enum schema located at @paths.\/v1\/checkout\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.ui_mode@ in the specification.
+--
+-- \`ui_mode\` can be \`hosted\` or \`embedded\`. The default is \`hosted\`.
+data PostCheckoutSessionsRequestBodyUiMode'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCheckoutSessionsRequestBodyUiMode'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCheckoutSessionsRequestBodyUiMode'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"embedded"@
+    PostCheckoutSessionsRequestBodyUiMode'EnumEmbedded
+  | -- | Represents the JSON value @"hosted"@
+    PostCheckoutSessionsRequestBodyUiMode'EnumHosted
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCheckoutSessionsRequestBodyUiMode' where
+  toJSON (PostCheckoutSessionsRequestBodyUiMode'Other val) = val
+  toJSON (PostCheckoutSessionsRequestBodyUiMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCheckoutSessionsRequestBodyUiMode'EnumEmbedded) = "embedded"
+  toJSON (PostCheckoutSessionsRequestBodyUiMode'EnumHosted) = "hosted"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyUiMode' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "embedded" -> PostCheckoutSessionsRequestBodyUiMode'EnumEmbedded
+            | val GHC.Classes.== "hosted" -> PostCheckoutSessionsRequestBodyUiMode'EnumHosted
+            | GHC.Base.otherwise -> PostCheckoutSessionsRequestBodyUiMode'Other val
+      )
 
 -- | Represents a response of the operation 'postCheckoutSessions'.
 --

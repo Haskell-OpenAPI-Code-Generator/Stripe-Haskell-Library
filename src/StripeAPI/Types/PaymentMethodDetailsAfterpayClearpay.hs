@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,13 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_method_details_afterpay_clearpay@ in the specification.
 data PaymentMethodDetailsAfterpayClearpay = PaymentMethodDetailsAfterpayClearpay
-  { -- | reference: Order identifier shown to the merchant in Afterpay’s online portal.
+  { -- | order_id: The Afterpay order ID associated with this payment intent.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentMethodDetailsAfterpayClearpayOrderId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | reference: Order identifier shown to the merchant in Afterpay’s online portal.
     --
     -- Constraints:
     --
@@ -47,12 +53,16 @@ data PaymentMethodDetailsAfterpayClearpay = PaymentMethodDetailsAfterpayClearpay
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodDetailsAfterpayClearpay where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayReference obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayReference obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("order_id" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayOrderId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayReference obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("order_id" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayOrderId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodDetailsAfterpayClearpayReference obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAfterpayClearpay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAfterpayClearpay" (\obj -> GHC.Base.pure PaymentMethodDetailsAfterpayClearpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAfterpayClearpay" (\obj -> (GHC.Base.pure PaymentMethodDetailsAfterpayClearpay GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "order_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference"))
 
 -- | Create a new 'PaymentMethodDetailsAfterpayClearpay' with all required fields.
 mkPaymentMethodDetailsAfterpayClearpay :: PaymentMethodDetailsAfterpayClearpay
-mkPaymentMethodDetailsAfterpayClearpay = PaymentMethodDetailsAfterpayClearpay {paymentMethodDetailsAfterpayClearpayReference = GHC.Maybe.Nothing}
+mkPaymentMethodDetailsAfterpayClearpay =
+  PaymentMethodDetailsAfterpayClearpay
+    { paymentMethodDetailsAfterpayClearpayOrderId = GHC.Maybe.Nothing,
+      paymentMethodDetailsAfterpayClearpayReference = GHC.Maybe.Nothing
+    }

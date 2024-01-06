@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -292,6 +292,8 @@ data IssuingCardholderAuthorizationControlsAllowedCategories'NonNullable
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEducationalServices
   | -- | Represents the JSON value @"electric_razor_stores"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricRazorStores
+  | -- | Represents the JSON value @"electric_vehicle_charging"@
+    IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricVehicleCharging
   | -- | Represents the JSON value @"electrical_parts_and_equipment"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricalPartsAndEquipment
   | -- | Represents the JSON value @"electrical_services"@
@@ -302,6 +304,8 @@ data IssuingCardholderAuthorizationControlsAllowedCategories'NonNullable
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectronicsStores
   | -- | Represents the JSON value @"elementary_secondary_schools"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElementarySecondarySchools
+  | -- | Represents the JSON value @"emergency_services_gcas_visa_use_only"@
+    IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly
   | -- | Represents the JSON value @"employment_temp_agencies"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEmploymentTempAgencies
   | -- | Represents the JSON value @"equipment_rental"@
@@ -346,6 +350,14 @@ data IssuingCardholderAuthorizationControlsAllowedCategories'NonNullable
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGlasswareCrystalStores
   | -- | Represents the JSON value @"golf_courses_public"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_licensed_horse_dog_racing_us_region_only"@
+    IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly
+  | -- | Represents the JSON value @"government_licensed_online_casions_online_gambling_us_region_only"@
+    IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+  | -- | Represents the JSON value @"government_owned_lotteries_non_us_region"@
+    IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion
+  | -- | Represents the JSON value @"government_owned_lotteries_us_region_only"@
+    IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly
   | -- | Represents the JSON value @"government_services"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentServices
   | -- | Represents the JSON value @"grocery_stores_supermarkets"@
@@ -398,6 +410,8 @@ data IssuingCardholderAuthorizationControlsAllowedCategories'NonNullable
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumManualCashDisburse
   | -- | Represents the JSON value @"marinas_service_and_supplies"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"marketplaces"@
+    IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMarketplaces
   | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
     IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMasonryStoneworkAndPlaster
   | -- | Represents the JSON value @"massage_parlors"@
@@ -763,11 +777,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAuthorizationControlsAl
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEatingPlacesRestaurants) = "eating_places_restaurants"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEducationalServices) = "educational_services"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricVehicleCharging) = "electric_vehicle_charging"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricalServices) = "electrical_services"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectronicsRepairShops) = "electronics_repair_shops"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectronicsStores) = "electronics_stores"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly) = "emergency_services_gcas_visa_use_only"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEmploymentTempAgencies) = "employment_temp_agencies"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEquipmentRental) = "equipment_rental"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumExterminatingServices) = "exterminating_services"
@@ -790,6 +806,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAuthorizationControlsAl
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGlasswareCrystalStores) = "glassware_crystal_stores"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly) = "government_licensed_horse_dog_racing_us_region_only"
+  toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly) = "government_licensed_online_casions_online_gambling_us_region_only"
+  toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion) = "government_owned_lotteries_non_us_region"
+  toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly) = "government_owned_lotteries_us_region_only"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentServices) = "government_services"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
@@ -816,6 +836,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAuthorizationControlsAl
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumManualCashDisburse) = "manual_cash_disburse"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMarketplaces) = "marketplaces"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMassageParlors) = "massage_parlors"
   toJSON (IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMedicalAndDentalLabs) = "medical_and_dental_labs"
@@ -1056,11 +1077,13 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAuthorizationContro
             | val GHC.Classes.== "eating_places_restaurants" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEatingPlacesRestaurants
             | val GHC.Classes.== "educational_services" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEducationalServices
             | val GHC.Classes.== "electric_razor_stores" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricRazorStores
+            | val GHC.Classes.== "electric_vehicle_charging" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricVehicleCharging
             | val GHC.Classes.== "electrical_parts_and_equipment" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricalPartsAndEquipment
             | val GHC.Classes.== "electrical_services" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectricalServices
             | val GHC.Classes.== "electronics_repair_shops" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectronicsRepairShops
             | val GHC.Classes.== "electronics_stores" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElectronicsStores
             | val GHC.Classes.== "elementary_secondary_schools" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumElementarySecondarySchools
+            | val GHC.Classes.== "emergency_services_gcas_visa_use_only" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly
             | val GHC.Classes.== "employment_temp_agencies" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEmploymentTempAgencies
             | val GHC.Classes.== "equipment_rental" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumEquipmentRental
             | val GHC.Classes.== "exterminating_services" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumExterminatingServices
@@ -1083,6 +1106,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAuthorizationContro
             | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGlassPaintAndWallpaperStores
             | val GHC.Classes.== "glassware_crystal_stores" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGlasswareCrystalStores
             | val GHC.Classes.== "golf_courses_public" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGolfCoursesPublic
+            | val GHC.Classes.== "government_licensed_horse_dog_racing_us_region_only" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly
+            | val GHC.Classes.== "government_licensed_online_casions_online_gambling_us_region_only" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+            | val GHC.Classes.== "government_owned_lotteries_non_us_region" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion
+            | val GHC.Classes.== "government_owned_lotteries_us_region_only" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly
             | val GHC.Classes.== "government_services" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGovernmentServices
             | val GHC.Classes.== "grocery_stores_supermarkets" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumGroceryStoresSupermarkets
             | val GHC.Classes.== "hardware_equipment_and_supplies" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumHardwareEquipmentAndSupplies
@@ -1109,6 +1136,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAuthorizationContro
             | val GHC.Classes.== "lumber_building_materials_stores" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumLumberBuildingMaterialsStores
             | val GHC.Classes.== "manual_cash_disburse" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumManualCashDisburse
             | val GHC.Classes.== "marinas_service_and_supplies" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "marketplaces" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMarketplaces
             | val GHC.Classes.== "masonry_stonework_and_plaster" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMasonryStoneworkAndPlaster
             | val GHC.Classes.== "massage_parlors" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMassageParlors
             | val GHC.Classes.== "medical_and_dental_labs" -> IssuingCardholderAuthorizationControlsAllowedCategories'NonNullableEnumMedicalAndDentalLabs
@@ -1463,6 +1491,8 @@ data IssuingCardholderAuthorizationControlsBlockedCategories'NonNullable
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEducationalServices
   | -- | Represents the JSON value @"electric_razor_stores"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricRazorStores
+  | -- | Represents the JSON value @"electric_vehicle_charging"@
+    IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricVehicleCharging
   | -- | Represents the JSON value @"electrical_parts_and_equipment"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricalPartsAndEquipment
   | -- | Represents the JSON value @"electrical_services"@
@@ -1473,6 +1503,8 @@ data IssuingCardholderAuthorizationControlsBlockedCategories'NonNullable
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectronicsStores
   | -- | Represents the JSON value @"elementary_secondary_schools"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElementarySecondarySchools
+  | -- | Represents the JSON value @"emergency_services_gcas_visa_use_only"@
+    IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly
   | -- | Represents the JSON value @"employment_temp_agencies"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEmploymentTempAgencies
   | -- | Represents the JSON value @"equipment_rental"@
@@ -1517,6 +1549,14 @@ data IssuingCardholderAuthorizationControlsBlockedCategories'NonNullable
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGlasswareCrystalStores
   | -- | Represents the JSON value @"golf_courses_public"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_licensed_horse_dog_racing_us_region_only"@
+    IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly
+  | -- | Represents the JSON value @"government_licensed_online_casions_online_gambling_us_region_only"@
+    IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+  | -- | Represents the JSON value @"government_owned_lotteries_non_us_region"@
+    IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion
+  | -- | Represents the JSON value @"government_owned_lotteries_us_region_only"@
+    IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly
   | -- | Represents the JSON value @"government_services"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentServices
   | -- | Represents the JSON value @"grocery_stores_supermarkets"@
@@ -1569,6 +1609,8 @@ data IssuingCardholderAuthorizationControlsBlockedCategories'NonNullable
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumManualCashDisburse
   | -- | Represents the JSON value @"marinas_service_and_supplies"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"marketplaces"@
+    IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMarketplaces
   | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
     IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMasonryStoneworkAndPlaster
   | -- | Represents the JSON value @"massage_parlors"@
@@ -1934,11 +1976,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAuthorizationControlsBl
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEatingPlacesRestaurants) = "eating_places_restaurants"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEducationalServices) = "educational_services"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricVehicleCharging) = "electric_vehicle_charging"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricalServices) = "electrical_services"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectronicsRepairShops) = "electronics_repair_shops"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectronicsStores) = "electronics_stores"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly) = "emergency_services_gcas_visa_use_only"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEmploymentTempAgencies) = "employment_temp_agencies"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEquipmentRental) = "equipment_rental"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumExterminatingServices) = "exterminating_services"
@@ -1961,6 +2005,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAuthorizationControlsBl
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGlasswareCrystalStores) = "glassware_crystal_stores"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly) = "government_licensed_horse_dog_racing_us_region_only"
+  toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly) = "government_licensed_online_casions_online_gambling_us_region_only"
+  toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion) = "government_owned_lotteries_non_us_region"
+  toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly) = "government_owned_lotteries_us_region_only"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentServices) = "government_services"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
@@ -1987,6 +2035,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderAuthorizationControlsBl
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumManualCashDisburse) = "manual_cash_disburse"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMarketplaces) = "marketplaces"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMassageParlors) = "massage_parlors"
   toJSON (IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMedicalAndDentalLabs) = "medical_and_dental_labs"
@@ -2227,11 +2276,13 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAuthorizationContro
             | val GHC.Classes.== "eating_places_restaurants" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEatingPlacesRestaurants
             | val GHC.Classes.== "educational_services" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEducationalServices
             | val GHC.Classes.== "electric_razor_stores" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricRazorStores
+            | val GHC.Classes.== "electric_vehicle_charging" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricVehicleCharging
             | val GHC.Classes.== "electrical_parts_and_equipment" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricalPartsAndEquipment
             | val GHC.Classes.== "electrical_services" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectricalServices
             | val GHC.Classes.== "electronics_repair_shops" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectronicsRepairShops
             | val GHC.Classes.== "electronics_stores" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElectronicsStores
             | val GHC.Classes.== "elementary_secondary_schools" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumElementarySecondarySchools
+            | val GHC.Classes.== "emergency_services_gcas_visa_use_only" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly
             | val GHC.Classes.== "employment_temp_agencies" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEmploymentTempAgencies
             | val GHC.Classes.== "equipment_rental" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumEquipmentRental
             | val GHC.Classes.== "exterminating_services" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumExterminatingServices
@@ -2254,6 +2305,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAuthorizationContro
             | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGlassPaintAndWallpaperStores
             | val GHC.Classes.== "glassware_crystal_stores" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGlasswareCrystalStores
             | val GHC.Classes.== "golf_courses_public" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGolfCoursesPublic
+            | val GHC.Classes.== "government_licensed_horse_dog_racing_us_region_only" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly
+            | val GHC.Classes.== "government_licensed_online_casions_online_gambling_us_region_only" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+            | val GHC.Classes.== "government_owned_lotteries_non_us_region" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion
+            | val GHC.Classes.== "government_owned_lotteries_us_region_only" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly
             | val GHC.Classes.== "government_services" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGovernmentServices
             | val GHC.Classes.== "grocery_stores_supermarkets" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumGroceryStoresSupermarkets
             | val GHC.Classes.== "hardware_equipment_and_supplies" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumHardwareEquipmentAndSupplies
@@ -2280,6 +2335,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAuthorizationContro
             | val GHC.Classes.== "lumber_building_materials_stores" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumLumberBuildingMaterialsStores
             | val GHC.Classes.== "manual_cash_disburse" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumManualCashDisburse
             | val GHC.Classes.== "marinas_service_and_supplies" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "marketplaces" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMarketplaces
             | val GHC.Classes.== "masonry_stonework_and_plaster" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMasonryStoneworkAndPlaster
             | val GHC.Classes.== "massage_parlors" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMassageParlors
             | val GHC.Classes.== "medical_and_dental_labs" -> IssuingCardholderAuthorizationControlsBlockedCategories'NonNullableEnumMedicalAndDentalLabs

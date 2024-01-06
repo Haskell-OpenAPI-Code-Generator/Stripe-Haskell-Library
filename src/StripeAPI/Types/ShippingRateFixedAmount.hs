@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,7 +37,9 @@ data ShippingRateFixedAmount = ShippingRateFixedAmount
   { -- | amount: A non-negative integer in cents representing how much to charge.
     shippingRateFixedAmountAmount :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-    shippingRateFixedAmountCurrency :: Data.Text.Internal.Text
+    shippingRateFixedAmountCurrency :: Data.Text.Internal.Text,
+    -- | currency_options: Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html) and a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    shippingRateFixedAmountCurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
   }
   deriving
     ( GHC.Show.Show,
@@ -45,11 +47,11 @@ data ShippingRateFixedAmount = ShippingRateFixedAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ShippingRateFixedAmount where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountCurrency obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountCurrency obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (shippingRateFixedAmountCurrencyOptions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= shippingRateFixedAmountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (shippingRateFixedAmountCurrencyOptions obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ShippingRateFixedAmount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ShippingRateFixedAmount" (\obj -> (GHC.Base.pure ShippingRateFixedAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ShippingRateFixedAmount" (\obj -> ((GHC.Base.pure ShippingRateFixedAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options"))
 
 -- | Create a new 'ShippingRateFixedAmount' with all required fields.
 mkShippingRateFixedAmount ::
@@ -61,5 +63,6 @@ mkShippingRateFixedAmount ::
 mkShippingRateFixedAmount shippingRateFixedAmountAmount shippingRateFixedAmountCurrency =
   ShippingRateFixedAmount
     { shippingRateFixedAmountAmount = shippingRateFixedAmountAmount,
-      shippingRateFixedAmountCurrency = shippingRateFixedAmountCurrency
+      shippingRateFixedAmountCurrency = shippingRateFixedAmountCurrency,
+      shippingRateFixedAmountCurrencyOptions = GHC.Maybe.Nothing
     }

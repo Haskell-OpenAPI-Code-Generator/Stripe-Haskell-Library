@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,36 +62,36 @@ postQuotes body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostQuotesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Quote
-                                                      )
+                                     PostQuotesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Quote
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostQuotesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostQuotesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/quotes") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/quotes" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostQuotesRequestBody = PostQuotesRequestBody
   { -- | application_fee_amount: The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner\'s Stripe account. There cannot be any line items with recurring prices when using this field.
     postQuotesRequestBodyApplicationFeeAmount :: (GHC.Maybe.Maybe PostQuotesRequestBodyApplicationFeeAmount'Variants),
-    -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account. There must be at least 1 line item with a recurring price to use this field.
+    -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner\'s Stripe account. There must be at least 1 line item with a recurring price to use this field.
     postQuotesRequestBodyApplicationFeePercent :: (GHC.Maybe.Maybe PostQuotesRequestBodyApplicationFeePercent'Variants),
     -- | automatic_tax: Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
     postQuotesRequestBodyAutomaticTax :: (GHC.Maybe.Maybe PostQuotesRequestBodyAutomaticTax'),
-    -- | collection_method: Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to \`charge_automatically\`.
+    -- | collection_method: Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as \`active\`. Defaults to \`charge_automatically\`.
     postQuotesRequestBodyCollectionMethod :: (GHC.Maybe.Maybe PostQuotesRequestBodyCollectionMethod'),
     -- | customer: The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
     --
@@ -101,11 +102,7 @@ data PostQuotesRequestBody = PostQuotesRequestBody
     -- | default_tax_rates: The tax rates that will apply to any line item that does not have \`tax_rates\` set.
     postQuotesRequestBodyDefaultTaxRates :: (GHC.Maybe.Maybe PostQuotesRequestBodyDefaultTaxRates'Variants),
     -- | description: A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/quote) will be used.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 500
-    postQuotesRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postQuotesRequestBodyDescription :: (GHC.Maybe.Maybe PostQuotesRequestBodyDescription'Variants),
     -- | discounts: The discounts applied to the quote. You can only set up to one discount.
     postQuotesRequestBodyDiscounts :: (GHC.Maybe.Maybe PostQuotesRequestBodyDiscounts'Variants),
     -- | expand: Specifies which fields in the response should be expanded.
@@ -113,19 +110,11 @@ data PostQuotesRequestBody = PostQuotesRequestBody
     -- | expires_at: A future timestamp on which the quote will be canceled if in \`open\` or \`draft\` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/quote) will be used.
     postQuotesRequestBodyExpiresAt :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | footer: A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/quote) will be used.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 500
-    postQuotesRequestBodyFooter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postQuotesRequestBodyFooter :: (GHC.Maybe.Maybe PostQuotesRequestBodyFooter'Variants),
     -- | from_quote: Clone an existing quote. The new quote will be created in \`status=draft\`. When using this parameter, you cannot specify any other parameters except for \`expires_at\`.
     postQuotesRequestBodyFromQuote :: (GHC.Maybe.Maybe PostQuotesRequestBodyFromQuote'),
     -- | header: A header that will be displayed on the quote PDF. If no value is passed, the default header configured in your [quote template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/quote) will be used.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 50
-    postQuotesRequestBodyHeader :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    postQuotesRequestBodyHeader :: (GHC.Maybe.Maybe PostQuotesRequestBodyHeader'Variants),
     -- | invoice_settings: All invoices will be billed using the specified settings.
     postQuotesRequestBodyInvoiceSettings :: (GHC.Maybe.Maybe PostQuotesRequestBodyInvoiceSettings'),
     -- | line_items: A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
@@ -201,12 +190,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyApplicationFeeA
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyApplicationFeeAmount'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodyApplicationFeeAmount'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.application_fee_percent.anyOf@ in the specification.
 --
--- A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account. There must be at least 1 line item with a recurring price to use this field.
+-- A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner\'s Stripe account. There must be at least 1 line item with a recurring price to use this field.
 data PostQuotesRequestBodyApplicationFeePercent'Variants
   = -- | Represents the JSON value @""@
     PostQuotesRequestBodyApplicationFeePercent'EmptyString
@@ -222,8 +211,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyApplicationFeeP
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyApplicationFeePercent'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodyApplicationFeePercent'Double Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.automatic_tax@ in the specification.
 --
@@ -253,7 +242,7 @@ mkPostQuotesRequestBodyAutomaticTax' postQuotesRequestBodyAutomaticTax'Enabled =
 
 -- | Defines the enum schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.collection_method@ in the specification.
 --
--- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to \`charge_automatically\`.
+-- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as \`active\`. Defaults to \`charge_automatically\`.
 data PostQuotesRequestBodyCollectionMethod'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostQuotesRequestBodyCollectionMethod'Other Data.Aeson.Types.Internal.Value
@@ -298,8 +287,29 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyDefaultTaxRates
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyDefaultTaxRates'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodyDefaultTaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.description.anyOf@ in the specification.
+--
+-- A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/quote) will be used.
+data PostQuotesRequestBodyDescription'Variants
+  = -- | Represents the JSON value @""@
+    PostQuotesRequestBodyDescription'EmptyString
+  | PostQuotesRequestBodyDescription'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostQuotesRequestBodyDescription'Variants where
+  toJSON (PostQuotesRequestBodyDescription'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostQuotesRequestBodyDescription'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyDescription'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyDescription'EmptyString
+        | GHC.Base.otherwise -> case (PostQuotesRequestBodyDescription'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.discounts.anyOf.items@ in the specification.
 data PostQuotesRequestBodyDiscounts'OneOf1 = PostQuotesRequestBodyDiscounts'OneOf1
@@ -354,8 +364,29 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyDiscounts'Varia
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyDiscounts'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodyDiscounts'ListTPostQuotesRequestBodyDiscounts'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.footer.anyOf@ in the specification.
+--
+-- A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/quote) will be used.
+data PostQuotesRequestBodyFooter'Variants
+  = -- | Represents the JSON value @""@
+    PostQuotesRequestBodyFooter'EmptyString
+  | PostQuotesRequestBodyFooter'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostQuotesRequestBodyFooter'Variants where
+  toJSON (PostQuotesRequestBodyFooter'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostQuotesRequestBodyFooter'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyFooter'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyFooter'EmptyString
+        | GHC.Base.otherwise -> case (PostQuotesRequestBodyFooter'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.from_quote@ in the specification.
 --
@@ -392,6 +423,27 @@ mkPostQuotesRequestBodyFromQuote' postQuotesRequestBodyFromQuote'Quote =
     { postQuotesRequestBodyFromQuote'IsRevision = GHC.Maybe.Nothing,
       postQuotesRequestBodyFromQuote'Quote = postQuotesRequestBodyFromQuote'Quote
     }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.header.anyOf@ in the specification.
+--
+-- A header that will be displayed on the quote PDF. If no value is passed, the default header configured in your [quote template settings](https:\/\/dashboard.stripe.com\/settings\/billing\/quote) will be used.
+data PostQuotesRequestBodyHeader'Variants
+  = -- | Represents the JSON value @""@
+    PostQuotesRequestBodyHeader'EmptyString
+  | PostQuotesRequestBodyHeader'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostQuotesRequestBodyHeader'Variants where
+  toJSON (PostQuotesRequestBodyHeader'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostQuotesRequestBodyHeader'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyHeader'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyHeader'EmptyString
+        | GHC.Base.otherwise -> case (PostQuotesRequestBodyHeader'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_settings@ in the specification.
 --
@@ -613,8 +665,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyLineItems'TaxRa
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyLineItems'TaxRates'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodyLineItems'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.on_behalf_of.anyOf@ in the specification.
 --
@@ -634,15 +686,23 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyOnBehalfOf'Vari
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyOnBehalfOf'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodyOnBehalfOf'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data@ in the specification.
 --
 -- When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if \`subscription_data[effective_date]\` is present and in the future, otherwise a subscription is created.
 data PostQuotesRequestBodySubscriptionData' = PostQuotesRequestBodySubscriptionData'
-  { -- | effective_date
+  { -- | description
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 500
+    postQuotesRequestBodySubscriptionData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | effective_date
     postQuotesRequestBodySubscriptionData'EffectiveDate :: (GHC.Maybe.Maybe PostQuotesRequestBodySubscriptionData'EffectiveDate'Variants),
+    -- | metadata
+    postQuotesRequestBodySubscriptionData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | trial_period_days
     postQuotesRequestBodySubscriptionData'TrialPeriodDays :: (GHC.Maybe.Maybe PostQuotesRequestBodySubscriptionData'TrialPeriodDays'Variants)
   }
@@ -652,17 +712,19 @@ data PostQuotesRequestBodySubscriptionData' = PostQuotesRequestBodySubscriptionD
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostQuotesRequestBodySubscriptionData' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_date" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'EffectiveDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_date" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'EffectiveDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_date" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'EffectiveDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_date" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'EffectiveDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (postQuotesRequestBodySubscriptionData'TrialPeriodDays obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodySubscriptionData' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostQuotesRequestBodySubscriptionData'" (\obj -> (GHC.Base.pure PostQuotesRequestBodySubscriptionData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "effective_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostQuotesRequestBodySubscriptionData'" (\obj -> (((GHC.Base.pure PostQuotesRequestBodySubscriptionData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "effective_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days"))
 
 -- | Create a new 'PostQuotesRequestBodySubscriptionData'' with all required fields.
 mkPostQuotesRequestBodySubscriptionData' :: PostQuotesRequestBodySubscriptionData'
 mkPostQuotesRequestBodySubscriptionData' =
   PostQuotesRequestBodySubscriptionData'
-    { postQuotesRequestBodySubscriptionData'EffectiveDate = GHC.Maybe.Nothing,
+    { postQuotesRequestBodySubscriptionData'Description = GHC.Maybe.Nothing,
+      postQuotesRequestBodySubscriptionData'EffectiveDate = GHC.Maybe.Nothing,
+      postQuotesRequestBodySubscriptionData'Metadata = GHC.Maybe.Nothing,
       postQuotesRequestBodySubscriptionData'TrialPeriodDays = GHC.Maybe.Nothing
     }
 
@@ -686,8 +748,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodySubscriptionDat
         | val GHC.Classes.== "current_period_end" -> GHC.Base.pure PostQuotesRequestBodySubscriptionData'EffectiveDate'CurrentPeriodEnd
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodySubscriptionData'EffectiveDate'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodySubscriptionData'EffectiveDate'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.subscription_data.properties.trial_period_days.anyOf@ in the specification.
 data PostQuotesRequestBodySubscriptionData'TrialPeriodDays'Variants
@@ -705,8 +767,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodySubscriptionDat
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodySubscriptionData'TrialPeriodDays'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodySubscriptionData'TrialPeriodDays'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/quotes.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.transfer_data.anyOf@ in the specification.
 data PostQuotesRequestBodyTransferData'OneOf1 = PostQuotesRequestBodyTransferData'OneOf1
@@ -759,8 +821,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostQuotesRequestBodyTransferData'Va
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostQuotesRequestBodyTransferData'EmptyString
         | GHC.Base.otherwise -> case (PostQuotesRequestBodyTransferData'PostQuotesRequestBodyTransferData'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postQuotes'.
 --

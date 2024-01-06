@@ -37,6 +37,11 @@ instance Show Issuing'transactionDispute'NonNullableVariants
 instance Eq Issuing'transactionDispute'NonNullableVariants
 instance FromJSON Issuing'transactionDispute'NonNullableVariants
 instance ToJSON Issuing'transactionDispute'NonNullableVariants
+data Issuing'transactionNetworkData'NonNullable
+instance Show Issuing'transactionNetworkData'NonNullable
+instance Eq Issuing'transactionNetworkData'NonNullable
+instance FromJSON Issuing'transactionNetworkData'NonNullable
+instance ToJSON Issuing'transactionNetworkData'NonNullable
 data Issuing'transactionPurchaseDetails'NonNullable
 instance Show Issuing'transactionPurchaseDetails'NonNullable
 instance Eq Issuing'transactionPurchaseDetails'NonNullable
@@ -57,6 +62,11 @@ instance Show Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
 instance Eq Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
 instance FromJSON Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
 instance ToJSON Issuing'transactionPurchaseDetails'NonNullableLodging'NonNullable
+data Issuing'transactionToken'NonNullableVariants
+instance Show Issuing'transactionToken'NonNullableVariants
+instance Eq Issuing'transactionToken'NonNullableVariants
+instance FromJSON Issuing'transactionToken'NonNullableVariants
+instance ToJSON Issuing'transactionToken'NonNullableVariants
 data Issuing'transactionTreasury'NonNullable
 instance Show Issuing'transactionTreasury'NonNullable
 instance Eq Issuing'transactionTreasury'NonNullable

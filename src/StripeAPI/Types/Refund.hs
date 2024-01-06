@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -32,6 +32,7 @@ import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.BalanceTransaction
 import {-# SOURCE #-} StripeAPI.Types.Charge
 import {-# SOURCE #-} StripeAPI.Types.PaymentIntent
+import {-# SOURCE #-} StripeAPI.Types.RefundDestinationDetails
 import {-# SOURCE #-} StripeAPI.Types.RefundNextAction
 import {-# SOURCE #-} StripeAPI.Types.TransferReversal
 import qualified Prelude as GHC.Integer.Type
@@ -39,31 +40,33 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.refund@ in the specification.
 --
--- \`Refund\` objects allow you to refund a charge that has previously been created
--- but not yet refunded. Funds will be refunded to the credit or debit card that
--- was originally charged.
+-- Refund objects allow you to refund a previously created charge that isn\'t
+-- refunded yet. Funds are refunded to the credit or debit card that\'s
+-- initially charged.
 --
--- Related guide: [Refunds](https:\/\/stripe.com\/docs\/refunds).
+-- Related guide: [Refunds](https:\/\/stripe.com\/docs\/refunds)
 data Refund = Refund
-  { -- | amount: Amount, in %s.
+  { -- | amount: Amount, in cents (or local equivalent).
     refundAmount :: GHC.Types.Int,
     -- | balance_transaction: Balance transaction that describes the impact on your account balance.
     refundBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable RefundBalanceTransaction'NonNullableVariants)),
-    -- | charge: ID of the charge that was refunded.
+    -- | charge: ID of the charge that\'s refunded.
     refundCharge :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable RefundCharge'NonNullableVariants)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     refundCreated :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     refundCurrency :: Data.Text.Internal.Text,
-    -- | description: An arbitrary string attached to the object. Often useful for displaying to users. (Available on non-card refunds only)
+    -- | description: An arbitrary string attached to the object. You can use this for displaying to users (available on non-card refunds only).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     refundDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | failure_balance_transaction: If the refund failed, this balance transaction describes the adjustment made on your account balance that reverses the initial balance transaction.
+    -- | destination_details:
+    refundDestinationDetails :: (GHC.Maybe.Maybe RefundDestinationDetails),
+    -- | failure_balance_transaction: After the refund fails, this balance transaction describes the adjustment made on your account balance that reverses the initial balance transaction.
     refundFailureBalanceTransaction :: (GHC.Maybe.Maybe RefundFailureBalanceTransaction'Variants),
-    -- | failure_reason: If the refund failed, the reason for refund failure if known. Possible values are \`lost_or_stolen_card\`, \`expired_or_canceled_card\`, or \`unknown\`.
+    -- | failure_reason: Provides the reason for the refund failure. Possible values are: \`lost_or_stolen_card\`, \`expired_or_canceled_card\`, \`charge_for_pending_refund_disputed\`, \`insufficient_funds\`, \`declined\`, \`merchant_request\`, or \`unknown\`.
     --
     -- Constraints:
     --
@@ -75,7 +78,7 @@ data Refund = Refund
     --
     -- * Maximum length of 5000
     refundId :: Data.Text.Internal.Text,
-    -- | instructions_email: Email to which refund instructions, if required, are sent to.
+    -- | instructions_email: For payment methods without native refund support (for example, Konbini, PromptPay), provide an email address for the customer to receive refund instructions.
     --
     -- Constraints:
     --
@@ -85,9 +88,9 @@ data Refund = Refund
     refundMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | next_action:
     refundNextAction :: (GHC.Maybe.Maybe RefundNextAction),
-    -- | payment_intent: ID of the PaymentIntent that was refunded.
+    -- | payment_intent: ID of the PaymentIntent that\'s refunded.
     refundPaymentIntent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable RefundPaymentIntent'NonNullableVariants)),
-    -- | reason: Reason for the refund, either user-provided (\`duplicate\`, \`fraudulent\`, or \`requested_by_customer\`) or generated by Stripe internally (\`expired_uncaptured_charge\`).
+    -- | reason: Reason for the refund, which is either user-provided (\`duplicate\`, \`fraudulent\`, or \`requested_by_customer\`) or generated by Stripe internally (\`expired_uncaptured_charge\`).
     refundReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable RefundReason'NonNullable)),
     -- | receipt_number: This is the transaction number that appears on email receipts sent for this refund.
     --
@@ -95,15 +98,15 @@ data Refund = Refund
     --
     -- * Maximum length of 5000
     refundReceiptNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | source_transfer_reversal: The transfer reversal that is associated with the refund. Only present if the charge came from another Stripe account. See the Connect documentation for details.
+    -- | source_transfer_reversal: The transfer reversal that\'s associated with the refund. Only present if the charge came from another Stripe account.
     refundSourceTransferReversal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable RefundSourceTransferReversal'NonNullableVariants)),
-    -- | status: Status of the refund. For credit card refunds, this can be \`pending\`, \`succeeded\`, or \`failed\`. For other types of refunds, it can be \`pending\`, \`requires_action\`, \`succeeded\`, \`failed\`, or \`canceled\`. Refer to our [refunds](https:\/\/stripe.com\/docs\/refunds\#failed-refunds) documentation for more details.
+    -- | status: Status of the refund. This can be \`pending\`, \`requires_action\`, \`succeeded\`, \`failed\`, or \`canceled\`. Learn more about [failed refunds](https:\/\/stripe.com\/docs\/refunds\#failed-refunds).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     refundStatus :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | transfer_reversal: If the accompanying transfer was reversed, the transfer reversal object. Only applicable if the charge was created using the destination parameter.
+    -- | transfer_reversal: This refers to the transfer reversal object if the accompanying transfer reverses. This is only applicable if the charge was created using the destination parameter.
     refundTransferReversal :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable RefundTransferReversal'NonNullableVariants))
   }
   deriving
@@ -112,11 +115,11 @@ data Refund = Refund
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Refund where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= refundAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (refundCharge obj) : ["created" Data.Aeson.Types.ToJSON..= refundCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= refundCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (refundDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_reason" Data.Aeson.Types.ToJSON..=)) (refundFailureReason obj) : ["id" Data.Aeson.Types.ToJSON..= refundId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instructions_email" Data.Aeson.Types.ToJSON..=)) (refundInstructionsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (refundMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_action" Data.Aeson.Types.ToJSON..=)) (refundNextAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (refundPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (refundReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt_number" Data.Aeson.Types.ToJSON..=)) (refundReceiptNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundSourceTransferReversal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (refundStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundTransferReversal obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "refund"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= refundAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (refundCharge obj) : ["created" Data.Aeson.Types.ToJSON..= refundCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= refundCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (refundDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_reason" Data.Aeson.Types.ToJSON..=)) (refundFailureReason obj) : ["id" Data.Aeson.Types.ToJSON..= refundId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instructions_email" Data.Aeson.Types.ToJSON..=)) (refundInstructionsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (refundMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_action" Data.Aeson.Types.ToJSON..=)) (refundNextAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (refundPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (refundReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt_number" Data.Aeson.Types.ToJSON..=)) (refundReceiptNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundSourceTransferReversal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (refundStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundTransferReversal obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "refund"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= refundAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (refundCharge obj) : ["created" Data.Aeson.Types.ToJSON..= refundCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= refundCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (refundDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_details" Data.Aeson.Types.ToJSON..=)) (refundDestinationDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_reason" Data.Aeson.Types.ToJSON..=)) (refundFailureReason obj) : ["id" Data.Aeson.Types.ToJSON..= refundId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instructions_email" Data.Aeson.Types.ToJSON..=)) (refundInstructionsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (refundMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_action" Data.Aeson.Types.ToJSON..=)) (refundNextAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (refundPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (refundReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt_number" Data.Aeson.Types.ToJSON..=)) (refundReceiptNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundSourceTransferReversal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (refundStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundTransferReversal obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "refund"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= refundAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("charge" Data.Aeson.Types.ToJSON..=)) (refundCharge obj) : ["created" Data.Aeson.Types.ToJSON..= refundCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= refundCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (refundDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_details" Data.Aeson.Types.ToJSON..=)) (refundDestinationDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_balance_transaction" Data.Aeson.Types.ToJSON..=)) (refundFailureBalanceTransaction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_reason" Data.Aeson.Types.ToJSON..=)) (refundFailureReason obj) : ["id" Data.Aeson.Types.ToJSON..= refundId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("instructions_email" Data.Aeson.Types.ToJSON..=)) (refundInstructionsEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (refundMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_action" Data.Aeson.Types.ToJSON..=)) (refundNextAction obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (refundPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (refundReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("receipt_number" Data.Aeson.Types.ToJSON..=)) (refundReceiptNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source_transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundSourceTransferReversal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (refundStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_reversal" Data.Aeson.Types.ToJSON..=)) (refundTransferReversal obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "refund"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Refund where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Refund" (\obj -> (((((((((((((((((GHC.Base.pure Refund GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "instructions_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receipt_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source_transfer_reversal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_reversal"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Refund" (\obj -> ((((((((((((((((((GHC.Base.pure Refund GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "destination_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "instructions_email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_action")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "receipt_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source_transfer_reversal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_reversal"))
 
 -- | Create a new 'Refund' with all required fields.
 mkRefund ::
@@ -137,6 +140,7 @@ mkRefund refundAmount refundCreated refundCurrency refundId =
       refundCreated = refundCreated,
       refundCurrency = refundCurrency,
       refundDescription = GHC.Maybe.Nothing,
+      refundDestinationDetails = GHC.Maybe.Nothing,
       refundFailureBalanceTransaction = GHC.Maybe.Nothing,
       refundFailureReason = GHC.Maybe.Nothing,
       refundId = refundId,
@@ -170,7 +174,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON RefundBalanceTransaction'NonNullable
 
 -- | Defines the oneOf schema located at @components.schemas.refund.properties.charge.anyOf@ in the specification.
 --
--- ID of the charge that was refunded.
+-- ID of the charge that\'s refunded.
 data RefundCharge'NonNullableVariants
   = RefundCharge'NonNullableText Data.Text.Internal.Text
   | RefundCharge'NonNullableCharge Charge
@@ -187,7 +191,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON RefundCharge'NonNullableVariants whe
 
 -- | Defines the oneOf schema located at @components.schemas.refund.properties.failure_balance_transaction.anyOf@ in the specification.
 --
--- If the refund failed, this balance transaction describes the adjustment made on your account balance that reverses the initial balance transaction.
+-- After the refund fails, this balance transaction describes the adjustment made on your account balance that reverses the initial balance transaction.
 data RefundFailureBalanceTransaction'Variants
   = RefundFailureBalanceTransaction'Text Data.Text.Internal.Text
   | RefundFailureBalanceTransaction'BalanceTransaction BalanceTransaction
@@ -204,7 +208,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON RefundFailureBalanceTransaction'Vari
 
 -- | Defines the oneOf schema located at @components.schemas.refund.properties.payment_intent.anyOf@ in the specification.
 --
--- ID of the PaymentIntent that was refunded.
+-- ID of the PaymentIntent that\'s refunded.
 data RefundPaymentIntent'NonNullableVariants
   = RefundPaymentIntent'NonNullableText Data.Text.Internal.Text
   | RefundPaymentIntent'NonNullablePaymentIntent PaymentIntent
@@ -221,7 +225,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON RefundPaymentIntent'NonNullableVaria
 
 -- | Defines the enum schema located at @components.schemas.refund.properties.reason@ in the specification.
 --
--- Reason for the refund, either user-provided (\`duplicate\`, \`fraudulent\`, or \`requested_by_customer\`) or generated by Stripe internally (\`expired_uncaptured_charge\`).
+-- Reason for the refund, which is either user-provided (\`duplicate\`, \`fraudulent\`, or \`requested_by_customer\`) or generated by Stripe internally (\`expired_uncaptured_charge\`).
 data RefundReason'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     RefundReason'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -258,7 +262,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON RefundReason'NonNullable where
 
 -- | Defines the oneOf schema located at @components.schemas.refund.properties.source_transfer_reversal.anyOf@ in the specification.
 --
--- The transfer reversal that is associated with the refund. Only present if the charge came from another Stripe account. See the Connect documentation for details.
+-- The transfer reversal that\'s associated with the refund. Only present if the charge came from another Stripe account.
 data RefundSourceTransferReversal'NonNullableVariants
   = RefundSourceTransferReversal'NonNullableText Data.Text.Internal.Text
   | RefundSourceTransferReversal'NonNullableTransferReversal TransferReversal
@@ -275,7 +279,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON RefundSourceTransferReversal'NonNull
 
 -- | Defines the oneOf schema located at @components.schemas.refund.properties.transfer_reversal.anyOf@ in the specification.
 --
--- If the accompanying transfer was reversed, the transfer reversal object. Only applicable if the charge was created using the destination parameter.
+-- This refers to the transfer reversal object if the accompanying transfer reverses. This is only applicable if the charge was created using the destination parameter.
 data RefundTransferReversal'NonNullableVariants
   = RefundTransferReversal'NonNullableText Data.Text.Internal.Text
   | RefundTransferReversal'NonNullableTransferReversal TransferReversal

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -41,7 +41,19 @@ data PaymentMethodOptionsPaypal = PaymentMethodOptionsPaypal
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodOptionsPaypalPreferredLocale :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+    paymentMethodOptionsPaypalPreferredLocale :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | reference: A reference of the PayPal transaction visible to customer which is mapped to PayPal\'s invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentMethodOptionsPaypalReference :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+    --
+    -- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+    --
+    -- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+    paymentMethodOptionsPaypalSetupFutureUsage :: (GHC.Maybe.Maybe PaymentMethodOptionsPaypalSetupFutureUsage')
   }
   deriving
     ( GHC.Show.Show,
@@ -49,18 +61,20 @@ data PaymentMethodOptionsPaypal = PaymentMethodOptionsPaypal
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsPaypal where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalPreferredLocale obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalPreferredLocale obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalPreferredLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalSetupFutureUsage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locale" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalPreferredLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reference" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalReference obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentMethodOptionsPaypalSetupFutureUsage obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsPaypal where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsPaypal" (\obj -> (GHC.Base.pure PaymentMethodOptionsPaypal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_locale"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodOptionsPaypal" (\obj -> (((GHC.Base.pure PaymentMethodOptionsPaypal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reference")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
 
 -- | Create a new 'PaymentMethodOptionsPaypal' with all required fields.
 mkPaymentMethodOptionsPaypal :: PaymentMethodOptionsPaypal
 mkPaymentMethodOptionsPaypal =
   PaymentMethodOptionsPaypal
     { paymentMethodOptionsPaypalCaptureMethod = GHC.Maybe.Nothing,
-      paymentMethodOptionsPaypalPreferredLocale = GHC.Maybe.Nothing
+      paymentMethodOptionsPaypalPreferredLocale = GHC.Maybe.Nothing,
+      paymentMethodOptionsPaypalReference = GHC.Maybe.Nothing,
+      paymentMethodOptionsPaypalSetupFutureUsage = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.payment_method_options_paypal.properties.capture_method@ in the specification.
@@ -86,4 +100,37 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsPaypalCaptureMet
       ( if
             | val GHC.Classes.== "manual" -> PaymentMethodOptionsPaypalCaptureMethod'EnumManual
             | GHC.Base.otherwise -> PaymentMethodOptionsPaypalCaptureMethod'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_method_options_paypal.properties.setup_future_usage@ in the specification.
+--
+-- Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
+--
+-- Providing this parameter will [attach the payment method](https:\/\/stripe.com\/docs\/payments\/save-during-payment) to the PaymentIntent\'s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https:\/\/stripe.com\/docs\/api\/payment_methods\/attach) to a Customer after the transaction completes.
+--
+-- When processing card payments, Stripe also uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication).
+data PaymentMethodOptionsPaypalSetupFutureUsage'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentMethodOptionsPaypalSetupFutureUsage'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentMethodOptionsPaypalSetupFutureUsage'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentMethodOptionsPaypalSetupFutureUsage'EnumNone
+  | -- | Represents the JSON value @"off_session"@
+    PaymentMethodOptionsPaypalSetupFutureUsage'EnumOffSession
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsPaypalSetupFutureUsage' where
+  toJSON (PaymentMethodOptionsPaypalSetupFutureUsage'Other val) = val
+  toJSON (PaymentMethodOptionsPaypalSetupFutureUsage'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsPaypalSetupFutureUsage'EnumNone) = "none"
+  toJSON (PaymentMethodOptionsPaypalSetupFutureUsage'EnumOffSession) = "off_session"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsPaypalSetupFutureUsage' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentMethodOptionsPaypalSetupFutureUsage'EnumNone
+            | val GHC.Classes.== "off_session" -> PaymentMethodOptionsPaypalSetupFutureUsage'EnumOffSession
+            | GHC.Base.otherwise -> PaymentMethodOptionsPaypalSetupFutureUsage'Other val
       )

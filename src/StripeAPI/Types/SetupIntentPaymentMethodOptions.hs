@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,10 +30,11 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.LinkedAccountOptionsUsBankAccount
+import {-# SOURCE #-} StripeAPI.Types.PaymentMethodOptionsUsBankAccountMandateOptions
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsAcssDebit
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsCard
-import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsLink
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsMandateOptionsAcssDebit
+import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsPaypal
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsSepaDebit
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentPaymentMethodOptionsUsBankAccount
 import {-# SOURCE #-} StripeAPI.Types.SetupIntentTypeSpecificPaymentMethodOptionsClient
@@ -48,6 +49,8 @@ data SetupIntentPaymentMethodOptions = SetupIntentPaymentMethodOptions
     setupIntentPaymentMethodOptionsCard :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsCard),
     -- | link
     setupIntentPaymentMethodOptionsLink :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsLink'),
+    -- | paypal
+    setupIntentPaymentMethodOptionsPaypal :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsPaypal'),
     -- | sepa_debit
     setupIntentPaymentMethodOptionsSepaDebit :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsSepaDebit'),
     -- | us_bank_account
@@ -59,11 +62,11 @@ data SetupIntentPaymentMethodOptions = SetupIntentPaymentMethodOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptions where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsSepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsSepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsPaypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsSepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acss_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsAcssDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("link" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paypal" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsPaypal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sepa_debit" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsSepaDebit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("us_bank_account" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptions" (\obj -> ((((GHC.Base.pure SetupIntentPaymentMethodOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptions" (\obj -> (((((GHC.Base.pure SetupIntentPaymentMethodOptions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acss_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "link")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paypal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sepa_debit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "us_bank_account"))
 
 -- | Create a new 'SetupIntentPaymentMethodOptions' with all required fields.
 mkSetupIntentPaymentMethodOptions :: SetupIntentPaymentMethodOptions
@@ -72,6 +75,7 @@ mkSetupIntentPaymentMethodOptions =
     { setupIntentPaymentMethodOptionsAcssDebit = GHC.Maybe.Nothing,
       setupIntentPaymentMethodOptionsCard = GHC.Maybe.Nothing,
       setupIntentPaymentMethodOptionsLink = GHC.Maybe.Nothing,
+      setupIntentPaymentMethodOptionsPaypal = GHC.Maybe.Nothing,
       setupIntentPaymentMethodOptionsSepaDebit = GHC.Maybe.Nothing,
       setupIntentPaymentMethodOptionsUsBankAccount = GHC.Maybe.Nothing
     }
@@ -170,13 +174,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsAcssD
 
 -- | Defines the object schema located at @components.schemas.setup_intent_payment_method_options.properties.link.anyOf@ in the specification.
 data SetupIntentPaymentMethodOptionsLink' = SetupIntentPaymentMethodOptionsLink'
-  { -- | persistent_token: Token used for persistent Link logins.
-    --
-    -- Constraints:
-    --
-    -- * Maximum length of 5000
-    setupIntentPaymentMethodOptionsLink'PersistentToken :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | verification_method: Bank account verification method.
+  { -- | verification_method: Bank account verification method.
     setupIntentPaymentMethodOptionsLink'VerificationMethod :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsLink'VerificationMethod')
   }
   deriving
@@ -185,19 +183,15 @@ data SetupIntentPaymentMethodOptionsLink' = SetupIntentPaymentMethodOptionsLink'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsLink' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink'PersistentToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink'VerificationMethod obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("persistent_token" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink'PersistentToken obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink'VerificationMethod obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink'VerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsLink'VerificationMethod obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsLink' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsLink'" (\obj -> (GHC.Base.pure SetupIntentPaymentMethodOptionsLink' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "persistent_token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsLink'" (\obj -> GHC.Base.pure SetupIntentPaymentMethodOptionsLink' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
 
 -- | Create a new 'SetupIntentPaymentMethodOptionsLink'' with all required fields.
 mkSetupIntentPaymentMethodOptionsLink' :: SetupIntentPaymentMethodOptionsLink'
-mkSetupIntentPaymentMethodOptionsLink' =
-  SetupIntentPaymentMethodOptionsLink'
-    { setupIntentPaymentMethodOptionsLink'PersistentToken = GHC.Maybe.Nothing,
-      setupIntentPaymentMethodOptionsLink'VerificationMethod = GHC.Maybe.Nothing
-    }
+mkSetupIntentPaymentMethodOptionsLink' = SetupIntentPaymentMethodOptionsLink' {setupIntentPaymentMethodOptionsLink'VerificationMethod = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @components.schemas.setup_intent_payment_method_options.properties.link.anyOf.properties.verification_method@ in the specification.
 --
@@ -230,6 +224,70 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsLink'
             | val GHC.Classes.== "instant" -> SetupIntentPaymentMethodOptionsLink'VerificationMethod'EnumInstant
             | val GHC.Classes.== "microdeposits" -> SetupIntentPaymentMethodOptionsLink'VerificationMethod'EnumMicrodeposits
             | GHC.Base.otherwise -> SetupIntentPaymentMethodOptionsLink'VerificationMethod'Other val
+      )
+
+-- | Defines the object schema located at @components.schemas.setup_intent_payment_method_options.properties.paypal.anyOf@ in the specification.
+data SetupIntentPaymentMethodOptionsPaypal' = SetupIntentPaymentMethodOptionsPaypal'
+  { -- | billing_agreement_id: The PayPal Billing Agreement ID (BAID). This is an ID generated by PayPal which represents the mandate between the merchant and the customer.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    setupIntentPaymentMethodOptionsPaypal'BillingAgreementId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | verification_method: Bank account verification method.
+    setupIntentPaymentMethodOptionsPaypal'VerificationMethod :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsPaypal'VerificationMethod')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsPaypal' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_agreement_id" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsPaypal'BillingAgreementId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsPaypal'VerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_agreement_id" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsPaypal'BillingAgreementId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsPaypal'VerificationMethod obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsPaypal' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsPaypal'" (\obj -> (GHC.Base.pure SetupIntentPaymentMethodOptionsPaypal' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_agreement_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+
+-- | Create a new 'SetupIntentPaymentMethodOptionsPaypal'' with all required fields.
+mkSetupIntentPaymentMethodOptionsPaypal' :: SetupIntentPaymentMethodOptionsPaypal'
+mkSetupIntentPaymentMethodOptionsPaypal' =
+  SetupIntentPaymentMethodOptionsPaypal'
+    { setupIntentPaymentMethodOptionsPaypal'BillingAgreementId = GHC.Maybe.Nothing,
+      setupIntentPaymentMethodOptionsPaypal'VerificationMethod = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.setup_intent_payment_method_options.properties.paypal.anyOf.properties.verification_method@ in the specification.
+--
+-- Bank account verification method.
+data SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"automatic"@
+    SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumAutomatic
+  | -- | Represents the JSON value @"instant"@
+    SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumInstant
+  | -- | Represents the JSON value @"microdeposits"@
+    SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumMicrodeposits
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsPaypal'VerificationMethod' where
+  toJSON (SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'Other val) = val
+  toJSON (SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumAutomatic) = "automatic"
+  toJSON (SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumInstant) = "instant"
+  toJSON (SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumMicrodeposits) = "microdeposits"
+
+instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsPaypal'VerificationMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "automatic" -> SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumAutomatic
+            | val GHC.Classes.== "instant" -> SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumInstant
+            | val GHC.Classes.== "microdeposits" -> SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'EnumMicrodeposits
+            | GHC.Base.otherwise -> SetupIntentPaymentMethodOptionsPaypal'VerificationMethod'Other val
       )
 
 -- | Defines the object schema located at @components.schemas.setup_intent_payment_method_options.properties.sepa_debit.anyOf@ in the specification.
@@ -296,6 +354,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsSepaD
 data SetupIntentPaymentMethodOptionsUsBankAccount' = SetupIntentPaymentMethodOptionsUsBankAccount'
   { -- | financial_connections:
     setupIntentPaymentMethodOptionsUsBankAccount'FinancialConnections :: (GHC.Maybe.Maybe LinkedAccountOptionsUsBankAccount),
+    -- | mandate_options:
+    setupIntentPaymentMethodOptionsUsBankAccount'MandateOptions :: (GHC.Maybe.Maybe PaymentMethodOptionsUsBankAccountMandateOptions),
     -- | verification_method: Bank account verification method.
     setupIntentPaymentMethodOptionsUsBankAccount'VerificationMethod :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsUsBankAccount'VerificationMethod')
   }
@@ -305,17 +365,18 @@ data SetupIntentPaymentMethodOptionsUsBankAccount' = SetupIntentPaymentMethodOpt
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupIntentPaymentMethodOptionsUsBankAccount' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'VerificationMethod obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'VerificationMethod obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'VerificationMethod obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'FinancialConnections obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'MandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_method" Data.Aeson.Types.ToJSON..=)) (setupIntentPaymentMethodOptionsUsBankAccount'VerificationMethod obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupIntentPaymentMethodOptionsUsBankAccount' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsUsBankAccount'" (\obj -> (GHC.Base.pure SetupIntentPaymentMethodOptionsUsBankAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SetupIntentPaymentMethodOptionsUsBankAccount'" (\obj -> ((GHC.Base.pure SetupIntentPaymentMethodOptionsUsBankAccount' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_method"))
 
 -- | Create a new 'SetupIntentPaymentMethodOptionsUsBankAccount'' with all required fields.
 mkSetupIntentPaymentMethodOptionsUsBankAccount' :: SetupIntentPaymentMethodOptionsUsBankAccount'
 mkSetupIntentPaymentMethodOptionsUsBankAccount' =
   SetupIntentPaymentMethodOptionsUsBankAccount'
     { setupIntentPaymentMethodOptionsUsBankAccount'FinancialConnections = GHC.Maybe.Nothing,
+      setupIntentPaymentMethodOptionsUsBankAccount'MandateOptions = GHC.Maybe.Nothing,
       setupIntentPaymentMethodOptionsUsBankAccount'VerificationMethod = GHC.Maybe.Nothing
     }
 

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,7 +46,8 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/issuing/authorizations/{authorization}/decline
 --
--- \<p>Declines a pending Issuing \<code>Authorization\<\/code> object. This request should be made within the timeout window of the \<a href=\"\/docs\/issuing\/controls\/real-time-authorizations\">real time authorization\<\/a> flow.\<\/p>
+-- \<p>[Deprecated] Declines a pending Issuing \<code>Authorization\<\/code> object. This request should be made within the timeout window of the \<a href=\"\/docs\/issuing\/controls\/real-time-authorizations\">real time authorization\<\/a> flow.
+-- This method is deprecated. Instead, \<a href=\"\/docs\/issuing\/controls\/real-time-authorizations\#authorization-handling\">respond directly to the webhook request to decline an authorization\<\/a>.\<\/p>
 postIssuingAuthorizationsAuthorizationDecline ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -65,26 +67,26 @@ postIssuingAuthorizationsAuthorizationDecline
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostIssuingAuthorizationsAuthorizationDeclineResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Issuing'authorization
-                                                        )
+                                       PostIssuingAuthorizationsAuthorizationDeclineResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Issuing'authorization
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostIssuingAuthorizationsAuthorizationDeclineResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostIssuingAuthorizationsAuthorizationDeclineResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ "/decline"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/issuing/authorizations/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.<> "/decline")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/authorizations\/{authorization}\/decline.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingAuthorizationsAuthorizationDeclineRequestBody = PostIssuingAuthorizationsAuthorizationDeclineRequestBody
@@ -131,8 +133,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizati
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postIssuingAuthorizationsAuthorizationDecline'.
 --

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,9 +46,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/payment_intents/{intent}/apply_customer_balance
 --
--- \<p>Manually reconcile the remaining amount for a customer_balance PaymentIntent.\<\/p>
---
--- \<p>This can be used when the cash balance for \<a href=\"docs\/payments\/customer-balance\/reconciliation\#cash-manual-reconciliation\">a customer in manual reconciliation mode\<\/a> received funds.\<\/p>
+-- \<p>Manually reconcile the remaining amount for a \<code>customer_balance\<\/code> PaymentIntent.\<\/p>
 postPaymentIntentsIntentApplyCustomerBalance ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -67,36 +66,36 @@ postPaymentIntentsIntentApplyCustomerBalance
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentIntentsIntentApplyCustomerBalanceResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              PaymentIntent
-                                                        )
+                                       PostPaymentIntentsIntentApplyCustomerBalanceResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                PaymentIntent
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentIntentsIntentApplyCustomerBalanceResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostPaymentIntentsIntentApplyCustomerBalanceResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/apply_customer_balance"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/payment_intents/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.<> "/apply_customer_balance")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}\/apply_customer_balance.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentIntentsIntentApplyCustomerBalanceRequestBody = PostPaymentIntentsIntentApplyCustomerBalanceRequestBody
-  { -- | amount: Amount intended to be applied to this PaymentIntent from the customer’s cash balance.
+  { -- | amount: Amount that you intend to apply to this PaymentIntent from the customer’s cash balance.
     --
-    -- A positive integer representing how much to charge in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal) (e.g., 100 cents to charge \$1.00 or 100 to charge ¥100, a zero-decimal currency).
+    -- A positive integer representing how much to charge in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency).
     --
     -- The maximum amount is the amount of the PaymentIntent.
     --
-    -- When omitted, the amount defaults to the remaining amount requested on the PaymentIntent.
+    -- When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
     postPaymentIntentsIntentApplyCustomerBalanceRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     postPaymentIntentsIntentApplyCustomerBalanceRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),

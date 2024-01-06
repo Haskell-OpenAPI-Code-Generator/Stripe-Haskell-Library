@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -40,7 +40,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.subscription_schedules_resource_default_settings@ in the specification.
 data SubscriptionSchedulesResourceDefaultSettings = SubscriptionSchedulesResourceDefaultSettings
-  { -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account during this phase of the schedule.
+  { -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner\'s Stripe account during this phase of the schedule.
     subscriptionSchedulesResourceDefaultSettingsApplicationFeePercent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | automatic_tax:
     subscriptionSchedulesResourceDefaultSettingsAutomaticTax :: (GHC.Maybe.Maybe SubscriptionSchedulesResourceDefaultSettingsAutomaticTax),
@@ -48,12 +48,20 @@ data SubscriptionSchedulesResourceDefaultSettings = SubscriptionSchedulesResourc
     subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor :: SubscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor',
     -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
     subscriptionSchedulesResourceDefaultSettingsBillingThresholds :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulesResourceDefaultSettingsBillingThresholds'NonNullable)),
-    -- | collection_method: Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+    -- | collection_method: Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as \`active\`.
     subscriptionSchedulesResourceDefaultSettingsCollectionMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'NonNullable)),
     -- | default_payment_method: ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer\'s invoice settings.
     subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod'NonNullableVariants)),
-    -- | invoice_settings: The subscription schedule\'s default invoice settings.
-    subscriptionSchedulesResourceDefaultSettingsInvoiceSettings :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable)),
+    -- | description: Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    subscriptionSchedulesResourceDefaultSettingsDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | invoice_settings:
+    subscriptionSchedulesResourceDefaultSettingsInvoiceSettings :: InvoiceSettingSubscriptionScheduleSetting,
+    -- | on_behalf_of: The account (if any) the charge was made on behalf of for charges associated with the schedule\'s subscription. See the Connect documentation for details.
+    subscriptionSchedulesResourceDefaultSettingsOnBehalfOf :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableVariants)),
     -- | transfer_data: The account (if any) the associated subscription\'s payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription\'s invoices.
     subscriptionSchedulesResourceDefaultSettingsTransferData :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionSchedulesResourceDefaultSettingsTransferData'NonNullable))
   }
@@ -63,18 +71,20 @@ data SubscriptionSchedulesResourceDefaultSettings = SubscriptionSchedulesResourc
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsAutomaticTax obj) : ["billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsTransferData obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsAutomaticTax obj) : ["billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsTransferData obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsAutomaticTax obj) : ["billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsDescription obj) : ["invoice_settings" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsTransferData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsAutomaticTax obj) : ["billing_cycle_anchor" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsCollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsDescription obj) : ["invoice_settings" Data.Aeson.Types.ToJSON..= subscriptionSchedulesResourceDefaultSettingsInvoiceSettings obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsTransferData obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulesResourceDefaultSettings" (\obj -> (((((((GHC.Base.pure SubscriptionSchedulesResourceDefaultSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulesResourceDefaultSettings" (\obj -> (((((((((GHC.Base.pure SubscriptionSchedulesResourceDefaultSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
 
 -- | Create a new 'SubscriptionSchedulesResourceDefaultSettings' with all required fields.
 mkSubscriptionSchedulesResourceDefaultSettings ::
   -- | 'subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor'
   SubscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor' ->
+  -- | 'subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'
+  InvoiceSettingSubscriptionScheduleSetting ->
   SubscriptionSchedulesResourceDefaultSettings
-mkSubscriptionSchedulesResourceDefaultSettings subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor =
+mkSubscriptionSchedulesResourceDefaultSettings subscriptionSchedulesResourceDefaultSettingsBillingCycleAnchor subscriptionSchedulesResourceDefaultSettingsInvoiceSettings =
   SubscriptionSchedulesResourceDefaultSettings
     { subscriptionSchedulesResourceDefaultSettingsApplicationFeePercent = GHC.Maybe.Nothing,
       subscriptionSchedulesResourceDefaultSettingsAutomaticTax = GHC.Maybe.Nothing,
@@ -82,7 +92,9 @@ mkSubscriptionSchedulesResourceDefaultSettings subscriptionSchedulesResourceDefa
       subscriptionSchedulesResourceDefaultSettingsBillingThresholds = GHC.Maybe.Nothing,
       subscriptionSchedulesResourceDefaultSettingsCollectionMethod = GHC.Maybe.Nothing,
       subscriptionSchedulesResourceDefaultSettingsDefaultPaymentMethod = GHC.Maybe.Nothing,
-      subscriptionSchedulesResourceDefaultSettingsInvoiceSettings = GHC.Maybe.Nothing,
+      subscriptionSchedulesResourceDefaultSettingsDescription = GHC.Maybe.Nothing,
+      subscriptionSchedulesResourceDefaultSettingsInvoiceSettings = subscriptionSchedulesResourceDefaultSettingsInvoiceSettings,
+      subscriptionSchedulesResourceDefaultSettingsOnBehalfOf = GHC.Maybe.Nothing,
       subscriptionSchedulesResourceDefaultSettingsTransferData = GHC.Maybe.Nothing
     }
 
@@ -146,7 +158,7 @@ mkSubscriptionSchedulesResourceDefaultSettingsBillingThresholds'NonNullable =
 
 -- | Defines the enum schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.collection_method@ in the specification.
 --
--- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+-- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as \`active\`.
 data SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     SubscriptionSchedulesResourceDefaultSettingsCollectionMethod'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -190,34 +202,28 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefault
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
--- | Defines the object schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.invoice_settings.anyOf@ in the specification.
+-- | Defines the oneOf schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.on_behalf_of.anyOf@ in the specification.
 --
--- The subscription schedule\\\'s default invoice settings.
-data SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable = SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable
-  { -- | days_until_due: Number of days within which a customer must pay invoices generated by this subscription schedule. This value will be \`null\` for subscription schedules where \`billing=charge_automatically\`.
-    subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullableDaysUntilDue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
-  }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
+-- The account (if any) the charge was made on behalf of for charges associated with the schedule\'s subscription. See the Connect documentation for details.
+data SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableVariants
+  = SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableText Data.Text.Internal.Text
+  | SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableAccount Account
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("days_until_due" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullableDaysUntilDue obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("days_until_due" Data.Aeson.Types.ToJSON..=)) (subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullableDaysUntilDue obj) : GHC.Base.mempty)))
+instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableVariants where
+  toJSON (SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableAccount a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable" (\obj -> GHC.Base.pure SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "days_until_due"))
-
--- | Create a new 'SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable' with all required fields.
-mkSubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable :: SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable
-mkSubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable = SubscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullable {subscriptionSchedulesResourceDefaultSettingsInvoiceSettings'NonNullableDaysUntilDue = GHC.Maybe.Nothing}
+instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableVariants where
+  parseJSON val = case (SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((SubscriptionSchedulesResourceDefaultSettingsOnBehalfOf'NonNullableAccount Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @components.schemas.subscription_schedules_resource_default_settings.properties.transfer_data.anyOf@ in the specification.
 --
 -- The account (if any) the associated subscription\\\'s payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription\\\'s invoices.
 data SubscriptionSchedulesResourceDefaultSettingsTransferData'NonNullable = SubscriptionSchedulesResourceDefaultSettingsTransferData'NonNullable
-  { -- | amount_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+  { -- | amount_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
     subscriptionSchedulesResourceDefaultSettingsTransferData'NonNullableAmountPercent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | destination: The account where funds from the payment will be transferred to upon payment success.
     subscriptionSchedulesResourceDefaultSettingsTransferData'NonNullableDestination :: (GHC.Maybe.Maybe SubscriptionSchedulesResourceDefaultSettingsTransferData'NonNullableDestination'Variants)

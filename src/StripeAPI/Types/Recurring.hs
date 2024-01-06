@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.recurring@ in the specification.
 data Recurring = Recurring
-  { -- | aggregate_usage: Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
+  { -- | aggregate_usage: Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Defaults to \`sum\`.
     recurringAggregateUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable RecurringAggregateUsage'NonNullable)),
     -- | interval: The frequency at which a subscription is billed. One of \`day\`, \`week\`, \`month\` or \`year\`.
     recurringInterval :: RecurringInterval',
@@ -74,7 +74,7 @@ mkRecurring recurringInterval recurringIntervalCount recurringUsageType =
 
 -- | Defines the enum schema located at @components.schemas.recurring.properties.aggregate_usage@ in the specification.
 --
--- Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
+-- Specifies a usage aggregation strategy for prices of \`usage_type=metered\`. Defaults to \`sum\`.
 data RecurringAggregateUsage'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     RecurringAggregateUsage'NonNullableOther Data.Aeson.Types.Internal.Value

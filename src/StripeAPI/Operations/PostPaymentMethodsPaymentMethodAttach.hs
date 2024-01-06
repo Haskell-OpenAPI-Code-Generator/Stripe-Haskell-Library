@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -49,9 +50,11 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>To attach a new PaymentMethod to a customer for future payments, we recommend you use a \<a href=\"\/docs\/api\/setup_intents\">SetupIntent\<\/a>
 -- or a PaymentIntent with \<a href=\"\/docs\/api\/payment_intents\/create\#create_payment_intent-setup_future_usage\">setup_future_usage\<\/a>.
--- These approaches will perform any necessary steps to ensure that the PaymentMethod can be used in a future payment. Using the
--- \<code>\/v1\/payment_methods\/:id\/attach\<\/code> endpoint does not ensure that future payments can be made with the attached PaymentMethod.
--- See \<a href=\"\/docs\/payments\/payment-intents\#future-usage\">Optimizing cards for future payments\<\/a> for more information about setting up future payments.\<\/p>
+-- These approaches will perform any necessary steps to set up the PaymentMethod for future payments. Using the \<code>\/v1\/payment_methods\/:id\/attach\<\/code>
+-- endpoint without first using a SetupIntent or PaymentIntent with \<code>setup_future_usage\<\/code> does not optimize the PaymentMethod for
+-- future use, which makes later declines and payment friction more likely.
+-- See \<a href=\"\/docs\/payments\/payment-intents\#future-usage\">Optimizing cards for future payments\<\/a> for more information about setting up
+-- future payments.\<\/p>
 --
 -- \<p>To use this PaymentMethod as the default for invoice or subscription payments,
 -- set \<a href=\"\/docs\/api\/customers\/update\#update_customer-invoice_settings-default_payment_method\">\<code>invoice_settings.default_payment_method\<\/code>\<\/a>,
@@ -75,26 +78,26 @@ postPaymentMethodsPaymentMethodAttach
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentMethodsPaymentMethodAttachResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              PaymentMethod
-                                                        )
+                                       PostPaymentMethodsPaymentMethodAttachResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                PaymentMethod
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentMethodsPaymentMethodAttachResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostPaymentMethodsPaymentMethodAttachResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/attach"))) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/payment_methods/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.<> "/attach")) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payment_methods\/{payment_method}\/attach.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentMethodsPaymentMethodAttachRequestBody = PostPaymentMethodsPaymentMethodAttachRequestBody

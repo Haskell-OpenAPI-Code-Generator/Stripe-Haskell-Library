@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -46,13 +46,13 @@ data PaymentIntentNextActionPromptpayDisplayQrCode = PaymentIntentNextActionProm
     --
     -- * Maximum length of 5000
     paymentIntentNextActionPromptpayDisplayQrCodeHostedInstructionsUrl :: Data.Text.Internal.Text,
-    -- | image_url_png: The image_url_png string used to render QR code, can be used as \<img src=\"…\" \/>
+    -- | image_url_png: The PNG path used to render the QR code, can be used as the source in an HTML img tag
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     paymentIntentNextActionPromptpayDisplayQrCodeImageUrlPng :: Data.Text.Internal.Text,
-    -- | image_url_svg: The image_url_svg string used to render QR code, can be used as \<img src=\"…\" \/>
+    -- | image_url_svg: The SVG path used to render the QR code, can be used as the source in an HTML img tag
     --
     -- Constraints:
     --

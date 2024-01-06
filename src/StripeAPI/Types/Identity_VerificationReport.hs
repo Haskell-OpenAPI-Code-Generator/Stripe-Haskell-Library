@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -65,11 +65,11 @@ data Identity'verificationReport = Identity'verificationReport
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     identity'verificationReportLivemode :: GHC.Types.Bool,
     -- | options:
-    identity'verificationReportOptions :: GelatoVerificationReportOptions,
+    identity'verificationReportOptions :: (GHC.Maybe.Maybe GelatoVerificationReportOptions),
     -- | selfie: Result from a selfie check
     identity'verificationReportSelfie :: (GHC.Maybe.Maybe GelatoSelfieReport),
     -- | type: Type of report.
-    identity'verificationReportType :: Identity'verificationReportType',
+    identity'verificationReportType :: (GHC.Maybe.Maybe Identity'verificationReportType'),
     -- | verification_session: ID of the VerificationSession that created this report.
     --
     -- Constraints:
@@ -83,11 +83,11 @@ data Identity'verificationReport = Identity'verificationReport
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Identity'verificationReport where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= identity'verificationReportCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportDocument obj) : ["id" Data.Aeson.Types.ToJSON..= identity'verificationReportId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportIdNumber obj) : ["livemode" Data.Aeson.Types.ToJSON..= identity'verificationReportLivemode obj] : ["options" Data.Aeson.Types.ToJSON..= identity'verificationReportOptions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("selfie" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportSelfie obj) : ["type" Data.Aeson.Types.ToJSON..= identity'verificationReportType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_session" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportVerificationSession obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_report"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= identity'verificationReportCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportDocument obj) : ["id" Data.Aeson.Types.ToJSON..= identity'verificationReportId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportIdNumber obj) : ["livemode" Data.Aeson.Types.ToJSON..= identity'verificationReportLivemode obj] : ["options" Data.Aeson.Types.ToJSON..= identity'verificationReportOptions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("selfie" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportSelfie obj) : ["type" Data.Aeson.Types.ToJSON..= identity'verificationReportType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_session" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportVerificationSession obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_report"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= identity'verificationReportCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportDocument obj) : ["id" Data.Aeson.Types.ToJSON..= identity'verificationReportId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportIdNumber obj) : ["livemode" Data.Aeson.Types.ToJSON..= identity'verificationReportLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("options" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("selfie" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportSelfie obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_session" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportVerificationSession obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_report"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= identity'verificationReportCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("document" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportDocument obj) : ["id" Data.Aeson.Types.ToJSON..= identity'verificationReportId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("id_number" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportIdNumber obj) : ["livemode" Data.Aeson.Types.ToJSON..= identity'verificationReportLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("options" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("selfie" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportSelfie obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification_session" Data.Aeson.Types.ToJSON..=)) (identity'verificationReportVerificationSession obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "identity.verification_report"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Identity'verificationReport where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationReport" (\obj -> ((((((((GHC.Base.pure Identity'verificationReport GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "document")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "selfie")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_session"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Identity'verificationReport" (\obj -> ((((((((GHC.Base.pure Identity'verificationReport GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "document")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "selfie")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification_session"))
 
 -- | Create a new 'Identity'verificationReport' with all required fields.
 mkIdentity'verificationReport ::
@@ -97,21 +97,17 @@ mkIdentity'verificationReport ::
   Data.Text.Internal.Text ->
   -- | 'identity'verificationReportLivemode'
   GHC.Types.Bool ->
-  -- | 'identity'verificationReportOptions'
-  GelatoVerificationReportOptions ->
-  -- | 'identity'verificationReportType'
-  Identity'verificationReportType' ->
   Identity'verificationReport
-mkIdentity'verificationReport identity'verificationReportCreated identity'verificationReportId identity'verificationReportLivemode identity'verificationReportOptions identity'verificationReportType =
+mkIdentity'verificationReport identity'verificationReportCreated identity'verificationReportId identity'verificationReportLivemode =
   Identity'verificationReport
     { identity'verificationReportCreated = identity'verificationReportCreated,
       identity'verificationReportDocument = GHC.Maybe.Nothing,
       identity'verificationReportId = identity'verificationReportId,
       identity'verificationReportIdNumber = GHC.Maybe.Nothing,
       identity'verificationReportLivemode = identity'verificationReportLivemode,
-      identity'verificationReportOptions = identity'verificationReportOptions,
+      identity'verificationReportOptions = GHC.Maybe.Nothing,
       identity'verificationReportSelfie = GHC.Maybe.Nothing,
-      identity'verificationReportType = identity'verificationReportType,
+      identity'verificationReportType = GHC.Maybe.Nothing,
       identity'verificationReportVerificationSession = GHC.Maybe.Nothing
     }
 

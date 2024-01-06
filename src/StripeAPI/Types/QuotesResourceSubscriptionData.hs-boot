@@ -1,9 +1,0 @@
-module StripeAPI.Types.QuotesResourceSubscriptionData where
-import Data.Aeson
-import qualified Data.Aeson as Data.Aeson.Types.Internal
-import qualified StripeAPI.Common
-data QuotesResourceSubscriptionData
-instance Show QuotesResourceSubscriptionData
-instance Eq QuotesResourceSubscriptionData
-instance FromJSON QuotesResourceSubscriptionData
-instance ToJSON QuotesResourceSubscriptionData

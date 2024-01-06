@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,6 +29,7 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.InvoiceInstallmentsCard
 import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsAcssDebit
 import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsAcssDebitMandateOptions
 import {-# SOURCE #-} StripeAPI.Types.InvoicePaymentMethodOptionsBancontact
@@ -205,7 +206,9 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentMethodOptionsBanconta
 --
 -- If paying by \\\`card\\\`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
 data InvoicesPaymentMethodOptionsCard'NonNullable = InvoicesPaymentMethodOptionsCard'NonNullable
-  { -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+  { -- | installments:
+    invoicesPaymentMethodOptionsCard'NonNullableInstallments :: (GHC.Maybe.Maybe InvoiceInstallmentsCard),
+    -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
     invoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure'NonNullable))
   }
   deriving
@@ -214,15 +217,19 @@ data InvoicesPaymentMethodOptionsCard'NonNullable = InvoicesPaymentMethodOptions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoicesPaymentMethodOptionsCard'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentMethodOptionsCard'NonNullableInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentMethodOptionsCard'NonNullableInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (invoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoicesPaymentMethodOptionsCard'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentMethodOptionsCard'NonNullable" (\obj -> GHC.Base.pure InvoicesPaymentMethodOptionsCard'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesPaymentMethodOptionsCard'NonNullable" (\obj -> (GHC.Base.pure InvoicesPaymentMethodOptionsCard'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure"))
 
 -- | Create a new 'InvoicesPaymentMethodOptionsCard'NonNullable' with all required fields.
 mkInvoicesPaymentMethodOptionsCard'NonNullable :: InvoicesPaymentMethodOptionsCard'NonNullable
-mkInvoicesPaymentMethodOptionsCard'NonNullable = InvoicesPaymentMethodOptionsCard'NonNullable {invoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure = GHC.Maybe.Nothing}
+mkInvoicesPaymentMethodOptionsCard'NonNullable =
+  InvoicesPaymentMethodOptionsCard'NonNullable
+    { invoicesPaymentMethodOptionsCard'NonNullableInstallments = GHC.Maybe.Nothing,
+      invoicesPaymentMethodOptionsCard'NonNullableRequestThreeDSecure = GHC.Maybe.Nothing
+    }
 
 -- | Defines the enum schema located at @components.schemas.invoices_payment_method_options.properties.card.anyOf.properties.request_three_d_secure@ in the specification.
 --

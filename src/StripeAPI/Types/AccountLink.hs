@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,7 +37,7 @@ import qualified Prelude as GHC.Maybe
 -- Account Links are the means by which a Connect platform grants a connected account permission to access
 -- Stripe-hosted applications, such as Connect Onboarding.
 --
--- Related guide: [Connect Onboarding](https:\/\/stripe.com\/docs\/connect\/connect-onboarding).
+-- Related guide: [Connect Onboarding](https:\/\/stripe.com\/docs\/connect\/custom\/hosted-onboarding)
 data AccountLink = AccountLink
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     accountLinkCreated :: GHC.Types.Int,

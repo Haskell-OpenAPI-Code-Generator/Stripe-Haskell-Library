@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,26 +66,26 @@ postTerminalReadersReaderProcessPaymentIntent
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTerminalReadersReaderProcessPaymentIntentResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Terminal'reader
-                                                        )
+                                       PostTerminalReadersReaderProcessPaymentIntentResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Terminal'reader
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTerminalReadersReaderProcessPaymentIntentResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostTerminalReadersReaderProcessPaymentIntentResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/terminal/readers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reader)) GHC.Base.++ "/process_payment_intent"))) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/terminal/readers/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel reader)) GHC.Base.<> "/process_payment_intent")) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/terminal\/readers\/{reader}\/process_payment_intent.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTerminalReadersReaderProcessPaymentIntentRequestBody = PostTerminalReadersReaderProcessPaymentIntentRequestBody
@@ -128,7 +129,9 @@ mkPostTerminalReadersReaderProcessPaymentIntentRequestBody postTerminalReadersRe
 -- Configuration overrides
 data PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' = PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'
   { -- | skip_tipping
-    postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping :: (GHC.Maybe.Maybe GHC.Types.Bool)
+    postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | tipping
+    postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping :: (GHC.Maybe.Maybe PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping')
   }
   deriving
     ( GHC.Show.Show,
@@ -136,15 +139,40 @@ data PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' = Po
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("skip_tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("skip_tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("skip_tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("skip_tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tipping" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'" (\obj -> GHC.Base.pure PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "skip_tipping"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'" (\obj -> (GHC.Base.pure PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "skip_tipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tipping"))
 
 -- | Create a new 'PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'' with all required fields.
 mkPostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' :: PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'
-mkPostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' = PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' {postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping = GHC.Maybe.Nothing}
+mkPostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig' =
+  PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'
+    { postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'SkipTipping = GHC.Maybe.Nothing,
+      postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/terminal\/readers\/{reader}\/process_payment_intent.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.process_config.properties.tipping@ in the specification.
+data PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping' = PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'
+  { -- | amount_eligible
+    postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'AmountEligible :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_eligible" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'AmountEligible obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_eligible" Data.Aeson.Types.ToJSON..=)) (postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'AmountEligible obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'" (\obj -> GHC.Base.pure PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_eligible"))
+
+-- | Create a new 'PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'' with all required fields.
+mkPostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping' :: PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'
+mkPostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping' = PostTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping' {postTerminalReadersReaderProcessPaymentIntentRequestBodyProcessConfig'Tipping'AmountEligible = GHC.Maybe.Nothing}
 
 -- | Represents a response of the operation 'postTerminalReadersReaderProcessPaymentIntent'.
 --

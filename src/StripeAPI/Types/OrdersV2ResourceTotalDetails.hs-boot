@@ -1,9 +1,0 @@
-module StripeAPI.Types.OrdersV2ResourceTotalDetails where
-import Data.Aeson
-import qualified Data.Aeson as Data.Aeson.Types.Internal
-import qualified StripeAPI.Common
-data OrdersV2ResourceTotalDetails
-instance Show OrdersV2ResourceTotalDetails
-instance Eq OrdersV2ResourceTotalDetails
-instance FromJSON OrdersV2ResourceTotalDetails
-instance ToJSON OrdersV2ResourceTotalDetails

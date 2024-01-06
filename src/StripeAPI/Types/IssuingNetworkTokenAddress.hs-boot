@@ -1,0 +1,9 @@
+module StripeAPI.Types.IssuingNetworkTokenAddress where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data IssuingNetworkTokenAddress
+instance Show IssuingNetworkTokenAddress
+instance Eq IssuingNetworkTokenAddress
+instance FromJSON IssuingNetworkTokenAddress
+instance ToJSON IssuingNetworkTokenAddress

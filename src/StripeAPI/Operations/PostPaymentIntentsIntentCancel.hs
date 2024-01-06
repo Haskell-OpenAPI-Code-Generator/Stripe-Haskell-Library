@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,11 +46,11 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/payment_intents/{intent}/cancel
 --
--- \<p>A PaymentIntent object can be canceled when it is in one of these statuses: \<code>requires_payment_method\<\/code>, \<code>requires_capture\<\/code>, \<code>requires_confirmation\<\/code>, \<code>requires_action\<\/code>, or \<code>processing\<\/code>. \<\/p>
+-- \<p>You can cancel a PaymentIntent object when it’s in one of these statuses: \<code>requires_payment_method\<\/code>, \<code>requires_capture\<\/code>, \<code>requires_confirmation\<\/code>, \<code>requires_action\<\/code> or, \<a href=\"\/docs\/payments\/intents\">in rare cases\<\/a>, \<code>processing\<\/code>. \<\/p>
 --
--- \<p>Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with \<code>status=’requires_capture’\<\/code>, the remaining \<code>amount_capturable\<\/code> will automatically be refunded. \<\/p>
+-- \<p>After it’s canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a \<code>status\<\/code> of \<code>requires_capture\<\/code>, the remaining \<code>amount_capturable\<\/code> is automatically refunded. \<\/p>
 --
--- \<p>You cannot cancel the PaymentIntent for a Checkout Session. \<a href=\"\/docs\/api\/checkout\/sessions\/expire\">Expire the Checkout Session\<\/a> instead\<\/p>
+-- \<p>You can’t cancel the PaymentIntent for a Checkout Session. \<a href=\"\/docs\/api\/checkout\/sessions\/expire\">Expire the Checkout Session\<\/a> instead.\<\/p>
 postPaymentIntentsIntentCancel ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -69,30 +70,30 @@ postPaymentIntentsIntentCancel
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentIntentsIntentCancelResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              PaymentIntent
-                                                        )
+                                       PostPaymentIntentsIntentCancelResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                PaymentIntent
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentIntentsIntentCancelResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostPaymentIntentsIntentCancelResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/cancel"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/payment_intents/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.<> "/cancel")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payment_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPaymentIntentsIntentCancelRequestBody = PostPaymentIntentsIntentCancelRequestBody
-  { -- | cancellation_reason: Reason for canceling this PaymentIntent. Possible values are \`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`
+  { -- | cancellation_reason: Reason for canceling this PaymentIntent. Possible values are: \`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`
     --
     -- Constraints:
     --
@@ -123,7 +124,7 @@ mkPostPaymentIntentsIntentCancelRequestBody =
 
 -- | Defines the enum schema located at @paths.\/v1\/payment_intents\/{intent}\/cancel.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.cancellation_reason@ in the specification.
 --
--- Reason for canceling this PaymentIntent. Possible values are \`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`
+-- Reason for canceling this PaymentIntent. Possible values are: \`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`
 data PostPaymentIntentsIntentCancelRequestBodyCancellationReason'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostPaymentIntentsIntentCancelRequestBodyCancellationReason'Other Data.Aeson.Types.Internal.Value

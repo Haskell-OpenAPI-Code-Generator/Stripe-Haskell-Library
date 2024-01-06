@@ -1,0 +1,14 @@
+module StripeAPI.Types.IssuingNetworkTokenDevice where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data IssuingNetworkTokenDevice
+instance Show IssuingNetworkTokenDevice
+instance Eq IssuingNetworkTokenDevice
+instance FromJSON IssuingNetworkTokenDevice
+instance ToJSON IssuingNetworkTokenDevice
+data IssuingNetworkTokenDeviceType'
+instance Show IssuingNetworkTokenDeviceType'
+instance Eq IssuingNetworkTokenDeviceType'
+instance FromJSON IssuingNetworkTokenDeviceType'
+instance ToJSON IssuingNetworkTokenDeviceType'

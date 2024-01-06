@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,21 +46,21 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/charges/{charge}/refund
 --
--- \<p>When you create a new refund, you must specify a Charge or a PaymentIntent object on which to create it.\<\/p>
+-- \<p>When you create a new refund, you must specify either a Charge or a PaymentIntent object.\<\/p>
 --
--- \<p>Creating a new refund will refund a charge that has previously been created but not yet refunded.
--- Funds will be refunded to the credit or debit card that was originally charged.\<\/p>
+-- \<p>This action refunds a previously created charge that’s not refunded yet.
+-- Funds are refunded to the credit or debit card that’s originally charged.\<\/p>
 --
 -- \<p>You can optionally refund only part of a charge.
--- You can do so multiple times, until the entire charge has been refunded.\<\/p>
+-- You can repeat this until the entire charge is refunded.\<\/p>
 --
--- \<p>Once entirely refunded, a charge can’t be refunded again.
--- This method will raise an error when called on an already-refunded charge,
--- or when trying to refund more money than is left on a charge.\<\/p>
+-- \<p>After you entirely refund a charge, you can’t refund it again.
+-- This method raises an error when it’s called on an already-refunded charge,
+-- or when you attempt to refund more money than is left on a charge.\<\/p>
 postChargesChargeRefund ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
-  -- | charge | Constraints: Maximum length of 5000
+  -- | charge: The identifier of the charge to refund. | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
@@ -75,52 +76,52 @@ postChargesChargeRefund
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostChargesChargeRefundResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Charge
-                                                        )
+                                       PostChargesChargeRefundResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Charge
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostChargesChargeRefundResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostChargesChargeRefundResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/charges/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.<> "/refund")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/charges\/{charge}\/refund.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostChargesChargeRefundRequestBody = PostChargesChargeRefundRequestBody
-  { -- | amount
+  { -- | amount: A positive integer in cents (or local equivalent) representing how much of this charge to refund. Can refund only up to the remaining, unrefunded amount of the charge.
     postChargesChargeRefundRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | expand: Specifies which fields in the response should be expanded.
     postChargesChargeRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | instructions_email
+    -- | instructions_email: For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
     postChargesChargeRefundRequestBodyInstructionsEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postChargesChargeRefundRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesChargeRefundRequestBodyMetadata'Variants),
-    -- | payment_intent
+    -- | payment_intent: The identifier of the PaymentIntent to refund.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postChargesChargeRefundRequestBodyPaymentIntent :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | reason
+    -- | reason: String indicating the reason for the refund. If set, possible values are \`duplicate\`, \`fraudulent\`, and \`requested_by_customer\`. If you believe the charge to be fraudulent, specifying \`fraudulent\` as the reason will add the associated card and email to your [block lists](https:\/\/stripe.com\/docs\/radar\/lists), and will also help us improve our fraud detection algorithms.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postChargesChargeRefundRequestBodyReason :: (GHC.Maybe.Maybe PostChargesChargeRefundRequestBodyReason'),
-    -- | refund_application_fee
+    -- | refund_application_fee: Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
     postChargesChargeRefundRequestBodyRefundApplicationFee :: (GHC.Maybe.Maybe GHC.Types.Bool),
-    -- | reverse_transfer
+    -- | reverse_transfer: Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).\<br>\<br>A transfer can be reversed only by the application that created the charge.
     postChargesChargeRefundRequestBodyReverseTransfer :: (GHC.Maybe.Maybe GHC.Types.Bool)
   }
   deriving
@@ -167,10 +168,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundRequestBodyMe
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostChargesChargeRefundRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostChargesChargeRefundRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/charges\/{charge}\/refund.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.reason@ in the specification.
+--
+-- String indicating the reason for the refund. If set, possible values are \`duplicate\`, \`fraudulent\`, and \`requested_by_customer\`. If you believe the charge to be fraudulent, specifying \`fraudulent\` as the reason will add the associated card and email to your [block lists](https:\/\/stripe.com\/docs\/radar\/lists), and will also help us improve our fraud detection algorithms.
 data PostChargesChargeRefundRequestBodyReason'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostChargesChargeRefundRequestBodyReason'Other Data.Aeson.Types.Internal.Value

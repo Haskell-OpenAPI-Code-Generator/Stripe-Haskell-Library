@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.setup_attempt_payment_method_details_ideal@ in the specification.
 data SetupAttemptPaymentMethodDetailsIdeal = SetupAttemptPaymentMethodDetailsIdeal
-  { -- | bank: The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
+  { -- | bank: The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`n26\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, \`van_lanschot\`, or \`yoursafe\`.
     setupAttemptPaymentMethodDetailsIdealBank :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SetupAttemptPaymentMethodDetailsIdealBank'NonNullable)),
     -- | bic: The Bank Identifier Code of the customer\'s bank.
     setupAttemptPaymentMethodDetailsIdealBic :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SetupAttemptPaymentMethodDetailsIdealBic'NonNullable)),
@@ -84,7 +84,7 @@ mkSetupAttemptPaymentMethodDetailsIdeal =
 
 -- | Defines the enum schema located at @components.schemas.setup_attempt_payment_method_details_ideal.properties.bank@ in the specification.
 --
--- The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
+-- The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`n26\`, \`rabobank\`, \`regiobank\`, \`revolut\`, \`sns_bank\`, \`triodos_bank\`, \`van_lanschot\`, or \`yoursafe\`.
 data SetupAttemptPaymentMethodDetailsIdealBank'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     SetupAttemptPaymentMethodDetailsIdealBank'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -104,6 +104,8 @@ data SetupAttemptPaymentMethodDetailsIdealBank'NonNullable
     SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumKnab
   | -- | Represents the JSON value @"moneyou"@
     SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumMoneyou
+  | -- | Represents the JSON value @"n26"@
+    SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumN26
   | -- | Represents the JSON value @"rabobank"@
     SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumRabobank
   | -- | Represents the JSON value @"regiobank"@
@@ -116,6 +118,8 @@ data SetupAttemptPaymentMethodDetailsIdealBank'NonNullable
     SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumTriodosBank
   | -- | Represents the JSON value @"van_lanschot"@
     SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumVanLanschot
+  | -- | Represents the JSON value @"yoursafe"@
+    SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumYoursafe
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON SetupAttemptPaymentMethodDetailsIdealBank'NonNullable where
@@ -128,12 +132,14 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupAttemptPaymentMethodDetailsIdealBan
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumIng) = "ing"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumKnab) = "knab"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumMoneyou) = "moneyou"
+  toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumN26) = "n26"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumRabobank) = "rabobank"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumRegiobank) = "regiobank"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumRevolut) = "revolut"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumSnsBank) = "sns_bank"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumTriodosBank) = "triodos_bank"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumVanLanschot) = "van_lanschot"
+  toJSON (SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumYoursafe) = "yoursafe"
 
 instance Data.Aeson.Types.FromJSON.FromJSON SetupAttemptPaymentMethodDetailsIdealBank'NonNullable where
   parseJSON val =
@@ -146,12 +152,14 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupAttemptPaymentMethodDetailsIdea
             | val GHC.Classes.== "ing" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumIng
             | val GHC.Classes.== "knab" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumKnab
             | val GHC.Classes.== "moneyou" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumMoneyou
+            | val GHC.Classes.== "n26" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumN26
             | val GHC.Classes.== "rabobank" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumRabobank
             | val GHC.Classes.== "regiobank" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumRegiobank
             | val GHC.Classes.== "revolut" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumRevolut
             | val GHC.Classes.== "sns_bank" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumSnsBank
             | val GHC.Classes.== "triodos_bank" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumTriodosBank
             | val GHC.Classes.== "van_lanschot" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumVanLanschot
+            | val GHC.Classes.== "yoursafe" -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableEnumYoursafe
             | GHC.Base.otherwise -> SetupAttemptPaymentMethodDetailsIdealBank'NonNullableOther val
       )
 
@@ -167,6 +175,8 @@ data SetupAttemptPaymentMethodDetailsIdealBic'NonNullable
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumABNANL2A
   | -- | Represents the JSON value @"ASNBNL21"@
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumASNBNL21
+  | -- | Represents the JSON value @"BITSNL2A"@
+    SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumBITSNL2A
   | -- | Represents the JSON value @"BUNQNL2A"@
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumBUNQNL2A
   | -- | Represents the JSON value @"FVLBNL22"@
@@ -179,10 +189,14 @@ data SetupAttemptPaymentMethodDetailsIdealBic'NonNullable
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumKNABNL2H
   | -- | Represents the JSON value @"MOYONL21"@
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumMOYONL21
+  | -- | Represents the JSON value @"NTSBDEB1"@
+    SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumNTSBDEB1
   | -- | Represents the JSON value @"RABONL2U"@
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumRABONL2U
   | -- | Represents the JSON value @"RBRBNL21"@
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumRBRBNL21
+  | -- | Represents the JSON value @"REVOIE23"@
+    SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumREVOIE23
   | -- | Represents the JSON value @"REVOLT21"@
     SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumREVOLT21
   | -- | Represents the JSON value @"SNSBNL2A"@
@@ -196,14 +210,17 @@ instance Data.Aeson.Types.ToJSON.ToJSON SetupAttemptPaymentMethodDetailsIdealBic
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumABNANL2A) = "ABNANL2A"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumASNBNL21) = "ASNBNL21"
+  toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumBITSNL2A) = "BITSNL2A"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumBUNQNL2A) = "BUNQNL2A"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumFVLBNL22) = "FVLBNL22"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumHANDNL2A) = "HANDNL2A"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumINGBNL2A) = "INGBNL2A"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumKNABNL2H) = "KNABNL2H"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumMOYONL21) = "MOYONL21"
+  toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumNTSBDEB1) = "NTSBDEB1"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumRABONL2U) = "RABONL2U"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumRBRBNL21) = "RBRBNL21"
+  toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumREVOIE23) = "REVOIE23"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumREVOLT21) = "REVOLT21"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumSNSBNL2A) = "SNSBNL2A"
   toJSON (SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumTRIONL2U) = "TRIONL2U"
@@ -214,14 +231,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON SetupAttemptPaymentMethodDetailsIdea
       ( if
             | val GHC.Classes.== "ABNANL2A" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumABNANL2A
             | val GHC.Classes.== "ASNBNL21" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumASNBNL21
+            | val GHC.Classes.== "BITSNL2A" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumBITSNL2A
             | val GHC.Classes.== "BUNQNL2A" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumBUNQNL2A
             | val GHC.Classes.== "FVLBNL22" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumFVLBNL22
             | val GHC.Classes.== "HANDNL2A" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumHANDNL2A
             | val GHC.Classes.== "INGBNL2A" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumINGBNL2A
             | val GHC.Classes.== "KNABNL2H" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumKNABNL2H
             | val GHC.Classes.== "MOYONL21" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumMOYONL21
+            | val GHC.Classes.== "NTSBDEB1" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumNTSBDEB1
             | val GHC.Classes.== "RABONL2U" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumRABONL2U
             | val GHC.Classes.== "RBRBNL21" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumRBRBNL21
+            | val GHC.Classes.== "REVOIE23" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumREVOIE23
             | val GHC.Classes.== "REVOLT21" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumREVOLT21
             | val GHC.Classes.== "SNSBNL2A" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumSNSBNL2A
             | val GHC.Classes.== "TRIONL2U" -> SetupAttemptPaymentMethodDetailsIdealBic'NonNullableEnumTRIONL2U

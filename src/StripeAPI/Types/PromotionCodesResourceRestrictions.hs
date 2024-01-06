@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,9 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.promotion_codes_resource_restrictions@ in the specification.
 data PromotionCodesResourceRestrictions = PromotionCodesResourceRestrictions
-  { -- | first_time_transaction: A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
+  { -- | currency_options: Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html) and a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    promotionCodesResourceRestrictionsCurrencyOptions :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | first_time_transaction: A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
     promotionCodesResourceRestrictionsFirstTimeTransaction :: GHC.Types.Bool,
     -- | minimum_amount: Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be \$100 or more to work).
     promotionCodesResourceRestrictionsMinimumAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
@@ -51,11 +53,11 @@ data PromotionCodesResourceRestrictions = PromotionCodesResourceRestrictions
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PromotionCodesResourceRestrictions where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmountCurrency obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmountCurrency obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsCurrencyOptions obj) : ["first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmountCurrency obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency_options" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsCurrencyOptions obj) : ["first_time_transaction" Data.Aeson.Types.ToJSON..= promotionCodesResourceRestrictionsFirstTimeTransaction obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("minimum_amount_currency" Data.Aeson.Types.ToJSON..=)) (promotionCodesResourceRestrictionsMinimumAmountCurrency obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PromotionCodesResourceRestrictions where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PromotionCodesResourceRestrictions" (\obj -> ((GHC.Base.pure PromotionCodesResourceRestrictions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "first_time_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount_currency"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PromotionCodesResourceRestrictions" (\obj -> (((GHC.Base.pure PromotionCodesResourceRestrictions GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "first_time_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "minimum_amount_currency"))
 
 -- | Create a new 'PromotionCodesResourceRestrictions' with all required fields.
 mkPromotionCodesResourceRestrictions ::
@@ -64,7 +66,8 @@ mkPromotionCodesResourceRestrictions ::
   PromotionCodesResourceRestrictions
 mkPromotionCodesResourceRestrictions promotionCodesResourceRestrictionsFirstTimeTransaction =
   PromotionCodesResourceRestrictions
-    { promotionCodesResourceRestrictionsFirstTimeTransaction = promotionCodesResourceRestrictionsFirstTimeTransaction,
+    { promotionCodesResourceRestrictionsCurrencyOptions = GHC.Maybe.Nothing,
+      promotionCodesResourceRestrictionsFirstTimeTransaction = promotionCodesResourceRestrictionsFirstTimeTransaction,
       promotionCodesResourceRestrictionsMinimumAmount = GHC.Maybe.Nothing,
       promotionCodesResourceRestrictionsMinimumAmountCurrency = GHC.Maybe.Nothing
     }

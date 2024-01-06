@@ -1,0 +1,14 @@
+module StripeAPI.Types.SetupAttemptPaymentMethodDetailsCardWallet where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data SetupAttemptPaymentMethodDetailsCardWallet
+instance Show SetupAttemptPaymentMethodDetailsCardWallet
+instance Eq SetupAttemptPaymentMethodDetailsCardWallet
+instance FromJSON SetupAttemptPaymentMethodDetailsCardWallet
+instance ToJSON SetupAttemptPaymentMethodDetailsCardWallet
+data SetupAttemptPaymentMethodDetailsCardWalletType'
+instance Show SetupAttemptPaymentMethodDetailsCardWalletType'
+instance Eq SetupAttemptPaymentMethodDetailsCardWalletType'
+instance FromJSON SetupAttemptPaymentMethodDetailsCardWalletType'
+instance ToJSON SetupAttemptPaymentMethodDetailsCardWalletType'

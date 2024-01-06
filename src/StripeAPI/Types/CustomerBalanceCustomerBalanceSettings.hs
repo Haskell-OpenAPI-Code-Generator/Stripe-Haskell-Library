@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -35,7 +35,9 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.customer_balance_customer_balance_settings@ in the specification.
 data CustomerBalanceCustomerBalanceSettings = CustomerBalanceCustomerBalanceSettings
   { -- | reconciliation_mode: The configuration for how funds that land in the customer cash balance are reconciled.
-    customerBalanceCustomerBalanceSettingsReconciliationMode :: CustomerBalanceCustomerBalanceSettingsReconciliationMode'
+    customerBalanceCustomerBalanceSettingsReconciliationMode :: CustomerBalanceCustomerBalanceSettingsReconciliationMode',
+    -- | using_merchant_default: A flag to indicate if reconciliation mode returned is the user\'s default or is specific to this customer cash balance
+    customerBalanceCustomerBalanceSettingsUsingMerchantDefault :: GHC.Types.Bool
   }
   deriving
     ( GHC.Show.Show,
@@ -43,18 +45,24 @@ data CustomerBalanceCustomerBalanceSettings = CustomerBalanceCustomerBalanceSett
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CustomerBalanceCustomerBalanceSettings where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["reconciliation_mode" Data.Aeson.Types.ToJSON..= customerBalanceCustomerBalanceSettingsReconciliationMode obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["reconciliation_mode" Data.Aeson.Types.ToJSON..= customerBalanceCustomerBalanceSettingsReconciliationMode obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["reconciliation_mode" Data.Aeson.Types.ToJSON..= customerBalanceCustomerBalanceSettingsReconciliationMode obj] : ["using_merchant_default" Data.Aeson.Types.ToJSON..= customerBalanceCustomerBalanceSettingsUsingMerchantDefault obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["reconciliation_mode" Data.Aeson.Types.ToJSON..= customerBalanceCustomerBalanceSettingsReconciliationMode obj] : ["using_merchant_default" Data.Aeson.Types.ToJSON..= customerBalanceCustomerBalanceSettingsUsingMerchantDefault obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CustomerBalanceCustomerBalanceSettings where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerBalanceCustomerBalanceSettings" (\obj -> GHC.Base.pure CustomerBalanceCustomerBalanceSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reconciliation_mode"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CustomerBalanceCustomerBalanceSettings" (\obj -> (GHC.Base.pure CustomerBalanceCustomerBalanceSettings GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reconciliation_mode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "using_merchant_default"))
 
 -- | Create a new 'CustomerBalanceCustomerBalanceSettings' with all required fields.
 mkCustomerBalanceCustomerBalanceSettings ::
   -- | 'customerBalanceCustomerBalanceSettingsReconciliationMode'
   CustomerBalanceCustomerBalanceSettingsReconciliationMode' ->
+  -- | 'customerBalanceCustomerBalanceSettingsUsingMerchantDefault'
+  GHC.Types.Bool ->
   CustomerBalanceCustomerBalanceSettings
-mkCustomerBalanceCustomerBalanceSettings customerBalanceCustomerBalanceSettingsReconciliationMode = CustomerBalanceCustomerBalanceSettings {customerBalanceCustomerBalanceSettingsReconciliationMode = customerBalanceCustomerBalanceSettingsReconciliationMode}
+mkCustomerBalanceCustomerBalanceSettings customerBalanceCustomerBalanceSettingsReconciliationMode customerBalanceCustomerBalanceSettingsUsingMerchantDefault =
+  CustomerBalanceCustomerBalanceSettings
+    { customerBalanceCustomerBalanceSettingsReconciliationMode = customerBalanceCustomerBalanceSettingsReconciliationMode,
+      customerBalanceCustomerBalanceSettingsUsingMerchantDefault = customerBalanceCustomerBalanceSettingsUsingMerchantDefault
+    }
 
 -- | Defines the enum schema located at @components.schemas.customer_balance_customer_balance_settings.properties.reconciliation_mode@ in the specification.
 --

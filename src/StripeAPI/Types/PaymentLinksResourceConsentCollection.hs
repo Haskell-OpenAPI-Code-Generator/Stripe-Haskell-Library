@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,13 +29,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourcePaymentMethodReuseAgreement
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_links_resource_consent_collection@ in the specification.
 data PaymentLinksResourceConsentCollection = PaymentLinksResourceConsentCollection
-  { -- | promotions: If set to \`auto\`, enables the collection of customer consent for promotional communications.
-    paymentLinksResourceConsentCollectionPromotions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourceConsentCollectionPromotions'NonNullable))
+  { -- | payment_method_reuse_agreement: Settings related to the payment method reuse text shown in the Checkout UI.
+    paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable)),
+    -- | promotions: If set to \`auto\`, enables the collection of customer consent for promotional communications.
+    paymentLinksResourceConsentCollectionPromotions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourceConsentCollectionPromotions'NonNullable)),
+    -- | terms_of_service: If set to \`required\`, it requires cutomers to accept the terms of service before being able to pay. If set to \`none\`, customers won\'t be shown a checkbox to accept the terms of service.
+    paymentLinksResourceConsentCollectionTermsOfService :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinksResourceConsentCollectionTermsOfService'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -43,15 +48,76 @@ data PaymentLinksResourceConsentCollection = PaymentLinksResourceConsentCollecti
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourceConsentCollection where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPromotions obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPromotions obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPromotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionTermsOfService obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPromotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionTermsOfService obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourceConsentCollection where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourceConsentCollection" (\obj -> GHC.Base.pure PaymentLinksResourceConsentCollection GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourceConsentCollection" (\obj -> ((GHC.Base.pure PaymentLinksResourceConsentCollection GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_reuse_agreement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service"))
 
 -- | Create a new 'PaymentLinksResourceConsentCollection' with all required fields.
 mkPaymentLinksResourceConsentCollection :: PaymentLinksResourceConsentCollection
-mkPaymentLinksResourceConsentCollection = PaymentLinksResourceConsentCollection {paymentLinksResourceConsentCollectionPromotions = GHC.Maybe.Nothing}
+mkPaymentLinksResourceConsentCollection =
+  PaymentLinksResourceConsentCollection
+    { paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement = GHC.Maybe.Nothing,
+      paymentLinksResourceConsentCollectionPromotions = GHC.Maybe.Nothing,
+      paymentLinksResourceConsentCollectionTermsOfService = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_links_resource_consent_collection.properties.payment_method_reuse_agreement.anyOf@ in the specification.
+--
+-- Settings related to the payment method reuse text shown in the Checkout UI.
+data PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable = PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable
+  { -- | position: Determines the position and visibility of the payment method reuse agreement in the UI. When set to \`auto\`, Stripe\'s defaults will be used.
+    --
+    -- When set to \`hidden\`, the payment method reuse agreement text will always be hidden in the UI.
+    paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition :: (GHC.Maybe.Maybe PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("position" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("position" Data.Aeson.Types.ToJSON..=)) (paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable" (\obj -> GHC.Base.pure PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "position"))
+
+-- | Create a new 'PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable' with all required fields.
+mkPaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable :: PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable
+mkPaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable = PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullable {paymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @components.schemas.payment_links_resource_consent_collection.properties.payment_method_reuse_agreement.anyOf.properties.position@ in the specification.
+--
+-- Determines the position and visibility of the payment method reuse agreement in the UI. When set to \`auto\`, Stripe\'s defaults will be used.
+--
+-- When set to \`hidden\`, the payment method reuse agreement text will always be hidden in the UI.
+data PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"auto"@
+    PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumAuto
+  | -- | Represents the JSON value @"hidden"@
+    PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumHidden
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition' where
+  toJSON (PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Other val) = val
+  toJSON (PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumAuto) = "auto"
+  toJSON (PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumHidden) = "hidden"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "auto" -> PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumAuto
+            | val GHC.Classes.== "hidden" -> PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'EnumHidden
+            | GHC.Base.otherwise -> PaymentLinksResourceConsentCollectionPaymentMethodReuseAgreement'NonNullablePosition'Other val
+      )
 
 -- | Defines the enum schema located at @components.schemas.payment_links_resource_consent_collection.properties.promotions@ in the specification.
 --
@@ -63,17 +129,50 @@ data PaymentLinksResourceConsentCollectionPromotions'NonNullable
     PaymentLinksResourceConsentCollectionPromotions'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"auto"@
     PaymentLinksResourceConsentCollectionPromotions'NonNullableEnumAuto
+  | -- | Represents the JSON value @"none"@
+    PaymentLinksResourceConsentCollectionPromotions'NonNullableEnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourceConsentCollectionPromotions'NonNullable where
   toJSON (PaymentLinksResourceConsentCollectionPromotions'NonNullableOther val) = val
   toJSON (PaymentLinksResourceConsentCollectionPromotions'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentLinksResourceConsentCollectionPromotions'NonNullableEnumAuto) = "auto"
+  toJSON (PaymentLinksResourceConsentCollectionPromotions'NonNullableEnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourceConsentCollectionPromotions'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "auto" -> PaymentLinksResourceConsentCollectionPromotions'NonNullableEnumAuto
+            | val GHC.Classes.== "none" -> PaymentLinksResourceConsentCollectionPromotions'NonNullableEnumNone
             | GHC.Base.otherwise -> PaymentLinksResourceConsentCollectionPromotions'NonNullableOther val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_links_resource_consent_collection.properties.terms_of_service@ in the specification.
+--
+-- If set to \`required\`, it requires cutomers to accept the terms of service before being able to pay. If set to \`none\`, customers won\'t be shown a checkbox to accept the terms of service.
+data PaymentLinksResourceConsentCollectionTermsOfService'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentLinksResourceConsentCollectionTermsOfService'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentLinksResourceConsentCollectionTermsOfService'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentLinksResourceConsentCollectionTermsOfService'NonNullableEnumNone
+  | -- | Represents the JSON value @"required"@
+    PaymentLinksResourceConsentCollectionTermsOfService'NonNullableEnumRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinksResourceConsentCollectionTermsOfService'NonNullable where
+  toJSON (PaymentLinksResourceConsentCollectionTermsOfService'NonNullableOther val) = val
+  toJSON (PaymentLinksResourceConsentCollectionTermsOfService'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentLinksResourceConsentCollectionTermsOfService'NonNullableEnumNone) = "none"
+  toJSON (PaymentLinksResourceConsentCollectionTermsOfService'NonNullableEnumRequired) = "required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinksResourceConsentCollectionTermsOfService'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentLinksResourceConsentCollectionTermsOfService'NonNullableEnumNone
+            | val GHC.Classes.== "required" -> PaymentLinksResourceConsentCollectionTermsOfService'NonNullableEnumRequired
+            | GHC.Base.otherwise -> PaymentLinksResourceConsentCollectionTermsOfService'NonNullableOther val
       )

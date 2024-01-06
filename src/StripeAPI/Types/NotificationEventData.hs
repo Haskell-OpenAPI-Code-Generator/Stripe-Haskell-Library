@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 data NotificationEventData = NotificationEventData
   { -- | object: Object containing the API resource relevant to the event. For example, an \`invoice.created\` event will have a full [invoice object](https:\/\/stripe.com\/docs\/api\#invoice_object) as the value of the object key.
     notificationEventDataObject :: Data.Aeson.Types.Internal.Object,
-    -- | previous_attributes: Object containing the names of the attributes that have changed, and their previous values (sent along only with *.updated events).
+    -- | previous_attributes: Object containing the names of the updated attributes and their values prior to the event (only included in events of type \`*.updated\`). If an array attribute has any updated elements, this object contains the entire array. In Stripe API versions 2017-04-06 or earlier, an updated array attribute in this object includes only the updated array elements.
     notificationEventDataPreviousAttributes :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
   }
   deriving

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,11 +46,11 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/payouts
 --
--- \<p>To send funds to your own bank account, you create a new payout object. Your \<a href=\"\#balance\">Stripe balance\<\/a> must be able to cover the payout amount, or you’ll receive an “Insufficient Funds” error.\<\/p>
+-- \<p>To send funds to your own bank account, create a new payout object. Your \<a href=\"\#balance\">Stripe balance\<\/a> must cover the payout amount. If it doesn’t, you receive an “Insufficient Funds” error.\<\/p>
 --
--- \<p>If your API key is in test mode, money won’t actually be sent, though everything else will occur as if in live mode.\<\/p>
+-- \<p>If your API key is in test mode, money won’t actually be sent, though every other action occurs as if you’re in live mode.\<\/p>
 --
--- \<p>If you are creating a manual payout on a Stripe account that uses multiple payment source types, you’ll need to specify the source type balance that the payout should draw from. The \<a href=\"\#balance_object\">balance object\<\/a> details available and pending amounts by source type.\<\/p>
+-- \<p>If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The \<a href=\"\#balance_object\">balance object\<\/a> details available and pending amounts by source type.\<\/p>
 postPayouts ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -65,26 +66,26 @@ postPayouts body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPayoutsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Payout
-                                                      )
+                                     PostPayoutsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Payout
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostPayoutsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostPayoutsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payouts") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/payouts" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostPayoutsRequestBody = PostPayoutsRequestBody
@@ -98,25 +99,25 @@ data PostPayoutsRequestBody = PostPayoutsRequestBody
     --
     -- * Maximum length of 5000
     postPayoutsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | destination: The ID of a bank account or a card to send the payout to. If no destination is supplied, the default external account for the specified currency will be used.
+    -- | destination: The ID of a bank account or a card to send the payout to. If you don\'t provide a destination, we use the default external account for the specified currency.
     postPayoutsRequestBodyDestination :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | expand: Specifies which fields in the response should be expanded.
     postPayoutsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postPayoutsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-    -- | method: The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces).)
+    -- | method: The method used to send this payout, which is \`standard\` or \`instant\`. We support \`instant\` for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https:\/\/stripe.com\/docs\/payouts\/instant-payouts-banks).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postPayoutsRequestBodyMethod :: (GHC.Maybe.Maybe PostPayoutsRequestBodyMethod'),
-    -- | source_type: The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the balances API. One of \`bank_account\`, \`card\`, or \`fpx\`.
+    -- | source_type: The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of \`bank_account\`, \`card\`, or \`fpx\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postPayoutsRequestBodySourceType :: (GHC.Maybe.Maybe PostPayoutsRequestBodySourceType'),
-    -- | statement_descriptor: A string to be displayed on the recipient\'s bank or card statement. This may be at most 22 characters. Attempting to use a \`statement_descriptor\` longer than 22 characters will return an error. Note: Most banks will truncate this information and\/or display it inconsistently. Some may not display it at all.
+    -- | statement_descriptor: A string that displays on the recipient\'s bank or card statement (up to 22 characters). A \`statement_descriptor\` that\'s longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all.
     --
     -- Constraints:
     --
@@ -157,7 +158,7 @@ mkPostPayoutsRequestBody postPayoutsRequestBodyAmount postPayoutsRequestBodyCurr
 
 -- | Defines the enum schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.method@ in the specification.
 --
--- The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces).)
+-- The method used to send this payout, which is \`standard\` or \`instant\`. We support \`instant\` for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https:\/\/stripe.com\/docs\/payouts\/instant-payouts-banks).
 data PostPayoutsRequestBodyMethod'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostPayoutsRequestBodyMethod'Other Data.Aeson.Types.Internal.Value
@@ -186,7 +187,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBodyMethod' where
 
 -- | Defines the enum schema located at @paths.\/v1\/payouts.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.source_type@ in the specification.
 --
--- The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the balances API. One of \`bank_account\`, \`card\`, or \`fpx\`.
+-- The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of \`bank_account\`, \`card\`, or \`fpx\`.
 data PostPayoutsRequestBodySourceType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostPayoutsRequestBodySourceType'Other Data.Aeson.Types.Internal.Value

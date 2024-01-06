@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -47,7 +47,15 @@ data PaymentIntentPaymentMethodOptionsCard = PaymentIntentPaymentMethodOptionsCa
     paymentIntentPaymentMethodOptionsCardMandateOptions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardMandateOptions'NonNullable)),
     -- | network: Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
     paymentIntentPaymentMethodOptionsCardNetwork :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardNetwork'NonNullable)),
-    -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+    -- | request_extended_authorization: Request ability to [capture beyond the standard authorization validity window](https:\/\/stripe.com\/docs\/payments\/extended-authorization) for this PaymentIntent.
+    paymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'),
+    -- | request_incremental_authorization: Request ability to [increment](https:\/\/stripe.com\/docs\/payments\/incremental-authorization) for this PaymentIntent.
+    paymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'),
+    -- | request_multicapture: Request ability to make [multiple captures](https:\/\/stripe.com\/docs\/payments\/multicapture) for this PaymentIntent.
+    paymentIntentPaymentMethodOptionsCardRequestMulticapture :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardRequestMulticapture'),
+    -- | request_overcapture: Request ability to [overcapture](https:\/\/stripe.com\/docs\/payments\/overcapture) for this PaymentIntent.
+    paymentIntentPaymentMethodOptionsCardRequestOvercapture :: (GHC.Maybe.Maybe PaymentIntentPaymentMethodOptionsCardRequestOvercapture'),
+    -- | request_three_d_secure: We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
     paymentIntentPaymentMethodOptionsCardRequestThreeDSecure :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable)),
     -- | setup_future_usage: Indicates that you intend to make future payments with this PaymentIntent\'s payment method.
     --
@@ -74,11 +82,11 @@ data PaymentIntentPaymentMethodOptionsCard = PaymentIntentPaymentMethodOptionsCa
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCard where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_extended_authorization" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_incremental_authorization" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_multicapture" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestMulticapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_overcapture" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestOvercapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("installments" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardInstallments obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate_options" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardMandateOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardNetwork obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_extended_authorization" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_incremental_authorization" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_multicapture" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestMulticapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_overcapture" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestOvercapture obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("request_three_d_secure" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardRequestThreeDSecure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kana" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix_kanji" Data.Aeson.Types.ToJSON..=)) (paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKanji obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCard where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCard" (\obj -> (((((((GHC.Base.pure PaymentIntentPaymentMethodOptionsCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kanji"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentPaymentMethodOptionsCard" (\obj -> (((((((((((GHC.Base.pure PaymentIntentPaymentMethodOptionsCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "installments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_extended_authorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_incremental_authorization")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_multicapture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_overcapture")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "request_three_d_secure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix_kanji"))
 
 -- | Create a new 'PaymentIntentPaymentMethodOptionsCard' with all required fields.
 mkPaymentIntentPaymentMethodOptionsCard :: PaymentIntentPaymentMethodOptionsCard
@@ -88,6 +96,10 @@ mkPaymentIntentPaymentMethodOptionsCard =
       paymentIntentPaymentMethodOptionsCardInstallments = GHC.Maybe.Nothing,
       paymentIntentPaymentMethodOptionsCardMandateOptions = GHC.Maybe.Nothing,
       paymentIntentPaymentMethodOptionsCardNetwork = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardRequestMulticapture = GHC.Maybe.Nothing,
+      paymentIntentPaymentMethodOptionsCardRequestOvercapture = GHC.Maybe.Nothing,
       paymentIntentPaymentMethodOptionsCardRequestThreeDSecure = GHC.Maybe.Nothing,
       paymentIntentPaymentMethodOptionsCardSetupFutureUsage = GHC.Maybe.Nothing,
       paymentIntentPaymentMethodOptionsCardStatementDescriptorSuffixKana = GHC.Maybe.Nothing,
@@ -404,6 +416,8 @@ data PaymentIntentPaymentMethodOptionsCardNetwork'NonNullable
     PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners
   | -- | Represents the JSON value @"discover"@
     PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover
+  | -- | Represents the JSON value @"eftpos_au"@
+    PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumEftposAu
   | -- | Represents the JSON value @"interac"@
     PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac
   | -- | Represents the JSON value @"jcb"@
@@ -425,6 +439,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardNet
   toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumCartesBancaires) = "cartes_bancaires"
   toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners) = "diners"
   toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover) = "discover"
+  toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumEftposAu) = "eftpos_au"
   toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac) = "interac"
   toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumJcb) = "jcb"
   toJSON (PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumMastercard) = "mastercard"
@@ -440,6 +455,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCar
             | val GHC.Classes.== "cartes_bancaires" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumCartesBancaires
             | val GHC.Classes.== "diners" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiners
             | val GHC.Classes.== "discover" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumDiscover
+            | val GHC.Classes.== "eftpos_au" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumEftposAu
             | val GHC.Classes.== "interac" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumInterac
             | val GHC.Classes.== "jcb" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumJcb
             | val GHC.Classes.== "mastercard" -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableEnumMastercard
@@ -449,9 +465,125 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCar
             | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardNetwork'NonNullableOther val
       )
 
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.request_extended_authorization@ in the specification.
+--
+-- Request ability to [capture beyond the standard authorization validity window](https:\/\/stripe.com\/docs\/payments\/extended-authorization) for this PaymentIntent.
+data PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"if_available"@
+    PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'EnumIfAvailable
+  | -- | Represents the JSON value @"never"@
+    PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'EnumNever
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'EnumIfAvailable) = "if_available"
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'EnumNever) = "never"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "if_available" -> PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'EnumIfAvailable
+            | val GHC.Classes.== "never" -> PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'EnumNever
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.request_incremental_authorization@ in the specification.
+--
+-- Request ability to [increment](https:\/\/stripe.com\/docs\/payments\/incremental-authorization) for this PaymentIntent.
+data PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"if_available"@
+    PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'EnumIfAvailable
+  | -- | Represents the JSON value @"never"@
+    PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'EnumNever
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'EnumIfAvailable) = "if_available"
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'EnumNever) = "never"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "if_available" -> PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'EnumIfAvailable
+            | val GHC.Classes.== "never" -> PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'EnumNever
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.request_multicapture@ in the specification.
+--
+-- Request ability to make [multiple captures](https:\/\/stripe.com\/docs\/payments\/multicapture) for this PaymentIntent.
+data PaymentIntentPaymentMethodOptionsCardRequestMulticapture'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardRequestMulticapture'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardRequestMulticapture'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"if_available"@
+    PaymentIntentPaymentMethodOptionsCardRequestMulticapture'EnumIfAvailable
+  | -- | Represents the JSON value @"never"@
+    PaymentIntentPaymentMethodOptionsCardRequestMulticapture'EnumNever
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardRequestMulticapture' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestMulticapture'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestMulticapture'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestMulticapture'EnumIfAvailable) = "if_available"
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestMulticapture'EnumNever) = "never"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardRequestMulticapture' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "if_available" -> PaymentIntentPaymentMethodOptionsCardRequestMulticapture'EnumIfAvailable
+            | val GHC.Classes.== "never" -> PaymentIntentPaymentMethodOptionsCardRequestMulticapture'EnumNever
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardRequestMulticapture'Other val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.request_overcapture@ in the specification.
+--
+-- Request ability to [overcapture](https:\/\/stripe.com\/docs\/payments\/overcapture) for this PaymentIntent.
+data PaymentIntentPaymentMethodOptionsCardRequestOvercapture'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentIntentPaymentMethodOptionsCardRequestOvercapture'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentIntentPaymentMethodOptionsCardRequestOvercapture'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"if_available"@
+    PaymentIntentPaymentMethodOptionsCardRequestOvercapture'EnumIfAvailable
+  | -- | Represents the JSON value @"never"@
+    PaymentIntentPaymentMethodOptionsCardRequestOvercapture'EnumNever
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardRequestOvercapture' where
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestOvercapture'Other val) = val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestOvercapture'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestOvercapture'EnumIfAvailable) = "if_available"
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestOvercapture'EnumNever) = "never"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardRequestOvercapture' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "if_available" -> PaymentIntentPaymentMethodOptionsCardRequestOvercapture'EnumIfAvailable
+            | val GHC.Classes.== "never" -> PaymentIntentPaymentMethodOptionsCardRequestOvercapture'EnumNever
+            | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardRequestOvercapture'Other val
+      )
+
 -- | Defines the enum schema located at @components.schemas.payment_intent_payment_method_options_card.properties.request_three_d_secure@ in the specification.
 --
--- We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: \`automatic\` or \`any\`. If not provided, defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+-- We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https:\/\/stripe.com\/docs\/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to \`automatic\`. Read our guide on [manually requesting 3D Secure](https:\/\/stripe.com\/docs\/payments\/3d-secure\#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 data PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableOther Data.Aeson.Types.Internal.Value
@@ -461,8 +593,8 @@ data PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable
     PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny
   | -- | Represents the JSON value @"automatic"@
     PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic
-  | -- | Represents the JSON value @"challenge_only"@
-    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly
+  | -- | Represents the JSON value @"challenge"@
+    PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallenge
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable where
@@ -470,7 +602,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentIntentPaymentMethodOptionsCardReq
   toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny) = "any"
   toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic) = "automatic"
-  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly) = "challenge_only"
+  toJSON (PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallenge) = "challenge"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullable where
   parseJSON val =
@@ -478,7 +610,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentPaymentMethodOptionsCar
       ( if
             | val GHC.Classes.== "any" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAny
             | val GHC.Classes.== "automatic" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumAutomatic
-            | val GHC.Classes.== "challenge_only" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallengeOnly
+            | val GHC.Classes.== "challenge" -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableEnumChallenge
             | GHC.Base.otherwise -> PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure'NonNullableOther val
       )
 

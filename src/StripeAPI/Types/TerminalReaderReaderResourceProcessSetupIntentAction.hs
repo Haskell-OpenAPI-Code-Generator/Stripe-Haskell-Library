@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,12 +37,14 @@ import qualified Prelude as GHC.Maybe
 --
 -- Represents a reader action to process a setup intent
 data TerminalReaderReaderResourceProcessSetupIntentAction = TerminalReaderReaderResourceProcessSetupIntentAction
-  { -- | generated_card
+  { -- | generated_card: ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     terminalReaderReaderResourceProcessSetupIntentActionGeneratedCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | process_config: Represents a per-setup override of a reader configuration
+    terminalReaderReaderResourceProcessSetupIntentActionProcessConfig :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessSetupConfig),
     -- | setup_intent: Most recent SetupIntent processed by the reader.
     terminalReaderReaderResourceProcessSetupIntentActionSetupIntent :: TerminalReaderReaderResourceProcessSetupIntentActionSetupIntent'Variants
   }
@@ -52,11 +54,11 @@ data TerminalReaderReaderResourceProcessSetupIntentAction = TerminalReaderReader
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TerminalReaderReaderResourceProcessSetupIntentAction where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessSetupIntentActionGeneratedCard obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessSetupIntentActionSetupIntent obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessSetupIntentActionGeneratedCard obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessSetupIntentActionSetupIntent obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessSetupIntentActionGeneratedCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_config" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessSetupIntentActionProcessConfig obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessSetupIntentActionSetupIntent obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("generated_card" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessSetupIntentActionGeneratedCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_config" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessSetupIntentActionProcessConfig obj) : ["setup_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessSetupIntentActionSetupIntent obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TerminalReaderReaderResourceProcessSetupIntentAction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TerminalReaderReaderResourceProcessSetupIntentAction" (\obj -> (GHC.Base.pure TerminalReaderReaderResourceProcessSetupIntentAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "generated_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "setup_intent"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TerminalReaderReaderResourceProcessSetupIntentAction" (\obj -> ((GHC.Base.pure TerminalReaderReaderResourceProcessSetupIntentAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "generated_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_config")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "setup_intent"))
 
 -- | Create a new 'TerminalReaderReaderResourceProcessSetupIntentAction' with all required fields.
 mkTerminalReaderReaderResourceProcessSetupIntentAction ::
@@ -66,6 +68,7 @@ mkTerminalReaderReaderResourceProcessSetupIntentAction ::
 mkTerminalReaderReaderResourceProcessSetupIntentAction terminalReaderReaderResourceProcessSetupIntentActionSetupIntent =
   TerminalReaderReaderResourceProcessSetupIntentAction
     { terminalReaderReaderResourceProcessSetupIntentActionGeneratedCard = GHC.Maybe.Nothing,
+      terminalReaderReaderResourceProcessSetupIntentActionProcessConfig = GHC.Maybe.Nothing,
       terminalReaderReaderResourceProcessSetupIntentActionSetupIntent = terminalReaderReaderResourceProcessSetupIntentActionSetupIntent
     }
 

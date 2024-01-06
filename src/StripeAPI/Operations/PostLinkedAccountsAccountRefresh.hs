@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,32 +66,32 @@ postLinkedAccountsAccountRefresh
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostLinkedAccountsAccountRefreshResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              FinancialConnections'account
-                                                        )
+                                       PostLinkedAccountsAccountRefreshResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                FinancialConnections'account
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostLinkedAccountsAccountRefreshResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostLinkedAccountsAccountRefreshResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/linked_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ "/refresh"))) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/linked_accounts/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.<> "/refresh")) GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/linked_accounts\/{account}\/refresh.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostLinkedAccountsAccountRefreshRequestBody = PostLinkedAccountsAccountRefreshRequestBody
   { -- | expand: Specifies which fields in the response should be expanded.
     postLinkedAccountsAccountRefreshRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | features: The list of account features that you would like to refresh. Either: \`balance\` or \`ownership\`.
+    -- | features: The list of account features that you would like to refresh.
     postLinkedAccountsAccountRefreshRequestBodyFeatures :: ([PostLinkedAccountsAccountRefreshRequestBodyFeatures'])
   }
   deriving
@@ -126,6 +127,8 @@ data PostLinkedAccountsAccountRefreshRequestBodyFeatures'
     PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumBalance
   | -- | Represents the JSON value @"ownership"@
     PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumOwnership
+  | -- | Represents the JSON value @"transactions"@
+    PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumTransactions
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostLinkedAccountsAccountRefreshRequestBodyFeatures' where
@@ -133,6 +136,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostLinkedAccountsAccountRefreshRequestB
   toJSON (PostLinkedAccountsAccountRefreshRequestBodyFeatures'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumBalance) = "balance"
   toJSON (PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumOwnership) = "ownership"
+  toJSON (PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumTransactions) = "transactions"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostLinkedAccountsAccountRefreshRequestBodyFeatures' where
   parseJSON val =
@@ -140,6 +144,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostLinkedAccountsAccountRefreshRequ
       ( if
             | val GHC.Classes.== "balance" -> PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumBalance
             | val GHC.Classes.== "ownership" -> PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumOwnership
+            | val GHC.Classes.== "transactions" -> PostLinkedAccountsAccountRefreshRequestBodyFeatures'EnumTransactions
             | GHC.Base.otherwise -> PostLinkedAccountsAccountRefreshRequestBodyFeatures'Other val
       )
 

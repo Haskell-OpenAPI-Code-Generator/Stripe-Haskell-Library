@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -33,6 +33,7 @@ import {-# SOURCE #-} StripeAPI.Types.BalanceTransaction
 import {-# SOURCE #-} StripeAPI.Types.Charge
 import {-# SOURCE #-} StripeAPI.Types.DisputeEvidence
 import {-# SOURCE #-} StripeAPI.Types.DisputeEvidenceDetails
+import {-# SOURCE #-} StripeAPI.Types.DisputePaymentMethodDetails
 import {-# SOURCE #-} StripeAPI.Types.PaymentIntent
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -40,18 +41,16 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.dispute@ in the specification.
 --
 -- A dispute occurs when a customer questions your charge with their card issuer.
--- When this happens, you\'re given the opportunity to respond to the dispute with
--- evidence that shows that the charge is legitimate. You can find more
--- information about the dispute process in our [Disputes and
--- Fraud](\/docs\/disputes) documentation.
+-- When this happens, you have the opportunity to respond to the dispute with
+-- evidence that shows that the charge is legitimate.
 --
--- Related guide: [Disputes and Fraud](https:\/\/stripe.com\/docs\/disputes).
+-- Related guide: [Disputes and fraud](https:\/\/stripe.com\/docs\/disputes)
 data Dispute = Dispute
-  { -- | amount: Disputed amount. Usually the amount of the charge, but can differ (usually because of currency fluctuation or because only part of the order is disputed).
+  { -- | amount: Disputed amount. Usually the amount of the charge, but it can differ (usually because of currency fluctuation or because only part of the order is disputed).
     disputeAmount :: GHC.Types.Int,
     -- | balance_transactions: List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute.
     disputeBalanceTransactions :: ([BalanceTransaction]),
-    -- | charge: ID of the charge that was disputed.
+    -- | charge: ID of the charge that\'s disputed.
     disputeCharge :: DisputeCharge'Variants,
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     disputeCreated :: GHC.Types.Int,
@@ -67,21 +66,23 @@ data Dispute = Dispute
     --
     -- * Maximum length of 5000
     disputeId :: Data.Text.Internal.Text,
-    -- | is_charge_refundable: If true, it is still possible to refund the disputed payment. Once the payment has been fully refunded, no further funds will be withdrawn from your Stripe account as a result of this dispute.
+    -- | is_charge_refundable: If true, it\'s still possible to refund the disputed payment. After the payment has been fully refunded, no further funds are withdrawn from your Stripe account as a result of this dispute.
     disputeIsChargeRefundable :: GHC.Types.Bool,
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     disputeLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     disputeMetadata :: Data.Aeson.Types.Internal.Object,
-    -- | payment_intent: ID of the PaymentIntent that was disputed.
+    -- | payment_intent: ID of the PaymentIntent that\'s disputed.
     disputePaymentIntent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable DisputePaymentIntent'NonNullableVariants)),
-    -- | reason: Reason given by cardholder for dispute. Possible values are \`bank_cannot_process\`, \`check_returned\`, \`credit_not_processed\`, \`customer_initiated\`, \`debit_not_authorized\`, \`duplicate\`, \`fraudulent\`, \`general\`, \`incorrect_account_details\`, \`insufficient_funds\`, \`product_not_received\`, \`product_unacceptable\`, \`subscription_canceled\`, or \`unrecognized\`. Read more about [dispute reasons](https:\/\/stripe.com\/docs\/disputes\/categories).
+    -- | payment_method_details:
+    disputePaymentMethodDetails :: (GHC.Maybe.Maybe DisputePaymentMethodDetails),
+    -- | reason: Reason given by cardholder for dispute. Possible values are \`bank_cannot_process\`, \`check_returned\`, \`credit_not_processed\`, \`customer_initiated\`, \`debit_not_authorized\`, \`duplicate\`, \`fraudulent\`, \`general\`, \`incorrect_account_details\`, \`insufficient_funds\`, \`product_not_received\`, \`product_unacceptable\`, \`subscription_canceled\`, or \`unrecognized\`. Learn more about [dispute reasons](https:\/\/stripe.com\/docs\/disputes\/categories).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     disputeReason :: Data.Text.Internal.Text,
-    -- | status: Current status of dispute. Possible values are \`warning_needs_response\`, \`warning_under_review\`, \`warning_closed\`, \`needs_response\`, \`under_review\`, \`charge_refunded\`, \`won\`, or \`lost\`.
+    -- | status: Current status of dispute. Possible values are \`warning_needs_response\`, \`warning_under_review\`, \`warning_closed\`, \`needs_response\`, \`under_review\`, \`won\`, or \`lost\`.
     disputeStatus :: DisputeStatus'
   }
   deriving
@@ -90,11 +91,11 @@ data Dispute = Dispute
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Dispute where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= disputeAmount obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj] : ["charge" Data.Aeson.Types.ToJSON..= disputeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj] : ["evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj] : ["id" Data.Aeson.Types.ToJSON..= disputeId obj] : ["is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj] : ["livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (disputePaymentIntent obj) : ["reason" Data.Aeson.Types.ToJSON..= disputeReason obj] : ["status" Data.Aeson.Types.ToJSON..= disputeStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= disputeAmount obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj] : ["charge" Data.Aeson.Types.ToJSON..= disputeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj] : ["evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj] : ["id" Data.Aeson.Types.ToJSON..= disputeId obj] : ["is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj] : ["livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (disputePaymentIntent obj) : ["reason" Data.Aeson.Types.ToJSON..= disputeReason obj] : ["status" Data.Aeson.Types.ToJSON..= disputeStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= disputeAmount obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj] : ["charge" Data.Aeson.Types.ToJSON..= disputeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj] : ["evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj] : ["id" Data.Aeson.Types.ToJSON..= disputeId obj] : ["is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj] : ["livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (disputePaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_details" Data.Aeson.Types.ToJSON..=)) (disputePaymentMethodDetails obj) : ["reason" Data.Aeson.Types.ToJSON..= disputeReason obj] : ["status" Data.Aeson.Types.ToJSON..= disputeStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= disputeAmount obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= disputeBalanceTransactions obj] : ["charge" Data.Aeson.Types.ToJSON..= disputeCharge obj] : ["created" Data.Aeson.Types.ToJSON..= disputeCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= disputeCurrency obj] : ["evidence" Data.Aeson.Types.ToJSON..= disputeEvidence obj] : ["evidence_details" Data.Aeson.Types.ToJSON..= disputeEvidenceDetails obj] : ["id" Data.Aeson.Types.ToJSON..= disputeId obj] : ["is_charge_refundable" Data.Aeson.Types.ToJSON..= disputeIsChargeRefundable obj] : ["livemode" Data.Aeson.Types.ToJSON..= disputeLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= disputeMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent" Data.Aeson.Types.ToJSON..=)) (disputePaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_details" Data.Aeson.Types.ToJSON..=)) (disputePaymentMethodDetails obj) : ["reason" Data.Aeson.Types.ToJSON..= disputeReason obj] : ["status" Data.Aeson.Types.ToJSON..= disputeStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "dispute"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Dispute where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Dispute" (\obj -> (((((((((((((GHC.Base.pure Dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_charge_refundable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Dispute" (\obj -> ((((((((((((((GHC.Base.pure Dispute GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "charge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "evidence_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "is_charge_refundable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
 -- | Create a new 'Dispute' with all required fields.
 mkDispute ::
@@ -139,13 +140,14 @@ mkDispute disputeAmount disputeBalanceTransactions disputeCharge disputeCreated 
       disputeLivemode = disputeLivemode,
       disputeMetadata = disputeMetadata,
       disputePaymentIntent = GHC.Maybe.Nothing,
+      disputePaymentMethodDetails = GHC.Maybe.Nothing,
       disputeReason = disputeReason,
       disputeStatus = disputeStatus
     }
 
 -- | Defines the oneOf schema located at @components.schemas.dispute.properties.charge.anyOf@ in the specification.
 --
--- ID of the charge that was disputed.
+-- ID of the charge that\'s disputed.
 data DisputeCharge'Variants
   = DisputeCharge'Text Data.Text.Internal.Text
   | DisputeCharge'Charge Charge
@@ -162,7 +164,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON DisputeCharge'Variants where
 
 -- | Defines the oneOf schema located at @components.schemas.dispute.properties.payment_intent.anyOf@ in the specification.
 --
--- ID of the PaymentIntent that was disputed.
+-- ID of the PaymentIntent that\'s disputed.
 data DisputePaymentIntent'NonNullableVariants
   = DisputePaymentIntent'NonNullableText Data.Text.Internal.Text
   | DisputePaymentIntent'NonNullablePaymentIntent PaymentIntent
@@ -179,14 +181,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON DisputePaymentIntent'NonNullableVari
 
 -- | Defines the enum schema located at @components.schemas.dispute.properties.status@ in the specification.
 --
--- Current status of dispute. Possible values are \`warning_needs_response\`, \`warning_under_review\`, \`warning_closed\`, \`needs_response\`, \`under_review\`, \`charge_refunded\`, \`won\`, or \`lost\`.
+-- Current status of dispute. Possible values are \`warning_needs_response\`, \`warning_under_review\`, \`warning_closed\`, \`needs_response\`, \`under_review\`, \`won\`, or \`lost\`.
 data DisputeStatus'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     DisputeStatus'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     DisputeStatus'Typed Data.Text.Internal.Text
-  | -- | Represents the JSON value @"charge_refunded"@
-    DisputeStatus'EnumChargeRefunded
   | -- | Represents the JSON value @"lost"@
     DisputeStatus'EnumLost
   | -- | Represents the JSON value @"needs_response"@
@@ -206,7 +206,6 @@ data DisputeStatus'
 instance Data.Aeson.Types.ToJSON.ToJSON DisputeStatus' where
   toJSON (DisputeStatus'Other val) = val
   toJSON (DisputeStatus'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
-  toJSON (DisputeStatus'EnumChargeRefunded) = "charge_refunded"
   toJSON (DisputeStatus'EnumLost) = "lost"
   toJSON (DisputeStatus'EnumNeedsResponse) = "needs_response"
   toJSON (DisputeStatus'EnumUnderReview) = "under_review"
@@ -219,7 +218,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON DisputeStatus' where
   parseJSON val =
     GHC.Base.pure
       ( if
-            | val GHC.Classes.== "charge_refunded" -> DisputeStatus'EnumChargeRefunded
             | val GHC.Classes.== "lost" -> DisputeStatus'EnumLost
             | val GHC.Classes.== "needs_response" -> DisputeStatus'EnumNeedsResponse
             | val GHC.Classes.== "under_review" -> DisputeStatus'EnumUnderReview

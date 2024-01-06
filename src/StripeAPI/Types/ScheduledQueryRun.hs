@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -130,9 +130,9 @@ mkScheduledQueryRun scheduledQueryRunCreated scheduledQueryRunDataLoadTime sched
 data ScheduledQueryRunFile'NonNullable = ScheduledQueryRunFile'NonNullable
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     scheduledQueryRunFile'NonNullableCreated :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | expires_at: The time at which the file expires and is no longer available in epoch seconds.
+    -- | expires_at: The file expires and isn\'t available at this time in epoch seconds.
     scheduledQueryRunFile'NonNullableExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
-    -- | filename: A filename for the file, suitable for saving to a filesystem.
+    -- | filename: The suitable name for saving the file to a filesystem.
     --
     -- Constraints:
     --
@@ -150,21 +150,21 @@ data ScheduledQueryRunFile'NonNullable = ScheduledQueryRunFile'NonNullable
     scheduledQueryRunFile'NonNullableObject :: (GHC.Maybe.Maybe ScheduledQueryRunFile'NonNullableObject'),
     -- | purpose: The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
     scheduledQueryRunFile'NonNullablePurpose :: (GHC.Maybe.Maybe ScheduledQueryRunFile'NonNullablePurpose'),
-    -- | size: The size in bytes of the file object.
+    -- | size: The size of the file object in bytes.
     scheduledQueryRunFile'NonNullableSize :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | title: A user friendly title for the document.
+    -- | title: A suitable title for the document.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     scheduledQueryRunFile'NonNullableTitle :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | type: The type of the file returned (e.g., \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
+    -- | type: The returned file type (for example, \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     scheduledQueryRunFile'NonNullableType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | url: The URL from which the file can be downloaded using your live secret API key.
+    -- | url: Use your live secret API key to download the file from this URL.
     --
     -- Constraints:
     --
@@ -305,6 +305,8 @@ data ScheduledQueryRunFile'NonNullablePurpose'
     ScheduledQueryRunFile'NonNullablePurpose'EnumSigmaScheduledQuery
   | -- | Represents the JSON value @"tax_document_user_upload"@
     ScheduledQueryRunFile'NonNullablePurpose'EnumTaxDocumentUserUpload
+  | -- | Represents the JSON value @"terminal_reader_splashscreen"@
+    ScheduledQueryRunFile'NonNullablePurpose'EnumTerminalReaderSplashscreen
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON ScheduledQueryRunFile'NonNullablePurpose' where
@@ -324,6 +326,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON ScheduledQueryRunFile'NonNullablePurpose
   toJSON (ScheduledQueryRunFile'NonNullablePurpose'EnumSelfie) = "selfie"
   toJSON (ScheduledQueryRunFile'NonNullablePurpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
   toJSON (ScheduledQueryRunFile'NonNullablePurpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
+  toJSON (ScheduledQueryRunFile'NonNullablePurpose'EnumTerminalReaderSplashscreen) = "terminal_reader_splashscreen"
 
 instance Data.Aeson.Types.FromJSON.FromJSON ScheduledQueryRunFile'NonNullablePurpose' where
   parseJSON val =
@@ -343,5 +346,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON ScheduledQueryRunFile'NonNullablePur
             | val GHC.Classes.== "selfie" -> ScheduledQueryRunFile'NonNullablePurpose'EnumSelfie
             | val GHC.Classes.== "sigma_scheduled_query" -> ScheduledQueryRunFile'NonNullablePurpose'EnumSigmaScheduledQuery
             | val GHC.Classes.== "tax_document_user_upload" -> ScheduledQueryRunFile'NonNullablePurpose'EnumTaxDocumentUserUpload
+            | val GHC.Classes.== "terminal_reader_splashscreen" -> ScheduledQueryRunFile'NonNullablePurpose'EnumTerminalReaderSplashscreen
             | GHC.Base.otherwise -> ScheduledQueryRunFile'NonNullablePurpose'Other val
       )

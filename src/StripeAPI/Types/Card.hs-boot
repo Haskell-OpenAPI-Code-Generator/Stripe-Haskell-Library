@@ -22,8 +22,3 @@ instance Show CardCustomer'NonNullableVariants
 instance Eq CardCustomer'NonNullableVariants
 instance FromJSON CardCustomer'NonNullableVariants
 instance ToJSON CardCustomer'NonNullableVariants
-data CardRecipient'NonNullableVariants
-instance Show CardRecipient'NonNullableVariants
-instance Eq CardRecipient'NonNullableVariants
-instance FromJSON CardRecipient'NonNullableVariants
-instance ToJSON CardRecipient'NonNullableVariants

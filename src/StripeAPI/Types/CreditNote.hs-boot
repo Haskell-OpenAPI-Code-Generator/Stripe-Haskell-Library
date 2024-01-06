@@ -37,6 +37,16 @@ instance Show CreditNoteRefund'NonNullableVariants
 instance Eq CreditNoteRefund'NonNullableVariants
 instance FromJSON CreditNoteRefund'NonNullableVariants
 instance ToJSON CreditNoteRefund'NonNullableVariants
+data CreditNoteShippingCost'NonNullable
+instance Show CreditNoteShippingCost'NonNullable
+instance Eq CreditNoteShippingCost'NonNullable
+instance FromJSON CreditNoteShippingCost'NonNullable
+instance ToJSON CreditNoteShippingCost'NonNullable
+data CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants
+instance Show CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants
+instance Eq CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants
+instance FromJSON CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants
+instance ToJSON CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants
 data CreditNoteStatus'
 instance Show CreditNoteStatus'
 instance Eq CreditNoteStatus'

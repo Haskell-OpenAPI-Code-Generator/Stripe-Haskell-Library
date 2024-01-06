@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- Tax rates can be applied to [invoices](https:\/\/stripe.com\/docs\/billing\/invoices\/tax-rates), [subscriptions](https:\/\/stripe.com\/docs\/billing\/subscriptions\/taxes) and [Checkout Sessions](https:\/\/stripe.com\/docs\/payments\/checkout\/set-up-a-subscription\#tax-rates) to collect tax.
 --
--- Related guide: [Tax Rates](https:\/\/stripe.com\/docs\/billing\/taxes\/tax-rates).
+-- Related guide: [Tax rates](https:\/\/stripe.com\/docs\/billing\/taxes\/tax-rates)
 data TaxRate = TaxRate
   { -- | active: Defaults to \`true\`. When set to \`false\`, this tax rate cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
     taxRateActive :: GHC.Types.Bool,
@@ -60,6 +60,10 @@ data TaxRate = TaxRate
     --
     -- * Maximum length of 5000
     taxRateDisplayName :: Data.Text.Internal.Text,
+    -- | effective_percentage: Actual\/effective tax rate percentage out of 100. For tax calculations with automatic_tax[enabled]=true,
+    -- this percentage reflects the rate actually used to calculate tax based on the product\'s taxability
+    -- and whether the user is registered to collect taxes in the corresponding jurisdiction.
+    taxRateEffectivePercentage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -78,7 +82,7 @@ data TaxRate = TaxRate
     taxRateLivemode :: GHC.Types.Bool,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     taxRateMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
-    -- | percentage: This represents the tax rate percent out of 100.
+    -- | percentage: Tax rate percentage out of 100. For tax calculations with automatic_tax[enabled]=true, this percentage includes the statutory tax rate of non-taxable jurisdictions.
     taxRatePercentage :: GHC.Types.Double,
     -- | state: [ISO 3166-2 subdivision code](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-2:US), without country prefix. For example, \"NY\" for New York, United States.
     --
@@ -95,11 +99,11 @@ data TaxRate = TaxRate
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TaxRate where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= taxRateActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (taxRateCountry obj) : ["created" Data.Aeson.Types.ToJSON..= taxRateCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (taxRateDescription obj) : ["display_name" Data.Aeson.Types.ToJSON..= taxRateDisplayName obj] : ["id" Data.Aeson.Types.ToJSON..= taxRateId obj] : ["inclusive" Data.Aeson.Types.ToJSON..= taxRateInclusive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("jurisdiction" Data.Aeson.Types.ToJSON..=)) (taxRateJurisdiction obj) : ["livemode" Data.Aeson.Types.ToJSON..= taxRateLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (taxRateMetadata obj) : ["percentage" Data.Aeson.Types.ToJSON..= taxRatePercentage obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (taxRateState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_type" Data.Aeson.Types.ToJSON..=)) (taxRateTaxType obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_rate"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= taxRateActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (taxRateCountry obj) : ["created" Data.Aeson.Types.ToJSON..= taxRateCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (taxRateDescription obj) : ["display_name" Data.Aeson.Types.ToJSON..= taxRateDisplayName obj] : ["id" Data.Aeson.Types.ToJSON..= taxRateId obj] : ["inclusive" Data.Aeson.Types.ToJSON..= taxRateInclusive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("jurisdiction" Data.Aeson.Types.ToJSON..=)) (taxRateJurisdiction obj) : ["livemode" Data.Aeson.Types.ToJSON..= taxRateLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (taxRateMetadata obj) : ["percentage" Data.Aeson.Types.ToJSON..= taxRatePercentage obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (taxRateState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_type" Data.Aeson.Types.ToJSON..=)) (taxRateTaxType obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_rate"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= taxRateActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (taxRateCountry obj) : ["created" Data.Aeson.Types.ToJSON..= taxRateCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (taxRateDescription obj) : ["display_name" Data.Aeson.Types.ToJSON..= taxRateDisplayName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_percentage" Data.Aeson.Types.ToJSON..=)) (taxRateEffectivePercentage obj) : ["id" Data.Aeson.Types.ToJSON..= taxRateId obj] : ["inclusive" Data.Aeson.Types.ToJSON..= taxRateInclusive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("jurisdiction" Data.Aeson.Types.ToJSON..=)) (taxRateJurisdiction obj) : ["livemode" Data.Aeson.Types.ToJSON..= taxRateLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (taxRateMetadata obj) : ["percentage" Data.Aeson.Types.ToJSON..= taxRatePercentage obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (taxRateState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_type" Data.Aeson.Types.ToJSON..=)) (taxRateTaxType obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_rate"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= taxRateActive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("country" Data.Aeson.Types.ToJSON..=)) (taxRateCountry obj) : ["created" Data.Aeson.Types.ToJSON..= taxRateCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (taxRateDescription obj) : ["display_name" Data.Aeson.Types.ToJSON..= taxRateDisplayName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_percentage" Data.Aeson.Types.ToJSON..=)) (taxRateEffectivePercentage obj) : ["id" Data.Aeson.Types.ToJSON..= taxRateId obj] : ["inclusive" Data.Aeson.Types.ToJSON..= taxRateInclusive obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("jurisdiction" Data.Aeson.Types.ToJSON..=)) (taxRateJurisdiction obj) : ["livemode" Data.Aeson.Types.ToJSON..= taxRateLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (taxRateMetadata obj) : ["percentage" Data.Aeson.Types.ToJSON..= taxRatePercentage obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("state" Data.Aeson.Types.ToJSON..=)) (taxRateState obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_type" Data.Aeson.Types.ToJSON..=)) (taxRateTaxType obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "tax_rate"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxRate where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxRate" (\obj -> ((((((((((((GHC.Base.pure TaxRate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "jurisdiction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "percentage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxRate" (\obj -> (((((((((((((GHC.Base.pure TaxRate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "effective_percentage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "jurisdiction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "percentage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_type"))
 
 -- | Create a new 'TaxRate' with all required fields.
 mkTaxRate ::
@@ -125,6 +129,7 @@ mkTaxRate taxRateActive taxRateCreated taxRateDisplayName taxRateId taxRateInclu
       taxRateCreated = taxRateCreated,
       taxRateDescription = GHC.Maybe.Nothing,
       taxRateDisplayName = taxRateDisplayName,
+      taxRateEffectivePercentage = GHC.Maybe.Nothing,
       taxRateId = taxRateId,
       taxRateInclusive = taxRateInclusive,
       taxRateJurisdiction = GHC.Maybe.Nothing,
@@ -143,12 +148,20 @@ data TaxRateTaxType'NonNullable
     TaxRateTaxType'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     TaxRateTaxType'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"amusement_tax"@
+    TaxRateTaxType'NonNullableEnumAmusementTax
+  | -- | Represents the JSON value @"communications_tax"@
+    TaxRateTaxType'NonNullableEnumCommunicationsTax
   | -- | Represents the JSON value @"gst"@
     TaxRateTaxType'NonNullableEnumGst
   | -- | Represents the JSON value @"hst"@
     TaxRateTaxType'NonNullableEnumHst
+  | -- | Represents the JSON value @"igst"@
+    TaxRateTaxType'NonNullableEnumIgst
   | -- | Represents the JSON value @"jct"@
     TaxRateTaxType'NonNullableEnumJct
+  | -- | Represents the JSON value @"lease_tax"@
+    TaxRateTaxType'NonNullableEnumLeaseTax
   | -- | Represents the JSON value @"pst"@
     TaxRateTaxType'NonNullableEnumPst
   | -- | Represents the JSON value @"qst"@
@@ -157,6 +170,8 @@ data TaxRateTaxType'NonNullable
     TaxRateTaxType'NonNullableEnumRst
   | -- | Represents the JSON value @"sales_tax"@
     TaxRateTaxType'NonNullableEnumSalesTax
+  | -- | Represents the JSON value @"service_tax"@
+    TaxRateTaxType'NonNullableEnumServiceTax
   | -- | Represents the JSON value @"vat"@
     TaxRateTaxType'NonNullableEnumVat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -164,26 +179,36 @@ data TaxRateTaxType'NonNullable
 instance Data.Aeson.Types.ToJSON.ToJSON TaxRateTaxType'NonNullable where
   toJSON (TaxRateTaxType'NonNullableOther val) = val
   toJSON (TaxRateTaxType'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TaxRateTaxType'NonNullableEnumAmusementTax) = "amusement_tax"
+  toJSON (TaxRateTaxType'NonNullableEnumCommunicationsTax) = "communications_tax"
   toJSON (TaxRateTaxType'NonNullableEnumGst) = "gst"
   toJSON (TaxRateTaxType'NonNullableEnumHst) = "hst"
+  toJSON (TaxRateTaxType'NonNullableEnumIgst) = "igst"
   toJSON (TaxRateTaxType'NonNullableEnumJct) = "jct"
+  toJSON (TaxRateTaxType'NonNullableEnumLeaseTax) = "lease_tax"
   toJSON (TaxRateTaxType'NonNullableEnumPst) = "pst"
   toJSON (TaxRateTaxType'NonNullableEnumQst) = "qst"
   toJSON (TaxRateTaxType'NonNullableEnumRst) = "rst"
   toJSON (TaxRateTaxType'NonNullableEnumSalesTax) = "sales_tax"
+  toJSON (TaxRateTaxType'NonNullableEnumServiceTax) = "service_tax"
   toJSON (TaxRateTaxType'NonNullableEnumVat) = "vat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxRateTaxType'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "amusement_tax" -> TaxRateTaxType'NonNullableEnumAmusementTax
+            | val GHC.Classes.== "communications_tax" -> TaxRateTaxType'NonNullableEnumCommunicationsTax
             | val GHC.Classes.== "gst" -> TaxRateTaxType'NonNullableEnumGst
             | val GHC.Classes.== "hst" -> TaxRateTaxType'NonNullableEnumHst
+            | val GHC.Classes.== "igst" -> TaxRateTaxType'NonNullableEnumIgst
             | val GHC.Classes.== "jct" -> TaxRateTaxType'NonNullableEnumJct
+            | val GHC.Classes.== "lease_tax" -> TaxRateTaxType'NonNullableEnumLeaseTax
             | val GHC.Classes.== "pst" -> TaxRateTaxType'NonNullableEnumPst
             | val GHC.Classes.== "qst" -> TaxRateTaxType'NonNullableEnumQst
             | val GHC.Classes.== "rst" -> TaxRateTaxType'NonNullableEnumRst
             | val GHC.Classes.== "sales_tax" -> TaxRateTaxType'NonNullableEnumSalesTax
+            | val GHC.Classes.== "service_tax" -> TaxRateTaxType'NonNullableEnumServiceTax
             | val GHC.Classes.== "vat" -> TaxRateTaxType'NonNullableEnumVat
             | GHC.Base.otherwise -> TaxRateTaxType'NonNullableOther val
       )

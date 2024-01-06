@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -70,6 +70,10 @@ data SourceMandateNotification = SourceMandateNotification
     -- represent a customer\'s payment instrument, and can be used with the Stripe API
     -- just like a \`Card\` object: once chargeable, they can be charged, or can be
     -- attached to customers.
+    --
+    -- Stripe doesn\'t recommend using the deprecated [Sources API](https:\/\/stripe.com\/docs\/api\/sources).
+    -- We recommend that you adopt the [PaymentMethods API](https:\/\/stripe.com\/docs\/api\/payment_methods).
+    -- This newer API provides access to our latest features and payment method types.
     --
     -- Related guides: [Sources API](https:\/\/stripe.com\/docs\/sources) and [Sources & Customers](https:\/\/stripe.com\/docs\/sources\/customers).
     sourceMandateNotificationSource :: Source,

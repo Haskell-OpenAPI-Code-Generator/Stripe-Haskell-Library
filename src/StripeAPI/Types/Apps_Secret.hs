@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -43,12 +43,14 @@ import qualified Prelude as GHC.Maybe
 --
 -- A \`user\` scoped secret is accessible by the app backend and one specific Dashboard user. Use the \`user\` scope for per-user secrets like per-user OAuth tokens, where different users might have different permissions.
 --
--- Related guide: [Store data between page reloads](https:\/\/stripe.com\/docs\/stripe-apps\/store-auth-data-custom-objects).
+-- Related guide: [Store data between page reloads](https:\/\/stripe.com\/docs\/stripe-apps\/store-auth-data-custom-objects)
 data Apps'secret = Apps'secret
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     apps'secretCreated :: GHC.Types.Int,
     -- | deleted: If true, indicates that this secret has been deleted
     apps'secretDeleted :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | expires_at: The Unix timestamp for the expiry time of the secret, after which the secret deletes.
+    apps'secretExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -78,11 +80,11 @@ data Apps'secret = Apps'secret
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Apps'secret where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= apps'secretCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (apps'secretDeleted obj) : ["id" Data.Aeson.Types.ToJSON..= apps'secretId obj] : ["livemode" Data.Aeson.Types.ToJSON..= apps'secretLivemode obj] : ["name" Data.Aeson.Types.ToJSON..= apps'secretName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payload" Data.Aeson.Types.ToJSON..=)) (apps'secretPayload obj) : ["scope" Data.Aeson.Types.ToJSON..= apps'secretScope obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apps.secret"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= apps'secretCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (apps'secretDeleted obj) : ["id" Data.Aeson.Types.ToJSON..= apps'secretId obj] : ["livemode" Data.Aeson.Types.ToJSON..= apps'secretLivemode obj] : ["name" Data.Aeson.Types.ToJSON..= apps'secretName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payload" Data.Aeson.Types.ToJSON..=)) (apps'secretPayload obj) : ["scope" Data.Aeson.Types.ToJSON..= apps'secretScope obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apps.secret"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= apps'secretCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (apps'secretDeleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (apps'secretExpiresAt obj) : ["id" Data.Aeson.Types.ToJSON..= apps'secretId obj] : ["livemode" Data.Aeson.Types.ToJSON..= apps'secretLivemode obj] : ["name" Data.Aeson.Types.ToJSON..= apps'secretName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payload" Data.Aeson.Types.ToJSON..=)) (apps'secretPayload obj) : ["scope" Data.Aeson.Types.ToJSON..= apps'secretScope obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apps.secret"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["created" Data.Aeson.Types.ToJSON..= apps'secretCreated obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("deleted" Data.Aeson.Types.ToJSON..=)) (apps'secretDeleted obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expires_at" Data.Aeson.Types.ToJSON..=)) (apps'secretExpiresAt obj) : ["id" Data.Aeson.Types.ToJSON..= apps'secretId obj] : ["livemode" Data.Aeson.Types.ToJSON..= apps'secretLivemode obj] : ["name" Data.Aeson.Types.ToJSON..= apps'secretName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payload" Data.Aeson.Types.ToJSON..=)) (apps'secretPayload obj) : ["scope" Data.Aeson.Types.ToJSON..= apps'secretScope obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "apps.secret"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Apps'secret where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Apps'secret" (\obj -> ((((((GHC.Base.pure Apps'secret GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payload")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "scope"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Apps'secret" (\obj -> (((((((GHC.Base.pure Apps'secret GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payload")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "scope"))
 
 -- | Create a new 'Apps'secret' with all required fields.
 mkApps'secret ::
@@ -101,6 +103,7 @@ mkApps'secret apps'secretCreated apps'secretId apps'secretLivemode apps'secretNa
   Apps'secret
     { apps'secretCreated = apps'secretCreated,
       apps'secretDeleted = GHC.Maybe.Nothing,
+      apps'secretExpiresAt = GHC.Maybe.Nothing,
       apps'secretId = apps'secretId,
       apps'secretLivemode = apps'secretLivemode,
       apps'secretName = apps'secretName,

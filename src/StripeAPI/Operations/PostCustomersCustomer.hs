@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -67,26 +68,26 @@ postCustomersCustomer
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Customer
-                                                        )
+                                       PostCustomersCustomerResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Customer
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostCustomersCustomerResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ""))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/customers/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.<> "")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerRequestBody = PostCustomersCustomerRequestBody
@@ -191,9 +192,7 @@ data PostCustomersCustomerRequestBody = PostCustomersCustomerRequestBody
     -- | tax: Tax details about the customer.
     postCustomersCustomerRequestBodyTax :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyTax'),
     -- | tax_exempt: The customer\'s tax exemption. One of \`none\`, \`exempt\`, or \`reverse\`.
-    postCustomersCustomerRequestBodyTaxExempt :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyTaxExempt'),
-    -- | trial_end: Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value \`now\` can be provided to end the customer\'s trial immediately. Can be at most two years from \`billing_cycle_anchor\`.
-    postCustomersCustomerRequestBodyTrialEnd :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyTrialEnd'Variants)
+    postCustomersCustomerRequestBodyTaxExempt :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyTaxExempt')
   }
   deriving
     ( GHC.Show.Show,
@@ -201,11 +200,11 @@ data PostCustomersCustomerRequestBody = PostCustomersCustomerRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cash_balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCashBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_alipay_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultAlipayAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_prefix" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoicePrefix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_invoice_sequence" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyNextInvoiceSequence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locales" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPreferredLocales obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPromotionCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyShipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodySource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_exempt" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTaxExempt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTrialEnd obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cash_balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCashBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_alipay_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultAlipayAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_prefix" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoicePrefix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_invoice_sequence" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyNextInvoiceSequence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locales" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPreferredLocales obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPromotionCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyShipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodySource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_exempt" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTaxExempt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTrialEnd obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cash_balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCashBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_alipay_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultAlipayAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_prefix" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoicePrefix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_invoice_sequence" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyNextInvoiceSequence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locales" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPreferredLocales obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPromotionCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyShipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodySource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_exempt" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTaxExempt obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cash_balance" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCashBalance obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyCoupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_alipay_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultAlipayAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_bank_account" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultBankAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_card" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultCard obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDefaultSource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("email" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyEmail obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_prefix" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoicePrefix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyInvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_invoice_sequence" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyNextInvoiceSequence obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("preferred_locales" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPreferredLocales obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyPromotionCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyShipping obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodySource obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_exempt" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTaxExempt obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBody" (\obj -> (((((((((((((((((((((((((GHC.Base.pure PostCustomersCustomerRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cash_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_alipay_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_prefix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_invoice_sequence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_locales")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_exempt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBody" (\obj -> ((((((((((((((((((((((((GHC.Base.pure PostCustomersCustomerRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cash_balance")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_alipay_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_bank_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_prefix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_invoice_sequence")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "preferred_locales")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotion_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_exempt"))
 
 -- | Create a new 'PostCustomersCustomerRequestBody' with all required fields.
 mkPostCustomersCustomerRequestBody :: PostCustomersCustomerRequestBody
@@ -235,8 +234,7 @@ mkPostCustomersCustomerRequestBody =
       postCustomersCustomerRequestBodyShipping = GHC.Maybe.Nothing,
       postCustomersCustomerRequestBodySource = GHC.Maybe.Nothing,
       postCustomersCustomerRequestBodyTax = GHC.Maybe.Nothing,
-      postCustomersCustomerRequestBodyTaxExempt = GHC.Maybe.Nothing,
-      postCustomersCustomerRequestBodyTrialEnd = GHC.Maybe.Nothing
+      postCustomersCustomerRequestBodyTaxExempt = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.address.anyOf@ in the specification.
@@ -320,8 +318,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyAddr
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerRequestBodyAddress'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersCustomerRequestBodyAddress'PostCustomersCustomerRequestBodyAddress'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.bank_account.anyOf@ in the specification.
 data PostCustomersCustomerRequestBodyBankAccount'OneOf1 = PostCustomersCustomerRequestBodyBankAccount'OneOf1
@@ -662,6 +660,8 @@ data PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'
     PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumAutomatic
   | -- | Represents the JSON value @"manual"@
     PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumManual
+  | -- | Represents the JSON value @"merchant_default"@
+    PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumMerchantDefault
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode' where
@@ -669,6 +669,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyCashBala
   toJSON (PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumAutomatic) = "automatic"
   toJSON (PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumManual) = "manual"
+  toJSON (PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumMerchantDefault) = "merchant_default"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode' where
   parseJSON val =
@@ -676,6 +677,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyCash
       ( if
             | val GHC.Classes.== "automatic" -> PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumAutomatic
             | val GHC.Classes.== "manual" -> PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumManual
+            | val GHC.Classes.== "merchant_default" -> PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'EnumMerchantDefault
             | GHC.Base.otherwise -> PostCustomersCustomerRequestBodyCashBalance'Settings'ReconciliationMode'Other val
       )
 
@@ -778,8 +780,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyInvo
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerRequestBodyInvoiceSettings'CustomFields'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersCustomerRequestBodyInvoiceSettings'CustomFields'ListTPostCustomersCustomerRequestBodyInvoiceSettings'CustomFields'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.invoice_settings.properties.rendering_options.anyOf@ in the specification.
 data PostCustomersCustomerRequestBodyInvoiceSettings'RenderingOptions'OneOf1 = PostCustomersCustomerRequestBodyInvoiceSettings'RenderingOptions'OneOf1
@@ -849,8 +851,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyInvo
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerRequestBodyInvoiceSettings'RenderingOptions'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersCustomerRequestBodyInvoiceSettings'RenderingOptions'PostCustomersCustomerRequestBodyInvoiceSettings'RenderingOptions'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.metadata.anyOf@ in the specification.
 --
@@ -870,8 +872,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyMeta
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersCustomerRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping.anyOf@ in the specification.
 data PostCustomersCustomerRequestBodyShipping'OneOf1 = PostCustomersCustomerRequestBodyShipping'OneOf1
@@ -997,15 +999,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyShip
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerRequestBodyShipping'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersCustomerRequestBodyShipping'PostCustomersCustomerRequestBodyShipping'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax@ in the specification.
 --
 -- Tax details about the customer.
 data PostCustomersCustomerRequestBodyTax' = PostCustomersCustomerRequestBodyTax'
   { -- | ip_address
-    postCustomersCustomerRequestBodyTax'IpAddress :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyTax'IpAddress'Variants)
+    postCustomersCustomerRequestBodyTax'IpAddress :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyTax'IpAddress'Variants),
+    -- | validate_location
+    postCustomersCustomerRequestBodyTax'ValidateLocation :: (GHC.Maybe.Maybe PostCustomersCustomerRequestBodyTax'ValidateLocation')
   }
   deriving
     ( GHC.Show.Show,
@@ -1013,15 +1017,19 @@ data PostCustomersCustomerRequestBodyTax' = PostCustomersCustomerRequestBodyTax'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyTax' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax'IpAddress obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax'IpAddress obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax'IpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("validate_location" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax'ValidateLocation obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip_address" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax'IpAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("validate_location" Data.Aeson.Types.ToJSON..=)) (postCustomersCustomerRequestBodyTax'ValidateLocation obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyTax' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBodyTax'" (\obj -> GHC.Base.pure PostCustomersCustomerRequestBodyTax' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerRequestBodyTax'" (\obj -> (GHC.Base.pure PostCustomersCustomerRequestBodyTax' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "validate_location"))
 
 -- | Create a new 'PostCustomersCustomerRequestBodyTax'' with all required fields.
 mkPostCustomersCustomerRequestBodyTax' :: PostCustomersCustomerRequestBodyTax'
-mkPostCustomersCustomerRequestBodyTax' = PostCustomersCustomerRequestBodyTax' {postCustomersCustomerRequestBodyTax'IpAddress = GHC.Maybe.Nothing}
+mkPostCustomersCustomerRequestBodyTax' =
+  PostCustomersCustomerRequestBodyTax'
+    { postCustomersCustomerRequestBodyTax'IpAddress = GHC.Maybe.Nothing,
+      postCustomersCustomerRequestBodyTax'ValidateLocation = GHC.Maybe.Nothing
+    }
 
 -- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax.properties.ip_address.anyOf@ in the specification.
 data PostCustomersCustomerRequestBodyTax'IpAddress'Variants
@@ -1039,8 +1047,35 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyTax'
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostCustomersCustomerRequestBodyTax'IpAddress'EmptyString
         | GHC.Base.otherwise -> case (PostCustomersCustomerRequestBodyTax'IpAddress'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax.properties.validate_location@ in the specification.
+data PostCustomersCustomerRequestBodyTax'ValidateLocation'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostCustomersCustomerRequestBodyTax'ValidateLocation'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostCustomersCustomerRequestBodyTax'ValidateLocation'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"deferred"@
+    PostCustomersCustomerRequestBodyTax'ValidateLocation'EnumDeferred
+  | -- | Represents the JSON value @"immediately"@
+    PostCustomersCustomerRequestBodyTax'ValidateLocation'EnumImmediately
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyTax'ValidateLocation' where
+  toJSON (PostCustomersCustomerRequestBodyTax'ValidateLocation'Other val) = val
+  toJSON (PostCustomersCustomerRequestBodyTax'ValidateLocation'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostCustomersCustomerRequestBodyTax'ValidateLocation'EnumDeferred) = "deferred"
+  toJSON (PostCustomersCustomerRequestBodyTax'ValidateLocation'EnumImmediately) = "immediately"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyTax'ValidateLocation' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "deferred" -> PostCustomersCustomerRequestBodyTax'ValidateLocation'EnumDeferred
+            | val GHC.Classes.== "immediately" -> PostCustomersCustomerRequestBodyTax'ValidateLocation'EnumImmediately
+            | GHC.Base.otherwise -> PostCustomersCustomerRequestBodyTax'ValidateLocation'Other val
+      )
 
 -- | Defines the enum schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.tax_exempt@ in the specification.
 --
@@ -1078,27 +1113,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyTaxE
             | val GHC.Classes.== "reverse" -> PostCustomersCustomerRequestBodyTaxExempt'EnumReverse
             | GHC.Base.otherwise -> PostCustomersCustomerRequestBodyTaxExempt'Other val
       )
-
--- | Defines the oneOf schema located at @paths.\/v1\/customers\/{customer}.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.trial_end.anyOf@ in the specification.
---
--- Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value \`now\` can be provided to end the customer\'s trial immediately. Can be at most two years from \`billing_cycle_anchor\`.
-data PostCustomersCustomerRequestBodyTrialEnd'Variants
-  = -- | Represents the JSON value @"now"@
-    PostCustomersCustomerRequestBodyTrialEnd'Now
-  | PostCustomersCustomerRequestBodyTrialEnd'Int GHC.Types.Int
-  deriving (GHC.Show.Show, GHC.Classes.Eq)
-
-instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerRequestBodyTrialEnd'Variants where
-  toJSON (PostCustomersCustomerRequestBodyTrialEnd'Int a) = Data.Aeson.Types.ToJSON.toJSON a
-  toJSON (PostCustomersCustomerRequestBodyTrialEnd'Now) = "now"
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerRequestBodyTrialEnd'Variants where
-  parseJSON val =
-    if
-        | val GHC.Classes.== "now" -> GHC.Base.pure PostCustomersCustomerRequestBodyTrialEnd'Now
-        | GHC.Base.otherwise -> case (PostCustomersCustomerRequestBodyTrialEnd'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postCustomersCustomer'.
 --

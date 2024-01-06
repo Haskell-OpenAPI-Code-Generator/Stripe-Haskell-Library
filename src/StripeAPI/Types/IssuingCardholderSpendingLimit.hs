@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -293,6 +293,8 @@ data IssuingCardholderSpendingLimitCategories'NonNullable
     IssuingCardholderSpendingLimitCategories'NonNullableEnumEducationalServices
   | -- | Represents the JSON value @"electric_razor_stores"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricRazorStores
+  | -- | Represents the JSON value @"electric_vehicle_charging"@
+    IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricVehicleCharging
   | -- | Represents the JSON value @"electrical_parts_and_equipment"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricalPartsAndEquipment
   | -- | Represents the JSON value @"electrical_services"@
@@ -303,6 +305,8 @@ data IssuingCardholderSpendingLimitCategories'NonNullable
     IssuingCardholderSpendingLimitCategories'NonNullableEnumElectronicsStores
   | -- | Represents the JSON value @"elementary_secondary_schools"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumElementarySecondarySchools
+  | -- | Represents the JSON value @"emergency_services_gcas_visa_use_only"@
+    IssuingCardholderSpendingLimitCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly
   | -- | Represents the JSON value @"employment_temp_agencies"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumEmploymentTempAgencies
   | -- | Represents the JSON value @"equipment_rental"@
@@ -347,6 +351,14 @@ data IssuingCardholderSpendingLimitCategories'NonNullable
     IssuingCardholderSpendingLimitCategories'NonNullableEnumGlasswareCrystalStores
   | -- | Represents the JSON value @"golf_courses_public"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_licensed_horse_dog_racing_us_region_only"@
+    IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly
+  | -- | Represents the JSON value @"government_licensed_online_casions_online_gambling_us_region_only"@
+    IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+  | -- | Represents the JSON value @"government_owned_lotteries_non_us_region"@
+    IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion
+  | -- | Represents the JSON value @"government_owned_lotteries_us_region_only"@
+    IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly
   | -- | Represents the JSON value @"government_services"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentServices
   | -- | Represents the JSON value @"grocery_stores_supermarkets"@
@@ -399,6 +411,8 @@ data IssuingCardholderSpendingLimitCategories'NonNullable
     IssuingCardholderSpendingLimitCategories'NonNullableEnumManualCashDisburse
   | -- | Represents the JSON value @"marinas_service_and_supplies"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"marketplaces"@
+    IssuingCardholderSpendingLimitCategories'NonNullableEnumMarketplaces
   | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
     IssuingCardholderSpendingLimitCategories'NonNullableEnumMasonryStoneworkAndPlaster
   | -- | Represents the JSON value @"massage_parlors"@
@@ -764,11 +778,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderSpendingLimitCategories
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumEatingPlacesRestaurants) = "eating_places_restaurants"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumEducationalServices) = "educational_services"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricVehicleCharging) = "electric_vehicle_charging"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricalServices) = "electrical_services"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumElectronicsRepairShops) = "electronics_repair_shops"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumElectronicsStores) = "electronics_stores"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly) = "emergency_services_gcas_visa_use_only"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumEmploymentTempAgencies) = "employment_temp_agencies"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumEquipmentRental) = "equipment_rental"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumExterminatingServices) = "exterminating_services"
@@ -791,6 +807,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderSpendingLimitCategories
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGlasswareCrystalStores) = "glassware_crystal_stores"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly) = "government_licensed_horse_dog_racing_us_region_only"
+  toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly) = "government_licensed_online_casions_online_gambling_us_region_only"
+  toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion) = "government_owned_lotteries_non_us_region"
+  toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly) = "government_owned_lotteries_us_region_only"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentServices) = "government_services"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
@@ -817,6 +837,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderSpendingLimitCategories
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumManualCashDisburse) = "manual_cash_disburse"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumMarketplaces) = "marketplaces"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumMassageParlors) = "massage_parlors"
   toJSON (IssuingCardholderSpendingLimitCategories'NonNullableEnumMedicalAndDentalLabs) = "medical_and_dental_labs"
@@ -1057,11 +1078,13 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderSpendingLimitCatego
             | val GHC.Classes.== "eating_places_restaurants" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumEatingPlacesRestaurants
             | val GHC.Classes.== "educational_services" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumEducationalServices
             | val GHC.Classes.== "electric_razor_stores" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricRazorStores
+            | val GHC.Classes.== "electric_vehicle_charging" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricVehicleCharging
             | val GHC.Classes.== "electrical_parts_and_equipment" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricalPartsAndEquipment
             | val GHC.Classes.== "electrical_services" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumElectricalServices
             | val GHC.Classes.== "electronics_repair_shops" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumElectronicsRepairShops
             | val GHC.Classes.== "electronics_stores" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumElectronicsStores
             | val GHC.Classes.== "elementary_secondary_schools" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumElementarySecondarySchools
+            | val GHC.Classes.== "emergency_services_gcas_visa_use_only" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumEmergencyServicesGcasVisaUseOnly
             | val GHC.Classes.== "employment_temp_agencies" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumEmploymentTempAgencies
             | val GHC.Classes.== "equipment_rental" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumEquipmentRental
             | val GHC.Classes.== "exterminating_services" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumExterminatingServices
@@ -1084,6 +1107,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderSpendingLimitCatego
             | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGlassPaintAndWallpaperStores
             | val GHC.Classes.== "glassware_crystal_stores" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGlasswareCrystalStores
             | val GHC.Classes.== "golf_courses_public" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGolfCoursesPublic
+            | val GHC.Classes.== "government_licensed_horse_dog_racing_us_region_only" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentLicensedHorseDogRacingUsRegionOnly
+            | val GHC.Classes.== "government_licensed_online_casions_online_gambling_us_region_only" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+            | val GHC.Classes.== "government_owned_lotteries_non_us_region" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentOwnedLotteriesNonUsRegion
+            | val GHC.Classes.== "government_owned_lotteries_us_region_only" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentOwnedLotteriesUsRegionOnly
             | val GHC.Classes.== "government_services" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGovernmentServices
             | val GHC.Classes.== "grocery_stores_supermarkets" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumGroceryStoresSupermarkets
             | val GHC.Classes.== "hardware_equipment_and_supplies" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumHardwareEquipmentAndSupplies
@@ -1110,6 +1137,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderSpendingLimitCatego
             | val GHC.Classes.== "lumber_building_materials_stores" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumLumberBuildingMaterialsStores
             | val GHC.Classes.== "manual_cash_disburse" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumManualCashDisburse
             | val GHC.Classes.== "marinas_service_and_supplies" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "marketplaces" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumMarketplaces
             | val GHC.Classes.== "masonry_stonework_and_plaster" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumMasonryStoneworkAndPlaster
             | val GHC.Classes.== "massage_parlors" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumMassageParlors
             | val GHC.Classes.== "medical_and_dental_labs" -> IssuingCardholderSpendingLimitCategories'NonNullableEnumMedicalAndDentalLabs

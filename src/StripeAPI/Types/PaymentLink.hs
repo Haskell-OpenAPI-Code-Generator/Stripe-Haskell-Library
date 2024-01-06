@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,17 +30,32 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.Account
+import {-# SOURCE #-} StripeAPI.Types.Application
+import {-# SOURCE #-} StripeAPI.Types.DeletedApplication
+import {-# SOURCE #-} StripeAPI.Types.DeletedTaxId
+import {-# SOURCE #-} StripeAPI.Types.InvoiceSettingCustomField
+import {-# SOURCE #-} StripeAPI.Types.InvoiceSettingRenderingOptions
 import {-# SOURCE #-} StripeAPI.Types.Item
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceAfterCompletion
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceAutomaticTax
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceCompletedSessions
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceConsentCollection
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceCustomFields
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceCustomText
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceInvoiceCreation
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceInvoiceSettings
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourcePaymentIntentData
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourcePaymentMethodReuseAgreement
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourcePhoneNumberCollection
+import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceRestrictions
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceShippingAddressCollection
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceShippingOption
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceSubscriptionData
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceTaxIdCollection
 import {-# SOURCE #-} StripeAPI.Types.PaymentLinksResourceTransferData
+import {-# SOURCE #-} StripeAPI.Types.SubscriptionsTrialsResourceEndBehavior
+import {-# SOURCE #-} StripeAPI.Types.SubscriptionsTrialsResourceTrialSettings
+import {-# SOURCE #-} StripeAPI.Types.TaxId
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -50,7 +65,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- When a customer opens a payment link it will open a new [checkout session](https:\/\/stripe.com\/docs\/api\/checkout\/sessions) to render the payment page. You can use [checkout session events](https:\/\/stripe.com\/docs\/api\/events\/types\#event_types-checkout.session.completed) to track payments through payment links.
 --
--- Related guide: [Payment Links API](https:\/\/stripe.com\/docs\/payments\/payment-links\/api)
+-- Related guide: [Payment Links API](https:\/\/stripe.com\/docs\/payment-links)
 data PaymentLink = PaymentLink
   { -- | active: Whether the payment link\'s \`url\` is active. If \`false\`, customers visiting the URL will be shown a page saying that the link has been deactivated.
     paymentLinkActive :: GHC.Types.Bool,
@@ -58,9 +73,11 @@ data PaymentLink = PaymentLink
     paymentLinkAfterCompletion :: PaymentLinksResourceAfterCompletion,
     -- | allow_promotion_codes: Whether user redeemable promotion codes are enabled.
     paymentLinkAllowPromotionCodes :: GHC.Types.Bool,
+    -- | application: The ID of the Connect application that created the Payment Link.
+    paymentLinkApplication :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkApplication'NonNullableVariants)),
     -- | application_fee_amount: The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner\'s Stripe account.
     paymentLinkApplicationFeeAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
-    -- | application_fee_percent: This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account.
+    -- | application_fee_percent: This represents the percentage of the subscription invoice total that will be transferred to the application owner\'s Stripe account.
     paymentLinkApplicationFeePercent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
     -- | automatic_tax:
     paymentLinkAutomaticTax :: PaymentLinksResourceAutomaticTax,
@@ -68,6 +85,12 @@ data PaymentLink = PaymentLink
     paymentLinkBillingAddressCollection :: PaymentLinkBillingAddressCollection',
     -- | consent_collection: When set, provides configuration to gather active consent from customers.
     paymentLinkConsentCollection :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkConsentCollection'NonNullable)),
+    -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    paymentLinkCurrency :: Data.Text.Internal.Text,
+    -- | custom_fields: Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+    paymentLinkCustomFields :: ([PaymentLinksResourceCustomFields]),
+    -- | custom_text:
+    paymentLinkCustomText :: PaymentLinksResourceCustomText,
     -- | customer_creation: Configuration for Customer creation during checkout.
     paymentLinkCustomerCreation :: PaymentLinkCustomerCreation',
     -- | id: Unique identifier for the object.
@@ -76,6 +99,14 @@ data PaymentLink = PaymentLink
     --
     -- * Maximum length of 5000
     paymentLinkId :: Data.Text.Internal.Text,
+    -- | inactive_message: The custom message to be displayed to a customer when a payment link is no longer active.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkInactiveMessage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | invoice_creation: Configuration for creating invoice for payment mode payment links.
+    paymentLinkInvoiceCreation :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkInvoiceCreation'NonNullable)),
     -- | line_items: The line items representing what is being sold.
     paymentLinkLineItems :: (GHC.Maybe.Maybe PaymentLinkLineItems'),
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
@@ -86,10 +117,14 @@ data PaymentLink = PaymentLink
     paymentLinkOnBehalfOf :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkOnBehalfOf'NonNullableVariants)),
     -- | payment_intent_data: Indicates the parameters to be passed to PaymentIntent creation during checkout.
     paymentLinkPaymentIntentData :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkPaymentIntentData'NonNullable)),
+    -- | payment_method_collection: Configuration for collecting a payment method during checkout.
+    paymentLinkPaymentMethodCollection :: PaymentLinkPaymentMethodCollection',
     -- | payment_method_types: The list of payment method types that customers can use. When \`null\`, Stripe will dynamically show relevant payment methods you\'ve enabled in your [payment method settings](https:\/\/dashboard.stripe.com\/settings\/payment_methods).
     paymentLinkPaymentMethodTypes :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PaymentLinkPaymentMethodTypes'NonNullable]))),
     -- | phone_number_collection:
     paymentLinkPhoneNumberCollection :: PaymentLinksResourcePhoneNumberCollection,
+    -- | restrictions: Settings that restrict the usage of a payment link.
+    paymentLinkRestrictions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkRestrictions'NonNullable)),
     -- | shipping_address_collection: Configuration for collecting the customer\'s shipping address.
     paymentLinkShippingAddressCollection :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkShippingAddressCollection'NonNullable)),
     -- | shipping_options: The shipping rate options applied to the session.
@@ -115,11 +150,11 @@ data PaymentLink = PaymentLink
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLink where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= paymentLinkActive obj] : ["after_completion" Data.Aeson.Types.ToJSON..= paymentLinkAfterCompletion obj] : ["allow_promotion_codes" Data.Aeson.Types.ToJSON..= paymentLinkAllowPromotionCodes obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeePercent obj) : ["automatic_tax" Data.Aeson.Types.ToJSON..= paymentLinkAutomaticTax obj] : ["billing_address_collection" Data.Aeson.Types.ToJSON..= paymentLinkBillingAddressCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection obj) : ["customer_creation" Data.Aeson.Types.ToJSON..= paymentLinkCustomerCreation obj] : ["id" Data.Aeson.Types.ToJSON..= paymentLinkId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (paymentLinkLineItems obj) : ["livemode" Data.Aeson.Types.ToJSON..= paymentLinkLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinkMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (paymentLinkOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentMethodTypes obj) : ["phone_number_collection" Data.Aeson.Types.ToJSON..= paymentLinkPhoneNumberCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkShippingAddressCollection obj) : ["shipping_options" Data.Aeson.Types.ToJSON..= paymentLinkShippingOptions obj] : ["submit_type" Data.Aeson.Types.ToJSON..= paymentLinkSubmitType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData obj) : ["tax_id_collection" Data.Aeson.Types.ToJSON..= paymentLinkTaxIdCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkTransferData obj) : ["url" Data.Aeson.Types.ToJSON..= paymentLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_link"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= paymentLinkActive obj] : ["after_completion" Data.Aeson.Types.ToJSON..= paymentLinkAfterCompletion obj] : ["allow_promotion_codes" Data.Aeson.Types.ToJSON..= paymentLinkAllowPromotionCodes obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeePercent obj) : ["automatic_tax" Data.Aeson.Types.ToJSON..= paymentLinkAutomaticTax obj] : ["billing_address_collection" Data.Aeson.Types.ToJSON..= paymentLinkBillingAddressCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection obj) : ["customer_creation" Data.Aeson.Types.ToJSON..= paymentLinkCustomerCreation obj] : ["id" Data.Aeson.Types.ToJSON..= paymentLinkId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (paymentLinkLineItems obj) : ["livemode" Data.Aeson.Types.ToJSON..= paymentLinkLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinkMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (paymentLinkOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentMethodTypes obj) : ["phone_number_collection" Data.Aeson.Types.ToJSON..= paymentLinkPhoneNumberCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkShippingAddressCollection obj) : ["shipping_options" Data.Aeson.Types.ToJSON..= paymentLinkShippingOptions obj] : ["submit_type" Data.Aeson.Types.ToJSON..= paymentLinkSubmitType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData obj) : ["tax_id_collection" Data.Aeson.Types.ToJSON..= paymentLinkTaxIdCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkTransferData obj) : ["url" Data.Aeson.Types.ToJSON..= paymentLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_link"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= paymentLinkActive obj] : ["after_completion" Data.Aeson.Types.ToJSON..= paymentLinkAfterCompletion obj] : ["allow_promotion_codes" Data.Aeson.Types.ToJSON..= paymentLinkAllowPromotionCodes obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplication obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeePercent obj) : ["automatic_tax" Data.Aeson.Types.ToJSON..= paymentLinkAutomaticTax obj] : ["billing_address_collection" Data.Aeson.Types.ToJSON..= paymentLinkBillingAddressCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection obj) : ["currency" Data.Aeson.Types.ToJSON..= paymentLinkCurrency obj] : ["custom_fields" Data.Aeson.Types.ToJSON..= paymentLinkCustomFields obj] : ["custom_text" Data.Aeson.Types.ToJSON..= paymentLinkCustomText obj] : ["customer_creation" Data.Aeson.Types.ToJSON..= paymentLinkCustomerCreation obj] : ["id" Data.Aeson.Types.ToJSON..= paymentLinkId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("inactive_message" Data.Aeson.Types.ToJSON..=)) (paymentLinkInactiveMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_creation" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (paymentLinkLineItems obj) : ["livemode" Data.Aeson.Types.ToJSON..= paymentLinkLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinkMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (paymentLinkOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData obj) : ["payment_method_collection" Data.Aeson.Types.ToJSON..= paymentLinkPaymentMethodCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentMethodTypes obj) : ["phone_number_collection" Data.Aeson.Types.ToJSON..= paymentLinkPhoneNumberCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restrictions" Data.Aeson.Types.ToJSON..=)) (paymentLinkRestrictions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkShippingAddressCollection obj) : ["shipping_options" Data.Aeson.Types.ToJSON..= paymentLinkShippingOptions obj] : ["submit_type" Data.Aeson.Types.ToJSON..= paymentLinkSubmitType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData obj) : ["tax_id_collection" Data.Aeson.Types.ToJSON..= paymentLinkTaxIdCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkTransferData obj) : ["url" Data.Aeson.Types.ToJSON..= paymentLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_link"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["active" Data.Aeson.Types.ToJSON..= paymentLinkActive obj] : ["after_completion" Data.Aeson.Types.ToJSON..= paymentLinkAfterCompletion obj] : ["allow_promotion_codes" Data.Aeson.Types.ToJSON..= paymentLinkAllowPromotionCodes obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplication obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_amount" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeeAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (paymentLinkApplicationFeePercent obj) : ["automatic_tax" Data.Aeson.Types.ToJSON..= paymentLinkAutomaticTax obj] : ["billing_address_collection" Data.Aeson.Types.ToJSON..= paymentLinkBillingAddressCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("consent_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection obj) : ["currency" Data.Aeson.Types.ToJSON..= paymentLinkCurrency obj] : ["custom_fields" Data.Aeson.Types.ToJSON..= paymentLinkCustomFields obj] : ["custom_text" Data.Aeson.Types.ToJSON..= paymentLinkCustomText obj] : ["customer_creation" Data.Aeson.Types.ToJSON..= paymentLinkCustomerCreation obj] : ["id" Data.Aeson.Types.ToJSON..= paymentLinkId obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("inactive_message" Data.Aeson.Types.ToJSON..=)) (paymentLinkInactiveMessage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_creation" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("line_items" Data.Aeson.Types.ToJSON..=)) (paymentLinkLineItems obj) : ["livemode" Data.Aeson.Types.ToJSON..= paymentLinkLivemode obj] : ["metadata" Data.Aeson.Types.ToJSON..= paymentLinkMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (paymentLinkOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_intent_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData obj) : ["payment_method_collection" Data.Aeson.Types.ToJSON..= paymentLinkPaymentMethodCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_types" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentMethodTypes obj) : ["phone_number_collection" Data.Aeson.Types.ToJSON..= paymentLinkPhoneNumberCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("restrictions" Data.Aeson.Types.ToJSON..=)) (paymentLinkRestrictions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_address_collection" Data.Aeson.Types.ToJSON..=)) (paymentLinkShippingAddressCollection obj) : ["shipping_options" Data.Aeson.Types.ToJSON..= paymentLinkShippingOptions obj] : ["submit_type" Data.Aeson.Types.ToJSON..= paymentLinkSubmitType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData obj) : ["tax_id_collection" Data.Aeson.Types.ToJSON..= paymentLinkTaxIdCollection obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkTransferData obj) : ["url" Data.Aeson.Types.ToJSON..= paymentLinkUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "payment_link"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLink where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLink" (\obj -> (((((((((((((((((((((((GHC.Base.pure PaymentLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "after_completion")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "allow_promotion_codes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "consent_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "phone_number_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "shipping_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_id_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLink" (\obj -> (((((((((((((((((((((((((((((((GHC.Base.pure PaymentLink GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "after_completion")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "allow_promotion_codes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "billing_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "consent_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "custom_text")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "inactive_message")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_creation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_intent_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_method_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_types")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "phone_number_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "restrictions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_address_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "shipping_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "submit_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_id_collection")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
 -- | Create a new 'PaymentLink' with all required fields.
 mkPaymentLink ::
@@ -133,6 +168,12 @@ mkPaymentLink ::
   PaymentLinksResourceAutomaticTax ->
   -- | 'paymentLinkBillingAddressCollection'
   PaymentLinkBillingAddressCollection' ->
+  -- | 'paymentLinkCurrency'
+  Data.Text.Internal.Text ->
+  -- | 'paymentLinkCustomFields'
+  [PaymentLinksResourceCustomFields] ->
+  -- | 'paymentLinkCustomText'
+  PaymentLinksResourceCustomText ->
   -- | 'paymentLinkCustomerCreation'
   PaymentLinkCustomerCreation' ->
   -- | 'paymentLinkId'
@@ -141,6 +182,8 @@ mkPaymentLink ::
   GHC.Types.Bool ->
   -- | 'paymentLinkMetadata'
   Data.Aeson.Types.Internal.Object ->
+  -- | 'paymentLinkPaymentMethodCollection'
+  PaymentLinkPaymentMethodCollection' ->
   -- | 'paymentLinkPhoneNumberCollection'
   PaymentLinksResourcePhoneNumberCollection ->
   -- | 'paymentLinkShippingOptions'
@@ -152,25 +195,33 @@ mkPaymentLink ::
   -- | 'paymentLinkUrl'
   Data.Text.Internal.Text ->
   PaymentLink
-mkPaymentLink paymentLinkActive paymentLinkAfterCompletion paymentLinkAllowPromotionCodes paymentLinkAutomaticTax paymentLinkBillingAddressCollection paymentLinkCustomerCreation paymentLinkId paymentLinkLivemode paymentLinkMetadata paymentLinkPhoneNumberCollection paymentLinkShippingOptions paymentLinkSubmitType paymentLinkTaxIdCollection paymentLinkUrl =
+mkPaymentLink paymentLinkActive paymentLinkAfterCompletion paymentLinkAllowPromotionCodes paymentLinkAutomaticTax paymentLinkBillingAddressCollection paymentLinkCurrency paymentLinkCustomFields paymentLinkCustomText paymentLinkCustomerCreation paymentLinkId paymentLinkLivemode paymentLinkMetadata paymentLinkPaymentMethodCollection paymentLinkPhoneNumberCollection paymentLinkShippingOptions paymentLinkSubmitType paymentLinkTaxIdCollection paymentLinkUrl =
   PaymentLink
     { paymentLinkActive = paymentLinkActive,
       paymentLinkAfterCompletion = paymentLinkAfterCompletion,
       paymentLinkAllowPromotionCodes = paymentLinkAllowPromotionCodes,
+      paymentLinkApplication = GHC.Maybe.Nothing,
       paymentLinkApplicationFeeAmount = GHC.Maybe.Nothing,
       paymentLinkApplicationFeePercent = GHC.Maybe.Nothing,
       paymentLinkAutomaticTax = paymentLinkAutomaticTax,
       paymentLinkBillingAddressCollection = paymentLinkBillingAddressCollection,
       paymentLinkConsentCollection = GHC.Maybe.Nothing,
+      paymentLinkCurrency = paymentLinkCurrency,
+      paymentLinkCustomFields = paymentLinkCustomFields,
+      paymentLinkCustomText = paymentLinkCustomText,
       paymentLinkCustomerCreation = paymentLinkCustomerCreation,
       paymentLinkId = paymentLinkId,
+      paymentLinkInactiveMessage = GHC.Maybe.Nothing,
+      paymentLinkInvoiceCreation = GHC.Maybe.Nothing,
       paymentLinkLineItems = GHC.Maybe.Nothing,
       paymentLinkLivemode = paymentLinkLivemode,
       paymentLinkMetadata = paymentLinkMetadata,
       paymentLinkOnBehalfOf = GHC.Maybe.Nothing,
       paymentLinkPaymentIntentData = GHC.Maybe.Nothing,
+      paymentLinkPaymentMethodCollection = paymentLinkPaymentMethodCollection,
       paymentLinkPaymentMethodTypes = GHC.Maybe.Nothing,
       paymentLinkPhoneNumberCollection = paymentLinkPhoneNumberCollection,
+      paymentLinkRestrictions = GHC.Maybe.Nothing,
       paymentLinkShippingAddressCollection = GHC.Maybe.Nothing,
       paymentLinkShippingOptions = paymentLinkShippingOptions,
       paymentLinkSubmitType = paymentLinkSubmitType,
@@ -179,6 +230,25 @@ mkPaymentLink paymentLinkActive paymentLinkAfterCompletion paymentLinkAllowPromo
       paymentLinkTransferData = GHC.Maybe.Nothing,
       paymentLinkUrl = paymentLinkUrl
     }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_link.properties.application.anyOf@ in the specification.
+--
+-- The ID of the Connect application that created the Payment Link.
+data PaymentLinkApplication'NonNullableVariants
+  = PaymentLinkApplication'NonNullableText Data.Text.Internal.Text
+  | PaymentLinkApplication'NonNullableApplication Application
+  | PaymentLinkApplication'NonNullableDeletedApplication DeletedApplication
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkApplication'NonNullableVariants where
+  toJSON (PaymentLinkApplication'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PaymentLinkApplication'NonNullableApplication a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PaymentLinkApplication'NonNullableDeletedApplication a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkApplication'NonNullableVariants where
+  parseJSON val = case (PaymentLinkApplication'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentLinkApplication'NonNullableApplication Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentLinkApplication'NonNullableDeletedApplication Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @components.schemas.payment_link.properties.billing_address_collection@ in the specification.
 --
@@ -213,8 +283,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkBillingAddressCollection'
 --
 -- When set, provides configuration to gather active consent from customers.
 data PaymentLinkConsentCollection'NonNullable = PaymentLinkConsentCollection'NonNullable
-  { -- | promotions: If set to \`auto\`, enables the collection of customer consent for promotional communications.
-    paymentLinkConsentCollection'NonNullablePromotions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkConsentCollection'NonNullablePromotions'NonNullable))
+  { -- | payment_method_reuse_agreement: Settings related to the payment method reuse text shown in the Checkout UI.
+    paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable)),
+    -- | promotions: If set to \`auto\`, enables the collection of customer consent for promotional communications.
+    paymentLinkConsentCollection'NonNullablePromotions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkConsentCollection'NonNullablePromotions'NonNullable)),
+    -- | terms_of_service: If set to \`required\`, it requires cutomers to accept the terms of service before being able to pay. If set to \`none\`, customers won\'t be shown a checkbox to accept the terms of service.
+    paymentLinkConsentCollection'NonNullableTermsOfService :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -222,15 +296,76 @@ data PaymentLinkConsentCollection'NonNullable = PaymentLinkConsentCollection'Non
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkConsentCollection'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePromotions obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePromotions obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePromotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullableTermsOfService obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method_reuse_agreement" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotions" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePromotions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("terms_of_service" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullableTermsOfService obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkConsentCollection'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkConsentCollection'NonNullable" (\obj -> GHC.Base.pure PaymentLinkConsentCollection'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkConsentCollection'NonNullable" (\obj -> ((GHC.Base.pure PaymentLinkConsentCollection'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method_reuse_agreement")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "terms_of_service"))
 
 -- | Create a new 'PaymentLinkConsentCollection'NonNullable' with all required fields.
 mkPaymentLinkConsentCollection'NonNullable :: PaymentLinkConsentCollection'NonNullable
-mkPaymentLinkConsentCollection'NonNullable = PaymentLinkConsentCollection'NonNullable {paymentLinkConsentCollection'NonNullablePromotions = GHC.Maybe.Nothing}
+mkPaymentLinkConsentCollection'NonNullable =
+  PaymentLinkConsentCollection'NonNullable
+    { paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement = GHC.Maybe.Nothing,
+      paymentLinkConsentCollection'NonNullablePromotions = GHC.Maybe.Nothing,
+      paymentLinkConsentCollection'NonNullableTermsOfService = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_link.properties.consent_collection.anyOf.properties.payment_method_reuse_agreement.anyOf@ in the specification.
+--
+-- Settings related to the payment method reuse text shown in the Checkout UI.
+data PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable = PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable
+  { -- | position: Determines the position and visibility of the payment method reuse agreement in the UI. When set to \`auto\`, Stripe\'s defaults will be used.
+    --
+    -- When set to \`hidden\`, the payment method reuse agreement text will always be hidden in the UI.
+    paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition :: (GHC.Maybe.Maybe PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("position" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("position" Data.Aeson.Types.ToJSON..=)) (paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable" (\obj -> GHC.Base.pure PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "position"))
+
+-- | Create a new 'PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable' with all required fields.
+mkPaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable :: PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable
+mkPaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable = PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullable {paymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @components.schemas.payment_link.properties.consent_collection.anyOf.properties.payment_method_reuse_agreement.anyOf.properties.position@ in the specification.
+--
+-- Determines the position and visibility of the payment method reuse agreement in the UI. When set to \`auto\`, Stripe\'s defaults will be used.
+--
+-- When set to \`hidden\`, the payment method reuse agreement text will always be hidden in the UI.
+data PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"auto"@
+    PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'EnumAuto
+  | -- | Represents the JSON value @"hidden"@
+    PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'EnumHidden
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition' where
+  toJSON (PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'Other val) = val
+  toJSON (PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'EnumAuto) = "auto"
+  toJSON (PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'EnumHidden) = "hidden"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "auto" -> PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'EnumAuto
+            | val GHC.Classes.== "hidden" -> PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'EnumHidden
+            | GHC.Base.otherwise -> PaymentLinkConsentCollection'NonNullablePaymentMethodReuseAgreement'NonNullablePosition'Other val
+      )
 
 -- | Defines the enum schema located at @components.schemas.payment_link.properties.consent_collection.anyOf.properties.promotions@ in the specification.
 --
@@ -242,19 +377,52 @@ data PaymentLinkConsentCollection'NonNullablePromotions'NonNullable
     PaymentLinkConsentCollection'NonNullablePromotions'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"auto"@
     PaymentLinkConsentCollection'NonNullablePromotions'NonNullableEnumAuto
+  | -- | Represents the JSON value @"none"@
+    PaymentLinkConsentCollection'NonNullablePromotions'NonNullableEnumNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkConsentCollection'NonNullablePromotions'NonNullable where
   toJSON (PaymentLinkConsentCollection'NonNullablePromotions'NonNullableOther val) = val
   toJSON (PaymentLinkConsentCollection'NonNullablePromotions'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentLinkConsentCollection'NonNullablePromotions'NonNullableEnumAuto) = "auto"
+  toJSON (PaymentLinkConsentCollection'NonNullablePromotions'NonNullableEnumNone) = "none"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkConsentCollection'NonNullablePromotions'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "auto" -> PaymentLinkConsentCollection'NonNullablePromotions'NonNullableEnumAuto
+            | val GHC.Classes.== "none" -> PaymentLinkConsentCollection'NonNullablePromotions'NonNullableEnumNone
             | GHC.Base.otherwise -> PaymentLinkConsentCollection'NonNullablePromotions'NonNullableOther val
+      )
+
+-- | Defines the enum schema located at @components.schemas.payment_link.properties.consent_collection.anyOf.properties.terms_of_service@ in the specification.
+--
+-- If set to \`required\`, it requires cutomers to accept the terms of service before being able to pay. If set to \`none\`, customers won\'t be shown a checkbox to accept the terms of service.
+data PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"none"@
+    PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableEnumNone
+  | -- | Represents the JSON value @"required"@
+    PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableEnumRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullable where
+  toJSON (PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableOther val) = val
+  toJSON (PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableEnumNone) = "none"
+  toJSON (PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableEnumRequired) = "required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "none" -> PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableEnumNone
+            | val GHC.Classes.== "required" -> PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableEnumRequired
+            | GHC.Base.otherwise -> PaymentLinkConsentCollection'NonNullableTermsOfService'NonNullableOther val
       )
 
 -- | Defines the enum schema located at @components.schemas.payment_link.properties.customer_creation@ in the specification.
@@ -285,6 +453,128 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkCustomerCreation' where
             | val GHC.Classes.== "if_required" -> PaymentLinkCustomerCreation'EnumIfRequired
             | GHC.Base.otherwise -> PaymentLinkCustomerCreation'Other val
       )
+
+-- | Defines the object schema located at @components.schemas.payment_link.properties.invoice_creation.anyOf@ in the specification.
+--
+-- Configuration for creating invoice for payment mode payment links.
+data PaymentLinkInvoiceCreation'NonNullable = PaymentLinkInvoiceCreation'NonNullable
+  { -- | enabled: Enable creating an invoice on successful payment.
+    paymentLinkInvoiceCreation'NonNullableEnabled :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | invoice_data: Configuration for the invoice. Default invoice values will be used if unspecified.
+    paymentLinkInvoiceCreation'NonNullableInvoiceData :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkInvoiceCreation'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableEnabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("enabled" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableEnabled obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_data" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkInvoiceCreation'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkInvoiceCreation'NonNullable" (\obj -> (GHC.Base.pure PaymentLinkInvoiceCreation'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enabled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_data"))
+
+-- | Create a new 'PaymentLinkInvoiceCreation'NonNullable' with all required fields.
+mkPaymentLinkInvoiceCreation'NonNullable :: PaymentLinkInvoiceCreation'NonNullable
+mkPaymentLinkInvoiceCreation'NonNullable =
+  PaymentLinkInvoiceCreation'NonNullable
+    { paymentLinkInvoiceCreation'NonNullableEnabled = GHC.Maybe.Nothing,
+      paymentLinkInvoiceCreation'NonNullableInvoiceData = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_link.properties.invoice_creation.anyOf.properties.invoice_data.anyOf@ in the specification.
+--
+-- Configuration for the invoice. Default invoice values will be used if unspecified.
+data PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable = PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable
+  { -- | account_tax_ids: The account tax IDs associated with the invoice.
+    paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableVariants]))),
+    -- | custom_fields: A list of up to 4 custom fields to be displayed on the invoice.
+    paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableCustomFields :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([InvoiceSettingCustomField]))),
+    -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | footer: Footer to be displayed on the invoice.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableFooter :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+    paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
+    -- | rendering_options: Options for invoice PDF rendering.
+    paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_tax_ids" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableCustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("footer" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableFooter obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rendering_options" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_tax_ids" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_fields" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableCustomFields obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("footer" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableFooter obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("rendering_options" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable" (\obj -> (((((GHC.Base.pure PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_tax_ids")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_fields")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "footer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rendering_options"))
+
+-- | Create a new 'PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable' with all required fields.
+mkPaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable :: PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable
+mkPaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable =
+  PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullable
+    { paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds = GHC.Maybe.Nothing,
+      paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableCustomFields = GHC.Maybe.Nothing,
+      paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableDescription = GHC.Maybe.Nothing,
+      paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableFooter = GHC.Maybe.Nothing,
+      paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableMetadata = GHC.Maybe.Nothing,
+      paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.payment_link.properties.invoice_creation.anyOf.properties.invoice_data.anyOf.properties.account_tax_ids.items.anyOf@ in the specification.
+data PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableVariants
+  = PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableText Data.Text.Internal.Text
+  | PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableTaxId TaxId
+  | PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableDeletedTaxId DeletedTaxId
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableVariants where
+  toJSON (PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableTaxId a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableDeletedTaxId a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableVariants where
+  parseJSON val = case (PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableTaxId Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableAccountTaxIds'NonNullableDeletedTaxId Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @components.schemas.payment_link.properties.invoice_creation.anyOf.properties.invoice_data.anyOf.properties.rendering_options.anyOf@ in the specification.
+--
+-- Options for invoice PDF rendering.
+data PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable = PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable
+  { -- | amount_tax_display: How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullableAmountTaxDisplay :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax_display" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullableAmountTaxDisplay obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax_display" Data.Aeson.Types.ToJSON..=)) (paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullableAmountTaxDisplay obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable" (\obj -> GHC.Base.pure PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_tax_display"))
+
+-- | Create a new 'PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable' with all required fields.
+mkPaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable :: PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable
+mkPaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable = PaymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullable {paymentLinkInvoiceCreation'NonNullableInvoiceData'NonNullableRenderingOptions'NonNullableAmountTaxDisplay = GHC.Maybe.Nothing}
 
 -- | Defines the object schema located at @components.schemas.payment_link.properties.line_items@ in the specification.
 --
@@ -352,8 +642,34 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkOnBehalfOf'NonNullableVar
 data PaymentLinkPaymentIntentData'NonNullable = PaymentLinkPaymentIntentData'NonNullable
   { -- | capture_method: Indicates when the funds will be captured from the customer\'s account.
     paymentLinkPaymentIntentData'NonNullableCaptureMethod :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullable)),
+    -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkPaymentIntentData'NonNullableDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that will set metadata on [Payment Intents](https:\/\/stripe.com\/docs\/api\/payment_intents) generated from this payment link.
+    paymentLinkPaymentIntentData'NonNullableMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | setup_future_usage: Indicates that you intend to make future payments with the payment method collected during checkout.
-    paymentLinkPaymentIntentData'NonNullableSetupFutureUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkPaymentIntentData'NonNullableSetupFutureUsage'NonNullable))
+    paymentLinkPaymentIntentData'NonNullableSetupFutureUsage :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkPaymentIntentData'NonNullableSetupFutureUsage'NonNullable)),
+    -- | statement_descriptor: Extra information about the payment. This will appear on your customer\'s statement when this payment succeeds in creating a charge.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkPaymentIntentData'NonNullableStatementDescriptor :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | statement_descriptor_suffix: Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that\'s set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkPaymentIntentData'NonNullableStatementDescriptorSuffix :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | transfer_group: A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers) for details.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkPaymentIntentData'NonNullableTransferGroup :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving
     ( GHC.Show.Show,
@@ -361,18 +677,23 @@ data PaymentLinkPaymentIntentData'NonNullable = PaymentLinkPaymentIntentData'Non
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkPaymentIntentData'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableSetupFutureUsage obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableSetupFutureUsage obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableStatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableTransferGroup obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("capture_method" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableCaptureMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("setup_future_usage" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableSetupFutureUsage obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableStatementDescriptor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor_suffix" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableStatementDescriptorSuffix obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_group" Data.Aeson.Types.ToJSON..=)) (paymentLinkPaymentIntentData'NonNullableTransferGroup obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkPaymentIntentData'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkPaymentIntentData'NonNullable" (\obj -> (GHC.Base.pure PaymentLinkPaymentIntentData'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkPaymentIntentData'NonNullable" (\obj -> ((((((GHC.Base.pure PaymentLinkPaymentIntentData'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "capture_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "setup_future_usage")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor_suffix")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_group"))
 
 -- | Create a new 'PaymentLinkPaymentIntentData'NonNullable' with all required fields.
 mkPaymentLinkPaymentIntentData'NonNullable :: PaymentLinkPaymentIntentData'NonNullable
 mkPaymentLinkPaymentIntentData'NonNullable =
   PaymentLinkPaymentIntentData'NonNullable
     { paymentLinkPaymentIntentData'NonNullableCaptureMethod = GHC.Maybe.Nothing,
-      paymentLinkPaymentIntentData'NonNullableSetupFutureUsage = GHC.Maybe.Nothing
+      paymentLinkPaymentIntentData'NonNullableDescription = GHC.Maybe.Nothing,
+      paymentLinkPaymentIntentData'NonNullableMetadata = GHC.Maybe.Nothing,
+      paymentLinkPaymentIntentData'NonNullableSetupFutureUsage = GHC.Maybe.Nothing,
+      paymentLinkPaymentIntentData'NonNullableStatementDescriptor = GHC.Maybe.Nothing,
+      paymentLinkPaymentIntentData'NonNullableStatementDescriptorSuffix = GHC.Maybe.Nothing,
+      paymentLinkPaymentIntentData'NonNullableTransferGroup = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.payment_link.properties.payment_intent_data.anyOf.properties.capture_method@ in the specification.
@@ -385,6 +706,8 @@ data PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullable
     PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableTyped Data.Text.Internal.Text
   | -- | Represents the JSON value @"automatic"@
     PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumAutomatic
+  | -- | Represents the JSON value @"automatic_async"@
+    PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumAutomaticAsync
   | -- | Represents the JSON value @"manual"@
     PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumManual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -393,6 +716,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkPaymentIntentData'NonNullable
   toJSON (PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableOther val) = val
   toJSON (PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumAutomatic) = "automatic"
+  toJSON (PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumAutomaticAsync) = "automatic_async"
   toJSON (PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumManual) = "manual"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullable where
@@ -400,6 +724,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkPaymentIntentData'NonNull
     GHC.Base.pure
       ( if
             | val GHC.Classes.== "automatic" -> PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumAutomatic
+            | val GHC.Classes.== "automatic_async" -> PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumAutomaticAsync
             | val GHC.Classes.== "manual" -> PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableEnumManual
             | GHC.Base.otherwise -> PaymentLinkPaymentIntentData'NonNullableCaptureMethod'NonNullableOther val
       )
@@ -433,28 +758,188 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkPaymentIntentData'NonNull
             | GHC.Base.otherwise -> PaymentLinkPaymentIntentData'NonNullableSetupFutureUsage'NonNullableOther val
       )
 
+-- | Defines the enum schema located at @components.schemas.payment_link.properties.payment_method_collection@ in the specification.
+--
+-- Configuration for collecting a payment method during checkout.
+data PaymentLinkPaymentMethodCollection'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PaymentLinkPaymentMethodCollection'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PaymentLinkPaymentMethodCollection'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"always"@
+    PaymentLinkPaymentMethodCollection'EnumAlways
+  | -- | Represents the JSON value @"if_required"@
+    PaymentLinkPaymentMethodCollection'EnumIfRequired
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkPaymentMethodCollection' where
+  toJSON (PaymentLinkPaymentMethodCollection'Other val) = val
+  toJSON (PaymentLinkPaymentMethodCollection'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentLinkPaymentMethodCollection'EnumAlways) = "always"
+  toJSON (PaymentLinkPaymentMethodCollection'EnumIfRequired) = "if_required"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkPaymentMethodCollection' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "always" -> PaymentLinkPaymentMethodCollection'EnumAlways
+            | val GHC.Classes.== "if_required" -> PaymentLinkPaymentMethodCollection'EnumIfRequired
+            | GHC.Base.otherwise -> PaymentLinkPaymentMethodCollection'Other val
+      )
+
 -- | Defines the enum schema located at @components.schemas.payment_link.properties.payment_method_types.items@ in the specification.
 data PaymentLinkPaymentMethodTypes'NonNullable
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentLinkPaymentMethodTypes'NonNullableOther Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     PaymentLinkPaymentMethodTypes'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"affirm"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumAffirm
+  | -- | Represents the JSON value @"afterpay_clearpay"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumAfterpayClearpay
+  | -- | Represents the JSON value @"alipay"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumAlipay
+  | -- | Represents the JSON value @"au_becs_debit"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumAuBecsDebit
+  | -- | Represents the JSON value @"bacs_debit"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumBacsDebit
+  | -- | Represents the JSON value @"bancontact"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumBancontact
+  | -- | Represents the JSON value @"blik"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumBlik
+  | -- | Represents the JSON value @"boleto"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumBoleto
   | -- | Represents the JSON value @"card"@
     PaymentLinkPaymentMethodTypes'NonNullableEnumCard
+  | -- | Represents the JSON value @"cashapp"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumCashapp
+  | -- | Represents the JSON value @"eps"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumEps
+  | -- | Represents the JSON value @"fpx"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumFpx
+  | -- | Represents the JSON value @"giropay"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumGiropay
+  | -- | Represents the JSON value @"grabpay"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumGrabpay
+  | -- | Represents the JSON value @"ideal"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumIdeal
+  | -- | Represents the JSON value @"klarna"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumKlarna
+  | -- | Represents the JSON value @"konbini"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumKonbini
+  | -- | Represents the JSON value @"link"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumLink
+  | -- | Represents the JSON value @"oxxo"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumOxxo
+  | -- | Represents the JSON value @"p24"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumP24
+  | -- | Represents the JSON value @"paynow"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumPaynow
+  | -- | Represents the JSON value @"paypal"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumPaypal
+  | -- | Represents the JSON value @"pix"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumPix
+  | -- | Represents the JSON value @"promptpay"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumPromptpay
+  | -- | Represents the JSON value @"sepa_debit"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumSepaDebit
+  | -- | Represents the JSON value @"sofort"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumSofort
+  | -- | Represents the JSON value @"us_bank_account"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumUsBankAccount
+  | -- | Represents the JSON value @"wechat_pay"@
+    PaymentLinkPaymentMethodTypes'NonNullableEnumWechatPay
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkPaymentMethodTypes'NonNullable where
   toJSON (PaymentLinkPaymentMethodTypes'NonNullableOther val) = val
   toJSON (PaymentLinkPaymentMethodTypes'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumAffirm) = "affirm"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumAfterpayClearpay) = "afterpay_clearpay"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumAlipay) = "alipay"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumAuBecsDebit) = "au_becs_debit"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumBacsDebit) = "bacs_debit"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumBancontact) = "bancontact"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumBlik) = "blik"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumBoleto) = "boleto"
   toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumCard) = "card"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumCashapp) = "cashapp"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumEps) = "eps"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumFpx) = "fpx"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumGiropay) = "giropay"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumGrabpay) = "grabpay"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumIdeal) = "ideal"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumKlarna) = "klarna"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumKonbini) = "konbini"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumLink) = "link"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumOxxo) = "oxxo"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumP24) = "p24"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumPaynow) = "paynow"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumPaypal) = "paypal"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumPix) = "pix"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumPromptpay) = "promptpay"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumSepaDebit) = "sepa_debit"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumSofort) = "sofort"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumUsBankAccount) = "us_bank_account"
+  toJSON (PaymentLinkPaymentMethodTypes'NonNullableEnumWechatPay) = "wechat_pay"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkPaymentMethodTypes'NonNullable where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "affirm" -> PaymentLinkPaymentMethodTypes'NonNullableEnumAffirm
+            | val GHC.Classes.== "afterpay_clearpay" -> PaymentLinkPaymentMethodTypes'NonNullableEnumAfterpayClearpay
+            | val GHC.Classes.== "alipay" -> PaymentLinkPaymentMethodTypes'NonNullableEnumAlipay
+            | val GHC.Classes.== "au_becs_debit" -> PaymentLinkPaymentMethodTypes'NonNullableEnumAuBecsDebit
+            | val GHC.Classes.== "bacs_debit" -> PaymentLinkPaymentMethodTypes'NonNullableEnumBacsDebit
+            | val GHC.Classes.== "bancontact" -> PaymentLinkPaymentMethodTypes'NonNullableEnumBancontact
+            | val GHC.Classes.== "blik" -> PaymentLinkPaymentMethodTypes'NonNullableEnumBlik
+            | val GHC.Classes.== "boleto" -> PaymentLinkPaymentMethodTypes'NonNullableEnumBoleto
             | val GHC.Classes.== "card" -> PaymentLinkPaymentMethodTypes'NonNullableEnumCard
+            | val GHC.Classes.== "cashapp" -> PaymentLinkPaymentMethodTypes'NonNullableEnumCashapp
+            | val GHC.Classes.== "eps" -> PaymentLinkPaymentMethodTypes'NonNullableEnumEps
+            | val GHC.Classes.== "fpx" -> PaymentLinkPaymentMethodTypes'NonNullableEnumFpx
+            | val GHC.Classes.== "giropay" -> PaymentLinkPaymentMethodTypes'NonNullableEnumGiropay
+            | val GHC.Classes.== "grabpay" -> PaymentLinkPaymentMethodTypes'NonNullableEnumGrabpay
+            | val GHC.Classes.== "ideal" -> PaymentLinkPaymentMethodTypes'NonNullableEnumIdeal
+            | val GHC.Classes.== "klarna" -> PaymentLinkPaymentMethodTypes'NonNullableEnumKlarna
+            | val GHC.Classes.== "konbini" -> PaymentLinkPaymentMethodTypes'NonNullableEnumKonbini
+            | val GHC.Classes.== "link" -> PaymentLinkPaymentMethodTypes'NonNullableEnumLink
+            | val GHC.Classes.== "oxxo" -> PaymentLinkPaymentMethodTypes'NonNullableEnumOxxo
+            | val GHC.Classes.== "p24" -> PaymentLinkPaymentMethodTypes'NonNullableEnumP24
+            | val GHC.Classes.== "paynow" -> PaymentLinkPaymentMethodTypes'NonNullableEnumPaynow
+            | val GHC.Classes.== "paypal" -> PaymentLinkPaymentMethodTypes'NonNullableEnumPaypal
+            | val GHC.Classes.== "pix" -> PaymentLinkPaymentMethodTypes'NonNullableEnumPix
+            | val GHC.Classes.== "promptpay" -> PaymentLinkPaymentMethodTypes'NonNullableEnumPromptpay
+            | val GHC.Classes.== "sepa_debit" -> PaymentLinkPaymentMethodTypes'NonNullableEnumSepaDebit
+            | val GHC.Classes.== "sofort" -> PaymentLinkPaymentMethodTypes'NonNullableEnumSofort
+            | val GHC.Classes.== "us_bank_account" -> PaymentLinkPaymentMethodTypes'NonNullableEnumUsBankAccount
+            | val GHC.Classes.== "wechat_pay" -> PaymentLinkPaymentMethodTypes'NonNullableEnumWechatPay
             | GHC.Base.otherwise -> PaymentLinkPaymentMethodTypes'NonNullableOther val
       )
+
+-- | Defines the object schema located at @components.schemas.payment_link.properties.restrictions.anyOf@ in the specification.
+--
+-- Settings that restrict the usage of a payment link.
+data PaymentLinkRestrictions'NonNullable = PaymentLinkRestrictions'NonNullable
+  { -- | completed_sessions:
+    paymentLinkRestrictions'NonNullableCompletedSessions :: (GHC.Maybe.Maybe PaymentLinksResourceCompletedSessions)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkRestrictions'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("completed_sessions" Data.Aeson.Types.ToJSON..=)) (paymentLinkRestrictions'NonNullableCompletedSessions obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("completed_sessions" Data.Aeson.Types.ToJSON..=)) (paymentLinkRestrictions'NonNullableCompletedSessions obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkRestrictions'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkRestrictions'NonNullable" (\obj -> GHC.Base.pure PaymentLinkRestrictions'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "completed_sessions"))
+
+-- | Create a new 'PaymentLinkRestrictions'NonNullable' with all required fields.
+mkPaymentLinkRestrictions'NonNullable :: PaymentLinkRestrictions'NonNullable
+mkPaymentLinkRestrictions'NonNullable = PaymentLinkRestrictions'NonNullable {paymentLinkRestrictions'NonNullableCompletedSessions = GHC.Maybe.Nothing}
 
 -- | Defines the object schema located at @components.schemas.payment_link.properties.shipping_address_collection.anyOf@ in the specification.
 --
@@ -1487,8 +1972,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkSubmitType' where
 --
 -- When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use \\\`subscription_data\\\`.
 data PaymentLinkSubscriptionData'NonNullable = PaymentLinkSubscriptionData'NonNullable
-  { -- | trial_period_days: Integer representing the number of trial period days before the customer is charged for the first time.
-    paymentLinkSubscriptionData'NonNullableTrialPeriodDays :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
+  { -- | description: The subscription\'s description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    paymentLinkSubscriptionData'NonNullableDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that will set metadata on [Subscriptions](https:\/\/stripe.com\/docs\/api\/subscriptions) generated from this payment link.
+    paymentLinkSubscriptionData'NonNullableMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | trial_period_days: Integer representing the number of trial period days before the customer is charged for the first time.
+    paymentLinkSubscriptionData'NonNullableTrialPeriodDays :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | trial_settings: Settings related to subscription trials.
+    paymentLinkSubscriptionData'NonNullableTrialSettings :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -1496,21 +1991,50 @@ data PaymentLinkSubscriptionData'NonNullable = PaymentLinkSubscriptionData'NonNu
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkSubscriptionData'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialPeriodDays obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialPeriodDays obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialSettings obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_period_days" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialPeriodDays obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_settings" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialSettings obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkSubscriptionData'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkSubscriptionData'NonNullable" (\obj -> GHC.Base.pure PaymentLinkSubscriptionData'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkSubscriptionData'NonNullable" (\obj -> (((GHC.Base.pure PaymentLinkSubscriptionData'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_period_days")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_settings"))
 
 -- | Create a new 'PaymentLinkSubscriptionData'NonNullable' with all required fields.
 mkPaymentLinkSubscriptionData'NonNullable :: PaymentLinkSubscriptionData'NonNullable
-mkPaymentLinkSubscriptionData'NonNullable = PaymentLinkSubscriptionData'NonNullable {paymentLinkSubscriptionData'NonNullableTrialPeriodDays = GHC.Maybe.Nothing}
+mkPaymentLinkSubscriptionData'NonNullable =
+  PaymentLinkSubscriptionData'NonNullable
+    { paymentLinkSubscriptionData'NonNullableDescription = GHC.Maybe.Nothing,
+      paymentLinkSubscriptionData'NonNullableMetadata = GHC.Maybe.Nothing,
+      paymentLinkSubscriptionData'NonNullableTrialPeriodDays = GHC.Maybe.Nothing,
+      paymentLinkSubscriptionData'NonNullableTrialSettings = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.payment_link.properties.subscription_data.anyOf.properties.trial_settings.anyOf@ in the specification.
+--
+-- Settings related to subscription trials.
+data PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable = PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable
+  { -- | end_behavior: Defines how a subscription behaves when a free trial ends.
+    paymentLinkSubscriptionData'NonNullableTrialSettings'NonNullableEndBehavior :: (GHC.Maybe.Maybe SubscriptionsTrialsResourceEndBehavior)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_behavior" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialSettings'NonNullableEndBehavior obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_behavior" Data.Aeson.Types.ToJSON..=)) (paymentLinkSubscriptionData'NonNullableTrialSettings'NonNullableEndBehavior obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable" (\obj -> GHC.Base.pure PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "end_behavior"))
+
+-- | Create a new 'PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable' with all required fields.
+mkPaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable :: PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable
+mkPaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable = PaymentLinkSubscriptionData'NonNullableTrialSettings'NonNullable {paymentLinkSubscriptionData'NonNullableTrialSettings'NonNullableEndBehavior = GHC.Maybe.Nothing}
 
 -- | Defines the object schema located at @components.schemas.payment_link.properties.transfer_data.anyOf@ in the specification.
 --
 -- The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 data PaymentLinkTransferData'NonNullable = PaymentLinkTransferData'NonNullable
-  { -- | amount: The amount in %s that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+  { -- | amount: The amount in cents (or local equivalent) that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
     paymentLinkTransferData'NonNullableAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | destination: The connected account receiving the transfer.
     paymentLinkTransferData'NonNullableDestination :: (GHC.Maybe.Maybe PaymentLinkTransferData'NonNullableDestination'Variants)

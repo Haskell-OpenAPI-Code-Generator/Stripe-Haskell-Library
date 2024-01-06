@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.invoice_payment_method_options_customer_balance_bank_transfer_eu_bank_transfer@ in the specification.
 data InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransfer = InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransfer
-  { -- | country: The desired country code of the bank account information. Permitted values include: \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
+  { -- | country: The desired country code of the bank account information. Permitted values include: \`BE\`, \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
     invoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry :: InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'
   }
   deriving
@@ -58,12 +58,14 @@ mkInvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransfer invoicePa
 
 -- | Defines the enum schema located at @components.schemas.invoice_payment_method_options_customer_balance_bank_transfer_eu_bank_transfer.properties.country@ in the specification.
 --
--- The desired country code of the bank account information. Permitted values include: \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
+-- The desired country code of the bank account information. Permitted values include: \`BE\`, \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
 data InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"BE"@
+    InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumBE
   | -- | Represents the JSON value @"DE"@
     InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumDE
   | -- | Represents the JSON value @"ES"@
@@ -79,6 +81,7 @@ data InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry
 instance Data.Aeson.Types.ToJSON.ToJSON InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry' where
   toJSON (InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'Other val) = val
   toJSON (InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumBE) = "BE"
   toJSON (InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumDE) = "DE"
   toJSON (InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumES) = "ES"
   toJSON (InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumFR) = "FR"
@@ -89,6 +92,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoicePaymentMethodOptionsCustomerB
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "BE" -> InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumBE
             | val GHC.Classes.== "DE" -> InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumDE
             | val GHC.Classes.== "ES" -> InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumES
             | val GHC.Classes.== "FR" -> InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransferCountry'EnumFR

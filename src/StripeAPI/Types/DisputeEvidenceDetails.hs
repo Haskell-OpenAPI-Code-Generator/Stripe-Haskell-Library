@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.dispute_evidence_details@ in the specification.
 data DisputeEvidenceDetails = DisputeEvidenceDetails
-  { -- | due_by: Date by which evidence must be submitted in order to successfully challenge dispute. Will be null if the customer\'s bank or credit card company doesn\'t allow a response for this particular dispute.
+  { -- | due_by: Date by which evidence must be submitted in order to successfully challenge dispute. Will be 0 if the customer\'s bank or credit card company doesn\'t allow a response for this particular dispute.
     disputeEvidenceDetailsDueBy :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | has_evidence: Whether evidence has been staged for this dispute.
     disputeEvidenceDetailsHasEvidence :: GHC.Types.Bool,

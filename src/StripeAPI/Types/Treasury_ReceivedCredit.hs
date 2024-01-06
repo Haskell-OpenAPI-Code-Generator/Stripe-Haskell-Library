@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,8 +29,8 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
-import {-# SOURCE #-} StripeAPI.Types.ReceivedCreditsResourceReversalDetails
-import {-# SOURCE #-} StripeAPI.Types.ReceivedCreditsResourceTreasuryLinkedFlows
+import {-# SOURCE #-} StripeAPI.Types.TreasuryReceivedCreditsResourceLinkedFlows
+import {-# SOURCE #-} StripeAPI.Types.TreasuryReceivedCreditsResourceReversalDetails
 import {-# SOURCE #-} StripeAPI.Types.TreasurySharedResourceInitiatingPaymentMethodDetailsInitiatingPaymentMethodDetails
 import {-# SOURCE #-} StripeAPI.Types.Treasury_Transaction
 import qualified Prelude as GHC.Integer.Type
@@ -60,6 +60,12 @@ data Treasury'receivedCredit = Treasury'receivedCredit
     --
     -- * Maximum length of 5000
     treasury'receivedCreditFinancialAccount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | hosted_regulatory_receipt_url: A [hosted transaction receipt](https:\/\/stripe.com\/docs\/treasury\/moving-money\/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe\'s money transmission licenses.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    treasury'receivedCreditHostedRegulatoryReceiptUrl :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -69,7 +75,7 @@ data Treasury'receivedCredit = Treasury'receivedCredit
     -- | initiating_payment_method_details:
     treasury'receivedCreditInitiatingPaymentMethodDetails :: TreasurySharedResourceInitiatingPaymentMethodDetailsInitiatingPaymentMethodDetails,
     -- | linked_flows:
-    treasury'receivedCreditLinkedFlows :: ReceivedCreditsResourceTreasuryLinkedFlows,
+    treasury'receivedCreditLinkedFlows :: TreasuryReceivedCreditsResourceLinkedFlows,
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     treasury'receivedCreditLivemode :: GHC.Types.Bool,
     -- | network: The rails used to send the funds.
@@ -87,11 +93,11 @@ data Treasury'receivedCredit = Treasury'receivedCredit
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Treasury'receivedCredit where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'receivedCreditAmount obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= treasury'receivedCreditDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_account" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFinancialAccount obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'receivedCreditId obj] : ["initiating_payment_method_details" Data.Aeson.Types.ToJSON..= treasury'receivedCreditInitiatingPaymentMethodDetails obj] : ["linked_flows" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLinkedFlows obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLivemode obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'receivedCreditNetwork obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversal_details" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditReversalDetails obj) : ["status" Data.Aeson.Types.ToJSON..= treasury'receivedCreditStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.received_credit"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'receivedCreditAmount obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= treasury'receivedCreditDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_account" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFinancialAccount obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'receivedCreditId obj] : ["initiating_payment_method_details" Data.Aeson.Types.ToJSON..= treasury'receivedCreditInitiatingPaymentMethodDetails obj] : ["linked_flows" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLinkedFlows obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLivemode obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'receivedCreditNetwork obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversal_details" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditReversalDetails obj) : ["status" Data.Aeson.Types.ToJSON..= treasury'receivedCreditStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.received_credit"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'receivedCreditAmount obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= treasury'receivedCreditDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_account" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFinancialAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_regulatory_receipt_url" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditHostedRegulatoryReceiptUrl obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'receivedCreditId obj] : ["initiating_payment_method_details" Data.Aeson.Types.ToJSON..= treasury'receivedCreditInitiatingPaymentMethodDetails obj] : ["linked_flows" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLinkedFlows obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLivemode obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'receivedCreditNetwork obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversal_details" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditReversalDetails obj) : ["status" Data.Aeson.Types.ToJSON..= treasury'receivedCreditStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.received_credit"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= treasury'receivedCreditAmount obj] : ["created" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= treasury'receivedCreditCurrency obj] : ["description" Data.Aeson.Types.ToJSON..= treasury'receivedCreditDescription obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("failure_code" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFailureCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_account" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditFinancialAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_regulatory_receipt_url" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditHostedRegulatoryReceiptUrl obj) : ["id" Data.Aeson.Types.ToJSON..= treasury'receivedCreditId obj] : ["initiating_payment_method_details" Data.Aeson.Types.ToJSON..= treasury'receivedCreditInitiatingPaymentMethodDetails obj] : ["linked_flows" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLinkedFlows obj] : ["livemode" Data.Aeson.Types.ToJSON..= treasury'receivedCreditLivemode obj] : ["network" Data.Aeson.Types.ToJSON..= treasury'receivedCreditNetwork obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reversal_details" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditReversalDetails obj) : ["status" Data.Aeson.Types.ToJSON..= treasury'receivedCreditStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction" Data.Aeson.Types.ToJSON..=)) (treasury'receivedCreditTransaction obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "treasury.received_credit"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Treasury'receivedCredit where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Treasury'receivedCredit" (\obj -> (((((((((((((GHC.Base.pure Treasury'receivedCredit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "initiating_payment_method_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "linked_flows")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reversal_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Treasury'receivedCredit" (\obj -> ((((((((((((((GHC.Base.pure Treasury'receivedCredit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "failure_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "hosted_regulatory_receipt_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "initiating_payment_method_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "linked_flows")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reversal_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction"))
 
 -- | Create a new 'Treasury'receivedCredit' with all required fields.
 mkTreasury'receivedCredit ::
@@ -108,7 +114,7 @@ mkTreasury'receivedCredit ::
   -- | 'treasury'receivedCreditInitiatingPaymentMethodDetails'
   TreasurySharedResourceInitiatingPaymentMethodDetailsInitiatingPaymentMethodDetails ->
   -- | 'treasury'receivedCreditLinkedFlows'
-  ReceivedCreditsResourceTreasuryLinkedFlows ->
+  TreasuryReceivedCreditsResourceLinkedFlows ->
   -- | 'treasury'receivedCreditLivemode'
   GHC.Types.Bool ->
   -- | 'treasury'receivedCreditNetwork'
@@ -124,6 +130,7 @@ mkTreasury'receivedCredit treasury'receivedCreditAmount treasury'receivedCreditC
       treasury'receivedCreditDescription = treasury'receivedCreditDescription,
       treasury'receivedCreditFailureCode = GHC.Maybe.Nothing,
       treasury'receivedCreditFinancialAccount = GHC.Maybe.Nothing,
+      treasury'receivedCreditHostedRegulatoryReceiptUrl = GHC.Maybe.Nothing,
       treasury'receivedCreditId = treasury'receivedCreditId,
       treasury'receivedCreditInitiatingPaymentMethodDetails = treasury'receivedCreditInitiatingPaymentMethodDetails,
       treasury'receivedCreditLinkedFlows = treasury'receivedCreditLinkedFlows,

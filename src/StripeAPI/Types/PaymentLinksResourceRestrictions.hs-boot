@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentLinksResourceRestrictions where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentLinksResourceRestrictions
+instance Show PaymentLinksResourceRestrictions
+instance Eq PaymentLinksResourceRestrictions
+instance FromJSON PaymentLinksResourceRestrictions
+instance ToJSON PaymentLinksResourceRestrictions

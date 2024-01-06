@@ -77,8 +77,3 @@ instance Show ItemPrice'NonNullableType'
 instance Eq ItemPrice'NonNullableType'
 instance FromJSON ItemPrice'NonNullableType'
 instance ToJSON ItemPrice'NonNullableType'
-data ItemProduct'Variants
-instance Show ItemProduct'Variants
-instance Eq ItemProduct'Variants
-instance FromJSON ItemProduct'Variants
-instance ToJSON ItemProduct'Variants

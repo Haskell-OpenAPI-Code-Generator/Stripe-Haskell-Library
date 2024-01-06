@@ -77,6 +77,11 @@ instance Show CustomerSources'Data'Customer'NonNullableVariants
 instance Eq CustomerSources'Data'Customer'NonNullableVariants
 instance FromJSON CustomerSources'Data'Customer'NonNullableVariants
 instance ToJSON CustomerSources'Data'Customer'NonNullableVariants
+data CustomerSources'Data'FutureRequirements'NonNullable
+instance Show CustomerSources'Data'FutureRequirements'NonNullable
+instance Eq CustomerSources'Data'FutureRequirements'NonNullable
+instance FromJSON CustomerSources'Data'FutureRequirements'NonNullable
+instance ToJSON CustomerSources'Data'FutureRequirements'NonNullable
 data CustomerSources'Data'Object'
 instance Show CustomerSources'Data'Object'
 instance Eq CustomerSources'Data'Object'
@@ -97,16 +102,11 @@ instance Show CustomerSources'Data'Owner'NonNullableVerifiedAddress'NonNullable
 instance Eq CustomerSources'Data'Owner'NonNullableVerifiedAddress'NonNullable
 instance FromJSON CustomerSources'Data'Owner'NonNullableVerifiedAddress'NonNullable
 instance ToJSON CustomerSources'Data'Owner'NonNullableVerifiedAddress'NonNullable
-data CustomerSources'Data'Recipient'NonNullableVariants
-instance Show CustomerSources'Data'Recipient'NonNullableVariants
-instance Eq CustomerSources'Data'Recipient'NonNullableVariants
-instance FromJSON CustomerSources'Data'Recipient'NonNullableVariants
-instance ToJSON CustomerSources'Data'Recipient'NonNullableVariants
-data CustomerSources'Data'Transactions'
-instance Show CustomerSources'Data'Transactions'
-instance Eq CustomerSources'Data'Transactions'
-instance FromJSON CustomerSources'Data'Transactions'
-instance ToJSON CustomerSources'Data'Transactions'
+data CustomerSources'Data'Requirements'NonNullable
+instance Show CustomerSources'Data'Requirements'NonNullable
+instance Eq CustomerSources'Data'Requirements'NonNullable
+instance FromJSON CustomerSources'Data'Requirements'NonNullable
+instance ToJSON CustomerSources'Data'Requirements'NonNullable
 data CustomerSources'Data'Type'
 instance Show CustomerSources'Data'Type'
 instance Eq CustomerSources'Data'Type'

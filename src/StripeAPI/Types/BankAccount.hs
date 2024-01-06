@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,8 +30,10 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.Account
+import {-# SOURCE #-} StripeAPI.Types.AccountRequirementsError
 import {-# SOURCE #-} StripeAPI.Types.Customer
 import {-# SOURCE #-} StripeAPI.Types.DeletedCustomer
+import {-# SOURCE #-} StripeAPI.Types.ExternalAccountRequirements
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -43,7 +45,7 @@ import qualified Prelude as GHC.Maybe
 -- destinations on \`Account\` objects for [Custom accounts](https:\/\/stripe.com\/docs\/connect\/custom-accounts).
 -- They can be bank accounts or debit cards as well, and are documented in the links above.
 --
--- Related guide: [Bank Debits and Transfers](https:\/\/stripe.com\/docs\/payments\/bank-debits-transfers).
+-- Related guide: [Bank debits and transfers](https:\/\/stripe.com\/docs\/payments\/bank-debits-transfers)
 data BankAccount = BankAccount
   { -- | account: The ID of the account that the bank account is associated with.
     bankAccountAccount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BankAccountAccount'NonNullableVariants)),
@@ -91,6 +93,8 @@ data BankAccount = BankAccount
     --
     -- * Maximum length of 5000
     bankAccountFingerprint :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | future_requirements: Information about the [upcoming new requirements for the bank account](https:\/\/stripe.com\/docs\/connect\/custom-accounts\/future-requirements), including what information needs to be collected, and by when.
+    bankAccountFutureRequirements :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BankAccountFutureRequirements'NonNullable)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -105,15 +109,17 @@ data BankAccount = BankAccount
     bankAccountLast4 :: Data.Text.Internal.Text,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     bankAccountMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
+    -- | requirements: Information about the requirements for the bank account, including what information needs to be collected.
+    bankAccountRequirements :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BankAccountRequirements'NonNullable)),
     -- | routing_number: The routing transit number for the bank account.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     bankAccountRoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a transfer sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send transfers until the bank details are updated.
+    -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a payout sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send [scheduled payouts](https:\/\/stripe.com\/docs\/payouts\#payout-schedule) until the bank details are updated.
     --
-    -- For external accounts, possible values are \`new\` and \`errored\`. Validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
+    -- For external accounts, possible values are \`new\`, \`errored\` and \`verification_failed\`. If a payouts fails, the status is set to \`errored\` and scheduled payouts are stopped until account details are updated. In India, if we can\'t [verify the owner of the bank account](https:\/\/support.stripe.com\/questions\/bank-account-ownership-verification), we\'ll set the status to \`verification_failed\`. Other validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply.
     --
     -- Constraints:
     --
@@ -126,11 +132,11 @@ data BankAccount = BankAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BankAccount where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (bankAccountAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (bankAccountAvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (bankAccountBankName obj) : ["country" Data.Aeson.Types.ToJSON..= bankAccountCountry obj] : ["currency" Data.Aeson.Types.ToJSON..= bankAccountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (bankAccountCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (bankAccountDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (bankAccountFingerprint obj) : ["id" Data.Aeson.Types.ToJSON..= bankAccountId obj] : ["last4" Data.Aeson.Types.ToJSON..= bankAccountLast4 obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (bankAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (bankAccountRoutingNumber obj) : ["status" Data.Aeson.Types.ToJSON..= bankAccountStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (bankAccountAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (bankAccountAvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (bankAccountBankName obj) : ["country" Data.Aeson.Types.ToJSON..= bankAccountCountry obj] : ["currency" Data.Aeson.Types.ToJSON..= bankAccountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (bankAccountCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (bankAccountDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (bankAccountFingerprint obj) : ["id" Data.Aeson.Types.ToJSON..= bankAccountId obj] : ["last4" Data.Aeson.Types.ToJSON..= bankAccountLast4 obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (bankAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (bankAccountRoutingNumber obj) : ["status" Data.Aeson.Types.ToJSON..= bankAccountStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (bankAccountAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (bankAccountAvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (bankAccountBankName obj) : ["country" Data.Aeson.Types.ToJSON..= bankAccountCountry obj] : ["currency" Data.Aeson.Types.ToJSON..= bankAccountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (bankAccountCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (bankAccountDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (bankAccountFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("future_requirements" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements obj) : ["id" Data.Aeson.Types.ToJSON..= bankAccountId obj] : ["last4" Data.Aeson.Types.ToJSON..= bankAccountLast4 obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (bankAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requirements" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (bankAccountRoutingNumber obj) : ["status" Data.Aeson.Types.ToJSON..= bankAccountStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account" Data.Aeson.Types.ToJSON..=)) (bankAccountAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_name" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (bankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("available_payout_methods" Data.Aeson.Types.ToJSON..=)) (bankAccountAvailablePayoutMethods obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (bankAccountBankName obj) : ["country" Data.Aeson.Types.ToJSON..= bankAccountCountry obj] : ["currency" Data.Aeson.Types.ToJSON..= bankAccountCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer" Data.Aeson.Types.ToJSON..=)) (bankAccountCustomer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_for_currency" Data.Aeson.Types.ToJSON..=)) (bankAccountDefaultForCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (bankAccountFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("future_requirements" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements obj) : ["id" Data.Aeson.Types.ToJSON..= bankAccountId obj] : ["last4" Data.Aeson.Types.ToJSON..= bankAccountLast4 obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (bankAccountMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("requirements" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (bankAccountRoutingNumber obj) : ["status" Data.Aeson.Types.ToJSON..= bankAccountStatus obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "bank_account"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BankAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankAccount" (\obj -> (((((((((((((((GHC.Base.pure BankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankAccount" (\obj -> (((((((((((((((((GHC.Base.pure BankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "available_payout_methods")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_for_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "future_requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "requirements")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
 -- | Create a new 'BankAccount' with all required fields.
 mkBankAccount ::
@@ -158,9 +164,11 @@ mkBankAccount bankAccountCountry bankAccountCurrency bankAccountId bankAccountLa
       bankAccountCustomer = GHC.Maybe.Nothing,
       bankAccountDefaultForCurrency = GHC.Maybe.Nothing,
       bankAccountFingerprint = GHC.Maybe.Nothing,
+      bankAccountFutureRequirements = GHC.Maybe.Nothing,
       bankAccountId = bankAccountId,
       bankAccountLast4 = bankAccountLast4,
       bankAccountMetadata = GHC.Maybe.Nothing,
+      bankAccountRequirements = GHC.Maybe.Nothing,
       bankAccountRoutingNumber = GHC.Maybe.Nothing,
       bankAccountStatus = bankAccountStatus
     }
@@ -227,3 +235,73 @@ instance Data.Aeson.Types.FromJSON.FromJSON BankAccountCustomer'NonNullableVaria
   parseJSON val = case (BankAccountCustomer'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BankAccountCustomer'NonNullableCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BankAccountCustomer'NonNullableDeletedCustomer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @components.schemas.bank_account.properties.future_requirements.anyOf@ in the specification.
+--
+-- Information about the [upcoming new requirements for the bank account](https:\\\/\\\/stripe.com\\\/docs\\\/connect\\\/custom-accounts\\\/future-requirements), including what information needs to be collected, and by when.
+data BankAccountFutureRequirements'NonNullable = BankAccountFutureRequirements'NonNullable
+  { -- | currently_due: Fields that need to be collected to keep the external account enabled. If not collected by \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
+    bankAccountFutureRequirements'NonNullableCurrentlyDue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
+    -- | errors: Fields that are \`currently_due\` and need to be collected again because validation or verification failed.
+    bankAccountFutureRequirements'NonNullableErrors :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([AccountRequirementsError]))),
+    -- | past_due: Fields that weren\'t collected by \`current_deadline\`. These fields need to be collected to enable the external account.
+    bankAccountFutureRequirements'NonNullablePastDue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
+    -- | pending_verification: Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to \`eventually_due\`, \`currently_due\`, or \`past_due\`.
+    bankAccountFutureRequirements'NonNullablePendingVerification :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text])))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BankAccountFutureRequirements'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (bankAccountFutureRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BankAccountFutureRequirements'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankAccountFutureRequirements'NonNullable" (\obj -> (((GHC.Base.pure BankAccountFutureRequirements'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currently_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "errors")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_verification"))
+
+-- | Create a new 'BankAccountFutureRequirements'NonNullable' with all required fields.
+mkBankAccountFutureRequirements'NonNullable :: BankAccountFutureRequirements'NonNullable
+mkBankAccountFutureRequirements'NonNullable =
+  BankAccountFutureRequirements'NonNullable
+    { bankAccountFutureRequirements'NonNullableCurrentlyDue = GHC.Maybe.Nothing,
+      bankAccountFutureRequirements'NonNullableErrors = GHC.Maybe.Nothing,
+      bankAccountFutureRequirements'NonNullablePastDue = GHC.Maybe.Nothing,
+      bankAccountFutureRequirements'NonNullablePendingVerification = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.bank_account.properties.requirements.anyOf@ in the specification.
+--
+-- Information about the requirements for the bank account, including what information needs to be collected.
+data BankAccountRequirements'NonNullable = BankAccountRequirements'NonNullable
+  { -- | currently_due: Fields that need to be collected to keep the external account enabled. If not collected by \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
+    bankAccountRequirements'NonNullableCurrentlyDue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
+    -- | errors: Fields that are \`currently_due\` and need to be collected again because validation or verification failed.
+    bankAccountRequirements'NonNullableErrors :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([AccountRequirementsError]))),
+    -- | past_due: Fields that weren\'t collected by \`current_deadline\`. These fields need to be collected to enable the external account.
+    bankAccountRequirements'NonNullablePastDue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
+    -- | pending_verification: Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to \`eventually_due\`, \`currently_due\`, or \`past_due\`.
+    bankAccountRequirements'NonNullablePendingVerification :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text])))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BankAccountRequirements'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currently_due" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullableCurrentlyDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("errors" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullableErrors obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("past_due" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullablePastDue obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_verification" Data.Aeson.Types.ToJSON..=)) (bankAccountRequirements'NonNullablePendingVerification obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BankAccountRequirements'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankAccountRequirements'NonNullable" (\obj -> (((GHC.Base.pure BankAccountRequirements'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currently_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "errors")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "past_due")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_verification"))
+
+-- | Create a new 'BankAccountRequirements'NonNullable' with all required fields.
+mkBankAccountRequirements'NonNullable :: BankAccountRequirements'NonNullable
+mkBankAccountRequirements'NonNullable =
+  BankAccountRequirements'NonNullable
+    { bankAccountRequirements'NonNullableCurrentlyDue = GHC.Maybe.Nothing,
+      bankAccountRequirements'NonNullableErrors = GHC.Maybe.Nothing,
+      bankAccountRequirements'NonNullablePastDue = GHC.Maybe.Nothing,
+      bankAccountRequirements'NonNullablePendingVerification = GHC.Maybe.Nothing
+    }

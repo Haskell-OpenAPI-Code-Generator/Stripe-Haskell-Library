@@ -1,9 +1,0 @@
-module StripeAPI.Types.SetupIntentPaymentMethodOptionsLink where
-import Data.Aeson
-import qualified Data.Aeson as Data.Aeson.Types.Internal
-import qualified StripeAPI.Common
-data SetupIntentPaymentMethodOptionsLink
-instance Show SetupIntentPaymentMethodOptionsLink
-instance Eq SetupIntentPaymentMethodOptionsLink
-instance FromJSON SetupIntentPaymentMethodOptionsLink
-instance ToJSON SetupIntentPaymentMethodOptionsLink

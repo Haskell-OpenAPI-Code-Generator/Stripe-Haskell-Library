@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,6 +29,8 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.PaymentMethodUsBankAccountBlocked
+import {-# SOURCE #-} StripeAPI.Types.PaymentMethodUsBankAccountStatusDetails
 import {-# SOURCE #-} StripeAPI.Types.UsBankAccountNetworks
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -70,7 +72,9 @@ data PaymentMethodUsBankAccount = PaymentMethodUsBankAccount
     -- Constraints:
     --
     -- * Maximum length of 5000
-    paymentMethodUsBankAccountRoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+    paymentMethodUsBankAccountRoutingNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | status_details: Contains information about the future reusability of this PaymentMethod.
+    paymentMethodUsBankAccountStatusDetails :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable PaymentMethodUsBankAccountStatusDetails'NonNullable))
   }
   deriving
     ( GHC.Show.Show,
@@ -78,11 +82,11 @@ data PaymentMethodUsBankAccount = PaymentMethodUsBankAccount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodUsBankAccount where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections_account" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFinancialConnectionsAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountNetworks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountRoutingNumber obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections_account" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFinancialConnectionsAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountNetworks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountRoutingNumber obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections_account" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFinancialConnectionsAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountNetworks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountRoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status_details" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountStatusDetails obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_holder_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountHolderType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("account_type" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountAccountType obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("bank_name" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountBankName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("financial_connections_account" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFinancialConnectionsAccount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("fingerprint" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountFingerprint obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last4" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountLast4 obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("networks" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountNetworks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("routing_number" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountRoutingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status_details" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountStatusDetails obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodUsBankAccount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodUsBankAccount" (\obj -> (((((((GHC.Base.pure PaymentMethodUsBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "networks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodUsBankAccount" (\obj -> ((((((((GHC.Base.pure PaymentMethodUsBankAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_holder_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "account_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "bank_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "financial_connections_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "fingerprint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "networks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "routing_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status_details"))
 
 -- | Create a new 'PaymentMethodUsBankAccount' with all required fields.
 mkPaymentMethodUsBankAccount :: PaymentMethodUsBankAccount
@@ -95,7 +99,8 @@ mkPaymentMethodUsBankAccount =
       paymentMethodUsBankAccountFingerprint = GHC.Maybe.Nothing,
       paymentMethodUsBankAccountLast4 = GHC.Maybe.Nothing,
       paymentMethodUsBankAccountNetworks = GHC.Maybe.Nothing,
-      paymentMethodUsBankAccountRoutingNumber = GHC.Maybe.Nothing
+      paymentMethodUsBankAccountRoutingNumber = GHC.Maybe.Nothing,
+      paymentMethodUsBankAccountStatusDetails = GHC.Maybe.Nothing
     }
 
 -- | Defines the enum schema located at @components.schemas.payment_method_us_bank_account.properties.account_holder_type@ in the specification.
@@ -215,3 +220,26 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodUsBankAccountNetworks'N
             | val GHC.Classes.== "us_domestic_wire" -> PaymentMethodUsBankAccountNetworks'NonNullableSupported'EnumUsDomesticWire
             | GHC.Base.otherwise -> PaymentMethodUsBankAccountNetworks'NonNullableSupported'Other val
       )
+
+-- | Defines the object schema located at @components.schemas.payment_method_us_bank_account.properties.status_details.anyOf@ in the specification.
+--
+-- Contains information about the future reusability of this PaymentMethod.
+data PaymentMethodUsBankAccountStatusDetails'NonNullable = PaymentMethodUsBankAccountStatusDetails'NonNullable
+  { -- | blocked:
+    paymentMethodUsBankAccountStatusDetails'NonNullableBlocked :: (GHC.Maybe.Maybe PaymentMethodUsBankAccountBlocked)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodUsBankAccountStatusDetails'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blocked" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountStatusDetails'NonNullableBlocked obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("blocked" Data.Aeson.Types.ToJSON..=)) (paymentMethodUsBankAccountStatusDetails'NonNullableBlocked obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodUsBankAccountStatusDetails'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodUsBankAccountStatusDetails'NonNullable" (\obj -> GHC.Base.pure PaymentMethodUsBankAccountStatusDetails'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "blocked"))
+
+-- | Create a new 'PaymentMethodUsBankAccountStatusDetails'NonNullable' with all required fields.
+mkPaymentMethodUsBankAccountStatusDetails'NonNullable :: PaymentMethodUsBankAccountStatusDetails'NonNullable
+mkPaymentMethodUsBankAccountStatusDetails'NonNullable = PaymentMethodUsBankAccountStatusDetails'NonNullable {paymentMethodUsBankAccountStatusDetails'NonNullableBlocked = GHC.Maybe.Nothing}

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postReportingReportRuns body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostReportingReportRunsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Reporting'reportRun
-                                                      )
+                                     PostReportingReportRunsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Reporting'reportRun
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostReportingReportRunsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostReportingReportRunsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/reporting/report_runs" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/reporting\/report_runs.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostReportingReportRunsRequestBody = PostReportingReportRunsRequestBody
@@ -186,6 +187,10 @@ data PostReportingReportRunsRequestBodyParameters'ReportingCategory'
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumCharge
   | -- | Represents the JSON value @"charge_failure"@
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumChargeFailure
+  | -- | Represents the JSON value @"climate_order_purchase"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumClimateOrderPurchase
+  | -- | Represents the JSON value @"climate_order_refund"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumClimateOrderRefund
   | -- | Represents the JSON value @"connect_collection_transfer"@
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectCollectionTransfer
   | -- | Represents the JSON value @"connect_reserved_funds"@
@@ -216,6 +221,8 @@ data PostReportingReportRunsRequestBodyParameters'ReportingCategory'
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingTransaction
   | -- | Represents the JSON value @"network_cost"@
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumNetworkCost
+  | -- | Represents the JSON value @"obligation"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumObligation
   | -- | Represents the JSON value @"other_adjustment"@
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOtherAdjustment
   | -- | Represents the JSON value @"partial_capture_reversal"@
@@ -244,6 +251,8 @@ data PostReportingReportRunsRequestBodyParameters'ReportingCategory'
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransfer
   | -- | Represents the JSON value @"transfer_reversal"@
     PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransferReversal
+  | -- | Represents the JSON value @"unreconciled_customer_funds"@
+    PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumUnreconciledCustomerFunds
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParameters'ReportingCategory' where
@@ -254,6 +263,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParame
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAnticipationRepayment) = "anticipation_repayment"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumCharge) = "charge"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumChargeFailure) = "charge_failure"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumClimateOrderPurchase) = "climate_order_purchase"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumClimateOrderRefund) = "climate_order_refund"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectCollectionTransfer) = "connect_collection_transfer"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectReservedFunds) = "connect_reserved_funds"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumContribution) = "contribution"
@@ -269,6 +280,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParame
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingDispute) = "issuing_dispute"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingTransaction) = "issuing_transaction"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumNetworkCost) = "network_cost"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumObligation) = "obligation"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOtherAdjustment) = "other_adjustment"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPartialCaptureReversal) = "partial_capture_reversal"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayout) = "payout"
@@ -283,6 +295,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParame
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopupReversal) = "topup_reversal"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransfer) = "transfer"
   toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransferReversal) = "transfer_reversal"
+  toJSON (PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumUnreconciledCustomerFunds) = "unreconciled_customer_funds"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyParameters'ReportingCategory' where
   parseJSON val =
@@ -293,6 +306,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
             | val GHC.Classes.== "anticipation_repayment" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumAnticipationRepayment
             | val GHC.Classes.== "charge" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumCharge
             | val GHC.Classes.== "charge_failure" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumChargeFailure
+            | val GHC.Classes.== "climate_order_purchase" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumClimateOrderPurchase
+            | val GHC.Classes.== "climate_order_refund" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumClimateOrderRefund
             | val GHC.Classes.== "connect_collection_transfer" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectCollectionTransfer
             | val GHC.Classes.== "connect_reserved_funds" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumConnectReservedFunds
             | val GHC.Classes.== "contribution" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumContribution
@@ -308,6 +323,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
             | val GHC.Classes.== "issuing_dispute" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingDispute
             | val GHC.Classes.== "issuing_transaction" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumIssuingTransaction
             | val GHC.Classes.== "network_cost" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumNetworkCost
+            | val GHC.Classes.== "obligation" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumObligation
             | val GHC.Classes.== "other_adjustment" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOtherAdjustment
             | val GHC.Classes.== "partial_capture_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPartialCaptureReversal
             | val GHC.Classes.== "payout" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumPayout
@@ -322,6 +338,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
             | val GHC.Classes.== "topup_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTopupReversal
             | val GHC.Classes.== "transfer" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransfer
             | val GHC.Classes.== "transfer_reversal" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTransferReversal
+            | val GHC.Classes.== "unreconciled_customer_funds" -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumUnreconciledCustomerFunds
             | GHC.Base.otherwise -> PostReportingReportRunsRequestBodyParameters'ReportingCategory'Other val
       )
 
@@ -521,6 +538,8 @@ data PostReportingReportRunsRequestBodyParameters'Timezone'
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChicago
   | -- | Represents the JSON value @"America/Chihuahua"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChihuahua
+  | -- | Represents the JSON value @"America/Ciudad_Juarez"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCiudadJuarez
   | -- | Represents the JSON value @"America/Coral_Harbour"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCoralHarbour
   | -- | Represents the JSON value @"America/Cordoba"@
@@ -681,6 +700,8 @@ data PostReportingReportRunsRequestBodyParameters'Timezone'
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaCenter
   | -- | Represents the JSON value @"America/North_Dakota/New_Salem"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaNewSalem
+  | -- | Represents the JSON value @"America/Nuuk"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNuuk
   | -- | Represents the JSON value @"America/Ojinaga"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaOjinaga
   | -- | Represents the JSON value @"America/Panama"@
@@ -1227,6 +1248,8 @@ data PostReportingReportRunsRequestBodyParameters'Timezone'
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKiev
   | -- | Represents the JSON value @"Europe/Kirov"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKirov
+  | -- | Represents the JSON value @"Europe/Kyiv"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKyiv
   | -- | Represents the JSON value @"Europe/Lisbon"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLisbon
   | -- | Represents the JSON value @"Europe/Ljubljana"@
@@ -1417,6 +1440,8 @@ data PostReportingReportRunsRequestBodyParameters'Timezone'
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificHonolulu
   | -- | Represents the JSON value @"Pacific/Johnston"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificJohnston
+  | -- | Represents the JSON value @"Pacific/Kanton"@
+    PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKanton
   | -- | Represents the JSON value @"Pacific/Kiritimati"@
     PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKiritimati
   | -- | Represents the JSON value @"Pacific/Kosrae"@
@@ -1619,6 +1644,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParame
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayman) = "America/Cayman"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChicago) = "America/Chicago"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChihuahua) = "America/Chihuahua"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCiudadJuarez) = "America/Ciudad_Juarez"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCoralHarbour) = "America/Coral_Harbour"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCordoba) = "America/Cordoba"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCostaRica) = "America/Costa_Rica"
@@ -1699,6 +1725,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParame
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaBeulah) = "America/North_Dakota/Beulah"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaCenter) = "America/North_Dakota/Center"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaNewSalem) = "America/North_Dakota/New_Salem"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNuuk) = "America/Nuuk"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaOjinaga) = "America/Ojinaga"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPanama) = "America/Panama"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPangnirtung) = "America/Pangnirtung"
@@ -1972,6 +1999,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParame
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKaliningrad) = "Europe/Kaliningrad"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKiev) = "Europe/Kiev"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKirov) = "Europe/Kirov"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKyiv) = "Europe/Kyiv"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLisbon) = "Europe/Lisbon"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLjubljana) = "Europe/Ljubljana"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLondon) = "Europe/London"
@@ -2067,6 +2095,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostReportingReportRunsRequestBodyParame
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuam) = "Pacific/Guam"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificHonolulu) = "Pacific/Honolulu"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificJohnston) = "Pacific/Johnston"
+  toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKanton) = "Pacific/Kanton"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKiritimati) = "Pacific/Kiritimati"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKosrae) = "Pacific/Kosrae"
   toJSON (PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKwajalein) = "Pacific/Kwajalein"
@@ -2218,6 +2247,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
             | val GHC.Classes.== "America/Cayman" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCayman
             | val GHC.Classes.== "America/Chicago" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChicago
             | val GHC.Classes.== "America/Chihuahua" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaChihuahua
+            | val GHC.Classes.== "America/Ciudad_Juarez" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCiudadJuarez
             | val GHC.Classes.== "America/Coral_Harbour" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCoralHarbour
             | val GHC.Classes.== "America/Cordoba" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCordoba
             | val GHC.Classes.== "America/Costa_Rica" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaCostaRica
@@ -2298,6 +2328,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
             | val GHC.Classes.== "America/North_Dakota/Beulah" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaBeulah
             | val GHC.Classes.== "America/North_Dakota/Center" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaCenter
             | val GHC.Classes.== "America/North_Dakota/New_Salem" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNorthDakotaNewSalem
+            | val GHC.Classes.== "America/Nuuk" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaNuuk
             | val GHC.Classes.== "America/Ojinaga" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaOjinaga
             | val GHC.Classes.== "America/Panama" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPanama
             | val GHC.Classes.== "America/Pangnirtung" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumAmericaPangnirtung
@@ -2571,6 +2602,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
             | val GHC.Classes.== "Europe/Kaliningrad" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKaliningrad
             | val GHC.Classes.== "Europe/Kiev" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKiev
             | val GHC.Classes.== "Europe/Kirov" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKirov
+            | val GHC.Classes.== "Europe/Kyiv" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeKyiv
             | val GHC.Classes.== "Europe/Lisbon" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLisbon
             | val GHC.Classes.== "Europe/Ljubljana" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLjubljana
             | val GHC.Classes.== "Europe/London" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumEuropeLondon
@@ -2666,6 +2698,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
             | val GHC.Classes.== "Pacific/Guam" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificGuam
             | val GHC.Classes.== "Pacific/Honolulu" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificHonolulu
             | val GHC.Classes.== "Pacific/Johnston" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificJohnston
+            | val GHC.Classes.== "Pacific/Kanton" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKanton
             | val GHC.Classes.== "Pacific/Kiritimati" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKiritimati
             | val GHC.Classes.== "Pacific/Kosrae" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKosrae
             | val GHC.Classes.== "Pacific/Kwajalein" -> PostReportingReportRunsRequestBodyParameters'Timezone'EnumPacificKwajalein

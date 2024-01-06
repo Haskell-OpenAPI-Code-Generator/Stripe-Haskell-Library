@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -32,12 +32,14 @@ import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.BalanceTransaction
 import {-# SOURCE #-} StripeAPI.Types.IssuingAuthorizationAmountDetails
 import {-# SOURCE #-} StripeAPI.Types.IssuingAuthorizationMerchantData
+import {-# SOURCE #-} StripeAPI.Types.IssuingAuthorizationNetworkData
 import {-# SOURCE #-} StripeAPI.Types.IssuingAuthorizationPendingRequest
 import {-# SOURCE #-} StripeAPI.Types.IssuingAuthorizationRequest
 import {-# SOURCE #-} StripeAPI.Types.IssuingAuthorizationTreasury
 import {-# SOURCE #-} StripeAPI.Types.IssuingAuthorizationVerificationData
 import {-# SOURCE #-} StripeAPI.Types.Issuing_Card
 import {-# SOURCE #-} StripeAPI.Types.Issuing_Cardholder
+import {-# SOURCE #-} StripeAPI.Types.Issuing_Token
 import {-# SOURCE #-} StripeAPI.Types.Issuing_Transaction
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -48,9 +50,9 @@ import qualified Prelude as GHC.Maybe
 -- object is created. [Authorizations](https:\/\/stripe.com\/docs\/issuing\/purchases\/authorizations) must be approved for the
 -- purchase to be completed successfully.
 --
--- Related guide: [Issued Card Authorizations](https:\/\/stripe.com\/docs\/issuing\/purchases\/authorizations).
+-- Related guide: [Issued card authorizations](https:\/\/stripe.com\/docs\/issuing\/purchases\/authorizations)
 data Issuing'authorization = Issuing'authorization
-  { -- | amount: The total amount that was authorized or rejected. This amount is in the card\'s currency and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal).
+  { -- | amount: The total amount that was authorized or rejected. This amount is in \`currency\` and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal). \`amount\` should be the same as \`merchant_amount\`, unless \`currency\` and \`merchant_currency\` are different.
     issuing'authorizationAmount :: GHC.Types.Int,
     -- | amount_details: Detailed breakdown of amount components. These amounts are denominated in \`currency\` and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal).
     issuing'authorizationAmountDetails :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'authorizationAmountDetails'NonNullable)),
@@ -66,7 +68,7 @@ data Issuing'authorization = Issuing'authorization
     issuing'authorizationCardholder :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'authorizationCardholder'NonNullableVariants)),
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     issuing'authorizationCreated :: GHC.Types.Int,
-    -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    -- | currency: The currency of the cardholder. This currency can be different from the currency presented at authorization and the \`merchant_currency\` field on this authorization. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     issuing'authorizationCurrency :: Data.Text.Internal.Text,
     -- | id: Unique identifier for the object.
     --
@@ -76,27 +78,31 @@ data Issuing'authorization = Issuing'authorization
     issuing'authorizationId :: Data.Text.Internal.Text,
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     issuing'authorizationLivemode :: GHC.Types.Bool,
-    -- | merchant_amount: The total amount that was authorized or rejected. This amount is in the \`merchant_currency\` and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal).
+    -- | merchant_amount: The total amount that was authorized or rejected. This amount is in the \`merchant_currency\` and in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal). \`merchant_amount\` should be the same as \`amount\`, unless \`merchant_currency\` and \`currency\` are different.
     issuing'authorizationMerchantAmount :: GHC.Types.Int,
-    -- | merchant_currency: The currency that was presented to the cardholder for the authorization. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+    -- | merchant_currency: The local currency that was presented to the cardholder for the authorization. This currency can be different from the cardholder currency and the \`currency\` field on this authorization. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
     issuing'authorizationMerchantCurrency :: Data.Text.Internal.Text,
     -- | merchant_data:
     issuing'authorizationMerchantData :: IssuingAuthorizationMerchantData,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     issuing'authorizationMetadata :: Data.Aeson.Types.Internal.Object,
+    -- | network_data: Details about the authorization, such as identifiers, set by the card network.
+    issuing'authorizationNetworkData :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'authorizationNetworkData'NonNullable)),
     -- | pending_request: The pending authorization request. This field will only be non-null during an \`issuing_authorization.request\` webhook.
     issuing'authorizationPendingRequest :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'authorizationPendingRequest'NonNullable)),
-    -- | request_history: History of every time \`pending_request\` was approved\/denied, either by you directly or by Stripe (e.g. based on your \`spending_controls\`). If the merchant changes the authorization by performing an [incremental authorization](https:\/\/stripe.com\/docs\/issuing\/purchases\/authorizations), you can look at this field to see the previous requests for the authorization.
+    -- | request_history: History of every time a \`pending_request\` authorization was approved\/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved\/declined.
     issuing'authorizationRequestHistory :: ([IssuingAuthorizationRequest]),
     -- | status: The current status of the authorization in its lifecycle.
     issuing'authorizationStatus :: Issuing'authorizationStatus',
+    -- | token: [Token](https:\/\/stripe.com\/docs\/api\/issuing\/tokens\/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
+    issuing'authorizationToken :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'authorizationToken'NonNullableVariants)),
     -- | transactions: List of [transactions](https:\/\/stripe.com\/docs\/api\/issuing\/transactions) associated with this authorization.
     issuing'authorizationTransactions :: ([Issuing'transaction]),
     -- | treasury: [Treasury](https:\/\/stripe.com\/docs\/api\/treasury) details related to this authorization if it was created on a [FinancialAccount](https:\/\/stripe.com\/docs\/api\/treasury\/financial_accounts).
     issuing'authorizationTreasury :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Issuing'authorizationTreasury'NonNullable)),
     -- | verification_data:
     issuing'authorizationVerificationData :: IssuingAuthorizationVerificationData,
-    -- | wallet: The digital wallet used for this authorization. One of \`apple_pay\`, \`google_pay\`, or \`samsung_pay\`.
+    -- | wallet: The digital wallet used for this transaction. One of \`apple_pay\`, \`google_pay\`, or \`samsung_pay\`. Will populate as \`null\` when no digital wallet was utilized.
     --
     -- Constraints:
     --
@@ -109,11 +115,11 @@ data Issuing'authorization = Issuing'authorization
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorization where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'authorizationAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails obj) : ["approved" Data.Aeson.Types.ToJSON..= issuing'authorizationApproved obj] : ["authorization_method" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizationMethod obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationBalanceTransactions obj] : ["card" Data.Aeson.Types.ToJSON..= issuing'authorizationCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'authorizationCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'authorizationCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= issuing'authorizationId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'authorizationLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'authorizationMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_request" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest obj) : ["request_history" Data.Aeson.Types.ToJSON..= issuing'authorizationRequestHistory obj] : ["status" Data.Aeson.Types.ToJSON..= issuing'authorizationStatus obj] : ["transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationTransactions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationTreasury obj) : ["verification_data" Data.Aeson.Types.ToJSON..= issuing'authorizationVerificationData obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.authorization"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'authorizationAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails obj) : ["approved" Data.Aeson.Types.ToJSON..= issuing'authorizationApproved obj] : ["authorization_method" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizationMethod obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationBalanceTransactions obj] : ["card" Data.Aeson.Types.ToJSON..= issuing'authorizationCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'authorizationCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'authorizationCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= issuing'authorizationId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'authorizationLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'authorizationMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_request" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest obj) : ["request_history" Data.Aeson.Types.ToJSON..= issuing'authorizationRequestHistory obj] : ["status" Data.Aeson.Types.ToJSON..= issuing'authorizationStatus obj] : ["transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationTransactions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationTreasury obj) : ["verification_data" Data.Aeson.Types.ToJSON..= issuing'authorizationVerificationData obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.authorization"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'authorizationAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails obj) : ["approved" Data.Aeson.Types.ToJSON..= issuing'authorizationApproved obj] : ["authorization_method" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizationMethod obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationBalanceTransactions obj] : ["card" Data.Aeson.Types.ToJSON..= issuing'authorizationCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'authorizationCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'authorizationCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= issuing'authorizationId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'authorizationLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'authorizationMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_data" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_request" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest obj) : ["request_history" Data.Aeson.Types.ToJSON..= issuing'authorizationRequestHistory obj] : ["status" Data.Aeson.Types.ToJSON..= issuing'authorizationStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("token" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationToken obj) : ["transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationTransactions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationTreasury obj) : ["verification_data" Data.Aeson.Types.ToJSON..= issuing'authorizationVerificationData obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.authorization"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= issuing'authorizationAmount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails obj) : ["approved" Data.Aeson.Types.ToJSON..= issuing'authorizationApproved obj] : ["authorization_method" Data.Aeson.Types.ToJSON..= issuing'authorizationAuthorizationMethod obj] : ["balance_transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationBalanceTransactions obj] : ["card" Data.Aeson.Types.ToJSON..= issuing'authorizationCard obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cardholder" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationCardholder obj) : ["created" Data.Aeson.Types.ToJSON..= issuing'authorizationCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= issuing'authorizationCurrency obj] : ["id" Data.Aeson.Types.ToJSON..= issuing'authorizationId obj] : ["livemode" Data.Aeson.Types.ToJSON..= issuing'authorizationLivemode obj] : ["merchant_amount" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantAmount obj] : ["merchant_currency" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantCurrency obj] : ["merchant_data" Data.Aeson.Types.ToJSON..= issuing'authorizationMerchantData obj] : ["metadata" Data.Aeson.Types.ToJSON..= issuing'authorizationMetadata obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_data" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("pending_request" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest obj) : ["request_history" Data.Aeson.Types.ToJSON..= issuing'authorizationRequestHistory obj] : ["status" Data.Aeson.Types.ToJSON..= issuing'authorizationStatus obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("token" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationToken obj) : ["transactions" Data.Aeson.Types.ToJSON..= issuing'authorizationTransactions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("treasury" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationTreasury obj) : ["verification_data" Data.Aeson.Types.ToJSON..= issuing'authorizationVerificationData obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("wallet" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationWallet obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "issuing.authorization"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorization where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorization" (\obj -> (((((((((((((((((((((GHC.Base.pure Issuing'authorization GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "approved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_request")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "request_history")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wallet"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorization" (\obj -> (((((((((((((((((((((((GHC.Base.pure Issuing'authorization GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "approved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorization_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "balance_transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "merchant_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "pending_request")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "request_history")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "token")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treasury")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "wallet"))
 
 -- | Create a new 'Issuing'authorization' with all required fields.
 mkIssuing'authorization ::
@@ -169,9 +175,11 @@ mkIssuing'authorization issuing'authorizationAmount issuing'authorizationApprove
       issuing'authorizationMerchantCurrency = issuing'authorizationMerchantCurrency,
       issuing'authorizationMerchantData = issuing'authorizationMerchantData,
       issuing'authorizationMetadata = issuing'authorizationMetadata,
+      issuing'authorizationNetworkData = GHC.Maybe.Nothing,
       issuing'authorizationPendingRequest = GHC.Maybe.Nothing,
       issuing'authorizationRequestHistory = issuing'authorizationRequestHistory,
       issuing'authorizationStatus = issuing'authorizationStatus,
+      issuing'authorizationToken = GHC.Maybe.Nothing,
       issuing'authorizationTransactions = issuing'authorizationTransactions,
       issuing'authorizationTreasury = GHC.Maybe.Nothing,
       issuing'authorizationVerificationData = issuing'authorizationVerificationData,
@@ -183,7 +191,9 @@ mkIssuing'authorization issuing'authorizationAmount issuing'authorizationApprove
 -- Detailed breakdown of amount components. These amounts are denominated in \\\`currency\\\` and in the [smallest currency unit](https:\\\/\\\/stripe.com\\\/docs\\\/currencies\\\#zero-decimal).
 data Issuing'authorizationAmountDetails'NonNullable = Issuing'authorizationAmountDetails'NonNullable
   { -- | atm_fee: The fee charged by the ATM for the cash withdrawal.
-    issuing'authorizationAmountDetails'NonNullableAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
+    issuing'authorizationAmountDetails'NonNullableAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | cashback_amount: The amount of cash requested by the cardholder.
+    issuing'authorizationAmountDetails'NonNullableCashbackAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -191,15 +201,19 @@ data Issuing'authorizationAmountDetails'NonNullable = Issuing'authorizationAmoun
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationAmountDetails'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails'NonNullableAtmFee obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails'NonNullableAtmFee obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails'NonNullableAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails'NonNullableCashbackAmount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails'NonNullableAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationAmountDetails'NonNullableCashbackAmount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationAmountDetails'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorizationAmountDetails'NonNullable" (\obj -> GHC.Base.pure Issuing'authorizationAmountDetails'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorizationAmountDetails'NonNullable" (\obj -> (GHC.Base.pure Issuing'authorizationAmountDetails'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashback_amount"))
 
 -- | Create a new 'Issuing'authorizationAmountDetails'NonNullable' with all required fields.
 mkIssuing'authorizationAmountDetails'NonNullable :: Issuing'authorizationAmountDetails'NonNullable
-mkIssuing'authorizationAmountDetails'NonNullable = Issuing'authorizationAmountDetails'NonNullable {issuing'authorizationAmountDetails'NonNullableAtmFee = GHC.Maybe.Nothing}
+mkIssuing'authorizationAmountDetails'NonNullable =
+  Issuing'authorizationAmountDetails'NonNullable
+    { issuing'authorizationAmountDetails'NonNullableAtmFee = GHC.Maybe.Nothing,
+      issuing'authorizationAmountDetails'NonNullableCashbackAmount = GHC.Maybe.Nothing
+    }
 
 -- | Defines the enum schema located at @components.schemas.issuing.authorization.properties.authorization_method@ in the specification.
 --
@@ -259,6 +273,50 @@ instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationCardholder'NonN
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
+-- | Defines the object schema located at @components.schemas.issuing.authorization.properties.network_data.anyOf@ in the specification.
+--
+-- Details about the authorization, such as identifiers, set by the card network.
+data Issuing'authorizationNetworkData'NonNullable = Issuing'authorizationNetworkData'NonNullable
+  { -- | acquiring_institution_id: Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be \`null\`.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'authorizationNetworkData'NonNullableAcquiringInstitutionId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | system_trace_audit_number: The System Trace Audit Number (STAN) is a 6-digit identifier assigned by the acquirer. Prefer \`network_data.transaction_id\` if present, unless you have special requirements.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'authorizationNetworkData'NonNullableSystemTraceAuditNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | transaction_id: Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuing'authorizationNetworkData'NonNullableTransactionId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationNetworkData'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acquiring_institution_id" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData'NonNullableAcquiringInstitutionId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("system_trace_audit_number" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData'NonNullableSystemTraceAuditNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData'NonNullableTransactionId obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("acquiring_institution_id" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData'NonNullableAcquiringInstitutionId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("system_trace_audit_number" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData'NonNullableSystemTraceAuditNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationNetworkData'NonNullableTransactionId obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationNetworkData'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorizationNetworkData'NonNullable" (\obj -> ((GHC.Base.pure Issuing'authorizationNetworkData'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "acquiring_institution_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "system_trace_audit_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id"))
+
+-- | Create a new 'Issuing'authorizationNetworkData'NonNullable' with all required fields.
+mkIssuing'authorizationNetworkData'NonNullable :: Issuing'authorizationNetworkData'NonNullable
+mkIssuing'authorizationNetworkData'NonNullable =
+  Issuing'authorizationNetworkData'NonNullable
+    { issuing'authorizationNetworkData'NonNullableAcquiringInstitutionId = GHC.Maybe.Nothing,
+      issuing'authorizationNetworkData'NonNullableSystemTraceAuditNumber = GHC.Maybe.Nothing,
+      issuing'authorizationNetworkData'NonNullableTransactionId = GHC.Maybe.Nothing
+    }
+
 -- | Defines the object schema located at @components.schemas.issuing.authorization.properties.pending_request.anyOf@ in the specification.
 --
 -- The pending authorization request. This field will only be non-null during an \\\`issuing_authorization.request\\\` webhook.
@@ -274,7 +332,9 @@ data Issuing'authorizationPendingRequest'NonNullable = Issuing'authorizationPend
     -- | merchant_amount: The amount the merchant is requesting to be authorized in the \`merchant_currency\`. The amount is in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal).
     issuing'authorizationPendingRequest'NonNullableMerchantAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | merchant_currency: The local currency the merchant is requesting to authorize.
-    issuing'authorizationPendingRequest'NonNullableMerchantCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+    issuing'authorizationPendingRequest'NonNullableMerchantCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | network_risk_score: The card network\'s estimate of the likelihood that an authorization is fraudulent. Takes on values between 1 and 99.
+    issuing'authorizationPendingRequest'NonNullableNetworkRiskScore :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -282,11 +342,11 @@ data Issuing'authorizationPendingRequest'NonNullable = Issuing'authorizationPend
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationPendingRequest'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_amount_controllable" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableIsAmountControllable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantCurrency obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_amount_controllable" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableIsAmountControllable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantCurrency obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_amount_controllable" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableIsAmountControllable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_risk_score" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableNetworkRiskScore obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_details" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("is_amount_controllable" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableIsAmountControllable obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantAmount obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("merchant_currency" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableMerchantCurrency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("network_risk_score" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableNetworkRiskScore obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationPendingRequest'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorizationPendingRequest'NonNullable" (\obj -> (((((GHC.Base.pure Issuing'authorizationPendingRequest'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_amount_controllable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "merchant_currency"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorizationPendingRequest'NonNullable" (\obj -> ((((((GHC.Base.pure Issuing'authorizationPendingRequest'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_details")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_amount_controllable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "merchant_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "merchant_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "network_risk_score"))
 
 -- | Create a new 'Issuing'authorizationPendingRequest'NonNullable' with all required fields.
 mkIssuing'authorizationPendingRequest'NonNullable :: Issuing'authorizationPendingRequest'NonNullable
@@ -297,7 +357,8 @@ mkIssuing'authorizationPendingRequest'NonNullable =
       issuing'authorizationPendingRequest'NonNullableCurrency = GHC.Maybe.Nothing,
       issuing'authorizationPendingRequest'NonNullableIsAmountControllable = GHC.Maybe.Nothing,
       issuing'authorizationPendingRequest'NonNullableMerchantAmount = GHC.Maybe.Nothing,
-      issuing'authorizationPendingRequest'NonNullableMerchantCurrency = GHC.Maybe.Nothing
+      issuing'authorizationPendingRequest'NonNullableMerchantCurrency = GHC.Maybe.Nothing,
+      issuing'authorizationPendingRequest'NonNullableNetworkRiskScore = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.issuing.authorization.properties.pending_request.anyOf.properties.amount_details.anyOf@ in the specification.
@@ -305,7 +366,9 @@ mkIssuing'authorizationPendingRequest'NonNullable =
 -- Detailed breakdown of amount components. These amounts are denominated in \\\`currency\\\` and in the [smallest currency unit](https:\\\/\\\/stripe.com\\\/docs\\\/currencies\\\#zero-decimal).
 data Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable = Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable
   { -- | atm_fee: The fee charged by the ATM for the cash withdrawal.
-    issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
+    issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | cashback_amount: The amount of cash requested by the cardholder.
+    issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableCashbackAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -313,15 +376,19 @@ data Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable = 
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableCashbackAmount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("atm_fee" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("cashback_amount" Data.Aeson.Types.ToJSON..=)) (issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableCashbackAmount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable" (\obj -> GHC.Base.pure Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable" (\obj -> (GHC.Base.pure Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "atm_fee")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "cashback_amount"))
 
 -- | Create a new 'Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable' with all required fields.
 mkIssuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable :: Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable
-mkIssuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable = Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable {issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee = GHC.Maybe.Nothing}
+mkIssuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable =
+  Issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullable
+    { issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableAtmFee = GHC.Maybe.Nothing,
+      issuing'authorizationPendingRequest'NonNullableAmountDetails'NonNullableCashbackAmount = GHC.Maybe.Nothing
+    }
 
 -- | Defines the enum schema located at @components.schemas.issuing.authorization.properties.status@ in the specification.
 --
@@ -355,6 +422,23 @@ instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationStatus' where
             | val GHC.Classes.== "reversed" -> Issuing'authorizationStatus'EnumReversed
             | GHC.Base.otherwise -> Issuing'authorizationStatus'Other val
       )
+
+-- | Defines the oneOf schema located at @components.schemas.issuing.authorization.properties.token.anyOf@ in the specification.
+--
+-- [Token](https:\/\/stripe.com\/docs\/api\/issuing\/tokens\/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
+data Issuing'authorizationToken'NonNullableVariants
+  = Issuing'authorizationToken'NonNullableText Data.Text.Internal.Text
+  | Issuing'authorizationToken'NonNullableIssuing'token Issuing'token
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON Issuing'authorizationToken'NonNullableVariants where
+  toJSON (Issuing'authorizationToken'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (Issuing'authorizationToken'NonNullableIssuing'token a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON Issuing'authorizationToken'NonNullableVariants where
+  parseJSON val = case (Issuing'authorizationToken'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((Issuing'authorizationToken'NonNullableIssuing'token Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @components.schemas.issuing.authorization.properties.treasury.anyOf@ in the specification.
 --

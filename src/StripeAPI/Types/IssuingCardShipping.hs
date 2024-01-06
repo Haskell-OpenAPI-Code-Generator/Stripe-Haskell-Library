@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,6 +30,7 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.Address
+import {-# SOURCE #-} StripeAPI.Types.IssuingCardShippingCustoms
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -39,6 +40,8 @@ data IssuingCardShipping = IssuingCardShipping
     issuingCardShippingAddress :: Address,
     -- | carrier: The delivery company that shipped a card.
     issuingCardShippingCarrier :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingCardShippingCarrier'NonNullable)),
+    -- | customs: Additional information that may be required for clearing customs.
+    issuingCardShippingCustoms :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingCardShippingCustoms'NonNullable)),
     -- | eta: A unix timestamp representing a best estimate of when the card will be delivered.
     issuingCardShippingEta :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | name: Recipient name.
@@ -47,6 +50,14 @@ data IssuingCardShipping = IssuingCardShipping
     --
     -- * Maximum length of 5000
     issuingCardShippingName :: Data.Text.Internal.Text,
+    -- | phone_number: The phone number of the receiver of the shipment. Our courier partners will use this number to contact you in the event of card delivery issues. For individual shipments to the EU\/UK, if this field is empty, we will provide them with the phone number provided when the cardholder was initially created.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuingCardShippingPhoneNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | require_signature: Whether a signature is required for card delivery. This feature is only supported for US users. Standard shipping service does not support signature on delivery. The default value for standard shipping service is false and for express and priority services is true.
+    issuingCardShippingRequireSignature :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Bool)),
     -- | service: Shipment service, such as \`standard\` or \`express\`.
     issuingCardShippingService :: IssuingCardShippingService',
     -- | status: The delivery status of the card.
@@ -72,11 +83,11 @@ data IssuingCardShipping = IssuingCardShipping
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardShipping where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= issuingCardShippingAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eta" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingEta obj) : ["name" Data.Aeson.Types.ToJSON..= issuingCardShippingName obj] : ["service" Data.Aeson.Types.ToJSON..= issuingCardShippingService obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_url" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingUrl obj) : ["type" Data.Aeson.Types.ToJSON..= issuingCardShippingType obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= issuingCardShippingAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eta" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingEta obj) : ["name" Data.Aeson.Types.ToJSON..= issuingCardShippingName obj] : ["service" Data.Aeson.Types.ToJSON..= issuingCardShippingService obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_url" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingUrl obj) : ["type" Data.Aeson.Types.ToJSON..= issuingCardShippingType obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= issuingCardShippingAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customs" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCustoms obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eta" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingEta obj) : ["name" Data.Aeson.Types.ToJSON..= issuingCardShippingName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingPhoneNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_signature" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingRequireSignature obj) : ["service" Data.Aeson.Types.ToJSON..= issuingCardShippingService obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_url" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingUrl obj) : ["type" Data.Aeson.Types.ToJSON..= issuingCardShippingType obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= issuingCardShippingAddress obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("carrier" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCarrier obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customs" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCustoms obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eta" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingEta obj) : ["name" Data.Aeson.Types.ToJSON..= issuingCardShippingName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingPhoneNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_signature" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingRequireSignature obj) : ["service" Data.Aeson.Types.ToJSON..= issuingCardShippingService obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("status" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingStatus obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tracking_url" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingTrackingUrl obj) : ["type" Data.Aeson.Types.ToJSON..= issuingCardShippingType obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShipping where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardShipping" (\obj -> ((((((((GHC.Base.pure IssuingCardShipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eta")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "service")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracking_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracking_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardShipping" (\obj -> (((((((((((GHC.Base.pure IssuingCardShipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customs")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eta")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_signature")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "service")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracking_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracking_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
 
 -- | Create a new 'IssuingCardShipping' with all required fields.
 mkIssuingCardShipping ::
@@ -93,8 +104,11 @@ mkIssuingCardShipping issuingCardShippingAddress issuingCardShippingName issuing
   IssuingCardShipping
     { issuingCardShippingAddress = issuingCardShippingAddress,
       issuingCardShippingCarrier = GHC.Maybe.Nothing,
+      issuingCardShippingCustoms = GHC.Maybe.Nothing,
       issuingCardShippingEta = GHC.Maybe.Nothing,
       issuingCardShippingName = issuingCardShippingName,
+      issuingCardShippingPhoneNumber = GHC.Maybe.Nothing,
+      issuingCardShippingRequireSignature = GHC.Maybe.Nothing,
       issuingCardShippingService = issuingCardShippingService,
       issuingCardShippingStatus = GHC.Maybe.Nothing,
       issuingCardShippingTrackingNumber = GHC.Maybe.Nothing,
@@ -138,6 +152,33 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShippingCarrier'NonNullab
             | val GHC.Classes.== "usps" -> IssuingCardShippingCarrier'NonNullableEnumUsps
             | GHC.Base.otherwise -> IssuingCardShippingCarrier'NonNullableOther val
       )
+
+-- | Defines the object schema located at @components.schemas.issuing_card_shipping.properties.customs.anyOf@ in the specification.
+--
+-- Additional information that may be required for clearing customs.
+data IssuingCardShippingCustoms'NonNullable = IssuingCardShippingCustoms'NonNullable
+  { -- | eori_number: A registration number used for customs in Europe. See [https:\/\/www.gov.uk\/eori](https:\/\/www.gov.uk\/eori) for the UK and [https:\/\/ec.europa.eu\/taxation_customs\/business\/customs-procedures-import-and-export\/customs-procedures\/economic-operators-registration-and-identification-number-eori_en](https:\/\/ec.europa.eu\/taxation_customs\/business\/customs-procedures-import-and-export\/customs-procedures\/economic-operators-registration-and-identification-number-eori_en) for the EU.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuingCardShippingCustoms'NonNullableEoriNumber :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardShippingCustoms'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eori_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCustoms'NonNullableEoriNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eori_number" Data.Aeson.Types.ToJSON..=)) (issuingCardShippingCustoms'NonNullableEoriNumber obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShippingCustoms'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardShippingCustoms'NonNullable" (\obj -> GHC.Base.pure IssuingCardShippingCustoms'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eori_number"))
+
+-- | Create a new 'IssuingCardShippingCustoms'NonNullable' with all required fields.
+mkIssuingCardShippingCustoms'NonNullable :: IssuingCardShippingCustoms'NonNullable
+mkIssuingCardShippingCustoms'NonNullable = IssuingCardShippingCustoms'NonNullable {issuingCardShippingCustoms'NonNullableEoriNumber = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @components.schemas.issuing_card_shipping.properties.service@ in the specification.
 --

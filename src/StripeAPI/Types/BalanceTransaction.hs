@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -32,6 +32,7 @@ import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.ApplicationFee
 import {-# SOURCE #-} StripeAPI.Types.Charge
 import {-# SOURCE #-} StripeAPI.Types.ConnectCollectionTransfer
+import {-# SOURCE #-} StripeAPI.Types.CustomerCashBalanceTransaction
 import {-# SOURCE #-} StripeAPI.Types.Dispute
 import {-# SOURCE #-} StripeAPI.Types.Fee
 import {-# SOURCE #-} StripeAPI.Types.FeeRefund
@@ -52,13 +53,13 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.balance_transaction@ in the specification.
 --
 -- Balance transactions represent funds moving through your Stripe account.
--- They\'re created for every type of transaction that comes into or flows out of your Stripe account balance.
+-- Stripe creates them for every type of transaction that enters or leaves your Stripe account balance.
 --
--- Related guide: [Balance Transaction Types](https:\/\/stripe.com\/docs\/reports\/balance-transaction-types).
+-- Related guide: [Balance transaction types](https:\/\/stripe.com\/docs\/reports\/balance-transaction-types)
 data BalanceTransaction = BalanceTransaction
-  { -- | amount: Gross amount of the transaction, in %s.
+  { -- | amount: Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.
     balanceTransactionAmount :: GHC.Types.Int,
-    -- | available_on: The date the transaction\'s net funds will become available in the Stripe balance.
+    -- | available_on: The date that the transaction\'s net funds become available in the Stripe balance.
     balanceTransactionAvailableOn :: GHC.Types.Int,
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     balanceTransactionCreated :: GHC.Types.Int,
@@ -70,11 +71,11 @@ data BalanceTransaction = BalanceTransaction
     --
     -- * Maximum length of 5000
     balanceTransactionDescription :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | exchange_rate: The exchange rate used, if applicable, for this transaction. Specifically, if money was converted from currency A to currency B, then the \`amount\` in currency A, times \`exchange_rate\`, would be the \`amount\` in currency B. For example, suppose you charged a customer 10.00 EUR. Then the PaymentIntent\'s \`amount\` would be \`1000\` and \`currency\` would be \`eur\`. Suppose this was converted into 12.34 USD in your Stripe account. Then the BalanceTransaction\'s \`amount\` would be \`1234\`, \`currency\` would be \`usd\`, and \`exchange_rate\` would be \`1.234\`.
+    -- | exchange_rate: If applicable, this transaction uses an exchange rate. If money converts from currency A to currency B, then the \`amount\` in currency A, multipled by the \`exchange_rate\`, equals the \`amount\` in currency B. For example, if you charge a customer 10.00 EUR, the PaymentIntent\'s \`amount\` is \`1000\` and \`currency\` is \`eur\`. If this converts to 12.34 USD in your Stripe account, the BalanceTransaction\'s \`amount\` is \`1234\`, its \`currency\` is \`usd\`, and the \`exchange_rate\` is \`1.234\`.
     balanceTransactionExchangeRate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Double)),
-    -- | fee: Fees (in %s) paid for this transaction.
+    -- | fee: Fees (in cents (or local equivalent)) paid for this transaction. Represented as a positive integer when assessed.
     balanceTransactionFee :: GHC.Types.Int,
-    -- | fee_details: Detailed breakdown of fees (in %s) paid for this transaction.
+    -- | fee_details: Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.
     balanceTransactionFeeDetails :: ([Fee]),
     -- | id: Unique identifier for the object.
     --
@@ -82,23 +83,23 @@ data BalanceTransaction = BalanceTransaction
     --
     -- * Maximum length of 5000
     balanceTransactionId :: Data.Text.Internal.Text,
-    -- | net: Net amount of the transaction, in %s.
+    -- | net: Net impact to a Stripe balance (in cents (or local equivalent)). A positive value represents incrementing a Stripe balance, and a negative value decrementing a Stripe balance. You can calculate the net impact of a transaction on a balance by \`amount\` - \`fee\`
     balanceTransactionNet :: GHC.Types.Int,
-    -- | reporting_category: [Learn more](https:\/\/stripe.com\/docs\/reports\/reporting-categories) about how reporting categories can help you understand balance transactions from an accounting perspective.
+    -- | reporting_category: Learn more about how [reporting categories](https:\/\/stripe.com\/docs\/reports\/reporting-categories) can help you understand balance transactions from an accounting perspective.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     balanceTransactionReportingCategory :: Data.Text.Internal.Text,
-    -- | source: The Stripe object to which this transaction is related.
+    -- | source: This transaction relates to the Stripe object.
     balanceTransactionSource :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BalanceTransactionSource'NonNullableVariants)),
-    -- | status: If the transaction\'s net funds are available in the Stripe balance yet. Either \`available\` or \`pending\`.
+    -- | status: The transaction\'s net funds status in the Stripe balance, which are either \`available\` or \`pending\`.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     balanceTransactionStatus :: Data.Text.Internal.Text,
-    -- | type: Transaction type: \`adjustment\`, \`advance\`, \`advance_funding\`, \`anticipation_repayment\`, \`application_fee\`, \`application_fee_refund\`, \`charge\`, \`connect_collection_transfer\`, \`contribution\`, \`issuing_authorization_hold\`, \`issuing_authorization_release\`, \`issuing_dispute\`, \`issuing_transaction\`, \`payment\`, \`payment_failure_refund\`, \`payment_refund\`, \`payout\`, \`payout_cancel\`, \`payout_failure\`, \`refund\`, \`refund_failure\`, \`reserve_transaction\`, \`reserved_funds\`, \`stripe_fee\`, \`stripe_fx_fee\`, \`tax_fee\`, \`topup\`, \`topup_reversal\`, \`transfer\`, \`transfer_cancel\`, \`transfer_failure\`, or \`transfer_refund\`. [Learn more](https:\/\/stripe.com\/docs\/reports\/balance-transaction-types) about balance transaction types and what they represent. If you are looking to classify transactions for accounting purposes, you might want to consider \`reporting_category\` instead.
+    -- | type: Transaction type: \`adjustment\`, \`advance\`, \`advance_funding\`, \`anticipation_repayment\`, \`application_fee\`, \`application_fee_refund\`, \`charge\`, \`climate_order_purchase\`, \`climate_order_refund\`, \`connect_collection_transfer\`, \`contribution\`, \`issuing_authorization_hold\`, \`issuing_authorization_release\`, \`issuing_dispute\`, \`issuing_transaction\`, \`obligation_inbound\`, \`obligation_outbound\`, \`obligation_reversal_inbound\`, \`obligation_reversal_outbound\`, \`obligation_payout\`, \`obligation_payout_failure\`, \`payment\`, \`payment_failure_refund\`, \`payment_network_reserve_hold\`, \`payment_network_reserve_release\`, \`payment_refund\`, \`payment_reversal\`, \`payment_unreconciled\`, \`payout\`, \`payout_cancel\`, \`payout_failure\`, \`refund\`, \`refund_failure\`, \`reserve_transaction\`, \`reserved_funds\`, \`stripe_fee\`, \`stripe_fx_fee\`, \`tax_fee\`, \`topup\`, \`topup_reversal\`, \`transfer\`, \`transfer_cancel\`, \`transfer_failure\`, or \`transfer_refund\`. Learn more about [balance transaction types and what they represent](https:\/\/stripe.com\/docs\/reports\/balance-transaction-types). To classify transactions for accounting purposes, consider \`reporting_category\` instead.
     balanceTransactionType :: BalanceTransactionType'
   }
   deriving
@@ -158,12 +159,13 @@ mkBalanceTransaction balanceTransactionAmount balanceTransactionAvailableOn bala
 
 -- | Defines the oneOf schema located at @components.schemas.balance_transaction.properties.source.anyOf@ in the specification.
 --
--- The Stripe object to which this transaction is related.
+-- This transaction relates to the Stripe object.
 data BalanceTransactionSource'NonNullableVariants
   = BalanceTransactionSource'NonNullableText Data.Text.Internal.Text
   | BalanceTransactionSource'NonNullableApplicationFee ApplicationFee
   | BalanceTransactionSource'NonNullableCharge Charge
   | BalanceTransactionSource'NonNullableConnectCollectionTransfer ConnectCollectionTransfer
+  | BalanceTransactionSource'NonNullableCustomerCashBalanceTransaction CustomerCashBalanceTransaction
   | BalanceTransactionSource'NonNullableDispute Dispute
   | BalanceTransactionSource'NonNullableFeeRefund FeeRefund
   | BalanceTransactionSource'NonNullableIssuing'authorization Issuing'authorization
@@ -184,6 +186,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON BalanceTransactionSource'NonNullableVari
   toJSON (BalanceTransactionSource'NonNullableApplicationFee a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (BalanceTransactionSource'NonNullableCharge a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (BalanceTransactionSource'NonNullableConnectCollectionTransfer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (BalanceTransactionSource'NonNullableCustomerCashBalanceTransaction a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (BalanceTransactionSource'NonNullableDispute a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (BalanceTransactionSource'NonNullableFeeRefund a) = Data.Aeson.Types.ToJSON.toJSON a
   toJSON (BalanceTransactionSource'NonNullableIssuing'authorization a) = Data.Aeson.Types.ToJSON.toJSON a
@@ -199,13 +202,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON BalanceTransactionSource'NonNullableVari
   toJSON (BalanceTransactionSource'NonNullableTransferReversal a) = Data.Aeson.Types.ToJSON.toJSON a
 
 instance Data.Aeson.Types.FromJSON.FromJSON BalanceTransactionSource'NonNullableVariants where
-  parseJSON val = case (BalanceTransactionSource'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableApplicationFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableCharge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableConnectCollectionTransfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableDispute Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableFeeRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableIssuing'authorization Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableIssuing'dispute Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableIssuing'transaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullablePayout Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullablePlatformTaxFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableReserveTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTaxDeductedAtSource Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTopup Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTransfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTransferReversal Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched")))))))))))))))) of
+  parseJSON val = case (BalanceTransactionSource'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableApplicationFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableCharge Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableConnectCollectionTransfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableCustomerCashBalanceTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableDispute Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableFeeRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableIssuing'authorization Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableIssuing'dispute Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableIssuing'transaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullablePayout Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullablePlatformTaxFee Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableReserveTransaction Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTaxDeductedAtSource Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTopup Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTransfer Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BalanceTransactionSource'NonNullableTransferReversal Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched"))))))))))))))))) of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @components.schemas.balance_transaction.properties.type@ in the specification.
 --
--- Transaction type: \`adjustment\`, \`advance\`, \`advance_funding\`, \`anticipation_repayment\`, \`application_fee\`, \`application_fee_refund\`, \`charge\`, \`connect_collection_transfer\`, \`contribution\`, \`issuing_authorization_hold\`, \`issuing_authorization_release\`, \`issuing_dispute\`, \`issuing_transaction\`, \`payment\`, \`payment_failure_refund\`, \`payment_refund\`, \`payout\`, \`payout_cancel\`, \`payout_failure\`, \`refund\`, \`refund_failure\`, \`reserve_transaction\`, \`reserved_funds\`, \`stripe_fee\`, \`stripe_fx_fee\`, \`tax_fee\`, \`topup\`, \`topup_reversal\`, \`transfer\`, \`transfer_cancel\`, \`transfer_failure\`, or \`transfer_refund\`. [Learn more](https:\/\/stripe.com\/docs\/reports\/balance-transaction-types) about balance transaction types and what they represent. If you are looking to classify transactions for accounting purposes, you might want to consider \`reporting_category\` instead.
+-- Transaction type: \`adjustment\`, \`advance\`, \`advance_funding\`, \`anticipation_repayment\`, \`application_fee\`, \`application_fee_refund\`, \`charge\`, \`climate_order_purchase\`, \`climate_order_refund\`, \`connect_collection_transfer\`, \`contribution\`, \`issuing_authorization_hold\`, \`issuing_authorization_release\`, \`issuing_dispute\`, \`issuing_transaction\`, \`obligation_inbound\`, \`obligation_outbound\`, \`obligation_reversal_inbound\`, \`obligation_reversal_outbound\`, \`obligation_payout\`, \`obligation_payout_failure\`, \`payment\`, \`payment_failure_refund\`, \`payment_network_reserve_hold\`, \`payment_network_reserve_release\`, \`payment_refund\`, \`payment_reversal\`, \`payment_unreconciled\`, \`payout\`, \`payout_cancel\`, \`payout_failure\`, \`refund\`, \`refund_failure\`, \`reserve_transaction\`, \`reserved_funds\`, \`stripe_fee\`, \`stripe_fx_fee\`, \`tax_fee\`, \`topup\`, \`topup_reversal\`, \`transfer\`, \`transfer_cancel\`, \`transfer_failure\`, or \`transfer_refund\`. Learn more about [balance transaction types and what they represent](https:\/\/stripe.com\/docs\/reports\/balance-transaction-types). To classify transactions for accounting purposes, consider \`reporting_category\` instead.
 data BalanceTransactionType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     BalanceTransactionType'Other Data.Aeson.Types.Internal.Value
@@ -225,6 +228,10 @@ data BalanceTransactionType'
     BalanceTransactionType'EnumApplicationFeeRefund
   | -- | Represents the JSON value @"charge"@
     BalanceTransactionType'EnumCharge
+  | -- | Represents the JSON value @"climate_order_purchase"@
+    BalanceTransactionType'EnumClimateOrderPurchase
+  | -- | Represents the JSON value @"climate_order_refund"@
+    BalanceTransactionType'EnumClimateOrderRefund
   | -- | Represents the JSON value @"connect_collection_transfer"@
     BalanceTransactionType'EnumConnectCollectionTransfer
   | -- | Represents the JSON value @"contribution"@
@@ -237,12 +244,32 @@ data BalanceTransactionType'
     BalanceTransactionType'EnumIssuingDispute
   | -- | Represents the JSON value @"issuing_transaction"@
     BalanceTransactionType'EnumIssuingTransaction
+  | -- | Represents the JSON value @"obligation_inbound"@
+    BalanceTransactionType'EnumObligationInbound
+  | -- | Represents the JSON value @"obligation_outbound"@
+    BalanceTransactionType'EnumObligationOutbound
+  | -- | Represents the JSON value @"obligation_payout"@
+    BalanceTransactionType'EnumObligationPayout
+  | -- | Represents the JSON value @"obligation_payout_failure"@
+    BalanceTransactionType'EnumObligationPayoutFailure
+  | -- | Represents the JSON value @"obligation_reversal_inbound"@
+    BalanceTransactionType'EnumObligationReversalInbound
+  | -- | Represents the JSON value @"obligation_reversal_outbound"@
+    BalanceTransactionType'EnumObligationReversalOutbound
   | -- | Represents the JSON value @"payment"@
     BalanceTransactionType'EnumPayment
   | -- | Represents the JSON value @"payment_failure_refund"@
     BalanceTransactionType'EnumPaymentFailureRefund
+  | -- | Represents the JSON value @"payment_network_reserve_hold"@
+    BalanceTransactionType'EnumPaymentNetworkReserveHold
+  | -- | Represents the JSON value @"payment_network_reserve_release"@
+    BalanceTransactionType'EnumPaymentNetworkReserveRelease
   | -- | Represents the JSON value @"payment_refund"@
     BalanceTransactionType'EnumPaymentRefund
+  | -- | Represents the JSON value @"payment_reversal"@
+    BalanceTransactionType'EnumPaymentReversal
+  | -- | Represents the JSON value @"payment_unreconciled"@
+    BalanceTransactionType'EnumPaymentUnreconciled
   | -- | Represents the JSON value @"payout"@
     BalanceTransactionType'EnumPayout
   | -- | Represents the JSON value @"payout_cancel"@
@@ -287,15 +314,27 @@ instance Data.Aeson.Types.ToJSON.ToJSON BalanceTransactionType' where
   toJSON (BalanceTransactionType'EnumApplicationFee) = "application_fee"
   toJSON (BalanceTransactionType'EnumApplicationFeeRefund) = "application_fee_refund"
   toJSON (BalanceTransactionType'EnumCharge) = "charge"
+  toJSON (BalanceTransactionType'EnumClimateOrderPurchase) = "climate_order_purchase"
+  toJSON (BalanceTransactionType'EnumClimateOrderRefund) = "climate_order_refund"
   toJSON (BalanceTransactionType'EnumConnectCollectionTransfer) = "connect_collection_transfer"
   toJSON (BalanceTransactionType'EnumContribution) = "contribution"
   toJSON (BalanceTransactionType'EnumIssuingAuthorizationHold) = "issuing_authorization_hold"
   toJSON (BalanceTransactionType'EnumIssuingAuthorizationRelease) = "issuing_authorization_release"
   toJSON (BalanceTransactionType'EnumIssuingDispute) = "issuing_dispute"
   toJSON (BalanceTransactionType'EnumIssuingTransaction) = "issuing_transaction"
+  toJSON (BalanceTransactionType'EnumObligationInbound) = "obligation_inbound"
+  toJSON (BalanceTransactionType'EnumObligationOutbound) = "obligation_outbound"
+  toJSON (BalanceTransactionType'EnumObligationPayout) = "obligation_payout"
+  toJSON (BalanceTransactionType'EnumObligationPayoutFailure) = "obligation_payout_failure"
+  toJSON (BalanceTransactionType'EnumObligationReversalInbound) = "obligation_reversal_inbound"
+  toJSON (BalanceTransactionType'EnumObligationReversalOutbound) = "obligation_reversal_outbound"
   toJSON (BalanceTransactionType'EnumPayment) = "payment"
   toJSON (BalanceTransactionType'EnumPaymentFailureRefund) = "payment_failure_refund"
+  toJSON (BalanceTransactionType'EnumPaymentNetworkReserveHold) = "payment_network_reserve_hold"
+  toJSON (BalanceTransactionType'EnumPaymentNetworkReserveRelease) = "payment_network_reserve_release"
   toJSON (BalanceTransactionType'EnumPaymentRefund) = "payment_refund"
+  toJSON (BalanceTransactionType'EnumPaymentReversal) = "payment_reversal"
+  toJSON (BalanceTransactionType'EnumPaymentUnreconciled) = "payment_unreconciled"
   toJSON (BalanceTransactionType'EnumPayout) = "payout"
   toJSON (BalanceTransactionType'EnumPayoutCancel) = "payout_cancel"
   toJSON (BalanceTransactionType'EnumPayoutFailure) = "payout_failure"
@@ -324,15 +363,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON BalanceTransactionType' where
             | val GHC.Classes.== "application_fee" -> BalanceTransactionType'EnumApplicationFee
             | val GHC.Classes.== "application_fee_refund" -> BalanceTransactionType'EnumApplicationFeeRefund
             | val GHC.Classes.== "charge" -> BalanceTransactionType'EnumCharge
+            | val GHC.Classes.== "climate_order_purchase" -> BalanceTransactionType'EnumClimateOrderPurchase
+            | val GHC.Classes.== "climate_order_refund" -> BalanceTransactionType'EnumClimateOrderRefund
             | val GHC.Classes.== "connect_collection_transfer" -> BalanceTransactionType'EnumConnectCollectionTransfer
             | val GHC.Classes.== "contribution" -> BalanceTransactionType'EnumContribution
             | val GHC.Classes.== "issuing_authorization_hold" -> BalanceTransactionType'EnumIssuingAuthorizationHold
             | val GHC.Classes.== "issuing_authorization_release" -> BalanceTransactionType'EnumIssuingAuthorizationRelease
             | val GHC.Classes.== "issuing_dispute" -> BalanceTransactionType'EnumIssuingDispute
             | val GHC.Classes.== "issuing_transaction" -> BalanceTransactionType'EnumIssuingTransaction
+            | val GHC.Classes.== "obligation_inbound" -> BalanceTransactionType'EnumObligationInbound
+            | val GHC.Classes.== "obligation_outbound" -> BalanceTransactionType'EnumObligationOutbound
+            | val GHC.Classes.== "obligation_payout" -> BalanceTransactionType'EnumObligationPayout
+            | val GHC.Classes.== "obligation_payout_failure" -> BalanceTransactionType'EnumObligationPayoutFailure
+            | val GHC.Classes.== "obligation_reversal_inbound" -> BalanceTransactionType'EnumObligationReversalInbound
+            | val GHC.Classes.== "obligation_reversal_outbound" -> BalanceTransactionType'EnumObligationReversalOutbound
             | val GHC.Classes.== "payment" -> BalanceTransactionType'EnumPayment
             | val GHC.Classes.== "payment_failure_refund" -> BalanceTransactionType'EnumPaymentFailureRefund
+            | val GHC.Classes.== "payment_network_reserve_hold" -> BalanceTransactionType'EnumPaymentNetworkReserveHold
+            | val GHC.Classes.== "payment_network_reserve_release" -> BalanceTransactionType'EnumPaymentNetworkReserveRelease
             | val GHC.Classes.== "payment_refund" -> BalanceTransactionType'EnumPaymentRefund
+            | val GHC.Classes.== "payment_reversal" -> BalanceTransactionType'EnumPaymentReversal
+            | val GHC.Classes.== "payment_unreconciled" -> BalanceTransactionType'EnumPaymentUnreconciled
             | val GHC.Classes.== "payout" -> BalanceTransactionType'EnumPayout
             | val GHC.Classes.== "payout_cancel" -> BalanceTransactionType'EnumPayoutCancel
             | val GHC.Classes.== "payout_failure" -> BalanceTransactionType'EnumPayoutFailure

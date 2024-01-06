@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,28 +30,32 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.File
+import {-# SOURCE #-} StripeAPI.Types.IssuingCardholderCardIssuing
 import {-# SOURCE #-} StripeAPI.Types.IssuingCardholderIdDocument
 import {-# SOURCE #-} StripeAPI.Types.IssuingCardholderIndividualDob
+import {-# SOURCE #-} StripeAPI.Types.IssuingCardholderUserTermsAcceptance
 import {-# SOURCE #-} StripeAPI.Types.IssuingCardholderVerification
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.issuing_cardholder_individual@ in the specification.
 data IssuingCardholderIndividual = IssuingCardholderIndividual
-  { -- | dob: The date of birth of this cardholder.
+  { -- | card_issuing: Information related to the card_issuing program for this cardholder.
+    issuingCardholderIndividualCardIssuing :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingCardholderIndividualCardIssuing'NonNullable)),
+    -- | dob: The date of birth of this cardholder.
     issuingCardholderIndividualDob :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingCardholderIndividualDob'NonNullable)),
-    -- | first_name: The first name of this cardholder.
+    -- | first_name: The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingCardholderIndividualFirstName :: Data.Text.Internal.Text,
-    -- | last_name: The last name of this cardholder.
+    issuingCardholderIndividualFirstName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | last_name: The last name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
-    issuingCardholderIndividualLastName :: Data.Text.Internal.Text,
+    issuingCardholderIndividualLastName :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | verification: Government-issued ID document for this cardholder.
     issuingCardholderIndividualVerification :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingCardholderIndividualVerification'NonNullable))
   }
@@ -61,25 +65,84 @@ data IssuingCardholderIndividual = IssuingCardholderIndividual
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderIndividual where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualDob obj) : ["first_name" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualFirstName obj] : ["last_name" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualLastName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualVerification obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualDob obj) : ["first_name" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualFirstName obj] : ["last_name" Data.Aeson.Types.ToJSON..= issuingCardholderIndividualLastName obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualVerification obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_issuing" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("card_issuing" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("dob" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualDob obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualFirstName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualLastName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualVerification obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderIndividual where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderIndividual" (\obj -> (((GHC.Base.pure IssuingCardholderIndividual GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderIndividual" (\obj -> ((((GHC.Base.pure IssuingCardholderIndividual GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "card_issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
 
 -- | Create a new 'IssuingCardholderIndividual' with all required fields.
-mkIssuingCardholderIndividual ::
-  -- | 'issuingCardholderIndividualFirstName'
-  Data.Text.Internal.Text ->
-  -- | 'issuingCardholderIndividualLastName'
-  Data.Text.Internal.Text ->
+mkIssuingCardholderIndividual :: IssuingCardholderIndividual
+mkIssuingCardholderIndividual =
   IssuingCardholderIndividual
-mkIssuingCardholderIndividual issuingCardholderIndividualFirstName issuingCardholderIndividualLastName =
-  IssuingCardholderIndividual
-    { issuingCardholderIndividualDob = GHC.Maybe.Nothing,
-      issuingCardholderIndividualFirstName = issuingCardholderIndividualFirstName,
-      issuingCardholderIndividualLastName = issuingCardholderIndividualLastName,
+    { issuingCardholderIndividualCardIssuing = GHC.Maybe.Nothing,
+      issuingCardholderIndividualDob = GHC.Maybe.Nothing,
+      issuingCardholderIndividualFirstName = GHC.Maybe.Nothing,
+      issuingCardholderIndividualLastName = GHC.Maybe.Nothing,
       issuingCardholderIndividualVerification = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.issuing_cardholder_individual.properties.card_issuing.anyOf@ in the specification.
+--
+-- Information related to the card_issuing program for this cardholder.
+data IssuingCardholderIndividualCardIssuing'NonNullable = IssuingCardholderIndividualCardIssuing'NonNullable
+  { -- | user_terms_acceptance: Information about cardholder acceptance of [Authorized User Terms](https:\/\/stripe.com\/docs\/issuing\/cards).
+    issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderIndividualCardIssuing'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_terms_acceptance" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_terms_acceptance" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderIndividualCardIssuing'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderIndividualCardIssuing'NonNullable" (\obj -> GHC.Base.pure IssuingCardholderIndividualCardIssuing'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "user_terms_acceptance"))
+
+-- | Create a new 'IssuingCardholderIndividualCardIssuing'NonNullable' with all required fields.
+mkIssuingCardholderIndividualCardIssuing'NonNullable :: IssuingCardholderIndividualCardIssuing'NonNullable
+mkIssuingCardholderIndividualCardIssuing'NonNullable = IssuingCardholderIndividualCardIssuing'NonNullable {issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @components.schemas.issuing_cardholder_individual.properties.card_issuing.anyOf.properties.user_terms_acceptance.anyOf@ in the specification.
+--
+-- Information about cardholder acceptance of [Authorized User Terms](https:\\\/\\\/stripe.com\\\/docs\\\/issuing\\\/cards).
+data IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable = IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable
+  { -- | date: The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
+    issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableDate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
+    -- | ip: The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableIp :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
+    -- | user_agent: The user agent of the browser from which the cardholder accepted the Authorized User Terms.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableUserAgent :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableIp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableUserAgent obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ip" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableIp obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("user_agent" Data.Aeson.Types.ToJSON..=)) (issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableUserAgent obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable" (\obj -> ((GHC.Base.pure IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "user_agent"))
+
+-- | Create a new 'IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable' with all required fields.
+mkIssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable :: IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable
+mkIssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable =
+  IssuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullable
+    { issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableDate = GHC.Maybe.Nothing,
+      issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableIp = GHC.Maybe.Nothing,
+      issuingCardholderIndividualCardIssuing'NonNullableUserTermsAcceptance'NonNullableUserAgent = GHC.Maybe.Nothing
     }
 
 -- | Defines the object schema located at @components.schemas.issuing_cardholder_individual.properties.dob.anyOf@ in the specification.

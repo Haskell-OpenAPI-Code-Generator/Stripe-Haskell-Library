@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -42,7 +42,7 @@ data AccountFutureRequirements = AccountFutureRequirements
     accountFutureRequirementsCurrentDeadline :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | currently_due: Fields that need to be collected to keep the account enabled. If not collected by \`future_requirements[current_deadline]\`, these fields will transition to the main \`requirements\` hash.
     accountFutureRequirementsCurrentlyDue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
-    -- | disabled_reason: This is typed as a string for consistency with \`requirements.disabled_reason\`, but it safe to assume \`future_requirements.disabled_reason\` is empty because fields in \`future_requirements\` will never disable the account.
+    -- | disabled_reason: This is typed as a string for consistency with \`requirements.disabled_reason\`.
     --
     -- Constraints:
     --

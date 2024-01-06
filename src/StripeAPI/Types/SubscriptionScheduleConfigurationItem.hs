@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -42,6 +42,8 @@ import qualified Prelude as GHC.Maybe
 data SubscriptionScheduleConfigurationItem = SubscriptionScheduleConfigurationItem
   { -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
     subscriptionScheduleConfigurationItemBillingThresholds :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionScheduleConfigurationItemBillingThresholds'NonNullable)),
+    -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item\'s \`metadata\` when the phase is entered.
+    subscriptionScheduleConfigurationItemMetadata :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Aeson.Types.Internal.Object)),
     -- | price: ID of the price to which the customer should be subscribed.
     subscriptionScheduleConfigurationItemPrice :: SubscriptionScheduleConfigurationItemPrice'Variants,
     -- | quantity: Quantity of the plan to which the customer should be subscribed.
@@ -55,11 +57,11 @@ data SubscriptionScheduleConfigurationItem = SubscriptionScheduleConfigurationIt
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON SubscriptionScheduleConfigurationItem where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds obj) : ["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemTaxRates obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds obj) : ["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemTaxRates obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemMetadata obj) : ["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemTaxRates obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemBillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemMetadata obj) : ["price" Data.Aeson.Types.ToJSON..= subscriptionScheduleConfigurationItemPrice obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemQuantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (subscriptionScheduleConfigurationItemTaxRates obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleConfigurationItem where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItem" (\obj -> (((GHC.Base.pure SubscriptionScheduleConfigurationItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionScheduleConfigurationItem" (\obj -> ((((GHC.Base.pure SubscriptionScheduleConfigurationItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
 
 -- | Create a new 'SubscriptionScheduleConfigurationItem' with all required fields.
 mkSubscriptionScheduleConfigurationItem ::
@@ -69,6 +71,7 @@ mkSubscriptionScheduleConfigurationItem ::
 mkSubscriptionScheduleConfigurationItem subscriptionScheduleConfigurationItemPrice =
   SubscriptionScheduleConfigurationItem
     { subscriptionScheduleConfigurationItemBillingThresholds = GHC.Maybe.Nothing,
+      subscriptionScheduleConfigurationItemMetadata = GHC.Maybe.Nothing,
       subscriptionScheduleConfigurationItemPrice = subscriptionScheduleConfigurationItemPrice,
       subscriptionScheduleConfigurationItemQuantity = GHC.Maybe.Nothing,
       subscriptionScheduleConfigurationItemTaxRates = GHC.Maybe.Nothing

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,10 +36,10 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.tax_id@ in the specification.
 --
--- You can add one or multiple tax IDs to a [customer](https:\/\/stripe.com\/docs\/api\/customers).
--- A customer\'s tax IDs are displayed on invoices and credit notes issued for the customer.
+-- You can add one or multiple tax IDs to a [customer](https:\/\/stripe.com\/docs\/api\/customers) or account.
+-- Customer and account tax IDs get displayed on related invoices and credit notes.
 --
--- Related guide: [Customer Tax Identification Numbers](https:\/\/stripe.com\/docs\/billing\/taxes\/tax-ids).
+-- Related guides: [Customer tax identification numbers](https:\/\/stripe.com\/docs\/billing\/taxes\/tax-ids), [Account tax IDs](https:\/\/stripe.com\/docs\/invoicing\/connect\#account-tax-ids)
 data TaxId = TaxId
   { -- | country: Two-letter ISO code representing the country of the tax ID.
     --
@@ -59,7 +59,7 @@ data TaxId = TaxId
     taxIdId :: Data.Text.Internal.Text,
     -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
     taxIdLivemode :: GHC.Types.Bool,
-    -- | type: Type of the tax ID, one of \`ae_trn\`, \`au_abn\`, \`au_arn\`, \`bg_uic\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`es_cif\`, \`eu_oss_vat\`, \`eu_vat\`, \`gb_vat\`, \`ge_vat\`, \`hk_br\`, \`hu_tin\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`is_vat\`, \`jp_cn\`, \`jp_rn\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`si_tin\`, \`th_vat\`, \`tw_vat\`, \`ua_vat\`, \`us_ein\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
+    -- | type: Type of the tax ID, one of \`ad_nrt\`, \`ae_trn\`, \`ar_cuit\`, \`au_abn\`, \`au_arn\`, \`bg_uic\`, \`bo_tin\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`cn_tin\`, \`co_nit\`, \`cr_tin\`, \`do_rcn\`, \`ec_ruc\`, \`eg_tin\`, \`es_cif\`, \`eu_oss_vat\`, \`eu_vat\`, \`gb_vat\`, \`ge_vat\`, \`hk_br\`, \`hu_tin\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`is_vat\`, \`jp_cn\`, \`jp_rn\`, \`jp_trn\`, \`ke_pin\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`pe_ruc\`, \`ph_tin\`, \`ro_tin\`, \`rs_pib\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`si_tin\`, \`sv_nit\`, \`th_vat\`, \`tr_tin\`, \`tw_vat\`, \`ua_vat\`, \`us_ein\`, \`uy_ruc\`, \`ve_rif\`, \`vn_tin\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
     taxIdType :: TaxIdType',
     -- | value: Value of the tax ID.
     --
@@ -126,20 +126,26 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdCustomer'NonNullableVariants wh
 
 -- | Defines the enum schema located at @components.schemas.tax_id.properties.type@ in the specification.
 --
--- Type of the tax ID, one of \`ae_trn\`, \`au_abn\`, \`au_arn\`, \`bg_uic\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`es_cif\`, \`eu_oss_vat\`, \`eu_vat\`, \`gb_vat\`, \`ge_vat\`, \`hk_br\`, \`hu_tin\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`is_vat\`, \`jp_cn\`, \`jp_rn\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`si_tin\`, \`th_vat\`, \`tw_vat\`, \`ua_vat\`, \`us_ein\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
+-- Type of the tax ID, one of \`ad_nrt\`, \`ae_trn\`, \`ar_cuit\`, \`au_abn\`, \`au_arn\`, \`bg_uic\`, \`bo_tin\`, \`br_cnpj\`, \`br_cpf\`, \`ca_bn\`, \`ca_gst_hst\`, \`ca_pst_bc\`, \`ca_pst_mb\`, \`ca_pst_sk\`, \`ca_qst\`, \`ch_vat\`, \`cl_tin\`, \`cn_tin\`, \`co_nit\`, \`cr_tin\`, \`do_rcn\`, \`ec_ruc\`, \`eg_tin\`, \`es_cif\`, \`eu_oss_vat\`, \`eu_vat\`, \`gb_vat\`, \`ge_vat\`, \`hk_br\`, \`hu_tin\`, \`id_npwp\`, \`il_vat\`, \`in_gst\`, \`is_vat\`, \`jp_cn\`, \`jp_rn\`, \`jp_trn\`, \`ke_pin\`, \`kr_brn\`, \`li_uid\`, \`mx_rfc\`, \`my_frp\`, \`my_itn\`, \`my_sst\`, \`no_vat\`, \`nz_gst\`, \`pe_ruc\`, \`ph_tin\`, \`ro_tin\`, \`rs_pib\`, \`ru_inn\`, \`ru_kpp\`, \`sa_vat\`, \`sg_gst\`, \`sg_uen\`, \`si_tin\`, \`sv_nit\`, \`th_vat\`, \`tr_tin\`, \`tw_vat\`, \`ua_vat\`, \`us_ein\`, \`uy_ruc\`, \`ve_rif\`, \`vn_tin\`, or \`za_vat\`. Note that some legacy tax IDs have type \`unknown\`
 data TaxIdType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     TaxIdType'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     TaxIdType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ad_nrt"@
+    TaxIdType'EnumAdNrt
   | -- | Represents the JSON value @"ae_trn"@
     TaxIdType'EnumAeTrn
+  | -- | Represents the JSON value @"ar_cuit"@
+    TaxIdType'EnumArCuit
   | -- | Represents the JSON value @"au_abn"@
     TaxIdType'EnumAuAbn
   | -- | Represents the JSON value @"au_arn"@
     TaxIdType'EnumAuArn
   | -- | Represents the JSON value @"bg_uic"@
     TaxIdType'EnumBgUic
+  | -- | Represents the JSON value @"bo_tin"@
+    TaxIdType'EnumBoTin
   | -- | Represents the JSON value @"br_cnpj"@
     TaxIdType'EnumBrCnpj
   | -- | Represents the JSON value @"br_cpf"@
@@ -160,6 +166,18 @@ data TaxIdType'
     TaxIdType'EnumChVat
   | -- | Represents the JSON value @"cl_tin"@
     TaxIdType'EnumClTin
+  | -- | Represents the JSON value @"cn_tin"@
+    TaxIdType'EnumCnTin
+  | -- | Represents the JSON value @"co_nit"@
+    TaxIdType'EnumCoNit
+  | -- | Represents the JSON value @"cr_tin"@
+    TaxIdType'EnumCrTin
+  | -- | Represents the JSON value @"do_rcn"@
+    TaxIdType'EnumDoRcn
+  | -- | Represents the JSON value @"ec_ruc"@
+    TaxIdType'EnumEcRuc
+  | -- | Represents the JSON value @"eg_tin"@
+    TaxIdType'EnumEgTin
   | -- | Represents the JSON value @"es_cif"@
     TaxIdType'EnumEsCif
   | -- | Represents the JSON value @"eu_oss_vat"@
@@ -186,6 +204,10 @@ data TaxIdType'
     TaxIdType'EnumJpCn
   | -- | Represents the JSON value @"jp_rn"@
     TaxIdType'EnumJpRn
+  | -- | Represents the JSON value @"jp_trn"@
+    TaxIdType'EnumJpTrn
+  | -- | Represents the JSON value @"ke_pin"@
+    TaxIdType'EnumKePin
   | -- | Represents the JSON value @"kr_brn"@
     TaxIdType'EnumKrBrn
   | -- | Represents the JSON value @"li_uid"@
@@ -202,6 +224,14 @@ data TaxIdType'
     TaxIdType'EnumNoVat
   | -- | Represents the JSON value @"nz_gst"@
     TaxIdType'EnumNzGst
+  | -- | Represents the JSON value @"pe_ruc"@
+    TaxIdType'EnumPeRuc
+  | -- | Represents the JSON value @"ph_tin"@
+    TaxIdType'EnumPhTin
+  | -- | Represents the JSON value @"ro_tin"@
+    TaxIdType'EnumRoTin
+  | -- | Represents the JSON value @"rs_pib"@
+    TaxIdType'EnumRsPib
   | -- | Represents the JSON value @"ru_inn"@
     TaxIdType'EnumRuInn
   | -- | Represents the JSON value @"ru_kpp"@
@@ -214,8 +244,12 @@ data TaxIdType'
     TaxIdType'EnumSgUen
   | -- | Represents the JSON value @"si_tin"@
     TaxIdType'EnumSiTin
+  | -- | Represents the JSON value @"sv_nit"@
+    TaxIdType'EnumSvNit
   | -- | Represents the JSON value @"th_vat"@
     TaxIdType'EnumThVat
+  | -- | Represents the JSON value @"tr_tin"@
+    TaxIdType'EnumTrTin
   | -- | Represents the JSON value @"tw_vat"@
     TaxIdType'EnumTwVat
   | -- | Represents the JSON value @"ua_vat"@
@@ -224,6 +258,12 @@ data TaxIdType'
     TaxIdType'EnumUnknown
   | -- | Represents the JSON value @"us_ein"@
     TaxIdType'EnumUsEin
+  | -- | Represents the JSON value @"uy_ruc"@
+    TaxIdType'EnumUyRuc
+  | -- | Represents the JSON value @"ve_rif"@
+    TaxIdType'EnumVeRif
+  | -- | Represents the JSON value @"vn_tin"@
+    TaxIdType'EnumVnTin
   | -- | Represents the JSON value @"za_vat"@
     TaxIdType'EnumZaVat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -231,10 +271,13 @@ data TaxIdType'
 instance Data.Aeson.Types.ToJSON.ToJSON TaxIdType' where
   toJSON (TaxIdType'Other val) = val
   toJSON (TaxIdType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (TaxIdType'EnumAdNrt) = "ad_nrt"
   toJSON (TaxIdType'EnumAeTrn) = "ae_trn"
+  toJSON (TaxIdType'EnumArCuit) = "ar_cuit"
   toJSON (TaxIdType'EnumAuAbn) = "au_abn"
   toJSON (TaxIdType'EnumAuArn) = "au_arn"
   toJSON (TaxIdType'EnumBgUic) = "bg_uic"
+  toJSON (TaxIdType'EnumBoTin) = "bo_tin"
   toJSON (TaxIdType'EnumBrCnpj) = "br_cnpj"
   toJSON (TaxIdType'EnumBrCpf) = "br_cpf"
   toJSON (TaxIdType'EnumCaBn) = "ca_bn"
@@ -245,6 +288,12 @@ instance Data.Aeson.Types.ToJSON.ToJSON TaxIdType' where
   toJSON (TaxIdType'EnumCaQst) = "ca_qst"
   toJSON (TaxIdType'EnumChVat) = "ch_vat"
   toJSON (TaxIdType'EnumClTin) = "cl_tin"
+  toJSON (TaxIdType'EnumCnTin) = "cn_tin"
+  toJSON (TaxIdType'EnumCoNit) = "co_nit"
+  toJSON (TaxIdType'EnumCrTin) = "cr_tin"
+  toJSON (TaxIdType'EnumDoRcn) = "do_rcn"
+  toJSON (TaxIdType'EnumEcRuc) = "ec_ruc"
+  toJSON (TaxIdType'EnumEgTin) = "eg_tin"
   toJSON (TaxIdType'EnumEsCif) = "es_cif"
   toJSON (TaxIdType'EnumEuOssVat) = "eu_oss_vat"
   toJSON (TaxIdType'EnumEuVat) = "eu_vat"
@@ -258,6 +307,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON TaxIdType' where
   toJSON (TaxIdType'EnumIsVat) = "is_vat"
   toJSON (TaxIdType'EnumJpCn) = "jp_cn"
   toJSON (TaxIdType'EnumJpRn) = "jp_rn"
+  toJSON (TaxIdType'EnumJpTrn) = "jp_trn"
+  toJSON (TaxIdType'EnumKePin) = "ke_pin"
   toJSON (TaxIdType'EnumKrBrn) = "kr_brn"
   toJSON (TaxIdType'EnumLiUid) = "li_uid"
   toJSON (TaxIdType'EnumMxRfc) = "mx_rfc"
@@ -266,27 +317,39 @@ instance Data.Aeson.Types.ToJSON.ToJSON TaxIdType' where
   toJSON (TaxIdType'EnumMySst) = "my_sst"
   toJSON (TaxIdType'EnumNoVat) = "no_vat"
   toJSON (TaxIdType'EnumNzGst) = "nz_gst"
+  toJSON (TaxIdType'EnumPeRuc) = "pe_ruc"
+  toJSON (TaxIdType'EnumPhTin) = "ph_tin"
+  toJSON (TaxIdType'EnumRoTin) = "ro_tin"
+  toJSON (TaxIdType'EnumRsPib) = "rs_pib"
   toJSON (TaxIdType'EnumRuInn) = "ru_inn"
   toJSON (TaxIdType'EnumRuKpp) = "ru_kpp"
   toJSON (TaxIdType'EnumSaVat) = "sa_vat"
   toJSON (TaxIdType'EnumSgGst) = "sg_gst"
   toJSON (TaxIdType'EnumSgUen) = "sg_uen"
   toJSON (TaxIdType'EnumSiTin) = "si_tin"
+  toJSON (TaxIdType'EnumSvNit) = "sv_nit"
   toJSON (TaxIdType'EnumThVat) = "th_vat"
+  toJSON (TaxIdType'EnumTrTin) = "tr_tin"
   toJSON (TaxIdType'EnumTwVat) = "tw_vat"
   toJSON (TaxIdType'EnumUaVat) = "ua_vat"
   toJSON (TaxIdType'EnumUnknown) = "unknown"
   toJSON (TaxIdType'EnumUsEin) = "us_ein"
+  toJSON (TaxIdType'EnumUyRuc) = "uy_ruc"
+  toJSON (TaxIdType'EnumVeRif) = "ve_rif"
+  toJSON (TaxIdType'EnumVnTin) = "vn_tin"
   toJSON (TaxIdType'EnumZaVat) = "za_vat"
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "ad_nrt" -> TaxIdType'EnumAdNrt
             | val GHC.Classes.== "ae_trn" -> TaxIdType'EnumAeTrn
+            | val GHC.Classes.== "ar_cuit" -> TaxIdType'EnumArCuit
             | val GHC.Classes.== "au_abn" -> TaxIdType'EnumAuAbn
             | val GHC.Classes.== "au_arn" -> TaxIdType'EnumAuArn
             | val GHC.Classes.== "bg_uic" -> TaxIdType'EnumBgUic
+            | val GHC.Classes.== "bo_tin" -> TaxIdType'EnumBoTin
             | val GHC.Classes.== "br_cnpj" -> TaxIdType'EnumBrCnpj
             | val GHC.Classes.== "br_cpf" -> TaxIdType'EnumBrCpf
             | val GHC.Classes.== "ca_bn" -> TaxIdType'EnumCaBn
@@ -297,6 +360,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
             | val GHC.Classes.== "ca_qst" -> TaxIdType'EnumCaQst
             | val GHC.Classes.== "ch_vat" -> TaxIdType'EnumChVat
             | val GHC.Classes.== "cl_tin" -> TaxIdType'EnumClTin
+            | val GHC.Classes.== "cn_tin" -> TaxIdType'EnumCnTin
+            | val GHC.Classes.== "co_nit" -> TaxIdType'EnumCoNit
+            | val GHC.Classes.== "cr_tin" -> TaxIdType'EnumCrTin
+            | val GHC.Classes.== "do_rcn" -> TaxIdType'EnumDoRcn
+            | val GHC.Classes.== "ec_ruc" -> TaxIdType'EnumEcRuc
+            | val GHC.Classes.== "eg_tin" -> TaxIdType'EnumEgTin
             | val GHC.Classes.== "es_cif" -> TaxIdType'EnumEsCif
             | val GHC.Classes.== "eu_oss_vat" -> TaxIdType'EnumEuOssVat
             | val GHC.Classes.== "eu_vat" -> TaxIdType'EnumEuVat
@@ -310,6 +379,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
             | val GHC.Classes.== "is_vat" -> TaxIdType'EnumIsVat
             | val GHC.Classes.== "jp_cn" -> TaxIdType'EnumJpCn
             | val GHC.Classes.== "jp_rn" -> TaxIdType'EnumJpRn
+            | val GHC.Classes.== "jp_trn" -> TaxIdType'EnumJpTrn
+            | val GHC.Classes.== "ke_pin" -> TaxIdType'EnumKePin
             | val GHC.Classes.== "kr_brn" -> TaxIdType'EnumKrBrn
             | val GHC.Classes.== "li_uid" -> TaxIdType'EnumLiUid
             | val GHC.Classes.== "mx_rfc" -> TaxIdType'EnumMxRfc
@@ -318,17 +389,26 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdType' where
             | val GHC.Classes.== "my_sst" -> TaxIdType'EnumMySst
             | val GHC.Classes.== "no_vat" -> TaxIdType'EnumNoVat
             | val GHC.Classes.== "nz_gst" -> TaxIdType'EnumNzGst
+            | val GHC.Classes.== "pe_ruc" -> TaxIdType'EnumPeRuc
+            | val GHC.Classes.== "ph_tin" -> TaxIdType'EnumPhTin
+            | val GHC.Classes.== "ro_tin" -> TaxIdType'EnumRoTin
+            | val GHC.Classes.== "rs_pib" -> TaxIdType'EnumRsPib
             | val GHC.Classes.== "ru_inn" -> TaxIdType'EnumRuInn
             | val GHC.Classes.== "ru_kpp" -> TaxIdType'EnumRuKpp
             | val GHC.Classes.== "sa_vat" -> TaxIdType'EnumSaVat
             | val GHC.Classes.== "sg_gst" -> TaxIdType'EnumSgGst
             | val GHC.Classes.== "sg_uen" -> TaxIdType'EnumSgUen
             | val GHC.Classes.== "si_tin" -> TaxIdType'EnumSiTin
+            | val GHC.Classes.== "sv_nit" -> TaxIdType'EnumSvNit
             | val GHC.Classes.== "th_vat" -> TaxIdType'EnumThVat
+            | val GHC.Classes.== "tr_tin" -> TaxIdType'EnumTrTin
             | val GHC.Classes.== "tw_vat" -> TaxIdType'EnumTwVat
             | val GHC.Classes.== "ua_vat" -> TaxIdType'EnumUaVat
             | val GHC.Classes.== "unknown" -> TaxIdType'EnumUnknown
             | val GHC.Classes.== "us_ein" -> TaxIdType'EnumUsEin
+            | val GHC.Classes.== "uy_ruc" -> TaxIdType'EnumUyRuc
+            | val GHC.Classes.== "ve_rif" -> TaxIdType'EnumVeRif
+            | val GHC.Classes.== "vn_tin" -> TaxIdType'EnumVnTin
             | val GHC.Classes.== "za_vat" -> TaxIdType'EnumZaVat
             | GHC.Base.otherwise -> TaxIdType'Other val
       )

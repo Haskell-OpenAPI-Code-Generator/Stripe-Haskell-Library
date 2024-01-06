@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -49,6 +49,18 @@ data LegalEntityCompany = LegalEntityCompany
     legalEntityCompanyDirectorsProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | executives_provided: Whether the company\'s executives have been provided. This Boolean will be \`true\` if you\'ve manually indicated that all executives are provided via [the \`executives_provided\` parameter](https:\/\/stripe.com\/docs\/api\/accounts\/update\#update_account-company-executives_provided), or if Stripe determined that sufficient executives were provided.
     legalEntityCompanyExecutivesProvided :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | export_license_id: The export license ID number of the company, also referred as Import Export Code (India only).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    legalEntityCompanyExportLicenseId :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | export_purpose_code: The purpose code to use for export transactions (India only).
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    legalEntityCompanyExportPurposeCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | name: The company\'s legal name.
     --
     -- Constraints:
@@ -98,11 +110,11 @@ data LegalEntityCompany = LegalEntityCompany
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompany where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("directors_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyDirectorsProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executives_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExecutivesProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owners_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnersProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_declaration" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("structure" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyStructure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_registrar" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdRegistrar obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("vat_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVatIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("directors_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyDirectorsProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executives_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExecutivesProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owners_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnersProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_declaration" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("structure" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyStructure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_registrar" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdRegistrar obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("vat_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVatIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("directors_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyDirectorsProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executives_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExecutivesProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("export_license_id" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExportLicenseId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("export_purpose_code" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExportPurposeCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owners_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnersProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_declaration" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("structure" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyStructure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_registrar" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdRegistrar obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("vat_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVatIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddress obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("address_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyAddressKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("directors_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyDirectorsProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("executives_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExecutivesProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("export_license_id" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExportLicenseId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("export_purpose_code" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyExportPurposeCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyName obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kana" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKana obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("name_kanji" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyNameKanji obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("owners_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnersProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("ownership_declaration" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyOwnershipDeclaration obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyPhone obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("structure" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyStructure obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_id_registrar" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyTaxIdRegistrar obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("vat_id_provided" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVatIdProvided obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("verification" Data.Aeson.Types.ToJSON..=)) (legalEntityCompanyVerification obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompany where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompany" (\obj -> (((((((((((((((GHC.Base.pure LegalEntityCompany GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "directors_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "executives_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owners_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ownership_declaration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "structure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_registrar")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "vat_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "LegalEntityCompany" (\obj -> (((((((((((((((((GHC.Base.pure LegalEntityCompany GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "address_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "directors_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "executives_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "export_license_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "export_purpose_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_kana")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_kanji")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "owners_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "ownership_declaration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "structure")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_id_registrar")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "vat_id_provided")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "verification"))
 
 -- | Create a new 'LegalEntityCompany' with all required fields.
 mkLegalEntityCompany :: LegalEntityCompany
@@ -113,6 +125,8 @@ mkLegalEntityCompany =
       legalEntityCompanyAddressKanji = GHC.Maybe.Nothing,
       legalEntityCompanyDirectorsProvided = GHC.Maybe.Nothing,
       legalEntityCompanyExecutivesProvided = GHC.Maybe.Nothing,
+      legalEntityCompanyExportLicenseId = GHC.Maybe.Nothing,
+      legalEntityCompanyExportPurposeCode = GHC.Maybe.Nothing,
       legalEntityCompanyName = GHC.Maybe.Nothing,
       legalEntityCompanyNameKana = GHC.Maybe.Nothing,
       legalEntityCompanyNameKanji = GHC.Maybe.Nothing,
@@ -328,6 +342,8 @@ data LegalEntityCompanyStructure'
     LegalEntityCompanyStructure'EnumGovernmentalUnit
   | -- | Represents the JSON value @"incorporated_non_profit"@
     LegalEntityCompanyStructure'EnumIncorporatedNonProfit
+  | -- | Represents the JSON value @"incorporated_partnership"@
+    LegalEntityCompanyStructure'EnumIncorporatedPartnership
   | -- | Represents the JSON value @"limited_liability_partnership"@
     LegalEntityCompanyStructure'EnumLimitedLiabilityPartnership
   | -- | Represents the JSON value @"llc"@
@@ -358,6 +374,8 @@ data LegalEntityCompanyStructure'
     LegalEntityCompanyStructure'EnumUnincorporatedAssociation
   | -- | Represents the JSON value @"unincorporated_non_profit"@
     LegalEntityCompanyStructure'EnumUnincorporatedNonProfit
+  | -- | Represents the JSON value @"unincorporated_partnership"@
+    LegalEntityCompanyStructure'EnumUnincorporatedPartnership
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyStructure' where
@@ -368,6 +386,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyStructure' where
   toJSON (LegalEntityCompanyStructure'EnumGovernmentInstrumentality) = "government_instrumentality"
   toJSON (LegalEntityCompanyStructure'EnumGovernmentalUnit) = "governmental_unit"
   toJSON (LegalEntityCompanyStructure'EnumIncorporatedNonProfit) = "incorporated_non_profit"
+  toJSON (LegalEntityCompanyStructure'EnumIncorporatedPartnership) = "incorporated_partnership"
   toJSON (LegalEntityCompanyStructure'EnumLimitedLiabilityPartnership) = "limited_liability_partnership"
   toJSON (LegalEntityCompanyStructure'EnumLlc) = "llc"
   toJSON (LegalEntityCompanyStructure'EnumMultiMemberLlc) = "multi_member_llc"
@@ -383,6 +402,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON LegalEntityCompanyStructure' where
   toJSON (LegalEntityCompanyStructure'EnumTaxExemptGovernmentInstrumentality) = "tax_exempt_government_instrumentality"
   toJSON (LegalEntityCompanyStructure'EnumUnincorporatedAssociation) = "unincorporated_association"
   toJSON (LegalEntityCompanyStructure'EnumUnincorporatedNonProfit) = "unincorporated_non_profit"
+  toJSON (LegalEntityCompanyStructure'EnumUnincorporatedPartnership) = "unincorporated_partnership"
 
 instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyStructure' where
   parseJSON val =
@@ -393,6 +413,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyStructure' where
             | val GHC.Classes.== "government_instrumentality" -> LegalEntityCompanyStructure'EnumGovernmentInstrumentality
             | val GHC.Classes.== "governmental_unit" -> LegalEntityCompanyStructure'EnumGovernmentalUnit
             | val GHC.Classes.== "incorporated_non_profit" -> LegalEntityCompanyStructure'EnumIncorporatedNonProfit
+            | val GHC.Classes.== "incorporated_partnership" -> LegalEntityCompanyStructure'EnumIncorporatedPartnership
             | val GHC.Classes.== "limited_liability_partnership" -> LegalEntityCompanyStructure'EnumLimitedLiabilityPartnership
             | val GHC.Classes.== "llc" -> LegalEntityCompanyStructure'EnumLlc
             | val GHC.Classes.== "multi_member_llc" -> LegalEntityCompanyStructure'EnumMultiMemberLlc
@@ -408,6 +429,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON LegalEntityCompanyStructure' where
             | val GHC.Classes.== "tax_exempt_government_instrumentality" -> LegalEntityCompanyStructure'EnumTaxExemptGovernmentInstrumentality
             | val GHC.Classes.== "unincorporated_association" -> LegalEntityCompanyStructure'EnumUnincorporatedAssociation
             | val GHC.Classes.== "unincorporated_non_profit" -> LegalEntityCompanyStructure'EnumUnincorporatedNonProfit
+            | val GHC.Classes.== "unincorporated_partnership" -> LegalEntityCompanyStructure'EnumUnincorporatedPartnership
             | GHC.Base.otherwise -> LegalEntityCompanyStructure'Other val
       )
 

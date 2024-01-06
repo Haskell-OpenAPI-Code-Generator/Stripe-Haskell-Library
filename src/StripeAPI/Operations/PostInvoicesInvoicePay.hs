@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -65,26 +66,26 @@ postInvoicesInvoicePay
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesInvoicePayResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Invoice
-                                                        )
+                                       PostInvoicesInvoicePayResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Invoice
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesInvoicePayResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostInvoicesInvoicePayResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/pay"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/invoices/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.<> "/pay")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/invoices\/{invoice}\/pay.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostInvoicesInvoicePayRequestBody = PostInvoicesInvoicePayRequestBody
@@ -94,6 +95,8 @@ data PostInvoicesInvoicePayRequestBody = PostInvoicesInvoicePayRequestBody
     --
     -- Passing \`forgive=false\` will fail the charge if the source hasn\'t been pre-funded with the right amount. An example for this case is with ACH Credit Transfers and wires: if the amount wired is less than the amount due by a small amount, you might want to forgive the difference. Defaults to \`false\`.
     postInvoicesInvoicePayRequestBodyForgive :: (GHC.Maybe.Maybe GHC.Types.Bool),
+    -- | mandate: ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the payment_method param or the invoice\'s default_payment_method or default_source, if set.
+    postInvoicesInvoicePayRequestBodyMandate :: (GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBodyMandate'Variants),
     -- | off_session: Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to \`true\` (off-session).
     postInvoicesInvoicePayRequestBodyOffSession :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | paid_out_of_band: Boolean representing whether an invoice is paid outside of Stripe. This will result in no charge being made. Defaults to \`false\`.
@@ -117,11 +120,11 @@ data PostInvoicesInvoicePayRequestBody = PostInvoicesInvoicePayRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoicePayRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("forgive" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyForgive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("off_session" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyOffSession obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paid_out_of_band" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodySource obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("forgive" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyForgive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("off_session" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyOffSession obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paid_out_of_band" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodySource obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("forgive" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyForgive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyMandate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("off_session" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyOffSession obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paid_out_of_band" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodySource obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("forgive" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyForgive obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("mandate" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyMandate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("off_session" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyOffSession obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("paid_out_of_band" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("payment_method" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodyPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("source" Data.Aeson.Types.ToJSON..=)) (postInvoicesInvoicePayRequestBodySource obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoicePayRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoicePayRequestBody" (\obj -> (((((GHC.Base.pure PostInvoicesInvoicePayRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "forgive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "off_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paid_out_of_band")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoicesInvoicePayRequestBody" (\obj -> ((((((GHC.Base.pure PostInvoicesInvoicePayRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "forgive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "mandate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "off_session")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "paid_out_of_band")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "source"))
 
 -- | Create a new 'PostInvoicesInvoicePayRequestBody' with all required fields.
 mkPostInvoicesInvoicePayRequestBody :: PostInvoicesInvoicePayRequestBody
@@ -129,11 +132,33 @@ mkPostInvoicesInvoicePayRequestBody =
   PostInvoicesInvoicePayRequestBody
     { postInvoicesInvoicePayRequestBodyExpand = GHC.Maybe.Nothing,
       postInvoicesInvoicePayRequestBodyForgive = GHC.Maybe.Nothing,
+      postInvoicesInvoicePayRequestBodyMandate = GHC.Maybe.Nothing,
       postInvoicesInvoicePayRequestBodyOffSession = GHC.Maybe.Nothing,
       postInvoicesInvoicePayRequestBodyPaidOutOfBand = GHC.Maybe.Nothing,
       postInvoicesInvoicePayRequestBodyPaymentMethod = GHC.Maybe.Nothing,
       postInvoicesInvoicePayRequestBodySource = GHC.Maybe.Nothing
     }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/invoices\/{invoice}\/pay.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.mandate.anyOf@ in the specification.
+--
+-- ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the payment_method param or the invoice\'s default_payment_method or default_source, if set.
+data PostInvoicesInvoicePayRequestBodyMandate'Variants
+  = -- | Represents the JSON value @""@
+    PostInvoicesInvoicePayRequestBodyMandate'EmptyString
+  | PostInvoicesInvoicePayRequestBodyMandate'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoicePayRequestBodyMandate'Variants where
+  toJSON (PostInvoicesInvoicePayRequestBodyMandate'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostInvoicesInvoicePayRequestBodyMandate'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoicePayRequestBodyMandate'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostInvoicesInvoicePayRequestBodyMandate'EmptyString
+        | GHC.Base.otherwise -> case (PostInvoicesInvoicePayRequestBodyMandate'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postInvoicesInvoicePay'.
 --

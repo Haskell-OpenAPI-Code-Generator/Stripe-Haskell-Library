@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -35,19 +35,19 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.file@ in the specification.
 --
--- This is an object representing a file hosted on Stripe\'s servers. The
--- file may have been uploaded by yourself using the [create file](https:\/\/stripe.com\/docs\/api\#create_file)
--- request (for example, when uploading dispute evidence) or it may have
--- been created by Stripe (for example, the results of a [Sigma scheduled
+-- This object represents files hosted on Stripe\'s servers. You can upload
+-- files with the [create file](https:\/\/stripe.com\/docs\/api\#create_file) request
+-- (for example, when uploading dispute evidence). Stripe also
+-- creates files independently (for example, the results of a [Sigma scheduled
 -- query](\#scheduled_queries)).
 --
--- Related guide: [File Upload Guide](https:\/\/stripe.com\/docs\/file-upload).
+-- Related guide: [File upload guide](https:\/\/stripe.com\/docs\/file-upload)
 data File = File
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     fileCreated :: GHC.Types.Int,
-    -- | expires_at: The time at which the file expires and is no longer available in epoch seconds.
+    -- | expires_at: The file expires and isn\'t available at this time in epoch seconds.
     fileExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
-    -- | filename: A filename for the file, suitable for saving to a filesystem.
+    -- | filename: The suitable name for saving the file to a filesystem.
     --
     -- Constraints:
     --
@@ -63,21 +63,21 @@ data File = File
     fileLinks :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable FileLinks'NonNullable)),
     -- | purpose: The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
     filePurpose :: FilePurpose',
-    -- | size: The size in bytes of the file object.
+    -- | size: The size of the file object in bytes.
     fileSize :: GHC.Types.Int,
-    -- | title: A user friendly title for the document.
+    -- | title: A suitable title for the document.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     fileTitle :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | type: The type of the file returned (e.g., \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
+    -- | type: The returned file type (for example, \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     fileType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | url: The URL from which the file can be downloaded using your live secret API key.
+    -- | url: Use your live secret API key to download the file from this URL.
     --
     -- Constraints:
     --
@@ -201,6 +201,8 @@ data FilePurpose'
     FilePurpose'EnumSigmaScheduledQuery
   | -- | Represents the JSON value @"tax_document_user_upload"@
     FilePurpose'EnumTaxDocumentUserUpload
+  | -- | Represents the JSON value @"terminal_reader_splashscreen"@
+    FilePurpose'EnumTerminalReaderSplashscreen
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON FilePurpose' where
@@ -220,6 +222,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON FilePurpose' where
   toJSON (FilePurpose'EnumSelfie) = "selfie"
   toJSON (FilePurpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
   toJSON (FilePurpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
+  toJSON (FilePurpose'EnumTerminalReaderSplashscreen) = "terminal_reader_splashscreen"
 
 instance Data.Aeson.Types.FromJSON.FromJSON FilePurpose' where
   parseJSON val =
@@ -239,5 +242,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON FilePurpose' where
             | val GHC.Classes.== "selfie" -> FilePurpose'EnumSelfie
             | val GHC.Classes.== "sigma_scheduled_query" -> FilePurpose'EnumSigmaScheduledQuery
             | val GHC.Classes.== "tax_document_user_upload" -> FilePurpose'EnumTaxDocumentUserUpload
+            | val GHC.Classes.== "terminal_reader_splashscreen" -> FilePurpose'EnumTerminalReaderSplashscreen
             | GHC.Base.otherwise -> FilePurpose'Other val
       )

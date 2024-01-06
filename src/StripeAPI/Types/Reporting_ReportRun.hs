@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -133,9 +133,9 @@ mkReporting'reportRun reporting'reportRunCreated reporting'reportRunId reporting
 data Reporting'reportRunResult'NonNullable = Reporting'reportRunResult'NonNullable
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     reporting'reportRunResult'NonNullableCreated :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | expires_at: The time at which the file expires and is no longer available in epoch seconds.
+    -- | expires_at: The file expires and isn\'t available at this time in epoch seconds.
     reporting'reportRunResult'NonNullableExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
-    -- | filename: A filename for the file, suitable for saving to a filesystem.
+    -- | filename: The suitable name for saving the file to a filesystem.
     --
     -- Constraints:
     --
@@ -153,21 +153,21 @@ data Reporting'reportRunResult'NonNullable = Reporting'reportRunResult'NonNullab
     reporting'reportRunResult'NonNullableObject :: (GHC.Maybe.Maybe Reporting'reportRunResult'NonNullableObject'),
     -- | purpose: The [purpose](https:\/\/stripe.com\/docs\/file-upload\#uploading-a-file) of the uploaded file.
     reporting'reportRunResult'NonNullablePurpose :: (GHC.Maybe.Maybe Reporting'reportRunResult'NonNullablePurpose'),
-    -- | size: The size in bytes of the file object.
+    -- | size: The size of the file object in bytes.
     reporting'reportRunResult'NonNullableSize :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | title: A user friendly title for the document.
+    -- | title: A suitable title for the document.
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     reporting'reportRunResult'NonNullableTitle :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | type: The type of the file returned (e.g., \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
+    -- | type: The returned file type (for example, \`csv\`, \`pdf\`, \`jpg\`, or \`png\`).
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     reporting'reportRunResult'NonNullableType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | url: The URL from which the file can be downloaded using your live secret API key.
+    -- | url: Use your live secret API key to download the file from this URL.
     --
     -- Constraints:
     --
@@ -308,6 +308,8 @@ data Reporting'reportRunResult'NonNullablePurpose'
     Reporting'reportRunResult'NonNullablePurpose'EnumSigmaScheduledQuery
   | -- | Represents the JSON value @"tax_document_user_upload"@
     Reporting'reportRunResult'NonNullablePurpose'EnumTaxDocumentUserUpload
+  | -- | Represents the JSON value @"terminal_reader_splashscreen"@
+    Reporting'reportRunResult'NonNullablePurpose'EnumTerminalReaderSplashscreen
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'NonNullablePurpose' where
@@ -327,6 +329,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON Reporting'reportRunResult'NonNullablePur
   toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumSelfie) = "selfie"
   toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
   toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
+  toJSON (Reporting'reportRunResult'NonNullablePurpose'EnumTerminalReaderSplashscreen) = "terminal_reader_splashscreen"
 
 instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'NonNullablePurpose' where
   parseJSON val =
@@ -346,5 +349,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportRunResult'NonNullabl
             | val GHC.Classes.== "selfie" -> Reporting'reportRunResult'NonNullablePurpose'EnumSelfie
             | val GHC.Classes.== "sigma_scheduled_query" -> Reporting'reportRunResult'NonNullablePurpose'EnumSigmaScheduledQuery
             | val GHC.Classes.== "tax_document_user_upload" -> Reporting'reportRunResult'NonNullablePurpose'EnumTaxDocumentUserUpload
+            | val GHC.Classes.== "terminal_reader_splashscreen" -> Reporting'reportRunResult'NonNullablePurpose'EnumTerminalReaderSplashscreen
             | GHC.Base.otherwise -> Reporting'reportRunResult'NonNullablePurpose'Other val
       )

@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,7 +46,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > POST /v1/customers/{customer}/cash_balance
 --
--- \<p>Updates a customer’s cash balance.\<\/p>
+-- \<p>Changes the settings on a customer’s cash balance.\<\/p>
 postCustomersCustomerCashBalance ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -65,32 +66,32 @@ postCustomersCustomerCashBalance
                 GHC.Base.. ( \response body ->
                                if
                                    | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerCashBalanceResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              CashBalance
-                                                        )
+                                       PostCustomersCustomerCashBalanceResponse200
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                CashBalance
+                                                          )
                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerCashBalanceResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either
-                                                              GHC.Base.String
-                                                              Error
-                                                        )
+                                       PostCustomersCustomerCashBalanceResponseDefault
+                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                              Data.Either.Either
+                                                                GHC.Base.String
+                                                                Error
+                                                          )
                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                            )
                   response_0
             )
             response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/cash_balance"))) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") ("/v1/customers/" GHC.Base.<> (StripeAPI.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.<> "/cash_balance")) GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/cash_balance.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostCustomersCustomerCashBalanceRequestBody = PostCustomersCustomerCashBalanceRequestBody
   { -- | expand: Specifies which fields in the response should be expanded.
     postCustomersCustomerCashBalanceRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | settings
+    -- | settings: A hash of settings for this cash balance.
     postCustomersCustomerCashBalanceRequestBodySettings :: (GHC.Maybe.Maybe PostCustomersCustomerCashBalanceRequestBodySettings')
   }
   deriving
@@ -114,6 +115,8 @@ mkPostCustomersCustomerCashBalanceRequestBody =
     }
 
 -- | Defines the object schema located at @paths.\/v1\/customers\/{customer}\/cash_balance.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.settings@ in the specification.
+--
+-- A hash of settings for this cash balance.
 data PostCustomersCustomerCashBalanceRequestBodySettings' = PostCustomersCustomerCashBalanceRequestBodySettings'
   { -- | reconciliation_mode
     postCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode :: (GHC.Maybe.Maybe PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode')
@@ -144,6 +147,8 @@ data PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'
     PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumAutomatic
   | -- | Represents the JSON value @"manual"@
     PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumManual
+  | -- | Represents the JSON value @"merchant_default"@
+    PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumMerchantDefault
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode' where
@@ -151,6 +156,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerCashBalanceRequestB
   toJSON (PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumAutomatic) = "automatic"
   toJSON (PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumManual) = "manual"
+  toJSON (PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumMerchantDefault) = "merchant_default"
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode' where
   parseJSON val =
@@ -158,6 +164,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCashBalanceRequ
       ( if
             | val GHC.Classes.== "automatic" -> PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumAutomatic
             | val GHC.Classes.== "manual" -> PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumManual
+            | val GHC.Classes.== "merchant_default" -> PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'EnumMerchantDefault
             | GHC.Base.otherwise -> PostCustomersCustomerCashBalanceRequestBodySettings'ReconciliationMode'Other val
       )
 

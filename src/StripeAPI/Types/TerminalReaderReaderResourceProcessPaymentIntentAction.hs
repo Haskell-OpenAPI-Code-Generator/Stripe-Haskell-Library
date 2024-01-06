@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,6 +30,7 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.PaymentIntent
+import {-# SOURCE #-} StripeAPI.Types.TerminalReaderReaderResourceProcessConfig
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -38,7 +39,9 @@ import qualified Prelude as GHC.Maybe
 -- Represents a reader action to process a payment intent
 data TerminalReaderReaderResourceProcessPaymentIntentAction = TerminalReaderReaderResourceProcessPaymentIntentAction
   { -- | payment_intent: Most recent PaymentIntent processed by the reader.
-    terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent :: TerminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent'Variants
+    terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent :: TerminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent'Variants,
+    -- | process_config: Represents a per-transaction override of a reader configuration
+    terminalReaderReaderResourceProcessPaymentIntentActionProcessConfig :: (GHC.Maybe.Maybe TerminalReaderReaderResourceProcessConfig)
   }
   deriving
     ( GHC.Show.Show,
@@ -46,18 +49,22 @@ data TerminalReaderReaderResourceProcessPaymentIntentAction = TerminalReaderRead
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON TerminalReaderReaderResourceProcessPaymentIntentAction where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["payment_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["payment_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["payment_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_config" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessPaymentIntentActionProcessConfig obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["payment_intent" Data.Aeson.Types.ToJSON..= terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("process_config" Data.Aeson.Types.ToJSON..=)) (terminalReaderReaderResourceProcessPaymentIntentActionProcessConfig obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON TerminalReaderReaderResourceProcessPaymentIntentAction where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TerminalReaderReaderResourceProcessPaymentIntentAction" (\obj -> GHC.Base.pure TerminalReaderReaderResourceProcessPaymentIntentAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_intent"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "TerminalReaderReaderResourceProcessPaymentIntentAction" (\obj -> (GHC.Base.pure TerminalReaderReaderResourceProcessPaymentIntentAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "payment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "process_config"))
 
 -- | Create a new 'TerminalReaderReaderResourceProcessPaymentIntentAction' with all required fields.
 mkTerminalReaderReaderResourceProcessPaymentIntentAction ::
   -- | 'terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent'
   TerminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent'Variants ->
   TerminalReaderReaderResourceProcessPaymentIntentAction
-mkTerminalReaderReaderResourceProcessPaymentIntentAction terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent = TerminalReaderReaderResourceProcessPaymentIntentAction {terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent = terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent}
+mkTerminalReaderReaderResourceProcessPaymentIntentAction terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent =
+  TerminalReaderReaderResourceProcessPaymentIntentAction
+    { terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent = terminalReaderReaderResourceProcessPaymentIntentActionPaymentIntent,
+      terminalReaderReaderResourceProcessPaymentIntentActionProcessConfig = GHC.Maybe.Nothing
+    }
 
 -- | Defines the oneOf schema located at @components.schemas.terminal_reader_reader_resource_process_payment_intent_action.properties.payment_intent.anyOf@ in the specification.
 --

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -39,7 +39,7 @@ import qualified Prelude as GHC.Maybe
 -- An early fraud warning indicates that the card issuer has notified us that a
 -- charge may be fraudulent.
 --
--- Related guide: [Early Fraud Warnings](https:\/\/stripe.com\/docs\/disputes\/measuring\#early-fraud-warnings).
+-- Related guide: [Early fraud warnings](https:\/\/stripe.com\/docs\/disputes\/measuring\#early-fraud-warnings)
 data Radar'earlyFraudWarning = Radar'earlyFraudWarning
   { -- | actionable: An EFW is actionable if it has not received a dispute and has not been fully refunded. You may wish to proactively refund a charge that receives an EFW, in order to avoid receiving a dispute later.
     radar'earlyFraudWarningActionable :: GHC.Types.Bool,

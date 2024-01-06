@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,7 +36,10 @@ import {-# SOURCE #-} StripeAPI.Types.CustomerBalanceTransaction
 import {-# SOURCE #-} StripeAPI.Types.DeletedCustomer
 import {-# SOURCE #-} StripeAPI.Types.DiscountsResourceDiscountAmount
 import {-# SOURCE #-} StripeAPI.Types.Invoice
+import {-# SOURCE #-} StripeAPI.Types.InvoicesShippingCost
+import {-# SOURCE #-} StripeAPI.Types.LineItemsTaxAmount
 import {-# SOURCE #-} StripeAPI.Types.Refund
+import {-# SOURCE #-} StripeAPI.Types.ShippingRate
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -44,10 +47,12 @@ import qualified Prelude as GHC.Maybe
 --
 -- Issue a credit note to adjust an invoice\'s amount after the invoice is finalized.
 --
--- Related guide: [Credit Notes](https:\/\/stripe.com\/docs\/billing\/invoices\/credit-notes).
+-- Related guide: [Credit notes](https:\/\/stripe.com\/docs\/billing\/invoices\/credit-notes)
 data CreditNote = CreditNote
-  { -- | amount: The integer amount in %s representing the total amount of the credit note, including tax.
+  { -- | amount: The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax.
     creditNoteAmount :: GHC.Types.Int,
+    -- | amount_shipping: This is the sum of all the shipping amounts.
+    creditNoteAmountShipping :: GHC.Types.Int,
     -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     creditNoteCreated :: GHC.Types.Int,
     -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
@@ -56,10 +61,12 @@ data CreditNote = CreditNote
     creditNoteCustomer :: CreditNoteCustomer'Variants,
     -- | customer_balance_transaction: Customer balance transaction related to this credit note.
     creditNoteCustomerBalanceTransaction :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CreditNoteCustomerBalanceTransaction'NonNullableVariants)),
-    -- | discount_amount: The integer amount in %s representing the total amount of discount that was credited.
+    -- | discount_amount: The integer amount in cents (or local equivalent) representing the total amount of discount that was credited.
     creditNoteDiscountAmount :: GHC.Types.Int,
     -- | discount_amounts: The aggregate amounts calculated per discount for all line items.
     creditNoteDiscountAmounts :: ([DiscountsResourceDiscountAmount]),
+    -- | effective_at: The date when this credit note is in effect. Same as \`created\` unless overwritten. When defined, this value replaces the system-generated \'Date of issue\' printed on the credit note PDF.
+    creditNoteEffectiveAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -98,17 +105,19 @@ data CreditNote = CreditNote
     creditNoteReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CreditNoteReason'NonNullable)),
     -- | refund: Refund related to this credit note.
     creditNoteRefund :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CreditNoteRefund'NonNullableVariants)),
+    -- | shipping_cost: The details of the cost of shipping, including the ShippingRate applied to the invoice.
+    creditNoteShippingCost :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CreditNoteShippingCost'NonNullable)),
     -- | status: Status of this credit note, one of \`issued\` or \`void\`. Learn more about [voiding credit notes](https:\/\/stripe.com\/docs\/billing\/invoices\/credit-notes\#voiding).
     creditNoteStatus :: CreditNoteStatus',
-    -- | subtotal: The integer amount in %s representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
+    -- | subtotal: The integer amount in cents (or local equivalent) representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
     creditNoteSubtotal :: GHC.Types.Int,
-    -- | subtotal_excluding_tax: The integer amount in %s representing the amount of the credit note, excluding all tax and invoice level discounts.
+    -- | subtotal_excluding_tax: The integer amount in cents (or local equivalent) representing the amount of the credit note, excluding all tax and invoice level discounts.
     creditNoteSubtotalExcludingTax :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | tax_amounts: The aggregate amounts calculated per tax rate for all line items.
     creditNoteTaxAmounts :: ([CreditNoteTaxAmount]),
-    -- | total: The integer amount in %s representing the total amount of the credit note, including tax and all discount.
+    -- | total: The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax and all discount.
     creditNoteTotal :: GHC.Types.Int,
-    -- | total_excluding_tax: The integer amount in %s representing the total amount of the credit note, excluding tax, but including discounts.
+    -- | total_excluding_tax: The integer amount in cents (or local equivalent) representing the total amount of the credit note, excluding tax, but including discounts.
     creditNoteTotalExcludingTax :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | type: Type of this credit note, one of \`pre_payment\` or \`post_payment\`. A \`pre_payment\` credit note means it was issued when the invoice was open. A \`post_payment\` credit note means it was issued when the invoice was paid.
     creditNoteType :: CreditNoteType',
@@ -121,15 +130,17 @@ data CreditNote = CreditNote
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON CreditNote where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= creditNoteAmount obj] : ["created" Data.Aeson.Types.ToJSON..= creditNoteCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= creditNoteCurrency obj] : ["customer" Data.Aeson.Types.ToJSON..= creditNoteCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance_transaction" Data.Aeson.Types.ToJSON..=)) (creditNoteCustomerBalanceTransaction obj) : ["discount_amount" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmount obj] : ["discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmounts obj] : ["id" Data.Aeson.Types.ToJSON..= creditNoteId obj] : ["invoice" Data.Aeson.Types.ToJSON..= creditNoteInvoice obj] : ["lines" Data.Aeson.Types.ToJSON..= creditNoteLines obj] : ["livemode" Data.Aeson.Types.ToJSON..= creditNoteLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("memo" Data.Aeson.Types.ToJSON..=)) (creditNoteMemo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (creditNoteMetadata obj) : ["number" Data.Aeson.Types.ToJSON..= creditNoteNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("out_of_band_amount" Data.Aeson.Types.ToJSON..=)) (creditNoteOutOfBandAmount obj) : ["pdf" Data.Aeson.Types.ToJSON..= creditNotePdf obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (creditNoteReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund" Data.Aeson.Types.ToJSON..=)) (creditNoteRefund obj) : ["status" Data.Aeson.Types.ToJSON..= creditNoteStatus obj] : ["subtotal" Data.Aeson.Types.ToJSON..= creditNoteSubtotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subtotal_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteSubtotalExcludingTax obj) : ["tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteTaxAmounts obj] : ["total" Data.Aeson.Types.ToJSON..= creditNoteTotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("total_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteTotalExcludingTax obj) : ["type" Data.Aeson.Types.ToJSON..= creditNoteType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("voided_at" Data.Aeson.Types.ToJSON..=)) (creditNoteVoidedAt obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= creditNoteAmount obj] : ["created" Data.Aeson.Types.ToJSON..= creditNoteCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= creditNoteCurrency obj] : ["customer" Data.Aeson.Types.ToJSON..= creditNoteCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance_transaction" Data.Aeson.Types.ToJSON..=)) (creditNoteCustomerBalanceTransaction obj) : ["discount_amount" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmount obj] : ["discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmounts obj] : ["id" Data.Aeson.Types.ToJSON..= creditNoteId obj] : ["invoice" Data.Aeson.Types.ToJSON..= creditNoteInvoice obj] : ["lines" Data.Aeson.Types.ToJSON..= creditNoteLines obj] : ["livemode" Data.Aeson.Types.ToJSON..= creditNoteLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("memo" Data.Aeson.Types.ToJSON..=)) (creditNoteMemo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (creditNoteMetadata obj) : ["number" Data.Aeson.Types.ToJSON..= creditNoteNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("out_of_band_amount" Data.Aeson.Types.ToJSON..=)) (creditNoteOutOfBandAmount obj) : ["pdf" Data.Aeson.Types.ToJSON..= creditNotePdf obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (creditNoteReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund" Data.Aeson.Types.ToJSON..=)) (creditNoteRefund obj) : ["status" Data.Aeson.Types.ToJSON..= creditNoteStatus obj] : ["subtotal" Data.Aeson.Types.ToJSON..= creditNoteSubtotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subtotal_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteSubtotalExcludingTax obj) : ["tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteTaxAmounts obj] : ["total" Data.Aeson.Types.ToJSON..= creditNoteTotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("total_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteTotalExcludingTax obj) : ["type" Data.Aeson.Types.ToJSON..= creditNoteType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("voided_at" Data.Aeson.Types.ToJSON..=)) (creditNoteVoidedAt obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= creditNoteAmount obj] : ["amount_shipping" Data.Aeson.Types.ToJSON..= creditNoteAmountShipping obj] : ["created" Data.Aeson.Types.ToJSON..= creditNoteCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= creditNoteCurrency obj] : ["customer" Data.Aeson.Types.ToJSON..= creditNoteCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance_transaction" Data.Aeson.Types.ToJSON..=)) (creditNoteCustomerBalanceTransaction obj) : ["discount_amount" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmount obj] : ["discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmounts obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_at" Data.Aeson.Types.ToJSON..=)) (creditNoteEffectiveAt obj) : ["id" Data.Aeson.Types.ToJSON..= creditNoteId obj] : ["invoice" Data.Aeson.Types.ToJSON..= creditNoteInvoice obj] : ["lines" Data.Aeson.Types.ToJSON..= creditNoteLines obj] : ["livemode" Data.Aeson.Types.ToJSON..= creditNoteLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("memo" Data.Aeson.Types.ToJSON..=)) (creditNoteMemo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (creditNoteMetadata obj) : ["number" Data.Aeson.Types.ToJSON..= creditNoteNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("out_of_band_amount" Data.Aeson.Types.ToJSON..=)) (creditNoteOutOfBandAmount obj) : ["pdf" Data.Aeson.Types.ToJSON..= creditNotePdf obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (creditNoteReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund" Data.Aeson.Types.ToJSON..=)) (creditNoteRefund obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_cost" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost obj) : ["status" Data.Aeson.Types.ToJSON..= creditNoteStatus obj] : ["subtotal" Data.Aeson.Types.ToJSON..= creditNoteSubtotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subtotal_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteSubtotalExcludingTax obj) : ["tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteTaxAmounts obj] : ["total" Data.Aeson.Types.ToJSON..= creditNoteTotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("total_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteTotalExcludingTax obj) : ["type" Data.Aeson.Types.ToJSON..= creditNoteType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("voided_at" Data.Aeson.Types.ToJSON..=)) (creditNoteVoidedAt obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= creditNoteAmount obj] : ["amount_shipping" Data.Aeson.Types.ToJSON..= creditNoteAmountShipping obj] : ["created" Data.Aeson.Types.ToJSON..= creditNoteCreated obj] : ["currency" Data.Aeson.Types.ToJSON..= creditNoteCurrency obj] : ["customer" Data.Aeson.Types.ToJSON..= creditNoteCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customer_balance_transaction" Data.Aeson.Types.ToJSON..=)) (creditNoteCustomerBalanceTransaction obj) : ["discount_amount" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmount obj] : ["discount_amounts" Data.Aeson.Types.ToJSON..= creditNoteDiscountAmounts obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("effective_at" Data.Aeson.Types.ToJSON..=)) (creditNoteEffectiveAt obj) : ["id" Data.Aeson.Types.ToJSON..= creditNoteId obj] : ["invoice" Data.Aeson.Types.ToJSON..= creditNoteInvoice obj] : ["lines" Data.Aeson.Types.ToJSON..= creditNoteLines obj] : ["livemode" Data.Aeson.Types.ToJSON..= creditNoteLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("memo" Data.Aeson.Types.ToJSON..=)) (creditNoteMemo obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (creditNoteMetadata obj) : ["number" Data.Aeson.Types.ToJSON..= creditNoteNumber obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("out_of_band_amount" Data.Aeson.Types.ToJSON..=)) (creditNoteOutOfBandAmount obj) : ["pdf" Data.Aeson.Types.ToJSON..= creditNotePdf obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("reason" Data.Aeson.Types.ToJSON..=)) (creditNoteReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("refund" Data.Aeson.Types.ToJSON..=)) (creditNoteRefund obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_cost" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost obj) : ["status" Data.Aeson.Types.ToJSON..= creditNoteStatus obj] : ["subtotal" Data.Aeson.Types.ToJSON..= creditNoteSubtotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subtotal_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteSubtotalExcludingTax obj) : ["tax_amounts" Data.Aeson.Types.ToJSON..= creditNoteTaxAmounts obj] : ["total" Data.Aeson.Types.ToJSON..= creditNoteTotal obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("total_excluding_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteTotalExcludingTax obj) : ["type" Data.Aeson.Types.ToJSON..= creditNoteType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("voided_at" Data.Aeson.Types.ToJSON..=)) (creditNoteVoidedAt obj) : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "credit_note"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON CreditNote where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CreditNote" (\obj -> (((((((((((((((((((((((((GHC.Base.pure CreditNote GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "lines")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "memo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "out_of_band_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pdf")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subtotal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subtotal_excluding_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "total_excluding_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "voided_at"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CreditNote" (\obj -> ((((((((((((((((((((((((((((GHC.Base.pure CreditNote GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_shipping")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customer_balance_transaction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "discount_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "effective_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "lines")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "memo")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "out_of_band_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pdf")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "refund")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_cost")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subtotal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subtotal_excluding_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_amounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "total_excluding_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "voided_at"))
 
 -- | Create a new 'CreditNote' with all required fields.
 mkCreditNote ::
   -- | 'creditNoteAmount'
+  GHC.Types.Int ->
+  -- | 'creditNoteAmountShipping'
   GHC.Types.Int ->
   -- | 'creditNoteCreated'
   GHC.Types.Int ->
@@ -164,15 +175,17 @@ mkCreditNote ::
   -- | 'creditNoteType'
   CreditNoteType' ->
   CreditNote
-mkCreditNote creditNoteAmount creditNoteCreated creditNoteCurrency creditNoteCustomer creditNoteDiscountAmount creditNoteDiscountAmounts creditNoteId creditNoteInvoice creditNoteLines creditNoteLivemode creditNoteNumber creditNotePdf creditNoteStatus creditNoteSubtotal creditNoteTaxAmounts creditNoteTotal creditNoteType =
+mkCreditNote creditNoteAmount creditNoteAmountShipping creditNoteCreated creditNoteCurrency creditNoteCustomer creditNoteDiscountAmount creditNoteDiscountAmounts creditNoteId creditNoteInvoice creditNoteLines creditNoteLivemode creditNoteNumber creditNotePdf creditNoteStatus creditNoteSubtotal creditNoteTaxAmounts creditNoteTotal creditNoteType =
   CreditNote
     { creditNoteAmount = creditNoteAmount,
+      creditNoteAmountShipping = creditNoteAmountShipping,
       creditNoteCreated = creditNoteCreated,
       creditNoteCurrency = creditNoteCurrency,
       creditNoteCustomer = creditNoteCustomer,
       creditNoteCustomerBalanceTransaction = GHC.Maybe.Nothing,
       creditNoteDiscountAmount = creditNoteDiscountAmount,
       creditNoteDiscountAmounts = creditNoteDiscountAmounts,
+      creditNoteEffectiveAt = GHC.Maybe.Nothing,
       creditNoteId = creditNoteId,
       creditNoteInvoice = creditNoteInvoice,
       creditNoteLines = creditNoteLines,
@@ -184,6 +197,7 @@ mkCreditNote creditNoteAmount creditNoteCreated creditNoteCurrency creditNoteCus
       creditNotePdf = creditNotePdf,
       creditNoteReason = GHC.Maybe.Nothing,
       creditNoteRefund = GHC.Maybe.Nothing,
+      creditNoteShippingCost = GHC.Maybe.Nothing,
       creditNoteStatus = creditNoteStatus,
       creditNoteSubtotal = creditNoteSubtotal,
       creditNoteSubtotalExcludingTax = GHC.Maybe.Nothing,
@@ -341,6 +355,61 @@ instance Data.Aeson.Types.ToJSON.ToJSON CreditNoteRefund'NonNullableVariants whe
 
 instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteRefund'NonNullableVariants where
   parseJSON val = case (CreditNoteRefund'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CreditNoteRefund'NonNullableRefund Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @components.schemas.credit_note.properties.shipping_cost.anyOf@ in the specification.
+--
+-- The details of the cost of shipping, including the ShippingRate applied to the invoice.
+data CreditNoteShippingCost'NonNullable = CreditNoteShippingCost'NonNullable
+  { -- | amount_subtotal: Total shipping cost before any taxes are applied.
+    creditNoteShippingCost'NonNullableAmountSubtotal :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | amount_tax: Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.
+    creditNoteShippingCost'NonNullableAmountTax :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | amount_total: Total shipping cost after taxes are applied.
+    creditNoteShippingCost'NonNullableAmountTotal :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | shipping_rate: The ID of the ShippingRate for this invoice.
+    creditNoteShippingCost'NonNullableShippingRate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants)),
+    -- | taxes: The taxes applied to the shipping rate.
+    creditNoteShippingCost'NonNullableTaxes :: (GHC.Maybe.Maybe ([LineItemsTaxAmount]))
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON CreditNoteShippingCost'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_subtotal" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableAmountSubtotal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableAmountTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_total" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableAmountTotal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_rate" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableShippingRate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxes" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableTaxes obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_subtotal" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableAmountSubtotal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_tax" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableAmountTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("amount_total" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableAmountTotal obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("shipping_rate" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableShippingRate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxes" Data.Aeson.Types.ToJSON..=)) (creditNoteShippingCost'NonNullableTaxes obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteShippingCost'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "CreditNoteShippingCost'NonNullable" (\obj -> ((((GHC.Base.pure CreditNoteShippingCost'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_subtotal")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shipping_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "taxes"))
+
+-- | Create a new 'CreditNoteShippingCost'NonNullable' with all required fields.
+mkCreditNoteShippingCost'NonNullable :: CreditNoteShippingCost'NonNullable
+mkCreditNoteShippingCost'NonNullable =
+  CreditNoteShippingCost'NonNullable
+    { creditNoteShippingCost'NonNullableAmountSubtotal = GHC.Maybe.Nothing,
+      creditNoteShippingCost'NonNullableAmountTax = GHC.Maybe.Nothing,
+      creditNoteShippingCost'NonNullableAmountTotal = GHC.Maybe.Nothing,
+      creditNoteShippingCost'NonNullableShippingRate = GHC.Maybe.Nothing,
+      creditNoteShippingCost'NonNullableTaxes = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @components.schemas.credit_note.properties.shipping_cost.anyOf.properties.shipping_rate.anyOf@ in the specification.
+--
+-- The ID of the ShippingRate for this invoice.
+data CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants
+  = CreditNoteShippingCost'NonNullableShippingRate'NonNullableText Data.Text.Internal.Text
+  | CreditNoteShippingCost'NonNullableShippingRate'NonNullableShippingRate ShippingRate
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants where
+  toJSON (CreditNoteShippingCost'NonNullableShippingRate'NonNullableText a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (CreditNoteShippingCost'NonNullableShippingRate'NonNullableShippingRate a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteShippingCost'NonNullableShippingRate'NonNullableVariants where
+  parseJSON val = case (CreditNoteShippingCost'NonNullableShippingRate'NonNullableText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((CreditNoteShippingCost'NonNullableShippingRate'NonNullableShippingRate Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 

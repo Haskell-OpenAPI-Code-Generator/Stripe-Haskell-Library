@@ -1,0 +1,14 @@
+module StripeAPI.Types.RefundDestinationDetailsCard where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data RefundDestinationDetailsCard
+instance Show RefundDestinationDetailsCard
+instance Eq RefundDestinationDetailsCard
+instance FromJSON RefundDestinationDetailsCard
+instance ToJSON RefundDestinationDetailsCard
+data RefundDestinationDetailsCardType'
+instance Show RefundDestinationDetailsCardType'
+instance Eq RefundDestinationDetailsCardType'
+instance FromJSON RefundDestinationDetailsCardType'
+instance ToJSON RefundDestinationDetailsCardType'

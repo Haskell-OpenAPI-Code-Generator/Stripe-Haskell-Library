@@ -27,6 +27,11 @@ instance Show ApiErrorsSource'Customer'NonNullableVariants
 instance Eq ApiErrorsSource'Customer'NonNullableVariants
 instance FromJSON ApiErrorsSource'Customer'NonNullableVariants
 instance ToJSON ApiErrorsSource'Customer'NonNullableVariants
+data ApiErrorsSource'FutureRequirements'NonNullable
+instance Show ApiErrorsSource'FutureRequirements'NonNullable
+instance Eq ApiErrorsSource'FutureRequirements'NonNullable
+instance FromJSON ApiErrorsSource'FutureRequirements'NonNullable
+instance ToJSON ApiErrorsSource'FutureRequirements'NonNullable
 data ApiErrorsSource'Object'
 instance Show ApiErrorsSource'Object'
 instance Eq ApiErrorsSource'Object'
@@ -47,11 +52,11 @@ instance Show ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
 instance Eq ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
 instance FromJSON ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
 instance ToJSON ApiErrorsSource'Owner'NonNullableVerifiedAddress'NonNullable
-data ApiErrorsSource'Recipient'NonNullableVariants
-instance Show ApiErrorsSource'Recipient'NonNullableVariants
-instance Eq ApiErrorsSource'Recipient'NonNullableVariants
-instance FromJSON ApiErrorsSource'Recipient'NonNullableVariants
-instance ToJSON ApiErrorsSource'Recipient'NonNullableVariants
+data ApiErrorsSource'Requirements'NonNullable
+instance Show ApiErrorsSource'Requirements'NonNullable
+instance Eq ApiErrorsSource'Requirements'NonNullable
+instance FromJSON ApiErrorsSource'Requirements'NonNullable
+instance ToJSON ApiErrorsSource'Requirements'NonNullable
 data ApiErrorsSource'Type'
 instance Show ApiErrorsSource'Type'
 instance Eq ApiErrorsSource'Type'

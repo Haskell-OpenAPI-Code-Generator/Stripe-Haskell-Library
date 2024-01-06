@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,7 +37,7 @@ import qualified Prelude as GHC.Maybe
 data InvoicePaymentMethodOptionsCustomerBalanceBankTransfer = InvoicePaymentMethodOptionsCustomerBalanceBankTransfer
   { -- | eu_bank_transfer:
     invoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransfer :: (GHC.Maybe.Maybe InvoicePaymentMethodOptionsCustomerBalanceBankTransferEuBankTransfer),
-    -- | type: The bank transfer type that can be used for funding. Permitted values include: \`eu_bank_transfer\`, \`gb_bank_transfer\`, \`jp_bank_transfer\`, or \`mx_bank_transfer\`.
+    -- | type: The bank transfer type that can be used for funding. Permitted values include: \`eu_bank_transfer\`, \`gb_bank_transfer\`, \`jp_bank_transfer\`, \`mx_bank_transfer\`, or \`us_bank_transfer\`.
     invoicePaymentMethodOptionsCustomerBalanceBankTransferType :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text))
   }
   deriving

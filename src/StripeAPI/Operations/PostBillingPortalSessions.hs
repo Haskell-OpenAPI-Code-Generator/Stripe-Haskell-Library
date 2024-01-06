@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postBillingPortalSessions body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostBillingPortalSessionsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            BillingPortal'session
-                                                      )
+                                     PostBillingPortalSessionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              BillingPortal'session
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostBillingPortalSessionsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostBillingPortalSessionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/billing_portal/sessions") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/billing_portal/sessions" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostBillingPortalSessionsRequestBody = PostBillingPortalSessionsRequestBody
@@ -98,9 +99,11 @@ data PostBillingPortalSessionsRequestBody = PostBillingPortalSessionsRequestBody
     postBillingPortalSessionsRequestBodyCustomer :: Data.Text.Internal.Text,
     -- | expand: Specifies which fields in the response should be expanded.
     postBillingPortalSessionsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
-    -- | locale: The IETF language tag of the locale Customer Portal is displayed in. If blank or auto, the customer’s \`preferred_locales\` or browser’s locale is used.
+    -- | flow_data: Information about a specific flow for the customer to go through. See the [docs](https:\/\/stripe.com\/docs\/customer-management\/portal-deep-links) to learn more about using customer portal deep links and flows.
+    postBillingPortalSessionsRequestBodyFlowData :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'),
+    -- | locale: The IETF language tag of the locale customer portal is displayed in. If blank or auto, the customer’s \`preferred_locales\` or browser’s locale is used.
     postBillingPortalSessionsRequestBodyLocale :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyLocale'),
-    -- | on_behalf_of: The \`on_behalf_of\` account to use for this session. When specified, only subscriptions and invoices with this \`on_behalf_of\` account appear in the portal. For more information, see the [docs](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#on-behalf-of). Use the [Accounts API](https:\/\/stripe.com\/docs\/api\/accounts\/object\#account_object-settings-branding) to modify the \`on_behalf_of\` account\'s branding settings, which the portal displays.
+    -- | on_behalf_of: The \`on_behalf_of\` account to use for this session. When specified, only subscriptions and invoices with this \`on_behalf_of\` account appear in the portal. For more information, see the [docs](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers\#on-behalf-of). Use the [Accounts API](https:\/\/stripe.com\/docs\/api\/accounts\/object\#account_object-settings-branding) to modify the \`on_behalf_of\` account\'s branding settings, which the portal displays.
     postBillingPortalSessionsRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | return_url: The default URL to redirect customers to when they click on the portal\'s link to return to your website.
     postBillingPortalSessionsRequestBodyReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
@@ -111,11 +114,11 @@ data PostBillingPortalSessionsRequestBody = PostBillingPortalSessionsRequestBody
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyConfiguration obj) : ["customer" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyConfiguration obj) : ["customer" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyConfiguration obj) : ["customer" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow_data" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("configuration" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyConfiguration obj) : ["customer" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow_data" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBody" (\obj -> (((((GHC.Base.pure PostBillingPortalSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "configuration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBody" (\obj -> ((((((GHC.Base.pure PostBillingPortalSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "configuration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flow_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
 
 -- | Create a new 'PostBillingPortalSessionsRequestBody' with all required fields.
 mkPostBillingPortalSessionsRequestBody ::
@@ -127,14 +130,433 @@ mkPostBillingPortalSessionsRequestBody postBillingPortalSessionsRequestBodyCusto
     { postBillingPortalSessionsRequestBodyConfiguration = GHC.Maybe.Nothing,
       postBillingPortalSessionsRequestBodyCustomer = postBillingPortalSessionsRequestBodyCustomer,
       postBillingPortalSessionsRequestBodyExpand = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData = GHC.Maybe.Nothing,
       postBillingPortalSessionsRequestBodyLocale = GHC.Maybe.Nothing,
       postBillingPortalSessionsRequestBodyOnBehalfOf = GHC.Maybe.Nothing,
       postBillingPortalSessionsRequestBodyReturnUrl = GHC.Maybe.Nothing
     }
 
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data@ in the specification.
+--
+-- Information about a specific flow for the customer to go through. See the [docs](https:\/\/stripe.com\/docs\/customer-management\/portal-deep-links) to learn more about using customer portal deep links and flows.
+data PostBillingPortalSessionsRequestBodyFlowData' = PostBillingPortalSessionsRequestBodyFlowData'
+  { -- | after_completion
+    postBillingPortalSessionsRequestBodyFlowData'AfterCompletion :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'),
+    -- | subscription_cancel
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'),
+    -- | subscription_update
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'),
+    -- | subscription_update_confirm
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'),
+    -- | type
+    postBillingPortalSessionsRequestBodyFlowData'Type :: PostBillingPortalSessionsRequestBodyFlowData'Type'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_cancel" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update_confirm" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm obj) : ["type" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'Type obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_cancel" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update_confirm" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm obj) : ["type" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'Type obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'" (\obj -> ((((GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_completion")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_cancel")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_update_confirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'Type'
+  PostBillingPortalSessionsRequestBodyFlowData'Type' ->
+  PostBillingPortalSessionsRequestBodyFlowData'
+mkPostBillingPortalSessionsRequestBodyFlowData' postBillingPortalSessionsRequestBodyFlowData'Type =
+  PostBillingPortalSessionsRequestBodyFlowData'
+    { postBillingPortalSessionsRequestBodyFlowData'AfterCompletion = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'Type = postBillingPortalSessionsRequestBodyFlowData'Type
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.after_completion@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion' = PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'
+  { -- | hosted_confirmation
+    postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'),
+    -- | redirect
+    postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'),
+    -- | type
+    postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type :: PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_confirmation" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect obj) : ["type" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("hosted_confirmation" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("redirect" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect obj) : ["type" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'" (\obj -> ((GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "hosted_confirmation")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "redirect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'AfterCompletion' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'
+  PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type' ->
+  PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'
+mkPostBillingPortalSessionsRequestBodyFlowData'AfterCompletion' postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type =
+  PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'
+    { postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type = postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.after_completion.properties.hosted_confirmation@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation' = PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'
+  { -- | custom_message
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 500
+    postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'CustomMessage :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_message" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'CustomMessage obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("custom_message" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'CustomMessage obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'" (\obj -> GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "custom_message"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation' :: PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'
+mkPostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation' = PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation' {postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'HostedConfirmation'CustomMessage = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.after_completion.properties.redirect@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect' = PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'
+  { -- | return_url
+    postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'ReturnUrl :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["return_url" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'ReturnUrl obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["return_url" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'ReturnUrl obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'" (\obj -> GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "return_url"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'ReturnUrl'
+  Data.Text.Internal.Text ->
+  PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'
+mkPostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect' postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'ReturnUrl = PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect' {postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'ReturnUrl = postBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Redirect'ReturnUrl}
+
+-- | Defines the enum schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.after_completion.properties.type@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"hosted_confirmation"@
+    PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumHostedConfirmation
+  | -- | Represents the JSON value @"portal_homepage"@
+    PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumPortalHomepage
+  | -- | Represents the JSON value @"redirect"@
+    PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumRedirect
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type' where
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'Other val) = val
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumHostedConfirmation) = "hosted_confirmation"
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumPortalHomepage) = "portal_homepage"
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumRedirect) = "redirect"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "hosted_confirmation" -> PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumHostedConfirmation
+            | val GHC.Classes.== "portal_homepage" -> PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumPortalHomepage
+            | val GHC.Classes.== "redirect" -> PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'EnumRedirect
+            | GHC.Base.otherwise -> PostBillingPortalSessionsRequestBodyFlowData'AfterCompletion'Type'Other val
+      )
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.subscription_cancel@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel' = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'
+  { -- | retention
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention :: (GHC.Maybe.Maybe PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'),
+    -- | subscription
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Subscription :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("retention" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention obj) : ["subscription" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Subscription obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("retention" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention obj) : ["subscription" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Subscription obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'" (\obj -> (GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "retention")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Subscription'
+  Data.Text.Internal.Text ->
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel' postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Subscription =
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'
+    { postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Subscription = postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Subscription
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.subscription_cancel.properties.retention@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention' = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'
+  { -- | coupon_offer
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer :: PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["coupon_offer" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer obj] : ["type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "coupon_offer"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["coupon_offer" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer obj] : ["type" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "coupon_offer"] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'" (\obj -> GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "coupon_offer"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' ->
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention' postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention' {postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer = postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer}
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.subscription_cancel.properties.retention.properties.coupon_offer@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'
+  { -- | coupon
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'Coupon :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["coupon" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'Coupon obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["coupon" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'Coupon obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'" (\obj -> GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "coupon"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'Coupon'
+  Data.Text.Internal.Text ->
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'Coupon = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer' {postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'Coupon = postBillingPortalSessionsRequestBodyFlowData'SubscriptionCancel'Retention'CouponOffer'Coupon}
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.subscription_update@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate' = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'
+  { -- | subscription
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'Subscription :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["subscription" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'Subscription obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["subscription" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'Subscription obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'" (\obj -> GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'Subscription'
+  Data.Text.Internal.Text ->
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate' postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'Subscription = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate' {postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'Subscription = postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdate'Subscription}
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.subscription_update_confirm@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm' = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'
+  { -- | discounts
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts :: (GHC.Maybe.Maybe ([PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'])),
+    -- | items
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items :: ([PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items']),
+    -- | subscription
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Subscription :: Data.Text.Internal.Text
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts obj) : ["items" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items obj] : ["subscription" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Subscription obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts obj) : ["items" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items obj] : ["subscription" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Subscription obj] : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'" (\obj -> ((GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "subscription"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'
+  [PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'] ->
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Subscription'
+  Data.Text.Internal.Text ->
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm' postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Subscription =
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'
+    { postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items = postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Subscription = postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Subscription
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.subscription_update_confirm.properties.discounts.items@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts' = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'
+  { -- | coupon
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'Coupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | promotion_code
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'PromotionCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'PromotionCode obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("promotion_code" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'PromotionCode obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'" (\obj -> (GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "promotion_code"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts' :: PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts' =
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'
+    { postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'Coupon = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Discounts'PromotionCode = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.subscription_update_confirm.properties.items.items@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items' = PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'
+  { -- | id
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Id :: Data.Text.Internal.Text,
+    -- | price
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Price :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | quantity
+    postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Id obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Quantity obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["id" Data.Aeson.Types.ToJSON..= postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Id obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Quantity obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'" (\obj -> ((GHC.Base.pure PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity"))
+
+-- | Create a new 'PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'' with all required fields.
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items' ::
+  -- | 'postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Id'
+  Data.Text.Internal.Text ->
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'
+mkPostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items' postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Id =
+  PostBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'
+    { postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Id = postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Id,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Price = GHC.Maybe.Nothing,
+      postBillingPortalSessionsRequestBodyFlowData'SubscriptionUpdateConfirm'Items'Quantity = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.flow_data.properties.type@ in the specification.
+data PostBillingPortalSessionsRequestBodyFlowData'Type'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostBillingPortalSessionsRequestBodyFlowData'Type'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostBillingPortalSessionsRequestBodyFlowData'Type'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"payment_method_update"@
+    PostBillingPortalSessionsRequestBodyFlowData'Type'EnumPaymentMethodUpdate
+  | -- | Represents the JSON value @"subscription_cancel"@
+    PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionCancel
+  | -- | Represents the JSON value @"subscription_update"@
+    PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionUpdate
+  | -- | Represents the JSON value @"subscription_update_confirm"@
+    PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionUpdateConfirm
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostBillingPortalSessionsRequestBodyFlowData'Type' where
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'Type'Other val) = val
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'Type'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'Type'EnumPaymentMethodUpdate) = "payment_method_update"
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionCancel) = "subscription_cancel"
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionUpdate) = "subscription_update"
+  toJSON (PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionUpdateConfirm) = "subscription_update_confirm"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostBillingPortalSessionsRequestBodyFlowData'Type' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "payment_method_update" -> PostBillingPortalSessionsRequestBodyFlowData'Type'EnumPaymentMethodUpdate
+            | val GHC.Classes.== "subscription_cancel" -> PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionCancel
+            | val GHC.Classes.== "subscription_update" -> PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionUpdate
+            | val GHC.Classes.== "subscription_update_confirm" -> PostBillingPortalSessionsRequestBodyFlowData'Type'EnumSubscriptionUpdateConfirm
+            | GHC.Base.otherwise -> PostBillingPortalSessionsRequestBodyFlowData'Type'Other val
+      )
+
 -- | Defines the enum schema located at @paths.\/v1\/billing_portal\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.locale@ in the specification.
 --
--- The IETF language tag of the locale Customer Portal is displayed in. If blank or auto, the customer’s \`preferred_locales\` or browser’s locale is used.
+-- The IETF language tag of the locale customer portal is displayed in. If blank or auto, the customer’s \`preferred_locales\` or browser’s locale is used.
 data PostBillingPortalSessionsRequestBodyLocale'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostBillingPortalSessionsRequestBodyLocale'Other Data.Aeson.Types.Internal.Value

@@ -1,0 +1,9 @@
+module StripeAPI.Types.IssuingAuthorizationNetworkData where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data IssuingAuthorizationNetworkData
+instance Show IssuingAuthorizationNetworkData
+instance Eq IssuingAuthorizationNetworkData
+instance FromJSON IssuingAuthorizationNetworkData
+instance ToJSON IssuingAuthorizationNetworkData

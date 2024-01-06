@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,6 +36,8 @@ import qualified Prelude as GHC.Maybe
 data BankConnectionsResourceBalanceRefresh = BankConnectionsResourceBalanceRefresh
   { -- | last_attempted_at: The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
     bankConnectionsResourceBalanceRefreshLastAttemptedAt :: GHC.Types.Int,
+    -- | next_refresh_available_at: Time at which the next balance refresh can be initiated. This value will be \`null\` when \`status\` is \`pending\`. Measured in seconds since the Unix epoch.
+    bankConnectionsResourceBalanceRefreshNextRefreshAvailableAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | status: The status of the last refresh attempt.
     bankConnectionsResourceBalanceRefreshStatus :: BankConnectionsResourceBalanceRefreshStatus'
   }
@@ -45,11 +47,11 @@ data BankConnectionsResourceBalanceRefresh = BankConnectionsResourceBalanceRefre
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BankConnectionsResourceBalanceRefresh where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["last_attempted_at" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshLastAttemptedAt obj] : ["status" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshStatus obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["last_attempted_at" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshLastAttemptedAt obj] : ["status" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshStatus obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["last_attempted_at" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshLastAttemptedAt obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_refresh_available_at" Data.Aeson.Types.ToJSON..=)) (bankConnectionsResourceBalanceRefreshNextRefreshAvailableAt obj) : ["status" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshStatus obj] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["last_attempted_at" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshLastAttemptedAt obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("next_refresh_available_at" Data.Aeson.Types.ToJSON..=)) (bankConnectionsResourceBalanceRefreshNextRefreshAvailableAt obj) : ["status" Data.Aeson.Types.ToJSON..= bankConnectionsResourceBalanceRefreshStatus obj] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BankConnectionsResourceBalanceRefresh where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankConnectionsResourceBalanceRefresh" (\obj -> (GHC.Base.pure BankConnectionsResourceBalanceRefresh GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last_attempted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BankConnectionsResourceBalanceRefresh" (\obj -> ((GHC.Base.pure BankConnectionsResourceBalanceRefresh GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last_attempted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_refresh_available_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status"))
 
 -- | Create a new 'BankConnectionsResourceBalanceRefresh' with all required fields.
 mkBankConnectionsResourceBalanceRefresh ::
@@ -61,6 +63,7 @@ mkBankConnectionsResourceBalanceRefresh ::
 mkBankConnectionsResourceBalanceRefresh bankConnectionsResourceBalanceRefreshLastAttemptedAt bankConnectionsResourceBalanceRefreshStatus =
   BankConnectionsResourceBalanceRefresh
     { bankConnectionsResourceBalanceRefreshLastAttemptedAt = bankConnectionsResourceBalanceRefreshLastAttemptedAt,
+      bankConnectionsResourceBalanceRefreshNextRefreshAvailableAt = GHC.Maybe.Nothing,
       bankConnectionsResourceBalanceRefreshStatus = bankConnectionsResourceBalanceRefreshStatus
     }
 

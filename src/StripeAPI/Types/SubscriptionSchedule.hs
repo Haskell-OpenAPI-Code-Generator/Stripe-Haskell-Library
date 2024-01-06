@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -45,7 +45,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 --
--- Related guide: [Subscription Schedules](https:\/\/stripe.com\/docs\/billing\/subscriptions\/subscription-schedules).
+-- Related guide: [Subscription schedules](https:\/\/stripe.com\/docs\/billing\/subscriptions\/subscription-schedules)
 data SubscriptionSchedule = SubscriptionSchedule
   { -- | application: ID of the Connect Application that created the schedule.
     subscriptionScheduleApplication :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable SubscriptionScheduleApplication'NonNullableVariants)),
@@ -61,7 +61,7 @@ data SubscriptionSchedule = SubscriptionSchedule
     subscriptionScheduleCustomer :: SubscriptionScheduleCustomer'Variants,
     -- | default_settings:
     subscriptionScheduleDefaultSettings :: SubscriptionSchedulesResourceDefaultSettings,
-    -- | end_behavior: Behavior of the subscription schedule and underlying subscription when it ends. Possible values are \`release\` and \`cancel\`.
+    -- | end_behavior: Behavior of the subscription schedule and underlying subscription when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running. \`cancel\` will end the subscription schedule and cancel the underlying subscription.
     subscriptionScheduleEndBehavior :: SubscriptionScheduleEndBehavior',
     -- | id: Unique identifier for the object.
     --
@@ -211,7 +211,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionScheduleCustomer'Variant
 
 -- | Defines the enum schema located at @components.schemas.subscription_schedule.properties.end_behavior@ in the specification.
 --
--- Behavior of the subscription schedule and underlying subscription when it ends. Possible values are \`release\` and \`cancel\`.
+-- Behavior of the subscription schedule and underlying subscription when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running. \`cancel\` will end the subscription schedule and cancel the underlying subscription.
 data SubscriptionScheduleEndBehavior'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     SubscriptionScheduleEndBehavior'Other Data.Aeson.Types.Internal.Value

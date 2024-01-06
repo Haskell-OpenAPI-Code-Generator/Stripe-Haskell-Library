@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,19 +62,19 @@ getRadarEarlyFraudWarnings parameters =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetRadarEarlyFraudWarningsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            GetRadarEarlyFraudWarningsResponseBody200
-                                                      )
+                                     GetRadarEarlyFraudWarningsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              GetRadarEarlyFraudWarningsResponseBody200
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetRadarEarlyFraudWarningsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     GetRadarEarlyFraudWarningsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
@@ -81,14 +82,15 @@ getRadarEarlyFraudWarnings parameters =
           response_0
     )
     ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/radar/early_fraud_warnings")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "charge") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryCharge parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "payment_intent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryPaymentIntent parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "GET")
+        "/v1/radar/early_fraud_warnings"
+        [ StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "charge") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryCharge parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryCreated parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryEndingBefore parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryExpand parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryLimit parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "payment_intent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryPaymentIntent parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRadarEarlyFraudWarningsParametersQueryStartingAfter parameters) (Data.Text.Internal.pack "form") GHC.Types.True
         ]
     )
 
@@ -98,6 +100,10 @@ data GetRadarEarlyFraudWarningsParameters = GetRadarEarlyFraudWarningsParameters
     --
     -- Only return early fraud warnings for the charge specified by this charge ID.
     getRadarEarlyFraudWarningsParametersQueryCharge :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | queryCreated: Represents the parameter named \'created\'
+    --
+    -- Only return early fraud warnings that were created during the given date interval.
+    getRadarEarlyFraudWarningsParametersQueryCreated :: (GHC.Maybe.Maybe GetRadarEarlyFraudWarningsParametersQueryCreated'Variants),
     -- | queryEnding_before: Represents the parameter named \'ending_before\'
     --
     -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
@@ -137,23 +143,76 @@ data GetRadarEarlyFraudWarningsParameters = GetRadarEarlyFraudWarningsParameters
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetRadarEarlyFraudWarningsParameters where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCharge" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryPayment_intent" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryStartingAfter obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCharge" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryPayment_intent" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCharge" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryPayment_intent" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryStartingAfter obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCharge" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCharge obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryCreated" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryEnding_before" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryEndingBefore obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryExpand" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryLimit" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryLimit obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryPayment_intent" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryPaymentIntent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("queryStarting_after" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryStartingAfter obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarEarlyFraudWarningsParameters where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarEarlyFraudWarningsParameters" (\obj -> (((((GHC.Base.pure GetRadarEarlyFraudWarningsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryPayment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarEarlyFraudWarningsParameters" (\obj -> ((((((GHC.Base.pure GetRadarEarlyFraudWarningsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCharge")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryPayment_intent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryStarting_after"))
 
 -- | Create a new 'GetRadarEarlyFraudWarningsParameters' with all required fields.
 mkGetRadarEarlyFraudWarningsParameters :: GetRadarEarlyFraudWarningsParameters
 mkGetRadarEarlyFraudWarningsParameters =
   GetRadarEarlyFraudWarningsParameters
     { getRadarEarlyFraudWarningsParametersQueryCharge = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryCreated = GHC.Maybe.Nothing,
       getRadarEarlyFraudWarningsParametersQueryEndingBefore = GHC.Maybe.Nothing,
       getRadarEarlyFraudWarningsParametersQueryExpand = GHC.Maybe.Nothing,
       getRadarEarlyFraudWarningsParametersQueryLimit = GHC.Maybe.Nothing,
       getRadarEarlyFraudWarningsParametersQueryPaymentIntent = GHC.Maybe.Nothing,
       getRadarEarlyFraudWarningsParametersQueryStartingAfter = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @paths.\/v1\/radar\/early_fraud_warnings.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+data GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 = GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1
+  { -- | gt
+    getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | gte
+    getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | lt
+    getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+    -- | lte
+    getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gt" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("gte" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gte obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lt" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lt obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("lte" Data.Aeson.Types.ToJSON..=)) (getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lte obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1" (\obj -> (((GHC.Base.pure GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "lte"))
+
+-- | Create a new 'GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1' with all required fields.
+mkGetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 :: GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1
+mkGetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 =
+  GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1
+    { getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gt = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Gte = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lt = GHC.Maybe.Nothing,
+      getRadarEarlyFraudWarningsParametersQueryCreated'OneOf1Lte = GHC.Maybe.Nothing
+    }
+
+-- | Defines the oneOf schema located at @paths.\/v1\/radar\/early_fraud_warnings.GET.parameters.properties.queryCreated.anyOf@ in the specification.
+--
+-- Represents the parameter named \'created\'
+--
+-- Only return early fraud warnings that were created during the given date interval.
+data GetRadarEarlyFraudWarningsParametersQueryCreated'Variants
+  = GetRadarEarlyFraudWarningsParametersQueryCreated'GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1
+  | GetRadarEarlyFraudWarningsParametersQueryCreated'Int GHC.Types.Int
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON GetRadarEarlyFraudWarningsParametersQueryCreated'Variants where
+  toJSON (GetRadarEarlyFraudWarningsParametersQueryCreated'GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRadarEarlyFraudWarningsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetRadarEarlyFraudWarningsParametersQueryCreated'Variants where
+  parseJSON val = case (GetRadarEarlyFraudWarningsParametersQueryCreated'GetRadarEarlyFraudWarningsParametersQueryCreated'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((GetRadarEarlyFraudWarningsParametersQueryCreated'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+    Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getRadarEarlyFraudWarnings'.
 --

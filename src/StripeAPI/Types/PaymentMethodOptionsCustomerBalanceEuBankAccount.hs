@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.payment_method_options_customer_balance_eu_bank_account@ in the specification.
 data PaymentMethodOptionsCustomerBalanceEuBankAccount = PaymentMethodOptionsCustomerBalanceEuBankAccount
-  { -- | country: The desired country code of the bank account information. Permitted values include: \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
+  { -- | country: The desired country code of the bank account information. Permitted values include: \`BE\`, \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
     paymentMethodOptionsCustomerBalanceEuBankAccountCountry :: PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'
   }
   deriving
@@ -58,12 +58,14 @@ mkPaymentMethodOptionsCustomerBalanceEuBankAccount paymentMethodOptionsCustomerB
 
 -- | Defines the enum schema located at @components.schemas.payment_method_options_customer_balance_eu_bank_account.properties.country@ in the specification.
 --
--- The desired country code of the bank account information. Permitted values include: \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
+-- The desired country code of the bank account information. Permitted values include: \`BE\`, \`DE\`, \`ES\`, \`FR\`, \`IE\`, or \`NL\`.
 data PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"BE"@
+    PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumBE
   | -- | Represents the JSON value @"DE"@
     PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumDE
   | -- | Represents the JSON value @"ES"@
@@ -79,6 +81,7 @@ data PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'
 instance Data.Aeson.Types.ToJSON.ToJSON PaymentMethodOptionsCustomerBalanceEuBankAccountCountry' where
   toJSON (PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'Other val) = val
   toJSON (PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumBE) = "BE"
   toJSON (PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumDE) = "DE"
   toJSON (PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumES) = "ES"
   toJSON (PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumFR) = "FR"
@@ -89,6 +92,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodOptionsCustomerBalanceE
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "BE" -> PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumBE
             | val GHC.Classes.== "DE" -> PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumDE
             | val GHC.Classes.== "ES" -> PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumES
             | val GHC.Classes.== "FR" -> PaymentMethodOptionsCustomerBalanceEuBankAccountCountry'EnumFR

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -35,12 +35,16 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.invoice_tax_amount@ in the specification.
 data InvoiceTaxAmount = InvoiceTaxAmount
-  { -- | amount: The amount, in %s, of the tax.
+  { -- | amount: The amount, in cents (or local equivalent), of the tax.
     invoiceTaxAmountAmount :: GHC.Types.Int,
     -- | inclusive: Whether this tax amount is inclusive or exclusive.
     invoiceTaxAmountInclusive :: GHC.Types.Bool,
     -- | tax_rate: The tax rate that was applied to get this tax amount.
-    invoiceTaxAmountTaxRate :: InvoiceTaxAmountTaxRate'Variants
+    invoiceTaxAmountTaxRate :: InvoiceTaxAmountTaxRate'Variants,
+    -- | taxability_reason: The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+    invoiceTaxAmountTaxabilityReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable InvoiceTaxAmountTaxabilityReason'NonNullable)),
+    -- | taxable_amount: The amount on which tax is calculated, in cents (or local equivalent).
+    invoiceTaxAmountTaxableAmount :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int))
   }
   deriving
     ( GHC.Show.Show,
@@ -48,11 +52,11 @@ data InvoiceTaxAmount = InvoiceTaxAmount
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON InvoiceTaxAmount where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= invoiceTaxAmountAmount obj] : ["inclusive" Data.Aeson.Types.ToJSON..= invoiceTaxAmountInclusive obj] : ["tax_rate" Data.Aeson.Types.ToJSON..= invoiceTaxAmountTaxRate obj] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= invoiceTaxAmountAmount obj] : ["inclusive" Data.Aeson.Types.ToJSON..= invoiceTaxAmountInclusive obj] : ["tax_rate" Data.Aeson.Types.ToJSON..= invoiceTaxAmountTaxRate obj] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= invoiceTaxAmountAmount obj] : ["inclusive" Data.Aeson.Types.ToJSON..= invoiceTaxAmountInclusive obj] : ["tax_rate" Data.Aeson.Types.ToJSON..= invoiceTaxAmountTaxRate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxability_reason" Data.Aeson.Types.ToJSON..=)) (invoiceTaxAmountTaxabilityReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxable_amount" Data.Aeson.Types.ToJSON..=)) (invoiceTaxAmountTaxableAmount obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= invoiceTaxAmountAmount obj] : ["inclusive" Data.Aeson.Types.ToJSON..= invoiceTaxAmountInclusive obj] : ["tax_rate" Data.Aeson.Types.ToJSON..= invoiceTaxAmountTaxRate obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxability_reason" Data.Aeson.Types.ToJSON..=)) (invoiceTaxAmountTaxabilityReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("taxable_amount" Data.Aeson.Types.ToJSON..=)) (invoiceTaxAmountTaxableAmount obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTaxAmount where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceTaxAmount" (\obj -> ((GHC.Base.pure InvoiceTaxAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rate"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceTaxAmount" (\obj -> ((((GHC.Base.pure InvoiceTaxAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rate")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "taxability_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "taxable_amount"))
 
 -- | Create a new 'InvoiceTaxAmount' with all required fields.
 mkInvoiceTaxAmount ::
@@ -67,7 +71,9 @@ mkInvoiceTaxAmount invoiceTaxAmountAmount invoiceTaxAmountInclusive invoiceTaxAm
   InvoiceTaxAmount
     { invoiceTaxAmountAmount = invoiceTaxAmountAmount,
       invoiceTaxAmountInclusive = invoiceTaxAmountInclusive,
-      invoiceTaxAmountTaxRate = invoiceTaxAmountTaxRate
+      invoiceTaxAmountTaxRate = invoiceTaxAmountTaxRate,
+      invoiceTaxAmountTaxabilityReason = GHC.Maybe.Nothing,
+      invoiceTaxAmountTaxableAmount = GHC.Maybe.Nothing
     }
 
 -- | Defines the oneOf schema located at @components.schemas.invoice_tax_amount.properties.tax_rate.anyOf@ in the specification.
@@ -86,3 +92,84 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTaxAmountTaxRate'Variants whe
   parseJSON val = case (InvoiceTaxAmountTaxRate'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((InvoiceTaxAmountTaxRate'TaxRate Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the enum schema located at @components.schemas.invoice_tax_amount.properties.taxability_reason@ in the specification.
+--
+-- The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+data InvoiceTaxAmountTaxabilityReason'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    InvoiceTaxAmountTaxabilityReason'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    InvoiceTaxAmountTaxabilityReason'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"customer_exempt"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumCustomerExempt
+  | -- | Represents the JSON value @"not_collecting"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotCollecting
+  | -- | Represents the JSON value @"not_subject_to_tax"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotSubjectToTax
+  | -- | Represents the JSON value @"not_supported"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotSupported
+  | -- | Represents the JSON value @"portion_product_exempt"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionProductExempt
+  | -- | Represents the JSON value @"portion_reduced_rated"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionReducedRated
+  | -- | Represents the JSON value @"portion_standard_rated"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionStandardRated
+  | -- | Represents the JSON value @"product_exempt"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumProductExempt
+  | -- | Represents the JSON value @"product_exempt_holiday"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumProductExemptHoliday
+  | -- | Represents the JSON value @"proportionally_rated"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumProportionallyRated
+  | -- | Represents the JSON value @"reduced_rated"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumReducedRated
+  | -- | Represents the JSON value @"reverse_charge"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumReverseCharge
+  | -- | Represents the JSON value @"standard_rated"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumStandardRated
+  | -- | Represents the JSON value @"taxable_basis_reduced"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumTaxableBasisReduced
+  | -- | Represents the JSON value @"zero_rated"@
+    InvoiceTaxAmountTaxabilityReason'NonNullableEnumZeroRated
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON InvoiceTaxAmountTaxabilityReason'NonNullable where
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableOther val) = val
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumCustomerExempt) = "customer_exempt"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotCollecting) = "not_collecting"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotSubjectToTax) = "not_subject_to_tax"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotSupported) = "not_supported"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionProductExempt) = "portion_product_exempt"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionReducedRated) = "portion_reduced_rated"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionStandardRated) = "portion_standard_rated"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumProductExempt) = "product_exempt"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumProductExemptHoliday) = "product_exempt_holiday"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumProportionallyRated) = "proportionally_rated"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumReducedRated) = "reduced_rated"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumReverseCharge) = "reverse_charge"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumStandardRated) = "standard_rated"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumTaxableBasisReduced) = "taxable_basis_reduced"
+  toJSON (InvoiceTaxAmountTaxabilityReason'NonNullableEnumZeroRated) = "zero_rated"
+
+instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTaxAmountTaxabilityReason'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "customer_exempt" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumCustomerExempt
+            | val GHC.Classes.== "not_collecting" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotCollecting
+            | val GHC.Classes.== "not_subject_to_tax" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotSubjectToTax
+            | val GHC.Classes.== "not_supported" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumNotSupported
+            | val GHC.Classes.== "portion_product_exempt" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionProductExempt
+            | val GHC.Classes.== "portion_reduced_rated" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionReducedRated
+            | val GHC.Classes.== "portion_standard_rated" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumPortionStandardRated
+            | val GHC.Classes.== "product_exempt" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumProductExempt
+            | val GHC.Classes.== "product_exempt_holiday" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumProductExemptHoliday
+            | val GHC.Classes.== "proportionally_rated" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumProportionallyRated
+            | val GHC.Classes.== "reduced_rated" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumReducedRated
+            | val GHC.Classes.== "reverse_charge" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumReverseCharge
+            | val GHC.Classes.== "standard_rated" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumStandardRated
+            | val GHC.Classes.== "taxable_basis_reduced" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumTaxableBasisReduced
+            | val GHC.Classes.== "zero_rated" -> InvoiceTaxAmountTaxabilityReason'NonNullableEnumZeroRated
+            | GHC.Base.otherwise -> InvoiceTaxAmountTaxabilityReason'NonNullableOther val
+      )

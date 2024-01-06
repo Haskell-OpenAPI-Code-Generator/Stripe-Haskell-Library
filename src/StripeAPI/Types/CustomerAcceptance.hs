@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -35,13 +35,13 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.customer_acceptance@ in the specification.
 data CustomerAcceptance = CustomerAcceptance
-  { -- | accepted_at: The time at which the customer accepted the Mandate.
+  { -- | accepted_at: The time that the customer accepts the mandate.
     customerAcceptanceAcceptedAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | offline:
     customerAcceptanceOffline :: (GHC.Maybe.Maybe OfflineAcceptance),
     -- | online:
     customerAcceptanceOnline :: (GHC.Maybe.Maybe OnlineAcceptance),
-    -- | type: The type of customer acceptance information included with the Mandate. One of \`online\` or \`offline\`.
+    -- | type: The mandate includes the type of customer acceptance information, such as: \`online\` or \`offline\`.
     customerAcceptanceType :: CustomerAcceptanceType'
   }
   deriving
@@ -71,7 +71,7 @@ mkCustomerAcceptance customerAcceptanceType =
 
 -- | Defines the enum schema located at @components.schemas.customer_acceptance.properties.type@ in the specification.
 --
--- The type of customer acceptance information included with the Mandate. One of \`online\` or \`offline\`.
+-- The mandate includes the type of customer acceptance information, such as: \`online\` or \`offline\`.
 data CustomerAcceptanceType'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     CustomerAcceptanceType'Other Data.Aeson.Types.Internal.Value

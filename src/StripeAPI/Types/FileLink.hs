@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -36,14 +36,14 @@ import qualified Prelude as GHC.Maybe
 -- | Defines the object schema located at @components.schemas.file_link@ in the specification.
 --
 -- To share the contents of a \`File\` object with non-Stripe users, you can
--- create a \`FileLink\`. \`FileLink\`s contain a URL that can be used to
+-- create a \`FileLink\`. \`FileLink\`s contain a URL that you can use to
 -- retrieve the contents of the file without authentication.
 data FileLink = FileLink
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     fileLinkCreated :: GHC.Types.Int,
-    -- | expired: Whether this link is already expired.
+    -- | expired: Returns if the link is already expired.
     fileLinkExpired :: GHC.Types.Bool,
-    -- | expires_at: Time at which the link expires.
+    -- | expires_at: Time that the link expires.
     fileLinkExpiresAt :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | file: The file object this link points to.
     fileLinkFile :: FileLinkFile'Variants,

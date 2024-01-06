@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -51,7 +52,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>If your API key is in test mode, verification checks won’t actually process, though everything else will occur as if in live mode.\<\/p>
 --
--- \<p>Related guide: \<a href=\"\/docs\/identity\/verify-identity-documents\">Verify your users’ identity documents\<\/a>.\<\/p>
+-- \<p>Related guide: \<a href=\"\/docs\/identity\/verify-identity-documents\">Verify your users’ identity documents\<\/a>\<\/p>
 postIdentityVerificationSessions ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -67,26 +68,26 @@ postIdentityVerificationSessions body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostIdentityVerificationSessionsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Identity'verificationSession
-                                                      )
+                                     PostIdentityVerificationSessionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Identity'verificationSession
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostIdentityVerificationSessionsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostIdentityVerificationSessionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/identity/verification_sessions") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/identity/verification_sessions" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/identity\/verification_sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIdentityVerificationSessionsRequestBody = PostIdentityVerificationSessionsRequestBody
@@ -230,8 +231,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIdentityVerificationSessionsRequ
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostIdentityVerificationSessionsRequestBodyOptions'Document'EmptyString
         | GHC.Base.otherwise -> case (PostIdentityVerificationSessionsRequestBodyOptions'Document'PostIdentityVerificationSessionsRequestBodyOptions'Document'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/identity\/verification_sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.type@ in the specification.
 --

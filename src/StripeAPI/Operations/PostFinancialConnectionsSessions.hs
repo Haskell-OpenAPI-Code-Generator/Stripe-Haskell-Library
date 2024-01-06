@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postFinancialConnectionsSessions body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostFinancialConnectionsSessionsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            FinancialConnections'session
-                                                      )
+                                     PostFinancialConnectionsSessionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              FinancialConnections'session
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostFinancialConnectionsSessionsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostFinancialConnectionsSessionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/financial_connections/sessions") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/financial_connections/sessions" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/financial_connections\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostFinancialConnectionsSessionsRequestBody = PostFinancialConnectionsSessionsRequestBody
@@ -94,6 +95,8 @@ data PostFinancialConnectionsSessionsRequestBody = PostFinancialConnectionsSessi
     --
     -- Possible values are \`balances\`, \`transactions\`, \`ownership\`, and \`payment_method\`.
     postFinancialConnectionsSessionsRequestBodyPermissions :: ([PostFinancialConnectionsSessionsRequestBodyPermissions']),
+    -- | prefetch: List of data features that you would like to retrieve upon account creation.
+    postFinancialConnectionsSessionsRequestBodyPrefetch :: (GHC.Maybe.Maybe ([PostFinancialConnectionsSessionsRequestBodyPrefetch'])),
     -- | return_url: For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
     --
     -- Constraints:
@@ -107,11 +110,11 @@ data PostFinancialConnectionsSessionsRequestBody = PostFinancialConnectionsSessi
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostFinancialConnectionsSessionsRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["account_holder" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyAccountHolder obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyExpand obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("filters" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyFilters obj) : ["permissions" Data.Aeson.Types.ToJSON..= postFinancialConnectionsSessionsRequestBodyPermissions obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("prefetch" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyPrefetch obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (postFinancialConnectionsSessionsRequestBodyReturnUrl obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostFinancialConnectionsSessionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostFinancialConnectionsSessionsRequestBody" (\obj -> ((((GHC.Base.pure PostFinancialConnectionsSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostFinancialConnectionsSessionsRequestBody" (\obj -> (((((GHC.Base.pure PostFinancialConnectionsSessionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "account_holder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "filters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "permissions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "prefetch")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url"))
 
 -- | Create a new 'PostFinancialConnectionsSessionsRequestBody' with all required fields.
 mkPostFinancialConnectionsSessionsRequestBody ::
@@ -126,6 +129,7 @@ mkPostFinancialConnectionsSessionsRequestBody postFinancialConnectionsSessionsRe
       postFinancialConnectionsSessionsRequestBodyExpand = GHC.Maybe.Nothing,
       postFinancialConnectionsSessionsRequestBodyFilters = GHC.Maybe.Nothing,
       postFinancialConnectionsSessionsRequestBodyPermissions = postFinancialConnectionsSessionsRequestBodyPermissions,
+      postFinancialConnectionsSessionsRequestBodyPrefetch = GHC.Maybe.Nothing,
       postFinancialConnectionsSessionsRequestBodyReturnUrl = GHC.Maybe.Nothing
     }
 
@@ -258,6 +262,37 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostFinancialConnectionsSessionsRequ
             | val GHC.Classes.== "payment_method" -> PostFinancialConnectionsSessionsRequestBodyPermissions'EnumPaymentMethod
             | val GHC.Classes.== "transactions" -> PostFinancialConnectionsSessionsRequestBodyPermissions'EnumTransactions
             | GHC.Base.otherwise -> PostFinancialConnectionsSessionsRequestBodyPermissions'Other val
+      )
+
+-- | Defines the enum schema located at @paths.\/v1\/financial_connections\/sessions.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.prefetch.items@ in the specification.
+data PostFinancialConnectionsSessionsRequestBodyPrefetch'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    PostFinancialConnectionsSessionsRequestBodyPrefetch'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    PostFinancialConnectionsSessionsRequestBodyPrefetch'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"balances"@
+    PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumBalances
+  | -- | Represents the JSON value @"ownership"@
+    PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumOwnership
+  | -- | Represents the JSON value @"transactions"@
+    PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumTransactions
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostFinancialConnectionsSessionsRequestBodyPrefetch' where
+  toJSON (PostFinancialConnectionsSessionsRequestBodyPrefetch'Other val) = val
+  toJSON (PostFinancialConnectionsSessionsRequestBodyPrefetch'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumBalances) = "balances"
+  toJSON (PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumOwnership) = "ownership"
+  toJSON (PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumTransactions) = "transactions"
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostFinancialConnectionsSessionsRequestBodyPrefetch' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "balances" -> PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumBalances
+            | val GHC.Classes.== "ownership" -> PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumOwnership
+            | val GHC.Classes.== "transactions" -> PostFinancialConnectionsSessionsRequestBodyPrefetch'EnumTransactions
+            | GHC.Base.otherwise -> PostFinancialConnectionsSessionsRequestBodyPrefetch'Other val
       )
 
 -- | Represents a response of the operation 'postFinancialConnectionsSessions'.

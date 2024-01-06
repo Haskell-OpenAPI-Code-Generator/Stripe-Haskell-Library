@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentMethodDomainResourcePaymentMethodStatusDetails where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentMethodDomainResourcePaymentMethodStatusDetails
+instance Show PaymentMethodDomainResourcePaymentMethodStatusDetails
+instance Eq PaymentMethodDomainResourcePaymentMethodStatusDetails
+instance FromJSON PaymentMethodDomainResourcePaymentMethodStatusDetails
+instance ToJSON PaymentMethodDomainResourcePaymentMethodStatusDetails

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -41,9 +41,9 @@ import qualified Prelude as GHC.Maybe
 data ApplicationFee = ApplicationFee
   { -- | account: ID of the Stripe account this fee was taken from.
     applicationFeeAccount :: ApplicationFeeAccount'Variants,
-    -- | amount: Amount earned, in %s.
+    -- | amount: Amount earned, in cents (or local equivalent).
     applicationFeeAmount :: GHC.Types.Int,
-    -- | amount_refunded: Amount in %s refunded (can be less than the amount attribute on the fee if a partial refund was issued)
+    -- | amount_refunded: Amount in cents (or local equivalent) refunded (can be less than the amount attribute on the fee if a partial refund was issued)
     applicationFeeAmountRefunded :: GHC.Types.Int,
     -- | application: ID of the Connect application that earned the fee.
     applicationFeeApplication :: ApplicationFeeApplication'Variants,

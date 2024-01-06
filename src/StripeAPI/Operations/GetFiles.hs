@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -45,7 +46,7 @@ import qualified Prelude as GHC.Maybe
 
 -- | > GET /v1/files
 --
--- \<p>Returns a list of the files that your account has access to. The files are returned sorted by creation date, with the most recently created files appearing first.\<\/p>
+-- \<p>Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.\<\/p>
 getFiles ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
@@ -61,19 +62,19 @@ getFiles parameters =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetFilesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            GetFilesResponseBody200
-                                                      )
+                                     GetFilesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              GetFilesResponseBody200
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   GetFilesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     GetFilesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
@@ -81,14 +82,14 @@ getFiles parameters =
           response_0
     )
     ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/files")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "purpose") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryPurpose parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "GET")
+        "/v1/files"
+        [ StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryCreated parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryEndingBefore parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryExpand parameters) (Data.Text.Internal.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryLimit parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "purpose") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryPurpose parameters) (Data.Text.Internal.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.Internal.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryStartingAfter parameters) (Data.Text.Internal.pack "form") GHC.Types.True
         ]
     )
 
@@ -114,7 +115,7 @@ data GetFilesParameters = GetFilesParameters
     getFilesParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | queryPurpose: Represents the parameter named \'purpose\'
     --
-    -- The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
+    -- Filter queries by the file purpose. If you don\'t provide a purpose, the queries return unfiltered files.
     --
     -- Constraints:
     --
@@ -207,7 +208,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryCreated'Varia
 --
 -- Represents the parameter named \'purpose\'
 --
--- The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
+-- Filter queries by the file purpose. If you don\'t provide a purpose, the queries return unfiltered files.
 data GetFilesParametersQueryPurpose'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     GetFilesParametersQueryPurpose'Other Data.Aeson.Types.Internal.Value
@@ -241,6 +242,8 @@ data GetFilesParametersQueryPurpose'
     GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery
   | -- | Represents the JSON value @"tax_document_user_upload"@
     GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload
+  | -- | Represents the JSON value @"terminal_reader_splashscreen"@
+    GetFilesParametersQueryPurpose'EnumTerminalReaderSplashscreen
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
 instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryPurpose' where
@@ -260,6 +263,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryPurpose' where
   toJSON (GetFilesParametersQueryPurpose'EnumSelfie) = "selfie"
   toJSON (GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery) = "sigma_scheduled_query"
   toJSON (GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload) = "tax_document_user_upload"
+  toJSON (GetFilesParametersQueryPurpose'EnumTerminalReaderSplashscreen) = "terminal_reader_splashscreen"
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryPurpose' where
   parseJSON val =
@@ -279,6 +283,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryPurpose' wher
             | val GHC.Classes.== "selfie" -> GetFilesParametersQueryPurpose'EnumSelfie
             | val GHC.Classes.== "sigma_scheduled_query" -> GetFilesParametersQueryPurpose'EnumSigmaScheduledQuery
             | val GHC.Classes.== "tax_document_user_upload" -> GetFilesParametersQueryPurpose'EnumTaxDocumentUserUpload
+            | val GHC.Classes.== "terminal_reader_splashscreen" -> GetFilesParametersQueryPurpose'EnumTerminalReaderSplashscreen
             | GHC.Base.otherwise -> GetFilesParametersQueryPurpose'Other val
       )
 

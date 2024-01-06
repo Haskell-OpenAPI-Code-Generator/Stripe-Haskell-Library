@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -30,6 +30,15 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
 import {-# SOURCE #-} StripeAPI.Types.BillingPortal_Configuration
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsCouponOffer
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsFlow
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsFlowAfterCompletion
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsFlowSubscriptionCancel
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsFlowSubscriptionUpdate
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsFlowSubscriptionUpdateConfirm
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsRetention
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsSubscriptionUpdateConfirmDiscount
+import {-# SOURCE #-} StripeAPI.Types.PortalFlowsSubscriptionUpdateConfirmItem
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
@@ -60,6 +69,8 @@ data BillingPortal'session = BillingPortal'session
     --
     -- * Maximum length of 5000
     billingPortal'sessionCustomer :: Data.Text.Internal.Text,
+    -- | flow: Information about a specific flow for the customer to go through. See the [docs](https:\/\/stripe.com\/docs\/customer-management\/portal-deep-links) to learn more about using customer portal deep links and flows.
+    billingPortal'sessionFlow :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'sessionFlow'NonNullable)),
     -- | id: Unique identifier for the object.
     --
     -- Constraints:
@@ -70,7 +81,7 @@ data BillingPortal'session = BillingPortal'session
     billingPortal'sessionLivemode :: GHC.Types.Bool,
     -- | locale: The IETF language tag of the locale Customer Portal is displayed in. If blank or auto, the customer’s \`preferred_locales\` or browser’s locale is used.
     billingPortal'sessionLocale :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'sessionLocale'NonNullable)),
-    -- | on_behalf_of: The account for which the session was created on behalf of. When specified, only subscriptions and invoices with this \`on_behalf_of\` account appear in the portal. For more information, see the [docs](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#on-behalf-of). Use the [Accounts API](https:\/\/stripe.com\/docs\/api\/accounts\/object\#account_object-settings-branding) to modify the \`on_behalf_of\` account\'s branding settings, which the portal displays.
+    -- | on_behalf_of: The account for which the session was created on behalf of. When specified, only subscriptions and invoices with this \`on_behalf_of\` account appear in the portal. For more information, see the [docs](https:\/\/stripe.com\/docs\/connect\/separate-charges-and-transfers\#on-behalf-of). Use the [Accounts API](https:\/\/stripe.com\/docs\/api\/accounts\/object\#account_object-settings-branding) to modify the \`on_behalf_of\` account\'s branding settings, which the portal displays.
     --
     -- Constraints:
     --
@@ -95,11 +106,11 @@ data BillingPortal'session = BillingPortal'session
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'session where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["configuration" Data.Aeson.Types.ToJSON..= billingPortal'sessionConfiguration obj] : ["created" Data.Aeson.Types.ToJSON..= billingPortal'sessionCreated obj] : ["customer" Data.Aeson.Types.ToJSON..= billingPortal'sessionCustomer obj] : ["id" Data.Aeson.Types.ToJSON..= billingPortal'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= billingPortal'sessionLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionReturnUrl obj) : ["url" Data.Aeson.Types.ToJSON..= billingPortal'sessionUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.session"] : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["configuration" Data.Aeson.Types.ToJSON..= billingPortal'sessionConfiguration obj] : ["created" Data.Aeson.Types.ToJSON..= billingPortal'sessionCreated obj] : ["customer" Data.Aeson.Types.ToJSON..= billingPortal'sessionCustomer obj] : ["id" Data.Aeson.Types.ToJSON..= billingPortal'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= billingPortal'sessionLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionReturnUrl obj) : ["url" Data.Aeson.Types.ToJSON..= billingPortal'sessionUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.session"] : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["configuration" Data.Aeson.Types.ToJSON..= billingPortal'sessionConfiguration obj] : ["created" Data.Aeson.Types.ToJSON..= billingPortal'sessionCreated obj] : ["customer" Data.Aeson.Types.ToJSON..= billingPortal'sessionCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow obj) : ["id" Data.Aeson.Types.ToJSON..= billingPortal'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= billingPortal'sessionLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionReturnUrl obj) : ["url" Data.Aeson.Types.ToJSON..= billingPortal'sessionUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.session"] : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["configuration" Data.Aeson.Types.ToJSON..= billingPortal'sessionConfiguration obj] : ["created" Data.Aeson.Types.ToJSON..= billingPortal'sessionCreated obj] : ["customer" Data.Aeson.Types.ToJSON..= billingPortal'sessionCustomer obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("flow" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow obj) : ["id" Data.Aeson.Types.ToJSON..= billingPortal'sessionId obj] : ["livemode" Data.Aeson.Types.ToJSON..= billingPortal'sessionLivemode obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("locale" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionLocale obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionOnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("return_url" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionReturnUrl obj) : ["url" Data.Aeson.Types.ToJSON..= billingPortal'sessionUrl obj] : ["object" Data.Aeson.Types.ToJSON..= Data.Aeson.Types.Internal.String "billing_portal.session"] : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'session where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'session" (\obj -> ((((((((GHC.Base.pure BillingPortal'session GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "configuration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'session" (\obj -> (((((((((GHC.Base.pure BillingPortal'session GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "configuration")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "locale")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "return_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
 
 -- | Create a new 'BillingPortal'session' with all required fields.
 mkBillingPortal'session ::
@@ -121,6 +132,7 @@ mkBillingPortal'session billingPortal'sessionConfiguration billingPortal'session
     { billingPortal'sessionConfiguration = billingPortal'sessionConfiguration,
       billingPortal'sessionCreated = billingPortal'sessionCreated,
       billingPortal'sessionCustomer = billingPortal'sessionCustomer,
+      billingPortal'sessionFlow = GHC.Maybe.Nothing,
       billingPortal'sessionId = billingPortal'sessionId,
       billingPortal'sessionLivemode = billingPortal'sessionLivemode,
       billingPortal'sessionLocale = GHC.Maybe.Nothing,
@@ -145,6 +157,258 @@ instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionConfiguration'V
   parseJSON val = case (BillingPortal'sessionConfiguration'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> ((BillingPortal'sessionConfiguration'BillingPortal'configuration Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched") of
     Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
     Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the object schema located at @components.schemas.billing_portal.session.properties.flow.anyOf@ in the specification.
+--
+-- Information about a specific flow for the customer to go through. See the [docs](https:\\\/\\\/stripe.com\\\/docs\\\/customer-management\\\/portal-deep-links) to learn more about using customer portal deep links and flows.
+data BillingPortal'sessionFlow'NonNullable = BillingPortal'sessionFlow'NonNullable
+  { -- | after_completion:
+    billingPortal'sessionFlow'NonNullableAfterCompletion :: (GHC.Maybe.Maybe PortalFlowsFlowAfterCompletion),
+    -- | subscription_cancel: Configuration when \`flow.type=subscription_cancel\`.
+    billingPortal'sessionFlow'NonNullableSubscriptionCancel :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable)),
+    -- | subscription_update: Configuration when \`flow.type=subscription_update\`.
+    billingPortal'sessionFlow'NonNullableSubscriptionUpdate :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable)),
+    -- | subscription_update_confirm: Configuration when \`flow.type=subscription_update_confirm\`.
+    billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable)),
+    -- | type: Type of flow that the customer will go through.
+    billingPortal'sessionFlow'NonNullableType :: (GHC.Maybe.Maybe BillingPortal'sessionFlow'NonNullableType')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableAfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_cancel" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update_confirm" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("after_completion" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableAfterCompletion obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_cancel" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription_update_confirm" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'sessionFlow'NonNullable" (\obj -> ((((GHC.Base.pure BillingPortal'sessionFlow'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "after_completion")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_cancel")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_update")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription_update_confirm")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+
+-- | Create a new 'BillingPortal'sessionFlow'NonNullable' with all required fields.
+mkBillingPortal'sessionFlow'NonNullable :: BillingPortal'sessionFlow'NonNullable
+mkBillingPortal'sessionFlow'NonNullable =
+  BillingPortal'sessionFlow'NonNullable
+    { billingPortal'sessionFlow'NonNullableAfterCompletion = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableSubscriptionCancel = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableSubscriptionUpdate = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.billing_portal.session.properties.flow.anyOf.properties.subscription_cancel.anyOf@ in the specification.
+--
+-- Configuration when \\\`flow.type=subscription_cancel\\\`.
+data BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable = BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable
+  { -- | retention: Specify a retention strategy to be used in the cancellation flow.
+    billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable)),
+    -- | subscription: The ID of the subscription to be canceled.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableSubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("retention" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableSubscription obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("retention" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableSubscription obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable" (\obj -> (GHC.Base.pure BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "retention")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription"))
+
+-- | Create a new 'BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable' with all required fields.
+mkBillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable :: BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable
+mkBillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable =
+  BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullable
+    { billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableSubscription = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.billing_portal.session.properties.flow.anyOf.properties.subscription_cancel.anyOf.properties.retention.anyOf@ in the specification.
+--
+-- Specify a retention strategy to be used in the cancellation flow.
+data BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable = BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable
+  { -- | coupon_offer: Configuration when \`retention.type=coupon_offer\`.
+    billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable)),
+    -- | type: Type of retention strategy that will be used.
+    billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType :: (GHC.Maybe.Maybe BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType')
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon_offer" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon_offer" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable" (\obj -> (GHC.Base.pure BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon_offer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+
+-- | Create a new 'BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable' with all required fields.
+mkBillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable :: BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable
+mkBillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable =
+  BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullable
+    { billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType = GHC.Maybe.Nothing
+    }
+
+-- | Defines the object schema located at @components.schemas.billing_portal.session.properties.flow.anyOf.properties.subscription_cancel.anyOf.properties.retention.anyOf.properties.coupon_offer.anyOf@ in the specification.
+--
+-- Configuration when \\\`retention.type=coupon_offer\\\`.
+data BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable = BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable
+  { -- | coupon: The ID of the coupon to be offered.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullableCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullableCoupon obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullableCoupon obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable" (\obj -> GHC.Base.pure BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon"))
+
+-- | Create a new 'BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable' with all required fields.
+mkBillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable :: BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable
+mkBillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable = BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullable {billingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableCouponOffer'NonNullableCoupon = GHC.Maybe.Nothing}
+
+-- | Defines the enum schema located at @components.schemas.billing_portal.session.properties.flow.anyOf.properties.subscription_cancel.anyOf.properties.retention.anyOf.properties.type@ in the specification.
+--
+-- Type of retention strategy that will be used.
+data BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"coupon_offer"@
+    BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'EnumCouponOffer
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType' where
+  toJSON (BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'Other val) = val
+  toJSON (BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'EnumCouponOffer) = "coupon_offer"
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "coupon_offer" -> BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'EnumCouponOffer
+            | GHC.Base.otherwise -> BillingPortal'sessionFlow'NonNullableSubscriptionCancel'NonNullableRetention'NonNullableType'Other val
+      )
+
+-- | Defines the object schema located at @components.schemas.billing_portal.session.properties.flow.anyOf.properties.subscription_update.anyOf@ in the specification.
+--
+-- Configuration when \\\`flow.type=subscription_update\\\`.
+data BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable = BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable
+  { -- | subscription: The ID of the subscription to be updated.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    billingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullableSubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullableSubscription obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullableSubscription obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable" (\obj -> GHC.Base.pure BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription"))
+
+-- | Create a new 'BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable' with all required fields.
+mkBillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable :: BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable
+mkBillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable = BillingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullable {billingPortal'sessionFlow'NonNullableSubscriptionUpdate'NonNullableSubscription = GHC.Maybe.Nothing}
+
+-- | Defines the object schema located at @components.schemas.billing_portal.session.properties.flow.anyOf.properties.subscription_update_confirm.anyOf@ in the specification.
+--
+-- Configuration when \\\`flow.type=subscription_update_confirm\\\`.
+data BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable = BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable
+  { -- | discounts: The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+    billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableDiscounts :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([PortalFlowsSubscriptionUpdateConfirmDiscount]))),
+    -- | items: The [subscription item](https:\/\/stripe.com\/docs\/api\/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+    billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableItems :: (GHC.Maybe.Maybe ([PortalFlowsSubscriptionUpdateConfirmItem])),
+    -- | subscription: The ID of the subscription to be updated.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableSubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableSubscription obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("discounts" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableDiscounts obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("items" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("subscription" Data.Aeson.Types.ToJSON..=)) (billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableSubscription obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable" (\obj -> ((GHC.Base.pure BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "discounts")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "subscription"))
+
+-- | Create a new 'BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable' with all required fields.
+mkBillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable :: BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable
+mkBillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable =
+  BillingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullable
+    { billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableDiscounts = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableItems = GHC.Maybe.Nothing,
+      billingPortal'sessionFlow'NonNullableSubscriptionUpdateConfirm'NonNullableSubscription = GHC.Maybe.Nothing
+    }
+
+-- | Defines the enum schema located at @components.schemas.billing_portal.session.properties.flow.anyOf.properties.type@ in the specification.
+--
+-- Type of flow that the customer will go through.
+data BillingPortal'sessionFlow'NonNullableType'
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    BillingPortal'sessionFlow'NonNullableType'Other Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    BillingPortal'sessionFlow'NonNullableType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"payment_method_update"@
+    BillingPortal'sessionFlow'NonNullableType'EnumPaymentMethodUpdate
+  | -- | Represents the JSON value @"subscription_cancel"@
+    BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionCancel
+  | -- | Represents the JSON value @"subscription_update"@
+    BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionUpdate
+  | -- | Represents the JSON value @"subscription_update_confirm"@
+    BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionUpdateConfirm
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON BillingPortal'sessionFlow'NonNullableType' where
+  toJSON (BillingPortal'sessionFlow'NonNullableType'Other val) = val
+  toJSON (BillingPortal'sessionFlow'NonNullableType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (BillingPortal'sessionFlow'NonNullableType'EnumPaymentMethodUpdate) = "payment_method_update"
+  toJSON (BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionCancel) = "subscription_cancel"
+  toJSON (BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionUpdate) = "subscription_update"
+  toJSON (BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionUpdateConfirm) = "subscription_update_confirm"
+
+instance Data.Aeson.Types.FromJSON.FromJSON BillingPortal'sessionFlow'NonNullableType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "payment_method_update" -> BillingPortal'sessionFlow'NonNullableType'EnumPaymentMethodUpdate
+            | val GHC.Classes.== "subscription_cancel" -> BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionCancel
+            | val GHC.Classes.== "subscription_update" -> BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionUpdate
+            | val GHC.Classes.== "subscription_update_confirm" -> BillingPortal'sessionFlow'NonNullableType'EnumSubscriptionUpdateConfirm
+            | GHC.Base.otherwise -> BillingPortal'sessionFlow'NonNullableType'Other val
+      )
 
 -- | Defines the enum schema located at @components.schemas.billing_portal.session.properties.locale@ in the specification.
 --

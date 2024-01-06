@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -29,9 +29,11 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.TypeAlias
+import {-# SOURCE #-} StripeAPI.Types.FundingInstructionsBankTransferAbaRecord
 import {-# SOURCE #-} StripeAPI.Types.FundingInstructionsBankTransferIbanRecord
 import {-# SOURCE #-} StripeAPI.Types.FundingInstructionsBankTransferSortCodeRecord
 import {-# SOURCE #-} StripeAPI.Types.FundingInstructionsBankTransferSpeiRecord
+import {-# SOURCE #-} StripeAPI.Types.FundingInstructionsBankTransferSwiftRecord
 import {-# SOURCE #-} StripeAPI.Types.FundingInstructionsBankTransferZenginRecord
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
@@ -40,7 +42,9 @@ import qualified Prelude as GHC.Maybe
 --
 -- FinancialAddresses contain identifying information that resolves to a FinancialAccount.
 data FundingInstructionsBankTransferFinancialAddress = FundingInstructionsBankTransferFinancialAddress
-  { -- | iban: Iban Records contain E.U. bank account details per the SEPA format.
+  { -- | aba: ABA Records contain U.S. bank account details per the ABA format.
+    fundingInstructionsBankTransferFinancialAddressAba :: (GHC.Maybe.Maybe FundingInstructionsBankTransferAbaRecord),
+    -- | iban: Iban Records contain E.U. bank account details per the SEPA format.
     fundingInstructionsBankTransferFinancialAddressIban :: (GHC.Maybe.Maybe FundingInstructionsBankTransferIbanRecord),
     -- | sort_code: Sort Code Records contain U.K. bank account details per the sort code format.
     fundingInstructionsBankTransferFinancialAddressSortCode :: (GHC.Maybe.Maybe FundingInstructionsBankTransferSortCodeRecord),
@@ -48,6 +52,8 @@ data FundingInstructionsBankTransferFinancialAddress = FundingInstructionsBankTr
     fundingInstructionsBankTransferFinancialAddressSpei :: (GHC.Maybe.Maybe FundingInstructionsBankTransferSpeiRecord),
     -- | supported_networks: The payment networks supported by this FinancialAddress
     fundingInstructionsBankTransferFinancialAddressSupportedNetworks :: (GHC.Maybe.Maybe ([FundingInstructionsBankTransferFinancialAddressSupportedNetworks'])),
+    -- | swift: SWIFT Records contain U.S. bank account details per the SWIFT format.
+    fundingInstructionsBankTransferFinancialAddressSwift :: (GHC.Maybe.Maybe FundingInstructionsBankTransferSwiftRecord),
     -- | type: The type of financial address
     fundingInstructionsBankTransferFinancialAddressType :: FundingInstructionsBankTransferFinancialAddressType',
     -- | zengin: Zengin Records contain Japan bank account details per the Zengin format.
@@ -59,11 +65,11 @@ data FundingInstructionsBankTransferFinancialAddress = FundingInstructionsBankTr
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON FundingInstructionsBankTransferFinancialAddress where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressIban obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sort_code" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSortCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spei" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSpei obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("supported_networks" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSupportedNetworks obj) : ["type" Data.Aeson.Types.ToJSON..= fundingInstructionsBankTransferFinancialAddressType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zengin" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressZengin obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressIban obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sort_code" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSortCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spei" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSpei obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("supported_networks" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSupportedNetworks obj) : ["type" Data.Aeson.Types.ToJSON..= fundingInstructionsBankTransferFinancialAddressType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zengin" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressZengin obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("aba" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressAba obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressIban obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sort_code" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSortCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spei" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSpei obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("supported_networks" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSupportedNetworks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("swift" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSwift obj) : ["type" Data.Aeson.Types.ToJSON..= fundingInstructionsBankTransferFinancialAddressType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zengin" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressZengin obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("aba" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressAba obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iban" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressIban obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("sort_code" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSortCode obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("spei" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSpei obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("supported_networks" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSupportedNetworks obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("swift" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressSwift obj) : ["type" Data.Aeson.Types.ToJSON..= fundingInstructionsBankTransferFinancialAddressType obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("zengin" Data.Aeson.Types.ToJSON..=)) (fundingInstructionsBankTransferFinancialAddressZengin obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON FundingInstructionsBankTransferFinancialAddress where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "FundingInstructionsBankTransferFinancialAddress" (\obj -> (((((GHC.Base.pure FundingInstructionsBankTransferFinancialAddress GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "iban")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sort_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spei")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "supported_networks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "zengin"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "FundingInstructionsBankTransferFinancialAddress" (\obj -> (((((((GHC.Base.pure FundingInstructionsBankTransferFinancialAddress GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "aba")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "iban")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "sort_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spei")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "supported_networks")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "swift")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "zengin"))
 
 -- | Create a new 'FundingInstructionsBankTransferFinancialAddress' with all required fields.
 mkFundingInstructionsBankTransferFinancialAddress ::
@@ -72,10 +78,12 @@ mkFundingInstructionsBankTransferFinancialAddress ::
   FundingInstructionsBankTransferFinancialAddress
 mkFundingInstructionsBankTransferFinancialAddress fundingInstructionsBankTransferFinancialAddressType =
   FundingInstructionsBankTransferFinancialAddress
-    { fundingInstructionsBankTransferFinancialAddressIban = GHC.Maybe.Nothing,
+    { fundingInstructionsBankTransferFinancialAddressAba = GHC.Maybe.Nothing,
+      fundingInstructionsBankTransferFinancialAddressIban = GHC.Maybe.Nothing,
       fundingInstructionsBankTransferFinancialAddressSortCode = GHC.Maybe.Nothing,
       fundingInstructionsBankTransferFinancialAddressSpei = GHC.Maybe.Nothing,
       fundingInstructionsBankTransferFinancialAddressSupportedNetworks = GHC.Maybe.Nothing,
+      fundingInstructionsBankTransferFinancialAddressSwift = GHC.Maybe.Nothing,
       fundingInstructionsBankTransferFinancialAddressType = fundingInstructionsBankTransferFinancialAddressType,
       fundingInstructionsBankTransferFinancialAddressZengin = GHC.Maybe.Nothing
     }
@@ -86,14 +94,20 @@ data FundingInstructionsBankTransferFinancialAddressSupportedNetworks'
     FundingInstructionsBankTransferFinancialAddressSupportedNetworks'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     FundingInstructionsBankTransferFinancialAddressSupportedNetworks'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"ach"@
+    FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumAch
   | -- | Represents the JSON value @"bacs"@
     FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumBacs
+  | -- | Represents the JSON value @"domestic_wire_us"@
+    FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumDomesticWireUs
   | -- | Represents the JSON value @"fps"@
     FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumFps
   | -- | Represents the JSON value @"sepa"@
     FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSepa
   | -- | Represents the JSON value @"spei"@
     FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSpei
+  | -- | Represents the JSON value @"swift"@
+    FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSwift
   | -- | Represents the JSON value @"zengin"@
     FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumZengin
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -101,20 +115,26 @@ data FundingInstructionsBankTransferFinancialAddressSupportedNetworks'
 instance Data.Aeson.Types.ToJSON.ToJSON FundingInstructionsBankTransferFinancialAddressSupportedNetworks' where
   toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'Other val) = val
   toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumAch) = "ach"
   toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumBacs) = "bacs"
+  toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumDomesticWireUs) = "domestic_wire_us"
   toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumFps) = "fps"
   toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSepa) = "sepa"
   toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSpei) = "spei"
+  toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSwift) = "swift"
   toJSON (FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumZengin) = "zengin"
 
 instance Data.Aeson.Types.FromJSON.FromJSON FundingInstructionsBankTransferFinancialAddressSupportedNetworks' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "ach" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumAch
             | val GHC.Classes.== "bacs" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumBacs
+            | val GHC.Classes.== "domestic_wire_us" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumDomesticWireUs
             | val GHC.Classes.== "fps" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumFps
             | val GHC.Classes.== "sepa" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSepa
             | val GHC.Classes.== "spei" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSpei
+            | val GHC.Classes.== "swift" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumSwift
             | val GHC.Classes.== "zengin" -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'EnumZengin
             | GHC.Base.otherwise -> FundingInstructionsBankTransferFinancialAddressSupportedNetworks'Other val
       )
@@ -127,12 +147,16 @@ data FundingInstructionsBankTransferFinancialAddressType'
     FundingInstructionsBankTransferFinancialAddressType'Other Data.Aeson.Types.Internal.Value
   | -- | This constructor can be used to send values to the server which are not present in the specification yet.
     FundingInstructionsBankTransferFinancialAddressType'Typed Data.Text.Internal.Text
+  | -- | Represents the JSON value @"aba"@
+    FundingInstructionsBankTransferFinancialAddressType'EnumAba
   | -- | Represents the JSON value @"iban"@
     FundingInstructionsBankTransferFinancialAddressType'EnumIban
   | -- | Represents the JSON value @"sort_code"@
     FundingInstructionsBankTransferFinancialAddressType'EnumSortCode
   | -- | Represents the JSON value @"spei"@
     FundingInstructionsBankTransferFinancialAddressType'EnumSpei
+  | -- | Represents the JSON value @"swift"@
+    FundingInstructionsBankTransferFinancialAddressType'EnumSwift
   | -- | Represents the JSON value @"zengin"@
     FundingInstructionsBankTransferFinancialAddressType'EnumZengin
   deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -140,18 +164,22 @@ data FundingInstructionsBankTransferFinancialAddressType'
 instance Data.Aeson.Types.ToJSON.ToJSON FundingInstructionsBankTransferFinancialAddressType' where
   toJSON (FundingInstructionsBankTransferFinancialAddressType'Other val) = val
   toJSON (FundingInstructionsBankTransferFinancialAddressType'Typed val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (FundingInstructionsBankTransferFinancialAddressType'EnumAba) = "aba"
   toJSON (FundingInstructionsBankTransferFinancialAddressType'EnumIban) = "iban"
   toJSON (FundingInstructionsBankTransferFinancialAddressType'EnumSortCode) = "sort_code"
   toJSON (FundingInstructionsBankTransferFinancialAddressType'EnumSpei) = "spei"
+  toJSON (FundingInstructionsBankTransferFinancialAddressType'EnumSwift) = "swift"
   toJSON (FundingInstructionsBankTransferFinancialAddressType'EnumZengin) = "zengin"
 
 instance Data.Aeson.Types.FromJSON.FromJSON FundingInstructionsBankTransferFinancialAddressType' where
   parseJSON val =
     GHC.Base.pure
       ( if
+            | val GHC.Classes.== "aba" -> FundingInstructionsBankTransferFinancialAddressType'EnumAba
             | val GHC.Classes.== "iban" -> FundingInstructionsBankTransferFinancialAddressType'EnumIban
             | val GHC.Classes.== "sort_code" -> FundingInstructionsBankTransferFinancialAddressType'EnumSortCode
             | val GHC.Classes.== "spei" -> FundingInstructionsBankTransferFinancialAddressType'EnumSpei
+            | val GHC.Classes.== "swift" -> FundingInstructionsBankTransferFinancialAddressType'EnumSwift
             | val GHC.Classes.== "zengin" -> FundingInstructionsBankTransferFinancialAddressType'EnumZengin
             | GHC.Base.otherwise -> FundingInstructionsBankTransferFinancialAddressType'Other val
       )

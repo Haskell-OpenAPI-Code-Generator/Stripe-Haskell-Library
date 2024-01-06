@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postSubscriptionSchedules body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostSubscriptionSchedulesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            SubscriptionSchedule
-                                                      )
+                                     PostSubscriptionSchedulesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              SubscriptionSchedule
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostSubscriptionSchedulesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostSubscriptionSchedulesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/subscription_schedules") GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/subscription_schedules" GHC.Base.mempty body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostSubscriptionSchedulesRequestBody = PostSubscriptionSchedulesRequestBody
@@ -92,7 +93,7 @@ data PostSubscriptionSchedulesRequestBody = PostSubscriptionSchedulesRequestBody
     postSubscriptionSchedulesRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | default_settings: Object representing the subscription schedule\'s default settings.
     postSubscriptionSchedulesRequestBodyDefaultSettings :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyDefaultSettings'),
-    -- | end_behavior: Configures how the subscription schedule behaves when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running.\`cancel\` will end the subscription schedule and cancel the underlying subscription.
+    -- | end_behavior: Behavior of the subscription schedule and underlying subscription when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running. \`cancel\` will end the subscription schedule and cancel the underlying subscription.
     postSubscriptionSchedulesRequestBodyEndBehavior :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyEndBehavior'),
     -- | expand: Specifies which fields in the response should be expanded.
     postSubscriptionSchedulesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
@@ -155,8 +156,12 @@ data PostSubscriptionSchedulesRequestBodyDefaultSettings' = PostSubscriptionSche
     --
     -- * Maximum length of 5000
     postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | description
+    postSubscriptionSchedulesRequestBodyDefaultSettings'Description :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'Variants),
     -- | invoice_settings
     postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings'),
+    -- | on_behalf_of
+    postSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'Variants),
     -- | transfer_data
     postSubscriptionSchedulesRequestBodyDefaultSettings'TransferData :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyDefaultSettings'TransferData'Variants)
   }
@@ -166,11 +171,11 @@ data PostSubscriptionSchedulesRequestBodyDefaultSettings' = PostSubscriptionSche
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesRequestBodyDefaultSettings' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'TransferData obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'TransferData obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'TransferData obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyDefaultSettings'TransferData obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBodyDefaultSettings' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesRequestBodyDefaultSettings'" (\obj -> (((((((GHC.Base.pure PostSubscriptionSchedulesRequestBodyDefaultSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesRequestBodyDefaultSettings'" (\obj -> (((((((((GHC.Base.pure PostSubscriptionSchedulesRequestBodyDefaultSettings' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data"))
 
 -- | Create a new 'PostSubscriptionSchedulesRequestBodyDefaultSettings'' with all required fields.
 mkPostSubscriptionSchedulesRequestBodyDefaultSettings' :: PostSubscriptionSchedulesRequestBodyDefaultSettings'
@@ -182,7 +187,9 @@ mkPostSubscriptionSchedulesRequestBodyDefaultSettings' =
       postSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesRequestBodyDefaultSettings'Description = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyDefaultSettings'TransferData = GHC.Maybe.Nothing
     }
 
@@ -280,8 +287,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.collection_method@ in the specification.
 data PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'
@@ -310,6 +317,25 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
             | GHC.Base.otherwise -> PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'Other val
       )
 
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.description.anyOf@ in the specification.
+data PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'Variants
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'EmptyString
+  | PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'Variants where
+  toJSON (PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyDefaultSettings'Description'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
 -- | Defines the object schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.invoice_settings@ in the specification.
 data PostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings' = PostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings'
   { -- | days_until_due
@@ -330,6 +356,25 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
 -- | Create a new 'PostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings'' with all required fields.
 mkPostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings' :: PostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings'
 mkPostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings' = PostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings' {postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings'DaysUntilDue = GHC.Maybe.Nothing}
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.on_behalf_of.anyOf@ in the specification.
+data PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'Variants
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'EmptyString
+  | PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'Variants where
+  toJSON (PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyDefaultSettings'OnBehalfOf'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.default_settings.properties.transfer_data.anyOf@ in the specification.
 data PostSubscriptionSchedulesRequestBodyDefaultSettings'TransferData'OneOf1 = PostSubscriptionSchedulesRequestBodyDefaultSettings'TransferData'OneOf1
@@ -377,12 +422,12 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyDefaultSettings'TransferData'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyDefaultSettings'TransferData'PostSubscriptionSchedulesRequestBodyDefaultSettings'TransferData'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.end_behavior@ in the specification.
 --
--- Configures how the subscription schedule behaves when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running.\`cancel\` will end the subscription schedule and cancel the underlying subscription.
+-- Behavior of the subscription schedule and underlying subscription when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running. \`cancel\` will end the subscription schedule and cancel the underlying subscription.
 data PostSubscriptionSchedulesRequestBodyEndBehavior'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostSubscriptionSchedulesRequestBodyEndBehavior'Other Data.Aeson.Types.Internal.Value
@@ -435,8 +480,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyMetadata'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyMetadata'Object Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items@ in the specification.
 data PostSubscriptionSchedulesRequestBodyPhases' = PostSubscriptionSchedulesRequestBodyPhases'
@@ -458,6 +503,8 @@ data PostSubscriptionSchedulesRequestBodyPhases' = PostSubscriptionSchedulesRequ
     --
     -- * Maximum length of 5000
     postSubscriptionSchedulesRequestBodyPhases'Coupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | currency
+    postSubscriptionSchedulesRequestBodyPhases'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | default_payment_method
     --
     -- Constraints:
@@ -466,6 +513,8 @@ data PostSubscriptionSchedulesRequestBodyPhases' = PostSubscriptionSchedulesRequ
     postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | default_tax_rates
     postSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'Variants),
+    -- | description
+    postSubscriptionSchedulesRequestBodyPhases'Description :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyPhases'Description'Variants),
     -- | end_date
     postSubscriptionSchedulesRequestBodyPhases'EndDate :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | invoice_settings
@@ -476,6 +525,8 @@ data PostSubscriptionSchedulesRequestBodyPhases' = PostSubscriptionSchedulesRequ
     postSubscriptionSchedulesRequestBodyPhases'Iterations :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | metadata
     postSubscriptionSchedulesRequestBodyPhases'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
+    -- | on_behalf_of
+    postSubscriptionSchedulesRequestBodyPhases'OnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | proration_behavior
     postSubscriptionSchedulesRequestBodyPhases'ProrationBehavior :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'),
     -- | transfer_data
@@ -491,11 +542,11 @@ data PostSubscriptionSchedulesRequestBodyPhases' = PostSubscriptionSchedulesRequ
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesRequestBodyPhases' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("add_invoice_items" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AddInvoiceItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_date" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'EndDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'InvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesRequestBodyPhases'Items obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iterations" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Iterations obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Trial obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TrialEnd obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("add_invoice_items" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AddInvoiceItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_date" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'EndDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'InvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesRequestBodyPhases'Items obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iterations" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Iterations obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Trial obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TrialEnd obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("add_invoice_items" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AddInvoiceItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_date" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'EndDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'InvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesRequestBodyPhases'Items obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iterations" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Iterations obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'OnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Trial obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TrialEnd obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("add_invoice_items" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AddInvoiceItems obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("application_fee_percent" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ApplicationFeePercent obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("automatic_tax" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'AutomaticTax obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_cycle_anchor" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingCycleAnchor obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("collection_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'CollectionMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("coupon" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Coupon obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("currency" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Currency obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_payment_method" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("default_tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Description obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("end_date" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'EndDate obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("invoice_settings" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'InvoiceSettings obj) : ["items" Data.Aeson.Types.ToJSON..= postSubscriptionSchedulesRequestBodyPhases'Items obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("iterations" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Iterations obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("on_behalf_of" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'OnBehalfOf obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("proration_behavior" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'ProrationBehavior obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transfer_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TransferData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Trial obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("trial_end" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'TrialEnd obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBodyPhases' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesRequestBodyPhases'" (\obj -> (((((((((((((((((GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "add_invoice_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "end_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "iterations")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesRequestBodyPhases'" (\obj -> ((((((((((((((((((((GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "add_invoice_items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "application_fee_percent")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "automatic_tax")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_cycle_anchor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "collection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "coupon")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "end_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "invoice_settings")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "items")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "iterations")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "on_behalf_of")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "proration_behavior")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transfer_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "trial_end"))
 
 -- | Create a new 'PostSubscriptionSchedulesRequestBodyPhases'' with all required fields.
 mkPostSubscriptionSchedulesRequestBodyPhases' ::
@@ -511,13 +562,16 @@ mkPostSubscriptionSchedulesRequestBodyPhases' postSubscriptionSchedulesRequestBo
       postSubscriptionSchedulesRequestBodyPhases'BillingThresholds = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'CollectionMethod = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'Coupon = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesRequestBodyPhases'Currency = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesRequestBodyPhases'Description = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'EndDate = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'InvoiceSettings = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'Items = postSubscriptionSchedulesRequestBodyPhases'Items,
       postSubscriptionSchedulesRequestBodyPhases'Iterations = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'Metadata = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesRequestBodyPhases'OnBehalfOf = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'ProrationBehavior = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'TransferData = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'Trial = GHC.Maybe.Nothing,
@@ -653,8 +707,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'AddInvoiceItems'TaxRates'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyPhases'AddInvoiceItems'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.automatic_tax@ in the specification.
 data PostSubscriptionSchedulesRequestBodyPhases'AutomaticTax' = PostSubscriptionSchedulesRequestBodyPhases'AutomaticTax'
@@ -750,8 +804,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.collection_method@ in the specification.
 data PostSubscriptionSchedulesRequestBodyPhases'CollectionMethod'
@@ -796,8 +850,27 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+
+-- | Defines the oneOf schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.description.anyOf@ in the specification.
+data PostSubscriptionSchedulesRequestBodyPhases'Description'Variants
+  = -- | Represents the JSON value @""@
+    PostSubscriptionSchedulesRequestBodyPhases'Description'EmptyString
+  | PostSubscriptionSchedulesRequestBodyPhases'Description'Text Data.Text.Internal.Text
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesRequestBodyPhases'Description'Variants where
+  toJSON (PostSubscriptionSchedulesRequestBodyPhases'Description'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSubscriptionSchedulesRequestBodyPhases'Description'EmptyString) = ""
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBodyPhases'Description'Variants where
+  parseJSON val =
+    if
+        | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'Description'EmptyString
+        | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyPhases'Description'Text Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.invoice_settings@ in the specification.
 data PostSubscriptionSchedulesRequestBodyPhases'InvoiceSettings' = PostSubscriptionSchedulesRequestBodyPhases'InvoiceSettings'
@@ -824,6 +897,8 @@ mkPostSubscriptionSchedulesRequestBodyPhases'InvoiceSettings' = PostSubscription
 data PostSubscriptionSchedulesRequestBodyPhases'Items' = PostSubscriptionSchedulesRequestBodyPhases'Items'
   { -- | billing_thresholds
     postSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds'Variants),
+    -- | metadata
+    postSubscriptionSchedulesRequestBodyPhases'Items'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
     -- | price
     --
     -- Constraints:
@@ -843,17 +918,18 @@ data PostSubscriptionSchedulesRequestBodyPhases'Items' = PostSubscriptionSchedul
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostSubscriptionSchedulesRequestBodyPhases'Items' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'TaxRates obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'TaxRates obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'TaxRates obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("billing_thresholds" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Metadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Price obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("price_data" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'PriceData obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("quantity" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'Quantity obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("tax_rates" Data.Aeson.Types.ToJSON..=)) (postSubscriptionSchedulesRequestBodyPhases'Items'TaxRates obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBodyPhases'Items' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesRequestBodyPhases'Items'" (\obj -> ((((GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'Items' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSubscriptionSchedulesRequestBodyPhases'Items'" (\obj -> (((((GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'Items' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "billing_thresholds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price_data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tax_rates"))
 
 -- | Create a new 'PostSubscriptionSchedulesRequestBodyPhases'Items'' with all required fields.
 mkPostSubscriptionSchedulesRequestBodyPhases'Items' :: PostSubscriptionSchedulesRequestBodyPhases'Items'
 mkPostSubscriptionSchedulesRequestBodyPhases'Items' =
   PostSubscriptionSchedulesRequestBodyPhases'Items'
     { postSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds = GHC.Maybe.Nothing,
+      postSubscriptionSchedulesRequestBodyPhases'Items'Metadata = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'Items'Price = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'Items'PriceData = GHC.Maybe.Nothing,
       postSubscriptionSchedulesRequestBodyPhases'Items'Quantity = GHC.Maybe.Nothing,
@@ -900,8 +976,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds'PostSubscriptionSchedulesRequestBodyPhases'Items'BillingThresholds'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the object schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.items.items.properties.price_data@ in the specification.
 data PostSubscriptionSchedulesRequestBodyPhases'Items'PriceData' = PostSubscriptionSchedulesRequestBodyPhases'Items'PriceData'
@@ -1065,8 +1141,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyPhases'Items'TaxRates'EmptyString
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyPhases'Items'TaxRates'ListTText Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema located at @paths.\/v1\/subscription_schedules.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.phases.items.properties.proration_behavior@ in the specification.
 data PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'
@@ -1147,8 +1223,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
     if
         | val GHC.Classes.== "now" -> GHC.Base.pure PostSubscriptionSchedulesRequestBodyStartDate'Now
         | GHC.Base.otherwise -> case (PostSubscriptionSchedulesRequestBodyStartDate'Int Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postSubscriptionSchedules'.
 --

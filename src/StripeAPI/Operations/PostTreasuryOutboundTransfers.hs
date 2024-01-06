@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postTreasuryOutboundTransfers body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostTreasuryOutboundTransfersResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Treasury'outboundTransfer
-                                                      )
+                                     PostTreasuryOutboundTransfersResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Treasury'outboundTransfer
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostTreasuryOutboundTransfersResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostTreasuryOutboundTransfersResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/treasury/outbound_transfers") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/treasury/outbound_transfers" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/treasury\/outbound_transfers.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostTreasuryOutboundTransfersRequestBody = PostTreasuryOutboundTransfersRequestBody
@@ -99,7 +100,7 @@ data PostTreasuryOutboundTransfersRequestBody = PostTreasuryOutboundTransfersReq
     -- Constraints:
     --
     -- * Maximum length of 5000
-    postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod :: Data.Text.Internal.Text,
+    postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | destination_payment_method_options: Hash describing payment method configuration details.
     postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions :: (GHC.Maybe.Maybe PostTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions'),
     -- | expand: Specifies which fields in the response should be expanded.
@@ -108,7 +109,7 @@ data PostTreasuryOutboundTransfersRequestBody = PostTreasuryOutboundTransfersReq
     postTreasuryOutboundTransfersRequestBodyFinancialAccount :: Data.Text.Internal.Text,
     -- | metadata: Set of [key-value pairs](https:\/\/stripe.com\/docs\/api\/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
     postTreasuryOutboundTransfersRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
-    -- | statement_descriptor: Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for \`ach\` transfers or 140 characters for \`wire\` transfers. The default value is \`transfer\`.
+    -- | statement_descriptor: Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for \`ach\` transfers or 140 characters for \`us_domestic_wire\` transfers. The default value is \"transfer\".
     --
     -- Constraints:
     --
@@ -121,11 +122,11 @@ data PostTreasuryOutboundTransfersRequestBody = PostTreasuryOutboundTransfersReq
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostTreasuryOutboundTransfersRequestBody where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDescription obj) : ["destination_payment_method" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_method_options" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyExpand obj) : ["financial_account" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyStatementDescriptor obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDescription obj) : ["destination_payment_method" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_method_options" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyExpand obj) : ["financial_account" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyStatementDescriptor obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_method" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_method_options" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyExpand obj) : ["financial_account" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyStatementDescriptor obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["amount" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyAmount obj] : ["currency" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyCurrency obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDescription obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_method" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("destination_payment_method_options" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("expand" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyExpand obj) : ["financial_account" Data.Aeson.Types.ToJSON..= postTreasuryOutboundTransfersRequestBodyFinancialAccount obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("metadata" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyMetadata obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("statement_descriptor" Data.Aeson.Types.ToJSON..=)) (postTreasuryOutboundTransfersRequestBodyStatementDescriptor obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostTreasuryOutboundTransfersRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTreasuryOutboundTransfersRequestBody" (\obj -> ((((((((GHC.Base.pure PostTreasuryOutboundTransfersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "destination_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "destination_payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "financial_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTreasuryOutboundTransfersRequestBody" (\obj -> ((((((((GHC.Base.pure PostTreasuryOutboundTransfersRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "destination_payment_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "destination_payment_method_options")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "financial_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "statement_descriptor"))
 
 -- | Create a new 'PostTreasuryOutboundTransfersRequestBody' with all required fields.
 mkPostTreasuryOutboundTransfersRequestBody ::
@@ -133,17 +134,15 @@ mkPostTreasuryOutboundTransfersRequestBody ::
   GHC.Types.Int ->
   -- | 'postTreasuryOutboundTransfersRequestBodyCurrency'
   Data.Text.Internal.Text ->
-  -- | 'postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod'
-  Data.Text.Internal.Text ->
   -- | 'postTreasuryOutboundTransfersRequestBodyFinancialAccount'
   Data.Text.Internal.Text ->
   PostTreasuryOutboundTransfersRequestBody
-mkPostTreasuryOutboundTransfersRequestBody postTreasuryOutboundTransfersRequestBodyAmount postTreasuryOutboundTransfersRequestBodyCurrency postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod postTreasuryOutboundTransfersRequestBodyFinancialAccount =
+mkPostTreasuryOutboundTransfersRequestBody postTreasuryOutboundTransfersRequestBodyAmount postTreasuryOutboundTransfersRequestBodyCurrency postTreasuryOutboundTransfersRequestBodyFinancialAccount =
   PostTreasuryOutboundTransfersRequestBody
     { postTreasuryOutboundTransfersRequestBodyAmount = postTreasuryOutboundTransfersRequestBodyAmount,
       postTreasuryOutboundTransfersRequestBodyCurrency = postTreasuryOutboundTransfersRequestBodyCurrency,
       postTreasuryOutboundTransfersRequestBodyDescription = GHC.Maybe.Nothing,
-      postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod = postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod,
+      postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethod = GHC.Maybe.Nothing,
       postTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions = GHC.Maybe.Nothing,
       postTreasuryOutboundTransfersRequestBodyExpand = GHC.Maybe.Nothing,
       postTreasuryOutboundTransfersRequestBodyFinancialAccount = postTreasuryOutboundTransfersRequestBodyFinancialAccount,
@@ -238,8 +237,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTreasuryOutboundTransfersRequest
     if
         | val GHC.Classes.== "" -> GHC.Base.pure PostTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions'UsBankAccount'EmptyString
         | GHC.Base.otherwise -> case (PostTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions'UsBankAccount'PostTreasuryOutboundTransfersRequestBodyDestinationPaymentMethodOptions'UsBankAccount'OneOf1 Data.Functor.<$> Data.Aeson.Types.FromJSON.fromJSON val) GHC.Base.<|> Data.Aeson.Types.Internal.Error "No variant matched" of
-          Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
-          Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
+            Data.Aeson.Types.Internal.Success a -> GHC.Base.pure a
+            Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postTreasuryOutboundTransfers'.
 --

@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -37,11 +37,21 @@ data ThreeDSecureDetails = ThreeDSecureDetails
   { -- | authentication_flow: For authenticated transactions: how the customer was authenticated by
     -- the issuing bank.
     threeDSecureDetailsAuthenticationFlow :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsAuthenticationFlow'NonNullable)),
+    -- | electronic_commerce_indicator: The Electronic Commerce Indicator (ECI). A protocol-level field
+    -- indicating what degree of authentication was performed.
+    threeDSecureDetailsElectronicCommerceIndicator :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsElectronicCommerceIndicator'NonNullable)),
     -- | result: Indicates the outcome of 3D Secure authentication.
     threeDSecureDetailsResult :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsResult'NonNullable)),
     -- | result_reason: Additional information about why 3D Secure succeeded or failed based
     -- on the \`result\`.
     threeDSecureDetailsResultReason :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsResultReason'NonNullable)),
+    -- | transaction_id: The 3D Secure 1 XID or 3D Secure 2 Directory Server Transaction ID
+    -- (dsTransId) for this payment.
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    threeDSecureDetailsTransactionId :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
     -- | version: The version of 3D Secure that was used.
     threeDSecureDetailsVersion :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ThreeDSecureDetailsVersion'NonNullable))
   }
@@ -51,19 +61,21 @@ data ThreeDSecureDetails = ThreeDSecureDetails
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetails where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authentication_flow" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsAuthenticationFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResult obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result_reason" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResultReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsVersion obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authentication_flow" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsAuthenticationFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResult obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result_reason" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResultReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsVersion obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authentication_flow" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsAuthenticationFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("electronic_commerce_indicator" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsElectronicCommerceIndicator obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResult obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result_reason" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResultReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsTransactionId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsVersion obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("authentication_flow" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsAuthenticationFlow obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("electronic_commerce_indicator" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsElectronicCommerceIndicator obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResult obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("result_reason" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsResultReason obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsTransactionId obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("version" Data.Aeson.Types.ToJSON..=)) (threeDSecureDetailsVersion obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecureDetails" (\obj -> (((GHC.Base.pure ThreeDSecureDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authentication_flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "version"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "ThreeDSecureDetails" (\obj -> (((((GHC.Base.pure ThreeDSecureDetails GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "authentication_flow")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "electronic_commerce_indicator")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "version"))
 
 -- | Create a new 'ThreeDSecureDetails' with all required fields.
 mkThreeDSecureDetails :: ThreeDSecureDetails
 mkThreeDSecureDetails =
   ThreeDSecureDetails
     { threeDSecureDetailsAuthenticationFlow = GHC.Maybe.Nothing,
+      threeDSecureDetailsElectronicCommerceIndicator = GHC.Maybe.Nothing,
       threeDSecureDetailsResult = GHC.Maybe.Nothing,
       threeDSecureDetailsResultReason = GHC.Maybe.Nothing,
+      threeDSecureDetailsTransactionId = GHC.Maybe.Nothing,
       threeDSecureDetailsVersion = GHC.Maybe.Nothing
     }
 
@@ -97,6 +109,48 @@ instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsAuthenticationFlo
             | GHC.Base.otherwise -> ThreeDSecureDetailsAuthenticationFlow'NonNullableOther val
       )
 
+-- | Defines the enum schema located at @components.schemas.three_d_secure_details.properties.electronic_commerce_indicator@ in the specification.
+--
+-- The Electronic Commerce Indicator (ECI). A protocol-level field
+-- indicating what degree of authentication was performed.
+data ThreeDSecureDetailsElectronicCommerceIndicator'NonNullable
+  = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
+    ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableOther Data.Aeson.Types.Internal.Value
+  | -- | This constructor can be used to send values to the server which are not present in the specification yet.
+    ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableTyped Data.Text.Internal.Text
+  | -- | Represents the JSON value @"01"@
+    ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum01
+  | -- | Represents the JSON value @"02"@
+    ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum02
+  | -- | Represents the JSON value @"05"@
+    ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum05
+  | -- | Represents the JSON value @"06"@
+    ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum06
+  | -- | Represents the JSON value @"07"@
+    ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum07
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsElectronicCommerceIndicator'NonNullable where
+  toJSON (ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableOther val) = val
+  toJSON (ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
+  toJSON (ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum01) = "01"
+  toJSON (ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum02) = "02"
+  toJSON (ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum05) = "05"
+  toJSON (ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum06) = "06"
+  toJSON (ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum07) = "07"
+
+instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsElectronicCommerceIndicator'NonNullable where
+  parseJSON val =
+    GHC.Base.pure
+      ( if
+            | val GHC.Classes.== "01" -> ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum01
+            | val GHC.Classes.== "02" -> ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum02
+            | val GHC.Classes.== "05" -> ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum05
+            | val GHC.Classes.== "06" -> ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum06
+            | val GHC.Classes.== "07" -> ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableEnum07
+            | GHC.Base.otherwise -> ThreeDSecureDetailsElectronicCommerceIndicator'NonNullableOther val
+      )
+
 -- | Defines the enum schema located at @components.schemas.three_d_secure_details.properties.result@ in the specification.
 --
 -- Indicates the outcome of 3D Secure authentication.
@@ -109,6 +163,8 @@ data ThreeDSecureDetailsResult'NonNullable
     ThreeDSecureDetailsResult'NonNullableEnumAttemptAcknowledged
   | -- | Represents the JSON value @"authenticated"@
     ThreeDSecureDetailsResult'NonNullableEnumAuthenticated
+  | -- | Represents the JSON value @"exempted"@
+    ThreeDSecureDetailsResult'NonNullableEnumExempted
   | -- | Represents the JSON value @"failed"@
     ThreeDSecureDetailsResult'NonNullableEnumFailed
   | -- | Represents the JSON value @"not_supported"@
@@ -122,6 +178,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON ThreeDSecureDetailsResult'NonNullable wh
   toJSON (ThreeDSecureDetailsResult'NonNullableTyped val) = Data.Aeson.Types.ToJSON.toJSON val
   toJSON (ThreeDSecureDetailsResult'NonNullableEnumAttemptAcknowledged) = "attempt_acknowledged"
   toJSON (ThreeDSecureDetailsResult'NonNullableEnumAuthenticated) = "authenticated"
+  toJSON (ThreeDSecureDetailsResult'NonNullableEnumExempted) = "exempted"
   toJSON (ThreeDSecureDetailsResult'NonNullableEnumFailed) = "failed"
   toJSON (ThreeDSecureDetailsResult'NonNullableEnumNotSupported) = "not_supported"
   toJSON (ThreeDSecureDetailsResult'NonNullableEnumProcessingError) = "processing_error"
@@ -132,6 +189,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON ThreeDSecureDetailsResult'NonNullabl
       ( if
             | val GHC.Classes.== "attempt_acknowledged" -> ThreeDSecureDetailsResult'NonNullableEnumAttemptAcknowledged
             | val GHC.Classes.== "authenticated" -> ThreeDSecureDetailsResult'NonNullableEnumAuthenticated
+            | val GHC.Classes.== "exempted" -> ThreeDSecureDetailsResult'NonNullableEnumExempted
             | val GHC.Classes.== "failed" -> ThreeDSecureDetailsResult'NonNullableEnumFailed
             | val GHC.Classes.== "not_supported" -> ThreeDSecureDetailsResult'NonNullableEnumNotSupported
             | val GHC.Classes.== "processing_error" -> ThreeDSecureDetailsResult'NonNullableEnumProcessingError

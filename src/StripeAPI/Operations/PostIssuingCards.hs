@@ -14,8 +14,9 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
+import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
 import qualified Data.Foldable
 import qualified Data.Functor
@@ -61,26 +62,26 @@ postIssuingCards body =
               GHC.Base.. ( \response body ->
                              if
                                  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostIssuingCardsResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Issuing'card
-                                                      )
+                                     PostIssuingCardsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Issuing'card
+                                                        )
                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostIssuingCardsResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either
-                                                            GHC.Base.String
-                                                            Error
-                                                      )
+                                     PostIssuingCardsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either
+                                                              GHC.Base.String
+                                                              Error
+                                                        )
                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
                          )
                 response_0
           )
           response_0
     )
-    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/issuing/cards") GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.Internal.pack "POST") "/v1/issuing/cards" GHC.Base.mempty (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the object schema located at @paths.\/v1\/issuing\/cards.POST.requestBody.content.application\/x-www-form-urlencoded.schema@ in the specification.
 data PostIssuingCardsRequestBody = PostIssuingCardsRequestBody
@@ -110,7 +111,7 @@ data PostIssuingCardsRequestBody = PostIssuingCardsRequestBody
     postIssuingCardsRequestBodyShipping :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodyShipping'),
     -- | spending_controls: Rules that control spending for this card. Refer to our [documentation](https:\/\/stripe.com\/docs\/issuing\/controls\/spending-controls) for more details.
     postIssuingCardsRequestBodySpendingControls :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodySpendingControls'),
-    -- | status: Whether authorizations can be approved on this card. Defaults to \`inactive\`.
+    -- | status: Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to \`inactive\`.
     postIssuingCardsRequestBodyStatus :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodyStatus'),
     -- | type: The type of card to issue. Possible values are \`physical\` or \`virtual\`.
     postIssuingCardsRequestBodyType :: PostIssuingCardsRequestBodyType'
@@ -192,12 +193,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodyReplaceme
 data PostIssuingCardsRequestBodyShipping' = PostIssuingCardsRequestBodyShipping'
   { -- | address
     postIssuingCardsRequestBodyShipping'Address :: PostIssuingCardsRequestBodyShipping'Address',
+    -- | customs
+    postIssuingCardsRequestBodyShipping'Customs :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodyShipping'Customs'),
     -- | name
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     postIssuingCardsRequestBodyShipping'Name :: Data.Text.Internal.Text,
+    -- | phone_number
+    postIssuingCardsRequestBodyShipping'PhoneNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+    -- | require_signature
+    postIssuingCardsRequestBodyShipping'RequireSignature :: (GHC.Maybe.Maybe GHC.Types.Bool),
     -- | service
     postIssuingCardsRequestBodyShipping'Service :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodyShipping'Service'),
     -- | type
@@ -209,11 +216,11 @@ data PostIssuingCardsRequestBodyShipping' = PostIssuingCardsRequestBodyShipping'
     )
 
 instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodyShipping' where
-  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Address obj] : ["name" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Service obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Type obj) : GHC.Base.mempty))
-  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Address obj] : ["name" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Service obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Type obj) : GHC.Base.mempty)))
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Address obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customs" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Customs obj) : ["name" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'PhoneNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_signature" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'RequireSignature obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Service obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Type obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (["address" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Address obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("customs" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Customs obj) : ["name" Data.Aeson.Types.ToJSON..= postIssuingCardsRequestBodyShipping'Name obj] : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("phone_number" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'PhoneNumber obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("require_signature" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'RequireSignature obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("service" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Service obj) : Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("type" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Type obj) : GHC.Base.mempty)))
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodyShipping' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsRequestBodyShipping'" (\obj -> (((GHC.Base.pure PostIssuingCardsRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "service")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsRequestBodyShipping'" (\obj -> ((((((GHC.Base.pure PostIssuingCardsRequestBodyShipping' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "customs")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "phone_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "require_signature")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "service")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "type"))
 
 -- | Create a new 'PostIssuingCardsRequestBodyShipping'' with all required fields.
 mkPostIssuingCardsRequestBodyShipping' ::
@@ -225,7 +232,10 @@ mkPostIssuingCardsRequestBodyShipping' ::
 mkPostIssuingCardsRequestBodyShipping' postIssuingCardsRequestBodyShipping'Address postIssuingCardsRequestBodyShipping'Name =
   PostIssuingCardsRequestBodyShipping'
     { postIssuingCardsRequestBodyShipping'Address = postIssuingCardsRequestBodyShipping'Address,
+      postIssuingCardsRequestBodyShipping'Customs = GHC.Maybe.Nothing,
       postIssuingCardsRequestBodyShipping'Name = postIssuingCardsRequestBodyShipping'Name,
+      postIssuingCardsRequestBodyShipping'PhoneNumber = GHC.Maybe.Nothing,
+      postIssuingCardsRequestBodyShipping'RequireSignature = GHC.Maybe.Nothing,
       postIssuingCardsRequestBodyShipping'Service = GHC.Maybe.Nothing,
       postIssuingCardsRequestBodyShipping'Type = GHC.Maybe.Nothing
     }
@@ -301,6 +311,31 @@ mkPostIssuingCardsRequestBodyShipping'Address' postIssuingCardsRequestBodyShippi
       postIssuingCardsRequestBodyShipping'Address'PostalCode = postIssuingCardsRequestBodyShipping'Address'PostalCode,
       postIssuingCardsRequestBodyShipping'Address'State = GHC.Maybe.Nothing
     }
+
+-- | Defines the object schema located at @paths.\/v1\/issuing\/cards.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping.properties.customs@ in the specification.
+data PostIssuingCardsRequestBodyShipping'Customs' = PostIssuingCardsRequestBodyShipping'Customs'
+  { -- | eori_number
+    --
+    -- Constraints:
+    --
+    -- * Maximum length of 5000
+    postIssuingCardsRequestBodyShipping'Customs'EoriNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
+  }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodyShipping'Customs' where
+  toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eori_number" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Customs'EoriNumber obj) : GHC.Base.mempty))
+  toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe GHC.Base.mempty (GHC.Base.pure GHC.Base.. ("eori_number" Data.Aeson.Types.ToJSON..=)) (postIssuingCardsRequestBodyShipping'Customs'EoriNumber obj) : GHC.Base.mempty)))
+
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodyShipping'Customs' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsRequestBodyShipping'Customs'" (\obj -> GHC.Base.pure PostIssuingCardsRequestBodyShipping'Customs' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "eori_number"))
+
+-- | Create a new 'PostIssuingCardsRequestBodyShipping'Customs'' with all required fields.
+mkPostIssuingCardsRequestBodyShipping'Customs' :: PostIssuingCardsRequestBodyShipping'Customs'
+mkPostIssuingCardsRequestBodyShipping'Customs' = PostIssuingCardsRequestBodyShipping'Customs' {postIssuingCardsRequestBodyShipping'Customs'EoriNumber = GHC.Maybe.Nothing}
 
 -- | Defines the enum schema located at @paths.\/v1\/issuing\/cards.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.shipping.properties.service@ in the specification.
 data PostIssuingCardsRequestBodyShipping'Service'
@@ -618,6 +653,8 @@ data PostIssuingCardsRequestBodySpendingControls'AllowedCategories'
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEducationalServices
   | -- | Represents the JSON value @"electric_razor_stores"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricRazorStores
+  | -- | Represents the JSON value @"electric_vehicle_charging"@
+    PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricVehicleCharging
   | -- | Represents the JSON value @"electrical_parts_and_equipment"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricalPartsAndEquipment
   | -- | Represents the JSON value @"electrical_services"@
@@ -628,6 +665,8 @@ data PostIssuingCardsRequestBodySpendingControls'AllowedCategories'
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectronicsStores
   | -- | Represents the JSON value @"elementary_secondary_schools"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElementarySecondarySchools
+  | -- | Represents the JSON value @"emergency_services_gcas_visa_use_only"@
+    PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEmergencyServicesGcasVisaUseOnly
   | -- | Represents the JSON value @"employment_temp_agencies"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEmploymentTempAgencies
   | -- | Represents the JSON value @"equipment_rental"@
@@ -672,6 +711,14 @@ data PostIssuingCardsRequestBodySpendingControls'AllowedCategories'
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGlasswareCrystalStores
   | -- | Represents the JSON value @"golf_courses_public"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_licensed_horse_dog_racing_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly
+  | -- | Represents the JSON value @"government_licensed_online_casions_online_gambling_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+  | -- | Represents the JSON value @"government_owned_lotteries_non_us_region"@
+    PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentOwnedLotteriesNonUsRegion
+  | -- | Represents the JSON value @"government_owned_lotteries_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentOwnedLotteriesUsRegionOnly
   | -- | Represents the JSON value @"government_services"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentServices
   | -- | Represents the JSON value @"grocery_stores_supermarkets"@
@@ -724,6 +771,8 @@ data PostIssuingCardsRequestBodySpendingControls'AllowedCategories'
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumManualCashDisburse
   | -- | Represents the JSON value @"marinas_service_and_supplies"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"marketplaces"@
+    PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMarketplaces
   | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
     PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMasonryStoneworkAndPlaster
   | -- | Represents the JSON value @"massage_parlors"@
@@ -1089,11 +1138,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEatingPlacesRestaurants) = "eating_places_restaurants"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEducationalServices) = "educational_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricVehicleCharging) = "electric_vehicle_charging"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricalServices) = "electrical_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectronicsRepairShops) = "electronics_repair_shops"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectronicsStores) = "electronics_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEmergencyServicesGcasVisaUseOnly) = "emergency_services_gcas_visa_use_only"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEmploymentTempAgencies) = "employment_temp_agencies"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEquipmentRental) = "equipment_rental"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumExterminatingServices) = "exterminating_services"
@@ -1116,6 +1167,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGlasswareCrystalStores) = "glassware_crystal_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly) = "government_licensed_horse_dog_racing_us_region_only"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly) = "government_licensed_online_casions_online_gambling_us_region_only"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentOwnedLotteriesNonUsRegion) = "government_owned_lotteries_non_us_region"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentOwnedLotteriesUsRegionOnly) = "government_owned_lotteries_us_region_only"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentServices) = "government_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
@@ -1142,6 +1197,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumManualCashDisburse) = "manual_cash_disburse"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMarketplaces) = "marketplaces"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMassageParlors) = "massage_parlors"
   toJSON (PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMedicalAndDentalLabs) = "medical_and_dental_labs"
@@ -1382,11 +1438,13 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEatingPlacesRestaurants
             | val GHC.Classes.== "educational_services" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEducationalServices
             | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricRazorStores
+            | val GHC.Classes.== "electric_vehicle_charging" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricVehicleCharging
             | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricalPartsAndEquipment
             | val GHC.Classes.== "electrical_services" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectricalServices
             | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectronicsRepairShops
             | val GHC.Classes.== "electronics_stores" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElectronicsStores
             | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumElementarySecondarySchools
+            | val GHC.Classes.== "emergency_services_gcas_visa_use_only" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEmergencyServicesGcasVisaUseOnly
             | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEmploymentTempAgencies
             | val GHC.Classes.== "equipment_rental" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumEquipmentRental
             | val GHC.Classes.== "exterminating_services" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumExterminatingServices
@@ -1409,6 +1467,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGlassPaintAndWallpaperStores
             | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGlasswareCrystalStores
             | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGolfCoursesPublic
+            | val GHC.Classes.== "government_licensed_horse_dog_racing_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly
+            | val GHC.Classes.== "government_licensed_online_casions_online_gambling_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+            | val GHC.Classes.== "government_owned_lotteries_non_us_region" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentOwnedLotteriesNonUsRegion
+            | val GHC.Classes.== "government_owned_lotteries_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentOwnedLotteriesUsRegionOnly
             | val GHC.Classes.== "government_services" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGovernmentServices
             | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumGroceryStoresSupermarkets
             | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumHardwareEquipmentAndSupplies
@@ -1435,6 +1497,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumLumberBuildingMaterialsStores
             | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumManualCashDisburse
             | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "marketplaces" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMarketplaces
             | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMasonryStoneworkAndPlaster
             | val GHC.Classes.== "massage_parlors" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMassageParlors
             | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardsRequestBodySpendingControls'AllowedCategories'EnumMedicalAndDentalLabs
@@ -1789,6 +1852,8 @@ data PostIssuingCardsRequestBodySpendingControls'BlockedCategories'
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEducationalServices
   | -- | Represents the JSON value @"electric_razor_stores"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricRazorStores
+  | -- | Represents the JSON value @"electric_vehicle_charging"@
+    PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricVehicleCharging
   | -- | Represents the JSON value @"electrical_parts_and_equipment"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricalPartsAndEquipment
   | -- | Represents the JSON value @"electrical_services"@
@@ -1799,6 +1864,8 @@ data PostIssuingCardsRequestBodySpendingControls'BlockedCategories'
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectronicsStores
   | -- | Represents the JSON value @"elementary_secondary_schools"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElementarySecondarySchools
+  | -- | Represents the JSON value @"emergency_services_gcas_visa_use_only"@
+    PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEmergencyServicesGcasVisaUseOnly
   | -- | Represents the JSON value @"employment_temp_agencies"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEmploymentTempAgencies
   | -- | Represents the JSON value @"equipment_rental"@
@@ -1843,6 +1910,14 @@ data PostIssuingCardsRequestBodySpendingControls'BlockedCategories'
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGlasswareCrystalStores
   | -- | Represents the JSON value @"golf_courses_public"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_licensed_horse_dog_racing_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly
+  | -- | Represents the JSON value @"government_licensed_online_casions_online_gambling_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+  | -- | Represents the JSON value @"government_owned_lotteries_non_us_region"@
+    PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentOwnedLotteriesNonUsRegion
+  | -- | Represents the JSON value @"government_owned_lotteries_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentOwnedLotteriesUsRegionOnly
   | -- | Represents the JSON value @"government_services"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentServices
   | -- | Represents the JSON value @"grocery_stores_supermarkets"@
@@ -1895,6 +1970,8 @@ data PostIssuingCardsRequestBodySpendingControls'BlockedCategories'
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumManualCashDisburse
   | -- | Represents the JSON value @"marinas_service_and_supplies"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"marketplaces"@
+    PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMarketplaces
   | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
     PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMasonryStoneworkAndPlaster
   | -- | Represents the JSON value @"massage_parlors"@
@@ -2260,11 +2337,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEatingPlacesRestaurants) = "eating_places_restaurants"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEducationalServices) = "educational_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricVehicleCharging) = "electric_vehicle_charging"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricalServices) = "electrical_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectronicsRepairShops) = "electronics_repair_shops"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectronicsStores) = "electronics_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEmergencyServicesGcasVisaUseOnly) = "emergency_services_gcas_visa_use_only"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEmploymentTempAgencies) = "employment_temp_agencies"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEquipmentRental) = "equipment_rental"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumExterminatingServices) = "exterminating_services"
@@ -2287,6 +2366,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGlasswareCrystalStores) = "glassware_crystal_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly) = "government_licensed_horse_dog_racing_us_region_only"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly) = "government_licensed_online_casions_online_gambling_us_region_only"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentOwnedLotteriesNonUsRegion) = "government_owned_lotteries_non_us_region"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentOwnedLotteriesUsRegionOnly) = "government_owned_lotteries_us_region_only"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentServices) = "government_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
@@ -2313,6 +2396,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumManualCashDisburse) = "manual_cash_disburse"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMarketplaces) = "marketplaces"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMassageParlors) = "massage_parlors"
   toJSON (PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMedicalAndDentalLabs) = "medical_and_dental_labs"
@@ -2553,11 +2637,13 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEatingPlacesRestaurants
             | val GHC.Classes.== "educational_services" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEducationalServices
             | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricRazorStores
+            | val GHC.Classes.== "electric_vehicle_charging" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricVehicleCharging
             | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricalPartsAndEquipment
             | val GHC.Classes.== "electrical_services" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectricalServices
             | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectronicsRepairShops
             | val GHC.Classes.== "electronics_stores" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElectronicsStores
             | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumElementarySecondarySchools
+            | val GHC.Classes.== "emergency_services_gcas_visa_use_only" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEmergencyServicesGcasVisaUseOnly
             | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEmploymentTempAgencies
             | val GHC.Classes.== "equipment_rental" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumEquipmentRental
             | val GHC.Classes.== "exterminating_services" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumExterminatingServices
@@ -2580,6 +2666,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGlassPaintAndWallpaperStores
             | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGlasswareCrystalStores
             | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGolfCoursesPublic
+            | val GHC.Classes.== "government_licensed_horse_dog_racing_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly
+            | val GHC.Classes.== "government_licensed_online_casions_online_gambling_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+            | val GHC.Classes.== "government_owned_lotteries_non_us_region" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentOwnedLotteriesNonUsRegion
+            | val GHC.Classes.== "government_owned_lotteries_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentOwnedLotteriesUsRegionOnly
             | val GHC.Classes.== "government_services" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGovernmentServices
             | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumGroceryStoresSupermarkets
             | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumHardwareEquipmentAndSupplies
@@ -2606,6 +2696,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumLumberBuildingMaterialsStores
             | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumManualCashDisburse
             | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "marketplaces" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMarketplaces
             | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMasonryStoneworkAndPlaster
             | val GHC.Classes.== "massage_parlors" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMassageParlors
             | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardsRequestBodySpendingControls'BlockedCategories'EnumMedicalAndDentalLabs
@@ -2995,6 +3086,8 @@ data PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEducationalServices
   | -- | Represents the JSON value @"electric_razor_stores"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricRazorStores
+  | -- | Represents the JSON value @"electric_vehicle_charging"@
+    PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricVehicleCharging
   | -- | Represents the JSON value @"electrical_parts_and_equipment"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricalPartsAndEquipment
   | -- | Represents the JSON value @"electrical_services"@
@@ -3005,6 +3098,8 @@ data PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectronicsStores
   | -- | Represents the JSON value @"elementary_secondary_schools"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElementarySecondarySchools
+  | -- | Represents the JSON value @"emergency_services_gcas_visa_use_only"@
+    PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEmergencyServicesGcasVisaUseOnly
   | -- | Represents the JSON value @"employment_temp_agencies"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEmploymentTempAgencies
   | -- | Represents the JSON value @"equipment_rental"@
@@ -3049,6 +3144,14 @@ data PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGlasswareCrystalStores
   | -- | Represents the JSON value @"golf_courses_public"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGolfCoursesPublic
+  | -- | Represents the JSON value @"government_licensed_horse_dog_racing_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly
+  | -- | Represents the JSON value @"government_licensed_online_casions_online_gambling_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+  | -- | Represents the JSON value @"government_owned_lotteries_non_us_region"@
+    PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentOwnedLotteriesNonUsRegion
+  | -- | Represents the JSON value @"government_owned_lotteries_us_region_only"@
+    PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentOwnedLotteriesUsRegionOnly
   | -- | Represents the JSON value @"government_services"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentServices
   | -- | Represents the JSON value @"grocery_stores_supermarkets"@
@@ -3101,6 +3204,8 @@ data PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumManualCashDisburse
   | -- | Represents the JSON value @"marinas_service_and_supplies"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMarinasServiceAndSupplies
+  | -- | Represents the JSON value @"marketplaces"@
+    PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMarketplaces
   | -- | Represents the JSON value @"masonry_stonework_and_plaster"@
     PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMasonryStoneworkAndPlaster
   | -- | Represents the JSON value @"massage_parlors"@
@@ -3466,11 +3571,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEatingPlacesRestaurants) = "eating_places_restaurants"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEducationalServices) = "educational_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricRazorStores) = "electric_razor_stores"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricVehicleCharging) = "electric_vehicle_charging"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricalPartsAndEquipment) = "electrical_parts_and_equipment"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricalServices) = "electrical_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectronicsRepairShops) = "electronics_repair_shops"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectronicsStores) = "electronics_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElementarySecondarySchools) = "elementary_secondary_schools"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEmergencyServicesGcasVisaUseOnly) = "emergency_services_gcas_visa_use_only"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEmploymentTempAgencies) = "employment_temp_agencies"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEquipmentRental) = "equipment_rental"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumExterminatingServices) = "exterminating_services"
@@ -3493,6 +3600,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGlassPaintAndWallpaperStores) = "glass_paint_and_wallpaper_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGlasswareCrystalStores) = "glassware_crystal_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGolfCoursesPublic) = "golf_courses_public"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly) = "government_licensed_horse_dog_racing_us_region_only"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly) = "government_licensed_online_casions_online_gambling_us_region_only"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentOwnedLotteriesNonUsRegion) = "government_owned_lotteries_non_us_region"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentOwnedLotteriesUsRegionOnly) = "government_owned_lotteries_us_region_only"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentServices) = "government_services"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGroceryStoresSupermarkets) = "grocery_stores_supermarkets"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumHardwareEquipmentAndSupplies) = "hardware_equipment_and_supplies"
@@ -3519,6 +3630,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON PostIssuingCardsRequestBodySpendingContr
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumLumberBuildingMaterialsStores) = "lumber_building_materials_stores"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumManualCashDisburse) = "manual_cash_disburse"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMarinasServiceAndSupplies) = "marinas_service_and_supplies"
+  toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMarketplaces) = "marketplaces"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMasonryStoneworkAndPlaster) = "masonry_stonework_and_plaster"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMassageParlors) = "massage_parlors"
   toJSON (PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMedicalAndDentalLabs) = "medical_and_dental_labs"
@@ -3759,11 +3871,13 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "eating_places_restaurants" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEatingPlacesRestaurants
             | val GHC.Classes.== "educational_services" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEducationalServices
             | val GHC.Classes.== "electric_razor_stores" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricRazorStores
+            | val GHC.Classes.== "electric_vehicle_charging" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricVehicleCharging
             | val GHC.Classes.== "electrical_parts_and_equipment" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricalPartsAndEquipment
             | val GHC.Classes.== "electrical_services" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectricalServices
             | val GHC.Classes.== "electronics_repair_shops" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectronicsRepairShops
             | val GHC.Classes.== "electronics_stores" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElectronicsStores
             | val GHC.Classes.== "elementary_secondary_schools" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumElementarySecondarySchools
+            | val GHC.Classes.== "emergency_services_gcas_visa_use_only" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEmergencyServicesGcasVisaUseOnly
             | val GHC.Classes.== "employment_temp_agencies" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEmploymentTempAgencies
             | val GHC.Classes.== "equipment_rental" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumEquipmentRental
             | val GHC.Classes.== "exterminating_services" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumExterminatingServices
@@ -3786,6 +3900,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "glass_paint_and_wallpaper_stores" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGlassPaintAndWallpaperStores
             | val GHC.Classes.== "glassware_crystal_stores" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGlasswareCrystalStores
             | val GHC.Classes.== "golf_courses_public" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGolfCoursesPublic
+            | val GHC.Classes.== "government_licensed_horse_dog_racing_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentLicensedHorseDogRacingUsRegionOnly
+            | val GHC.Classes.== "government_licensed_online_casions_online_gambling_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentLicensedOnlineCasionsOnlineGamblingUsRegionOnly
+            | val GHC.Classes.== "government_owned_lotteries_non_us_region" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentOwnedLotteriesNonUsRegion
+            | val GHC.Classes.== "government_owned_lotteries_us_region_only" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentOwnedLotteriesUsRegionOnly
             | val GHC.Classes.== "government_services" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGovernmentServices
             | val GHC.Classes.== "grocery_stores_supermarkets" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumGroceryStoresSupermarkets
             | val GHC.Classes.== "hardware_equipment_and_supplies" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumHardwareEquipmentAndSupplies
@@ -3812,6 +3930,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
             | val GHC.Classes.== "lumber_building_materials_stores" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumLumberBuildingMaterialsStores
             | val GHC.Classes.== "manual_cash_disburse" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumManualCashDisburse
             | val GHC.Classes.== "marinas_service_and_supplies" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMarinasServiceAndSupplies
+            | val GHC.Classes.== "marketplaces" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMarketplaces
             | val GHC.Classes.== "masonry_stonework_and_plaster" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMasonryStoneworkAndPlaster
             | val GHC.Classes.== "massage_parlors" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMassageParlors
             | val GHC.Classes.== "medical_and_dental_labs" -> PostIssuingCardsRequestBodySpendingControls'SpendingLimits'Categories'EnumMedicalAndDentalLabs
@@ -3985,7 +4104,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodySpendingC
 
 -- | Defines the enum schema located at @paths.\/v1\/issuing\/cards.POST.requestBody.content.application\/x-www-form-urlencoded.schema.properties.status@ in the specification.
 --
--- Whether authorizations can be approved on this card. Defaults to \`inactive\`.
+-- Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to \`inactive\`.
 data PostIssuingCardsRequestBodyStatus'
   = -- | This case is used if the value encountered during decoding does not match any of the provided cases in the specification.
     PostIssuingCardsRequestBodyStatus'Other Data.Aeson.Types.Internal.Value

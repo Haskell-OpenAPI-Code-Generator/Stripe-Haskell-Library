@@ -12,8 +12,8 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
@@ -44,9 +44,9 @@ data FinancialReportingFinanceReportRunRunParameters = FinancialReportingFinance
     financialReportingFinanceReportRunRunParametersConnectedAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
     -- | currency: Currency of objects to be included in the report run.
     financialReportingFinanceReportRunRunParametersCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
-    -- | interval_end: Ending timestamp of data to be included in the report run (exclusive).
+    -- | interval_end: Ending timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after the user specified \`interval_start\` and 1 second before this report\'s last \`data_available_end\` value.
     financialReportingFinanceReportRunRunParametersIntervalEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
-    -- | interval_start: Starting timestamp of data to be included in the report run.
+    -- | interval_start: Starting timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after this report\'s \`data_available_start\` and 1 second before the user specified \`interval_end\` value.
     financialReportingFinanceReportRunRunParametersIntervalStart :: (GHC.Maybe.Maybe GHC.Types.Int),
     -- | payout: Payout ID by which to filter the report run.
     --
