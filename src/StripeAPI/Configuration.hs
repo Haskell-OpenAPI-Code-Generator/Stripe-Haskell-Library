@@ -5,7 +5,7 @@
 module StripeAPI.Configuration where
 
 import qualified Data.Text
-import qualified Data.Text.Internal
+import qualified Data.Text as Data.Text.Internal
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
