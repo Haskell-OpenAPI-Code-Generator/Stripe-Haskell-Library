@@ -12,14 +12,14 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
-import qualified Data.Text.Internal
+import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
@@ -34,13 +34,13 @@ import qualified Prelude as GHC.Maybe
 
 -- | Defines the object schema located at @components.schemas.issuing_transaction_treasury@ in the specification.
 data IssuingTransactionTreasury = IssuingTransactionTreasury
-  { -- | received_credit: The Treasury [ReceivedCredit](https:\/\/stripe.com\/docs\/api\/treasury\/received_debits) representing this Issuing transaction if it is a refund
+  { -- | received_credit: The Treasury [ReceivedCredit](https:\/\/stripe.com\/docs\/api\/treasury\/received_credits) representing this Issuing transaction if it is a refund
     --
     -- Constraints:
     --
     -- * Maximum length of 5000
     issuingTransactionTreasuryReceivedCredit :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable Data.Text.Internal.Text)),
-    -- | received_debit: The Treasury [ReceivedDebit](https:\/\/stripe.com\/docs\/api\/treasury\/received_credits) representing this Issuing transaction if it is a capture
+    -- | received_debit: The Treasury [ReceivedDebit](https:\/\/stripe.com\/docs\/api\/treasury\/received_debits) representing this Issuing transaction if it is a capture
     --
     -- Constraints:
     --

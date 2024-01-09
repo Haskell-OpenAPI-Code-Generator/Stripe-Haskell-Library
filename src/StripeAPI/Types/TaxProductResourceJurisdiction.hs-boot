@@ -1,0 +1,14 @@
+module StripeAPI.Types.TaxProductResourceJurisdiction where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TaxProductResourceJurisdiction
+instance Show TaxProductResourceJurisdiction
+instance Eq TaxProductResourceJurisdiction
+instance FromJSON TaxProductResourceJurisdiction
+instance ToJSON TaxProductResourceJurisdiction
+data TaxProductResourceJurisdictionLevel'
+instance Show TaxProductResourceJurisdictionLevel'
+instance Eq TaxProductResourceJurisdictionLevel'
+instance FromJSON TaxProductResourceJurisdictionLevel'
+instance ToJSON TaxProductResourceJurisdictionLevel'

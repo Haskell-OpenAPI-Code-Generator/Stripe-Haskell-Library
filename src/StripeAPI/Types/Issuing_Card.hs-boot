@@ -37,6 +37,11 @@ instance Show Issuing'cardShipping'NonNullableCarrier'NonNullable
 instance Eq Issuing'cardShipping'NonNullableCarrier'NonNullable
 instance FromJSON Issuing'cardShipping'NonNullableCarrier'NonNullable
 instance ToJSON Issuing'cardShipping'NonNullableCarrier'NonNullable
+data Issuing'cardShipping'NonNullableCustoms'NonNullable
+instance Show Issuing'cardShipping'NonNullableCustoms'NonNullable
+instance Eq Issuing'cardShipping'NonNullableCustoms'NonNullable
+instance FromJSON Issuing'cardShipping'NonNullableCustoms'NonNullable
+instance ToJSON Issuing'cardShipping'NonNullableCustoms'NonNullable
 data Issuing'cardShipping'NonNullableService'
 instance Show Issuing'cardShipping'NonNullableService'
 instance Eq Issuing'cardShipping'NonNullableService'

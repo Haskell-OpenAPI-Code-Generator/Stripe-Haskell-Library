@@ -27,6 +27,11 @@ instance Show PayoutOriginalPayout'NonNullableVariants
 instance Eq PayoutOriginalPayout'NonNullableVariants
 instance FromJSON PayoutOriginalPayout'NonNullableVariants
 instance ToJSON PayoutOriginalPayout'NonNullableVariants
+data PayoutReconciliationStatus'
+instance Show PayoutReconciliationStatus'
+instance Eq PayoutReconciliationStatus'
+instance FromJSON PayoutReconciliationStatus'
+instance ToJSON PayoutReconciliationStatus'
 data PayoutReversedBy'NonNullableVariants
 instance Show PayoutReversedBy'NonNullableVariants
 instance Eq PayoutReversedBy'NonNullableVariants

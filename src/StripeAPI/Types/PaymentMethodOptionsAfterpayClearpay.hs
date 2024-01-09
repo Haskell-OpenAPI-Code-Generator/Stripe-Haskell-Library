@@ -12,14 +12,14 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
-import qualified Data.Text.Internal
+import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
@@ -36,8 +36,8 @@ import qualified Prelude as GHC.Maybe
 data PaymentMethodOptionsAfterpayClearpay = PaymentMethodOptionsAfterpayClearpay
   { -- | capture_method: Controls when the funds will be captured from the customer\'s account.
     paymentMethodOptionsAfterpayClearpayCaptureMethod :: (GHC.Maybe.Maybe PaymentMethodOptionsAfterpayClearpayCaptureMethod'),
-    -- | reference: Order identifier shown to the customer in Afterpay’s online portal. We recommend using a value that helps you answer any questions a customer might have about
-    -- the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
+    -- | reference: An internal identifier or reference that this payment corresponds to. You must limit the identifier to 128 characters, and it can only contain letters, numbers, underscores, backslashes, and dashes.
+    -- This field differs from the statement descriptor and item name.
     --
     -- Constraints:
     --

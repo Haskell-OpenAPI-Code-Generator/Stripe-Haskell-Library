@@ -37,3 +37,8 @@ instance Show FinancialConnections'sessionPermissions'
 instance Eq FinancialConnections'sessionPermissions'
 instance FromJSON FinancialConnections'sessionPermissions'
 instance ToJSON FinancialConnections'sessionPermissions'
+data FinancialConnections'sessionPrefetch'NonNullable
+instance Show FinancialConnections'sessionPrefetch'NonNullable
+instance Eq FinancialConnections'sessionPrefetch'NonNullable
+instance FromJSON FinancialConnections'sessionPrefetch'NonNullable
+instance ToJSON FinancialConnections'sessionPrefetch'NonNullable

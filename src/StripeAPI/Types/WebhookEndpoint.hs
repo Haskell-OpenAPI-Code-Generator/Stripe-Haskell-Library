@@ -12,14 +12,14 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
-import qualified Data.Text.Internal
+import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
@@ -40,7 +40,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- Most users configure webhooks from [the dashboard](https:\/\/dashboard.stripe.com\/webhooks), which provides a user interface for registering and testing your webhook endpoints.
 --
--- Related guide: [Setting up Webhooks](https:\/\/stripe.com\/docs\/webhooks\/configure).
+-- Related guide: [Setting up webhooks](https:\/\/stripe.com\/docs\/webhooks\/configure)
 data WebhookEndpoint = WebhookEndpoint
   { -- | api_version: The API version events are rendered as for this webhook endpoint.
     --

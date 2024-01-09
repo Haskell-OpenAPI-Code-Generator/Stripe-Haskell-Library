@@ -12,14 +12,14 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
-import qualified Data.Text.Internal
+import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
@@ -42,7 +42,7 @@ data AccountRequirements = AccountRequirements
     accountRequirementsCurrentDeadline :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable GHC.Types.Int)),
     -- | currently_due: Fields that need to be collected to keep the account enabled. If not collected by \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
     accountRequirementsCurrentlyDue :: (GHC.Maybe.Maybe (StripeAPI.Common.Nullable ([Data.Text.Internal.Text]))),
-    -- | disabled_reason: If the account is disabled, this string describes why. Can be \`requirements.past_due\`, \`requirements.pending_verification\`, \`listed\`, \`platform_paused\`, \`rejected.fraud\`, \`rejected.listed\`, \`rejected.terms_of_service\`, \`rejected.other\`, \`under_review\`, or \`other\`.
+    -- | disabled_reason: If the account is disabled, this string describes why. [Learn more about handling verification issues](https:\/\/stripe.com\/docs\/connect\/handling-api-verification). Can be \`action_required.requested_capabilities\`, \`requirements.past_due\`, \`requirements.pending_verification\`, \`listed\`, \`platform_paused\`, \`rejected.fraud\`, \`rejected.incomplete_verification\`, \`rejected.listed\`, \`rejected.other\`, \`rejected.terms_of_service\`, \`under_review\`, or \`other\`.
     --
     -- Constraints:
     --

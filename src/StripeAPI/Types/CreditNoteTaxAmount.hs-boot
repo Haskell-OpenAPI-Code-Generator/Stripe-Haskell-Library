@@ -12,3 +12,8 @@ instance Show CreditNoteTaxAmountTaxRate'Variants
 instance Eq CreditNoteTaxAmountTaxRate'Variants
 instance FromJSON CreditNoteTaxAmountTaxRate'Variants
 instance ToJSON CreditNoteTaxAmountTaxRate'Variants
+data CreditNoteTaxAmountTaxabilityReason'NonNullable
+instance Show CreditNoteTaxAmountTaxabilityReason'NonNullable
+instance Eq CreditNoteTaxAmountTaxabilityReason'NonNullable
+instance FromJSON CreditNoteTaxAmountTaxabilityReason'NonNullable
+instance ToJSON CreditNoteTaxAmountTaxabilityReason'NonNullable

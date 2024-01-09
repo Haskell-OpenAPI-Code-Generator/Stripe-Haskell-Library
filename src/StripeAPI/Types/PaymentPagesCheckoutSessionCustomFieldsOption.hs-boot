@@ -1,0 +1,9 @@
+module StripeAPI.Types.PaymentPagesCheckoutSessionCustomFieldsOption where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaymentPagesCheckoutSessionCustomFieldsOption
+instance Show PaymentPagesCheckoutSessionCustomFieldsOption
+instance Eq PaymentPagesCheckoutSessionCustomFieldsOption
+instance FromJSON PaymentPagesCheckoutSessionCustomFieldsOption
+instance ToJSON PaymentPagesCheckoutSessionCustomFieldsOption

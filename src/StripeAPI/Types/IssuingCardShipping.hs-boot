@@ -12,6 +12,11 @@ instance Show IssuingCardShippingCarrier'NonNullable
 instance Eq IssuingCardShippingCarrier'NonNullable
 instance FromJSON IssuingCardShippingCarrier'NonNullable
 instance ToJSON IssuingCardShippingCarrier'NonNullable
+data IssuingCardShippingCustoms'NonNullable
+instance Show IssuingCardShippingCustoms'NonNullable
+instance Eq IssuingCardShippingCustoms'NonNullable
+instance FromJSON IssuingCardShippingCustoms'NonNullable
+instance ToJSON IssuingCardShippingCustoms'NonNullable
 data IssuingCardShippingService'
 instance Show IssuingCardShippingService'
 instance Eq IssuingCardShippingService'

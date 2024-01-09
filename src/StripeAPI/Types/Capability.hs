@@ -12,14 +12,14 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
-import qualified Data.Text.Internal
+import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
@@ -39,7 +39,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- This is an object representing a capability for a Stripe account.
 --
--- Related guide: [Account capabilities](https:\/\/stripe.com\/docs\/connect\/account-capabilities).
+-- Related guide: [Account capabilities](https:\/\/stripe.com\/docs\/connect\/account-capabilities)
 data Capability = Capability
   { -- | account: The account for which the capability enables functionality.
     capabilityAccount :: CapabilityAccount'Variants,

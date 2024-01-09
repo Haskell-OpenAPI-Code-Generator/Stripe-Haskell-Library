@@ -1,0 +1,19 @@
+module StripeAPI.Types.PaypalSellerProtection where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data PaypalSellerProtection
+instance Show PaypalSellerProtection
+instance Eq PaypalSellerProtection
+instance FromJSON PaypalSellerProtection
+instance ToJSON PaypalSellerProtection
+data PaypalSellerProtectionDisputeCategories'NonNullable
+instance Show PaypalSellerProtectionDisputeCategories'NonNullable
+instance Eq PaypalSellerProtectionDisputeCategories'NonNullable
+instance FromJSON PaypalSellerProtectionDisputeCategories'NonNullable
+instance ToJSON PaypalSellerProtectionDisputeCategories'NonNullable
+data PaypalSellerProtectionStatus'
+instance Show PaypalSellerProtectionStatus'
+instance Eq PaypalSellerProtectionStatus'
+instance FromJSON PaypalSellerProtectionStatus'
+instance ToJSON PaypalSellerProtectionStatus'

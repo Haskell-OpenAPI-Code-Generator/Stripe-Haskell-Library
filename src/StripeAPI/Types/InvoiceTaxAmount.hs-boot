@@ -12,3 +12,8 @@ instance Show InvoiceTaxAmountTaxRate'Variants
 instance Eq InvoiceTaxAmountTaxRate'Variants
 instance FromJSON InvoiceTaxAmountTaxRate'Variants
 instance ToJSON InvoiceTaxAmountTaxRate'Variants
+data InvoiceTaxAmountTaxabilityReason'NonNullable
+instance Show InvoiceTaxAmountTaxabilityReason'NonNullable
+instance Eq InvoiceTaxAmountTaxabilityReason'NonNullable
+instance FromJSON InvoiceTaxAmountTaxabilityReason'NonNullable
+instance ToJSON InvoiceTaxAmountTaxabilityReason'NonNullable

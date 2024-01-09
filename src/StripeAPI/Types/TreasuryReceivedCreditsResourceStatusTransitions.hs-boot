@@ -1,0 +1,9 @@
+module StripeAPI.Types.TreasuryReceivedCreditsResourceStatusTransitions where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data TreasuryReceivedCreditsResourceStatusTransitions
+instance Show TreasuryReceivedCreditsResourceStatusTransitions
+instance Eq TreasuryReceivedCreditsResourceStatusTransitions
+instance FromJSON TreasuryReceivedCreditsResourceStatusTransitions
+instance ToJSON TreasuryReceivedCreditsResourceStatusTransitions

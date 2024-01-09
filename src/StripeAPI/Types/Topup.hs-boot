@@ -12,6 +12,36 @@ instance Show TopupBalanceTransaction'NonNullableVariants
 instance Eq TopupBalanceTransaction'NonNullableVariants
 instance FromJSON TopupBalanceTransaction'NonNullableVariants
 instance ToJSON TopupBalanceTransaction'NonNullableVariants
+data TopupSource'NonNullable
+instance Show TopupSource'NonNullable
+instance Eq TopupSource'NonNullable
+instance FromJSON TopupSource'NonNullable
+instance ToJSON TopupSource'NonNullable
+data TopupSource'NonNullableObject'
+instance Show TopupSource'NonNullableObject'
+instance Eq TopupSource'NonNullableObject'
+instance FromJSON TopupSource'NonNullableObject'
+instance ToJSON TopupSource'NonNullableObject'
+data TopupSource'NonNullableOwner'NonNullable
+instance Show TopupSource'NonNullableOwner'NonNullable
+instance Eq TopupSource'NonNullableOwner'NonNullable
+instance FromJSON TopupSource'NonNullableOwner'NonNullable
+instance ToJSON TopupSource'NonNullableOwner'NonNullable
+data TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+instance Show TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+instance Eq TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+instance FromJSON TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+instance ToJSON TopupSource'NonNullableOwner'NonNullableAddress'NonNullable
+data TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+instance Show TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+instance Eq TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+instance FromJSON TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+instance ToJSON TopupSource'NonNullableOwner'NonNullableVerifiedAddress'NonNullable
+data TopupSource'NonNullableType'
+instance Show TopupSource'NonNullableType'
+instance Eq TopupSource'NonNullableType'
+instance FromJSON TopupSource'NonNullableType'
+instance ToJSON TopupSource'NonNullableType'
 data TopupStatus'
 instance Show TopupStatus'
 instance Eq TopupStatus'

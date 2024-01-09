@@ -12,14 +12,14 @@ import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.Aeson as Data.Aeson.Types.ToJSON
-import qualified Data.ByteString.Char8
-import qualified Data.ByteString.Char8 as Data.ByteString.Internal
+import qualified Data.ByteString
+import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
 import qualified Data.Functor
 import qualified Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
-import qualified Data.Text.Internal
+import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
@@ -36,7 +36,7 @@ import qualified Prelude as GHC.Maybe
 --
 -- Value list items allow you to add specific values to a given Radar value list, which can then be used in rules.
 --
--- Related guide: [Managing List Items](https:\/\/stripe.com\/docs\/radar\/lists\#managing-list-items).
+-- Related guide: [Managing list items](https:\/\/stripe.com\/docs\/radar\/lists\#managing-list-items)
 data Radar'valueListItem = Radar'valueListItem
   { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
     radar'valueListItemCreated :: GHC.Types.Int,

@@ -1,9 +1,0 @@
-module StripeAPI.Types.AccountServiceResourceOutboundPayments where
-import Data.Aeson
-import qualified Data.Aeson as Data.Aeson.Types.Internal
-import qualified StripeAPI.Common
-data AccountServiceResourceOutboundPayments
-instance Show AccountServiceResourceOutboundPayments
-instance Eq AccountServiceResourceOutboundPayments
-instance FromJSON AccountServiceResourceOutboundPayments
-instance ToJSON AccountServiceResourceOutboundPayments

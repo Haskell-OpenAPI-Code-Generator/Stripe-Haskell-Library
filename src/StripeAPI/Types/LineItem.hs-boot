@@ -12,6 +12,11 @@ instance Show LineItemDiscounts'NonNullableVariants
 instance Eq LineItemDiscounts'NonNullableVariants
 instance FromJSON LineItemDiscounts'NonNullableVariants
 instance ToJSON LineItemDiscounts'NonNullableVariants
+data LineItemInvoiceItem'Variants
+instance Show LineItemInvoiceItem'Variants
+instance Eq LineItemInvoiceItem'Variants
+instance FromJSON LineItemInvoiceItem'Variants
+instance ToJSON LineItemInvoiceItem'Variants
 data LineItemPrice'NonNullable
 instance Show LineItemPrice'NonNullable
 instance Eq LineItemPrice'NonNullable
@@ -92,6 +97,16 @@ instance Show LineItemProrationDetails'NonNullableCreditedItems'NonNullable
 instance Eq LineItemProrationDetails'NonNullableCreditedItems'NonNullable
 instance FromJSON LineItemProrationDetails'NonNullableCreditedItems'NonNullable
 instance ToJSON LineItemProrationDetails'NonNullableCreditedItems'NonNullable
+data LineItemSubscription'NonNullableVariants
+instance Show LineItemSubscription'NonNullableVariants
+instance Eq LineItemSubscription'NonNullableVariants
+instance FromJSON LineItemSubscription'NonNullableVariants
+instance ToJSON LineItemSubscription'NonNullableVariants
+data LineItemSubscriptionItem'Variants
+instance Show LineItemSubscriptionItem'Variants
+instance Eq LineItemSubscriptionItem'Variants
+instance FromJSON LineItemSubscriptionItem'Variants
+instance ToJSON LineItemSubscriptionItem'Variants
 data LineItemType'
 instance Show LineItemType'
 instance Eq LineItemType'

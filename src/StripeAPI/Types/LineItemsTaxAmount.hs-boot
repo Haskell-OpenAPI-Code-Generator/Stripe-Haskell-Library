@@ -7,3 +7,8 @@ instance Show LineItemsTaxAmount
 instance Eq LineItemsTaxAmount
 instance FromJSON LineItemsTaxAmount
 instance ToJSON LineItemsTaxAmount
+data LineItemsTaxAmountTaxabilityReason'NonNullable
+instance Show LineItemsTaxAmountTaxabilityReason'NonNullable
+instance Eq LineItemsTaxAmountTaxabilityReason'NonNullable
+instance FromJSON LineItemsTaxAmountTaxabilityReason'NonNullable
+instance ToJSON LineItemsTaxAmountTaxabilityReason'NonNullable

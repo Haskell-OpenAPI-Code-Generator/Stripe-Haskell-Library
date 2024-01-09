@@ -1,0 +1,9 @@
+module StripeAPI.Types.InvoiceSettingSubscriptionSchedulePhaseSetting where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data InvoiceSettingSubscriptionSchedulePhaseSetting
+instance Show InvoiceSettingSubscriptionSchedulePhaseSetting
+instance Eq InvoiceSettingSubscriptionSchedulePhaseSetting
+instance FromJSON InvoiceSettingSubscriptionSchedulePhaseSetting
+instance ToJSON InvoiceSettingSubscriptionSchedulePhaseSetting

@@ -1,9 +1,0 @@
-module StripeAPI.Types.AccountServiceResourceBalance where
-import Data.Aeson
-import qualified Data.Aeson as Data.Aeson.Types.Internal
-import qualified StripeAPI.Common
-data AccountServiceResourceBalance
-instance Show AccountServiceResourceBalance
-instance Eq AccountServiceResourceBalance
-instance FromJSON AccountServiceResourceBalance
-instance ToJSON AccountServiceResourceBalance

@@ -22,3 +22,13 @@ instance Show BankAccountCustomer'NonNullableVariants
 instance Eq BankAccountCustomer'NonNullableVariants
 instance FromJSON BankAccountCustomer'NonNullableVariants
 instance ToJSON BankAccountCustomer'NonNullableVariants
+data BankAccountFutureRequirements'NonNullable
+instance Show BankAccountFutureRequirements'NonNullable
+instance Eq BankAccountFutureRequirements'NonNullable
+instance FromJSON BankAccountFutureRequirements'NonNullable
+instance ToJSON BankAccountFutureRequirements'NonNullable
+data BankAccountRequirements'NonNullable
+instance Show BankAccountRequirements'NonNullable
+instance Eq BankAccountRequirements'NonNullable
+instance FromJSON BankAccountRequirements'NonNullable
+instance ToJSON BankAccountRequirements'NonNullable

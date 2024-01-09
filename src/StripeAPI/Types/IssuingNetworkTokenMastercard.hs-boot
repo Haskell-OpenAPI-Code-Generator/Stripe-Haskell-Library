@@ -1,0 +1,9 @@
+module StripeAPI.Types.IssuingNetworkTokenMastercard where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified StripeAPI.Common
+data IssuingNetworkTokenMastercard
+instance Show IssuingNetworkTokenMastercard
+instance Eq IssuingNetworkTokenMastercard
+instance FromJSON IssuingNetworkTokenMastercard
+instance ToJSON IssuingNetworkTokenMastercard

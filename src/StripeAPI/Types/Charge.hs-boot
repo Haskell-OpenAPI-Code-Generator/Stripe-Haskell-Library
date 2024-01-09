@@ -67,11 +67,11 @@ instance Show ChargePaymentMethodDetails'NonNullable
 instance Eq ChargePaymentMethodDetails'NonNullable
 instance FromJSON ChargePaymentMethodDetails'NonNullable
 instance ToJSON ChargePaymentMethodDetails'NonNullable
-data ChargeRefunds'
-instance Show ChargeRefunds'
-instance Eq ChargeRefunds'
-instance FromJSON ChargeRefunds'
-instance ToJSON ChargeRefunds'
+data ChargeRefunds'NonNullable
+instance Show ChargeRefunds'NonNullable
+instance Eq ChargeRefunds'NonNullable
+instance FromJSON ChargeRefunds'NonNullable
+instance ToJSON ChargeRefunds'NonNullable
 data ChargeReview'NonNullableVariants
 instance Show ChargeReview'NonNullableVariants
 instance Eq ChargeReview'NonNullableVariants

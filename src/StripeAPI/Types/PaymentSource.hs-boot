@@ -62,16 +62,21 @@ instance Show PaymentSourceExternalAccounts'Data'Customer'NonNullableVariants
 instance Eq PaymentSourceExternalAccounts'Data'Customer'NonNullableVariants
 instance FromJSON PaymentSourceExternalAccounts'Data'Customer'NonNullableVariants
 instance ToJSON PaymentSourceExternalAccounts'Data'Customer'NonNullableVariants
+data PaymentSourceExternalAccounts'Data'FutureRequirements'NonNullable
+instance Show PaymentSourceExternalAccounts'Data'FutureRequirements'NonNullable
+instance Eq PaymentSourceExternalAccounts'Data'FutureRequirements'NonNullable
+instance FromJSON PaymentSourceExternalAccounts'Data'FutureRequirements'NonNullable
+instance ToJSON PaymentSourceExternalAccounts'Data'FutureRequirements'NonNullable
 data PaymentSourceExternalAccounts'Data'Object'
 instance Show PaymentSourceExternalAccounts'Data'Object'
 instance Eq PaymentSourceExternalAccounts'Data'Object'
 instance FromJSON PaymentSourceExternalAccounts'Data'Object'
 instance ToJSON PaymentSourceExternalAccounts'Data'Object'
-data PaymentSourceExternalAccounts'Data'Recipient'NonNullableVariants
-instance Show PaymentSourceExternalAccounts'Data'Recipient'NonNullableVariants
-instance Eq PaymentSourceExternalAccounts'Data'Recipient'NonNullableVariants
-instance FromJSON PaymentSourceExternalAccounts'Data'Recipient'NonNullableVariants
-instance ToJSON PaymentSourceExternalAccounts'Data'Recipient'NonNullableVariants
+data PaymentSourceExternalAccounts'Data'Requirements'NonNullable
+instance Show PaymentSourceExternalAccounts'Data'Requirements'NonNullable
+instance Eq PaymentSourceExternalAccounts'Data'Requirements'NonNullable
+instance FromJSON PaymentSourceExternalAccounts'Data'Requirements'NonNullable
+instance ToJSON PaymentSourceExternalAccounts'Data'Requirements'NonNullable
 data PaymentSourceObject'
 instance Show PaymentSourceObject'
 instance Eq PaymentSourceObject'
@@ -92,21 +97,11 @@ instance Show PaymentSourceOwner'NonNullableVerifiedAddress'NonNullable
 instance Eq PaymentSourceOwner'NonNullableVerifiedAddress'NonNullable
 instance FromJSON PaymentSourceOwner'NonNullableVerifiedAddress'NonNullable
 instance ToJSON PaymentSourceOwner'NonNullableVerifiedAddress'NonNullable
-data PaymentSourceRecipient'NonNullableVariants
-instance Show PaymentSourceRecipient'NonNullableVariants
-instance Eq PaymentSourceRecipient'NonNullableVariants
-instance FromJSON PaymentSourceRecipient'NonNullableVariants
-instance ToJSON PaymentSourceRecipient'NonNullableVariants
 data PaymentSourceSettings'NonNullable
 instance Show PaymentSourceSettings'NonNullable
 instance Eq PaymentSourceSettings'NonNullable
 instance FromJSON PaymentSourceSettings'NonNullable
 instance ToJSON PaymentSourceSettings'NonNullable
-data PaymentSourceTransactions'
-instance Show PaymentSourceTransactions'
-instance Eq PaymentSourceTransactions'
-instance FromJSON PaymentSourceTransactions'
-instance ToJSON PaymentSourceTransactions'
 data PaymentSourceType'
 instance Show PaymentSourceType'
 instance Eq PaymentSourceType'
