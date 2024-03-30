@@ -1,0 +1,37 @@
+name: "Build"
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up GHC
+        uses: haskell-actions/setup@v2
+        id: setup
+        with:
+          ghc-version: "9.4.8"
+          enable-stack: true
+          stack-version: "latest"
+      - name: Restore cached dependencies
+        uses: actions/cache/restore@v3
+        id: cache
+        env:
+          key: ${{ steps.setup.outputs.ghc-version }}-stack-${{ steps.setup.outputs.stack-version }}
+        with:
+          path: ${{ steps.setup.outputs.stack-root }}
+          key: ${{ env.key }}-lock-${{ hashFiles('stack.yaml.lock') }}
+          restore-keys: ${{ env.key }}-
+      - name: Build example
+        run: cd example && stack --no-terminal build --fast
+      - name: Save cached dependencies
+        uses: actions/cache/save@v3
+        # If we had an exact cache hit, trying to save the cache would error because of key clash.
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.setup.outputs.stack-root }}
+          key: ${{ steps.cache.outputs.cache-primary-key }}
