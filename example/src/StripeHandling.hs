@@ -10,7 +10,6 @@ import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
 import qualified Network.HTTP.Simple as HS
 import qualified StripeAPI as Stripe
-import qualified StripeAPI.Types.NotificationEventData.Extra as Stripe
 
 stripeAPIKey :: T.Text
 stripeAPIKey = "sk_test_XXXXXXXXXX" -- Insert your API key here
@@ -41,11 +40,10 @@ checkoutLineItem2 =
     }
 
 checkoutSession =
-  ( Stripe.mkPostCheckoutSessionsRequestBody
-      "https://localhost:8080/payments/index.html?success=false&sessionId={CHECKOUT_SESSION_ID}"
-      "https://localhost:8080/payments/index.html?success=true&sessionId={CHECKOUT_SESSION_ID}"
-  )
-    { Stripe.postCheckoutSessionsRequestBodyLineItems = Just [checkoutLineItem, checkoutLineItem2],
+  Stripe.mkPostCheckoutSessionsRequestBody
+    { Stripe.postCheckoutSessionsRequestBodySuccessUrl = Just "https://localhost:8080/payments/index.html?success=false&sessionId={CHECKOUT_SESSION_ID}",
+      Stripe.postCheckoutSessionsRequestBodyCancelUrl = Just "https://localhost:8080/payments/index.html?success=true&sessionId={CHECKOUT_SESSION_ID}",
+      Stripe.postCheckoutSessionsRequestBodyLineItems = Just [checkoutLineItem, checkoutLineItem2],
       Stripe.postCheckoutSessionsRequestBodyPaymentMethodTypes = Just [Stripe.PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumCard]
     }
 
@@ -68,7 +66,7 @@ conf = defaultConf {Stripe.configSecurityScheme = config}
 getCheckoutSessionId :: IO String
 getCheckoutSessionId = do
   putStrLn "getCheckoutSessionId"
-  resp <- Stripe.runWithConfiguration conf $ Stripe.postCheckoutSessions checkoutSession
+  resp <- Stripe.runWithConfiguration conf $ Stripe.postCheckoutSessions $ Just checkoutSession
   print resp
   pure $
     T.unpack $ case HS.getResponseBody resp of
@@ -149,23 +147,3 @@ getPaymentIntentSepaCallSecret =
             MIO.liftIO $ print resp
             pure $ trans resp
           _ -> pure "response was not a success"
-
-getCheckoutSessionEvents :: IO (Either T.Text [T.Text])
-getCheckoutSessionEvents = Stripe.runWithConfiguration conf $ do
-  res <-
-    Stripe.getEvents
-      Stripe.mkGetEventsParameters
-        { Stripe.getEventsParametersQueryType = Just "checkout.session.completed"
-        }
-  pure $ case HS.getResponseBody res of
-    Stripe.GetEventsResponse200 eventResponse ->
-      Right $
-        ( \case
-            Stripe.CheckoutSessionCompletedEvent session -> Stripe.checkout'sessionId session
-            Stripe.UnknownEvent t -> "Unknown event type: " <> t
-            _ -> "Other event"
-        )
-          . Stripe.getEventData
-          <$> Stripe.getEventsResponseBody200Data eventResponse
-    Stripe.GetEventsResponseError err -> Left $ T.pack err
-    Stripe.GetEventsResponseDefault err -> Left $ Maybe.fromMaybe "" $ Stripe.apiErrorsMessage $ Stripe.errorError err
